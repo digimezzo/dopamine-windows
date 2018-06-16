@@ -3,7 +3,7 @@
 
     <Style x:Key="WindowButton" TargetType="{x:Type Button}">
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush_SecondaryForeground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_SecondaryText}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -14,11 +14,11 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonHoveredIcon}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent80pct}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_WindowButtonPressedBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonPressedIcon}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="Border" Property="Opacity" Value="0.5"/>
@@ -29,9 +29,9 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ActiveWindowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
+    <Style x:Key="WindowButtonAccent" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonAccentIcon}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -42,11 +42,11 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonHoveredIcon}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent80pct}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+                            <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_WindowButtonPressedBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonPressedIcon}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter TargetName="Border" Property="Opacity" Value="0.5"/>
@@ -57,11 +57,11 @@
         </Setter>
     </Style>
     
-    <Style x:Key="BrightWindowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}"/>
+    <Style x:Key="WindowButtonNano" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryText}"/>
     </Style>
 
-    <Style x:Key="WhiteWindowButton" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
-        <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
+    <Style x:Key="WindowButtonCoverPicture" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
+        <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonCoverPictureText}"/>
     </Style>
 </ResourceDictionary>

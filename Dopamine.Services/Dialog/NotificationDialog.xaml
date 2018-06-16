@@ -9,27 +9,30 @@
                               Background="Transparent"
                               ShowWindowControls="False">
 
-    <Border Background="{DynamicResource Brush_PrimaryBackground}" Margin="-2">
-        <DockPanel Margin="17">
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                <Grid>
-                    <Viewbox Width="30" Height="30" Panel.ZIndex="0">
-                        <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
-                    </Viewbox>
-                    <TextBlock
+    <Border Background="{DynamicResource Brush_MainWindowBackground}" Margin="-2">
+        <DockPanel Margin="2">
+            <Border DockPanel.Dock="Top" Height="56" Background="{DynamicResource Brush_WindowHeaderBackground}">
+                <StackPanel Orientation="Horizontal" Margin="13,0,20,0">
+                    <Grid>
+                        <Viewbox Width="30" Height="30" Panel.ZIndex="0">
+                            <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
+                        </Viewbox>
+                        <TextBlock
                           x:Name="Icon"
                           Panel.ZIndex="1"
                           Style="{StaticResource SegoeAssets}"
                           HorizontalAlignment="Center" 
                           VerticalAlignment="Center" 
-                          Foreground="{DynamicResource Brush_White}" />
-                </Grid>
-                <TextBlock x:Name="TextBlockTitle" Margin="15,-2,0,0" FontWeight="Light" FontSize="28" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-            </StackPanel>
-            <StackPanel x:Name="Content" Margin="0,15,0,0">
-                <TextBlock x:Name="TextBlockContent" TextWrapping="Wrap" Foreground="{DynamicResource Brush_PrimaryForeground}" />
+                          Foreground="{DynamicResource Brush_WindowIcon}" />
+                    </Grid>
+                    <TextBlock x:Name="TextBlockTitle" Margin="20,-2,0,0" FontSize="15" 
+                           Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+            <StackPanel x:Name="Content" Margin="20">
+                <TextBlock x:Name="TextBlockContent" TextWrapping="Wrap" Foreground="{DynamicResource Brush_PrimaryText}" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,30,0,0">
-                    <Button x:Name="ButtonOK" Style="{StaticResource RegularButton}" HorizontalAlignment="Center" IsDefault="True" Click="ButtonOK_Click"/>
+                    <Button x:Name="ButtonOK" Style="{StaticResource RegularButtonAccent}" HorizontalAlignment="Center" IsDefault="True" Click="ButtonOK_Click"/>
                     <Button x:Name="ButtonViewLogs" Style="{StaticResource RegularButton}" HorizontalAlignment="Center" IsDefault="True" Margin="10,0,0,0" Click="ButtonViewLogs_Click"/>
                 </StackPanel>
             </StackPanel>

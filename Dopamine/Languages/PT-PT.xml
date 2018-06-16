@@ -188,7 +188,6 @@
   <Text Key="Error_Saving_Playlists">Ocorreu um erro ao guardar as listas de reprodução. Consulte o registo para obter mais informações.</Text>
   <Text Key="Error_Saving_Playlist">Ocorreu um erro ao guardar a lista de reprodução. Consulte o registo para obter mais informações.</Text>
   <Text Key="Download_Latest_Version">Descarregar a versão mais recente</Text>
-  <Text Key="Track_Number_Short">N.º</Text>
   <Text Key="By_Album_Artist">Por artista do álbum</Text>
   <Text Key="File">Ficheiro</Text>
   <Text Key="Name">Nome</Text>
@@ -217,7 +216,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Mostrar apenas a notificação se o reprodutor não estiver visível</Text>
   <Text Key="Transparency">Transparência</Text>
   <Text Key="Enable_Transparency">Ativar transparência</Text>
-  <Text Key="All">Todos</Text>
   <Text Key="Close_To_Tray">Fechar para a área de notificação</Text>
   <Text Key="Edit">Editar</Text>
   <Text Key="Edit_Song">Editar faixa</Text>
@@ -422,5 +420,13 @@
   <Text Key="Spectrum_Stripes">Riscas</Text>
   <Text Key="Also_Check_For_Prereleases">Procurar também por versões de teste</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Não foi possível adicionar a pasta '{foldername}' porque o seu conteúdo não está acessível. Verifique as permissões da pasta.</Text>
-  <Text Key="Search_Hint">Search...</Text>
+  <Text Key="Search_Hint">Pesquisa...</Text>
+  <Text Key="Time">Duração</Text>
+  <Text Key="Song_Artists">Artistas da faixa</Text>
+  <Text Key="Album_Artists">Artistas do álbum</Text>
+  <Text Key="Toggle_Artists">Alternar artistas</Text>
+  <Text Key="Select_None">Desmarcar tudo</Text>
+  <Text Key="Open_Menu">Abrir menu</Text>
+  <Text Key="Toggle_Album_Order">Alternar ordem do álbum</Text>
+  <Text Key="Toggle_Track_Order">Alternar ordem da faixa</Text>
 </Language>

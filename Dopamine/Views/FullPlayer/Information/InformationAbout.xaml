@@ -4,47 +4,60 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:pc="clr-namespace:Dopamine.Controls"
+             xmlns:fwc="clr-namespace:Digimezzo.Foundation.WPF.Controls;assembly=Digimezzo.Foundation.WPF"
+             xmlns:controls="clr-namespace:Dopamine.Controls"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5,0,5,0" Padding="10,0,10,0" PanningMode="Both">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" Padding="15" PanningMode="Both">
         <StackPanel>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_About}" />
-            <pc:FullLogo x:Name="AppName" VerticalAlignment="Center" Margin="0,10,0,5" Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}"/>
+            <controls:FullLogo x:Name="AppName" VerticalAlignment="Center" Margin="0,10,0,5" 
+                               Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}"/>
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                <TextBlock Text="{DynamicResource Language_Version}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <TextBlock Text=":" Margin="0,0,5,0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <TextBlock Text="{Binding Package.FormattedVersionNoBuildWithLabel}" Margin="0,0,5,0" FontWeight="Bold" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock Text="{DynamicResource Language_Version}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                <TextBlock Text=":" Margin="0,0,5,0" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                <TextBlock Text="{Binding Package.FormattedVersionNoBuildWithLabel}" Margin="0,0,5,0" FontWeight="Bold" Foreground="{DynamicResource Brush_PrimaryText}"/>
             </StackPanel>
-            <TextBlock Text="{Binding Copyright}" Margin="0,5,0,0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-            <TextBlock Text="This software uses libraries from the FFmpeg project under the LGPLv2.1" Margin="0,5,0,0" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+            <TextBlock Text="{Binding Copyright}" Margin="0,5,0,0" Foreground="{DynamicResource Brush_PrimaryText}"/>
+            <TextBlock Text="This software uses libraries from the FFmpeg project under the LGPLv2.1" Margin="0,5,0,0" Foreground="{DynamicResource Brush_PrimaryText}"/>
             <Button Margin="0,10,0,0" Content="{DynamicResource Language_License}" Style="{StaticResource RegularButton}" HorizontalAlignment="Left" Command="{Binding ShowLicenseCommand}"/>
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Donate}" />
-            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Do_You_Like_Dopamine}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-            <Button Style="{StaticResource LinkButton}" Margin="0,5,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Donate}" ToolTip="{DynamicResource Language_Donate_With_PayPal}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding DonateUrl}" />
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Do_You_Like_Dopamine}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+            <Button Margin="0,10,0,0" Style="{StaticResource RegularButtonAccent}" HorizontalAlignment="Left" 
+                    ToolTip="{DynamicResource Language_Donate_With_PayPal}" Command="{Binding OpenLinkCommand}" 
+                    CommandParameter="{Binding DonateUrl}">
+                <StackPanel Orientation="Horizontal">
+                    <fwc:SegoeIcon Text="&#xEB52;"
+                                   VerticalAlignment="Center" 
+                                   Foreground="{DynamicResource Brush_RegularButtonText}"
+                                   FontSize="16"/>
+                    <TextBlock Margin="10,0,0,0" Text="{DynamicResource Language_Donate}" 
+                               Foreground="{DynamicResource Brush_RegularButtonText}"/>
+                </StackPanel>
+            </Button>
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Contact_Us}" />
             <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Website}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Website}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource Brush_PrimaryText}"/>
                 <Button Content="{Binding WebsiteLink}" Style="{StaticResource LinkButton}" ToolTip="{Binding WebsiteLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding WebsiteLink}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Email}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Email}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource Brush_PrimaryText}"/>
                 <Button Content="{Binding WebsiteContactLink}" Style="{StaticResource LinkButton}" ToolTip="{Binding WebsiteContactLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding WebsiteContactLink}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Social_Networks}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Social_Networks}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource Brush_PrimaryText}"/>
                 <Button Content="Facebook" Style="{StaticResource LinkButton}" ToolTip="{Binding FacebookLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding FacebookLink}"/>
-                <TextBlock Margin="0,0,5,0" Text="," Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock Margin="0,0,5,0" Text="," Foreground="{DynamicResource Brush_PrimaryText}"/>
                 <Button Content="Instagram" Style="{StaticResource LinkButton}" ToolTip="{Binding InstagramLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding InstagramLink}"/>
-                <TextBlock Margin="0,0,5,0" Text="," Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <TextBlock Margin="0,0,5,0" Text="," Foreground="{DynamicResource Brush_PrimaryText}"/>
                 <Button Content="Twitter" Style="{StaticResource LinkButton}" ToolTip="{Binding TwitterLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding TwitterLink}"/>
             </StackPanel>
             <Separator Height="20" Background="Transparent" />
@@ -53,8 +66,8 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Margin="0,10,0,0">
-                            <TextBlock Text="{Binding Name}" FontWeight="Bold" HorizontalAlignment="Left" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                            <TextBlock Text="{Binding Description}" Foreground="{DynamicResource Brush_PrimaryForeground}" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" HorizontalAlignment="Left" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                            <TextBlock Text="{Binding Description}" Foreground="{DynamicResource Brush_PrimaryText}" TextWrapping="Wrap"/>
                             <StackPanel Orientation="Horizontal">
                                 <Button Content="{DynamicResource Language_Website}" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" ToolTip="{Binding Url}" Command="{Binding DataContext.OpenLinkCommand, ElementName=This}" CommandParameter="{Binding Url}"/>
                                 <Button Margin="10,0,0,0" Content="{DynamicResource Language_License}" HorizontalAlignment="Left" Style="{StaticResource LinkButton}" ToolTip="{Binding LicenseUrl}" Command="{Binding DataContext.OpenLinkCommand, ElementName=This}" CommandParameter="{Binding LicenseUrl}"/>
@@ -66,16 +79,16 @@
             <Separator Height="20" Background="Transparent" />
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Thanks}"/>
             <TextBlock Margin="0,5,0,4" TextWrapping="Wrap">
-                <Run Text="{DynamicResource Language_About_Donated_People}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <Run Text="{DynamicResource Language_About_Donated_People}" Foreground="{DynamicResource Brush_PrimaryText}"/>
             </TextBlock>
             <TextBlock Margin="0,0,0,4" TextWrapping="Wrap">
-                <Run Text="{DynamicResource Language_About_Translators}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <Run Text="{DynamicResource Language_About_Translators}" Foreground="{DynamicResource Brush_PrimaryText}"/>
             </TextBlock>
             <TextBlock Margin="0,0,0,0" TextWrapping="Wrap">
-                <Run Text="{DynamicResource Language_About_Components_Developers}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <Run Text="{DynamicResource Language_About_Components_Developers}" Foreground="{DynamicResource Brush_PrimaryText}"/>
             </TextBlock>
             <TextBlock Margin="0,0,0,4" TextWrapping="Wrap">
-                <Run Text="{DynamicResource Language_About_Neowin_Head}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <Run Text="{DynamicResource Language_About_Neowin_Head}" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     <InlineUIContainer>
                         <Button Content="Neowin" Style="{StaticResource LinkButton}" ToolTip="http://www.neowin.net" Command="{Binding OpenLinkCommand}" CommandParameter="http://www.neowin.net/">
                             <Button.RenderTransform>
@@ -83,7 +96,7 @@
                             </Button.RenderTransform>
                         </Button>
                     </InlineUIContainer>
-                <Run Text="{DynamicResource Language_About_Neowin_End}" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                <Run Text="{DynamicResource Language_About_Neowin_End}" Foreground="{DynamicResource Brush_PrimaryText}"/>
             </TextBlock>
         </StackPanel>
     </ScrollViewer>
