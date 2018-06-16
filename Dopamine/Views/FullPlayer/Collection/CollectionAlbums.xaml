@@ -20,35 +20,38 @@
     </i:Interaction.Triggers>
 
     <dc:MultiPanePanel 
-        BorderBrush="{DynamicResource Brush_Border}" 
-        SeparatorMarginTop="45" 
         ContentResizeDelay="25" 
         IsRightPaneCollapsed="True" 
         LeftPaneWidthPercent="{Binding LeftPaneWidthPercent, Mode=TwoWay}"
         LeftPaneMinimumWidth="250"
         MiddlePaneMinimumWidth="250">
         <dc:MultiPanePanel.LeftPaneContent>
-            <DockPanel>
-                <StackPanel Margin="5,0,5,15" DockPanel.Dock="Top" Orientation="Horizontal">
-                    <Button x:Name="ShuffleAllButton" Margin="12,6,0,0" FontSize="{x:Static corebase:Constants.GlobalFontSize}" Style="{StaticResource TransparentButton}" VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
-                        <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryForeground}" FontSize="16"/>
+            <DockPanel Margin="10,20,10,26">
+                <DockPanel DockPanel.Dock="Top" Margin="10,0,10,20">
+                    <TextBlock Text="{Binding AlbumsCount}" FontSize="13"
+                               Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
+                    <Button x:Name="ShuffleAllButton" DockPanel.Dock="Right" Margin="20,0,0,0" FontSize="13" 
+                                Style="{StaticResource TransparentButton}" 
+                                VerticalContentAlignment="Center" ToolTip="{DynamicResource Language_Shuffle_All}" 
+                                Command="{Binding DataContext.ShuffleAllCommand,RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE8B1;" Style="{StaticResource SegoeAssets}" FontSize="16"
+                                       Margin="0,1,5,0" Foreground="{DynamicResource Brush_SecondaryText}" />
+                            <TextBlock FontSize="13" Text="{DynamicResource Language_Shuffle_All}"
+                                       Foreground="{DynamicResource Brush_SecondaryText}"/>
+                        </StackPanel>
                     </Button>
-                    <Button x:Name="AlbumsButton" Margin="10,0,0,0" ToolTip="{DynamicResource Language_All_Albums}" Style="{StaticResource TransparentButton}" Click="AlbumsButton_Click">
-                        <dc:LabelToLower Content="{DynamicResource Language_Albums}" 
-                                                 Foreground="{DynamicResource Brush_PrimaryForeground}"
-                                                 FontWeight="Light"
-                                                 FontSize="20"
-                                                 Padding="0"/>
-                    </Button>
-                    <Label Content="{Binding AlbumsCount}" Style="{StaticResource CountLabel}"/>
-                    <Button Content="{Binding AlbumOrderText,Converter={StaticResource StringToLowerConverter}}" 
-                                Style="{StaticResource TransparentButton}"
-                                FontWeight="Light" 
-                                FontSize="20" 
-                                Margin="10,0,0,0"
-                                Foreground="{DynamicResource Brush_SecondaryForeground}"
-                                Command="{Binding ToggleAlbumOrderCommand}"/>
-                </StackPanel>
+                    <Button DockPanel.Dock="Right" Content="{Binding AlbumOrderText}" 
+                            Style="{StaticResource TransparentButton}"
+                            FontSize="13" 
+                            Margin="10,0,0,0"
+                            Foreground="{DynamicResource Brush_SecondaryText}"
+                            Command="{Binding ToggleAlbumOrderCommand}" ToolTip="{DynamicResource Language_Toggle_Album_Order}"/>
+                    <Button x:Name="AlbumsButton" Content="{DynamicResource Language_Albums}" FontSize="13" Margin="10,0,0,0"
+                            Style="{StaticResource TransparentButton}"
+                            Foreground="{DynamicResource Brush_PrimaryText}"
+                            Click="AlbumsButton_Click" ToolTip="{DynamicResource Language_Select_None}"/>
+                </DockPanel>
                 <dc:MultiSelectListBox x:Name="ListBoxAlbums"
                                                              Style="{StaticResource ListBoxAlbums}"
                                                              ItemsSource="{Binding AlbumsCvs.View,IsAsync=True}"
@@ -70,32 +73,29 @@
             </DockPanel>
         </dc:MultiPanePanel.LeftPaneContent>
         <dc:MultiPanePanel.MiddlePaneContent>
-            <DockPanel>
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5,0,0,15">
-                    <dc:LabelToLower Content="{DynamicResource Language_Songs}" 
-                                                 Foreground="{DynamicResource Brush_PrimaryForeground}"
-                                                 FontWeight="Light"
-                                                 FontSize="20"
-                                                 Padding="0"
-                                                 Margin="10,0,0,0"/>
-                    <Label Content="{Binding TracksCount}" Style="{StaticResource CountLabel}"/>
-                    <Button Content="{Binding TrackOrderText,Converter={StaticResource StringToLowerConverter}}" 
-                                Style="{StaticResource TransparentButton}"
-                                FontWeight="Light" 
-                                FontSize="20" 
-                                Margin="10,0,0,0"
-                                Foreground="{DynamicResource Brush_SecondaryForeground}"
-                                Command="{Binding ToggleTrackOrderCommand}"/>
-                </StackPanel>
-                <DockPanel>
-                    <pc:TotalsInformation
+            <Border Background="{DynamicResource Brush_PaneBackground}">
+                <DockPanel Margin="10,20,10,26">
+                    <DockPanel DockPanel.Dock="Top" Margin="10,0,10,20">
+                        <TextBlock Text="{Binding TracksCount}" FontSize="13"
+                               Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
+                        <Button DockPanel.Dock="Right" Content="{Binding TrackOrderText}" 
+                            Style="{StaticResource TransparentButton}"
+                            FontSize="13" 
+                            Margin="10,0,0,0"
+                            Foreground="{DynamicResource Brush_SecondaryText}"
+                            Command="{Binding ToggleTrackOrderCommand}" ToolTip="{DynamicResource Language_Toggle_Track_Order}"/>
+                        <TextBlock Text="{DynamicResource Language_Songs}" FontSize="13" Margin="10,0,0,0"
+                               Foreground="{DynamicResource Brush_PrimaryText}" />
+                    </DockPanel>
+                    <DockPanel>
+                        <pc:TotalsInformation
                                 DockPanel.Dock="Bottom"
-                                Margin="15,15,15,0" 
-                                Foreground="{DynamicResource Brush_SecondaryForeground}" 
+                                Margin="10,20,10,0" 
+                                Foreground="{DynamicResource Brush_SecondaryText}" 
                                 FontSize="13"
                                 TotalDurationInformation="{Binding TotalDurationInformation}"
                                 TotalSizeInformation="{Binding TotalSizeInformation}"/>
-                    <dc:MultiSelectListBox x:Name="ListBoxTracks"
+                        <dc:MultiSelectListBox x:Name="ListBoxTracks"
                                                              VirtualizingStackPanel.IsVirtualizing="True"
                                                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                                                              VirtualizingStackPanel.VirtualizationMode="Recycling"                       
@@ -106,20 +106,21 @@
                                                              KeyUp="ListBoxTracks_KeyUp"
                                                              BorderThickness="0"
                                                              SelectionMode="Extended">
-                        <dc:MultiSelectListBox.InputBindings>
-                            <KeyBinding Key="Delete" Command="{Binding RemoveSelectedTracksCommand}" />
-                        </dc:MultiSelectListBox.InputBindings>
-                        <dc:MultiSelectListBox.GroupStyle>
-                            <GroupStyle ContainerStyle="{StaticResource TracksHeader}" />
-                        </dc:MultiSelectListBox.GroupStyle>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, Path=SelectedItems}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </dc:MultiSelectListBox>
+                            <dc:MultiSelectListBox.InputBindings>
+                                <KeyBinding Key="Delete" Command="{Binding RemoveSelectedTracksCommand}" />
+                            </dc:MultiSelectListBox.InputBindings>
+                            <dc:MultiSelectListBox.GroupStyle>
+                                <GroupStyle ContainerStyle="{StaticResource TracksHeader}" />
+                            </dc:MultiSelectListBox.GroupStyle>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding SelectedTracksCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, Path=SelectedItems}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </dc:MultiSelectListBox>
+                    </DockPanel>
                 </DockPanel>
-            </DockPanel>
+            </Border>
         </dc:MultiPanePanel.MiddlePaneContent>
     </dc:MultiPanePanel>
 </baseviews:TracksViewBase>

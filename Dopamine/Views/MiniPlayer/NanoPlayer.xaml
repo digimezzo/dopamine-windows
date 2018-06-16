@@ -11,7 +11,8 @@
                               xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                               mc:Ignorable="d"
                               d:DesignHeight="300" d:DesignWidth="300"
-                              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+                              prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+                              Background="{DynamicResource Brush_WindowHeaderBackground}">
 
     <baseviews:MiniPlayerViewBase.Resources>
         <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
@@ -52,7 +53,7 @@
             <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="MenuItem">
-                        <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
+                        <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
                         <Setter Property="Command" Value="{Binding DataContext.AddPlayingTrackToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                         <Setter Property="CommandParameter" Value="{Binding Name}"/>
                     </Style>
@@ -75,7 +76,7 @@
                 <!-- PlaybackInfo controls -->
                 <DockPanel x:Name="PlaybackInfoControls" Panel.ZIndex="1" Opacity="0" VerticalAlignment="Top">
                     <Grid>
-                        <Border Panel.ZIndex="0" Height="44" Width="66" HorizontalAlignment="Right" Background="{DynamicResource Brush_NanoPlayerWindowControlsbackground}"/>
+                        <Border Panel.ZIndex="0" Height="44" Width="66" HorizontalAlignment="Right" Background="{DynamicResource Brush_NanoPlayerWindowControlsBackground}"/>
                         <commonviews:NanoPlayerWindowControls Panel.ZIndex="1" ButtonHeight="22" ButtonWidth="22" HorizontalAlignment="Right" VerticalAlignment="Top"/>
                     </Grid>
                 </DockPanel>

@@ -3,7 +3,7 @@
 
     <Style x:Key="ListBoxSemanticZoomItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />
         <Setter Property="Margin" Value="8"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -44,7 +44,7 @@
                                     <Path x:Name="Droplet" Data="{DynamicResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                                 </Viewbox>
                                 <Label Padding="0" Margin="0,-2,0,0" Content="{Binding Header}" Panel.ZIndex="1" FontSize="18" 
-                                       VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource Brush_White}"/>
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource Brush_SemanticZoomText}"/>
                             </Grid>
                         </Button>
                     </Border>

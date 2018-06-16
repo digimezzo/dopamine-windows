@@ -17,20 +17,15 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid>
-        <TextBlock x:Name="CollectionProxy" Text="{DynamicResource Language_Collection}" Visibility="Collapsed"/>
-        <TextBlock x:Name="AppearanceProxy" Text="{DynamicResource Language_Appearance}" Visibility="Collapsed"/>
-        <TextBlock x:Name="BehaviourProxy" Text="{DynamicResource Language_Behaviour}" Visibility="Collapsed"/>
-        <TextBlock x:Name="PlaybackProxy" Text="{DynamicResource Language_Playback}" Visibility="Collapsed"/>
-        <TextBlock x:Name="StartupProxy" Text="{DynamicResource Language_Startup}" Visibility="Collapsed"/>
-        <TextBlock x:Name="OnlineProxy" Text="{DynamicResource Language_Online}" Visibility="Collapsed"/>
-        <dc:Pivot DockPanel.Dock="Top" Margin="85,0,0,0" SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:SettingsPage}}">
-            <dc:PivotItem Header="{Binding Text,ElementName=CollectionProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{Binding Text,ElementName=AppearanceProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{Binding Text,ElementName=BehaviourProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{Binding Text,ElementName=PlaybackProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{Binding Text,ElementName=StartupProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{Binding Text,ElementName=OnlineProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+    <Grid Margin="0,0,180,0">
+        <dc:Pivot Style="{DynamicResource MenuPivot}"
+                  SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:SettingsPage}}">
+            <dc:PivotItem Header="{DynamicResource Language_Collection}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Appearance}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Behaviour}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Playback}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Startup}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Online}" Style="{StaticResource MenuPivotItem}"/>
         </dc:Pivot>
     </Grid>
 </UserControl>
