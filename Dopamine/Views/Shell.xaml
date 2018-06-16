@@ -37,18 +37,18 @@
                               KeyDown="Window_KeyDown"
                               PreviewKeyDown="Window_PreviewKeyDown"
                               ApplyDefaultButtonColors="False"
-                              MinMaxForeground="{DynamicResource Brush_SecondaryForeground}"
-                              MinMaxHoveredForeground="{DynamicResource Brush_White}"
-                              MinMaxPressedForeground="{DynamicResource Brush_White}"
+                              MinMaxForeground="{DynamicResource Brush_SecondaryText}"
+                              MinMaxHoveredForeground="{DynamicResource Brush_WindowButtonHoveredIcon}"
+                              MinMaxPressedForeground="{DynamicResource Brush_WindowButtonPressedIcon}"
                               MinMaxBackground="Transparent"
                               MinMaxHoveredBackground="{DynamicResource Brush_Accent}"
-                              MinMaxPressedBackground="{DynamicResource Brush_Accent80pct}"
-                              CloseForeground="{DynamicResource Brush_SecondaryForeground}"
-                              CloseHoveredForeground="{DynamicResource Brush_White}"
-                              ClosePressedForeground="{DynamicResource Brush_White}"
+                              MinMaxPressedBackground="{DynamicResource Brush_WindowButtonPressedBackground}"
+                              CloseForeground="{DynamicResource Brush_SecondaryText}"
+                              CloseHoveredForeground="{DynamicResource Brush_WindowButtonHoveredIcon}"
+                              ClosePressedForeground="{DynamicResource Brush_WindowButtonPressedIcon}"
                               CloseBackground="Transparent"
                               CloseHoveredBackground="{DynamicResource Brush_Accent}"
-                              ClosePressedBackground="{DynamicResource Brush_Accent80pct}"
+                              ClosePressedBackground="{DynamicResource Brush_WindowButtonPressedBackground}"
                               MouseDown="Window_MouseDown">
 
     <i:Interaction.Triggers>
@@ -121,7 +121,7 @@
 
     <Border x:Name="WindowBorder" BorderBrush="{DynamicResource Brush_Accent}">
         <Grid>
-            <Border x:Name="ClosingBorder" Panel.ZIndex="2" Visibility="Collapsed" Opacity="0" Background="{DynamicResource Brush_PrimaryBackground}">
+            <Border x:Name="ClosingBorder" Panel.ZIndex="2" Visibility="Collapsed" Opacity="0" Background="{DynamicResource Brush_WindowHeaderBackground}">
                 <Border.Resources>
                     <Storyboard x:Key="ClosingAnimation">
                         <DoubleAnimation Storyboard.TargetName="ClosingBorder" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" BeginTime="0:0:0.5" Duration="0:0:0.3" />
@@ -131,7 +131,7 @@
                     <TextBlock 
                 x:Name="ClosingText"
                 Text="{DynamicResource Language_See_You_Later}" 
-                Foreground="{DynamicResource Brush_PrimaryForeground}" 
+                Foreground="{DynamicResource Brush_PrimaryText}" 
                 FontWeight="Light"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
@@ -141,18 +141,15 @@
             </Border>
             <Border x:Name="BackgroundBorder" Panel.ZIndex="0">
                 <Border.Background>
-                    <SolidColorBrush x:Name="WindowBorderBackground" Color="{DynamicResource Color_SecondaryBackground}"/>
+                    <SolidColorBrush x:Name="WindowBorderBackground" Color="{DynamicResource Color_DarkGrey3}"/>
                 </Border.Background>
                 <Border.Resources>
                     <Storyboard x:Key="BackgroundAnimation">
-                        <ColorAnimation Storyboard.TargetName="WindowBorderBackground" Storyboard.TargetProperty="Color" To="{DynamicResource Color_SecondaryBackground}" Duration="0:0:0.2" />
+                        <ColorAnimation Storyboard.TargetName="WindowBorderBackground" Storyboard.TargetProperty="Color" To="{DynamicResource Color_DarkGrey3}" Duration="0:0:0.2" />
                     </Storyboard>
                 </Border.Resources>
-                <Grid>
-                    <Border x:Name="AccentBorder" Panel.ZIndex="0" Background="{DynamicResource Brush_AccentBackground}"/>
-                    <pc:TransitioningContentControl x:Name="PlayerTypeRegion" Panel.ZIndex="1" FadeIn="True" FadeInTimeout="0.5" 
-                                                    prism:RegionManager.RegionName="{x:Static cp:RegionNames.PlayerTypeRegion}"/>
-                </Grid>
+                <pc:TransitioningContentControl x:Name="PlayerTypeRegion" Panel.ZIndex="1" FadeIn="True" FadeInTimeout="0.5" 
+                                                prism:RegionManager.RegionName="{x:Static cp:RegionNames.PlayerTypeRegion}"/>
             </Border>
         </Grid>
     </Border>

@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="clr-namespace:Dopamine.Converters">
+                    xmlns:converters="clr-namespace:Dopamine.Converters"
+                    xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/FontStyles.xaml" />
@@ -29,58 +30,25 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Grid>
-                        <Label x:Name="DummyLabel" Foreground="{DynamicResource Brush_Accent}" Visibility="Collapsed" Height="0"/>
-                        <ContentPresenter/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource Brush_ItemHovered}"/>
-                            <Setter TargetName="DummyLabel" Property="Visibility" Value="Visible"/>
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource Brush_Accent}"/>
-                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource Brush_White}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}"/>
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="False">
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!-- ListBox -->
-    <Style x:Key="ListBoxPlaylists" TargetType="{x:Type ListBox}">
-        <Setter Property="ContextMenu" Value="{StaticResource ListBoxPlaylistsContextMenu}"/>
-        <Setter Property="Padding" Value="10,0,10,0" />
-        <Setter Property="Margin" Value="5,0,5,0" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Background" Value="Transparent"></Setter>
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxPlaylistsItem}" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <DockPanel>
+                    <DockPanel Background="{TemplateBinding Background}" 
+                               Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
                         <Grid>
-                            <Border x:Name="DragBorder" Panel.ZIndex="0" Background="{DynamicResource Brush_ItemHovered}" Height="24" Opacity="0"/>
-                            <Border Panel.ZIndex="1" Background="{Binding Background,ElementName=DummyLabel}" Height="24">
-                                <DockPanel Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
-                                    <Button 
+                            <Border x:Name="MouseHoverHelper" Height="32" Background="{DynamicResource Brush_ItemHovered}" Opacity="0"/>
+                            <Border x:Name="DragBorder" Panel.ZIndex="0" Background="{DynamicResource Brush_ItemHovered}" Height="32" Opacity="0"/>
+                            <Border Panel.ZIndex="1" Height="32" Margin="10,0,10,0">
+                                <DockPanel>
+                                    <Button x:Name="DeletePlaylistButton"
+                                            Visibility="Collapsed"
                                     DockPanel.Dock="Right"
                                     VerticalAlignment="Center" 
                                     Style="{DynamicResource TransparentButton}"
                                     Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.DeletePlaylistByNameCommand}" 
                                     CommandParameter="{Binding Name}"
-                                    ToolTip="{DynamicResource Language_Delete_This_Playlist}"
-                                    Visibility="{Binding Path=Visibility,ElementName=DummyLabel}">
+                                    ToolTip="{DynamicResource Language_Delete_This_Playlist}">
                                         <TextBlock 
                                                     DockPanel.Dock="Right"
                                                     Margin="0,0,7,0"
@@ -88,8 +56,7 @@
                                                     Style="{StaticResource SegoeAssets}"
                                                     HorizontalAlignment="Center" 
                                                     VerticalAlignment="Center" 
-                                                    Foreground="{Binding Path=Foreground,ElementName=DummyLabel}" 
-                                                    FontSize="10"/>
+                                                    FontSize="12"/>
                                     </Button>
                                     <TextBlock Text="{Binding Name}" 
                                    VerticalAlignment="Center"
@@ -124,8 +91,40 @@
                             </Grid.Triggers>
                         </Grid>
                     </DockPanel>
-                </DataTemplate>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="DeletePlaylistButton" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>
+                        </Trigger>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!-- ListBox -->
+    <Style x:Key="ListBoxPlaylists" TargetType="{x:Type ListBox}">
+        <Setter Property="ContextMenu" Value="{StaticResource ListBoxPlaylistsContextMenu}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxPlaylistsItem}" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
     </Style>
 </ResourceDictionary>

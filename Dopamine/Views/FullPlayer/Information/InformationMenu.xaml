@@ -17,12 +17,11 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Grid>
-        <TextBlock x:Name="HelpProxy" Text="{DynamicResource Language_Help}" Visibility="Collapsed"/>
-        <TextBlock x:Name="AboutProxy" Text="{DynamicResource Language_About}" Visibility="Collapsed"/>
-        <dc:Pivot DockPanel.Dock="Top" Margin="85,0,0,0" SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:InformationPage}}">
-            <dc:PivotItem Header="{Binding Text,ElementName=HelpProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
-            <dc:PivotItem Header="{Binding Text,ElementName=AboutProxy,Converter={StaticResource StringToLowerConverter}}" Style="{StaticResource SubMenuPivotItemStyle}"/>
+    <Grid Margin="0,0,180,0">
+        <dc:Pivot Style="{DynamicResource MenuPivot}"
+            SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:InformationPage}}">
+            <dc:PivotItem Header="{DynamicResource Language_Help}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_About}" Style="{StaticResource MenuPivotItem}"/>
         </dc:Pivot>
     </Grid>
 </UserControl>

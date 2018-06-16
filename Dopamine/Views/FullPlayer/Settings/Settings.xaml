@@ -11,7 +11,7 @@
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <pc:TransitioningContentControl Margin="0,20,0,15" FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
-                                          SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="SettingsRegion" 
-                                          prism:RegionManager.RegionName="{x:Static cp:RegionNames.SettingsRegion}"/>
+    <pc:TransitioningContentControl FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
+                                    SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="SettingsRegion" 
+                                    prism:RegionManager.RegionName="{x:Static cp:RegionNames.SettingsRegion}"/>
 </UserControl>

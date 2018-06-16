@@ -12,7 +12,8 @@
                               mc:Ignorable="d"
                               d:DesignHeight="300" d:DesignWidth="300"
                               Loaded="CommonMiniPlayerView_Loaded"
-                              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
+                              prismMvvm:ViewModelLocator.AutoWireViewModel="True"
+                              Background="{DynamicResource Brush_WindowHeaderBackground}">
 
     <baseviews:MiniPlayerViewBase.Resources>
         <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding DataContext.ContextMenuPlaylists, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
@@ -52,7 +53,7 @@
             <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
                 <MenuItem.ItemContainerStyle>
                     <Style TargetType="MenuItem">
-                        <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
+                        <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
                         <Setter Property="Command" Value="{Binding DataContext.AddPlayingTrackToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                         <Setter Property="CommandParameter" Value="{Binding Name}"/>
                     </Style>

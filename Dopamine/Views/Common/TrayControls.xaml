@@ -33,7 +33,7 @@
     </Window.Style>
 
     <Grid>
-        <Border x:Name="WindowBackground" Panel.ZIndex="0" BorderThickness="0" Background="{DynamicResource Brush_PrimaryBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Border x:Name="WindowBackground" Panel.ZIndex="0" BorderThickness="0" Background="{DynamicResource Brush_WindowHeaderBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         <DockPanel Panel.ZIndex="1">
             <!-- Playback information -->
             <DockPanel x:Name="PlaybackInfoPanel" DockPanel.Dock="Top" HorizontalAlignment="Left" Height="60" Width="260" Margin="10,10,10,15">

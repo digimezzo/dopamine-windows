@@ -5,12 +5,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:prism="http://www.codeplex.com/prism"
-             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-             xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
-             xmlns:enums="clr-namespace:Dopamine.Core.Enums;assembly=Dopamine.Core"
              xmlns:fwc="clr-namespace:Digimezzo.Foundation.WPF.Controls;assembly=Digimezzo.Foundation.WPF"
+             xmlns:controls="clr-namespace:Dopamine.Controls"
+             xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
-             xmlns:pc="clr-namespace:Dopamine.Controls"
+             xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
@@ -32,13 +31,16 @@
                    PaneClosed="MySplitView_PaneClosed">
         <!-- SplitView ButtonContent -->
         <fwc:SplitView.ButtonContent>
-            <!--<fwc:MaterialIcon Text="&#xE5D2;" FontSize="24" Foreground="{DynamicResource Brush_PrimaryForeground}"/>-->
             <Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
                 <Viewbox Width="34" Height="34" Panel.ZIndex="0">
                     <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                 </Viewbox>
                 <fwc:MaterialIcon x:Name="HamburgerIcon" Panel.ZIndex="1" Text="&#xE5D2;" FontSize="1" Opacity="0"
-                                  Foreground="{DynamicResource Brush_White}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                  Foreground="{DynamicResource Brush_WindowIcon}" HorizontalAlignment="Center" 
+                                  VerticalAlignment="Center">
+                    <fwc:MaterialIcon.ToolTip>
+                        <TextBlock Text="{DynamicResource Language_Open_Menu}" FontSize="13"/>
+                    </fwc:MaterialIcon.ToolTip>
                     <fwc:MaterialIcon.Style>
                         <Style>
                             <Style.Triggers>
@@ -65,7 +67,7 @@
                     </fwc:MaterialIcon.Style>
                 </fwc:MaterialIcon>
                 <Viewbox x:Name="HeadPhoneIcon" Panel.ZIndex="1" Width="24" Height="24" Opacity="1">
-                    <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="{DynamicResource Brush_White}" 
+                    <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="{DynamicResource Brush_WindowIcon}" 
                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Viewbox.Style>
                         <Style>
@@ -99,13 +101,39 @@
         <!-- SplitView Pane -->
         <fwc:SplitView.Pane>
             <Grid>
-                <Border Background="{DynamicResource Brush_SecondaryBackground}" Width="300"></Border>
+                <Border Background="{DynamicResource Brush_MainWindowBackground}" Width="300"></Border>
                 <DockPanel>
-                    <Border Height="200" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="{DynamicResource Brush_PrimaryBackground}">
-                        <pc:FullLogo x:Name="AppName" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                     Foreground="{DynamicResource Brush_PrimaryForeground}" Accent="{DynamicResource Brush_Accent}"/>
+                    <Border DockPanel.Dock="Top" Background="{DynamicResource Brush_WindowHeaderBackground}">
+                        <Button x:Name="HeaderButton" Height="112" Style="{DynamicResource TransparentFixedButton}"
+                            VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                            Click="HeaderButton_Click">
+                            <controls:FullLogoSmall x:Name="AppName" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}"/>
+                        </Button>
                     </Border>
-                    <ContentControl/>
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Bottom" Margin="0,18,0,0">
+                            <controls:SplitViewRadioButton x:Name="SettingsButton" 
+                                                           Content="{DynamicResource Language_Settings}" 
+                                                           GroupName="SplitViewButtonGroup" 
+                                                           Command="{Binding SetSelectedFullPlayerPageCommand}"
+                                                           CommandParameter="1"
+                                                           Icon="&#xE713;" Checked="SettingsButton_Checked"/>
+                            <controls:SplitViewRadioButton x:Name="InformationButton" 
+                                                           Content="{DynamicResource Language_Information}" 
+                                                           GroupName="SplitViewButtonGroup" 
+                                                           Command="{Binding SetSelectedFullPlayerPageCommand}"
+                                                           CommandParameter="2"
+                                                           Icon="&#xE946;" Checked="InformationButton_Checked" />
+                        </StackPanel>
+                        <StackPanel Margin="0,18,0,0">
+                            <controls:SplitViewRadioButton x:Name="CollectionButton" 
+                                                           Content="{DynamicResource Language_Collection}" 
+                                                           GroupName="SplitViewButtonGroup" 
+                                                           Command="{Binding SetSelectedFullPlayerPageCommand}"
+                                                           CommandParameter="0"
+                                                           Icon="&#xE8D6;" Checked="CollectionButton_Checked"/>
+                        </StackPanel>
+                    </DockPanel>
                 </DockPanel>
             </Grid>
         </fwc:SplitView.Pane>
@@ -113,23 +141,23 @@
         <fwc:SplitView.Content>
             <Grid x:Name="SplitViewContent">
                 <Border VerticalAlignment="Top" HorizontalAlignment="Stretch"
-                        Height="56" Background="{DynamicResource Brush_PrimaryBackground}"/>
+                        Height="56" Background="{DynamicResource Brush_WindowHeaderBackground}"/>
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Top">
                         <Border DockPanel.Dock="Left" Width="65"/>
-                        <pc:TransitioningContentControl 
-                        FadeIn="True" FadeInTimeout="0.75" SlideIn="True" 
-                        SlideInTimeout="0.75" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerMenuRegion" 
-                        prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerMenuRegion}"/>
+                        <controls:TransitioningContentControl 
+                            FadeIn="True" FadeInTimeout="0.75" SlideIn="True" 
+                            SlideInTimeout="0.75" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerMenuRegion" 
+                            prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerMenuRegion}"/>
                     </DockPanel>
                     <Grid DockPanel.Dock="Top" Margin="0,0,0,0">
                         <commonviews:UpdateStatus Panel.ZIndex="0"/>
                         <commonviews:IndexingStatus Panel.ZIndex="1"/>
                     </Grid>
-                    <pc:TransitioningContentControl 
-                    FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
-                    SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerRegion" 
-                    prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerRegion}"/>
+                    <controls:TransitioningContentControl 
+                        FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
+                        SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerRegion" 
+                        prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerRegion}"/>
                 </DockPanel>
             </Grid>
         </fwc:SplitView.Content>

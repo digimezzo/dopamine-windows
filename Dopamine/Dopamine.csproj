@@ -56,6 +56,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\CSCore.Ffmpeg.dll</HintPath>
     </Reference>
+    <Reference Include="Digimezzo.Foundation.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\Digimezzo.Foundation.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Digimezzo.Foundation.WPF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Digimezzo.Foundation.WPF.dll</HintPath>
@@ -152,6 +156,9 @@
     <Compile Include="Controls\FullLogo.xaml.cs">
       <DependentUpon>FullLogo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\FullLogoSmall.xaml.cs">
+      <DependentUpon>FullLogoSmall.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\IconButton.cs" />
     <Compile Include="Controls\IconMenuButton.cs" />
     <Compile Include="Controls\IconTextButton.cs" />
@@ -166,6 +173,7 @@
     <Compile Include="Controls\SearchBox.cs" />
     <Compile Include="Controls\SelectionChangedComboBox.cs" />
     <Compile Include="Controls\SourceChangedImage.cs" />
+    <Compile Include="Controls\SplitViewRadioButton.cs" />
     <Compile Include="Controls\SyncRing.cs" />
     <Compile Include="Controls\Tile.cs" />
     <Compile Include="Controls\TotalsInformation.cs" />
@@ -840,6 +848,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\FullLogoSmall.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Logo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -869,10 +881,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Styles\ContextMenuButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\CountLabel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -956,7 +964,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Styles\PivotItemStyle.xaml">
+    <Page Include="Resources\Styles\MenuPivot.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1047,6 +1055,10 @@
     <Page Include="Themes\SearchBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\SplitViewRadioButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\SyncRing.xaml">
       <Generator>MSBuild:Compile</Generator>
