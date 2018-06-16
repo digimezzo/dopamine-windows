@@ -99,7 +99,7 @@
                 <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
                     <MenuItem.ItemContainerStyle>
                         <Style TargetType="MenuItem">
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
+                            <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
                             <Setter Property="Command" Value="{Binding DataContext.AddPlayingTrackToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                             <Setter Property="CommandParameter" Value="{Binding Name}"/>
                         </Style>

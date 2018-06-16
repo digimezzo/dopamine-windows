@@ -188,7 +188,6 @@
   <Text Key="Error_Saving_Playlists">Dogodila se greška tijekom spremanja popisa. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="Error_Saving_Playlist">Dogodila se greška tijekom spremanja popisa. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="Download_Latest_Version">Preuzmi najnoviju inačicu</Text>
-  <Text Key="Track_Number_Short">Br.</Text>
   <Text Key="By_Album_Artist">Po izvođaču albuma</Text>
   <Text Key="File">Datoteka</Text>
   <Text Key="Name">Naziv</Text>
@@ -217,7 +216,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Prikaži obavijest samo kada svirač nije vidljiv</Text>
   <Text Key="Transparency">Prozirnost</Text>
   <Text Key="Enable_Transparency">Neka neki elementi budu prozirni</Text>
-  <Text Key="All">Sve</Text>
   <Text Key="Close_To_Tray">Zatvori u područje obavijesti</Text>
   <Text Key="Edit">Uredi</Text>
   <Text Key="Edit_Song">Uredi pjesmu</Text>
@@ -423,4 +421,12 @@
   <Text Key="Also_Check_For_Prereleases">Provjeri jesu li dostupna i predizdanja</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Nije moguće dodati mapu '{foldername}' jer nije moguće pristupiti sadržaju te mape. Molimo provjerite dopuštenja za tu mapu.</Text>
   <Text Key="Search_Hint">Search...</Text>
+  <Text Key="Time">Time</Text>
+  <Text Key="Song_Artists">Song artists</Text>
+  <Text Key="Album_Artists">Album artists</Text>
+  <Text Key="Toggle_Artists">Toggle artists</Text>
+  <Text Key="Select_None">Select none</Text>
+  <Text Key="Open_Menu">Open menu</Text>
+  <Text Key="Toggle_Album_Order">Toggle album order</Text>
+  <Text Key="Toggle_Track_Order">Toggle song order</Text>
 </Language>

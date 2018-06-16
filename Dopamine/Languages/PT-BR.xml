@@ -188,7 +188,6 @@
   <Text Key="Error_Saving_Playlists">Ocorreu um erro ao salvar as playlists. Consulte o arquivo de 'log' para obter mais informações.</Text>
   <Text Key="Error_Saving_Playlist">Ocorreu um erro ao salvar a playlist. Consulte o arquivo de 'log' para obter mais informações.</Text>
   <Text Key="Download_Latest_Version">Faça o download da versão mais recente</Text>
-  <Text Key="Track_Number_Short">Nr</Text>
   <Text Key="By_Album_Artist">Por artista do álbum</Text>
   <Text Key="File">Arquivo</Text>
   <Text Key="Name">Nome</Text>
@@ -217,7 +216,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Mostrar a notificação apenas quando o player não estiver visível</Text>
   <Text Key="Transparency">Transparência</Text>
   <Text Key="Enable_Transparency">Tornar alguns elementos transparentes</Text>
-  <Text Key="All">Todos</Text>
   <Text Key="Close_To_Tray">Fechar para a área de notificação</Text>
   <Text Key="Edit">Editar</Text>
   <Text Key="Edit_Song">Editar música</Text>
@@ -423,4 +421,12 @@
   <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
   <Text Key="Search_Hint">Search...</Text>
+  <Text Key="Time">Time</Text>
+  <Text Key="Song_Artists">Song artists</Text>
+  <Text Key="Album_Artists">Album artists</Text>
+  <Text Key="Toggle_Artists">Toggle artists</Text>
+  <Text Key="Select_None">Select none</Text>
+  <Text Key="Open_Menu">Open menu</Text>
+  <Text Key="Toggle_Album_Order">Toggle album order</Text>
+  <Text Key="Toggle_Track_Order">Toggle song order</Text>
 </Language>

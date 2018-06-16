@@ -111,7 +111,7 @@
                                    Margin="0,11,7,0"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Top"
-                                   Foreground="{DynamicResource Brush_White}" 
+                                   Foreground="{DynamicResource Brush_ImageOverlayText}" 
                                    FontSize="{Binding ActualHeight,ElementName=TheButton,Converter={StaticResource PercentSizeConverter},ConverterParameter=13}"/>
                                 <Border.Style>
                                     <Style TargetType="{x:Type Border}">
@@ -137,7 +137,7 @@
                                 VerticalAlignment="Bottom" 
                                 Margin="7" 
                                 FontSize="{Binding ActualHeight,ElementName=TheButton,Converter={StaticResource PercentSizeConverter},ConverterParameter=13}"
-                                Foreground="{DynamicResource Brush_White}">
+                                Foreground="{DynamicResource Brush_ImageOverlayText}">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>

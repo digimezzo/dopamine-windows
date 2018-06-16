@@ -30,7 +30,7 @@
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Opacity="0"
-                                   Foreground="{DynamicResource Brush_White}" 
+                                   Foreground="{DynamicResource Brush_ColorSchemeSelectorIcon}" 
                                    FontSize="18"/>
                     </Grid>
                     <ControlTemplate.Triggers>

@@ -22,14 +22,13 @@
         <commonviews:BackgroundCoverArtControl x:Name="BackgroundCoverArtControl" Panel.ZIndex="0"/>
         <Border Panel.ZIndex="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                 Background="{DynamicResource Brush_NowPlayingBackground}"/>
-        <Border x:Name="AccentBorder" Panel.ZIndex="2" Background="{DynamicResource Brush_AccentBackground}"/>
-        <DockPanel Panel.ZIndex="3">
+        <DockPanel Panel.ZIndex="2">
             <!-- Titlebar -->
             <Border DockPanel.Dock="Top" HorizontalAlignment="Stretch">
                 <DockPanel Height="29">
                     <Button x:Name="BackButton" 
                             DockPanel.Dock="Left" 
-                            Style="{StaticResource ActiveWindowButton}" 
+                            Style="{StaticResource WindowButtonAccent}" 
                             Width="45" 
                             Height="29" 
                             BorderBrush="{x:Null}" 
@@ -77,7 +76,7 @@
             <!-- Window -->
             <Grid>
                 <!-- Background -->
-                <Border Panel.ZIndex="0" Background="{DynamicResource Brush_PrimaryBackground}" 
+                <Border Panel.ZIndex="0" Background="{DynamicResource Brush_WindowHeaderBackground}" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="70">
                     <Border.Style>
                         <Style>

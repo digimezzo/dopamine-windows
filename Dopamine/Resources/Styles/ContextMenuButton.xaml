@@ -7,7 +7,7 @@
                 <ControlTemplate TargetType="Button">
                     <Grid x:Name="grid">
                         <Border Height="20" Width="20" Background="{DynamicResource Brush_ContextMenuButton}" BorderThickness="0" VerticalAlignment="Center">
-                            <Label Padding="0" Content="{TemplateBinding Content}" Foreground="{DynamicResource Brush_Black}" Background="Transparent" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <Label Padding="0" Content="{TemplateBinding Content}" Foreground="{DynamicResource Brush_ContextMenuText}" Background="Transparent" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>

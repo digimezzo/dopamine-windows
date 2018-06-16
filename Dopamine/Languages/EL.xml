@@ -188,7 +188,6 @@
   <Text Key="Error_Saving_Playlists">Προέκυψε σφάλμα κατά την αποθήκευση των λιστών. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Error_Saving_Playlist">Προέκυψε σφάλμα κατά την αποθήκευση της λίστας. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Download_Latest_Version">Λήψη της πιο πρόσφατης έκδοσης</Text>
-  <Text Key="Track_Number_Short">αριθμός</Text>
   <Text Key="By_Album_Artist">Κατά καλλιτέχνη άλμπουμ</Text>
   <Text Key="File">Αρχείο</Text>
   <Text Key="Name">Όνομα</Text>
@@ -217,7 +216,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Εμφάνιση ειδοποίησης μόνο όταν το player δεν είναι ορατό</Text>
   <Text Key="Transparency">Διαφάνεια</Text>
   <Text Key="Enable_Transparency">Ενεργοποιεί τη διαφάνεια κάποιων στοιχείων</Text>
-  <Text Key="All">All</Text>
   <Text Key="Close_To_Tray">Σμίκρυνση στην περιοχή ειδοποιήσεων</Text>
   <Text Key="Edit">Επεξεργασία</Text>
   <Text Key="Edit_Song">Επεξεργασία τραγουδιού</Text>
@@ -423,4 +421,12 @@
   <Text Key="Also_Check_For_Prereleases">Πρόσθετος έλεγχος και για προεκδόσεις</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Ο φάκελος '{foldername}' δεν προστέθηκε γιατί το περιεχόμενό του δεν είναι προσβάσιμο. Ελέγξτε τα δικαιώματα χρήστη.</Text>
   <Text Key="Search_Hint">Search...</Text>
+  <Text Key="Time">Time</Text>
+  <Text Key="Song_Artists">Song artists</Text>
+  <Text Key="Album_Artists">Album artists</Text>
+  <Text Key="Toggle_Artists">Toggle artists</Text>
+  <Text Key="Select_None">Select none</Text>
+  <Text Key="Open_Menu">Open menu</Text>
+  <Text Key="Toggle_Album_Order">Toggle album order</Text>
+  <Text Key="Toggle_Track_Order">Toggle song order</Text>
 </Language>

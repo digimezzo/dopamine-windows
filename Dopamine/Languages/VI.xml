@@ -188,7 +188,6 @@
   <Text Key="Error_Saving_Playlists">Đã xảy ra lỗi khi lưu playlist. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
   <Text Key="Error_Saving_Playlist">Đã xảy ra lỗi khi lưu playlist. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
   <Text Key="Download_Latest_Version">Tải về phiên bản mới nhất</Text>
-  <Text Key="Track_Number_Short">Rãnh</Text>
   <Text Key="By_Album_Artist">Theo nghệ sĩ của album</Text>
   <Text Key="File">Tập tin</Text>
   <Text Key="Name">Tên</Text>
@@ -217,7 +216,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Chỉ hiển thị thông báo khi người chơi không thấy được</Text>
   <Text Key="Transparency">Trong suốt</Text>
   <Text Key="Enable_Transparency">Làm cho một số phần tử trong suốt</Text>
-  <Text Key="All">Tất cả</Text>
   <Text Key="Close_To_Tray">Nhấn nút đóng sẽ thu nhỏ xuống khay hệ thống</Text>
   <Text Key="Edit">Chỉnh sửa</Text>
   <Text Key="Edit_Song">Chỉnh sửa bài hát</Text>
@@ -304,13 +302,13 @@
   <Text Key="Enable_Equalizer">Bật bộ chỉnh âm</Text>
   <Text Key="Reset">Đặt lại</Text>
   <Text Key="Manual">Tùy chỉnh</Text>
-  <Text Key="Save_Equalizer_Preset">Lưu tệp mẫu bộ chỉnh âm</Text>
-  <Text Key="Equalizer_Presets">Tệp mẫu Bộ chỉnh âm</Text>
-  <Text Key="Preset_Already_Taken">Tệp mẫu đã được sử dụng. Thử lại.</Text>
-  <Text Key="Error_While_Saving_Preset">Không thể lưu Tệp mẫu. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
-  <Text Key="Delete_Preset">Xóa Tệp mẫu</Text>
-  <Text Key="Delete_Preset_Confirmation">Bạn có chắc chắn muốn xóa Tệp mẫu '{preset}'?</Text>
-  <Text Key="Error_While_Deleting_Preset">Không thể xóa Tệp mẫu. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
+  <Text Key="Save_Equalizer_Preset">Lưu mẫu thiết lập chỉnh âm</Text>
+  <Text Key="Equalizer_Presets">Mẫu thiết lập chỉnh âm</Text>
+  <Text Key="Preset_Already_Taken">Mẫu thiết lập đã được sử dụng. Thử lại.</Text>
+  <Text Key="Error_While_Saving_Preset">Không thể lưu mẫu thiết lập. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
+  <Text Key="Delete_Preset">Xóa mẫu thiết lập</Text>
+  <Text Key="Delete_Preset_Confirmation">Bạn có chắc chắn muốn xóa mẫu thiết lập '{preset}'?</Text>
+  <Text Key="Error_While_Deleting_Preset">Không thể xóa mẫu thiết lập. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
   <Text Key="Exclusive_Mode">Chế độ ưu tiên</Text>
   <Text Key="Exclusive_Mode_Confirmation">Bạn có chắc chắn muốn bật Chế độ ưu tiên không? Các ứng dụng khác sẽ không thể phát bất kỳ âm thanh nào nữa.</Text>
   <Text Key="Search_Online">Tìm kiếm trực tuyến</Text>
@@ -420,7 +418,15 @@
   <Text Key="Spectrum_Lines">Đường</Text>
   <Text Key="Spectrum_Bars">Thanh</Text>
   <Text Key="Spectrum_Stripes">Sọc</Text>
-  <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
-  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
-  <Text Key="Search_Hint">Search...</Text>
+  <Text Key="Also_Check_For_Prereleases">Luôn kiểm tra các bản xem trước</Text>
+  <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Không thể thêm thư mục '{foldername}' bởi vì không thể đọc. Vui lòng kiểm tra quyền của thư mục.</Text>
+  <Text Key="Search_Hint">Tìm kiếm...</Text>
+  <Text Key="Time">Thời gian</Text>
+  <Text Key="Song_Artists">Nghệ sĩ</Text>
+  <Text Key="Album_Artists">Nghệ sĩ của album</Text>
+  <Text Key="Toggle_Artists">Chuyển đổi nghệ sĩ</Text>
+  <Text Key="Select_None">Không chọn</Text>
+  <Text Key="Open_Menu">Mở menu</Text>
+  <Text Key="Toggle_Album_Order">Chuyển đổi thứ tự album</Text>
+  <Text Key="Toggle_Track_Order">Chuyển đổi thứ tự bài hát</Text>
 </Language>
