@@ -108,7 +108,6 @@ namespace Dopamine.Services.Utils
 
         public static string SanitizeTag(string str)
         {
-
             if (!string.IsNullOrEmpty(str))
             {
                 return str.Trim();
@@ -121,7 +120,6 @@ namespace Dopamine.Services.Utils
 
         public static long SafeConvertToLong(string str)
         {
-
             long result = 0;
             Int64.TryParse(str, out result);
             return result;
@@ -198,7 +196,7 @@ namespace Dopamine.Services.Utils
             genre.GenreName = GetFirstGenre(fileMetadata);
 
             // Metadata hash
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            var sb = new StringBuilder();
 
             sb.Append(album.AlbumTitle);
             sb.Append(artist.ArtistName);
@@ -254,7 +252,10 @@ namespace Dopamine.Services.Utils
 
                 // If there is a saved TrackStatistic, used that one. Otherwise the
                 // TrackStatistic from the file is used. That only contains rating.
-                if (savedTrackStatistic != null) trackStatistic = savedTrackStatistic;
+                if (savedTrackStatistic != null)
+                {
+                    trackStatistic = savedTrackStatistic;
+                }
 
                 returnTrack.Rating = trackStatistic.Rating;
                 returnTrack.Love = trackStatistic.Love;
