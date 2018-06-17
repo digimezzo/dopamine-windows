@@ -179,26 +179,22 @@ namespace Dopamine.Services.Utils
             trackStatistic.SafePath = path.ToSafePath();
             trackStatistic.Rating = fileMetadata.Rating.Value;
 
-            // Before proceeding, get the available artists
-            string albumArtist = GetFirstAlbumArtist(fileMetadata);
-            string trackArtist = GetFirstArtist(fileMetadata); // will be used for the album if no album artist is found
-
             // Album information
             album.AlbumTitle = string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? Defaults.UnknownAlbumText : MetadataUtils.SanitizeTag(fileMetadata.Album.Value);
-            album.AlbumArtist = (albumArtist == Defaults.UnknownArtistText ? trackArtist : albumArtist);
+            album.AlbumArtist = GetFirstAlbumArtist(fileMetadata);
             album.DateAdded = DateTime.Now.Ticks;
             album.DateCreated = FileUtils.DateCreatedTicks(path);
 
             UpdateAlbumYear(album, MetadataUtils.SafeConvertToLong(fileMetadata.Year.Value));
 
             // Artist information
-            artist.ArtistName = trackArtist;
+            artist.ArtistName = GetFirstArtist(fileMetadata);
 
             // Genre information
             genre.GenreName = GetFirstGenre(fileMetadata);
 
             // Metadata hash
-            System.Text.StringBuilder sb = new System.Text.StringBuilder();
+            var sb = new StringBuilder();
 
             sb.Append(album.AlbumTitle);
             sb.Append(artist.ArtistName);
