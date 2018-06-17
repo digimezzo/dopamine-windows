@@ -1,6 +1,7 @@
 2018-06-16: Dopamine 2.0 Preview 2
 ----------------------------------
 
+- [Changed] Updated the Chinese (Simplified) translation
 - [Changed] Updated the Italian translation
 - [Changed] Updated the Hungarian translation
 
