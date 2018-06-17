@@ -15,7 +15,7 @@
 
     <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="Transparent"/>
     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent"/>
-    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource Color_PrimaryForeground}"/>
+    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{DynamicResource Color_SoftWhite}"/>
 
     <!-- ContextMenu -->
     <ContextMenu x:Key="DataGridTracksContextMenu">
@@ -47,7 +47,7 @@
         <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
+                    <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
                     <Setter Property="Command" Value="{Binding DataContext.AddTracksToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
@@ -64,7 +64,7 @@
         <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
+                    <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
                     <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
                     <Setter Property="CommandParameter" Value="{Binding Id}"/>
                 </Style>
@@ -101,8 +101,6 @@
 
     <!-- DataGrid -->
     <Style TargetType="{x:Type pc:DataGridEx}">
-        <Setter Property="Padding" Value="10,0,10,0" />
-        <Setter Property="Margin" Value="5,0,5,0" />
         <Setter Property="RowBackground" Value="Transparent" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -133,7 +131,6 @@
         <Setter Property="BorderThickness" Value="0,1,0,0" />
         <Setter Property="BorderBrush" Value="{DynamicResource Brush_ItemSeparator}" />
         <Setter Property="Height" Value="32" />
-        <!--<Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />-->
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Background" Value="{DynamicResource Brush_ItemHovered}" />
@@ -177,7 +174,7 @@
                                             VerticalAlignment="Center"
                                             Margin="10,0,10,0" Background="Transparent" TextTrimming="CharacterEllipsis" 
                                             Height="auto" Width="auto" Text="{Binding Text}" ToolTip="{Binding Text}"
-                                            Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                                            Foreground="{DynamicResource Brush_PrimaryText}"/>
                                     </Border>
                                 </DataTemplate>
                             </ContentControl.ContentTemplate>
@@ -202,9 +199,9 @@
                                     <Border HorizontalAlignment="Stretch" Background="#00000000">
                                         <TextBlock 
                                             VerticalAlignment="Center"
-                                            Margin="10,2,10,2" Background="Transparent" TextTrimming="CharacterEllipsis" 
+                                            Margin="10,0,10,0" Background="Transparent" TextTrimming="CharacterEllipsis" 
                                             Height="auto" Width="auto" Text="{Binding Text}" ToolTip="{Binding Text}"
-                                            Foreground="{DynamicResource Brush_SecondaryForeground}"/>
+                                            Foreground="{DynamicResource Brush_SecondaryText}"/>
                                     </Border>
                                 </DataTemplate>
                             </ContentControl.ContentTemplate>
@@ -218,9 +215,9 @@
     <!-- DataGridColumnHeader -->
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}"/>
-        <Setter Property="FontSize" Value="18"/>
-        <Setter Property="Margin" Value="20,0,0,15"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_SecondaryText}"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Margin" Value="10,0,10,15"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
@@ -249,7 +246,6 @@
                     </StackPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="SortDirection" Value="{x:Null}">
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}"/>
                             <Setter TargetName="ArrowUp" Property="Visibility" Value="Hidden" />
                             <Setter TargetName="ArrowDown" Property="Visibility" Value="Hidden" />
                         </Trigger>

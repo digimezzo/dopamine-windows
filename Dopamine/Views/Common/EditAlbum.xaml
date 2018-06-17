@@ -34,7 +34,7 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Margin="20,20,20,0">
         <Viewbox Panel.ZIndex="1" Width="40" Height="40" Visibility="{Binding IsBusy,Converter={StaticResource BooleanToCollapsedConverter}}">
             <dc:ProgressRing Foreground="{DynamicResource Brush_Accent}" IsActive="{Binding IsBusy}"/>
         </Viewbox>
@@ -60,10 +60,10 @@
                             Height="{x:Static base:Constants.CoverLargeSize}"
                             Panel.ZIndex="0"
                             IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
-                            Background="{DynamicResource Brush_TertiaryBackground}">
+                            Background="{DynamicResource Brush_CoverTileBackground}">
                         <pc:Tile.Content>
                             <Viewbox>
-                                <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_TileIconBackground}"/>
+                                <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_CoverTileIcon}"/>
                             </Viewbox>
                         </pc:Tile.Content>
                     </pc:Tile>
@@ -77,7 +77,7 @@
                         RenderOptions.BitmapScalingMode="HighQuality" 
                         Visibility="{Binding HasArtwork,Converter={StaticResource BooleanToCollapsedConverter}}"/>
                 </Grid>
-                <StackPanel Margin="2">
+                <StackPanel Margin="2,5,2,2">
                     <StackPanel.ToolTip>
                         <ToolTip>
                             <StackPanel>
@@ -86,8 +86,8 @@
                             </StackPanel>
                         </ToolTip>
                     </StackPanel.ToolTip>
-                    <TextBlock Text="{Binding Album.AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
-                    <TextBlock Text="{Binding Album.AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryForeground}"/>
+                    <TextBlock Text="{Binding Album.AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <TextBlock Text="{Binding Album.AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryText}"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel HorizontalAlignment="Left" Margin="15,0,0,0" Width="{x:Static base:Constants.CoverLargeSize}">

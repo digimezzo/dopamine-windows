@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace Dopamine.Controls
 {
-    public partial class FullLogo : UserControl
+    public partial class FullLogoSmall : UserControl
     {
         public Brush Accent
         {
@@ -15,14 +15,14 @@ namespace Dopamine.Controls
         }
 
         public static readonly DependencyProperty AccentProperty = 
-            DependencyProperty.Register(nameof(Accent), typeof(Brush), typeof(FullLogo), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(Accent), typeof(Brush), typeof(FullLogoSmall), new PropertyMetadata(null));
 
         public string ApplicationName
         {
             get { return ProductInformation.ApplicationName; }
         }
 
-        public FullLogo()
+        public FullLogoSmall()
         {
             InitializeComponent();
         }

@@ -33,7 +33,7 @@
                     <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
                         <MenuItem.ItemContainerStyle>
                             <Style TargetType="MenuItem">
-                                <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
+                                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
                                 <Setter Property="Command" Value="{Binding DataContext.AddPlayingTrackToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                                 <Setter Property="CommandParameter" Value="{Binding Name}"/>
                             </Style>
@@ -57,6 +57,6 @@
             <commonviews:PlaybackInfoControl Height="85" Margin="20,0,20,0" TitleFontSize="22" TitleFontWeight="Light" ShowAlbumInfo="True"/>
         </StackPanel>
         <!-- List -->
-        <commonviews:NowPlayingControl Margin="10,20,0,0"/>
+        <commonviews:NowPlayingControl Margin="20,20,0,0"/>
     </DockPanel>
 </UserControl>

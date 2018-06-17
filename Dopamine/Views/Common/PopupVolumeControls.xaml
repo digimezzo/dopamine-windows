@@ -22,7 +22,7 @@
                 Height="{Binding Height,ElementName=ThisControl}"
                 IsHitTestVisible="{Binding IsOpen,ElementName=VolumeButtonPopup,Converter={StaticResource InvertingBooleanConverter}}">
             <Grid>
-                <TextBlock Text="&#xE767;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryForeground}" FontSize="16" Visibility="{Binding Mute,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                <TextBlock Text="&#xE767;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryText}" FontSize="16" Visibility="{Binding Mute,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
                 <TextBlock Text="&#xE74F;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Accent}" FontSize="16" Visibility="{Binding Mute,Converter={StaticResource BooleanToVisibilityConverter}}"/>
             </Grid>
         </Button>
@@ -34,21 +34,21 @@
                 <Border Panel.ZIndex="0" Background="Gray" Opacity="0.05"/>
                 <Border Panel.ZIndex="1" Margin="1" Background="Gray" Opacity="0.1"/>
                 <Border Panel.ZIndex="2" Margin="2" Background="Gray" Opacity="0.15"/>
-                <Border Panel.ZIndex="3" Margin="3" Background="{DynamicResource Brush_PrimaryBackground}" MouseEnter="Border_MouseEnter"  MouseLeave="Border_MouseLeave">
+                <Border Panel.ZIndex="3" Margin="3" Background="{DynamicResource Brush_WindowHeaderBackground}" MouseEnter="Border_MouseEnter"  MouseLeave="Border_MouseLeave">
                     <StackPanel>
                         <!-- Mute and unmute -->
                         <Grid HorizontalAlignment="Center" Margin="0,3,0,0">
                             <!-- Mute -->
                             <Button x:Name="MuteButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{DynamicResource Language_Mute}" Visibility="{Binding Mute,Converter={StaticResource InvertingBooleanToVisibilityConverter}}" Command="{Binding MuteCommand}">
-                                <TextBlock Text="&#xE767;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryForeground}" FontSize="16"/>
+                                <TextBlock Text="&#xE767;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_PrimaryText}" FontSize="16"/>
                             </Button>
                             <!-- Unmute -->
                             <Button x:Name="UnmuteButton" Style="{StaticResource TransparentButton}" Width="30" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{DynamicResource Language_Unmute}" Visibility="{Binding Mute,Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding UnmuteCommand}">
                                 <TextBlock Text="&#xE74F;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_Accent}" FontSize="16"/>
                             </Button>
                         </Grid>
-                        <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="50" Margin="0,5,0,10" Value="{Binding VolumeValue,Mode=TwoWay}" Maximum="1" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_PrimaryBackground}" ButtonBackground="{DynamicResource Brush_PrimaryForeground}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
-                        <Label Padding="0" Content="{Binding VolumeValuePercent}" FontSize="12" HorizontalContentAlignment="Center" Foreground="{DynamicResource Brush_PrimaryForeground}"/>
+                        <dc:VerticalUWPSlider HorizontalAlignment="Center" Height="50" Margin="0,5,0,10" Value="{Binding VolumeValue,Mode=TwoWay}" Maximum="1" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_WindowHeaderBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+                        <Label Padding="0" Content="{Binding VolumeValuePercent}" FontSize="12" HorizontalContentAlignment="Center" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     </StackPanel>
                 </Border>
             </Grid>

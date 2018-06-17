@@ -22,18 +22,18 @@
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                         <Grid Margin="15,0,10,0">
                             <!-- Download -->
-                            <TextBlock Text="&#xE118;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_White}" FontSize="16" Visibility="{Binding ShowInstallUpdateButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
+                            <TextBlock Text="&#xE118;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_StatustText}" FontSize="16" Visibility="{Binding ShowInstallUpdateButton,Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
                             <!-- Install -->
-                            <TextBlock Text="&#xE78C;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_White}" FontSize="16" Visibility="{Binding ShowInstallUpdateButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <TextBlock Text="&#xE78C;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_StatustText}" FontSize="16" Visibility="{Binding ShowInstallUpdateButton,Converter={StaticResource BooleanToVisibilityConverter}}"/>
                         </Grid>
-                        <TextBlock Text="{DynamicResource Language_New_Version_available}" Foreground="{DynamicResource Brush_White}"/>
-                        <TextBlock Text=": " Foreground="{DynamicResource Brush_White}"/>
-                        <TextBlock Text="{Binding Package.FormattedVersionNoBuildWithLabel}" FontWeight="Bold" Foreground="{DynamicResource Brush_White}"/>
+                        <TextBlock Text="{DynamicResource Language_New_Version_available}" Foreground="{DynamicResource Brush_StatustText}"/>
+                        <TextBlock Text=": " Foreground="{DynamicResource Brush_StatustText}"/>
+                        <TextBlock Text="{Binding Package.FormattedVersionNoBuildWithLabel}" FontWeight="Bold" Foreground="{DynamicResource Brush_StatustText}"/>
                     </StackPanel>
                 </Button>
                 <!-- Hide button -->
                 <Button DockPanel.Dock="Right" Width="18" Height="18" Margin="0,0,10,0" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" ToolTip="{DynamicResource Language_Hide}" Style="{StaticResource TransparentButton}" Command="{Binding HideUpdateStatusCommand}">
-                    <TextBlock Text="&#xE711;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_White}" FontSize="16"/>
+                    <TextBlock Text="&#xE711;" Style="{StaticResource SegoeAssets}" Foreground="{DynamicResource Brush_StatustText}" FontSize="16"/>
                 </Button>
                 <ContentControl x:Name="Spacer"/>
             </DockPanel>

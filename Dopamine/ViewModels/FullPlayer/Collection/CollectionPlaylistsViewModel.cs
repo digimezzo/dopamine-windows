@@ -104,8 +104,15 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         public long PlaylistsCount
         {
-            get { return this.playlistsCount; }
-            set { SetProperty<long>(ref this.playlistsCount, value); }
+            get
+            {
+                if(this.playlists == null)
+                {
+                    return 0;
+                }
+
+                return this.playlists.Count;
+            }
         }
 
         public CollectionPlaylistsViewModel(IContainerProvider container) : base(container)
@@ -179,6 +186,9 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             {
                 this.TrySelectFirstPlaylist();
             }
+
+            // Notify that the count has changed
+            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
         }
 
         private void UpdateDeletedPlaylist(string deletedPlaylistName)
@@ -190,6 +200,9 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             {
                 this.TrySelectFirstPlaylist();
             }
+
+            // Notify that the count has changed
+            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
         }
 
         private void UpdateRenamedPlaylist(string oldPlaylistName, string newPlaylistName)
@@ -289,9 +302,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 // Get the Albums from the database
                 IList<string> playlists = await this.playlistService.GetPlaylistsAsync();
 
-                // Set the count
-                this.PlaylistsCount = playlists.Count;
-
                 // Populate an ObservableCollection
                 var playlistViewModels = new ObservableCollection<PlaylistViewModel>();
 
@@ -318,6 +328,10 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             // Stop notifying
             this.IsLoadingPlaylists = false;
 
+            // Notify that the count has changed
+            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
+
+            // Select the firts playlist
             this.TrySelectFirstPlaylist();
         }
 

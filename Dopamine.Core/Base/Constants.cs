@@ -20,7 +20,6 @@ namespace Dopamine.Core.Base
         // Fonts
         public static double GlobalFontSize = 12;
         public static string GlobalFontFamily = "Segoe UI";
-        public static double SplashAppNameFontSize = 44;
         public static double OobeAppNameFontSize = 44;
         public static double OobeTitleFontSize = 36;
         public static double OobeTextFontSize = 18;
@@ -101,7 +100,9 @@ namespace Dopamine.Core.Base
         public static readonly double TrayControlsHeight = 255;
 
         // ListBoxAlbums
-        public static readonly double AlbumTileAlbumInfoHeight = 40;
+        public static readonly double AlbumTileAlbumInfoHeight = 44;
+        public static readonly Thickness AlbumTilePadding = new Thickness(4);
+        public static readonly Thickness AlbumTileMargin = new Thickness(6);
 
         // Animation
         public static readonly Duration MouseEnterDuration = new Duration(TimeSpan.FromMilliseconds(50));
