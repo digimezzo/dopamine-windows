@@ -324,7 +324,7 @@
   <Text Key="Error_Updating_Online_Search_Provider">Il provider di ricerca online non può essere aggiornato. Si prega di consultare il file di log per ulteriori informazioni.</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">Il provider di ricerca online non può essere aggiornato. I  campi "Nome" e "Url" sono obbligatori, "Separatore" è facoltativo.</Text>
   <Text Key="Sign_In">Registrati</Text>
-  <Text Key="Sign_Out">Escit</Text>
+  <Text Key="Sign_Out">Esci</Text>
   <Text Key="Signed_In">Registrato</Text>
   <Text Key="Sign_In_Failed">Registrazione fallita</Text>
   <Text Key="Artist_Information">Informazione artista</Text>
@@ -336,7 +336,7 @@
   <Text Key="Lyrics">Testi</Text>
   <Text Key="No_Lyrics_Found">Testo non trovato</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Scorri automaticamente fino alla canzone in riproduzione</Text>
-  <Text Key="Mouse_Scroll_Changes_Volume_By">Lo scroll del mouse cambia il volume di</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Lo scrorrimento del mouse cambia il volume di</Text>
   <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Questa brano non può essere trovato. Probabilmente è stato spostato o cancellato. Vuoi aggiornare la tua collezione?</Text>
   <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Uno o più brani non possono essere trovati. Probabilmente sono stati spostati o cancellati. Vuoi aggiornare la tua collezione?</Text>
   <Text Key="Automatic_Scrolling">Scorrimento automatico</Text>
@@ -360,7 +360,7 @@
   <Text Key="Audio_File">File Audio</Text>
   <Text Key="Play_Next">Riproduci dopo</Text>
   <Text Key="Last_Played">Ultima riprodotta</Text>
-  <Text Key="Remember_Last_played_Song">Ricorda l'ultima canzone suonata e il suo avanzamento di riproduzione</Text>
+  <Text Key="Remember_Last_played_Song">Ricorda l'ultima canzone riprodotta e il suo avanzamento di riproduzione</Text>
   <Text Key="Download_Lyrics_From">Scarica testo da</Text>
   <Text Key="Lyrics_Download_Timeout">Timeout del download dei testi</Text>
   <Text Key="Show_Remove_From_Disk">Mostra'Rimuovi dal disco' nel menu contestuale</Text>
@@ -397,7 +397,7 @@
   <Text Key="Enable_External_Control">Abilita External Control</Text>
   <Text Key="Enable_System_Notification">Abilita notifica di sistema</Text>
   <Text Key="Unknown_Album">Album sconosciuto</Text>
-  <Text Key="Unknown_Genre">genere sconosciuto</Text>
+  <Text Key="Unknown_Genre">Genere sconosciuto</Text>
   <Text Key="Refresh_Collection_Automatically">Aggiorna automaticamente la raccolta</Text>
   <Text Key="Loop_When_Shuffle">Durante la riproduzione casuale, torna all'inizio della playlist dopo l'ultimo brano.</Text>
   <Text Key="Show_Song_Covers">Mostra copertina brano</Text>
@@ -410,7 +410,7 @@
   <Text Key="Reload_All_Covers_Description">Ricarica le copertine per tutti gli album, inclusi quelli che hanno già una copertina.</Text>
   <Text Key="Reload_Missing_Covers">Ricarica le copertine mancanti</Text>
   <Text Key="Reload_Missing_Covers_Description">Ricarica le copertine solo per gli album che non hanno ancora una copertina</Text>
-  <Text Key="Added_Songs">Aggiunte {number} brani ({percent}%)</Text>
+  <Text Key="Added_Songs">Aggiunti {number} brani ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Scarica le copertine degli album mancanti da Internet</Text>
   <Text Key="Use_All_Available_Speakers">Usa tutti gli altoparlanti disponibili</Text>
   <Text Key="Center_Lyrics">Testo centrale</Text>
