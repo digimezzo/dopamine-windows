@@ -28,6 +28,7 @@ namespace Dopamine.Views.FullPlayer
         {
             RegionManager.SetRegionManager(this.SplitViewContent, this.regionManager);
             RegionManager.UpdateRegions();
+            this.CollectionButton.IsChecked = true;
         }
 
         private void MySplitView_PaneOpened(object sender, System.EventArgs e)
@@ -48,6 +49,26 @@ namespace Dopamine.Views.FullPlayer
         private void Grid_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             this.IsMouseOverSplitViewButton = false;
+        }
+
+        private void InformationButton_Checked(object sender, RoutedEventArgs e)
+        {
+            this.MySplitView.IsPaneOpen = false;
+        }
+
+        private void CollectionButton_Checked(object sender, RoutedEventArgs e)
+        {
+            this.MySplitView.IsPaneOpen = false;
+        }
+
+        private void SettingsButton_Checked(object sender, RoutedEventArgs e)
+        {
+            this.MySplitView.IsPaneOpen = false;
+        }
+
+        private void HeaderButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.MySplitView.IsPaneOpen = false;
         }
     }
 }

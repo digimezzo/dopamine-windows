@@ -27,7 +27,7 @@
         <MenuItem Header="{DynamicResource Language_Search_Online}" ItemsSource="{Binding DataContext.ContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" IsEnabled="{Binding DataContext.HasContextMenuSearchProviders, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
+                    <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
                     <Setter Property="Command" Value="{Binding DataContext.SearchOnlineCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
                     <Setter Property="CommandParameter" Value="{Binding Id}"/>
                 </Style>
@@ -45,45 +45,115 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid>
-                        <Grid.Background>
-                            <SolidColorBrush Color="{DynamicResource Color_ItemHovered}" Opacity="0"/>
-                        </Grid.Background>
-                        <Grid.Triggers>
-                            <EventTrigger RoutedEvent="MouseEnter">
-                                <BeginStoryboard>
-                                    <Storyboard TargetProperty="Background.Opacity">
-                                        <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                            <EventTrigger RoutedEvent="MouseLeave">
-                                <BeginStoryboard>
-                                    <Storyboard TargetProperty="Background.Opacity">
-                                        <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Grid.Triggers>
-                        <Label x:Name="DummyLabel" Foreground="{DynamicResource Brush_SecondaryForeground}"  Visibility="Collapsed"/>
-                        <ContentPresenter/>
+                        <Border x:Name="MouseHoverHelper" Height="46" Background="{DynamicResource Brush_ItemHovered}" Opacity="0"/>
+                        <Border Height="46" 
+                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}"
+                                Background="{TemplateBinding Background}">
+                            <Border.ToolTip>
+                                <ToolTip>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Value.TrackTitle}" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding Value.ArtistName}"/>
+                                    </StackPanel>
+                                </ToolTip>
+                            </Border.ToolTip>
+                            <DockPanel Margin="10,0,10,0">
+                                <Grid DockPanel.Dock="Left">
+                                    <Grid Panel.ZIndex="0"
+                                      Visibility="{Binding Value.ShowTrackArt,Converter={StaticResource BooleanToCollapsedConverter}}">
+                                        <pc:Tile Width="40" Height="40"
+                                             Panel.ZIndex="0"
+                                             IconSizePercent="{x:Static base:Constants.HeadPhoneLargeSize}"
+                                             Background="{DynamicResource Brush_CoverTileBackground}">
+                                            <pc:Tile.Content>
+                                                <Viewbox>
+                                                    <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_CoverTileIcon}"/>
+                                                </Viewbox>
+                                            </pc:Tile.Content>
+                                        </pc:Tile>
+                                        <Image Panel.ZIndex="1" Width="40" Height="40" Source="{Binding Value.TrackArt}" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                    </Grid>
+                                    <Border Panel.ZIndex="1" MinWidth="20" Height="40" 
+                                        Visibility="{Binding Value.ShowTrackArt,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
+                                        <TextBlock 
+                                        Text="{Binding Value.FormattedTrackNumber}" 
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource Brush_SecondaryText}"
+                                        FontSize="13"/>
+                                    </Border>
+                                </Grid>
+                                <StackPanel VerticalAlignment="Center" Height="40">
+                                    <DockPanel Height="20">
+                                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                            <Label Style="{DynamicResource SpectrumAnimation}"
+                                                   Visibility="{Binding Value.IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                   IsHitTestVisible="{Binding Value.IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                   Foreground="{DynamicResource Brush_Accent}" 
+                                                   Margin="0,0,10,0" 
+                                                   VerticalAlignment="Center"/>
+                                            <TextBlock
+                                                Text="{Binding Value.Duration}" 
+                                                TextAlignment="Right"
+                                                FontSize="13" 
+                                                VerticalAlignment="Center"
+                                                Margin="0,0,2,0"/>
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding Value.TrackTitle}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Stretch" 
+                                               TextTrimming="CharacterEllipsis"
+                                               Margin="10,0,10,0"
+                                               FontSize="13"/>
+                                    </DockPanel>
+                                    <DockPanel Height="20">
+                                        <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,0,2,0" >
+                                            <pc:RatingButton 
+                                            VerticalAlignment="Center" 
+                                            Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToCollapsedConverter}}"
+                                            Rating="{Binding Value.Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            <pc:LoveButton 
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center" 
+                                            SelectedForeground="{DynamicResource Brush_Accent}"
+                                            Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
+                                            Love="{Binding Value.Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding Value.ArtistName}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Stretch" 
+                                               TextTrimming="CharacterEllipsis"
+                                               Margin="10,0,10,0"
+                                               FontSize="11"
+                                               Foreground="{DynamicResource Brush_SecondaryText}"/>
+                                    </DockPanel>
+                                </StackPanel>
+                            </DockPanel>
+                        </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Value.IsPlaying}" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_Accent}" />
-                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource Brush_Accent}"/>
-                        </DataTrigger>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="DummyLabel" Property="Background" Value="{DynamicResource Brush_Accent}"/>
-                            <Setter TargetName="DummyLabel" Property="Foreground" Value="{DynamicResource Brush_White}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource Brush_White}" />
+                            <Setter Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>
                         </Trigger>
-                        <Trigger Property="IsSelected" Value="False">
-                        </Trigger>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -93,101 +163,9 @@
     <!-- ListBox -->
     <Style x:Key="ListBoxNowPlayingTracks" TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxNowPlayingTracksItem}" />
-        <Setter Property="Padding" Value="10,0,10,0" />
-        <Setter Property="Margin" Value="5,0,5,0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Border Background="{Binding Background,ElementName=DummyLabel}" Height="44"
-                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
-                        <Border.ToolTip>
-                            <ToolTip>
-                                <StackPanel>
-                                    <TextBlock Text="{Binding Value.TrackTitle}" FontWeight="Bold"/>
-                                    <TextBlock Text="{Binding Value.ArtistName}"/>
-                                </StackPanel>
-                            </ToolTip>
-                        </Border.ToolTip>
-                        <DockPanel>
-                            <Grid DockPanel.Dock="Left">
-                                <Grid Panel.ZIndex="0"
-                                      Margin="2,0,0,0"
-                                      Visibility="{Binding Value.ShowTrackArt,Converter={StaticResource BooleanToCollapsedConverter}}">
-                                    <pc:Tile Width="40" Height="40"
-                                             Panel.ZIndex="0"
-                                             IconSizePercent="{x:Static base:Constants.HeadPhoneLargeSize}"
-                                             Background="{DynamicResource Brush_TertiaryBackground}">
-                                        <pc:Tile.Content>
-                                            <Viewbox>
-                                                <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_TileIconBackground}"/>
-                                            </Viewbox>
-                                        </pc:Tile.Content>
-                                    </pc:Tile>
-                                    <Image Panel.ZIndex="1" Width="40" Height="40" Source="{Binding Value.TrackArt}" RenderOptions.BitmapScalingMode="HighQuality"/>
-                                </Grid>
-                                <Border Panel.ZIndex="1" MinWidth="20" Height="40" 
-                                        Visibility="{Binding Value.ShowTrackArt,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
-                                    <TextBlock 
-                                        Text="{Binding Value.FormattedTrackNumber}" 
-                                        Foreground="{Binding Foreground,ElementName=DummyLabel}" 
-                                        HorizontalAlignment="Center" 
-                                        VerticalAlignment="Center"
-                                        FontSize="13"/>
-                                </Border>
-                            </Grid>
-                            <StackPanel VerticalAlignment="Center" Height="40">
-                                <DockPanel Height="20">
-                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                        <Label Style="{DynamicResource SpectrumAnimation}"
-                                                   Visibility="{Binding Value.IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                   IsHitTestVisible="{Binding Value.IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                   Foreground="{Binding Foreground,ElementName=DummyLabel}" 
-                                                   Margin="0,0,10,0" 
-                                                   VerticalAlignment="Center"/>
-                                        <TextBlock
-                                                Text="{Binding Value.Duration}" 
-                                                TextAlignment="Right"
-                                                FontSize="13" 
-                                                VerticalAlignment="Center"
-                                                Margin="0,0,2,0"/>
-                                    </StackPanel>
-                                    <TextBlock Text="{Binding Value.TrackTitle}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Stretch" 
-                                               TextTrimming="CharacterEllipsis"
-                                               Margin="10,0,10,0"
-                                               FontSize="13"/>
-                                </DockPanel>
-                                <DockPanel Height="20">
-                                    <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" Margin="0,0,2,0" >
-                                        <pc:RatingButton 
-                                            VerticalAlignment="Center" 
-                                            Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToCollapsedConverter}}"
-                                            Rating="{Binding Value.Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                        <pc:LoveButton 
-                                            Margin="10,0,0,0"
-                                            VerticalAlignment="Center" 
-                                            SelectedForeground="{DynamicResource Brush_Accent}"
-                                            Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
-                                            Love="{Binding Value.Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-                                    </StackPanel>
-                                    <TextBlock Text="{Binding Value.ArtistName}"
-                                               VerticalAlignment="Center"
-                                               HorizontalAlignment="Stretch" 
-                                               TextTrimming="CharacterEllipsis"
-                                               Margin="10,0,10,0"
-                                               FontSize="11"
-                                               Foreground="{Binding Foreground,ElementName=DummyLabel}"/>
-                                </DockPanel>
-                            </StackPanel>
-                        </DockPanel>
-                    </Border>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
 </ResourceDictionary>

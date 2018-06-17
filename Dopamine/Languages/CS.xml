@@ -188,7 +188,6 @@
   <Text Key="Error_Saving_Playlists">Při ukládání seznamů došlo k chybě. Prosím konzultujte chybový výpis pro více informací.</Text>
   <Text Key="Error_Saving_Playlist">Při ukládání seznamu došlo k chybě. Prosím konzultujte chybový výpis pro více informací.</Text>
   <Text Key="Download_Latest_Version">Stáhnout poslední verzi</Text>
-  <Text Key="Track_Number_Short">#</Text>
   <Text Key="By_Album_Artist">Podle autora alba</Text>
   <Text Key="File">Soubor</Text>
   <Text Key="Name">Jméno</Text>
@@ -217,7 +216,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">Zobrazit oznámení pouze pokud je přehrávač schovaný</Text>
   <Text Key="Transparency">Průhlednost</Text>
   <Text Key="Enable_Transparency">Zprůhlednit některé části</Text>
-  <Text Key="All">Vše</Text>
   <Text Key="Close_To_Tray">Poblíž oznamovací oblasti</Text>
   <Text Key="Edit">Upravit</Text>
   <Text Key="Edit_Song">Upravit skladbu</Text>
@@ -423,4 +421,12 @@
   <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
   <Text Key="Search_Hint">Search...</Text>
+  <Text Key="Time">Time</Text>
+  <Text Key="Song_Artists">Song artists</Text>
+  <Text Key="Album_Artists">Album artists</Text>
+  <Text Key="Toggle_Artists">Toggle artists</Text>
+  <Text Key="Select_None">Select none</Text>
+  <Text Key="Open_Menu">Open menu</Text>
+  <Text Key="Toggle_Album_Order">Toggle album order</Text>
+  <Text Key="Toggle_Track_Order">Toggle song order</Text>
 </Language>

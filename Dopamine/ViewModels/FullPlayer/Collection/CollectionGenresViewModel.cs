@@ -54,12 +54,19 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private string genreOrderText;
 
         public DelegateCommand<string> AddGenresToPlaylistCommand { get; set; }
+
         public DelegateCommand<object> SelectedGenresCommand { get; set; }
+
         public DelegateCommand ShowGenresZoomCommand { get; set; }
+
         public DelegateCommand<string> SemanticJumpCommand { get; set; }
+
         public DelegateCommand AddGenresToNowPlayingCommand { get; set; }
-        public DelegateCommand ToggleGenreOrderCommand { get; set; }
+
+        // public DelegateCommand ToggleGenreOrderCommand { get; set; }
+
         public DelegateCommand ShuffleSelectedGenresCommand { get; set; }
+
 
         public string GenreOrderText => this.genreOrderText;
 
@@ -162,7 +169,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.genreRepository = container.Resolve<IGenreRepository>();
 
             // Commands
-            this.ToggleGenreOrderCommand = new DelegateCommand(async () => await this.ToggleGenreOrderAsync());
+            // this.ToggleGenreOrderCommand = new DelegateCommand(async () => await this.ToggleGenreOrderAsync());
             this.ToggleTrackOrderCommand = new DelegateCommand(async () => await this.ToggleTrackOrderAsync());
             this.ToggleAlbumOrderCommand = new DelegateCommand(async () => await this.ToggleAlbumOrderAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
@@ -251,25 +258,25 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        private async Task ToggleGenreOrderAsync()
-        {
-            switch (this.GenreOrder)
-            {
-                case GenreOrder.Alphabetical:
-                    this.GenreOrder = GenreOrder.ReverseAlphabetical;
-                    break;
-                case GenreOrder.ReverseAlphabetical:
-                    this.GenreOrder = GenreOrder.Alphabetical;
-                    break;
-                default:
-                    // Cannot happen, but just in case.
-                    this.GenreOrder = GenreOrder.Alphabetical;
-                    break;
-            }
+        //private async Task ToggleGenreOrderAsync()
+        //{
+        //    switch (this.GenreOrder)
+        //    {
+        //        case GenreOrder.Alphabetical:
+        //            this.GenreOrder = GenreOrder.ReverseAlphabetical;
+        //            break;
+        //        case GenreOrder.ReverseAlphabetical:
+        //            this.GenreOrder = GenreOrder.Alphabetical;
+        //            break;
+        //        default:
+        //            // Cannot happen, but just in case.
+        //            this.GenreOrder = GenreOrder.Alphabetical;
+        //            break;
+        //    }
 
-            SettingsClient.Set<int>("Ordering", "GenresGenreOrder", (int)this.GenreOrder);
-            await this.GetGenresCommonAsync(this.Genres.Select((g) => ((GenreViewModel)g).Genre).ToList(), this.GenreOrder);
-        }
+        //    SettingsClient.Set<int>("Ordering", "GenresGenreOrder", (int)this.GenreOrder);
+        //    await this.GetGenresCommonAsync(this.Genres.Select((g) => ((GenreViewModel)g).Genre).ToList(), this.GenreOrder);
+        //}
 
         private void SetGenreOrder(string settingName)
         {

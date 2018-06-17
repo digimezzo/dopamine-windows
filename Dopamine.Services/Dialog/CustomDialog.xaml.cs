@@ -16,7 +16,7 @@ namespace Dopamine.Services.Dialog
             InitializeComponent();
 
             this.Title = title;
-            this.TextBlockTitle.Text = title.ToLower();
+            this.TextBlockTitle.Text = title;
             this.Width = width;
             this.MinWidth = width;
             this.CustomContent.Content = content;

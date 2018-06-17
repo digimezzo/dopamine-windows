@@ -45,7 +45,7 @@
         <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
+                    <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
                     <Setter Property="Command" Value="{Binding DataContext.AddAlbumsToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
@@ -70,22 +70,94 @@
     <Style x:Key="ListBoxAlbumsItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="ContextMenu" Value="{StaticResource ListBoxAlbumsContextMenu}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
-        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />
+        <Setter Property="Margin" Value="{x:Static base:Constants.AlbumTileMargin}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid>
-                        <Border x:Name="ProxyBorder" Height="0" Visibility="Hidden" Background="{DynamicResource Brush_PrimaryForeground}"/>
-                        <Border x:Name="ProxyBorderLight" Height="0" Visibility="Hidden" Background="{DynamicResource Brush_SecondaryForeground}"/>
-                        <ContentPresenter/>
+                        <Border x:Name="MouseHoverHelper" Background="{DynamicResource Brush_ItemHovered}" Opacity="0"/>
+                        <Border Background="{TemplateBinding Background}">
+                            <StackPanel Margin="{x:Static base:Constants.AlbumTilePadding}">
+                                <Grid>
+                                    <!-- Tile -->
+                                    <pc:Tile Panel.ZIndex="0"
+                                     Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                     Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"        
+                                     IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
+                                     Background="{DynamicResource Brush_CoverTileBackground}">
+                                        <pc:Tile.Content>
+                                            <Viewbox>
+                                                <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_CoverTileIcon}"/>
+                                            </Viewbox>
+                                        </pc:Tile.Content>
+                                    </pc:Tile>
+                                    <!-- Cover -->
+                                    <pc:SourceChangedImage Panel.ZIndex="1" 
+                                   Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                   Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                                   RenderOptions.BitmapScalingMode="HighQuality">
+                                        <pc:SourceChangedImage.Source>
+                                            <MultiBinding Converter="{StaticResource PathToImageConverter}">
+                                                <Binding Path="ArtworkPath" IsAsync="True"/>
+                                                <Binding Path="DataContext.UpscaledCoverSize" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
+                                            </MultiBinding>
+                                        </pc:SourceChangedImage.Source>
+                                        <pc:SourceChangedImage.Triggers>
+                                            <EventTrigger RoutedEvent="pc:SourceChangedImage.SourceChanged">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="{x:Static base:Constants.SourceChangedImageChangedDuration}" />
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </pc:SourceChangedImage.Triggers>
+                                    </pc:SourceChangedImage>
+                                </Grid>
+                                <StackPanel Background="{DynamicResource Brush_AlbumTileInfoBackground}" Height="{x:Static base:Constants.AlbumTileAlbumInfoHeight}">
+                                    <Grid Margin="6">
+                                        <StackPanel Visibility="{Binding DataContext.OrderedByYear, Converter={StaticResource InvertingBooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+                                            <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                                            <TextBlock Text="{Binding AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryText}"/>
+                                        </StackPanel>
+                                        <StackPanel Visibility="{Binding DataContext.OrderedByYear,Converter={StaticResource BooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
+                                            <TextBlock Text="{Binding Year}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                                            <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryText}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <StackPanel.ToolTip>
+                                        <ToolTip>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding AlbumArtist}" FontWeight="Bold"/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding AlbumTitle}"/>
+                                                    <TextBlock Margin="5,0,0,0" Text="{Binding ToolTipYear}"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </ToolTip>
+                                    </StackPanel.ToolTip>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="ProxyBorder" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="ProxyBorder" Property="Background" Value="{DynamicResource Brush_White}"/>
-                            <Setter TargetName="ProxyBorderLight" Property="Background" Value="{DynamicResource Brush_White}"/>
+                            <Setter Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>
                         </Trigger>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -95,8 +167,6 @@
     <!-- ListBox -->
     <Style x:Key="ListBoxAlbums" TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxAlbumsItem}" />
-        <Setter Property="Padding" Value="10,0,10,0" />
-        <Setter Property="Margin" Value="5,0,5,0" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
@@ -110,103 +180,6 @@
                         ChildWidth="{Binding Path=DataContext.AlbumWidth,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
                         ChildHeight="{Binding Path=DataContext.AlbumHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
                 </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Grid>
-                        <!-- Selection border -->
-                        <Border 
-                            Panel.ZIndex="0" 
-                            Background="{DynamicResource Brush_Accent}"
-                            Width="{Binding Path=DataContext.AlbumWidth,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
-                            Height="{Binding Path=DataContext.AlbumHeight,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
-                            Visibility="{Binding Visibility,ElementName=ProxyBorder}"/>
-                        <StackPanel>
-                            <Grid Panel.ZIndex="1" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="2">
-                                <Grid Panel.ZIndex="2" Visibility="{Binding DataContext.IsMultipleAlbumsSelected,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <Polygon x:Name="Triangle" 
-                                         Fill="{DynamicResource Brush_Accent}" 
-                                         Panel.ZIndex="0"
-                                         Stroke="Transparent"
-                                         Visibility="{Binding Visibility,ElementName=ProxyBorder}"
-                                         HorizontalAlignment="Right"
-                                         VerticalAlignment="Top"
-                                         Margin="0,-1,-1,0">
-                                        <Polygon.Points>
-                                            <Point X="-30" Y="0"/>
-                                            <Point X="0" Y="0"/>
-                                            <Point X="0" Y="30"/>
-                                        </Polygon.Points>
-                                    </Polygon>
-                                    <TextBlock x:Name="AlbumSelector"
-                                       Text="&#xE8FB;"
-                                       Style="{StaticResource SegoeAssets}"
-                                       Panel.ZIndex="1"
-                                       Margin="1"
-                                       HorizontalAlignment="Right"
-                                       VerticalAlignment="Top"
-                                       Foreground="{DynamicResource Brush_White}" 
-                                       Visibility="{Binding Visibility,ElementName=ProxyBorder}"
-                                       FontSize="13"/>
-                                </Grid>
-                                <pc:Tile Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
-                                             Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                                             Panel.ZIndex="0"
-                                             IconSizePercent="{x:Static base:Constants.HeadPhoneSmallSize}"
-                                             Background="{DynamicResource Brush_TertiaryBackground}">
-                                    <pc:Tile.Content>
-                                        <Viewbox>
-                                            <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_TileIconBackground}"/>
-                                        </Viewbox>
-                                    </pc:Tile.Content>
-                                </pc:Tile>
-                                <pc:SourceChangedImage Panel.ZIndex="1" 
-                                   Width="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
-                                   Height="{Binding Path=DataContext.CoverSize,RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                                   RenderOptions.BitmapScalingMode="HighQuality">
-                                    <pc:SourceChangedImage.Source>
-                                        <MultiBinding Converter="{StaticResource PathToImageConverter}">
-                                            <Binding Path="ArtworkPath" IsAsync="True"/>
-                                            <Binding Path="DataContext.UpscaledCoverSize" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}"/>
-                                        </MultiBinding>
-                                    </pc:SourceChangedImage.Source>
-                                    <pc:SourceChangedImage.Triggers>
-                                        <EventTrigger RoutedEvent="pc:SourceChangedImage.SourceChanged">
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="{x:Static base:Constants.SourceChangedImageChangedDuration}" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger>
-                                    </pc:SourceChangedImage.Triggers>
-                                </pc:SourceChangedImage>
-                            </Grid>
-                            <StackPanel Panel.ZIndex="1" Background="#00000000" Height="{x:Static base:Constants.AlbumTileAlbumInfoHeight}">
-                                <StackPanel Margin="2,2,2,0" Visibility="{Binding DataContext.OrderedByYear, Converter={StaticResource InvertingBooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                                    <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{Binding Background,ElementName=ProxyBorder}"/>
-                                    <TextBlock Text="{Binding AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{Binding Background,ElementName=ProxyBorderLight}"/>
-                                </StackPanel>
-                                <StackPanel Margin="2,2,2,0" Visibility="{Binding DataContext.OrderedByYear,Converter={StaticResource BooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                                    <TextBlock Text="{Binding Year}" TextTrimming="CharacterEllipsis" Foreground="{Binding Background,ElementName=ProxyBorder}"/>
-                                    <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{Binding Background,ElementName=ProxyBorderLight}"/>
-                                </StackPanel>
-                                <StackPanel.ToolTip>
-                                    <ToolTip>
-                                        <StackPanel VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding AlbumArtist}" FontWeight="Bold"/>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding AlbumTitle}"/>
-                                                <TextBlock Margin="5,0,0,0" Text="{Binding ToolTipYear}"/>
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </ToolTip>
-                                </StackPanel.ToolTip>
-                            </StackPanel>
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
             </Setter.Value>
         </Setter>
     </Style>

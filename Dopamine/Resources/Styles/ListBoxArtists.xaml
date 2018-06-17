@@ -24,7 +24,7 @@
         <MenuItem Header="{DynamicResource Language_Add_To_Playlist}" DisplayMemberPath="Name">
             <MenuItem.ItemContainerStyle>
                 <Style TargetType="MenuItem">
-                    <Setter Property="Foreground" Value="{DynamicResource Brush_Black}" />
+                    <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
                     <Setter Property="Command" Value="{Binding DataContext.AddArtistsToPlaylistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" />
                     <Setter Property="CommandParameter" Value="{Binding Name}"/>
                 </Style>
@@ -44,77 +44,72 @@
             </MenuItem.Icon>
         </MenuItem>
     </ContextMenu>
-    
+
     <!-- ListBoxItem -->
     <Style x:Key="ListBoxArtistsItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="ContextMenu" Value="{StaticResource ListBoxArtistsContextMenu}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="0,0,0,2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryForeground}" />
+        <Setter Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Grid>
-                        <DockPanel>
-                            <!-- Header -->
-                            <Button 
+                    <DockPanel>
+                        <!-- Header -->
+                        <Button 
                             DockPanel.Dock="Top"
                             Style="{DynamicResource TransparentButton}" 
                             Visibility="{Binding IsHeader,Converter={StaticResource BooleanToCollapsedConverter}}"
                             HorizontalAlignment="Left" 
+                            VerticalAlignment="Top" 
                             Cursor="Hand"
-                            Margin="0,5,0,5"
+                            Margin="10,5,10,5"
                             Command="{Binding DataContext.ShowArtistsZoomCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                                <Grid Width="26" Height="26" HorizontalAlignment="Left" Margin="0,8,0,8">
-                                    <Viewbox Width="26" Height="26" Panel.ZIndex="0">
-                                        <Path x:Name="Droplet" Data="{DynamicResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
-                                    </Viewbox>
-                                    <Label Padding="0" Margin="0,-2,0,0" Content="{Binding Header}" Panel.ZIndex="1" FontSize="16" 
-                                           VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource Brush_White}"/>
-                                </Grid>
-                            </Button>
-                            <!-- Artist -->
-                            <Border>
-                                <Border.Background>
-                                    <SolidColorBrush Color="{DynamicResource Color_ItemHovered}" Opacity="0"/>
-                                </Border.Background>
-                                <Border.Triggers>
-                                    <EventTrigger RoutedEvent="MouseEnter">
-                                        <BeginStoryboard>
-                                            <Storyboard TargetProperty="Background.Opacity">
-                                                <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                    <EventTrigger RoutedEvent="MouseLeave">
-                                        <BeginStoryboard>
-                                            <Storyboard TargetProperty="Background.Opacity">
-                                                <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </EventTrigger>
-                                </Border.Triggers>
-                                <Border
-                           Background="{TemplateBinding Background}" 
-                           Height="32">
-                                    <TextBlock Text="{Binding ArtistName}" 
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Stretch" 
-                               TextTrimming="CharacterEllipsis"
-                               FontSize="13"
-                               Margin="2,0,2,0"
-                               ToolTip="{Binding ArtistName}"
-                               Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}"/>
-                                </Border>
+                            <Grid Width="26" Height="26" HorizontalAlignment="Left" Margin="0,8,0,8">
+                                <Viewbox Width="26" Height="26" Panel.ZIndex="0">
+                                    <Path x:Name="Droplet" Data="{DynamicResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
+                                </Viewbox>
+                                <Label Padding="0" Margin="0,-2,0,0" Content="{Binding Header}" Panel.ZIndex="1" FontSize="16" 
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{DynamicResource Brush_SemanticZoomText}"/>
+                            </Grid>
+                        </Button>
+                        <!-- Artist -->
+                        <Grid>
+                            <Border x:Name="MouseHoverHelper" Height="32" Background="{DynamicResource Brush_ItemHovered}" Opacity="0"/>
+                            <Border 
+                                Background="{TemplateBinding Background}" 
+                                Height="32"
+                                Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
+                                <TextBlock 
+                                    Text="{Binding ArtistName}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Stretch" 
+                                    TextTrimming="CharacterEllipsis"
+                                    FontSize="13"
+                                    Margin="10,0,10,0"
+                                    ToolTip="{Binding ArtistName}"/>
                             </Border>
-                        </DockPanel>
-                    </Grid>
+                        </Grid>
+                    </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>
                         </Trigger>
-                        <Trigger Property="IsSelected" Value="False"/>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard Storyboard.TargetName="MouseHoverHelper" TargetProperty="Opacity">
+                                    <DoubleAnimation To="0" Duration="{x:Static base:Constants.MouseLeaveDuration}"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -124,8 +119,6 @@
     <!-- ListBox -->
     <Style x:Key="ListBoxArtists" TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxArtistsItem}" />
-        <Setter Property="Padding" Value="10,0,10,0" />
-        <Setter Property="Margin" Value="5,0,5,0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />

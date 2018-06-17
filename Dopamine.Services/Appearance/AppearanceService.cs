@@ -41,19 +41,19 @@ namespace Dopamine.Services.Appearance
                                                         },
                                                         new ColorScheme {
                                                             Name = "Green",
-                                                            AccentColor = "#7FB718"
+                                                            AccentColor = "#1DB853"
                                                         },
                                                         new ColorScheme {
                                                             Name = "Yellow",
-                                                            AccentColor = "#F09609"
+                                                            AccentColor = "#FF9626"
                                                         },
                                                         new ColorScheme {
                                                             Name = "Purple",
-                                                            AccentColor = "#A835B2"
+                                                            AccentColor = "#7A4ABA"
                                                         },
                                                         new ColorScheme {
                                                             Name = "Pink",
-                                                            AccentColor = "#CE0058"
+                                                            AccentColor = "#EE205E"
                                                         }
                                                     };
 
@@ -85,7 +85,7 @@ namespace Dopamine.Services.Appearance
                 System.IO.File.Delete(exampleColorSchemeFile);
             }
 
-            XDocument exampleColorSchemeXml = XDocument.Parse("<ColorScheme><AccentColor>#E31837</AccentColor></ColorScheme>");
+            XDocument exampleColorSchemeXml = XDocument.Parse("<ColorScheme><AccentColor>#E53935</AccentColor></ColorScheme>");
             exampleColorSchemeXml.Save(exampleColorSchemeFile);
 
             // Create the "How to create ColorSchemes.txt" file

@@ -44,4 +44,8 @@ namespace Dopamine.Core.Prism
     public class IsInformationPageChanged : PubSubEvent<Tuple<SlideDirection, InformationPage>>
     {
     }
+
+    public class ToggleArtistOrderCommand : PubSubEvent<object>
+    {
+    }
 }

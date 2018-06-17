@@ -58,13 +58,6 @@ namespace Dopamine.ViewModels.Common.Base
         public DelegateCommand DelaySelectedAlbumsCommand { get; set; }
         public DelegateCommand ShuffleSelectedAlbumsCommand { get; set; }
 
-        public bool IsMultipleAlbumsSelected
-        {
-            get
-            {
-                return this.selectedAlbumIds != null && this.selectedAlbumIds.Count > 1;
-            }
-        }
         public bool OrderedByYear => this.AlbumOrder == AlbumOrder.ByYear;
         public double UpscaledCoverSize => this.CoverSize * Constants.CoverUpscaleFactor;
         public bool IsSmallCoverSizeSelected => this.selectedCoverSize == CoverSizeType.Small;
@@ -470,8 +463,6 @@ namespace Dopamine.ViewModels.Common.Base
                 {
                     this.SelectedAlbumIds.Add(item.Album.AlbumID);
                 }
-
-                RaisePropertyChanged(nameof(this.IsMultipleAlbumsSelected));
             }
         }
 
@@ -523,8 +514,8 @@ namespace Dopamine.ViewModels.Common.Base
                         break;
                 }
 
-                this.AlbumHeight = this.CoverSize + Constants.AlbumTileAlbumInfoHeight + 8; // 8 = total margin on all sides
-                this.AlbumWidth = this.CoverSize + 8; // 8 = total margin on all sides
+                this.AlbumWidth = this.CoverSize + Constants.AlbumTilePadding.Left + Constants.AlbumTilePadding.Right + Constants.AlbumTileMargin.Left + Constants.AlbumTileMargin.Right;
+                this.AlbumHeight = this.AlbumWidth + Constants.AlbumTileAlbumInfoHeight;
 
                 RaisePropertyChanged(nameof(this.CoverSize));
                 RaisePropertyChanged(nameof(this.AlbumWidth));

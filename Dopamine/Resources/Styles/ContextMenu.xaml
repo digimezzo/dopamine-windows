@@ -22,10 +22,10 @@
     <!--Outer menu items-->
     <Style TargetType="{x:Type MenuItem}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuForeground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}"/>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuForeground}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}"/>
                 <Setter Property="Opacity" Value="0.5"/>
             </Trigger>
         </Style.Triggers>
@@ -112,11 +112,11 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ContextMenuHovered}" />
-                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuForegroundSelected}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_Accent}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuTextSelected}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuForeground}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
                 <Setter Property="Opacity" Value="0.5" />
             </Trigger>
         </ControlTemplate.Triggers>
@@ -178,15 +178,15 @@
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
             <Trigger Property="IsHighlighted" Value="true">
-                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ContextMenuHovered}" />
-                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuForegroundSelected}" />
+                <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_Accent}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuTextSelected}" />
             </Trigger>
             <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
                 <Setter TargetName="SubmenuBorder" Property="CornerRadius" Value="0" />
                 <Setter TargetName="SubmenuBorder" Property="Padding" Value="0" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuForeground}" />
+                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
