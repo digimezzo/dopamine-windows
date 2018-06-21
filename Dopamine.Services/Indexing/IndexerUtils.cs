@@ -83,8 +83,8 @@ namespace Dopamine.Services.Indexing
 
             try
             {
-                // Don't get artwork is the album is unknown
-                if (!album.AlbumTitle.Equals(Defaults.UnknownAlbumText))
+                // Don't get artwork if the album is unknown
+                if (!string.IsNullOrEmpty(album.AlbumTitle))
                 {
                     // Get embedded artwork
                     artworkData = GetEmbeddedArtwork(fileMetadata);

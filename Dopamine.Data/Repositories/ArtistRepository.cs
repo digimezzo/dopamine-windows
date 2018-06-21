@@ -1,6 +1,4 @@
 ﻿using Digimezzo.Utilities.Log;
-using Dopamine.Core.Base;
-using Dopamine.Core.Helpers;
 using Dopamine.Core.Utils;
 using Dopamine.Data.Entities;
 using System;
@@ -13,12 +11,10 @@ namespace Dopamine.Data.Repositories
     public class ArtistRepository : IArtistRepository
     {
         private ISQLiteConnectionFactory factory;
-        private ILocalizationInfo info;
 
-        public ArtistRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
+        public ArtistRepository(ISQLiteConnectionFactory factory)
         {
             this.factory = factory;
-            this.info = info;
         }
 
         public async Task<List<Artist>> GetArtistsAsync(ArtistOrder artistOrder)
@@ -38,7 +34,6 @@ namespace Dopamine.Data.Repositories
 
                             // Get the Track Artists
                             trackArtists = conn.Query<Artist>("SELECT DISTINCT art.ArtistID, " +
-                                                              $"REPLACE(art.ArtistName,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') ArtistName " +
                                                               "FROM Artist art " +
                                                               "INNER JOIN Track tra ON art.ArtistID=tra.ArtistID " +
                                                               "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
@@ -47,8 +42,6 @@ namespace Dopamine.Data.Repositories
 
                             // Get the Album Artists
                             var albums = conn.Query<Album>("SELECT DISTINCT alb.AlbumID, " +
-                                                           $"REPLACE(alb.AlbumTitle,'{Defaults.UnknownAlbumText}','{this.info.UnknownAlbumText}') AlbumTitle, " +
-                                                           $"REPLACE(alb.AlbumArtist,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') AlbumArtist, " +
                                                            "alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded FROM Album alb " +
                                                            "INNER JOIN Track tra ON alb.AlbumID=tra.AlbumID " +
                                                            "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +

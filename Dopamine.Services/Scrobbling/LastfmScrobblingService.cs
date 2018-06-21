@@ -97,9 +97,9 @@ namespace Dopamine.Services.Scrobbling
                 // As soon as a track starts playing, send a Now Playing request.
                 this.trackStartTime = DateTime.Now;
                 this.canScrobble = true;
-                string artist = this.playbackService.CurrentTrack.Value.ArtistName != Defaults.UnknownArtistText ? this.playbackService.CurrentTrack.Value.ArtistName : string.Empty;
+                string artist = string.IsNullOrEmpty(this.playbackService.CurrentTrack.Value.ArtistName) ? this.playbackService.CurrentTrack.Value.ArtistName : string.Empty;
                 string trackTitle = this.playbackService.CurrentTrack.Value.TrackTitle;
-                string albumTitle = this.playbackService.CurrentTrack.Value.AlbumTitle != Defaults.UnknownAlbumText ? this.playbackService.CurrentTrack.Value.AlbumTitle : string.Empty;
+                string albumTitle = string.IsNullOrEmpty(this.playbackService.CurrentTrack.Value.AlbumTitle) ? this.playbackService.CurrentTrack.Value.AlbumTitle : string.Empty;
 
                 if (!string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {
@@ -132,9 +132,9 @@ namespace Dopamine.Services.Scrobbling
                 // When is a scrobble a scrobble?
                 // - The track must be longer than 30 seconds
                 // - And the track has been played for at least half its duration, or for 4 minutes (whichever occurs earlier)
-                string artist = this.playbackService.CurrentTrack.Value.ArtistName != Defaults.UnknownArtistText ? this.playbackService.CurrentTrack.Value.ArtistName : string.Empty;
+                string artist = string.IsNullOrEmpty(this.playbackService.CurrentTrack.Value.ArtistName) ? this.playbackService.CurrentTrack.Value.ArtistName : string.Empty;
                 string trackTitle = this.playbackService.CurrentTrack.Value.TrackTitle;
-                string albumTitle = this.playbackService.CurrentTrack.Value.AlbumTitle != Defaults.UnknownAlbumText ? this.playbackService.CurrentTrack.Value.AlbumTitle : string.Empty;
+                string albumTitle = string.IsNullOrEmpty(this.playbackService.CurrentTrack.Value.AlbumTitle) ? this.playbackService.CurrentTrack.Value.AlbumTitle : string.Empty;
 
                 if (this.canScrobble && !string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {
@@ -215,7 +215,7 @@ namespace Dopamine.Services.Scrobbling
             bool isSuccess = false;
 
             // We can't send track love for an unknown track
-            if (track.ArtistName == Defaults.UnknownArtistText | string.IsNullOrEmpty(track.TrackTitle)) return false;
+            if (string.IsNullOrEmpty(track.TrackTitle)) return false;
 
             if (this.SignInState == SignInState.SignedIn)
             {

@@ -6,6 +6,9 @@ namespace Dopamine.Core.Base
 {
     public static class Constants
     {
+        // Tags
+        public static string MultiValueTagsSeparator = ";";
+
         // Environment
         public static bool IsWindows10 = EnvironmentUtils.IsWindows10();
 

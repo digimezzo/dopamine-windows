@@ -6,6 +6,7 @@ using Dopamine.Data.Metadata;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -105,7 +106,6 @@ namespace Dopamine.Services.Utils
             valueList.Insert(index, string.Join(separator.ToString(), origParts));
         }
 
-
         public static string SanitizeTag(string str)
         {
             if (!string.IsNullOrEmpty(str))
@@ -125,37 +125,39 @@ namespace Dopamine.Services.Utils
             return result;
         }
 
-        public static string GetFirstGenre(IFileMetadata fmd)
+        private static string GetOrderedMultiValueTags(MetadataValue value)
         {
-            return string.IsNullOrWhiteSpace(fmd.Genres.Value) ? Defaults.UnknownGenreText : MetadataUtils.PatchID3v23Enumeration(fmd.Genres.Values).FirstNonEmpty(Defaults.UnknownGenreText);
-        }
-
-        public static string GetFirstArtist(IFileMetadata fileMetadata)
-        {
-            return string.IsNullOrWhiteSpace(fileMetadata.Artists.Value) ? Defaults.UnknownArtistText : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(fileMetadata.Artists.Values).FirstNonEmpty(Defaults.UnknownArtistText));
-        }
-
-        public static string GetFirstAlbumArtist(IFileMetadata fileMetadata)
-        {
-            return string.IsNullOrWhiteSpace(fileMetadata.AlbumArtists.Value) ? Defaults.UnknownArtistText : MetadataUtils.SanitizeTag(MetadataUtils.PatchID3v23Enumeration(fileMetadata.AlbumArtists.Values).FirstNonEmpty(Defaults.UnknownArtistText));
-        }
-
-        public static bool UpdateAlbumYear(Album album, long year)
-        {
-            if (!album.AlbumTitle.Equals(Defaults.UnknownAlbumText) && year > 0 && (album.Year == null || album.Year != year))
+            if (string.IsNullOrWhiteSpace(value.Value))
             {
-                album.Year = year;
-                return true;
+                return string.Empty;
             }
 
-            return false;
+            IEnumerable<string> patchedEnumeration = MetadataUtils.PatchID3v23Enumeration(value.Values);
+            IEnumerable<string> sanitizedTags = patchedEnumeration.Select(x => MetadataUtils.SanitizeTag(x));
+
+            return string.Join(Constants.MultiValueTagsSeparator, sanitizedTags.OrderBy(x => x).ToArray());
         }
 
-        public static void SplitMetadata(IFileMetadata fileMetadata, ref Track track, ref TrackStatistic trackStatistic, ref Album album, ref Artist artist, ref Genre genre)
+        private static string GetAllArtists(IFileMetadata fileMetadata)
+        {
+            return GetOrderedMultiValueTags(fileMetadata.Artists);
+        }
+
+        private static string GetAllGenres(IFileMetadata fileMetadata)
+        {
+            return GetOrderedMultiValueTags(fileMetadata.Genres);
+        }
+
+        private static string GetAllAlbumArtists(IFileMetadata fileMetadata)
+        {
+            return GetOrderedMultiValueTags(fileMetadata.AlbumArtists);
+        }
+
+        public static void SplitMetadata(IFileMetadata fileMetadata, ref Track track, ref TrackStatistic trackStatistic)
         {
             string path = fileMetadata.Path;
 
-            // Track information
+            // Track
             track.Path = path;
             track.SafePath = path.ToSafePath();
             track.FileName = FileUtils.NameWithoutExtension(path);
@@ -171,84 +173,61 @@ namespace Dopamine.Services.Utils
             track.Year = MetadataUtils.SafeConvertToLong(fileMetadata.Year.Value);
             track.HasLyrics = string.IsNullOrWhiteSpace(fileMetadata.Lyrics.Value) ? 0 : 1;
             track.NeedsIndexing = 0;
-
-            // TrackStatistic information
-            trackStatistic.Path = path;
-            trackStatistic.SafePath = path.ToSafePath();
-            trackStatistic.Rating = fileMetadata.Rating.Value;
-
-            // Before proceeding, get the available artists
-            string albumArtist = GetFirstAlbumArtist(fileMetadata);
-            string trackArtist = GetFirstArtist(fileMetadata); // will be used for the album if no album artist is found
-
-            // Album information
-            album.AlbumTitle = string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? Defaults.UnknownAlbumText : MetadataUtils.SanitizeTag(fileMetadata.Album.Value);
-            album.AlbumArtist = (albumArtist == Defaults.UnknownArtistText ? trackArtist : albumArtist);
-            album.DateAdded = DateTime.Now.Ticks;
-            album.DateCreated = FileUtils.DateCreatedTicks(path);
-
-            UpdateAlbumYear(album, MetadataUtils.SafeConvertToLong(fileMetadata.Year.Value));
-
-            // Artist information
-            artist.ArtistName = trackArtist;
-
-            // Genre information
-            genre.GenreName = GetFirstGenre(fileMetadata);
-
-            // Metadata hash
-            var sb = new StringBuilder();
-
-            sb.Append(album.AlbumTitle);
-            sb.Append(artist.ArtistName);
-            sb.Append(genre.GenreName);
-            sb.Append(track.TrackTitle);
-            sb.Append(track.TrackNumber);
-            sb.Append(track.Year);
-            track.MetaDataHash = CryptographyUtils.MD5Hash(sb.ToString());
-
-            // File information
             track.FileSize = FileUtils.SizeInBytes(path);
             track.DateFileModified = FileUtils.DateModifiedTicks(path);
             track.DateLastSynced = DateTime.Now.Ticks;
+            track.Artists = GetAllArtists(fileMetadata);
+            track.Genres = GetAllGenres(fileMetadata);
+            track.AlbumTitle = string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : MetadataUtils.SanitizeTag(fileMetadata.Album.Value);
+            track.AlbumArtists = GetAllAlbumArtists(fileMetadata);
+            track.AlbumKey = string.IsNullOrWhiteSpace(track.AlbumArtists) ? track.Artists : track.AlbumArtists;
+
+            // TrackStatistic
+            trackStatistic.Path = path;
+            trackStatistic.SafePath = path.ToSafePath();
+            trackStatistic.Rating = fileMetadata.Rating.Value;
+        }
+
+        private static string GetCommaSeparatedMultiValueTags(string multiValueTagValue)
+        {
+            if (multiValueTagValue.Contains(Constants.MultiValueTagsSeparator))
+            {
+                return string.Join(", ", multiValueTagValue.Split(Convert.ToChar(Constants.MultiValueTagsSeparator)));
+            }
+
+            return multiValueTagValue;
         }
 
         public static async Task<PlayableTrack> Path2TrackAsync(IFileMetadata fileMetadata, TrackStatistic savedTrackStatistic)
         {
-            var returnTrack = new PlayableTrack();
+            var ptrack = new PlayableTrack();
 
             await Task.Run(() =>
             {
                 var track = new Track();
                 var trackStatistic = new TrackStatistic();
-                var album = new Album();
-                var artist = new Artist();
-                var genre = new Genre();
 
-                MetadataUtils.SplitMetadata(fileMetadata, ref track, ref trackStatistic, ref album, ref artist, ref genre);
+                MetadataUtils.SplitMetadata(fileMetadata, ref track, ref trackStatistic);
 
-                returnTrack.Path = track.Path;
-                returnTrack.SafePath = track.Path.ToSafePath();
-                returnTrack.FileName = track.FileName;
-                returnTrack.MimeType = track.MimeType;
-                returnTrack.FileSize = track.FileSize;
-                returnTrack.BitRate = track.BitRate;
-                returnTrack.SampleRate = track.SampleRate;
-                returnTrack.TrackTitle = track.TrackTitle;
-                returnTrack.TrackNumber = track.TrackNumber;
-                returnTrack.TrackCount = track.TrackCount;
-                returnTrack.DiscNumber = track.DiscNumber;
-                returnTrack.DiscCount = track.DiscCount;
-                returnTrack.Duration = track.Duration;
-                returnTrack.Year = track.Year;
-                returnTrack.HasLyrics = track.HasLyrics;
-
-                returnTrack.ArtistName = artist.ArtistName;
-
-                returnTrack.GenreName = genre.GenreName;
-
-                returnTrack.AlbumTitle = album.AlbumTitle;
-                returnTrack.AlbumArtist = album.AlbumArtist;
-                returnTrack.AlbumYear = album.Year;
+                ptrack.Path = track.Path;
+                ptrack.SafePath = track.Path.ToSafePath();
+                ptrack.FileName = track.FileName;
+                ptrack.MimeType = track.MimeType;
+                ptrack.FileSize = track.FileSize;
+                ptrack.BitRate = track.BitRate;
+                ptrack.SampleRate = track.SampleRate;
+                ptrack.TrackTitle = track.TrackTitle;
+                ptrack.TrackNumber = track.TrackNumber;
+                ptrack.TrackCount = track.TrackCount;
+                ptrack.DiscNumber = track.DiscNumber;
+                ptrack.DiscCount = track.DiscCount;
+                ptrack.Duration = track.Duration;
+                ptrack.Year = track.Year;
+                ptrack.HasLyrics = track.HasLyrics;
+                ptrack.AlbumTitle = track.AlbumTitle;
+                ptrack.ArtistName = GetCommaSeparatedMultiValueTags(track.Artists);
+                ptrack.GenreName = GetCommaSeparatedMultiValueTags(track.Genres);
+                ptrack.AlbumArtist = GetCommaSeparatedMultiValueTags(track.AlbumArtists);
 
                 // If there is a saved TrackStatistic, used that one. Otherwise the
                 // TrackStatistic from the file is used. That only contains rating.
@@ -257,14 +236,14 @@ namespace Dopamine.Services.Utils
                     trackStatistic = savedTrackStatistic;
                 }
 
-                returnTrack.Rating = trackStatistic.Rating;
-                returnTrack.Love = trackStatistic.Love;
-                returnTrack.PlayCount = trackStatistic.PlayCount;
-                returnTrack.SkipCount = trackStatistic.SkipCount;
-                returnTrack.DateLastPlayed = trackStatistic.DateLastPlayed;
+                ptrack.Rating = trackStatistic.Rating;
+                ptrack.Love = trackStatistic.Love;
+                ptrack.PlayCount = trackStatistic.PlayCount;
+                ptrack.SkipCount = trackStatistic.SkipCount;
+                ptrack.DateLastPlayed = trackStatistic.DateLastPlayed;
             });
 
-            return returnTrack;
+            return ptrack;
         }
     }
 }

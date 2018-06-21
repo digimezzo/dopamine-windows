@@ -53,35 +53,6 @@ namespace Dopamine.Data
         {
             using (var conn = this.factory.GetConnection())
             {
-                conn.Execute("CREATE TABLE Artist (" +
-                             "ArtistID           INTEGER," +
-                             "ArtistName	     TEXT," +
-                             "PRIMARY KEY(ArtistID));");
-
-                conn.Execute("CREATE INDEX ArtistIndex ON Artist(ArtistName);");
-
-                conn.Execute("CREATE TABLE Genre (" +
-                             "GenreID           INTEGER," +
-                             "GenreName	        TEXT," +
-                             "PRIMARY KEY(GenreID));");
-
-                conn.Execute("CREATE INDEX GenreIndex ON Genre(GenreName);");
-
-                conn.Execute("CREATE TABLE Album (" +
-                             "AlbumID	        INTEGER," +
-                             "AlbumTitle	    TEXT," +
-                             "AlbumArtist	    TEXT," +
-                             "Year	            INTEGER," +
-                             "ArtworkID	        TEXT," +
-                             "DateLastSynced	INTEGER," +
-                             "DateAdded	        INTEGER," +
-                             "DateCreated	    INTEGER," +
-                             "NeedsIndexing	    INTEGER," +
-                             "PRIMARY KEY(AlbumID));");
-
-                conn.Execute("CREATE INDEX AlbumIndex ON Album(AlbumTitle, AlbumArtist);");
-                conn.Execute("CREATE INDEX AlbumYearIndex ON Album(Year);");
-
                 conn.Execute("CREATE TABLE Folder (" +
                              "FolderID	         INTEGER PRIMARY KEY AUTOINCREMENT," +
                              "Path	             TEXT," +
@@ -90,9 +61,11 @@ namespace Dopamine.Data
 
                 conn.Execute("CREATE TABLE Track (" +
                              "TrackID	                INTEGER," +
-                             "ArtistID	                INTEGER," +
-                             "GenreID	                INTEGER," +
-                             "AlbumID	                INTEGER," +
+                             "Artists	                TEXT," +
+                             "Genres	                TEXT," +
+                             "AlbumTitle	            TEXT," +
+                             "AlbumArtists	            TEXT," +
+                             "AlbumKey	                TEXT," +
                              "Path	                    TEXT," +
                              "SafePath	                TEXT," +
                              "FileName	                TEXT," +
@@ -111,15 +84,11 @@ namespace Dopamine.Data
                              "DateAdded  	            INTEGER," +
                              "DateLastSynced	        INTEGER," +
                              "DateFileModified	        INTEGER," +
-                             "MetaDataHash	            TEXT," +
                              "NeedsIndexing 	        INTEGER," +
                              "IndexingSuccess 	        INTEGER," +
                              "IndexingFailureReason     TEXT," +
                              "PRIMARY KEY(TrackID));");
 
-                conn.Execute("CREATE INDEX TrackArtistIDIndex ON Track(ArtistID);");
-                conn.Execute("CREATE INDEX TrackAlbumIDIndex ON Track(AlbumID);");
-                conn.Execute("CREATE INDEX TrackGenreIDIndex ON Track(GenreID);");
                 conn.Execute("CREATE INDEX TrackPathIndex ON Track(Path);");
                 conn.Execute("CREATE INDEX TrackSafePathIndex ON Track(SafePath);");
 
@@ -428,8 +397,8 @@ namespace Dopamine.Data
                 conn.Execute("INSERT INTO Genres(GenreName) SELECT DISTINCT Genre FROM Tracks WHERE TRIM(Genre) <>'';");
                 conn.Execute("UPDATE Tracks SET GenreID=(SELECT GenreID FROM Genres WHERE Genres.GenreName=Tracks.Genre) WHERE TRIM(Genre) <> '';");
 
-                conn.Execute(String.Format("INSERT INTO Genres(GenreName) VALUES('{0}');", Defaults.UnknownGenreText));
-                conn.Execute(String.Format("UPDATE Tracks SET GenreID=(SELECT GenreID FROM Genres WHERE Genres.GenreName='{0}') WHERE TRIM(Genre) = '';", Defaults.UnknownGenreText));
+                conn.Execute("INSERT INTO Genres(GenreName) VALUES('%unknown_genre%');");
+                conn.Execute("UPDATE Tracks SET GenreID=(SELECT GenreID FROM Genres WHERE Genres.GenreName='%unknown_genre%') WHERE TRIM(Genre) = '';");
 
                 conn.Execute("CREATE TABLE Tracks_Backup (" +
                              "TrackID	            INTEGER," +
@@ -951,9 +920,9 @@ namespace Dopamine.Data
             {
                 conn.Execute("BEGIN TRANSACTION;");
 
-                conn.Execute($"UPDATE Album SET AlbumTitle='{Defaults.UnknownAlbumText}' WHERE AlbumTitle='Unknown Album';");
-                conn.Execute($"UPDATE Album SET AlbumArtist='{Defaults.UnknownArtistText}' WHERE AlbumArtist IN ('Unknown Artist','Unknown Album Artist');");
-                conn.Execute($"UPDATE Genre SET GenreName='{Defaults.UnknownGenreText}' WHERE GenreName='Unknown Genre';");
+                conn.Execute($"UPDATE Album SET AlbumTitle='%unknown_album%' WHERE AlbumTitle='Unknown Album';");
+                conn.Execute($"UPDATE Album SET AlbumArtist='%unknown_artist%' WHERE AlbumArtist IN ('Unknown Artist','Unknown Album Artist');");
+                conn.Execute($"UPDATE Genre SET GenreName='%unknown_genre%' WHERE GenreName='Unknown Genre';");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");
@@ -1025,6 +994,37 @@ namespace Dopamine.Data
                 conn.Execute("DELETE FROM Artist WHERE ArtistName IS NULL;");
                 conn.Execute("DELETE FROM Genre WHERE GenreName IS NULL;");
                 conn.Execute("DELETE FROM Album WHERE AlbumTitle IS NULL;");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+
+        [DatabaseVersion(25)]
+        private void Migrate25()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("DROP TABLE Artist;");
+                conn.Execute("DROP TABLE Genre;");
+                conn.Execute("DROP TABLE Album;");
+
+                conn.Execute("UPDATE Track SET ArtistID=NULL;");
+                conn.Execute("UPDATE Track SET GenreID=NULL;");
+                conn.Execute("UPDATE Track SET AlbumID=NULL;");
+                conn.Execute("UPDATE Track SET MetaDataHash=NULL;");
+
+                conn.Execute("ALTER TABLE Tracks ADD Artists TEXT;");
+                conn.Execute("ALTER TABLE Tracks ADD Genres TEXT;");
+                conn.Execute("ALTER TABLE Tracks ADD AlbumTitle TEXT;");
+                conn.Execute("ALTER TABLE Tracks ADD AlbumArtists TEXT;");
+                conn.Execute("ALTER TABLE Tracks ADD AlbumKey TEXT;");
+
+                conn.Execute("DROP INDEX IF EXISTS TrackArtistIDIndex;");
+                conn.Execute("DROP INDEX IF EXISTS TrackAlbumIDIndex;");
+                conn.Execute("DROP INDEX IF EXISTS TrackGenreIDIndex;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");
