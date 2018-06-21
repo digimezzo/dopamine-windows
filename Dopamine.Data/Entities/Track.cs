@@ -7,12 +7,15 @@ namespace Dopamine.Data.Entities
     public class Track
     {
         // To delete
+        [Ignore]
         public long ArtistID { get; set; }
 
         // To delete
+        [Ignore]
         public long GenreID { get; set; }
 
         // To delete
+        [Ignore]
         public long AlbumID { get; set; }
 
         [PrimaryKey(), AutoIncrement()]
