@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
-using SQLite;
 
 namespace Dopamine.Data.Entities
 {
     public class Artist
     {
-        [PrimaryKey()]
         public long ArtistID { get; set; }
+
         public string ArtistName { get; set; }
 
-        [Ignore()]
         public string ArtistNameTrim
         {
             get { return ArtistName.Trim(); }

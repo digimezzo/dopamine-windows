@@ -85,7 +85,7 @@ namespace Dopamine.ViewModels.Common
                 return false;
             }
 
-            return this.album.AlbumArtist != Defaults.UnknownArtistText && this.Album.AlbumTitle != Defaults.UnknownAlbumText;
+            return !string.IsNullOrEmpty(this.album.AlbumArtist) && !string.IsNullOrEmpty(this.Album.AlbumTitle);
         }
 
         protected override void UpdateArtwork(byte[] imageData)

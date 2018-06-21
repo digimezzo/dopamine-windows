@@ -94,10 +94,10 @@ namespace Dopamine.ViewModels.Common
             }
 
             // Artist name is unknown
-            if (track.ArtistName == Defaults.UnknownArtistText)
+            if (string.IsNullOrEmpty(track.ArtistName))
             {
                 ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                await localArtistInfoViewModel.SetLastFmArtistAsync(new Core.Api.Lastfm.Artist { Name = Defaults.UnknownArtistText });
+                await localArtistInfoViewModel.SetLastFmArtistAsync(new Core.Api.Lastfm.Artist { Name = string.Empty });
                 this.ArtistInfoViewModel = localArtistInfoViewModel;
                 this.artist = null;
                 return;

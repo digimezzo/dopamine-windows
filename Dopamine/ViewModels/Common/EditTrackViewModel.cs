@@ -281,8 +281,8 @@ namespace Dopamine.ViewModels.Common
                 return false;
             }
 
-            return (this.albumArtists.Value != Defaults.UnknownArtistText || this.Artists.Value != Defaults.UnknownArtistText) &&
-                this.Album.Value != Defaults.UnknownAlbumText;
+            return (string.IsNullOrEmpty(this.albumArtists.Value) || string.IsNullOrEmpty(this.Artists.Value) &&
+                string.IsNullOrEmpty(this.Album.Value));
         }
 
         private async Task GetFilesMetadataAsync()

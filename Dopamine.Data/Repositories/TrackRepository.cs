@@ -1,8 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
-using Dopamine.Core.Helpers;
 using Dopamine.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,12 +12,10 @@ namespace Dopamine.Data.Repositories
     public class TrackRepository : ITrackRepository
     {
         private ISQLiteConnectionFactory factory;
-        private ILocalizationInfo info;
 
-        public TrackRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
+        public TrackRepository(ISQLiteConnectionFactory factory)
         {
             this.factory = factory;
-            this.info = info;
         }
 
         private string SelectQueryPart()
@@ -29,10 +25,6 @@ namespace Dopamine.Data.Repositories
                    "tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year, " +
                    "tra.HasLyrics, tra.DateAdded, tra.DateLastSynced, " +
                    "tra.DateFileModified, tra.MetaDataHash, " +
-                   $"REPLACE(art.ArtistName,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') ArtistName, " +
-                   $"REPLACE(gen.GenreName,'{Defaults.UnknownGenreText}','{this.info.UnknownGenreText}') GenreName, " +
-                   $"REPLACE(alb.AlbumTitle,'{Defaults.UnknownAlbumText}','{this.info.UnknownAlbumText}') AlbumTitle, " +
-                   $"REPLACE(alb.AlbumArtist,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') AlbumArtist, " +
                    "alb.Year AS AlbumYear, " +
                    "ts.Rating, ts.Love, ts.PlayCount, ts.SkipCount, ts.DateLastPlayed " +
                    "FROM Track tra " +

@@ -1,13 +1,11 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
-using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
-using Dopamine.Services.File;
 using Dopamine.Services.Utils;
 using System;
 using System.Collections.Generic;
@@ -24,7 +22,6 @@ namespace Dopamine.Services.File
     public class FileService : IFileService
     {
         private ICacheService cacheService;
-        private ILocalizationInfo info;
         private ITrackStatisticRepository trackStatisticRepository;
         private IFileMetadataFactory fileMetadataFactory;
         private IList<string> files;
@@ -34,12 +31,11 @@ namespace Dopamine.Services.File
         private string instanceGuid;
 
         public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository,
-            IFileMetadataFactory fileMetadataFactory, ILocalizationInfo info)
+            IFileMetadataFactory fileMetadataFactory)
         {
             this.cacheService = cacheService;
             this.trackStatisticRepository = trackStatisticRepository;
             this.fileMetadataFactory = fileMetadataFactory;
-            this.info = info;
 
             // Unique identifier which will be used by this instance only to create cached artwork.
             // This prevents the cleanup function to delete artwork which is in use by this instance.
@@ -130,11 +126,6 @@ namespace Dopamine.Services.File
                 returnTrack = PlayableTrack.CreateDefault(path);
                 LogClient.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
             }
-
-            returnTrack.ArtistName = returnTrack.ArtistName.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
-            returnTrack.AlbumArtist = returnTrack.AlbumArtist.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
-            returnTrack.AlbumTitle = returnTrack.AlbumTitle.Replace(Defaults.UnknownAlbumText, info.UnknownAlbumText);
-            returnTrack.GenreName = returnTrack.GenreName.Replace(Defaults.UnknownGenreText, info.UnknownGenreText);
 
             return returnTrack;
         }

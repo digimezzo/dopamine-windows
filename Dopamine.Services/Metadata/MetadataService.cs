@@ -430,7 +430,7 @@ namespace Dopamine.Services.Metadata
             // Artist
             if (fileMetadata.Artists.IsValueChanged)
             {
-                string newArtistName = fileMetadata.Artists.Values != null && !string.IsNullOrEmpty(fileMetadata.Artists.Values.FirstOrDefault()) ? fileMetadata.Artists.Values.FirstOrDefault() : Defaults.UnknownArtistText;
+                string newArtistName = fileMetadata.Artists.Values != null && !string.IsNullOrEmpty(fileMetadata.Artists.Values.FirstOrDefault()) ? fileMetadata.Artists.Values.FirstOrDefault() : string.Empty;
                 Artist artist = await this.artistRepository.GetArtistAsync(newArtistName);
                 if (artist == null) artist = await this.artistRepository.AddArtistAsync(new Artist { ArtistName = newArtistName });
                 if (artist != null) track.ArtistID = artist.ArtistID;
@@ -439,7 +439,7 @@ namespace Dopamine.Services.Metadata
             // Genre
             if (fileMetadata.Genres.IsValueChanged)
             {
-                string newGenreName = fileMetadata.Genres.Values != null && !string.IsNullOrEmpty(fileMetadata.Genres.Values.FirstOrDefault()) ? fileMetadata.Genres.Values.FirstOrDefault() : Defaults.UnknownGenreText;
+                string newGenreName = fileMetadata.Genres.Values != null && !string.IsNullOrEmpty(fileMetadata.Genres.Values.FirstOrDefault()) ? fileMetadata.Genres.Values.FirstOrDefault() : string.Empty;
                 Genre genre = await this.genreRepository.GetGenreAsync(newGenreName);
                 if (genre == null) genre = await this.genreRepository.AddGenreAsync(new Genre { GenreName = newGenreName });
                 if (genre != null) track.GenreID = genre.GenreID;
@@ -448,8 +448,8 @@ namespace Dopamine.Services.Metadata
             // Album
             if (fileMetadata.Album.IsValueChanged || fileMetadata.AlbumArtists.IsValueChanged || fileMetadata.Year.IsValueChanged)
             {
-                string newAlbumTitle = !string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : Defaults.UnknownAlbumText;
-                string newAlbumArtist = fileMetadata.AlbumArtists.Values != null && !string.IsNullOrEmpty(fileMetadata.AlbumArtists.Values.FirstOrDefault()) ? fileMetadata.AlbumArtists.Values.FirstOrDefault() : Defaults.UnknownArtistText;
+                string newAlbumTitle = !string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : string.Empty;
+                string newAlbumArtist = fileMetadata.AlbumArtists.Values != null && !string.IsNullOrEmpty(fileMetadata.AlbumArtists.Values.FirstOrDefault()) ? fileMetadata.AlbumArtists.Values.FirstOrDefault() : string.Empty;
                 Album album = await this.albumRepository.GetAlbumAsync(newAlbumTitle, newAlbumArtist);
 
                 if (album == null)
@@ -461,7 +461,6 @@ namespace Dopamine.Services.Metadata
 
                 if (album != null) track.AlbumID = album.AlbumID;
 
-                await Task.Run(() => MetadataUtils.UpdateAlbumYear(album, fileMetadata.Year.Value.SafeConvertToLong())); // Update Album year
                 await this.albumRepository.UpdateAlbumAsync(album);
             }
 
@@ -475,11 +474,11 @@ namespace Dopamine.Services.Metadata
                 // If no album artist is found, use the artist name. The album was probably saved using the artist name.
                 if (string.IsNullOrEmpty(albumArtist))
                 {
-                    albumArtist = fileMetadata.Artists.Values != null && !string.IsNullOrEmpty(fileMetadata.Artists.Values.FirstOrDefault()) ? fileMetadata.Artists.Values.FirstOrDefault() : Defaults.UnknownArtistText;
+                    albumArtist = fileMetadata.Artists.Values != null && !string.IsNullOrEmpty(fileMetadata.Artists.Values.FirstOrDefault()) ? fileMetadata.Artists.Values.FirstOrDefault() : string.Empty;
                 }
 
                 // Get the album title
-                string albumTitle = !string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : Defaults.UnknownAlbumText;
+                string albumTitle = !string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : string.Empty;
 
                 // Cache the new artwork
                 string artworkID = await this.cacheService.CacheArtworkAsync(fileMetadata.ArtworkData.Value);

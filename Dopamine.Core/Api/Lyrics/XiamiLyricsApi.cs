@@ -22,20 +22,20 @@ namespace Dopamine.Core.Api.Lyrics
             "http://www.xiami.com/song/playlist/id/{0}/object_name/default/object_id/0/cat/json?_ksTS={1}&callback={2}";
         private const int ApiKissyMagic = 377;
 
-        private readonly ILocalizationInfo _info;
-        private readonly int _timeoutSeconds;
+        private readonly ILocalizationInfo info;
+        private readonly int timeoutSeconds;
         private HttpClient _httpClient;
 
         public XiamiLyricsApi(int timeoutSeconds, ILocalizationInfo info)
         {
-            this._timeoutSeconds = timeoutSeconds;
-            this._info = info;
+            this.timeoutSeconds = timeoutSeconds;
+            this.info = info;
         }
 
         private async Task<string> ParseTrackIdAsync(string artist, string title)
         {
             _httpClient = new HttpClient(new HttpClientHandler() { AutomaticDecompression = DecompressionMethods.GZip });
-            if (this._timeoutSeconds > 0) _httpClient.Timeout = TimeSpan.FromSeconds(this._timeoutSeconds);
+            if (this.timeoutSeconds > 0) _httpClient.Timeout = TimeSpan.FromSeconds(this.timeoutSeconds);
             // Must set proper headers, otherwise the response will be "Illegal request"
             _httpClient.DefaultRequestHeaders.Add("Accept", "*/*");
             _httpClient.DefaultRequestHeaders.Add("Accept-Encoding", "gzip,deflate,sdch");
@@ -116,7 +116,7 @@ namespace Dopamine.Core.Api.Lyrics
                 source, x => string.Empty + Convert.ToChar(Convert.ToUInt16(x.Result("$1"), 16)));
         }
 
-        public string SourceName => this._info.XiamiLyrics;
+        public string SourceName => this.info.XiamiLyrics;
 
         public async Task<string> GetLyricsAsync(string artist, string title)
         {

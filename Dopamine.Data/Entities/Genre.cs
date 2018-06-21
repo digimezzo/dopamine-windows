@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
-using SQLite;
 
 namespace Dopamine.Data.Entities
 {
     public class Genre
     {
-        [PrimaryKey()]
         public long GenreID { get; set; }
+
         public string GenreName { get; set; }
 
-        [Ignore()]
         public string GenreNameTrim
         {
             get { return GenreName.Trim(); }

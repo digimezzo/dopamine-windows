@@ -1,6 +1,4 @@
 ﻿using Digimezzo.Utilities.Log;
-using Dopamine.Core.Base;
-using Dopamine.Core.Helpers;
 using Dopamine.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,19 +10,15 @@ namespace Dopamine.Data.Repositories
     public class AlbumRepository : IAlbumRepository
     {
         private ISQLiteConnectionFactory factory;
-        private ILocalizationInfo info;
 
-        public AlbumRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
+        public AlbumRepository(ISQLiteConnectionFactory factory)
         {
             this.factory = factory;
-            this.info = info;
         }
  
         private string SelectQueryPart()
         {
             return "SELECT DISTINCT alb.AlbumID, " +
-                   $"REPLACE(alb.AlbumTitle,'{Defaults.UnknownAlbumText}','{this.info.UnknownAlbumText}') AlbumTitle, " +
-                   $"REPLACE(alb.AlbumArtist,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') AlbumArtist, " +
                    "alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated FROM Album alb ";
         }
 
@@ -205,8 +199,6 @@ namespace Dopamine.Data.Repositories
                         try
                         {
                             albums = conn.Query<Album>("SELECT alb.AlbumID, " +
-                                                       $"REPLACE(alb.AlbumTitle,'{Defaults.UnknownAlbumText}','{this.info.UnknownAlbumText}') AlbumTitle, " +
-                                                       $"REPLACE(alb.AlbumArtist,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') AlbumArtist, " +
                                                        "alb.Year, alb.ArtworkID, alb.DateLastSynced, alb.DateAdded, alb.DateCreated, " +
                                                        "MAX(ts.DateLastPlayed) AS maxdatelastplayed, " +
                                                        "SUM(ts.PlayCount) AS playcountsum FROM TrackStatistic ts " +

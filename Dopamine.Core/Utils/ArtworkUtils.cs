@@ -12,21 +12,21 @@ namespace Dopamine.Core.Utils
             string albumArtist = string.Empty;
 
             // Title
-            if (!title.Equals(Defaults.UnknownAlbumText) && !string.IsNullOrEmpty(title))
+            if (!string.IsNullOrEmpty(title))
             {
                 albumTitle = title;
             }
-            else if (!alternateTitle.Equals(Defaults.UnknownAlbumText) && !string.IsNullOrEmpty(alternateTitle))
+            else if (!string.IsNullOrEmpty(alternateTitle))
             {
                 albumTitle = alternateTitle;
             }
 
             // Artist
-            if (!artist.Equals(Defaults.UnknownAlbumText) && !string.IsNullOrEmpty(artist))
+            if (!string.IsNullOrEmpty(artist))
             {
                 albumArtist = artist;
             }
-            else if (!alternateArtist.Equals(Defaults.UnknownAlbumText) && !string.IsNullOrEmpty(alternateArtist))
+            else if (!string.IsNullOrEmpty(alternateArtist))
             {
                 albumArtist = alternateArtist;
             }

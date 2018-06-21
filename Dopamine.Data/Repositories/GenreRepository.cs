@@ -1,6 +1,4 @@
 ﻿using Digimezzo.Utilities.Log;
-using Dopamine.Core.Base;
-using Dopamine.Core.Helpers;
 using Dopamine.Core.Utils;
 using Dopamine.Data.Entities;
 using System;
@@ -13,12 +11,10 @@ namespace Dopamine.Data.Repositories
     public class GenreRepository : IGenreRepository
     {
         private ISQLiteConnectionFactory factory;
-        private ILocalizationInfo info;
 
-        public GenreRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
+        public GenreRepository(ISQLiteConnectionFactory factory)
         {
             this.factory = factory;
-            this.info = info;
         }
 
         public async Task<List<Genre>> GetGenresAsync()
@@ -34,7 +30,6 @@ namespace Dopamine.Data.Repositories
                         try
                         {
                             genres = conn.Query<Genre>("SELECT DISTINCT gen.GenreID, " +
-                                                       $"REPLACE(gen.GenreName,'{Defaults.UnknownGenreText}','{this.info.UnknownGenreText}') GenreName FROM Genre gen " +
                                                        "INNER JOIN Track tra ON gen.GenreID=tra.GenreID " +
                                                        "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
                                                        "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
