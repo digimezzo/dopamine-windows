@@ -2,8 +2,8 @@
 using Digimezzo.Utilities.Log;
 using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
-using Dopamine.Utils;
-using Dopamine.ViewModels;
+using Dopamine.Services.Entities;
+using Dopamine.Services.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,11 +76,11 @@ namespace Dopamine.Views.Common.Base
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(ArtistViewModel).Name)
                 {
-                    await this.playbackService.EnqueueArtistsAsync(((ArtistViewModel)lb.SelectedItem).Artist.ToList(), false, false);
+                    // TODO await this.playbackService.EnqueueArtistsAsync(((ArtistViewModel)lb.SelectedItem).Artist.ToList(), false, false);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(GenreViewModel).Name)
                 {
-                    await this.playbackService.EnqueueGenresAsync(new List<long> { ((GenreViewModel)lb.SelectedItem).Genre.GenreID }, false, false);
+                    // TODO await this.playbackService.EnqueueGenresAsync(new List<long> { ((GenreViewModel)lb.SelectedItem).Genre.GenreID }, false, false);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(AlbumViewModel).Name)
                 {

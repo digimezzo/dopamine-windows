@@ -5,7 +5,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pc="clr-namespace:Dopamine.Controls"
-             xmlns:vm="clr-namespace:Dopamine.ViewModels"
+             xmlns:vm="clr-namespace:Dopamine.Services.Entities;assembly=Dopamine.Services"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"

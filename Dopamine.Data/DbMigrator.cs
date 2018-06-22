@@ -1016,15 +1016,17 @@ namespace Dopamine.Data
                 conn.Execute("UPDATE Track SET AlbumID=NULL;");
                 conn.Execute("UPDATE Track SET MetaDataHash=NULL;");
 
-                conn.Execute("ALTER TABLE Tracks ADD Artists TEXT;");
-                conn.Execute("ALTER TABLE Tracks ADD Genres TEXT;");
-                conn.Execute("ALTER TABLE Tracks ADD AlbumTitle TEXT;");
-                conn.Execute("ALTER TABLE Tracks ADD AlbumArtists TEXT;");
-                conn.Execute("ALTER TABLE Tracks ADD AlbumKey TEXT;");
+                conn.Execute("ALTER TABLE Track ADD Artists TEXT;");
+                conn.Execute("ALTER TABLE Track ADD Genres TEXT;");
+                conn.Execute("ALTER TABLE Track ADD AlbumTitle TEXT;");
+                conn.Execute("ALTER TABLE Track ADD AlbumArtists TEXT;");
+                conn.Execute("ALTER TABLE Track ADD AlbumKey TEXT;");
 
                 conn.Execute("DROP INDEX IF EXISTS TrackArtistIDIndex;");
                 conn.Execute("DROP INDEX IF EXISTS TrackAlbumIDIndex;");
                 conn.Execute("DROP INDEX IF EXISTS TrackGenreIDIndex;");
+
+                conn.Execute("UPDATE Track SET NeedsIndexing=1;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");

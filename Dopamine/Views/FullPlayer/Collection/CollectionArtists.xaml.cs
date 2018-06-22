@@ -6,6 +6,7 @@ using Prism.Commands;
 using System;
 using System.Windows;
 using System.Windows.Input;
+using Dopamine.Services.Utils;
 
 namespace Dopamine.Views.FullPlayer.Collection
 {

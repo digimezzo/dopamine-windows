@@ -14,17 +14,11 @@
         Success = 1
     }
 
-    public enum ArtistOrder
+    public enum ArtistType
     {
         All = 0,
         Track = 1,
         Album = 2
-    }
-
-    public enum GenreOrder
-    {
-        Alphabetical = 1,
-        ReverseAlphabetical = 2
     }
 
     public enum TrackOrder

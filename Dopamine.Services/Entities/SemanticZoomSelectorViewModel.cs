@@ -1,7 +1,6 @@
-﻿using Dopamine.Interfaces;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 
-namespace Dopamine.ViewModels
+namespace Dopamine.Services.Entities
 {
     public class SemanticZoomSelectorViewModel : BindableBase, ISemanticZoomSelector
     {
@@ -13,7 +12,6 @@ namespace Dopamine.ViewModels
             get { return this.header; }
             set { SetProperty<string>(ref this.header, value); }
         }
-
 
         public bool CanZoom
         {

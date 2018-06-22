@@ -6,16 +6,15 @@ using Dopamine.Core.Prism;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories;
-using Dopamine.Interfaces;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Dialog;
+using Dopamine.Services.Entities;
 using Dopamine.Services.Indexing;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Playlist;
 using Dopamine.Services.Search;
 using Dopamine.Services.Utils;
-using Dopamine.Utils;
 using Dopamine.ViewModels.Common.Base;
 using Prism.Commands;
 using Prism.Events;
@@ -41,17 +40,16 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private IDialogService dialogService;
         private ISearchService searchService;
         private IEventAggregator eventAggregator;
-        private IArtistRepository artistRepository;
         private ObservableCollection<ISemanticZoomable> artists;
         private CollectionViewSource artistsCvs;
-        private IList<Artist> selectedArtists;
+        private IList<string> selectedArtists;
         private ObservableCollection<ISemanticZoomSelector> artistsZoomSelectors;
         private bool isArtistsZoomVisible;
         private long artistsCount;
         private double leftPaneWidthPercent;
         private double rightPaneWidthPercent;
-        private ArtistOrder artistOrder;
-        private string artistOrderText;
+        private ArtistType artistType;
+        private string artistTypeText;
 
         public DelegateCommand<string> AddArtistsToPlaylistCommand { get; set; }
         public DelegateCommand<object> SelectedArtistsCommand { get; set; }
@@ -60,19 +58,19 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         public DelegateCommand AddArtistsToNowPlayingCommand { get; set; }
         public DelegateCommand ShuffleSelectedArtistsCommand { get; set; }
 
-        public ArtistOrder ArtistOrder
+        public ArtistType ArtistType
         {
-            get { return this.artistOrder; }
+            get { return this.artistType; }
             set
             {
-                SetProperty<ArtistOrder>(ref this.artistOrder, value);
-                this.UpdateArtistOrderText(value);
+                SetProperty<ArtistType>(ref this.artistType, value);
+                this.UpdateArtistTypeText(value);
             }
         }
 
-        public string ArtistOrderText
+        public string ArtistTypeText
         {
-            get { return this.artistOrderText; }
+            get { return this.artistTypeText; }
         }
 
         public double LeftPaneWidthPercent
@@ -113,10 +111,10 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<CollectionViewSource>(ref this.artistsCvs, value); }
         }
 
-        public IList<Artist> SelectedArtists
+        public IList<string> SelectedArtists
         {
             get { return this.selectedArtists; }
-            set { SetProperty<IList<Artist>>(ref this.selectedArtists, value); }
+            set { SetProperty<IList<string>>(ref this.selectedArtists, value); }
         }
 
         public long ArtistsCount
@@ -170,18 +168,17 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.dialogService = container.Resolve<IDialogService>();
             this.searchService = container.Resolve<ISearchService>();
             this.eventAggregator = container.Resolve<IEventAggregator>();
-            this.artistRepository = container.Resolve<IArtistRepository>();
 
             // Commands
             this.ToggleTrackOrderCommand = new DelegateCommand(async () => await this.ToggleTrackOrderAsync());
             this.ToggleAlbumOrderCommand = new DelegateCommand(async () => await this.ToggleAlbumOrderAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
             this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async () => await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
-            this.AddArtistsToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddArtistsToPlaylistAsync(this.SelectedArtists, playlistName));
+            // TODO this.AddArtistsToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddArtistsToPlaylistAsync(this.SelectedArtists, playlistName));
             this.SelectedArtistsCommand = new DelegateCommand<object>(async (parameter) => await this.SelectedArtistsHandlerAsync(parameter));
             this.ShowArtistsZoomCommand = new DelegateCommand(async () => await this.ShowSemanticZoomAsync());
-            this.AddArtistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddArtistsToNowPlayingAsync(this.SelectedArtists));
-            this.ShuffleSelectedArtistsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueArtistsAsync(this.SelectedArtists, true, false));
+            // TODO this.AddArtistsToNowPlayingCommand = new DelegateCommand(async () => await this.AddArtistsToNowPlayingAsync(this.SelectedArtists));
+            // TODO this.ShuffleSelectedArtistsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueArtistsAsync(this.SelectedArtists, true, false));
 
             this.SemanticJumpCommand = new DelegateCommand<string>((header) =>
             {
@@ -196,27 +193,27 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 {
                     this.EnableRating = (bool)e.SettingValue;
                     this.SetTrackOrder("ArtistsTrackOrder");
-                    await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
+                    // TODO await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
                 }
 
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
                 {
                     this.EnableLove = (bool)e.SettingValue;
                     this.SetTrackOrder("ArtistsTrackOrder");
-                    await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
+                    // TODO await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
                 }
             };
 
             // PubSub Events
             this.eventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsArtistsZoomVisible = false);
-            this.eventAggregator.GetEvent<ToggleArtistOrderCommand>().Subscribe((_) => this.ToggleArtistOrderAsync());
+            this.eventAggregator.GetEvent<ToggleArtistOrderCommand>().Subscribe((_) => this.ToggleArtistTypeAsync());
 
             // Events
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
             this.indexingService.AlbumArtworkAdded += async (_, e) => await this.RefreshArtworkAsync(e.AlbumIds);
 
             // Set the initial ArtistOrder		
-            this.ArtistOrder = (ArtistOrder)SettingsClient.Get<int>("Ordering", "ArtistsArtistOrder");
+            this.ArtistType = (ArtistType)SettingsClient.Get<int>("Ordering", "ArtistsArtistType");
 
             // Set the initial AlbumOrder
             this.AlbumOrder = (AlbumOrder)SettingsClient.Get<int>("Ordering", "ArtistsAlbumOrder");
@@ -263,24 +260,40 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private void SetArtistOrder(string settingName)
         {
-            this.ArtistOrder = (ArtistOrder)SettingsClient.Get<int>("Ordering", settingName);
+            this.ArtistType = (ArtistType)SettingsClient.Get<int>("Ordering", settingName);
         }
 
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
             if (e.IsArtworkChanged) await this.RefreshArtworkAsync();
-            if (e.IsArtistChanged | (e.IsAlbumChanged & (this.ArtistOrder == ArtistOrder.Album | this.ArtistOrder == ArtistOrder.All))) await this.GetArtistsAsync(this.ArtistOrder);
-            if (e.IsArtistChanged | e.IsAlbumChanged) await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
-            if (e.IsArtistChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
+            if (e.IsArtistChanged | (e.IsAlbumChanged & (this.ArtistType == ArtistType.Album | this.ArtistType == ArtistType.All))) await this.GetArtistsAsync(this.ArtistType);
+            // TODO if (e.IsArtistChanged | e.IsAlbumChanged) await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
+            // TODO if (e.IsArtistChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
         }
 
-        private async Task GetArtistsAsync(ArtistOrder artistOrder)
+        private async Task GetArtistsAsync(ArtistType artistType)
         {
             try
             {
-                // Get all artists from the database
-                IList<Artist> artists = await this.artistRepository.GetArtistsAsync(artistOrder);
+                // TODO: add unknown genre
+                IList<string> orderedArtists = null;
 
+                switch (artistType)
+                {
+                    case ArtistType.All:
+                        orderedArtists = (await this.collectionService.GetAllArtists()).OrderBy(a => a).ToList();
+                        break;
+                    case ArtistType.Track:
+                        orderedArtists = (await this.collectionService.GetAllTrackArtists()).OrderBy(a => a).ToList();
+                        break;
+                    case ArtistType.Album:
+                        orderedArtists = (await this.collectionService.GetAllTrackArtists()).OrderBy(a => a).ToList();
+                        break;
+                    default:
+                        // Can't happen
+                        break;
+                }
+               
                 // Create new ObservableCollection
                 ObservableCollection<ArtistViewModel> artistViewModels = new ObservableCollection<ArtistViewModel>();
 
@@ -289,8 +302,9 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                     List<ArtistViewModel> tempArtistViewModels = new List<ArtistViewModel>();
 
                     // Workaround to make sure the "#" GroupHeader is shown at the top of the list
-                    tempArtistViewModels.AddRange(artists.Select(art => new ArtistViewModel { Artist = art, IsHeader = false }).Where(avm => avm.Header.Equals("#")));
-                    tempArtistViewModels.AddRange(artists.Select(art => new ArtistViewModel { Artist = art, IsHeader = false }).Where(avm => !avm.Header.Equals("#")));
+                    tempArtistViewModels.AddRange(orderedArtists.Select((a) => new ArtistViewModel(a, false)).Where((avm) => avm.Header.Equals("#")));
+                    tempArtistViewModels.AddRange(orderedArtists.Select((a) => new ArtistViewModel(a, false)).Where((avm) => !avm.Header.Equals("#")));
+
 
                     foreach (ArtistViewModel avm in tempArtistViewModels)
                     {
@@ -329,11 +343,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             if (parameter != null)
             {
-                this.SelectedArtists = new List<Artist>();
+                this.SelectedArtists = new List<string>();
 
                 foreach (ArtistViewModel item in (IList)parameter)
                 {
-                    this.SelectedArtists.Add(item.Artist);
+                    this.SelectedArtists.Add(item.ArtistName);
                 }
             }
 
@@ -345,139 +359,139 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 return;
             }
 
-            await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
+            // TODO await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
             this.SetTrackOrder("ArtistsTrackOrder");
-            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
+            // TODO await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
         }
 
-        private async Task AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
-        {
-            AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
+        //TODO private async Task AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
+        //{
+        //    AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
 
-            // If no playlist is provided, first create one.
-            if (playlistName == null)
-            {
-                var responseText = ResourceUtils.GetString("Language_New_Playlist");
+        //    // If no playlist is provided, first create one.
+        //    if (playlistName == null)
+        //    {
+        //        var responseText = ResourceUtils.GetString("Language_New_Playlist");
 
-                if (this.dialogService.ShowInputDialog(
-                    0xea37,
-                    16,
-                    ResourceUtils.GetString("Language_New_Playlist"),
-                    ResourceUtils.GetString("Language_Enter_Name_For_New_Playlist"),
-                    ResourceUtils.GetString("Language_Ok"),
-                    ResourceUtils.GetString("Language_Cancel"),
-                    ref responseText))
-                {
-                    playlistName = responseText;
-                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
-                }
-            }
+        //        if (this.dialogService.ShowInputDialog(
+        //            0xea37,
+        //            16,
+        //            ResourceUtils.GetString("Language_New_Playlist"),
+        //            ResourceUtils.GetString("Language_Enter_Name_For_New_Playlist"),
+        //            ResourceUtils.GetString("Language_Ok"),
+        //            ResourceUtils.GetString("Language_Cancel"),
+        //            ref responseText))
+        //        {
+        //            playlistName = responseText;
+        //            addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
+        //        }
+        //    }
 
-            // If playlist name is still null, the user clicked cancel on the previous dialog. Stop here.
-            if (playlistName == null) return;
+        //    // If playlist name is still null, the user clicked cancel on the previous dialog. Stop here.
+        //    if (playlistName == null) return;
 
-            // Verify if the playlist was added
-            switch (addPlaylistResult)
-            {
-                case AddPlaylistResult.Success:
-                case AddPlaylistResult.Duplicate:
-                    // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.playlistService.AddArtistsToPlaylistAsync(artists, playlistName);
+        //    // Verify if the playlist was added
+        //    switch (addPlaylistResult)
+        //    {
+        //        case AddPlaylistResult.Success:
+        //        case AddPlaylistResult.Duplicate:
+        //            // Add items to playlist
+        //            AddTracksToPlaylistResult result = await this.playlistService.AddArtistsToPlaylistAsync(artists, playlistName);
 
-                    if (result == AddTracksToPlaylistResult.Error)
-                    {
-                        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Songs_To_Playlist").Replace("{playlistname}", "\"" + playlistName + "\""), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
-                    }
-                    break;
-                case AddPlaylistResult.Error:
-                    this.dialogService.ShowNotification(
-                        0xe711,
-                        16,
-                        ResourceUtils.GetString("Language_Error"),
-                        ResourceUtils.GetString("Language_Error_Adding_Playlist"),
-                        ResourceUtils.GetString("Language_Ok"),
-                        true,
-                        ResourceUtils.GetString("Language_Log_File"));
-                    break;
-                case AddPlaylistResult.Blank:
-                    this.dialogService.ShowNotification(
-                        0xe711,
-                        16,
-                        ResourceUtils.GetString("Language_Error"),
-                        ResourceUtils.GetString("Language_Provide_Playlist_Name"),
-                        ResourceUtils.GetString("Language_Ok"),
-                        false,
-                        string.Empty);
-                    break;
-                default:
-                    // Never happens
-                    break;
-            }
-        }
+        //            if (result == AddTracksToPlaylistResult.Error)
+        //            {
+        //                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Songs_To_Playlist").Replace("{playlistname}", "\"" + playlistName + "\""), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
+        //            }
+        //            break;
+        //        case AddPlaylistResult.Error:
+        //            this.dialogService.ShowNotification(
+        //                0xe711,
+        //                16,
+        //                ResourceUtils.GetString("Language_Error"),
+        //                ResourceUtils.GetString("Language_Error_Adding_Playlist"),
+        //                ResourceUtils.GetString("Language_Ok"),
+        //                true,
+        //                ResourceUtils.GetString("Language_Log_File"));
+        //            break;
+        //        case AddPlaylistResult.Blank:
+        //            this.dialogService.ShowNotification(
+        //                0xe711,
+        //                16,
+        //                ResourceUtils.GetString("Language_Error"),
+        //                ResourceUtils.GetString("Language_Provide_Playlist_Name"),
+        //                ResourceUtils.GetString("Language_Ok"),
+        //                false,
+        //                string.Empty);
+        //            break;
+        //        default:
+        //            // Never happens
+        //            break;
+        //    }
+        //}
 
         private void ArtistsCvs_Filter(object sender, FilterEventArgs e)
         {
             ArtistViewModel avm = e.Item as ArtistViewModel;
 
-            e.Accepted = DataUtils.FilterArtists(avm.Artist, this.searchService.SearchText);
+            // TODO e.Accepted = DataUtils.FilterArtists(avm.Artist, this.searchService.SearchText);
         }
 
-        private async Task ToggleArtistOrderAsync()
+        private async Task ToggleArtistTypeAsync()
         {
             this.HideSemanticZoom();
 
-            switch (this.ArtistOrder)
+            switch (this.ArtistType)
             {
-                case ArtistOrder.All:
-                    this.ArtistOrder = ArtistOrder.Track;
+                case ArtistType.All:
+                    this.ArtistType = ArtistType.Track;
                     break;
-                case ArtistOrder.Track:
-                    this.ArtistOrder = ArtistOrder.Album;
+                case ArtistType.Track:
+                    this.ArtistType = ArtistType.Album;
                     break;
-                case ArtistOrder.Album:
-                    this.ArtistOrder = ArtistOrder.All;
+                case ArtistType.Album:
+                    this.ArtistType = ArtistType.All;
                     break;
                 default:
                     // Cannot happen, but just in case.
-                    this.ArtistOrder = ArtistOrder.All;
+                    this.ArtistType = ArtistType.All;
                     break;
             }
 
-            SettingsClient.Set<int>("Ordering", "ArtistsArtistOrder", (int)this.ArtistOrder);
-            await this.GetArtistsAsync(this.ArtistOrder);
+            SettingsClient.Set<int>("Ordering", "ArtistsArtistType", (int)this.ArtistType);
+            await this.GetArtistsAsync(this.ArtistType);
         }
 
-        private void UpdateArtistOrderText(ArtistOrder artistOrder)
+        private void UpdateArtistTypeText(ArtistType artistType)
         {
-            switch (artistOrder)
+            switch (artistType)
             {
-                case ArtistOrder.All:
-                    this.artistOrderText = ResourceUtils.GetString("Language_All_Artists");
+                case ArtistType.All:
+                    this.artistTypeText = ResourceUtils.GetString("Language_All_Artists");
                     break;
-                case ArtistOrder.Track:
-                    this.artistOrderText = ResourceUtils.GetString("Language_Song_Artists");
+                case ArtistType.Track:
+                    this.artistTypeText = ResourceUtils.GetString("Language_Song_Artists");
                     break;
-                case ArtistOrder.Album:
-                    this.artistOrderText = ResourceUtils.GetString("Language_Album_Artists");
+                case ArtistType.Album:
+                    this.artistTypeText = ResourceUtils.GetString("Language_Album_Artists");
                     break;
                 default:
                     // Cannot happen, but just in case.
-                    this.artistOrderText = ResourceUtils.GetString("Language_All_Artists");
+                    this.artistTypeText = ResourceUtils.GetString("Language_All_Artists");
                     break;
             }
 
-            RaisePropertyChanged(nameof(this.ArtistOrderText));
+            RaisePropertyChanged(nameof(this.ArtistTypeText));
         }
 
-        private async Task AddArtistsToNowPlayingAsync(IList<Artist> artists)
-        {
-            EnqueueResult result = await this.playbackService.AddArtistsToQueueAsync(artists);
+        // TODO private async Task AddArtistsToNowPlayingAsync(IList<Artist> artists)
+        //{
+        //    EnqueueResult result = await this.playbackService.AddArtistsToQueueAsync(artists);
 
-            if (!result.IsSuccess)
-            {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Artists_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
-            }
-        }
+        //    if (!result.IsSuccess)
+        //    {
+        //        this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Artists_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
+        //    }
+        //}
 
         private async Task ToggleTrackOrderAsync()
         {
@@ -504,9 +518,9 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         protected async override Task FillListsAsync()
         {
-            await this.GetArtistsAsync(this.ArtistOrder);
-            await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
-            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
+            await this.GetArtistsAsync(this.ArtistType);
+            // TODO await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
+            // TODO await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
         }
 
         protected override void FilterLists()
@@ -530,12 +544,12 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             await base.SelectedAlbumsHandlerAsync(parameter);
 
             this.SetTrackOrder("ArtistsTrackOrder");
-            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
+            // TODO await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
         }
 
         protected override void RefreshLanguage()
         {
-            this.UpdateArtistOrderText(this.ArtistOrder);
+            this.UpdateArtistTypeText(this.ArtistType);
             this.UpdateAlbumOrderText(this.AlbumOrder);
             this.UpdateTrackOrderText(this.TrackOrder);
             base.RefreshLanguage();

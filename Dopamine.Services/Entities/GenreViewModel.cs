@@ -1,32 +1,32 @@
-﻿using Dopamine.Data.Entities;
-using Dopamine.Interfaces;
-using Dopamine.Utils;
+﻿using Dopamine.Services.Utils;
 using Prism.Mvvm;
+using System;
 
-namespace Dopamine.ViewModels
+namespace Dopamine.Services.Entities
 {
     public class GenreViewModel : BindableBase, ISemanticZoomable
     {
-        private Genre genre;
+        private string genreName;
         private bool isHeader;
-        public Genre Genre
-        {
-            get { return this.genre; }
-            set { SetProperty<Genre>(ref this.genre, value); }
-        }
 
+        public GenreViewModel(string genreName, bool isHeader)
+        {
+            this.genreName = genreName;
+            this.isHeader = isHeader;
+        }
+      
         public string GenreName
         {
-            get { return this.Genre.GenreName; }
+            get { return this.genreName; }
             set {
-                this.Genre.GenreName = value;
+                this.genreName = value;
                 RaisePropertyChanged(nameof(this.GenreName));
             }
         }
 
         public string Header
         {
-            get { return SemanticZoomUtils.GetGroupHeader(this.Genre.GenreName); }
+            get { return SemanticZoomUtils.GetGroupHeader(this.genreName); }
         }
 
         public bool IsHeader
@@ -48,12 +48,12 @@ namespace Dopamine.ViewModels
                 return false;
             }
 
-            return this.Genre.Equals(((GenreViewModel)obj).Genre);
+            return string.Equals(this.genreName, ((GenreViewModel)obj).genreName, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public override int GetHashCode()
         {
-            return this.Genre.GetHashCode();
+            return this.genreName.GetHashCode();
         }
     }
 }

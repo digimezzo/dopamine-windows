@@ -3,13 +3,11 @@ using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
-using Dopamine.Core.Utils;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
-using Dopamine.Services.Indexing;
 using Dopamine.Services.Utils;
 using SQLite;
 using System;
@@ -29,8 +27,6 @@ namespace Dopamine.Services.Indexing
         private ITrackRepository trackRepository;
         private IFolderRepository folderRepository;
         private IAlbumRepository albumRepository;
-        private IArtistRepository artistRepository;
-        private IGenreRepository genreRepository;
 
         // Factories
         private ISQLiteConnectionFactory factory;
@@ -66,14 +62,12 @@ namespace Dopamine.Services.Indexing
         }
 
         public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, ITrackRepository trackRepository,
-            IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository,
+            IAlbumRepository albumRepository,
             IFolderRepository folderRepository, IFileMetadataFactory fileMetadataFactory)
         {
             this.cacheService = cacheService;
             this.trackRepository = trackRepository;
-            this.albumRepository = albumRepository;
-            this.genreRepository = genreRepository;
-            this.artistRepository = artistRepository;
+            this.albumRepository = albumRepository;;
             this.folderRepository = folderRepository;
             this.factory = factory;
             this.fileMetadataFactory = fileMetadataFactory;
@@ -291,12 +285,6 @@ namespace Dopamine.Services.Indexing
                 numberTracksAdded = await this.AddTracksAsync();
 
                 LogClient.Info("Tracks added: {0}. Time required: {1} ms +++", numberTracksAdded, Convert.ToInt64(DateTime.Now.Subtract(addTracksStartTime).TotalMilliseconds));
-
-                // Step 4: delete orphans
-                // ----------------------
-                await this.albumRepository.DeleteOrphanedAlbumsAsync(); // Delete orphaned Albums
-                await this.artistRepository.DeleteOrphanedArtistsAsync(); // Delete orphaned Artists
-                await this.genreRepository.DeleteOrphanedGenresAsync(); // Delete orphaned Genres
             }
             catch (Exception ex)
             {

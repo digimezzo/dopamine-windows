@@ -2,17 +2,17 @@
 using Dopamine.Core.Base;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories;
-using Dopamine.ViewModels;
 using Dopamine.Services.Cache;
+using Dopamine.Services.Entities;
 using Dopamine.Services.Indexing;
 using Dopamine.Services.Playback;
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Prism.Ioc;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {

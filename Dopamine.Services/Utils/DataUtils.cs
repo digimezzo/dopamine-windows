@@ -1,5 +1,4 @@
-﻿using Dopamine.Core.Extensions;
-using Dopamine.Core.Utils;
+﻿using Dopamine.Core.Utils;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using System;
@@ -35,18 +34,6 @@ namespace Dopamine.Services.Utils
             return pieces.All((s) => artist.ArtistName.ToLower().Contains(s.ToLower()));
         }
 
-        public static bool FilterGenres(Genre genre, string filter)
-        {
-            // Trim is required here, otherwise the filter might flip on the space at the beginning (and probably at the end)
-            string[] pieces = filter.Trim().Split(Convert.ToChar(" "));
-
-            // Just making sure that all fields are not Nothing
-            if (genre.GenreName == null)
-                genre.GenreName = string.Empty;
-
-            return pieces.All((s) => genre.GenreName.ToLower().Contains(s.ToLower()));
-        }
-
         public static bool FilterTracks(PlayableTrack track, string filter)
         {
             // Trim is required here, otherwise the filter might flip on the space at the beginning (and probably at the end)
@@ -60,30 +47,6 @@ namespace Dopamine.Services.Utils
             if (track.Year == null) track.Year = 0;
 
             return pieces.All((s) => track.TrackTitle.ToLower().Contains(s.ToLower()) | track.ArtistName.ToLower().Contains(s.ToLower()) | track.AlbumTitle.ToLower().Contains(s.ToLower()) | track.FileName.ToLower().Contains(s.ToLower()) | track.Year.ToString().Contains(s.ToLower()));
-        }
-
-        public static async Task<List<Genre>> OrderGenresAsync(IList<Genre> genres, GenreOrder genreOrder)
-        {
-            var orderedGenres = new List<Genre>();
-
-            await Task.Run(() =>
-            {
-                switch (genreOrder)
-                {
-                    case GenreOrder.Alphabetical:
-                        orderedGenres = genres.OrderBy((g) => FormatUtils.GetSortableString(g.GenreName, true)).ToList();
-                        break;
-                    case GenreOrder.ReverseAlphabetical:
-                        orderedGenres = genres.OrderByDescending((g) => FormatUtils.GetSortableString(g.GenreName, true)).ToList();
-                        break;
-                    default:
-                        // Alphabetical
-                        orderedGenres = genres.OrderBy((g) => FormatUtils.GetSortableString(g.GenreName, true)).ToList();
-                        break;
-                }
-            });
-
-            return orderedGenres;
         }
 
         public static async Task<List<Album>> OrderAlbumsAsync(IList<Album> albums, AlbumOrder albumOrder)

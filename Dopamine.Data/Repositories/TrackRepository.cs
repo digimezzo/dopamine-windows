@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Data.Entities;
 using System;
@@ -16,6 +17,14 @@ namespace Dopamine.Data.Repositories
         public TrackRepository(ISQLiteConnectionFactory factory)
         {
             this.factory = factory;
+        }
+
+        private string SelectDisplayableTracksQuery()
+        {
+            return @"SELECT * FROM Track t
+                    INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
+                    INNER JOIN Folder f ON ft.FolderID = f.FolderID
+                    WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1;";
         }
 
         private string SelectQueryPart()
@@ -383,6 +392,99 @@ namespace Dopamine.Data.Repositories
             });
 
             return updateSuccess;
+        }
+
+        public async Task<IList<string>> GetAllGenresAsync()
+        {
+            var genres = new List<string>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            genres = conn.Query<Track>(this.SelectDisplayableTracksQuery()).ToList()
+                                        .Select((t) => t.Genres).Where(g => !string.IsNullOrEmpty(g))
+                                        .SelectMany(g => g.Split(Convert.ToChar(Constants.MultiValueTagsSeparator))).Distinct().ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the genres. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return genres;
+        }
+
+        public async Task<IList<string>> GetAllTrackArtistsAsync()
+        {
+            var artists = new List<string>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            artists = conn.Query<Track>(this.SelectDisplayableTracksQuery()).ToList()
+                                        .Select((t) => t.Artists).Where(a => !string.IsNullOrEmpty(a))
+                                        .SelectMany(a => a.Split(Convert.ToChar(Constants.MultiValueTagsSeparator))).Distinct().ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the artists. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return artists;
+        }
+
+        public async Task<IList<string>> GetAllAlbumArtistsAsync()
+        {
+            var albumArtists = new List<string>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            albumArtists = conn.Query<Track>(this.SelectDisplayableTracksQuery()).ToList()
+                                            .Select((t) => t.AlbumArtists).Where(a => !string.IsNullOrEmpty(a))
+                                            .SelectMany(a => a.Split(Convert.ToChar(Constants.MultiValueTagsSeparator))).Distinct().ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the album artists. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return albumArtists;
         }
     }
 }

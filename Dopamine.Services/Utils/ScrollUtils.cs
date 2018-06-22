@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Services.Entities;
 using Dopamine.Services.Lyrics;
-using Dopamine.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Dopamine.Utils
+namespace Dopamine.Services.Utils
 {
     public sealed class ScrollUtils
     {
