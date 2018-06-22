@@ -4,10 +4,10 @@ using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
-using Dopamine.Services.Collection;
 using Dopamine.Services.Playback;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -16,22 +16,16 @@ namespace Dopamine.Services.Collection
 {
     public class CollectionService : ICollectionService
     {
-        private IAlbumRepository albumRepository;
-        private IArtistRepository artistRepository;
         private ITrackRepository trackRepository;
-        private IGenreRepository genreRepository;
         private IFolderRepository folderRepository;
         private ICacheService cacheService;
         private IPlaybackService playbackService;
         private List<Folder> markedFolders;
         private Timer saveMarkedFoldersTimer = new Timer(2000);
-    
-        public CollectionService(IAlbumRepository albumRepository, IArtistRepository artistRepository, ITrackRepository trackRepository, IGenreRepository genreRepository, IFolderRepository folderRepository, ICacheService cacheService, IPlaybackService playbackService)
+
+        public CollectionService(ITrackRepository trackRepository, IFolderRepository folderRepository, ICacheService cacheService, IPlaybackService playbackService)
         {
-            this.albumRepository = albumRepository;
-            this.artistRepository = artistRepository;
             this.trackRepository = trackRepository;
-            this.genreRepository = genreRepository;
             this.folderRepository = folderRepository;
             this.cacheService = cacheService;
             this.playbackService = playbackService;
@@ -39,9 +33,9 @@ namespace Dopamine.Services.Collection
 
             this.saveMarkedFoldersTimer.Elapsed += SaveMarkedFoldersTimer_Elapsed;
         }
-   
+
         public event EventHandler CollectionChanged = delegate { };
-  
+
         private async Task SaveMarkedFoldersAsync()
         {
             bool isCollectionChanged = false;
@@ -75,15 +69,6 @@ namespace Dopamine.Services.Collection
 
             if (result == RemoveTracksResult.Success)
             {
-                // Delete orphaned Albums
-                await this.albumRepository.DeleteOrphanedAlbumsAsync();
-
-                // Delete orphaned Artists
-                await this.artistRepository.DeleteOrphanedArtistsAsync();
-
-                // Delete orphaned Genres
-                await this.genreRepository.DeleteOrphanedGenresAsync();
-
                 this.CollectionChanged(this, new EventArgs());
             }
 
@@ -153,6 +138,52 @@ namespace Dopamine.Services.Collection
                     LogClient.Error("Error marking folder with path='{0}'. Exception: {1}", fol.Path, ex.Message);
                 }
             });
+        }
+
+        private IList<string> GetUniqueCollection(IList<string> originalCollection)
+        {
+            IList<string> uniqueCollection = new List<string>();
+
+            foreach (string originalCollectionItem in originalCollection)
+            {
+                if (!uniqueCollection.Contains(originalCollectionItem, StringComparer.OrdinalIgnoreCase))
+                {
+                    uniqueCollection.Add(originalCollectionItem);
+                }
+            }
+
+            return uniqueCollection;
+        }
+
+        public async Task<IList<string>> GetAllGenres()
+        {
+            IList<string> genres = await this.trackRepository.GetAllGenresAsync();
+
+            return this.GetUniqueCollection(genres);
+        }
+
+        public async Task<IList<string>> GetAllTrackArtists()
+        {
+            IList<string> trackArtists = await this.trackRepository.GetAllTrackArtistsAsync();
+
+            return this.GetUniqueCollection(trackArtists);
+        }
+
+        public async Task<IList<string>> GetAllAlbumArtists()
+        {
+            IList<string> albumArtists = await this.trackRepository.GetAllAlbumArtistsAsync();
+
+            return this.GetUniqueCollection(albumArtists);
+        }
+
+        public async Task<IList<string>> GetAllArtists()
+        {
+            IList<string> trackArtists = await this.trackRepository.GetAllTrackArtistsAsync();
+            IList<string> albumArtists = await this.trackRepository.GetAllAlbumArtistsAsync();
+
+            ((List<string>)trackArtists).AddRange(albumArtists);
+
+            return this.GetUniqueCollection(trackArtists);
         }
     }
 }

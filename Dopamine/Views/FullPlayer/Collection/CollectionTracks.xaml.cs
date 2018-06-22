@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Dopamine.Services.Entities;
+using Dopamine.Services.Utils;
 
 namespace Dopamine.Views.FullPlayer.Collection
 {

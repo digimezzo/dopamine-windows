@@ -89,7 +89,6 @@
     <Compile Include="Entities\Configuration.cs" />
     <Compile Include="Entities\Folder.cs" />
     <Compile Include="Entities\FolderTrack.cs" />
-    <Compile Include="Entities\Genre.cs" />
     <Compile Include="Entities\PlayableTrack.cs" />
     <Compile Include="Entities\QueuedTrack.cs" />
     <Compile Include="Entities\RemovedTrack.cs" />
@@ -118,13 +117,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Repositories\AlbumRepository.cs" />
-    <Compile Include="Repositories\ArtistRepository.cs" />
     <Compile Include="Repositories\FolderRepository.cs" />
-    <Compile Include="Repositories\GenreRepository.cs" />
     <Compile Include="Repositories\IAlbumRepository.cs" />
-    <Compile Include="Repositories\IArtistRepository.cs" />
     <Compile Include="Repositories\IFolderRepository.cs" />
-    <Compile Include="Repositories\IGenreRepository.cs" />
     <Compile Include="Repositories\IQueuedTrackRepository.cs" />
     <Compile Include="Repositories\ITrackRepository.cs" />
     <Compile Include="Repositories\ITrackStatisticRepository.cs" />

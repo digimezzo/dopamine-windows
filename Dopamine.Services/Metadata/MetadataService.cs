@@ -25,8 +25,6 @@ namespace Dopamine.Services.Metadata
         private ITrackRepository trackRepository;
         private ITrackStatisticRepository trackStatisticRepository;
         private IAlbumRepository albumRepository;
-        private IGenreRepository genreRepository;
-        private IArtistRepository artistRepository;
         private IFileMetadataFactory metadataFactory;
         private bool isUpdatingDatabaseMetadata;
         private bool isUpdatingFileMetadata;
@@ -50,8 +48,8 @@ namespace Dopamine.Services.Metadata
         public event Action<LoveChangedEventArgs> LoveChanged = delegate { };
 
         public MetadataService(ICacheService cacheService, IPlaybackService playbackService, ITrackRepository trackRepository,
-            ITrackStatisticRepository trackStatisticRepository, IAlbumRepository albumRepository, IGenreRepository genreRepository,
-            IArtistRepository artistRepository, IFileMetadataFactory metadataFactory)
+            ITrackStatisticRepository trackStatisticRepository, IAlbumRepository albumRepository,
+            IFileMetadataFactory metadataFactory)
         {
             this.cacheService = cacheService;
             this.playbackService = playbackService;
@@ -59,8 +57,6 @@ namespace Dopamine.Services.Metadata
             this.trackStatisticRepository = trackStatisticRepository;
             this.trackRepository = trackRepository;
             this.albumRepository = albumRepository;
-            this.genreRepository = genreRepository;
-            this.artistRepository = artistRepository;
             this.metadataFactory = metadataFactory;
 
             this.fileMetadataDictionary = new Dictionary<string, IFileMetadata>();
@@ -431,18 +427,18 @@ namespace Dopamine.Services.Metadata
             if (fileMetadata.Artists.IsValueChanged)
             {
                 string newArtistName = fileMetadata.Artists.Values != null && !string.IsNullOrEmpty(fileMetadata.Artists.Values.FirstOrDefault()) ? fileMetadata.Artists.Values.FirstOrDefault() : string.Empty;
-                Artist artist = await this.artistRepository.GetArtistAsync(newArtistName);
-                if (artist == null) artist = await this.artistRepository.AddArtistAsync(new Artist { ArtistName = newArtistName });
-                if (artist != null) track.ArtistID = artist.ArtistID;
+                // TODO Artist artist = await this.artistRepository.GetArtistAsync(newArtistName);
+                // TODO if (artist == null) artist = await this.artistRepository.AddArtistAsync(new Artist { ArtistName = newArtistName });
+                // TODO if (artist != null) track.ArtistID = artist.ArtistID;
             }
 
             // Genre
             if (fileMetadata.Genres.IsValueChanged)
             {
-                string newGenreName = fileMetadata.Genres.Values != null && !string.IsNullOrEmpty(fileMetadata.Genres.Values.FirstOrDefault()) ? fileMetadata.Genres.Values.FirstOrDefault() : string.Empty;
-                Genre genre = await this.genreRepository.GetGenreAsync(newGenreName);
-                if (genre == null) genre = await this.genreRepository.AddGenreAsync(new Genre { GenreName = newGenreName });
-                if (genre != null) track.GenreID = genre.GenreID;
+                // TODO string newGenreName = fileMetadata.Genres.Values != null && !string.IsNullOrEmpty(fileMetadata.Genres.Values.FirstOrDefault()) ? fileMetadata.Genres.Values.FirstOrDefault() : string.Empty;
+                // TODO Genre genre = await this.genreRepository.GetGenreAsync(newGenreName);
+                // TODO if (genre == null) genre = await this.genreRepository.AddGenreAsync(new Genre { GenreName = newGenreName });
+                // TODO if (genre != null) track.GenreID = genre.GenreID;
             }
 
             // Album
@@ -502,17 +498,6 @@ namespace Dopamine.Services.Metadata
                 {
                     LogClient.Error("Unable to update database metadata for Track '{0}'. Exception: {1}", fmd.SafePath, ex.Message);
                 }
-            }
-
-            try
-            {
-                await this.albumRepository.DeleteOrphanedAlbumsAsync();
-                await this.genreRepository.DeleteOrphanedGenresAsync();
-                await this.artistRepository.DeleteOrphanedArtistsAsync();
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Error while deleting orphans. Exception: {0}", ex.Message);
             }
 
             this.isUpdatingDatabaseMetadata = false;

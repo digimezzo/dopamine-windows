@@ -1,8 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
 using Dopamine.Core.Utils;
-using Dopamine.Interfaces;
-using Dopamine.ViewModels;
+using Dopamine.Services.Entities;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -11,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace Dopamine.Utils
+namespace Dopamine.Services.Utils
 {
     public sealed class SemanticZoomUtils
     {

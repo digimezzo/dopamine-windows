@@ -123,6 +123,11 @@
     <Compile Include="Dialog\NotificationDialog.xaml.cs">
       <DependentUpon>NotificationDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Entities\AlbumViewModel.cs" />
+    <Compile Include="Entities\ArtistViewModel.cs" />
+    <Compile Include="Entities\GenreViewModel.cs" />
+    <Compile Include="Entities\SemanticZoomSelectorViewModel.cs" />
+    <Compile Include="Entities\TrackViewModel.cs" />
     <Compile Include="Equalizer\EqualizerService.cs" />
     <Compile Include="Equalizer\IEqualizerService.cs" />
     <Compile Include="ExternalControl\ExternalControlServer.cs" />
@@ -143,6 +148,9 @@
     <Compile Include="Indexing\IndexerUtils.cs" />
     <Compile Include="Indexing\IndexingService.cs" />
     <Compile Include="Indexing\IndexingStatusEventArgs.cs" />
+    <Compile Include="Entities\ISemanticZoomable.cs" />
+    <Compile Include="Entities\ISemanticZoomSelector.cs" />
+    <Compile Include="Entities\ISemanticZoomViewModel.cs" />
     <Compile Include="JumpList\IJumpListService.cs" />
     <Compile Include="JumpList\JumpListService.cs" />
     <Compile Include="Lyrics\ILyricsService.cs" />
@@ -200,6 +208,8 @@
     <Compile Include="Update\UpdateService.cs" />
     <Compile Include="Utils\DataUtils.cs" />
     <Compile Include="Utils\MetadataUtils.cs" />
+    <Compile Include="Utils\ScrollUtils.cs" />
+    <Compile Include="Utils\SemanticZoomUtils.cs" />
     <Compile Include="Win32Input\AppCommandKeyboardHookManager.cs" />
     <Compile Include="Win32Input\IKeyboardHookManager.cs" />
     <Compile Include="Win32Input\IWin32InputService.cs" />

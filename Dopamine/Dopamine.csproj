@@ -202,9 +202,6 @@
     <Compile Include="Converters\StringToLowerConverter.cs" />
     <Compile Include="Converters\StringToUpperConverter.cs" />
     <Compile Include="Initializer.cs" />
-    <Compile Include="Interfaces\ISemanticZoomable.cs" />
-    <Compile Include="Interfaces\ISemanticZoomSelector.cs" />
-    <Compile Include="Interfaces\ISemanticZoomViewModel.cs" />
     <Compile Include="Services\Notification\LegacyNotificationService.cs" />
     <Compile Include="Services\Notification\NotificationService.cs" />
     <Compile Include="Services\Notification\NotificationWindow.xaml.cs">
@@ -216,13 +213,9 @@
     <Compile Include="Utils\BindingProxy.cs" />
     <Compile Include="Utils\OpenFileUtils.cs" />
     <Compile Include="Utils\SaveFileUtils.cs" />
-    <Compile Include="Utils\ScrollUtils.cs" />
-    <Compile Include="Utils\SemanticZoomUtils.cs" />
     <Compile Include="Utils\SlidingContentControlRegionAdapter.cs" />
     <Compile Include="Utils\UriUtils.cs" />
-    <Compile Include="ViewModels\AlbumViewModel.cs" />
     <Compile Include="ViewModels\ArtistInfoViewModel.cs" />
-    <Compile Include="ViewModels\ArtistViewModel.cs" />
     <Compile Include="ViewModels\Common\AppearanceLanguageViewModel.cs" />
     <Compile Include="ViewModels\Common\AppearanceThemeViewModel.cs" />
     <Compile Include="ViewModels\Common\ArtistInfoControlViewModel.cs" />
@@ -291,7 +284,6 @@
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsPlaybackViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsStartupViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\GenreViewModel.cs" />
     <Compile Include="ViewModels\InitializeViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\CoverPlayerViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\MicroPlayerViewModel.cs" />
@@ -303,10 +295,8 @@
     <Compile Include="ViewModels\PlaybackControlsViewModel.cs" />
     <Compile Include="ViewModels\PlaybackInfoViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
-    <Compile Include="ViewModels\SemanticZoomSelectorViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\SimilarArtistViewModel.cs" />
-    <Compile Include="ViewModels\TrackViewModel.cs" />
     <Compile Include="ViewModels\VerticalVolumeControlsViewModel.cs" />
     <Compile Include="ViewModels\VolumeControlsViewModel.cs" />
     <Compile Include="Views\Base\VolumeControlViewBase.cs" />

@@ -6,7 +6,7 @@ using Dopamine.Services.Scrobbling;
 using Prism.Mvvm;
 using System;
 
-namespace Dopamine.ViewModels
+namespace Dopamine.Services.Entities
 {
     public class TrackViewModel : BindableBase
     {

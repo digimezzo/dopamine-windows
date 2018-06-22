@@ -25,6 +25,7 @@ using System.Windows.Data;
 using Prism.Ioc;
 using GongSolutions.Wpf.DragDrop;
 using Dopamine.Core.Base;
+using Dopamine.Services.Entities;
 
 namespace Dopamine.ViewModels.Common
 {

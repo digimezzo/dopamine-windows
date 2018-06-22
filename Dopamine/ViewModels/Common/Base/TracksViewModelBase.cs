@@ -9,6 +9,7 @@ using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Dialog;
+using Dopamine.Services.Entities;
 using Dopamine.Services.I18n;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Playback;

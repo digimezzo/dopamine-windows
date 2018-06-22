@@ -2,17 +2,17 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Data.Entities;
-using Dopamine.ViewModels;
 using Dopamine.Services.Dialog;
+using Dopamine.Services.Entities;
+using Dopamine.Services.File;
 using Dopamine.Services.Playback;
 using GongSolutions.Wpf.DragDrop;
 using Prism.Commands;
+using Prism.Ioc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Prism.Ioc;
-using Dopamine.Services.File;
 
 namespace Dopamine.ViewModels.Common
 {

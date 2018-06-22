@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Prism.Ioc;
+using Dopamine.Services.Entities;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {

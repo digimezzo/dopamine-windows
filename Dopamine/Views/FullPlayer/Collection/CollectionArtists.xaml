@@ -54,7 +54,7 @@
                                        Foreground="{DynamicResource Brush_SecondaryText}" />
                         </Button>
                         <Button x:Name="ArtistsButton"
-                                Content="{Binding ArtistOrderText}" 
+                                Content="{Binding ArtistTypeText}" 
                                 Style="{StaticResource TransparentButton}"
                                 FontSize="13" 
                                 Margin="10,0,0,0"

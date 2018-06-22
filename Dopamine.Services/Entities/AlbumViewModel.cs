@@ -1,7 +1,7 @@
 ﻿using Dopamine.Data.Entities;
 using Prism.Mvvm;
 
-namespace Dopamine.ViewModels
+namespace Dopamine.Services.Entities
 {
     public class AlbumViewModel : BindableBase
     {

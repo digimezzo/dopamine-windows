@@ -1,12 +1,13 @@
-﻿using Digimezzo.Utilities.IO;
+﻿using CommonServiceLocator;
+using Digimezzo.Utilities.IO;
 using Digimezzo.Utilities.Log;
 using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
 using Dopamine.Data.Entities;
-using Dopamine.Utils;
-using Dopamine.ViewModels;
+using Dopamine.Services.Entities;
 using Dopamine.Services.Playlist;
-using CommonServiceLocator;
+using Dopamine.Services.Utils;
+using Dopamine.ViewModels;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;

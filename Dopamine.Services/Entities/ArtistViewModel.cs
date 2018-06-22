@@ -1,39 +1,39 @@
 ﻿using Dopamine.Core.Utils;
-using Dopamine.Data.Entities;
-using Dopamine.Interfaces;
-using Dopamine.Utils;
+using Dopamine.Services.Utils;
 using Prism.Mvvm;
+using System;
 
-namespace Dopamine.ViewModels
+namespace Dopamine.Services.Entities
 {
     public class ArtistViewModel : BindableBase, ISemanticZoomable
     {
-        private Artist artist;
+        private string artistName;
         private bool isHeader;
-        public Artist Artist
+
+        public ArtistViewModel(string artistName, bool isHeader)
         {
-            get { return this.artist; }
-            set { SetProperty<Artist>(ref this.artist, value); }
+            this.artistName = artistName;
+            this.isHeader = isHeader;
         }
 
         public string ArtistName
         {
-            get { return this.Artist.ArtistName; }
+            get { return this.artistName; }
             set
             {
-                this.Artist.ArtistName = value;
+                this.ArtistName = value;
                 RaisePropertyChanged(nameof(this.ArtistName));
             }
         }
 
         public string SortArtistName
         {
-            get { return FormatUtils.GetSortableString(this.ArtistName, true); }
+            get { return FormatUtils.GetSortableString(this.artistName, true); }
         }
 
         public string Header
         {
-            get { return SemanticZoomUtils.GetGroupHeader(this.Artist.ArtistName, true); }
+            get { return SemanticZoomUtils.GetGroupHeader(this.artistName, true); }
         }
 
         public bool IsHeader
@@ -44,7 +44,7 @@ namespace Dopamine.ViewModels
        
         public override string ToString()
         {
-            return this.ArtistName;
+            return this.artistName;
         }
 
         public override bool Equals(object obj)
@@ -54,12 +54,12 @@ namespace Dopamine.ViewModels
                 return false;
             }
 
-            return this.Artist.Equals(((ArtistViewModel)obj).Artist);
+            return string.Equals(this.artistName, ((ArtistViewModel)obj).artistName, StringComparison.CurrentCultureIgnoreCase);
         }
 
         public override int GetHashCode()
         {
-            return this.Artist.GetHashCode();
+            return this.artistName.GetHashCode();
         }
     }
 }
