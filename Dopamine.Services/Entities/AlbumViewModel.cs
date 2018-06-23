@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Dopamine.Core.Base;
+using Prism.Mvvm;
 
 namespace Dopamine.Services.Entities
 {
@@ -12,9 +13,12 @@ namespace Dopamine.Services.Entities
         private string mainHeader;
         private string subHeader;
 
-        public AlbumViewModel()
+        public AlbumViewModel(string albumTitle, string albumArtists, long? year, string albumKey)
         {
-
+            this.albumTitle = albumTitle;
+            this.albumArtist = albumArtists.Replace(Constants.MultiValueTagsSeparator, ", ");
+            this.year = year == null || year == 0 ? string.Empty : year.ToString();
+            this.albumKey = albumKey;
         }
 
         public double Opacity { get; set; }

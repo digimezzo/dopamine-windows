@@ -485,7 +485,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         protected async override Task FillListsAsync()
         {
             await this.GetArtistsAsync(this.ArtistType);
-            // TODO await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
+            await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
             // TODO await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
         }
 

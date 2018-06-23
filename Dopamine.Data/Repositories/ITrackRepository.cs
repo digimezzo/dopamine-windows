@@ -1,4 +1,5 @@
 ﻿using Dopamine.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -28,10 +29,12 @@ namespace Dopamine.Data.Repositories
 
         Task ClearRemovedTrackAsync();
 
-        Task<IList<string>> GetAllGenresAsync();
+        Task<IList<string>> GetAllGenreNamesAsync();
 
-        Task<IList<string>> GetAllTrackArtistsAsync();
+        Task<IList<string>> GetAllTrackArtistNamesAsync();
 
-        Task<IList<string>> GetAllAlbumArtistsAsync();
+        Task<IList<string>> GetAllAlbumArtistNamesAsync();
+
+        Task<IList<AlbumValues>> GetAllAlbumValuesAsync();
     }
 }

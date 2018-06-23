@@ -283,35 +283,32 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async Task GetAlbumsAsync(IList<string> selectedArtists, IList<string> selectedGenres, AlbumOrder albumOrder)
         {
-            if (selectedArtists.IsNullOrEmpty() & selectedGenres.IsNullOrEmpty())
-            {
-                await this.GetAlbumsCommonAsync(await this.collectionService.GetAllAlbumsAsync(), albumOrder);
-            }
-            else
-            {
-                if (!selectedArtists.IsNullOrEmpty())
-                {
-                    await this.GetAlbumsCommonAsync(await this.collectionService.GetArtistAlbumsAsync(selectedArtists), albumOrder);
-                    return;
-                }
+            //if (selectedArtists.IsNullOrEmpty() & selectedGenres.IsNullOrEmpty())
+            //{
+            await this.GetAlbumsCommonAsync(await this.collectionService.GetAllAlbumsAsync(), albumOrder);
+            //}
+            //else
+            //{
+            //    if (!selectedArtists.IsNullOrEmpty())
+            //    {
+            //        await this.GetAlbumsCommonAsync(await this.collectionService.GetArtistAlbumsAsync(selectedArtists), albumOrder);
+            //        return;
+            //    }
 
-                if (!selectedGenres.IsNullOrEmpty())
-                {
-                    await this.GetAlbumsCommonAsync(await this.collectionService.GetGenreAlbumsAsync(selectedGenres), albumOrder);
-                    return;
-                }
-            }
+            //    if (!selectedGenres.IsNullOrEmpty())
+            //    {
+            //        await this.GetAlbumsCommonAsync(await this.collectionService.GetGenreAlbumsAsync(selectedGenres), albumOrder);
+            //        return;
+            //    }
+            //}
         }
 
         protected async Task GetAlbumsCommonAsync(IList<AlbumViewModel> albums, AlbumOrder albumOrder)
         {
             try
             {
-                // Create new ObservableCollection
-                var albumViewModels = new ObservableCollection<AlbumViewModel>();
-
                 // Order the incoming Albums
-                IList<AlbumViewModel> orderedAlbums = await this.collectionService.OrderAlbumsAsync(albums, albumOrder);
+                IList<AlbumViewModel> orderedAlbums = albums; // await this.collectionService.OrderAlbumsAsync(albums, albumOrder);
 
                 await Task.Run(() =>
                 {
@@ -338,13 +335,16 @@ namespace Dopamine.ViewModels.Common.Base
                                 break;
                         }
 
-                        albumViewModels.Add(new AlbumViewModel
-                        {
-                            MainHeader = mainHeader,
-                            SubHeader = subHeader
-                        });
+                        //albumViewModels.Add(new AlbumViewModel
+                        //{
+                        //    MainHeader = mainHeader,
+                        //    SubHeader = subHeader
+                        //});
                     }
                 });
+
+                // Create new ObservableCollection
+                var albumViewModels = new ObservableCollection<AlbumViewModel>(orderedAlbums);
 
                 // Unbind to improve UI performance
                 if (this.AlbumsCvs != null) this.AlbumsCvs.Filter -= new FilterEventHandler(AlbumsCvs_Filter);
