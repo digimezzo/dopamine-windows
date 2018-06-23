@@ -150,7 +150,7 @@
                             SlideInTimeout="0.75" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerMenuRegion" 
                             prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerMenuRegion}"/>
                     </DockPanel>
-                    <Grid DockPanel.Dock="Top" Margin="0,0,0,0">
+                    <Grid DockPanel.Dock="Top">
                         <commonviews:UpdateStatus Panel.ZIndex="0"/>
                         <commonviews:IndexingStatus Panel.ZIndex="1"/>
                     </Grid>

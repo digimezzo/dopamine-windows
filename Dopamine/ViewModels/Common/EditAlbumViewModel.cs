@@ -17,7 +17,6 @@ namespace Dopamine.ViewModels.Common
     public class EditAlbumViewModel : EditMetadataBase
     {
         private Album album;
-        private IAlbumRepository albumRepository;
         private IMetadataService metadataService;
         private IDialogService dialogService;
         private ICacheService cacheService;
@@ -44,9 +43,8 @@ namespace Dopamine.ViewModels.Common
         public DelegateCommand RemoveArtworkCommand { get; set; }
 
         public EditAlbumViewModel(long albumId, IMetadataService metadataService,
-            IDialogService dialogService, ICacheService cacheService, IAlbumRepository albumRepository) : base(cacheService)
+            IDialogService dialogService, ICacheService cacheService) : base(cacheService)
         {
-            this.albumRepository = albumRepository;
             this.metadataService = metadataService;
             this.dialogService = dialogService;
             this.cacheService = cacheService;
@@ -97,7 +95,7 @@ namespace Dopamine.ViewModels.Common
         {
             await Task.Run(() =>
             {
-                this.Album = this.albumRepository.GetAlbum(albumId);
+                // TODO this.Album = this.albumRepository.GetAlbum(albumId);
                 string artworkPath = this.cacheService.GetCachedArtworkPath((string)this.Album.ArtworkID);
 
                 try

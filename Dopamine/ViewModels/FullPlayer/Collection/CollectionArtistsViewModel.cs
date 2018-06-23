@@ -275,42 +275,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             try
             {
-                // TODO: add unknown genre
-                IList<string> orderedArtists = null;
-
-                switch (artistType)
-                {
-                    case ArtistType.All:
-                        orderedArtists = (await this.collectionService.GetAllArtists()).OrderBy(a => a).ToList();
-                        break;
-                    case ArtistType.Track:
-                        orderedArtists = (await this.collectionService.GetAllTrackArtists()).OrderBy(a => a).ToList();
-                        break;
-                    case ArtistType.Album:
-                        orderedArtists = (await this.collectionService.GetAllTrackArtists()).OrderBy(a => a).ToList();
-                        break;
-                    default:
-                        // Can't happen
-                        break;
-                }
-               
-                // Create new ObservableCollection
-                ObservableCollection<ArtistViewModel> artistViewModels = new ObservableCollection<ArtistViewModel>();
-
-                await Task.Run(() =>
-                {
-                    List<ArtistViewModel> tempArtistViewModels = new List<ArtistViewModel>();
-
-                    // Workaround to make sure the "#" GroupHeader is shown at the top of the list
-                    tempArtistViewModels.AddRange(orderedArtists.Select((a) => new ArtistViewModel(a, false)).Where((avm) => avm.Header.Equals("#")));
-                    tempArtistViewModels.AddRange(orderedArtists.Select((a) => new ArtistViewModel(a, false)).Where((avm) => !avm.Header.Equals("#")));
-
-
-                    foreach (ArtistViewModel avm in tempArtistViewModels)
-                    {
-                        artistViewModels.Add(avm);
-                    }
-                });
+                // Get the artists
+                var artistViewModels = new ObservableCollection<ArtistViewModel>(await this.collectionService.GetAllArtistsAsync(artistType));
 
                 // Unbind to improve UI performance
                 if (this.ArtistsCvs != null) this.ArtistsCvs.Filter -= new FilterEventHandler(ArtistsCvs_Filter);
@@ -507,7 +473,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             base.ToggleAlbumOrder();
 
             SettingsClient.Set<int>("Ordering", "ArtistsAlbumOrder", (int)this.AlbumOrder);
-            await this.GetAlbumsCommonAsync(this.Albums.Select((a) => a.Album).ToList(), this.AlbumOrder);
+            await this.GetAlbumsCommonAsync(this.Albums, this.AlbumOrder);
         }
 
         protected async override Task SetCoversizeAsync(CoverSizeType coverSize)

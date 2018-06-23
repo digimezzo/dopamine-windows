@@ -1,4 +1,5 @@
-﻿using Dopamine.Services.Utils;
+﻿using Dopamine.Core.Utils;
+using Dopamine.Services.Utils;
 using Prism.Mvvm;
 using System;
 
@@ -9,25 +10,24 @@ namespace Dopamine.Services.Entities
         private string genreName;
         private bool isHeader;
 
-        public GenreViewModel(string genreName, bool isHeader)
+        public GenreViewModel(string genreName)
         {
             this.genreName = genreName;
-            this.isHeader = isHeader;
+            this.isHeader = false;
         }
       
         public string GenreName
         {
             get { return this.genreName; }
-            set {
-                this.genreName = value;
-                RaisePropertyChanged(nameof(this.GenreName));
+            set
+            {
+                SetProperty<string>(ref this.genreName, value);
             }
         }
 
-        public string Header
-        {
-            get { return SemanticZoomUtils.GetGroupHeader(this.genreName); }
-        }
+        public string SortGenreName => FormatUtils.GetSortableString(this.genreName, true);
+
+        public string Header => SemanticZoomUtils.GetGroupHeader(this.genreName);
 
         public bool IsHeader
         {
@@ -37,8 +37,7 @@ namespace Dopamine.Services.Entities
      
         public override string ToString()
         {
-
-            return this.GenreName;
+            return this.genreName;
         }
 
         public override bool Equals(object obj)

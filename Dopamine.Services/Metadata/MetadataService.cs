@@ -24,7 +24,6 @@ namespace Dopamine.Services.Metadata
     {
         private ITrackRepository trackRepository;
         private ITrackStatisticRepository trackStatisticRepository;
-        private IAlbumRepository albumRepository;
         private IFileMetadataFactory metadataFactory;
         private bool isUpdatingDatabaseMetadata;
         private bool isUpdatingFileMetadata;
@@ -48,15 +47,13 @@ namespace Dopamine.Services.Metadata
         public event Action<LoveChangedEventArgs> LoveChanged = delegate { };
 
         public MetadataService(ICacheService cacheService, IPlaybackService playbackService, ITrackRepository trackRepository,
-            ITrackStatisticRepository trackStatisticRepository, IAlbumRepository albumRepository,
-            IFileMetadataFactory metadataFactory)
+            ITrackStatisticRepository trackStatisticRepository, IFileMetadataFactory metadataFactory)
         {
             this.cacheService = cacheService;
             this.playbackService = playbackService;
 
             this.trackStatisticRepository = trackStatisticRepository;
             this.trackRepository = trackRepository;
-            this.albumRepository = albumRepository;
             this.metadataFactory = metadataFactory;
 
             this.fileMetadataDictionary = new Dictionary<string, IFileMetadata>();
@@ -178,7 +175,7 @@ namespace Dopamine.Services.Metadata
             string artworkID = await this.cacheService.CacheArtworkAsync(artwork.Value);
 
             // Update artwork in database
-            await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
+            // TODO await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
 
             List<PlayableTrack> albumTracks = await this.trackRepository.GetAlbumTracksAsync(new List<long> { album.AlbumID });
 
@@ -293,22 +290,22 @@ namespace Dopamine.Services.Metadata
             byte[] artwork = null;
 
             Track track = this.trackRepository.GetTrack(filename);
-            Album album = track != null ? this.albumRepository.GetAlbum(track.AlbumID) : null;
+            // TODO Album album = track != null ? this.albumRepository.GetAlbum(track.AlbumID) : null;
 
-            if (album != null)
-            {
-                string artworkPath = this.cacheService.GetCachedArtworkPath((string)album.ArtworkID);
+            //if (album != null)
+            //{
+            //    string artworkPath = this.cacheService.GetCachedArtworkPath((string)album.ArtworkID);
 
-                if (!string.IsNullOrEmpty(artworkPath))
-                {
-                    artwork = ImageUtils.Image2ByteArray(artworkPath, size, size);
-                }
+            //    if (!string.IsNullOrEmpty(artworkPath))
+            //    {
+            //        artwork = ImageUtils.Image2ByteArray(artworkPath, size, size);
+            //    }
 
-                if (artwork != null)
-                {
-                    this.cachedArtwork = new Tuple<string, byte[]>(filename, artwork);
-                }
-            }
+            //    if (artwork != null)
+            //    {
+            //        this.cachedArtwork = new Tuple<string, byte[]>(filename, artwork);
+            //    }
+            //}
 
             return artwork;
         }
@@ -446,18 +443,18 @@ namespace Dopamine.Services.Metadata
             {
                 string newAlbumTitle = !string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? fileMetadata.Album.Value : string.Empty;
                 string newAlbumArtist = fileMetadata.AlbumArtists.Values != null && !string.IsNullOrEmpty(fileMetadata.AlbumArtists.Values.FirstOrDefault()) ? fileMetadata.AlbumArtists.Values.FirstOrDefault() : string.Empty;
-                Album album = await this.albumRepository.GetAlbumAsync(newAlbumTitle, newAlbumArtist);
+                // TODO Album album = await this.albumRepository.GetAlbumAsync(newAlbumTitle, newAlbumArtist);
 
-                if (album == null)
-                {
-                    album = new Album { AlbumTitle = newAlbumTitle, AlbumArtist = newAlbumArtist, DateLastSynced = DateTime.Now.Ticks };
-                    album.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(album, this.metadataFactory.Create(track.Path)));
-                    album = await this.albumRepository.AddAlbumAsync(album);
-                }
+                //if (album == null)
+                //{
+                //    album = new Album { AlbumTitle = newAlbumTitle, AlbumArtist = newAlbumArtist, DateLastSynced = DateTime.Now.Ticks };
+                //    album.ArtworkID = await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(album, this.metadataFactory.Create(track.Path)));
+                //    album = await this.albumRepository.AddAlbumAsync(album);
+                //}
 
-                if (album != null) track.AlbumID = album.AlbumID;
+                //if (album != null) track.AlbumID = album.AlbumID;
 
-                await this.albumRepository.UpdateAlbumAsync(album);
+                //await this.albumRepository.UpdateAlbumAsync(album);
             }
 
             await this.trackRepository.UpdateTrackAsync(track); // Update Track in the database
@@ -480,7 +477,7 @@ namespace Dopamine.Services.Metadata
                 string artworkID = await this.cacheService.CacheArtworkAsync(fileMetadata.ArtworkData.Value);
 
                 // Update the album artwork in the database
-                await this.albumRepository.UpdateAlbumArtworkAsync(albumTitle, albumArtist, artworkID);
+                // TODO await this.albumRepository.UpdateAlbumArtworkAsync(albumTitle, albumArtist, artworkID);
             }
         }
 

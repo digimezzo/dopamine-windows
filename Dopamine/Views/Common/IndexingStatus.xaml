@@ -10,7 +10,7 @@
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <Border DockPanel.Dock="Top" Height="0" Opacity="0">
-        <Border Background="{DynamicResource Brush_Accent}" Height="30" Margin="0,20,0,0">
+        <Border Background="{DynamicResource Brush_Accent}" Height="30">
             <DockPanel VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="{Binding IsIndexing,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <pc:SyncRing DockPanel.Dock="Left" Width="16" Margin="15,0,10,0" VerticalAlignment="Center" Foreground="{DynamicResource Brush_StatustText}"/>
                 <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding IndexingStatus}" Foreground="{DynamicResource Brush_StatustText}"/>
@@ -23,7 +23,7 @@
                         <DataTrigger.EnterActions>
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Duration="0:0:0.15" Storyboard.TargetProperty="Height" To="50" />
+                                    <DoubleAnimation Duration="0:0:0.15" Storyboard.TargetProperty="Height" To="30" />
                                     <DoubleAnimation Duration="0:0:0.25" Storyboard.TargetProperty="Opacity" To="1" />
                                 </Storyboard>
                             </BeginStoryboard>
