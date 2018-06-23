@@ -200,10 +200,10 @@ namespace Dopamine.Services.Utils
                 return string.Join(";", albumTitle, albumArtists);
             }
 
-            if (!string.IsNullOrWhiteSpace(trackArtists))
-            {
-                return string.Join(";", albumTitle, trackArtists);
-            }
+            //if (!string.IsNullOrWhiteSpace(trackArtists))
+            //{
+            //    return string.Join(";", albumTitle, trackArtists);
+            //}
 
             return albumTitle;
         }

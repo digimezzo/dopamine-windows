@@ -197,7 +197,7 @@ namespace Dopamine.Services.Collection
 
         public async Task<IList<GenreViewModel>> GetAllGenresAsync()
         {
-            IList<string> genreNames = await this.trackRepository.GetAllGenresAsync();
+            IList<string> genreNames = await this.trackRepository.GetAllGenreNamesAsync();
             IList<GenreViewModel> orderedGenres = (await this.GetUniqueGenresAsync(genreNames)).OrderBy(g => g.GenreName).ToList();
 
             // Workaround to make sure the "#" GroupHeader is shown at the top of the list
@@ -215,16 +215,16 @@ namespace Dopamine.Services.Collection
             switch (artistType)
             {
                 case ArtistType.All:
-                    IList<string> trackArtistNames = await this.trackRepository.GetAllTrackArtistsAsync();
-                    IList<string> albumArtistNames = await this.trackRepository.GetAllAlbumArtistsAsync();
+                    IList<string> trackArtistNames = await this.trackRepository.GetAllTrackArtistNamesAsync();
+                    IList<string> albumArtistNames = await this.trackRepository.GetAllAlbumArtistNamesAsync();
                     ((List<string>)trackArtistNames).AddRange(albumArtistNames);
                     artistNames = trackArtistNames;
                     break;
                 case ArtistType.Track:
-                    artistNames = await this.trackRepository.GetAllTrackArtistsAsync();
+                    artistNames = await this.trackRepository.GetAllTrackArtistNamesAsync();
                     break;
                 case ArtistType.Album:
-                    artistNames = await this.trackRepository.GetAllAlbumArtistsAsync();
+                    artistNames = await this.trackRepository.GetAllAlbumArtistNamesAsync();
                     break;
                 default:
                     // Can't happen
@@ -243,8 +243,20 @@ namespace Dopamine.Services.Collection
 
         public async Task<IList<AlbumViewModel>> GetAllAlbumsAsync()
         {
-            // throw new NotImplementedException();
-            return new List<AlbumViewModel>();
+            IList<AlbumValues> albumValuesList = await this.trackRepository.GetAllAlbumValuesAsync();
+            IList<AlbumViewModel> albums = new List<AlbumViewModel>();
+
+            foreach (AlbumValues albumValues in albumValuesList)
+            {
+                var album = new AlbumViewModel(albumValues.AlbumTitle, albumValues.AlbumArtists, albumValues.Year, albumValues.AlbumKey);
+
+                if (!albums.Contains(album))
+                {
+                    albums.Add(album);
+                }
+            }
+
+            return albums;
         }
 
         public async Task<IList<AlbumViewModel>> GetArtistAlbumsAsync(IList<string> selectedArtists)

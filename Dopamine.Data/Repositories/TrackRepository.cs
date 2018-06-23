@@ -394,9 +394,9 @@ namespace Dopamine.Data.Repositories
             return updateSuccess;
         }
 
-        public async Task<IList<string>> GetAllGenresAsync()
+        public async Task<IList<string>> GetAllGenreNamesAsync()
         {
-            var genres = new List<string>();
+            var genreNames = new List<string>();
 
             await Task.Run(() =>
             {
@@ -406,13 +406,14 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            genres = conn.Query<Track>(this.SelectDisplayableTracksQuery()).ToList()
-                                        .Select((t) => t.Genres).Where(g => !string.IsNullOrEmpty(g))
-                                        .SelectMany(g => g.Split(Convert.ToChar(Constants.MultiValueTagsSeparator))).Distinct().ToList();
+                            genreNames = conn.Query<Track>(this.SelectDisplayableTracksQuery()).ToList()
+                                                            .Select((t) => t.Genres).Where(g => !string.IsNullOrEmpty(g))
+                                                            .SelectMany(g => g.Split(Convert.ToChar(Constants.MultiValueTagsSeparator)))
+                                                            .Distinct().ToList();
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not get all the genres. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get all the genre names. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -422,12 +423,12 @@ namespace Dopamine.Data.Repositories
                 }
             });
 
-            return genres;
+            return genreNames;
         }
 
-        public async Task<IList<string>> GetAllTrackArtistsAsync()
+        public async Task<IList<string>> GetAllTrackArtistNamesAsync()
         {
-            var artists = new List<string>();
+            var artistNames = new List<string>();
 
             await Task.Run(() =>
             {
@@ -437,13 +438,14 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            artists = conn.Query<Track>(this.SelectDisplayableTracksQuery()).ToList()
-                                        .Select((t) => t.Artists).Where(a => !string.IsNullOrEmpty(a))
-                                        .SelectMany(a => a.Split(Convert.ToChar(Constants.MultiValueTagsSeparator))).Distinct().ToList();
+                            artistNames = conn.Query<Track>(this.SelectDisplayableTracksQuery()).ToList()
+                                                            .Select((t) => t.Artists).Where(a => !string.IsNullOrEmpty(a))
+                                                            .SelectMany(a => a.Split(Convert.ToChar(Constants.MultiValueTagsSeparator)))
+                                                            .Distinct().ToList();
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not get all the artists. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get all the track artist names. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -453,10 +455,10 @@ namespace Dopamine.Data.Repositories
                 }
             });
 
-            return artists;
+            return artistNames;
         }
 
-        public async Task<IList<string>> GetAllAlbumArtistsAsync()
+        public async Task<IList<string>> GetAllAlbumArtistNamesAsync()
         {
             var albumArtists = new List<string>();
 
@@ -469,12 +471,13 @@ namespace Dopamine.Data.Repositories
                         try
                         {
                             albumArtists = conn.Query<Track>(this.SelectDisplayableTracksQuery()).ToList()
-                                            .Select((t) => t.AlbumArtists).Where(a => !string.IsNullOrEmpty(a))
-                                            .SelectMany(a => a.Split(Convert.ToChar(Constants.MultiValueTagsSeparator))).Distinct().ToList();
+                                                            .Select((t) => t.AlbumArtists).Where(a => !string.IsNullOrEmpty(a))
+                                                            .SelectMany(a => a.Split(Convert.ToChar(Constants.MultiValueTagsSeparator)))
+                                                            .Distinct().ToList();
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not get all the album artists. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get all the album artist names. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -485,6 +488,40 @@ namespace Dopamine.Data.Repositories
             });
 
             return albumArtists;
+        }
+
+        public async Task<IList<AlbumValues>> GetAllAlbumValuesAsync()
+        {
+            var albumValues = new List<AlbumValues>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            albumValues = conn.Query<AlbumValues>(@"SELECT DISTINCT AlbumTitle, AlbumArtists, AlbumKey,
+                                                                  (SELECT MAX(Year) FROM Track 
+                                                                  WHERE AlbumTitle = t.AlbumTitle 
+                                                                  AND AlbumArtists = t.AlbumArtists
+                                                                  AND AlbumKey = t.AlbumKey) AS Year
+                                                                  FROM Track t");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the album values. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return albumValues;
         }
     }
 }
