@@ -10,10 +10,10 @@ namespace Dopamine.Services.Entities
         private string artistName;
         private bool isHeader;
 
-        public ArtistViewModel(string artistName, bool isHeader)
+        public ArtistViewModel(string artistName)
         {
             this.artistName = artistName;
-            this.isHeader = isHeader;
+            this.isHeader = false;
         }
 
         public string ArtistName
@@ -21,27 +21,20 @@ namespace Dopamine.Services.Entities
             get { return this.artistName; }
             set
             {
-                this.ArtistName = value;
-                RaisePropertyChanged(nameof(this.ArtistName));
+                SetProperty<string>(ref this.artistName, value);
             }
         }
 
-        public string SortArtistName
-        {
-            get { return FormatUtils.GetSortableString(this.artistName, true); }
-        }
+        public string SortArtistName => FormatUtils.GetSortableString(this.artistName, true);
 
-        public string Header
-        {
-            get { return SemanticZoomUtils.GetGroupHeader(this.artistName, true); }
-        }
+        public string Header => SemanticZoomUtils.GetGroupHeader(this.artistName, true);
 
         public bool IsHeader
         {
             get { return this.isHeader; }
             set { SetProperty<bool>(ref this.isHeader, value); }
         }
-       
+
         public override string ToString()
         {
             return this.artistName;

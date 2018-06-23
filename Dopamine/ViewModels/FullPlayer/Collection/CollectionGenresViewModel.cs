@@ -245,25 +245,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             try
             {
-                // TODO: add unknown genre
-                IList<string> orderedGenres = (await this.collectionService.GetAllGenres()).OrderBy(g => g).ToList();
-
-                // Create new ObservableCollection
-                ObservableCollection<GenreViewModel> genreViewModels = new ObservableCollection<GenreViewModel>();
-
-                await Task.Run(() =>
-                {
-                    var tempGenreViewModels = new List<GenreViewModel>();
-
-                    // Workaround to make sure the "#" GroupHeader is shown at the top of the list
-                    tempGenreViewModels.AddRange(orderedGenres.Select((g) => new GenreViewModel(g, false)).Where((gvm) => gvm.Header.Equals("#")));
-                    tempGenreViewModels.AddRange(orderedGenres.Select((g) => new GenreViewModel(g, false)).Where((gvm) => !gvm.Header.Equals("#")));
-
-                    foreach (GenreViewModel gvm in tempGenreViewModels)
-                    {
-                        genreViewModels.Add(gvm);
-                    }
-                });
+                // Get the genres
+                var genreViewModels = new ObservableCollection<GenreViewModel>(await this.collectionService.GetAllGenresAsync());
 
                 // Unbind to improve UI performance
                 if (this.GenresCvs != null) this.GenresCvs.Filter -= new FilterEventHandler(GenresCvs_Filter);
@@ -407,7 +390,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             base.ToggleAlbumOrder();
 
             SettingsClient.Set<int>("Ordering", "GenresAlbumOrder", (int)this.AlbumOrder);
-            await this.GetAlbumsCommonAsync(this.Albums.Select((a) => a.Album).ToList(), this.AlbumOrder);
+            await this.GetAlbumsCommonAsync(this.Albums, this.AlbumOrder);
         }
 
         protected async override Task SetCoversizeAsync(CoverSizeType coverSize)
@@ -419,7 +402,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         protected async override Task FillListsAsync()
         {
             await this.GetGenresAsync();
-            // TODO await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
+            await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
             // TODO await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbumIds, this.TrackOrder);
         }
 

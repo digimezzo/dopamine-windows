@@ -49,39 +49,6 @@ namespace Dopamine.Services.Utils
             return pieces.All((s) => track.TrackTitle.ToLower().Contains(s.ToLower()) | track.ArtistName.ToLower().Contains(s.ToLower()) | track.AlbumTitle.ToLower().Contains(s.ToLower()) | track.FileName.ToLower().Contains(s.ToLower()) | track.Year.ToString().Contains(s.ToLower()));
         }
 
-        public static async Task<List<Album>> OrderAlbumsAsync(IList<Album> albums, AlbumOrder albumOrder)
-        {
-            var orderedAlbums = new List<Album>();
-
-            await Task.Run(() =>
-            {
-                switch (albumOrder)
-                {
-                    case AlbumOrder.Alphabetical:
-                        orderedAlbums = albums.OrderBy((a) => FormatUtils.GetSortableString(a.AlbumTitle)).ToList();
-                        break;
-                    case AlbumOrder.ByDateAdded:
-                        orderedAlbums = albums.OrderByDescending((a) => a.DateAdded).ToList();
-                        break;
-                    case AlbumOrder.ByDateCreated:
-                        orderedAlbums = albums.OrderByDescending((a) => a.DateCreated).ToList();
-                        break;
-                    case AlbumOrder.ByAlbumArtist:
-                        orderedAlbums = albums.OrderBy((a) => FormatUtils.GetSortableString(a.AlbumArtist, true)).ToList();
-                        break;
-                    case AlbumOrder.ByYear:
-                        orderedAlbums = albums.OrderByDescending((a) => a.Year != null ? a.Year : 0).ToList();
-                        break;
-                    default:
-                        // Alphabetical
-                        orderedAlbums = albums.OrderBy((a) => FormatUtils.GetSortableString(a.AlbumTitle)).ToList();
-                        break;
-                }
-            });
-
-            return orderedAlbums;
-        }
-
         public static async Task<List<PlayableTrack>> OrderTracksAsync(IList<PlayableTrack> tracks, TrackOrder trackOrder)
         {
             var orderedTracks = new List<PlayableTrack>();

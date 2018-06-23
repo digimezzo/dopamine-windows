@@ -180,12 +180,32 @@ namespace Dopamine.Services.Utils
             track.Genres = GetAllGenres(fileMetadata);
             track.AlbumTitle = string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : MetadataUtils.SanitizeTag(fileMetadata.Album.Value);
             track.AlbumArtists = GetAllAlbumArtists(fileMetadata);
-            track.AlbumKey = string.IsNullOrWhiteSpace(track.AlbumArtists) ? track.Artists : track.AlbumArtists;
+            track.AlbumKey = GenerateInitialAlbumKey(track.AlbumTitle, track.AlbumArtists, track.Artists);
 
             // TrackStatistic
             trackStatistic.Path = path;
             trackStatistic.SafePath = path.ToSafePath();
             trackStatistic.Rating = fileMetadata.Rating.Value;
+        }
+
+        private static string GenerateInitialAlbumKey(string albumTitle, string albumArtists, string trackArtists)
+        {
+            if (string.IsNullOrWhiteSpace(albumTitle))
+            {
+                return Guid.NewGuid().ToString();
+            }
+
+            if (!string.IsNullOrWhiteSpace(albumArtists))
+            {
+                return string.Join(";", albumTitle, albumArtists);
+            }
+
+            if (!string.IsNullOrWhiteSpace(trackArtists))
+            {
+                return string.Join(";", albumTitle, trackArtists);
+            }
+
+            return albumTitle;
         }
 
         private static string GetCommaSeparatedMultiValueTags(string multiValueTagValue)

@@ -1,14 +1,21 @@
-﻿using Dopamine.Data.Entities;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 
 namespace Dopamine.Services.Entities
 {
     public class AlbumViewModel : BindableBase
     {
-        private Album album;
+        private string albumTitle;
+        private string albumArtist;
+        private string year;
+        private string albumKey;
         private string artworkPath;
         private string mainHeader;
         private string subHeader;
+
+        public AlbumViewModel()
+        {
+
+        }
 
         public double Opacity { get; set; }
 
@@ -19,48 +26,43 @@ namespace Dopamine.Services.Entities
 
         public bool HasTitle
         {
-            get { return !string.IsNullOrEmpty(this.Album.AlbumTitle); }
-        }
-
-        public string Year
-        {
-            get { return this.Album.Year.HasValue && this.Album.Year.Value > 0 ? this.Album.Year.ToString() : string.Empty; }
+            get { return !string.IsNullOrEmpty(this.AlbumTitle); }
         }
 
         public string ToolTipYear
         {
-            get { return !string.IsNullOrEmpty(this.Year) ? "(" + this.Year + ")" : string.Empty; }
+            get { return !string.IsNullOrEmpty(this.year) ? "(" + this.year + ")" : string.Empty; }
         }
 
-        public Album Album
+        public string Year
         {
-            get { return this.album; }
-            set { SetProperty<Album>(ref this.album, value); }
+            get { return this.year; }
+            set {
+                SetProperty<string>(ref this.year, value);
+                RaisePropertyChanged(nameof(this.ToolTipYear));
+            }
         }
 
         public string AlbumTitle
         {
-            get { return this.Album.AlbumTitle; }
-            set {
-                this.Album.AlbumTitle = value;
-                RaisePropertyChanged(nameof(this.AlbumTitle));
+            get { return this.albumTitle; }
+            set
+            {
+                SetProperty<string>(ref this.albumTitle, value);
+                RaisePropertyChanged(nameof(this.HasTitle));
             }
         }
 
         public string AlbumArtist
         {
-            get { return this.Album.AlbumArtist; }
-            set {
-                this.Album.AlbumArtist = value;
-                RaisePropertyChanged(nameof(this.AlbumArtist));
-            }
+            get { return this.albumArtist; }
+            set { SetProperty<string>(ref this.albumArtist, value); }
         }
 
         public string ArtworkPath
         {
             get { return this.artworkPath; }
-            set
-            {
+            set {
                 SetProperty<string>(ref this.artworkPath, value);
                 RaisePropertyChanged(nameof(this.HasCover));
             }
@@ -77,10 +79,10 @@ namespace Dopamine.Services.Entities
             get { return this.subHeader; }
             set { SetProperty<string>(ref this.subHeader, value); }
         }
-    
+
         public override string ToString()
         {
-            return this.Album.AlbumTitle;
+            return this.albumTitle;
         }
 
         public override bool Equals(object obj)
@@ -90,12 +92,12 @@ namespace Dopamine.Services.Entities
                 return false;
             }
 
-            return this.Album.Equals(((AlbumViewModel)obj).Album);
+            return this.albumKey.Equals(((AlbumViewModel)obj).albumKey);
         }
 
         public override int GetHashCode()
         {
-            return this.Album.GetHashCode();
+            return this.albumKey.GetHashCode();
         }
     }
 }

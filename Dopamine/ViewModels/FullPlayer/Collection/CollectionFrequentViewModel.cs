@@ -18,7 +18,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 {
     public class CollectionFrequentViewModel : BindableBase
     {
-        private IAlbumRepository albumRepository;
         private IPlaybackService playbackService;
         private IIndexingService indexingService;
         private ICacheService cacheService;
@@ -73,7 +72,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         public CollectionFrequentViewModel(IContainerProvider container)
         {
             // Dependency injection
-            this.albumRepository = container.Resolve<IAlbumRepository>();
             this.playbackService = container.Resolve<IPlaybackService>();
             this.cacheService = container.Resolve<ICacheService>();
             this.indexingService = container.Resolve<IIndexingService>();
@@ -117,24 +115,24 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             {
                 Album alb = albums[number - 1];
 
-                if (albumViewModel == null || !albumViewModel.Album.Equals(alb))
-                {
-                    albumViewModel = new AlbumViewModel
-                    {
-                        Album = alb,
-                        ArtworkPath = this.cacheService.GetCachedArtworkPath(alb.ArtworkID)
-                    };
-                }
+                //TODO if (albumViewModel == null || !albumViewModel.Album.Equals(alb))
+                //{
+                //    albumViewModel = new AlbumViewModel
+                //    {
+                //        Album = alb,
+                //        ArtworkPath = this.cacheService.GetCachedArtworkPath(alb.ArtworkID)
+                //    };
+                //}
             }
             else
             {
                 // Shows an empty tile
-                albumViewModel = new AlbumViewModel
-                {
-                    Album = new Album() { AlbumTitle = string.Empty, AlbumArtist = string.Empty },
-                    ArtworkPath = string.Empty,
-                    Opacity = 0.8 - (number / 10.0)
-                };
+                // TODO albumViewModel = new AlbumViewModel
+                //{
+                //    Album = new Album() { AlbumTitle = string.Empty, AlbumArtist = string.Empty },
+                //    ArtworkPath = string.Empty,
+                //    Opacity = 0.8 - (number / 10.0)
+                //};
             }
 
             RaisePropertyChanged("AlbumViewModel" + number.ToString());
@@ -143,17 +141,17 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async Task PopulateAlbumHistoryAsync()
         {
-            var albums = await this.albumRepository.GetFrequentAlbumsAsync(6);
+            //TODO var albums = await this.albumRepository.GetFrequentAlbumsAsync(6);
 
-            await Task.Run(() =>
-            {
-                this.UpdateAlbumViewModel(1, albums, ref this.albumViewModel1);
-                this.UpdateAlbumViewModel(2, albums, ref this.albumViewModel2);
-                this.UpdateAlbumViewModel(3, albums, ref this.albumViewModel3);
-                this.UpdateAlbumViewModel(4, albums, ref this.albumViewModel4);
-                this.UpdateAlbumViewModel(5, albums, ref this.albumViewModel5);
-                this.UpdateAlbumViewModel(6, albums, ref this.albumViewModel6);
-            });
+            //await Task.Run(() =>
+            //{
+            //    this.UpdateAlbumViewModel(1, albums, ref this.albumViewModel1);
+            //    this.UpdateAlbumViewModel(2, albums, ref this.albumViewModel2);
+            //    this.UpdateAlbumViewModel(3, albums, ref this.albumViewModel3);
+            //    this.UpdateAlbumViewModel(4, albums, ref this.albumViewModel4);
+            //    this.UpdateAlbumViewModel(5, albums, ref this.albumViewModel5);
+            //    this.UpdateAlbumViewModel(6, albums, ref this.albumViewModel6);
+            //});
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Dopamine.Data;
 using Dopamine.Data.Entities;
+using Dopamine.Services.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,13 +15,17 @@ namespace Dopamine.Services.Collection
 
         Task MarkFolderAsync(Folder folder);
 
-        Task<IList<string>> GetAllTrackArtists();
+        Task<IList<ArtistViewModel>> GetAllArtistsAsync(ArtistType artistType);
 
-        Task<IList<string>> GetAllAlbumArtists();
+        Task<IList<GenreViewModel>> GetAllGenresAsync();
 
-        Task<IList<string>> GetAllArtists();
+        Task<IList<AlbumViewModel>> GetAllAlbumsAsync();
 
-        Task<IList<string>> GetAllGenres();
+        Task<IList<AlbumViewModel>> GetArtistAlbumsAsync(IList<string> selectedArtists);
+
+        Task<IList<AlbumViewModel>> GetGenreAlbumsAsync(IList<string> selectedGenres);
+
+        Task<IList<AlbumViewModel>> OrderAlbumsAsync(IList<AlbumViewModel> albums, AlbumOrder albumOrder);
 
         event EventHandler CollectionChanged;
     }

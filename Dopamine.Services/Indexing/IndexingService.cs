@@ -26,7 +26,6 @@ namespace Dopamine.Services.Indexing
         // Repositories
         private ITrackRepository trackRepository;
         private IFolderRepository folderRepository;
-        private IAlbumRepository albumRepository;
 
         // Factories
         private ISQLiteConnectionFactory factory;
@@ -62,12 +61,10 @@ namespace Dopamine.Services.Indexing
         }
 
         public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, ITrackRepository trackRepository,
-            IAlbumRepository albumRepository,
             IFolderRepository folderRepository, IFileMetadataFactory fileMetadataFactory)
         {
             this.cacheService = cacheService;
             this.trackRepository = trackRepository;
-            this.albumRepository = albumRepository;;
             this.folderRepository = folderRepository;
             this.factory = factory;
             this.fileMetadataFactory = fileMetadataFactory;
@@ -720,7 +717,7 @@ namespace Dopamine.Services.Indexing
 
         private async Task MarkAllAlbumsAsIndexed()
         {
-            await this.albumRepository.SetAlbumsNeedsIndexing(0, false);
+            // TODO await this.albumRepository.SetAlbumsNeedsIndexing(0, false);
         }
 
         private async Task AddArtworkInBackgroundAsync(int passNumber)
@@ -834,7 +831,7 @@ namespace Dopamine.Services.Indexing
                 await Task.Delay(100);
             }
 
-            await this.albumRepository.SetAlbumsNeedsIndexing(1, onlyUpdateWhenNoCover);
+            // TODO await this.albumRepository.SetAlbumsNeedsIndexing(1, onlyUpdateWhenNoCover);
 
             this.AddArtworkInBackgroundAsync();
         }

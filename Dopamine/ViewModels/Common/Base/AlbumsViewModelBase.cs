@@ -36,7 +36,6 @@ namespace Dopamine.ViewModels.Common.Base
         private ISearchService searchService;
         private IPlaylistService playlistService;
         private ICacheService cacheService;
-        private IAlbumRepository albumRepository;
         private ObservableCollection<AlbumViewModel> albums;
         private CollectionViewSource albumsCvs;
         private IList<long> selectedAlbumIds;
@@ -131,7 +130,6 @@ namespace Dopamine.ViewModels.Common.Base
             this.dialogService = container.Resolve<IDialogService>();
             this.searchService = container.Resolve<ISearchService>();
             this.playlistService = container.Resolve<IPlaylistService>();
-            this.albumRepository = container.Resolve<IAlbumRepository>();
             this.cacheService = container.Resolve<ICacheService>();
 
             // Commands
@@ -174,7 +172,7 @@ namespace Dopamine.ViewModels.Common.Base
                     {
                         try
                         {
-                            alb.ArtworkPath = this.cacheService.GetCachedArtworkPath(alb.Album.ArtworkID);
+                            // TODO alb.ArtworkPath = this.cacheService.GetCachedArtworkPath(alb.Album.ArtworkID);
                         }
                         catch (Exception ex)
                         {
@@ -192,35 +190,35 @@ namespace Dopamine.ViewModels.Common.Base
 
         public async Task RefreshArtworkAsync(List<long> albumsIds = null)
         {
-            List<Album> dbAlbums = await this.albumRepository.GetAlbumsAsync();
+            //TODO List<Album> dbAlbums = await this.albumRepository.GetAlbumsAsync();
 
-            if (this.albums != null && this.albums.Count > 0)
-            {
-                await Task.Run(() =>
-                {
-                    foreach (AlbumViewModel alb in this.albums)
-                    {
-                        try
-                        {
-                            if (albumsIds == null || albumsIds.Contains(alb.Album.AlbumID))
-                            {
-                                // Get an up to date version of this album from the database
-                                Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(alb.Album.AlbumID)).Select((a) => a).FirstOrDefault();
+            //if (this.albums != null && this.albums.Count > 0)
+            //{
+            //    await Task.Run(() =>
+            //    {
+            //        foreach (AlbumViewModel alb in this.albums)
+            //        {
+            //            try
+            //            {
+            //                if (albumsIds == null || albumsIds.Contains(alb.Album.AlbumID))
+            //                {
+            //                    // Get an up to date version of this album from the database
+            //                    Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(alb.Album.AlbumID)).Select((a) => a).FirstOrDefault();
 
-                                if (dbAlbum != null)
-                                {
-                                    alb.Album.ArtworkID = dbAlbum.ArtworkID;
-                                    alb.ArtworkPath = this.cacheService.GetCachedArtworkPath(dbAlbum.ArtworkID);
-                                }
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Error while refreshing artwork for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
-                        }
-                    }
-                });
-            }
+            //                    if (dbAlbum != null)
+            //                    {
+            //                        alb.Album.ArtworkID = dbAlbum.ArtworkID;
+            //                        alb.ArtworkPath = this.cacheService.GetCachedArtworkPath(dbAlbum.ArtworkID);
+            //                    }
+            //                }
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                LogClient.Error("Error while refreshing artwork for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
+            //            }
+            //        }
+            //    });
+            //}
         }
 
         private void EditSelectedAlbum()
@@ -252,7 +250,7 @@ namespace Dopamine.ViewModels.Common.Base
         private void AlbumsCvs_Filter(object sender, FilterEventArgs e)
         {
             AlbumViewModel avm = e.Item as AlbumViewModel;
-            e.Accepted = DataUtils.FilterAlbums(avm.Album, this.searchService.SearchText);
+            // TODO e.Accepted = DataUtils.FilterAlbums(avm.Album, this.searchService.SearchText);
         }
 
         protected void UpdateAlbumOrderText(AlbumOrder albumOrder)
@@ -283,29 +281,29 @@ namespace Dopamine.ViewModels.Common.Base
             RaisePropertyChanged(nameof(this.AlbumOrderText));
         }
 
-        protected async Task GetAlbumsAsync(IList<Artist> selectedArtists, IList<long> selectedGenreIds, AlbumOrder albumOrder)
+        protected async Task GetAlbumsAsync(IList<string> selectedArtists, IList<string> selectedGenres, AlbumOrder albumOrder)
         {
-            if (selectedArtists.IsNullOrEmpty() & selectedGenreIds.IsNullOrEmpty())
+            if (selectedArtists.IsNullOrEmpty() & selectedGenres.IsNullOrEmpty())
             {
-                await this.GetAlbumsCommonAsync(await this.albumRepository.GetAlbumsAsync(), albumOrder);
+                await this.GetAlbumsCommonAsync(await this.collectionService.GetAllAlbumsAsync(), albumOrder);
             }
             else
             {
                 if (!selectedArtists.IsNullOrEmpty())
                 {
-                    await this.GetAlbumsCommonAsync(await this.albumRepository.GetArtistAlbumsAsync(selectedArtists), albumOrder);
+                    await this.GetAlbumsCommonAsync(await this.collectionService.GetArtistAlbumsAsync(selectedArtists), albumOrder);
                     return;
                 }
 
-                if (!selectedGenreIds.IsNullOrEmpty())
+                if (!selectedGenres.IsNullOrEmpty())
                 {
-                    await this.GetAlbumsCommonAsync(await this.albumRepository.GetGenreAlbumsAsync(selectedGenreIds), albumOrder);
+                    await this.GetAlbumsCommonAsync(await this.collectionService.GetGenreAlbumsAsync(selectedGenres), albumOrder);
                     return;
                 }
             }
         }
 
-        protected async Task GetAlbumsCommonAsync(IList<Album> albums, AlbumOrder albumOrder)
+        protected async Task GetAlbumsCommonAsync(IList<AlbumViewModel> albums, AlbumOrder albumOrder)
         {
             try
             {
@@ -313,11 +311,11 @@ namespace Dopamine.ViewModels.Common.Base
                 var albumViewModels = new ObservableCollection<AlbumViewModel>();
 
                 // Order the incoming Albums
-                List<Album> orderedAlbums = await DataUtils.OrderAlbumsAsync(albums, albumOrder);
+                IList<AlbumViewModel> orderedAlbums = await this.collectionService.OrderAlbumsAsync(albums, albumOrder);
 
                 await Task.Run(() =>
                 {
-                    foreach (Album alb in orderedAlbums)
+                    foreach (AlbumViewModel alb in orderedAlbums)
                     {
                         string mainHeader = alb.AlbumTitle;
                         string subHeader = alb.AlbumArtist;
@@ -329,7 +327,7 @@ namespace Dopamine.ViewModels.Common.Base
                                 subHeader = alb.AlbumTitle;
                                 break;
                             case AlbumOrder.ByYear:
-                                mainHeader = alb.Year.HasValue && alb.Year.Value > 0 ? alb.Year.ToString() : string.Empty;
+                                mainHeader = alb.Year;
                                 subHeader = alb.AlbumTitle;
                                 break;
                             case AlbumOrder.Alphabetical:
@@ -342,7 +340,6 @@ namespace Dopamine.ViewModels.Common.Base
 
                         albumViewModels.Add(new AlbumViewModel
                         {
-                            Album = alb,
                             MainHeader = mainHeader,
                             SubHeader = subHeader
                         });
@@ -461,7 +458,7 @@ namespace Dopamine.ViewModels.Common.Base
 
                 foreach (AlbumViewModel item in (IList)parameter)
                 {
-                    this.SelectedAlbumIds.Add(item.Album.AlbumID);
+                    // TODO this.SelectedAlbumIds.Add(item.Album.AlbumID);
                 }
             }
         }

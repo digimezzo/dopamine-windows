@@ -1,17 +1,16 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Data;
-using Dopamine.Data;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Indexing;
 using Dopamine.Services.Metadata;
 using Dopamine.ViewModels.Common.Base;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Ioc;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Prism.Ioc;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
@@ -104,12 +103,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             base.ToggleAlbumOrder();
 
             SettingsClient.Set<int>("Ordering", "AlbumsAlbumOrder", (int)this.AlbumOrder);
-            await this.GetAlbumsCommonAsync(this.Albums.Select((a) => a.Album).ToList(), this.AlbumOrder);
+            await this.GetAlbumsCommonAsync(this.Albums, this.AlbumOrder);
         }
 
         protected async override Task SetCoversizeAsync(CoverSizeType iCoverSize)
         {
-
             await base.SetCoversizeAsync(iCoverSize);
             SettingsClient.Set<int>("CoverSizes", "AlbumsCoverSize", (int)iCoverSize);
         }

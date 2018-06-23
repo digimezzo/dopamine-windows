@@ -16,7 +16,7 @@
     </i:Interaction.Triggers>
 
     <Border DockPanel.Dock="Top" Height="0" Opacity="0">
-        <Border Background="{DynamicResource Brush_Accent}" Height="30" Margin="0,20,0,0">
+        <Border Background="{DynamicResource Brush_Accent}" Height="30">
             <DockPanel VerticalAlignment="Center" Visibility="{Binding IsUpdateAvailable,Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Button DockPanel.Dock="Left" Style="{StaticResource TransparentButton}" Height="18" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Cursor="Hand" ToolTip="{Binding UpdateToolTip}" Command="{Binding DownloadOrInstallUpdateCommand}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -45,7 +45,7 @@
                         <DataTrigger.EnterActions>
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Duration="0:0:0.15" Storyboard.TargetProperty="Height" To="50" />
+                                    <DoubleAnimation Duration="0:0:0.15" Storyboard.TargetProperty="Height" To="30" />
                                     <DoubleAnimation Duration="0:0:0.25" Storyboard.TargetProperty="Opacity" To="1" />
                                 </Storyboard>
                             </BeginStoryboard>
