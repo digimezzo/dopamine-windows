@@ -192,7 +192,7 @@ namespace Dopamine.Services.Utils
         {
             if (string.IsNullOrWhiteSpace(albumTitle))
             {
-                return Guid.NewGuid().ToString();
+                return string.Empty;
             }
 
             if (!string.IsNullOrWhiteSpace(albumArtists))
