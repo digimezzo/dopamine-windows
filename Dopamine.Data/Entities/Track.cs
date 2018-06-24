@@ -63,6 +63,8 @@ namespace Dopamine.Data.Entities
 
         public long DateAdded { get; set; }
 
+        public long DateFileCreated { get; set; }
+
         public long DateLastSynced { get; set; }
 
         public long DateFileModified { get; set; }

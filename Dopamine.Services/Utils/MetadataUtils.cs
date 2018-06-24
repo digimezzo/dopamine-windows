@@ -156,6 +156,7 @@ namespace Dopamine.Services.Utils
         public static void SplitMetadata(IFileMetadata fileMetadata, ref Track track, ref TrackStatistic trackStatistic)
         {
             string path = fileMetadata.Path;
+            long nowTicks = DateTime.Now.Ticks;
 
             // Track
             track.Path = path;
@@ -174,8 +175,10 @@ namespace Dopamine.Services.Utils
             track.HasLyrics = string.IsNullOrWhiteSpace(fileMetadata.Lyrics.Value) ? 0 : 1;
             track.NeedsIndexing = 0;
             track.FileSize = FileUtils.SizeInBytes(path);
+            track.DateFileCreated = FileUtils.DateCreatedTicks(path);
             track.DateFileModified = FileUtils.DateModifiedTicks(path);
-            track.DateLastSynced = DateTime.Now.Ticks;
+            track.DateAdded = nowTicks;
+            track.DateLastSynced = nowTicks;
             track.Artists = GetAllArtists(fileMetadata);
             track.Genres = GetAllGenres(fileMetadata);
             track.AlbumTitle = string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : MetadataUtils.SanitizeTag(fileMetadata.Album.Value);

@@ -52,10 +52,16 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private string artistTypeText;
 
         public DelegateCommand<string> AddArtistsToPlaylistCommand { get; set; }
+
+
         public DelegateCommand<object> SelectedArtistsCommand { get; set; }
+
         public DelegateCommand ShowArtistsZoomCommand { get; set; }
+
         public DelegateCommand<string> SemanticJumpCommand { get; set; }
+
         public DelegateCommand AddArtistsToNowPlayingCommand { get; set; }
+
         public DelegateCommand ShuffleSelectedArtistsCommand { get; set; }
 
         public ArtistType ArtistType
@@ -325,7 +331,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 return;
             }
 
-            // TODO await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
+            await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
             this.SetTrackOrder("ArtistsTrackOrder");
             // TODO await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumIds, this.TrackOrder);
         }
@@ -399,7 +405,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             ArtistViewModel avm = e.Item as ArtistViewModel;
 
-            // TODO e.Accepted = DataUtils.FilterArtists(avm.Artist, this.searchService.SearchText);
+            e.Accepted = DataUtils.FilterArtists(avm, this.searchService.SearchText);
         }
 
         private async Task ToggleArtistTypeAsync()

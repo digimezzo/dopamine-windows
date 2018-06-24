@@ -116,13 +116,9 @@
                                 </Grid>
                                 <StackPanel Background="{DynamicResource Brush_AlbumTileInfoBackground}" Height="{x:Static base:Constants.AlbumTileAlbumInfoHeight}">
                                     <Grid Margin="6">
-                                        <StackPanel Visibility="{Binding DataContext.OrderedByYear, Converter={StaticResource InvertingBooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                                            <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}"/>
-                                            <TextBlock Text="{Binding AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryText}"/>
-                                        </StackPanel>
-                                        <StackPanel Visibility="{Binding DataContext.OrderedByYear,Converter={StaticResource BooleanToCollapsedConverter},RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}">
-                                            <TextBlock Text="{Binding Year}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}"/>
-                                            <TextBlock Text="{Binding AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryText}"/>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding MainHeader}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                                            <TextBlock Text="{Binding SubHeader}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryText}"/>
                                         </StackPanel>
                                     </Grid>
                                     <StackPanel.ToolTip>
