@@ -1,9 +1,4 @@
-﻿using Dopamine.Core.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Dopamine.Data
+﻿namespace Dopamine.Data
 {
     public class AlbumValues
     {
@@ -14,5 +9,9 @@ namespace Dopamine.Data
         public string AlbumKey { get; set; }
 
         public long? Year { get; set; }
+
+        public long? DateFileCreated { get; set; }
+
+        public long? DateAdded { get; set; }
     }
 }

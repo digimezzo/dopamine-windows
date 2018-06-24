@@ -49,19 +49,29 @@ namespace Dopamine.ViewModels.Common.Base
         private CoverSizeType selectedCoverSize;
 
         public DelegateCommand ToggleAlbumOrderCommand { get; set; }
+
         public DelegateCommand<string> AddAlbumsToPlaylistCommand { get; set; }
+
         public DelegateCommand<object> SelectedAlbumsCommand { get; set; }
+
         public DelegateCommand EditAlbumCommand { get; set; }
+
         public DelegateCommand AddAlbumsToNowPlayingCommand { get; set; }
+
         public DelegateCommand<string> SetCoverSizeCommand { get; set; }
+
         public DelegateCommand DelaySelectedAlbumsCommand { get; set; }
+
         public DelegateCommand ShuffleSelectedAlbumsCommand { get; set; }
 
-        public bool OrderedByYear => this.AlbumOrder == AlbumOrder.ByYear;
         public double UpscaledCoverSize => this.CoverSize * Constants.CoverUpscaleFactor;
+
         public bool IsSmallCoverSizeSelected => this.selectedCoverSize == CoverSizeType.Small;
+
         public bool IsMediumCoverSizeSelected => this.selectedCoverSize == CoverSizeType.Medium;
+
         public bool IsLargeCoverSizeSelected => this.selectedCoverSize == CoverSizeType.Large;
+
         public string AlbumOrderText => this.albumOrderText;
 
         public double CoverSize
@@ -250,7 +260,7 @@ namespace Dopamine.ViewModels.Common.Base
         private void AlbumsCvs_Filter(object sender, FilterEventArgs e)
         {
             AlbumViewModel avm = e.Item as AlbumViewModel;
-            // TODO e.Accepted = DataUtils.FilterAlbums(avm.Album, this.searchService.SearchText);
+            e.Accepted = DataUtils.FilterAlbums(avm, this.searchService.SearchText);
         }
 
         protected void UpdateAlbumOrderText(AlbumOrder albumOrder)
@@ -283,24 +293,19 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async Task GetAlbumsAsync(IList<string> selectedArtists, IList<string> selectedGenres, AlbumOrder albumOrder)
         {
-            //if (selectedArtists.IsNullOrEmpty() & selectedGenres.IsNullOrEmpty())
-            //{
-            await this.GetAlbumsCommonAsync(await this.collectionService.GetAllAlbumsAsync(), albumOrder);
-            //}
-            //else
-            //{
-            //    if (!selectedArtists.IsNullOrEmpty())
-            //    {
-            //        await this.GetAlbumsCommonAsync(await this.collectionService.GetArtistAlbumsAsync(selectedArtists), albumOrder);
-            //        return;
-            //    }
+            if (!selectedArtists.IsNullOrEmpty())
+            {
+                await this.GetAlbumsCommonAsync(await this.collectionService.GetArtistAlbumsAsync(selectedArtists), albumOrder);
+                return;
+            }
 
-            //    if (!selectedGenres.IsNullOrEmpty())
-            //    {
-            //        await this.GetAlbumsCommonAsync(await this.collectionService.GetGenreAlbumsAsync(selectedGenres), albumOrder);
-            //        return;
-            //    }
-            //}
+            if (!selectedGenres.IsNullOrEmpty())
+            {
+                await this.GetAlbumsCommonAsync(await this.collectionService.GetGenreAlbumsAsync(selectedGenres), albumOrder);
+                return;
+            }
+
+            await this.GetAlbumsCommonAsync(await this.collectionService.GetAllAlbumsAsync(), albumOrder);
         }
 
         protected async Task GetAlbumsCommonAsync(IList<AlbumViewModel> albums, AlbumOrder albumOrder)
@@ -308,40 +313,7 @@ namespace Dopamine.ViewModels.Common.Base
             try
             {
                 // Order the incoming Albums
-                IList<AlbumViewModel> orderedAlbums = albums; // await this.collectionService.OrderAlbumsAsync(albums, albumOrder);
-
-                await Task.Run(() =>
-                {
-                    foreach (AlbumViewModel alb in orderedAlbums)
-                    {
-                        string mainHeader = alb.AlbumTitle;
-                        string subHeader = alb.AlbumArtist;
-
-                        switch (albumOrder)
-                        {
-                            case AlbumOrder.ByAlbumArtist:
-                                mainHeader = alb.AlbumArtist;
-                                subHeader = alb.AlbumTitle;
-                                break;
-                            case AlbumOrder.ByYear:
-                                mainHeader = alb.Year;
-                                subHeader = alb.AlbumTitle;
-                                break;
-                            case AlbumOrder.Alphabetical:
-                            case AlbumOrder.ByDateAdded:
-                            case AlbumOrder.ByDateCreated:
-                            default:
-                                // Do nothing
-                                break;
-                        }
-
-                        //albumViewModels.Add(new AlbumViewModel
-                        //{
-                        //    MainHeader = mainHeader,
-                        //    SubHeader = subHeader
-                        //});
-                    }
-                });
+                IList<AlbumViewModel> orderedAlbums = await this.collectionService.OrderAlbumsAsync(albums, albumOrder);
 
                 // Create new ObservableCollection
                 var albumViewModels = new ObservableCollection<AlbumViewModel>(orderedAlbums);
@@ -548,8 +520,6 @@ namespace Dopamine.ViewModels.Common.Base
                     this.AlbumOrder = AlbumOrder.Alphabetical;
                     break;
             }
-
-            RaisePropertyChanged(nameof(this.OrderedByYear));
         }
     }
 }

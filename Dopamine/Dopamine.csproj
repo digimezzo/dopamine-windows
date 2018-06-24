@@ -729,15 +729,9 @@
     <Content Include="Icons\Zpl.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Languages\BG.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Languages\CS.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Languages\DA.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Languages\BG.xml" />
+    <Resource Include="Languages\CS.xml" />
+    <Resource Include="Languages\DA.xml" />
     <Content Include="Languages\DE.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

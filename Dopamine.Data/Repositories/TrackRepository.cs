@@ -19,12 +19,12 @@ namespace Dopamine.Data.Repositories
             this.factory = factory;
         }
 
-        private string SelectDisplayableTracksQuery()
+        private string DisplayableTracksQuery()
         {
-            return @"SELECT * FROM Track t
-                    INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
-                    INNER JOIN Folder f ON ft.FolderID = f.FolderID
-                    WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1;";
+            return @"FROM Track t
+                     INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
+                     INNER JOIN Folder f ON ft.FolderID = f.FolderID
+                     WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1";
         }
 
         private string SelectQueryPart()
@@ -55,12 +55,12 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            var safePaths = paths.Select((p) => p.ToSafePath()).ToList();
+                            //var safePaths = paths.Select((p) => p.ToSafePath()).ToList();
 
-                            string q = string.Format(this.SelectQueryPart() +
-                                                     "WHERE tra.SafePath IN ({0});", DatabaseUtils.ToQueryList(safePaths));
+                            //string q = string.Format(this.SelectQueryPart() +
+                            //                         "WHERE tra.SafePath IN ({0});", DatabaseUtils.ToQueryList(safePaths));
 
-                            tracks = conn.Query<PlayableTrack>(q);
+                            //tracks = conn.Query<PlayableTrack>(q);
                         }
                         catch (Exception ex)
                         {
@@ -89,10 +89,10 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<PlayableTrack>(this.SelectQueryPart() +
-                                                             "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
-                                                             "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
-                                                             "WHERE fol.ShowInCollection=1 AND tra.IndexingSuccess=1;");
+                            //tracks = conn.Query<PlayableTrack>(this.SelectQueryPart() +
+                            //                                 "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
+                            //                                 "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
+                            //                                 "WHERE fol.ShowInCollection=1 AND tra.IndexingSuccess=1;");
                         }
                         catch (Exception ex)
                         {
@@ -406,7 +406,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            genreNames = conn.Query<Track>(this.SelectDisplayableTracksQuery()).ToList()
+                            genreNames = conn.Query<Track>("SELECT * " + this.DisplayableTracksQuery()).ToList()
                                                             .Select((t) => t.Genres).Where(g => !string.IsNullOrEmpty(g))
                                                             .SelectMany(g => g.Split(Convert.ToChar(Constants.MultiValueTagsSeparator)))
                                                             .Distinct().ToList();
@@ -438,7 +438,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            artistNames = conn.Query<Track>(this.SelectDisplayableTracksQuery()).ToList()
+                            artistNames = conn.Query<Track>("SELECT * " + this.DisplayableTracksQuery()).ToList()
                                                             .Select((t) => t.Artists).Where(a => !string.IsNullOrEmpty(a))
                                                             .SelectMany(a => a.Split(Convert.ToChar(Constants.MultiValueTagsSeparator)))
                                                             .Distinct().ToList();
@@ -470,7 +470,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            albumArtists = conn.Query<Track>(this.SelectDisplayableTracksQuery()).ToList()
+                            albumArtists = conn.Query<Track>("SELECT * " + this.DisplayableTracksQuery()).ToList()
                                                             .Select((t) => t.AlbumArtists).Where(a => !string.IsNullOrEmpty(a))
                                                             .SelectMany(a => a.Split(Convert.ToChar(Constants.MultiValueTagsSeparator)))
                                                             .Distinct().ToList();
@@ -502,12 +502,10 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            albumValues = conn.Query<AlbumValues>(@"SELECT DISTINCT AlbumTitle, AlbumArtists, AlbumKey,
-                                                                  (SELECT MAX(Year) FROM Track 
-                                                                  WHERE AlbumTitle = t.AlbumTitle 
-                                                                  AND AlbumArtists = t.AlbumArtists
-                                                                  AND AlbumKey = t.AlbumKey) AS Year
-                                                                  FROM Track t");
+                            albumValues = conn.Query<AlbumValues>(@"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
+                                                                  MAX(Year) AS Year, MAX(DateFileCreated) AS DateFileCreated, 
+                                                                  MAX(DateAdded) AS DateAdded " +
+                                                                  this.DisplayableTracksQuery() + " GROUP BY AlbumKey");
                         }
                         catch (Exception ex)
                         {

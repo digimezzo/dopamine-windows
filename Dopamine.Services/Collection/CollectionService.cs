@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Utils;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories;
@@ -248,7 +249,13 @@ namespace Dopamine.Services.Collection
 
             foreach (AlbumValues albumValues in albumValuesList)
             {
-                var album = new AlbumViewModel(albumValues.AlbumTitle, albumValues.AlbumArtists, albumValues.Year, albumValues.AlbumKey);
+                var album = new AlbumViewModel(
+                    albumValues.AlbumTitle,
+                    albumValues.AlbumArtists,
+                    albumValues.Year,
+                    albumValues.AlbumKey,
+                    albumValues.DateAdded,
+                    albumValues.DateFileCreated);
 
                 if (!albums.Contains(album))
                 {
@@ -273,8 +280,62 @@ namespace Dopamine.Services.Collection
 
         public async Task<IList<AlbumViewModel>> OrderAlbumsAsync(IList<AlbumViewModel> albums, AlbumOrder albumOrder)
         {
-            // throw new NotImplementedException();
-            return new List<AlbumViewModel>();
+            var orderedAlbums = new List<AlbumViewModel>();
+
+            await Task.Run(() =>
+            {
+                switch (albumOrder)
+                {
+                    case AlbumOrder.Alphabetical:
+                        orderedAlbums = albums.OrderBy((a) => FormatUtils.GetSortableString(a.AlbumTitle)).ToList();
+                        break;
+                    case AlbumOrder.ByDateAdded:
+                        orderedAlbums = albums.OrderByDescending((a) => a.DateAdded).ToList();
+                        break;
+                    case AlbumOrder.ByDateCreated:
+                        orderedAlbums = albums.OrderByDescending((a) => a.DateFileCreated).ToList();
+                        break;
+                    case AlbumOrder.ByAlbumArtist:
+                        orderedAlbums = albums.OrderBy((a) => FormatUtils.GetSortableString(a.AlbumArtist, true)).ToList();
+                        break;
+                    case AlbumOrder.ByYear:
+                        orderedAlbums = albums.OrderByDescending((a) => a.SortYear).ToList();
+                        break;
+                    default:
+                        // Alphabetical
+                        orderedAlbums = albums.OrderBy((a) => FormatUtils.GetSortableString(a.AlbumTitle)).ToList();
+                        break;
+                }
+
+                foreach (AlbumViewModel alb in orderedAlbums)
+                {
+                    string mainHeader = alb.AlbumTitle;
+                    string subHeader = alb.AlbumArtist;
+
+                    switch (albumOrder)
+                    {
+                        case AlbumOrder.ByAlbumArtist:
+                            mainHeader = alb.AlbumArtist;
+                            subHeader = alb.AlbumTitle;
+                            break;
+                        case AlbumOrder.ByYear:
+                            mainHeader = alb.Year;
+                            subHeader = alb.AlbumTitle;
+                            break;
+                        case AlbumOrder.Alphabetical:
+                        case AlbumOrder.ByDateAdded:
+                        case AlbumOrder.ByDateCreated:
+                        default:
+                            // Do nothing
+                            break;
+                    }
+
+                    alb.MainHeader = mainHeader;
+                    alb.SubHeader = subHeader;
+                }
+            });
+
+            return orderedAlbums;
         }
     }
 }

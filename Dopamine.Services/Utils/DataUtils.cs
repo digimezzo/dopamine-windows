@@ -1,6 +1,7 @@
 ﻿using Dopamine.Core.Utils;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
+using Dopamine.Services.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,28 +11,28 @@ namespace Dopamine.Services.Utils
 {
     public static class DataUtils
     {
-        public static bool FilterAlbums(Album album, string filter)
+        public static bool FilterAlbums(AlbumViewModel album, string filter)
         {
             // Trim is required here, otherwise the filter might flip on the space at the beginning (and probably at the end)
             string[] pieces = filter.Trim().Split(Convert.ToChar(" "));
-
-            // Just making sure that all fields are not Nothing
-            if (album.AlbumTitle == null) album.AlbumTitle = string.Empty;
-            if (album.AlbumArtist == null) album.AlbumArtist = string.Empty;
-            if (album.Year == null) album.Year = 0;
 
             return pieces.All((s) => album.AlbumTitle.ToLower().Contains(s.ToLower()) | album.AlbumArtist.ToLower().Contains(s.ToLower()) | album.Year.ToString().ToLower().Contains(s.ToLower()));
         }
 
-        public static bool FilterArtists(Artist artist, string filter)
+        public static bool FilterArtists(ArtistViewModel artist, string filter)
         {
             // Trim is required here, otherwise the filter might flip on the space at the beginning (and probably at the end)
             string[] pieces = filter.Trim().Split(Convert.ToChar(" "));
 
-            // Just making sure that all fields are not Nothing
-            if (artist.ArtistName == null) artist.ArtistName = string.Empty;
-
             return pieces.All((s) => artist.ArtistName.ToLower().Contains(s.ToLower()));
+        }
+
+        public static bool FilterGenres(GenreViewModel genre, string filter)
+        {
+            // Trim is required here, otherwise the filter might flip on the space at the beginning (and probably at the end)
+            string[] pieces = filter.Trim().Split(Convert.ToChar(" "));
+
+            return pieces.All((s) => genre.GenreName.ToLower().Contains(s.ToLower()));
         }
 
         public static bool FilterTracks(PlayableTrack track, string filter)

@@ -290,7 +290,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             // Don't reload the lists when updating Metadata. MetadataChangedHandlerAsync handles that.
             if (this.metadataService.IsUpdatingDatabaseMetadata) return;
 
-            // TODO await this.GetAlbumsAsync(null, this.SelectedGenres, (AlbumOrder)SettingsClient.Get<int>("Ordering", "GenresAlbumOrder"));
+            await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
             this.SetTrackOrder("GenresTrackOrder");
             // TODO await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbumIds, this.TrackOrder);
         }
@@ -374,7 +374,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             GenreViewModel gvm = e.Item as GenreViewModel;
 
-            // TODO e.Accepted = DataUtils.FilterGenres(gvm.Genre, this.searchService.SearchText);
+            e.Accepted = DataUtils.FilterGenres(gvm, this.searchService.SearchText);
         }
 
         private async Task ToggleTrackOrderAsync()

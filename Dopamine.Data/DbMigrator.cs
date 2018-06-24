@@ -82,6 +82,7 @@ namespace Dopamine.Data
                              "Year	                    INTEGER," +
                              "HasLyrics	                INTEGER," +
                              "DateAdded  	            INTEGER," +
+                             "DateFileCreated  	        INTEGER," +
                              "DateLastSynced	        INTEGER," +
                              "DateFileModified	        INTEGER," +
                              "NeedsIndexing 	        INTEGER," +
@@ -1021,6 +1022,8 @@ namespace Dopamine.Data
                 conn.Execute("ALTER TABLE Track ADD AlbumTitle TEXT;");
                 conn.Execute("ALTER TABLE Track ADD AlbumArtists TEXT;");
                 conn.Execute("ALTER TABLE Track ADD AlbumKey TEXT;");
+
+                conn.Execute("ALTER TABLE Track ADD DateFileCreated INTEGER;");
 
                 conn.Execute("DROP INDEX IF EXISTS TrackArtistIDIndex;");
                 conn.Execute("DROP INDEX IF EXISTS TrackAlbumIDIndex;");
