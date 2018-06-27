@@ -1,6 +1,6 @@
 ﻿namespace Dopamine.Data
 {
-    public class AlbumValues
+    public class AlbumData
     {
         public string AlbumTitle { get; set; }
 

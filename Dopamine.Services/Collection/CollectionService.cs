@@ -142,15 +142,15 @@ namespace Dopamine.Services.Collection
             });
         }
 
-        private async Task<IList<ArtistViewModel>> GetUniqueArtistsAsync(IList<string> artistNames)
+        private async Task<IList<ArtistViewModel>> GetUniqueArtistsAsync(IList<string> artists)
         {
             IList<ArtistViewModel> uniqueArtists = new List<ArtistViewModel>();
 
             await Task.Run(() =>
             {
-                foreach (string artistName in artistNames)
+                foreach (string artist in artists)
                 {
-                    var newArtist = new ArtistViewModel(artistName);
+                    var newArtist = new ArtistViewModel(artist);
 
                     if (!uniqueArtists.Contains(newArtist))
                     {
@@ -169,15 +169,15 @@ namespace Dopamine.Services.Collection
             return uniqueArtists;
         }
 
-        private async Task<IList<GenreViewModel>> GetUniqueGenresAsync(IList<string> genreNames)
+        private async Task<IList<GenreViewModel>> GetUniqueGenresAsync(IList<string> genres)
         {
             IList<GenreViewModel> uniqueGenres = new List<GenreViewModel>();
 
             await Task.Run(() =>
             {
-                foreach (string genreName in genreNames)
+                foreach (string genre in genres)
                 {
-                    var newGenre = new GenreViewModel(genreName);
+                    var newGenre = new GenreViewModel(genre);
 
                     if (!uniqueGenres.Contains(newGenre))
                     {
@@ -196,10 +196,37 @@ namespace Dopamine.Services.Collection
             return uniqueGenres;
         }
 
+        private async Task<IList<AlbumViewModel>> GetUniqueAlbumsAsync(IList<AlbumData> albums)
+        {
+            IList<AlbumViewModel> uniqueAlbums = new List<AlbumViewModel>();
+
+            await Task.Run(() =>
+            {
+                foreach (AlbumData album in albums)
+                {
+                    var newAlbum = new AlbumViewModel(
+                        album.AlbumTitle,
+                        album.AlbumArtists,
+                        album.Year,
+                        album.AlbumKey,
+                        album.DateAdded,
+                        album.DateFileCreated);
+
+                    if (!uniqueAlbums.Contains(newAlbum))
+                    {
+                        uniqueAlbums.Add(newAlbum);
+                    }
+                }
+            });
+
+            return uniqueAlbums;
+        }
+
+
         public async Task<IList<GenreViewModel>> GetAllGenresAsync()
         {
-            IList<string> genreNames = await this.trackRepository.GetAllGenreNamesAsync();
-            IList<GenreViewModel> orderedGenres = (await this.GetUniqueGenresAsync(genreNames)).OrderBy(g => g.GenreName).ToList();
+            IList<string> genres = await this.trackRepository.GetAllGenresAsync();
+            IList<GenreViewModel> orderedGenres = (await this.GetUniqueGenresAsync(genres)).OrderBy(g => g.GenreName).ToList();
 
             // Workaround to make sure the "#" GroupHeader is shown at the top of the list
             List<GenreViewModel> tempGenreViewModels = new List<GenreViewModel>();
@@ -211,28 +238,28 @@ namespace Dopamine.Services.Collection
 
         public async Task<IList<ArtistViewModel>> GetAllArtistsAsync(ArtistType artistType)
         {
-            IList<string> artistNames = null;
+            IList<string> artists = null;
 
             switch (artistType)
             {
                 case ArtistType.All:
-                    IList<string> trackArtistNames = await this.trackRepository.GetAllTrackArtistNamesAsync();
-                    IList<string> albumArtistNames = await this.trackRepository.GetAllAlbumArtistNamesAsync();
-                    ((List<string>)trackArtistNames).AddRange(albumArtistNames);
-                    artistNames = trackArtistNames;
+                    IList<string> trackArtiss = await this.trackRepository.GetAllTrackArtistsAsync();
+                    IList<string> albumArtists = await this.trackRepository.GetAllAlbumArtistsAsync();
+                    ((List<string>)trackArtiss).AddRange(albumArtists);
+                    artists = trackArtiss;
                     break;
                 case ArtistType.Track:
-                    artistNames = await this.trackRepository.GetAllTrackArtistNamesAsync();
+                    artists = await this.trackRepository.GetAllTrackArtistsAsync();
                     break;
                 case ArtistType.Album:
-                    artistNames = await this.trackRepository.GetAllAlbumArtistNamesAsync();
+                    artists = await this.trackRepository.GetAllAlbumArtistsAsync();
                     break;
                 default:
                     // Can't happen
                     break;
             }
 
-            IList<ArtistViewModel> orderedArtists = (await this.GetUniqueArtistsAsync(artistNames)).OrderBy(a => a.ArtistName).ToList();
+            IList<ArtistViewModel> orderedArtists = (await this.GetUniqueArtistsAsync(artists)).OrderBy(a => a.ArtistName).ToList();
 
             // Workaround to make sure the "#" GroupHeader is shown at the top of the list
             List<ArtistViewModel> tempArtistViewModels = new List<ArtistViewModel>();
@@ -244,38 +271,23 @@ namespace Dopamine.Services.Collection
 
         public async Task<IList<AlbumViewModel>> GetAllAlbumsAsync()
         {
-            IList<AlbumValues> albumValuesList = await this.trackRepository.GetAllAlbumValuesAsync();
-            IList<AlbumViewModel> albums = new List<AlbumViewModel>();
+            IList<AlbumData> albums = await this.trackRepository.GetAllAlbumsAsync();
 
-            foreach (AlbumValues albumValues in albumValuesList)
-            {
-                var album = new AlbumViewModel(
-                    albumValues.AlbumTitle,
-                    albumValues.AlbumArtists,
-                    albumValues.Year,
-                    albumValues.AlbumKey,
-                    albumValues.DateAdded,
-                    albumValues.DateFileCreated);
-
-                if (!albums.Contains(album))
-                {
-                    albums.Add(album);
-                }
-            }
-
-            return albums;
+            return await this.GetUniqueAlbumsAsync(albums);
         }
 
         public async Task<IList<AlbumViewModel>> GetArtistAlbumsAsync(IList<string> selectedArtists)
         {
-            // throw new NotImplementedException();
-            return new List<AlbumViewModel>();
+            IList<AlbumData> albums = await this.trackRepository.GetArtistAlbumsAsync(selectedArtists.Select(x => x.Replace(ResourceUtils.GetString("Language_Unknown_Artist"),string.Empty)).ToList());
+
+            return await this.GetUniqueAlbumsAsync(albums);
         }
 
         public async Task<IList<AlbumViewModel>> GetGenreAlbumsAsync(IList<string> selectedGenres)
         {
-            // throw new NotImplementedException();
-            return new List<AlbumViewModel>();
+            IList<AlbumData> albums = await this.trackRepository.GetGenreAlbumsAsync(selectedGenres.Select(x => x.Replace(ResourceUtils.GetString("Language_Unknown_Genre"), string.Empty)).ToList());
+
+            return await this.GetUniqueAlbumsAsync(albums);
         }
 
         public async Task<IList<AlbumViewModel>> OrderAlbumsAsync(IList<AlbumViewModel> albums, AlbumOrder albumOrder)
