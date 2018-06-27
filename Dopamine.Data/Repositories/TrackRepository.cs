@@ -588,13 +588,12 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            string query = @"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
+                            albumValues = conn.Query<AlbumData>(@"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
                                                                   MAX(Year) AS Year, MAX(DateFileCreated) AS DateFileCreated, 
                                                                   MAX(DateAdded) AS DateAdded " +
                                                                   this.DisplayableTracksQuery() +
                                                                   this.ArtistsFilterQuery(artists) +
-                                                                  " GROUP BY AlbumKey";
-                            albumValues = conn.Query<AlbumData>(query);
+                                                                  " GROUP BY AlbumKey");
                         }
                         catch (Exception ex)
                         {
