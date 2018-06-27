@@ -6,6 +6,7 @@ using Dopamine.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Dopamine.Data.Repositories
@@ -25,6 +26,58 @@ namespace Dopamine.Data.Repositories
                      INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
                      INNER JOIN Folder f ON ft.FolderID = f.FolderID
                      WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1";
+        }
+
+        private string ArtistsFilterQuery(IList<string> artists)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine(" AND (");
+
+            var orClauses = new List<string>();
+
+            foreach (string artist in artists)
+            {
+                if (string.IsNullOrEmpty(artist))
+                {
+                    orClauses.Add($@"Artists IS NULL OR Artists='' OR AlbumArtists IS NULL OR AlbumArtists=''");
+                }
+                else
+                {
+                    orClauses.Add($@"LOWER(Artists) LIKE '%{artist.Replace("'", "''").ToLower()}%' OR LOWER(AlbumArtists) LIKE '%{artist.Replace("'", "''").ToLower()}%'");
+                }
+            }
+
+            sb.AppendLine(string.Join(" OR ", orClauses.ToArray()));
+            sb.AppendLine(")");
+
+            return sb.ToString();
+        }
+
+        private string GenresFilterQuery(IList<string> genres)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine(" AND (");
+
+            var orClauses = new List<string>();
+
+            foreach (string genre in genres)
+            {
+                if (string.IsNullOrEmpty(genre))
+                {
+                    orClauses.Add($@"Genres IS NULL OR Genres=''");
+                }
+                else
+                {
+                    orClauses.Add($@"LOWER(Genres) LIKE '%{genre.Replace("'", "''").ToLower()}%'");
+                }
+            }
+
+            sb.AppendLine(string.Join(" OR ", orClauses.ToArray()));
+            sb.AppendLine(")");
+
+            return sb.ToString();
         }
 
         private string SelectQueryPart()
@@ -394,7 +447,7 @@ namespace Dopamine.Data.Repositories
             return updateSuccess;
         }
 
-        public async Task<IList<string>> GetAllGenreNamesAsync()
+        public async Task<IList<string>> GetAllGenresAsync()
         {
             var genreNames = new List<string>();
 
@@ -413,7 +466,7 @@ namespace Dopamine.Data.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not get all the genre names. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get all the genres. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -426,7 +479,7 @@ namespace Dopamine.Data.Repositories
             return genreNames;
         }
 
-        public async Task<IList<string>> GetAllTrackArtistNamesAsync()
+        public async Task<IList<string>> GetAllTrackArtistsAsync()
         {
             var artistNames = new List<string>();
 
@@ -445,7 +498,7 @@ namespace Dopamine.Data.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not get all the track artist names. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get all the track artists. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -458,7 +511,7 @@ namespace Dopamine.Data.Repositories
             return artistNames;
         }
 
-        public async Task<IList<string>> GetAllAlbumArtistNamesAsync()
+        public async Task<IList<string>> GetAllAlbumArtistsAsync()
         {
             var albumArtists = new List<string>();
 
@@ -477,7 +530,7 @@ namespace Dopamine.Data.Repositories
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not get all the album artist names. Exception: {0}", ex.Message);
+                            LogClient.Error("Could not get all the album artists. Exception: {0}", ex.Message);
                         }
                     }
                 }
@@ -490,9 +543,9 @@ namespace Dopamine.Data.Repositories
             return albumArtists;
         }
 
-        public async Task<IList<AlbumValues>> GetAllAlbumValuesAsync()
+        public async Task<IList<AlbumData>> GetAllAlbumsAsync()
         {
-            var albumValues = new List<AlbumValues>();
+            var albumValues = new List<AlbumData>();
 
             await Task.Run(() =>
             {
@@ -502,10 +555,80 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            albumValues = conn.Query<AlbumValues>(@"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
+                            albumValues = conn.Query<AlbumData>(@"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
                                                                   MAX(Year) AS Year, MAX(DateFileCreated) AS DateFileCreated, 
                                                                   MAX(DateAdded) AS DateAdded " +
-                                                                  this.DisplayableTracksQuery() + " GROUP BY AlbumKey");
+                                                                  this.DisplayableTracksQuery() +
+                                                                  " GROUP BY AlbumKey");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the album values. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return albumValues;
+        }
+
+        public async Task<IList<AlbumData>> GetArtistAlbumsAsync(IList<string> artists)
+        {
+            var albumValues = new List<AlbumData>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            string query = @"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
+                                                                  MAX(Year) AS Year, MAX(DateFileCreated) AS DateFileCreated, 
+                                                                  MAX(DateAdded) AS DateAdded " +
+                                                                  this.DisplayableTracksQuery() +
+                                                                  this.ArtistsFilterQuery(artists) +
+                                                                  " GROUP BY AlbumKey";
+                            albumValues = conn.Query<AlbumData>(query);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the album values. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return albumValues;
+        }
+
+        public async Task<IList<AlbumData>> GetGenreAlbumsAsync(IList<string> genres)
+        {
+            var albumValues = new List<AlbumData>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            albumValues = conn.Query<AlbumData>(@"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
+                                                                  MAX(Year) AS Year, MAX(DateFileCreated) AS DateFileCreated, 
+                                                                  MAX(DateAdded) AS DateAdded " +
+                                                                  this.DisplayableTracksQuery() +
+                                                                  this.GenresFilterQuery(genres) +
+                                                                  " GROUP BY AlbumKey");
                         }
                         catch (Exception ex)
                         {
