@@ -35,10 +35,6 @@ namespace Dopamine.Data.Repositories
 
         Task<IList<string>> GetAllAlbumArtistsAsync();
 
-        Task<IList<AlbumData>> GetAllAlbumsAsync();
-
-        Task<IList<AlbumData>> GetArtistAlbumsAsync(IList<string> artists);
-
-        Task<IList<AlbumData>> GetGenreAlbumsAsync(IList<string> artists);
+        Task<IList<AlbumData>> GetAlbumsAsync(IList<string> artists, IList<string> genres);
     }
 }
