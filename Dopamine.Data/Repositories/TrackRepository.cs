@@ -543,103 +543,47 @@ namespace Dopamine.Data.Repositories
             return albumArtists;
         }
 
-        public async Task<IList<AlbumData>> GetAllAlbumsAsync()
+        public async Task<IList<AlbumData>> GetAlbumsAsync(IList<string> artists, IList<string> genres)
         {
             var albumValues = new List<AlbumData>();
 
             await Task.Run(() =>
-            {
-                try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    try
                     {
-                        try
+                        using (var conn = this.factory.GetConnection())
                         {
-                            albumValues = conn.Query<AlbumData>(@"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
+                            try
+                            {
+                                var filterQuery = string.Empty;
+
+                                if (artists != null)
+                                {
+                                    filterQuery = this.ArtistsFilterQuery(artists);
+                                }
+                                else if (genres != null)
+                                {
+                                    filterQuery = this.GenresFilterQuery(genres);
+                                }
+
+                                albumValues = conn.Query<AlbumData>(@"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
                                                                   MAX(Year) AS Year, MAX(DateFileCreated) AS DateFileCreated, 
                                                                   MAX(DateAdded) AS DateAdded " +
                                                                   this.DisplayableTracksQuery() +
+                                                                  filterQuery +
                                                                   " GROUP BY AlbumKey");
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Could not get all the album values. Exception: {0}", ex.Message);
+                            }
+                            catch (Exception ex)
+                            {
+                                LogClient.Error("Could not get all the album values. Exception: {0}", ex.Message);
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                }
-            });
-
-            return albumValues;
-        }
-
-        public async Task<IList<AlbumData>> GetArtistAlbumsAsync(IList<string> artists)
-        {
-            var albumValues = new List<AlbumData>();
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    using (var conn = this.factory.GetConnection())
+                    catch (Exception ex)
                     {
-                        try
-                        {
-                            albumValues = conn.Query<AlbumData>(@"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
-                                                                  MAX(Year) AS Year, MAX(DateFileCreated) AS DateFileCreated, 
-                                                                  MAX(DateAdded) AS DateAdded " +
-                                                                  this.DisplayableTracksQuery() +
-                                                                  this.ArtistsFilterQuery(artists) +
-                                                                  " GROUP BY AlbumKey");
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Could not get all the album values. Exception: {0}", ex.Message);
-                        }
+                        LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
                     }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                }
-            });
-
-            return albumValues;
-        }
-
-        public async Task<IList<AlbumData>> GetGenreAlbumsAsync(IList<string> genres)
-        {
-            var albumValues = new List<AlbumData>();
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    using (var conn = this.factory.GetConnection())
-                    {
-                        try
-                        {
-                            albumValues = conn.Query<AlbumData>(@"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
-                                                                  MAX(Year) AS Year, MAX(DateFileCreated) AS DateFileCreated, 
-                                                                  MAX(DateAdded) AS DateAdded " +
-                                                                  this.DisplayableTracksQuery() +
-                                                                  this.GenresFilterQuery(genres) +
-                                                                  " GROUP BY AlbumKey");
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Could not get all the album values. Exception: {0}", ex.Message);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                }
-            });
+                });
 
             return albumValues;
         }

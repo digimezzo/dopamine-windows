@@ -271,21 +271,21 @@ namespace Dopamine.Services.Collection
 
         public async Task<IList<AlbumViewModel>> GetAllAlbumsAsync()
         {
-            IList<AlbumData> albums = await this.trackRepository.GetAllAlbumsAsync();
+            IList<AlbumData> albums = await this.trackRepository.GetAlbumsAsync(null, null);
 
             return await this.GetUniqueAlbumsAsync(albums);
         }
 
         public async Task<IList<AlbumViewModel>> GetArtistAlbumsAsync(IList<string> selectedArtists)
         {
-            IList<AlbumData> albums = await this.trackRepository.GetArtistAlbumsAsync(selectedArtists.Select(x => x.Replace(ResourceUtils.GetString("Language_Unknown_Artist"),string.Empty)).ToList());
+            IList<AlbumData> albums = await this.trackRepository.GetAlbumsAsync(selectedArtists.Select(x => x.Replace(ResourceUtils.GetString("Language_Unknown_Artist"), string.Empty)).ToList(), null);
 
             return await this.GetUniqueAlbumsAsync(albums);
         }
 
         public async Task<IList<AlbumViewModel>> GetGenreAlbumsAsync(IList<string> selectedGenres)
         {
-            IList<AlbumData> albums = await this.trackRepository.GetGenreAlbumsAsync(selectedGenres.Select(x => x.Replace(ResourceUtils.GetString("Language_Unknown_Genre"), string.Empty)).ToList());
+            IList<AlbumData> albums = await this.trackRepository.GetAlbumsAsync(null, selectedGenres.Select(x => x.Replace(ResourceUtils.GetString("Language_Unknown_Genre"), string.Empty)).ToList());
 
             return await this.GetUniqueAlbumsAsync(albums);
         }
