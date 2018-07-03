@@ -341,7 +341,7 @@ namespace Dopamine.Views
             // I18nService
             this.i18nService.LanguageChanged += (_, __) =>
             {
-                // TODO: the DynamicResource binding doesn't update the PART_MiniPlayerButton ToolTip on language change.
+                // HACK: the DynamicResource binding doesn't update the PART_MiniPlayerButton ToolTip on language change.
                 // This is a workaround to make sure the PART_MiniPlayerButton ToolTip also gets updated on a language change.
                 // Is there a better way to do this.
                 if (this.PART_MiniPlayerButton != null)
