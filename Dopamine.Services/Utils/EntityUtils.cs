@@ -63,7 +63,7 @@ namespace Dopamine.Services.Utils
                         orderedTracks = tracks.OrderBy((t) => !string.IsNullOrEmpty(FormatUtils.GetSortableString(t.TrackTitle)) ? FormatUtils.GetSortableString(t.TrackTitle) : FormatUtils.GetSortableString(t.FileName)).ToList();
                         break;
                     case TrackOrder.ByAlbum:
-                        orderedTracks = tracks.OrderBy((t) => FormatUtils.GetSortableString(t.AlbumArtist)).ThenBy((t) => FormatUtils.GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber).ThenBy((t) => t.TrackNumber).ToList();
+                        orderedTracks = tracks.OrderBy((t) => FormatUtils.GetSortableString(t.AlbumArtist)).ThenBy((t) => FormatUtils.GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber).ThenBy((t) => t.SortTrackNumber).ToList();
                         break;
                     case TrackOrder.ByFileName:
                         orderedTracks = tracks.OrderBy((t) => FormatUtils.GetSortableString(t.FileName)).ToList();
@@ -79,7 +79,7 @@ namespace Dopamine.Services.Utils
                         break;
                     default:
                         // By album
-                        orderedTracks = tracks.OrderBy((t) => FormatUtils.GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber).ThenBy((t) => t.TrackNumber).ToList();
+                        orderedTracks = tracks.OrderBy((t) => FormatUtils.GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber).ThenBy((t) => t.SortTrackNumber).ToList();
                         break;
                 }
             });
