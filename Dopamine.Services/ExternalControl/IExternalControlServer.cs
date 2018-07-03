@@ -1,5 +1,4 @@
-﻿using Dopamine.Data;
-using Dopamine.Data.Entities;
+﻿using Dopamine.Services.Entities;
 using System.ServiceModel;
 using System.Threading.Tasks;
 
@@ -52,7 +51,7 @@ namespace Dopamine.Services.ExternalControl
         void SetProgress(double progress);
 
         [OperationContract]
-        PlayableTrack GetCurrenTrack();
+        TrackViewModel GetCurrenTrack();
 
         [OperationContract]
         string GetCurrentTrackArtworkPath(string artworkId);

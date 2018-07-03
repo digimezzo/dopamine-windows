@@ -1,5 +1,8 @@
-﻿using Dopamine.Core.Base;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Base;
+using Dopamine.Core.Extensions;
 using Dopamine.Core.Utils;
+using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Scrobbling;
@@ -13,86 +16,82 @@ namespace Dopamine.Services.Entities
         private int scaledTrackCoverSize = Convert.ToInt32(Constants.TrackCoverSize * Constants.CoverUpscaleFactor);
         private IMetadataService metadataService;
         private IScrobblingService scrobblingService;
-        private PlayableTrack track;
         private bool isPlaying;
         private bool isPaused;
         private bool showTrackNumber;
         private bool showTrackArt;
         private byte[] trackArt;
 
-        // SortDuration is used to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00.
-        public long SortDuration
+        public TrackViewModel(IMetadataService metadataService, IScrobblingService scrobblingService, Track track)
         {
-            get
-            {
-                if (this.Track.Duration.HasValue)
-                {
-                    return this.Track.Duration.Value;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
+            this.metadataService = metadataService;
+            this.scrobblingService = scrobblingService;
+            this.Track = track;
         }
+
+        public Track Track { get; }
+
+        // SortDuration is used to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00.
+        public long SortDuration => this.Track.Duration.HasValue ? this.Track.Duration.Value : 0;
 
         // SortAlbumTitle is used to sort by AlbumTitle, then by TrackNumber.
-        public string SortAlbumTitle
-        {
-            get
-            {
-                return this.AlbumTitle + this.track.TrackNumber.Value.ToString("0000");
-            }
-        }
+        public string SortAlbumTitle => this.Track.AlbumTitle + this.Track.TrackNumber.Value.ToString("0000");
 
-        // SortAlbumArtist is used to sort by AlbumArtist, then by AlbumTitle, then by TrackNumber.
-        public string SortAlbumArtist
-        {
-            get
-            {
-                return this.AlbumArtist + this.AlbumTitle + this.track.TrackNumber.Value.ToString("0000");
-            }
-        }
+        // SortAlbumArtist is used to sort by AlbumArtists, then by AlbumTitle, then by TrackNumber.
+        public string SortAlbumArtist => this.Track.AlbumArtists + this.AlbumTitle + this.Track.TrackNumber.Value.ToString("0000");
 
-        // SortArtistName is used to sort by AlbumArtist, then by AlbumTitle, then by TrackNumber.
-        public string SortArtistName
-        {
-            get
-            {
-                return this.ArtistName + this.AlbumTitle + this.track.TrackNumber.Value.ToString("0000");
-            }
-        }
+        // SortArtistName is used to sort by ArtistName, then by AlbumTitle, then by TrackNumber.
+        public string SortArtistName => this.ArtistName + this.AlbumTitle + this.Track.TrackNumber.Value.ToString("0000");
 
-        public int SortBitrate
-        {
-            get
-            {
-                return Convert.ToInt32(Track.BitRate ?? 0);
-            }
-        }
+        public long SortBitrate => this.Track.BitRate.GetValueOrZero();
 
-        public string SortPlayCount
-        {
-            get
-            {
-                return this.Track.PlayCount > 0 ? this.Track.PlayCount.Value.ToString("0000") : string.Empty;
-            }
-        }
+        public string SortPlayCount => this.Track.PlayCount.HasValueLargerThan(0) ? this.Track.PlayCount.Value.ToString("0000") : string.Empty;
 
-        public string SortSkipCount
-        {
-            get
-            {
-                return this.Track.SkipCount > 0 ? this.Track.SkipCount.Value.ToString("0000") : string.Empty;
-            }
-        }
+        public string SortSkipCount => this.Track.SkipCount.HasValueLargerThan(0) ? this.Track.SkipCount.Value.ToString("0000") : string.Empty;
 
-        public long SortTrackNumber
+        public long SortTrackNumber => this.Track.TrackNumber.Value;
+
+        public bool HasLyrics => this.Track.HasLyrics == 1 ? true : false;
+
+        public string Bitrate => this.Track.BitRate != null ? this.Track.BitRate + " kbps" : "";
+
+        public string AlbumTitle => string.IsNullOrEmpty(this.Track.AlbumTitle) ? ResourceUtils.GetString("Language_Unknown_Album") : this.Track.AlbumTitle;
+
+        public string PlayCount => this.Track.PlayCount.HasValueLargerThan(0) ? this.Track.PlayCount.Value.ToString() : string.Empty;
+
+        public string SkipCount => this.Track.SkipCount.HasValueLargerThan(0) ? this.Track.SkipCount.Value.ToString() : string.Empty;
+
+        public string DateLastPlayed => this.Track.DateLastPlayed.HasValueLargerThan(0) ? new DateTime(this.Track.DateLastPlayed.Value).ToString("g") : string.Empty;
+
+        public long SortDateLastPlayed => this.Track.DateLastPlayed.Value;
+
+        public string TrackTitle => string.IsNullOrEmpty(this.Track.TrackTitle) ? this.Track.FileName : this.Track.TrackTitle;
+
+        public string FileName => this.Track.FileName;
+
+        public string Path => this.Track.Path;
+
+        public string SafePath => this.Track.SafePath;
+
+        public string ArtistName => string.IsNullOrEmpty(this.Track.Artists) ? ResourceUtils.GetString("Language_Unknown_Artist") : MetadataUtils.GetCommaSeparatedMultiValueTags(this.Track.Artists);
+
+        public string AlbumArtist => string.IsNullOrEmpty(this.Track.AlbumArtists) ? ResourceUtils.GetString("Language_Unknown_Artist") : MetadataUtils.GetCommaSeparatedMultiValueTags(this.Track.AlbumArtists);
+
+        public string Genre => string.IsNullOrEmpty(this.Track.Genres) ? ResourceUtils.GetString("Language_Unknown_Genres") : MetadataUtils.GetCommaSeparatedMultiValueTags(this.Track.Genres);
+
+        public string FormattedTrackNumber => this.Track.TrackNumber.HasValueLargerThan(0) ? Track.TrackNumber.Value.ToString("00") : "--";
+
+        public string TrackNumber => this.Track.TrackNumber.HasValueLargerThan(0) ? this.Track.TrackNumber.ToString() : string.Empty;
+
+        public string DiscNumber => this.Track.DiscNumber.HasValueLargerThan(0) ? this.Track.DiscNumber.ToString() : string.Empty;
+
+        public string Year => this.Track.Year.HasValueLargerThan(0) ? this.Track.Year.Value.ToString() : string.Empty;
+
+        public string GroupHeader => this.Track.DiscCount.HasValueLargerThan(1) && this.Track.DiscNumber.HasValueLargerThan(0) ? $"{this.Track.AlbumTitle} ({this.Track.DiscNumber})" : this.Track.AlbumTitle;
+
+        public string GroupSubHeader
         {
-            get
-            {
-                return Track.TrackNumber.Value;
-            }
+            get { return MetadataUtils.GetCommaSeparatedMultiValueTags(this.Track.AlbumArtists); }
         }
 
         public bool ShowTrackArt
@@ -126,7 +125,7 @@ namespace Dopamine.Services.Entities
             }
         }
 
-        public async void GetTrackArt()
+        private async void GetTrackArt()
         {
             try
             {
@@ -135,84 +134,6 @@ namespace Dopamine.Services.Entities
             catch (Exception)
             {
                 // Intended suppression
-            }
-        }
-
-        public bool HasLyrics
-        {
-            get
-            {
-                return this.Track.HasLyrics == 1 ? true : false;
-            }
-        }
-
-        public string Bitrate
-        {
-            get
-            {
-                return this.Track.BitRate != null ? this.Track.BitRate + " kbps" : "";
-            }
-        }
-
-        public PlayableTrack Track
-        {
-            get { return this.track; }
-            set { SetProperty<PlayableTrack>(ref this.track, value); }
-        }
-
-        public string TrackTitle
-        {
-            get
-            {
-                if (!string.IsNullOrEmpty(this.Track.TrackTitle))
-                {
-                    return this.Track.TrackTitle;
-                }
-                else
-                {
-                    return this.Track.FileName;
-                }
-
-            }
-            set
-            {
-                this.Track.TrackTitle = value;
-                RaisePropertyChanged(nameof(this.TrackTitle));
-            }
-        }
-
-        public string FormattedTrackNumber
-        {
-            get
-            {
-                if (this.Track.TrackNumber.HasValue && this.Track.TrackNumber.Value > 0)
-                {
-                    return Track.TrackNumber.Value.ToString("00");
-                }
-                else
-                {
-                    return "--";
-                }
-            }
-        }
-
-        public string TrackNumber
-        {
-            get
-            {
-                if (this.Track.TrackNumber.HasValue && this.Track.TrackNumber.Value > 0)
-                {
-                    return this.Track.TrackNumber.ToString();
-                }
-                else
-                {
-                    return string.Empty;
-                }
-            }
-            set
-            {
-                this.Track.TrackNumber = Convert.ToInt64(value);
-                RaisePropertyChanged(nameof(this.TrackNumber));
             }
         }
 
@@ -240,94 +161,16 @@ namespace Dopamine.Services.Entities
             }
         }
 
-        public string AlbumTitle
-        {
-            get { return this.Track.AlbumTitle; }
-            set
-            {
-                this.Track.AlbumTitle = value;
-                RaisePropertyChanged(nameof(this.AlbumTitle));
-            }
-        }
-
-        public string PlayCount
-        {
-            get { return this.Track.PlayCount > 0 ? this.Track.PlayCount.Value.ToString() : string.Empty; }
-        }
-
-        public string SkipCount
-        {
-            get { return this.Track.SkipCount > 0 ? this.Track.SkipCount.Value.ToString() : string.Empty; }
-        }
-
-        public string DateLastPlayed
-        {
-            get { return this.Track.DateLastPlayed > 0 ? new DateTime(this.Track.DateLastPlayed.Value).ToString("g") : string.Empty; }
-        }
-
-        public long SortDateLastPlayed
-        {
-            get { return this.Track.DateLastPlayed.Value; }
-        }
-
-        public string AlbumArtist
-        {
-            get { return this.Track.AlbumArtist; }
-            set
-            {
-                this.Track.AlbumArtist = value;
-                RaisePropertyChanged(nameof(this.AlbumArtist));
-            }
-        }
-
-        public string ArtistName
-        {
-            get { return this.Track.ArtistName; }
-            set
-            {
-                this.Track.ArtistName = value;
-                RaisePropertyChanged(nameof(this.ArtistName));
-            }
-        }
-
-
-        public string Genre
-        {
-            get { return this.Track.GenreName; }
-            set
-            {
-                this.Track.GenreName = value;
-                RaisePropertyChanged(nameof(this.Genre));
-            }
-        }
-
-        public string Year
-        {
-            get
-            {
-                if (this.Track.Year.HasValue && this.Track.Year.Value > 0)
-                {
-                    return this.Track.Year.Value.ToString();
-                }
-                else
-                {
-                    return string.Empty;
-                }
-            }
-            set
-            {
-                this.Track.Year = Convert.ToInt64(value);
-                RaisePropertyChanged(nameof(this.Year));
-            }
-        }
-
         public int Rating
         {
-            get { return NumberUtils.ConvertToInt32(this.track.Rating); }
+            get { return NumberUtils.ConvertToInt32(this.Track.Rating); }
             set
             {
+                // Update the UI
                 this.Track.Rating = (long?)value;
-                RaisePropertyChanged(nameof(this.Rating));
+                this.RaisePropertyChanged(nameof(this.Rating));
+
+                // Update Rating in the database
                 this.metadataService.UpdateTrackRatingAsync(this.Track.Path, value);
             }
         }
@@ -339,34 +182,14 @@ namespace Dopamine.Services.Entities
             {
                 // Update the UI
                 this.Track.Love = value ? 1 : 0;
-                RaisePropertyChanged(nameof(this.Love));
+                this.RaisePropertyChanged(nameof(this.Love));
 
                 // Update Love in the database
                 this.metadataService.UpdateTrackLoveAsync(this.Track.Path, value);
 
                 // Send Love/Unlove to the scrobbling service
-                this.scrobblingService.SendTrackLoveAsync(this.Track, value);
+                this.scrobblingService.SendTrackLoveAsync(this, value);
             }
-        }
-
-        public string GroupHeader
-        {
-            get
-            {
-                if (this.Track.DiscCount.HasValue && this.Track.DiscCount.Value > 1 && this.Track.DiscNumber.HasValue && this.Track.DiscNumber.Value > 0)
-                {
-                    return string.Format("{0} ({1})", this.Track.AlbumTitle, this.Track.DiscNumber);
-                }
-                else
-                {
-                    return this.Track.AlbumTitle;
-                }
-            }
-        }
-
-        public string GroupSubHeader
-        {
-            get { return this.Track.AlbumArtist; }
         }
 
         public bool IsPlaying
@@ -387,15 +210,27 @@ namespace Dopamine.Services.Entities
             set { SetProperty<bool>(ref this.showTrackNumber, value); }
         }
 
-        public string FileName
+        public void UpdateVisibleRating(int rating)
         {
-            get { return this.Track.FileName; }
+            this.Track.Rating = (long?)rating;
+            this.RaisePropertyChanged(nameof(this.Rating));
         }
 
-        public TrackViewModel(IMetadataService metadataService, IScrobblingService scrobblingService)
+        public void UpdateVisibleLove(bool love)
         {
-            this.metadataService = metadataService;
-            this.scrobblingService = scrobblingService;
+            this.Track.Love = love ? 1 : 0;
+            this.RaisePropertyChanged(nameof(this.Love));
+        }
+
+        public void UpdateVisibleCounters(TrackStatistic statistic)
+        {
+            this.Track.PlayCount = statistic.PlayCount;
+            this.Track.SkipCount = statistic.SkipCount;
+            this.Track.DateLastPlayed = statistic.DateLastPlayed;
+            this.RaisePropertyChanged(nameof(this.PlayCount));
+            this.RaisePropertyChanged(nameof(this.SkipCount));
+            this.RaisePropertyChanged(nameof(this.DateLastPlayed));
+            this.RaisePropertyChanged(nameof(this.SortDateLastPlayed));
         }
 
         public override string ToString()
@@ -416,29 +251,6 @@ namespace Dopamine.Services.Entities
         public override int GetHashCode()
         {
             return this.Track.GetHashCode();
-        }
-
-        public void UpdateVisibleRating(int rating)
-        {
-            this.Track.Rating = (long?)rating;
-            RaisePropertyChanged(nameof(this.Rating));
-        }
-
-        public void UpdateVisibleLove(bool love)
-        {
-            this.Track.Love = love ? 1 : 0;
-            RaisePropertyChanged(nameof(this.Love));
-        }
-
-        public void UpdateVisibleCounters(TrackStatistic statistic)
-        {
-            this.Track.PlayCount = statistic.PlayCount;
-            this.Track.SkipCount = statistic.SkipCount;
-            this.track.DateLastPlayed = statistic.DateLastPlayed;
-            RaisePropertyChanged(nameof(this.PlayCount));
-            RaisePropertyChanged(nameof(this.SkipCount));
-            RaisePropertyChanged(nameof(this.DateLastPlayed));
-            RaisePropertyChanged(nameof(this.SortDateLastPlayed));
         }
     }
 }

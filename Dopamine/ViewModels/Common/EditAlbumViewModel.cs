@@ -16,18 +16,18 @@ namespace Dopamine.ViewModels.Common
 {
     public class EditAlbumViewModel : EditMetadataBase
     {
-        private Album album;
+        private string albumKey;
         private IMetadataService metadataService;
         private IDialogService dialogService;
         private ICacheService cacheService;
         private bool updateFileArtwork;
 
-        public Album Album
+        public string AlbumKey
         {
-            get { return this.album; }
+            get { return this.albumKey; }
             set
             {
-                SetProperty(ref this.album, value);
+                SetProperty(ref this.albumKey, value);
                 this.DownloadArtworkCommand.RaiseCanExecuteChanged();
             }
         }
@@ -42,14 +42,14 @@ namespace Dopamine.ViewModels.Common
         public DelegateCommand ChangeArtworkCommand { get; set; }
         public DelegateCommand RemoveArtworkCommand { get; set; }
 
-        public EditAlbumViewModel(long albumId, IMetadataService metadataService,
+        public EditAlbumViewModel(string albumKey, IMetadataService metadataService,
             IDialogService dialogService, ICacheService cacheService) : base(cacheService)
         {
             this.metadataService = metadataService;
             this.dialogService = dialogService;
             this.cacheService = cacheService;
 
-            this.LoadedCommand = new DelegateCommand(async () => await this.GetAlbumArtworkAsync(albumId));
+            this.LoadedCommand = new DelegateCommand(async () => await this.GetAlbumArtworkAsync(albumKey));
 
             this.ChangeArtworkCommand = new DelegateCommand(async () =>
            {
@@ -68,7 +68,7 @@ namespace Dopamine.ViewModels.Common
         {
             try
             {
-                await this.DownloadArtworkAsync(this.album.AlbumTitle, this.album.AlbumArtist);
+                // TODO await this.DownloadArtworkAsync(this.album.AlbumTitle, this.album.AlbumArtist);
             }
             catch (Exception ex)
             {
@@ -78,12 +78,13 @@ namespace Dopamine.ViewModels.Common
 
         private bool CanDownloadArtwork()
         {
-            if (this.album == null)
-            {
-                return false;
-            }
+            // TODO if (this.album == null)
+            //{
+            //    return false;
+            //}
 
-            return !string.IsNullOrEmpty(this.album.AlbumArtist) && !string.IsNullOrEmpty(this.Album.AlbumTitle);
+            //return !string.IsNullOrEmpty(this.album.AlbumArtist) && !string.IsNullOrEmpty(this.Album.AlbumTitle);
+            return false; // TODO
         }
 
         protected override void UpdateArtwork(byte[] imageData)
@@ -91,27 +92,27 @@ namespace Dopamine.ViewModels.Common
             base.UpdateArtwork(imageData);
         }
 
-        private async Task GetAlbumArtworkAsync(long albumId)
+        private async Task GetAlbumArtworkAsync(string albumKey)
         {
             await Task.Run(() =>
             {
                 // TODO this.Album = this.albumRepository.GetAlbum(albumId);
-                string artworkPath = this.cacheService.GetCachedArtworkPath((string)this.Album.ArtworkID);
+                // TODO string artworkPath = this.cacheService.GetCachedArtworkPath((string)this.Album.ArtworkID);
 
                 try
                 {
-                    if (!string.IsNullOrEmpty(artworkPath))
-                    {
-                        this.ShowArtwork(ImageUtils.Image2ByteArray(artworkPath, 0, 0));
-                    }
-                    else
-                    {
-                        this.ShowArtwork(null);
-                    }
+                    // TODO if (!string.IsNullOrEmpty(artworkPath))
+                    //{
+                    //    this.ShowArtwork(ImageUtils.Image2ByteArray(artworkPath, 0, 0));
+                    //}
+                    //else
+                    //{
+                    //    this.ShowArtwork(null);
+                    //}
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("An error occurred while getting the artwork for album title='{0}' and artist='{1}'. Exception: {2}", (string)this.Album.AlbumTitle, (string)this.Album.AlbumArtist, ex.Message);
+                    // TODO LogClient.Error("An error occurred while getting the artwork for album title='{0}' and artist='{1}'. Exception: {2}", (string)this.Album.AlbumTitle, (string)this.Album.AlbumArtist, ex.Message);
                 }
             });
         }
@@ -124,12 +125,12 @@ namespace Dopamine.ViewModels.Common
             {
                 if (this.Artwork.IsValueChanged)
                 {
-                    await this.metadataService.UpdateAlbumAsync(this.Album, this.Artwork, this.UpdateFileArtwork);
+                    // TODO await this.metadataService.UpdateAlbumAsync(this.Album, this.Artwork, this.UpdateFileArtwork);
                 }
             }
             catch (Exception ex)
             {
-                LogClient.Error("An error occurred while saving the album with title='{0}' and artist='{1}'. Exception: {2}", (string)this.Album.AlbumTitle, (string)this.Album.AlbumArtist, ex.Message);
+                // TODO LogClient.Error("An error occurred while saving the album with title='{0}' and artist='{1}'. Exception: {2}", (string)this.Album.AlbumTitle, (string)this.Album.AlbumArtist, ex.Message);
             }
 
             this.IsBusy = false;

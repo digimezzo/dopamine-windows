@@ -9,6 +9,7 @@ using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
 using System.Timers;
+using Dopamine.Services.Entities;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -71,7 +72,7 @@ namespace Dopamine.ViewModels.Common
             this.RefreshCoverArtAsync(this.playbackService.CurrentTrack.Value);
         }
 
-        protected async virtual void RefreshCoverArtAsync(PlayableTrack track)
+        protected async virtual void RefreshCoverArtAsync(TrackViewModel track)
         {
             await Task.Run(async () =>
             {

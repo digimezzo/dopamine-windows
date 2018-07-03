@@ -108,6 +108,7 @@
     <Compile Include="Enums\SpectrumEnums.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Extensions\LongExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Base\ProductInformation.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />

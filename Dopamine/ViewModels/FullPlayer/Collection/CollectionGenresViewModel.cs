@@ -130,7 +130,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             get
             {
                 return (this.SelectedGenres != null && this.SelectedGenres.Count > 0) |
-                       (this.SelectedAlbumIds != null && this.SelectedAlbumIds.Count > 0);
+                       (this.SelectedAlbumKeys != null && this.SelectedAlbumKeys.Count > 0);
             }
         }
 
@@ -295,7 +295,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             // TODO await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbumIds, this.TrackOrder);
         }
 
-        private async Task AddGenresToPlaylistAsync(IList<long> genreIds, string playlistName)
+        private async Task AddGenresToPlaylistAsync(IList<string> genres, string playlistName)
         {
             AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
 
@@ -327,7 +327,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.playlistService.AddGenresToPlaylistAsync(genreIds, playlistName);
+                    AddTracksToPlaylistResult result = await this.playlistService.AddGenresToPlaylistAsync(genres, playlistName);
 
                     if (result == AddTracksToPlaylistResult.Error)
                     {
@@ -360,9 +360,9 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        private async Task AddGenresToNowPlayingAsync(IList<long> genreIds)
+        private async Task AddGenresToNowPlayingAsync(IList<string> genres)
         {
-            EnqueueResult result = await this.playbackService.AddGenresToQueueAsync(genreIds);
+            EnqueueResult result = await this.playbackService.AddGenresToQueueAsync(genres);
 
             if (!result.IsSuccess)
             {
@@ -374,7 +374,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             GenreViewModel gvm = e.Item as GenreViewModel;
 
-            e.Accepted = DataUtils.FilterGenres(gvm, this.searchService.SearchText);
+            e.Accepted = Services.Utils.EntityUtils.FilterGenres(gvm, this.searchService.SearchText);
         }
 
         private async Task ToggleTrackOrderAsync()

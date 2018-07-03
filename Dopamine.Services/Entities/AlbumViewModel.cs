@@ -9,7 +9,6 @@ namespace Dopamine.Services.Entities
         private string albumTitle;
         private string albumArtist;
         private string year;
-        private string albumKey;
         private string artworkPath;
         private string mainHeader;
         private string subHeader;
@@ -23,10 +22,12 @@ namespace Dopamine.Services.Entities
             this.albumArtist = !string.IsNullOrEmpty(albumArtists) ? albumArtists.Replace(Constants.MultiValueTagsSeparator, ", ") : ResourceUtils.GetString("Language_Unknown_Artist");
             this.year = year.HasValue && year.Value > 0 ? year.ToString() : string.Empty;
             this.SortYear = year.HasValue ? year.Value : 0;
-            this.albumKey = albumKey;
+            this.AlbumKey = albumKey;
             this.DateAdded = dateAdded;
             this.DateFileCreated = dateFileCreated;
         }
+
+        public string AlbumKey { get; set; }
 
         public long? DateAdded
         {
@@ -130,12 +131,12 @@ namespace Dopamine.Services.Entities
                 return false;
             }
 
-            return this.albumKey.Equals(((AlbumViewModel)obj).albumKey);
+            return this.AlbumKey.Equals(((AlbumViewModel)obj).AlbumKey);
         }
 
         public override int GetHashCode()
         {
-            return this.albumKey.GetHashCode();
+            return this.AlbumKey.GetHashCode();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using Dopamine.Core.Utils;
+﻿using Dopamine.Core.Extensions;
+using Dopamine.Core.Utils;
 using Dopamine.Data;
-using Dopamine.Data.Entities;
 using Dopamine.Services.Entities;
 using System;
 using System.Collections.Generic;
@@ -9,14 +9,17 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Services.Utils
 {
-    public static class DataUtils
+    public static class EntityUtils
     {
         public static bool FilterAlbums(AlbumViewModel album, string filter)
         {
             // Trim is required here, otherwise the filter might flip on the space at the beginning (and probably at the end)
             string[] pieces = filter.Trim().Split(Convert.ToChar(" "));
 
-            return pieces.All((s) => album.AlbumTitle.ToLower().Contains(s.ToLower()) | album.AlbumArtist.ToLower().Contains(s.ToLower()) | album.Year.ToString().ToLower().Contains(s.ToLower()));
+            return pieces.All((s) => 
+            album.AlbumTitle.ToLower().Contains(s.ToLower()) | 
+            album.AlbumArtist.ToLower().Contains(s.ToLower()) | 
+            album.Year.ToString().ToLower().Contains(s.ToLower()));
         }
 
         public static bool FilterArtists(ArtistViewModel artist, string filter)
@@ -35,24 +38,22 @@ namespace Dopamine.Services.Utils
             return pieces.All((s) => genre.GenreName.ToLower().Contains(s.ToLower()));
         }
 
-        public static bool FilterTracks(PlayableTrack track, string filter)
+        public static bool FilterTracks(TrackViewModel track, string filter)
         {
             // Trim is required here, otherwise the filter might flip on the space at the beginning (and probably at the end)
             string[] pieces = filter.Trim().Split(Convert.ToChar(" "));
 
-            // Just making sure that all fields are not Nothing
-            if (track.TrackTitle == null) track.TrackTitle = string.Empty;
-            if (track.ArtistName == null) track.ArtistName = string.Empty;
-            if (track.AlbumTitle == null) track.AlbumTitle = string.Empty;
-            if (track.FileName == null) track.FileName = string.Empty;
-            if (track.Year == null) track.Year = 0;
-
-            return pieces.All((s) => track.TrackTitle.ToLower().Contains(s.ToLower()) | track.ArtistName.ToLower().Contains(s.ToLower()) | track.AlbumTitle.ToLower().Contains(s.ToLower()) | track.FileName.ToLower().Contains(s.ToLower()) | track.Year.ToString().Contains(s.ToLower()));
+            return pieces.All((s) => 
+            track.TrackTitle.ToLower().Contains(s.ToLower()) | 
+            track.ArtistName.ToLower().Contains(s.ToLower()) | 
+            track.AlbumTitle.ToLower().Contains(s.ToLower()) | 
+            track.FileName.ToLower().Contains(s.ToLower()) | 
+            track.Year.ToString().Contains(s.ToLower()));
         }
 
-        public static async Task<List<PlayableTrack>> OrderTracksAsync(IList<PlayableTrack> tracks, TrackOrder trackOrder)
+        public static async Task<List<TrackViewModel>> OrderTracksAsync(IList<TrackViewModel> tracks, TrackOrder trackOrder)
         {
-            var orderedTracks = new List<PlayableTrack>();
+            var orderedTracks = new List<TrackViewModel>();
 
             await Task.Run(() =>
             {
@@ -62,13 +63,13 @@ namespace Dopamine.Services.Utils
                         orderedTracks = tracks.OrderBy((t) => !string.IsNullOrEmpty(FormatUtils.GetSortableString(t.TrackTitle)) ? FormatUtils.GetSortableString(t.TrackTitle) : FormatUtils.GetSortableString(t.FileName)).ToList();
                         break;
                     case TrackOrder.ByAlbum:
-                        orderedTracks = tracks.OrderBy((t) => FormatUtils.GetSortableString(t.AlbumArtist)).ThenBy((t) => FormatUtils.GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber > 0 ? t.DiscNumber : 1).ThenBy((t) => t.TrackNumber).ToList();
+                        orderedTracks = tracks.OrderBy((t) => FormatUtils.GetSortableString(t.AlbumArtist)).ThenBy((t) => FormatUtils.GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber).ThenBy((t) => t.TrackNumber).ToList();
                         break;
                     case TrackOrder.ByFileName:
                         orderedTracks = tracks.OrderBy((t) => FormatUtils.GetSortableString(t.FileName)).ToList();
                         break;
                     case TrackOrder.ByRating:
-                        orderedTracks = tracks.OrderByDescending((t) => t.Rating.HasValue ? t.Rating : 0).ToList();
+                        orderedTracks = tracks.OrderByDescending((t) => t.Rating).ToList();
                         break;
                     case TrackOrder.ReverseAlphabetical:
                         orderedTracks = tracks.OrderByDescending((t) => !string.IsNullOrEmpty(FormatUtils.GetSortableString(t.TrackTitle)) ? FormatUtils.GetSortableString(t.TrackTitle) : FormatUtils.GetSortableString(t.FileName)).ToList();
@@ -78,7 +79,7 @@ namespace Dopamine.Services.Utils
                         break;
                     default:
                         // By album
-                        orderedTracks = tracks.OrderBy((t) => FormatUtils.GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber > 0 ? t.DiscNumber : 1).ThenBy((t) => t.TrackNumber).ToList();
+                        orderedTracks = tracks.OrderBy((t) => FormatUtils.GetSortableString(t.AlbumTitle)).ThenBy((t) => t.DiscNumber).ThenBy((t) => t.TrackNumber).ToList();
                         break;
                 }
             });

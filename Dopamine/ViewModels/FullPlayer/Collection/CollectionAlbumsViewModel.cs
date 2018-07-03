@@ -32,7 +32,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        public override bool CanOrderByAlbum => this.SelectedAlbumIds != null && this.SelectedAlbumIds.Count > 0;
+        public override bool CanOrderByAlbum => this.SelectedAlbumKeys != null && this.SelectedAlbumKeys.Count > 0;
 
         public CollectionAlbumsViewModel(IContainerProvider container) : base(container)
         {
@@ -49,14 +49,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 {
                     this.EnableRating = (bool)e.SettingValue;
                     this.SetTrackOrder("AlbumsTrackOrder");
-                    await this.GetTracksAsync(null, null, this.SelectedAlbumIds, this.TrackOrder);
+                    await this.GetTracksAsync(null, null, this.SelectedAlbumKeys, this.TrackOrder);
                 }
 
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
                 {
                     this.EnableLove = (bool)e.SettingValue;
                     this.SetTrackOrder("AlbumsTrackOrder");
-                    await this.GetTracksAsync(null, null, this.SelectedAlbumIds, this.TrackOrder);
+                    await this.GetTracksAsync(null, null, this.SelectedAlbumKeys, this.TrackOrder);
                 }
             };
 
@@ -87,7 +87,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             if (e.IsArtworkChanged) await this.RefreshArtworkAsync();
             if (e.IsAlbumChanged) await this.GetAlbumsAsync(null, null, this.AlbumOrder);
-            if (e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, null, this.SelectedAlbumIds, this.TrackOrder);
+            if (e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, null, this.SelectedAlbumKeys, this.TrackOrder);
         }
 
         private async Task ToggleTrackOrderAsync()
@@ -115,7 +115,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         protected async override Task FillListsAsync()
         {
             await this.GetAlbumsAsync(null, null, this.AlbumOrder);
-            await this.GetTracksAsync(null, null, this.SelectedAlbumIds, this.TrackOrder);
+            await this.GetTracksAsync(null, null, this.SelectedAlbumKeys, this.TrackOrder);
         }
 
         protected async override Task SelectedAlbumsHandlerAsync(object parameter)
@@ -123,10 +123,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             await base.SelectedAlbumsHandlerAsync(parameter);
 
             // Don't reload the lists when updating Metadata. MetadataChangedHandlerAsync handles that.
-            if (this.metadataService.IsUpdatingDatabaseMetadata) return;
+            if (this.metadataService.IsUpdatingDatabaseMetadata)
+            {
+                return;
+            }
 
             this.SetTrackOrder("AlbumsTrackOrder");
-            await this.GetTracksAsync(null, null, this.SelectedAlbumIds, this.TrackOrder);
+            await this.GetTracksAsync(null, null, this.SelectedAlbumKeys, this.TrackOrder);
         }
 
         protected override void RefreshLanguage()

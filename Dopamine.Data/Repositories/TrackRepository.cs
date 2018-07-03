@@ -6,7 +6,6 @@ using Dopamine.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Dopamine.Data.Repositories
@@ -20,85 +19,29 @@ namespace Dopamine.Data.Repositories
             this.factory = factory;
         }
 
-        private string DisplayableTracksQuery()
+        private string SelectTracksQuery()
         {
-            return @"FROM Track t
+            return @"SELECT DISTINCT *
+                     FROM Track t
                      INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
                      INNER JOIN Folder f ON ft.FolderID = f.FolderID
                      WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1";
         }
 
-        private string ArtistsFilterQuery(IList<string> artists)
+        private string SelectAlbumDataQuery()
         {
-            var sb = new StringBuilder();
-
-            sb.AppendLine(" AND (");
-
-            var orClauses = new List<string>();
-
-            foreach (string artist in artists)
-            {
-                if (string.IsNullOrEmpty(artist))
-                {
-                    orClauses.Add($@"Artists IS NULL OR Artists='' OR AlbumArtists IS NULL OR AlbumArtists=''");
-                }
-                else
-                {
-                    orClauses.Add($@"LOWER(Artists) LIKE '%{artist.Replace("'", "''").ToLower()}%' OR LOWER(AlbumArtists) LIKE '%{artist.Replace("'", "''").ToLower()}%'");
-                }
-            }
-
-            sb.AppendLine(string.Join(" OR ", orClauses.ToArray()));
-            sb.AppendLine(")");
-
-            return sb.ToString();
+            return @"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
+                     MAX(Year) AS Year, MAX(DateFileCreated) AS DateFileCreated, 
+                     MAX(DateAdded) AS DateAdded
+                     FROM Track t
+                     INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
+                     INNER JOIN Folder f ON ft.FolderID = f.FolderID
+                     WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1";
         }
 
-        private string GenresFilterQuery(IList<string> genres)
+        public async Task<List<Track>> GetTracksAsync(IList<string> paths)
         {
-            var sb = new StringBuilder();
-
-            sb.AppendLine(" AND (");
-
-            var orClauses = new List<string>();
-
-            foreach (string genre in genres)
-            {
-                if (string.IsNullOrEmpty(genre))
-                {
-                    orClauses.Add($@"Genres IS NULL OR Genres=''");
-                }
-                else
-                {
-                    orClauses.Add($@"LOWER(Genres) LIKE '%{genre.Replace("'", "''").ToLower()}%'");
-                }
-            }
-
-            sb.AppendLine(string.Join(" OR ", orClauses.ToArray()));
-            sb.AppendLine(")");
-
-            return sb.ToString();
-        }
-
-        private string SelectQueryPart()
-        {
-            return "SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.Path, tra.SafePath, " +
-                   "tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle, " +
-                   "tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year, " +
-                   "tra.HasLyrics, tra.DateAdded, tra.DateLastSynced, " +
-                   "tra.DateFileModified, tra.MetaDataHash, " +
-                   "alb.Year AS AlbumYear, " +
-                   "ts.Rating, ts.Love, ts.PlayCount, ts.SkipCount, ts.DateLastPlayed " +
-                   "FROM Track tra " +
-                   "INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID " +
-                   "INNER JOIN Artist art ON tra.ArtistID=art.ArtistID " +
-                   "INNER JOIN Genre gen ON tra.GenreID=gen.GenreID " +
-                   "INNER JOIN TrackStatistic ts ON tra.SafePath=ts.SafePath ";
-        }
-
-        public async Task<List<PlayableTrack>> GetTracksAsync(IList<string> paths)
-        {
-            var tracks = new List<PlayableTrack>();
+            var tracks = new List<Track>();
 
             await Task.Run(() =>
             {
@@ -108,12 +51,9 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            //var safePaths = paths.Select((p) => p.ToSafePath()).ToList();
+                            IList<string> safePaths = paths.Select((p) => p.ToSafePath()).ToList();
 
-                            //string q = string.Format(this.SelectQueryPart() +
-                            //                         "WHERE tra.SafePath IN ({0});", DatabaseUtils.ToQueryList(safePaths));
-
-                            //tracks = conn.Query<PlayableTrack>(q);
+                            tracks = conn.Query<Track>($"{this.SelectTracksQuery()} AND {DataUtils.CreateInClause("t.SafePath", safePaths)};");
                         }
                         catch (Exception ex)
                         {
@@ -130,9 +70,9 @@ namespace Dopamine.Data.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetTracksAsync()
+        public async Task<List<Track>> GetTracksAsync()
         {
-            var tracks = new List<PlayableTrack>();
+            var tracks = new List<Track>();
 
             await Task.Run(() =>
             {
@@ -142,10 +82,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            //tracks = conn.Query<PlayableTrack>(this.SelectQueryPart() +
-                            //                                 "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
-                            //                                 "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
-                            //                                 "WHERE fol.ShowInCollection=1 AND tra.IndexingSuccess=1;");
+                            tracks = conn.Query<Track>($"{this.SelectTracksQuery()};");
                         }
                         catch (Exception ex)
                         {
@@ -162,9 +99,9 @@ namespace Dopamine.Data.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetArtistTracksAsync(IList<Artist> artists)
+        public async Task<List<Track>> GetArtistTracksAsync(IList<string> artistNames)
         {
-            var tracks = new List<PlayableTrack>();
+            var tracks = new List<Track>();
 
             await Task.Run(() =>
             {
@@ -174,15 +111,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            List<long> artistIDs = artists.Select((a) => a.ArtistID).ToList();
-                            List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
-
-                            string q = string.Format(this.SelectQueryPart() +
-                                                     "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
-                                                     "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
-                                                     "WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(artistIDs), DatabaseUtils.ToQueryList(artistNames));
-
-                            tracks = conn.Query<PlayableTrack>(q);
+                            tracks = conn.Query<Track>($"{this.SelectTracksQuery()} AND {DataUtils.CreateInClause("t.Artists", artistNames)} OR {DataUtils.CreateInClause("t.AlbumArtists", artistNames)};");
                         }
                         catch (Exception ex)
                         {
@@ -199,9 +128,9 @@ namespace Dopamine.Data.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetGenreTracksAsync(IList<long> genreIds)
+        public async Task<List<Track>> GetGenreTracksAsync(IList<string> genreNames)
         {
-            var tracks = new List<PlayableTrack>();
+            var tracks = new List<Track>();
 
             await Task.Run(() =>
             {
@@ -211,12 +140,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            string q = string.Format(this.SelectQueryPart() +
-                                                     "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
-                                                     "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
-                                                     "WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(genreIds));
-
-                            tracks = conn.Query<PlayableTrack>(q);
+                            tracks = conn.Query<Track>($"{this.SelectTracksQuery()} AND {DataUtils.CreateInClause("t.Genres", genreNames)};");
                         }
                         catch (Exception ex)
                         {
@@ -233,9 +157,9 @@ namespace Dopamine.Data.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetAlbumTracksAsync(IList<long> albumIds)
+        public async Task<List<Track>> GetAlbumTracksAsync(IList<string> albumKeys)
         {
-            var tracks = new List<PlayableTrack>();
+            var tracks = new List<Track>();
 
             await Task.Run(() =>
             {
@@ -245,12 +169,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            string q = string.Format(this.SelectQueryPart() +
-                                                     "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
-                                                     "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
-                                                     "WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(albumIds));
-
-                            tracks = conn.Query<PlayableTrack>(q);
+                            tracks = conn.Query<Track>(this.SelectTracksQuery() + $" AND {DataUtils.CreateInClause("t.AlbumKey", albumKeys)};");
                         }
                         catch (Exception ex)
                         {
@@ -305,7 +224,7 @@ namespace Dopamine.Data.Repositories
             return track;
         }
 
-        public async Task<RemoveTracksResult> RemoveTracksAsync(IList<PlayableTrack> tracks)
+        public async Task<RemoveTracksResult> RemoveTracksAsync(IList<Track> tracks)
         {
             RemoveTracksResult result = RemoveTracksResult.Success;
 
@@ -317,7 +236,7 @@ namespace Dopamine.Data.Repositories
                     {
                         using (var conn = this.factory.GetConnection())
                         {
-                            List<string> pathsToRemove = tracks.Select((t) => t.Path).ToList();
+                            IList<string> pathsToRemove = tracks.Select((t) => t.Path).ToList();
 
                             conn.Execute("BEGIN TRANSACTION");
 
@@ -447,7 +366,7 @@ namespace Dopamine.Data.Repositories
             return updateSuccess;
         }
 
-        public async Task<IList<string>> GetAllGenresAsync()
+        public async Task<IList<string>> GetGenresAsync()
         {
             var genreNames = new List<string>();
 
@@ -459,10 +378,10 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            genreNames = conn.Query<Track>("SELECT * " + this.DisplayableTracksQuery()).ToList()
-                                                            .Select((t) => t.Genres).Where(g => !string.IsNullOrEmpty(g))
-                                                            .SelectMany(g => g.Split(Convert.ToChar(Constants.MultiValueTagsSeparator)))
-                                                            .Distinct().ToList();
+                            genreNames = conn.Query<Track>(this.SelectTracksQuery()).ToList()
+                                                           .Select((t) => t.Genres).Where(g => !string.IsNullOrEmpty(g))
+                                                           .SelectMany(g => MetadataUtils.GetMultiValueTagsCollection(g))
+                                                           .Distinct().ToList();
                         }
                         catch (Exception ex)
                         {
@@ -479,7 +398,7 @@ namespace Dopamine.Data.Repositories
             return genreNames;
         }
 
-        public async Task<IList<string>> GetAllTrackArtistsAsync()
+        public async Task<IList<string>> GetTrackArtistsAsync()
         {
             var artistNames = new List<string>();
 
@@ -491,9 +410,9 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            artistNames = conn.Query<Track>("SELECT * " + this.DisplayableTracksQuery()).ToList()
+                            artistNames = conn.Query<Track>(this.SelectTracksQuery()).ToList()
                                                             .Select((t) => t.Artists).Where(a => !string.IsNullOrEmpty(a))
-                                                            .SelectMany(a => a.Split(Convert.ToChar(Constants.MultiValueTagsSeparator)))
+                                                            .SelectMany(a => MetadataUtils.GetMultiValueTagsCollection(a))
                                                             .Distinct().ToList();
                         }
                         catch (Exception ex)
@@ -511,7 +430,7 @@ namespace Dopamine.Data.Repositories
             return artistNames;
         }
 
-        public async Task<IList<string>> GetAllAlbumArtistsAsync()
+        public async Task<IList<string>> GetAlbumArtistsAsync()
         {
             var albumArtists = new List<string>();
 
@@ -523,10 +442,10 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            albumArtists = conn.Query<Track>("SELECT * " + this.DisplayableTracksQuery()).ToList()
-                                                            .Select((t) => t.AlbumArtists).Where(a => !string.IsNullOrEmpty(a))
-                                                            .SelectMany(a => a.Split(Convert.ToChar(Constants.MultiValueTagsSeparator)))
-                                                            .Distinct().ToList();
+                            albumArtists = conn.Query<Track>(this.SelectTracksQuery()).ToList()
+                                                             .Select((t) => t.AlbumArtists).Where(a => !string.IsNullOrEmpty(a))
+                                                             .SelectMany(a => MetadataUtils.GetMultiValueTagsCollection(a))
+                                                             .Distinct().ToList();
                         }
                         catch (Exception ex)
                         {
@@ -555,23 +474,18 @@ namespace Dopamine.Data.Repositories
                         {
                             try
                             {
-                                var filterQuery = string.Empty;
+                                string filterQuery = string.Empty;
 
                                 if (artists != null)
                                 {
-                                    filterQuery = this.ArtistsFilterQuery(artists);
+                                    filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists)} OR {DataUtils.CreateOrLikeClause("AlbumArtists", artists)})";
                                 }
                                 else if (genres != null)
                                 {
-                                    filterQuery = this.GenresFilterQuery(genres);
+                                    filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", genres)}";
                                 }
 
-                                albumValues = conn.Query<AlbumData>(@"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
-                                                                  MAX(Year) AS Year, MAX(DateFileCreated) AS DateFileCreated, 
-                                                                  MAX(DateAdded) AS DateAdded " +
-                                                                  this.DisplayableTracksQuery() +
-                                                                  filterQuery +
-                                                                  " GROUP BY AlbumKey");
+                                albumValues = conn.Query<AlbumData>(this.SelectAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey");
                             }
                             catch (Exception ex)
                             {

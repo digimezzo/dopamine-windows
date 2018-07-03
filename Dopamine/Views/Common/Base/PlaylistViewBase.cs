@@ -74,10 +74,10 @@ namespace Dopamine.Views.Common.Base
                 if (!enqueue)
                 {
                     // The user just wants to play the selected item. Don't enqueue.
-                    if (lb.SelectedItem.GetType().Name == typeof(KeyValuePair<string, PlayableTrack>).Name)
+                    if (lb.SelectedItem.GetType().Name == typeof(KeyValuePair<string, TrackViewModel>).Name)
                     {
                         var selectedTrack = (KeyValuePair<string, TrackViewModel>)lb.SelectedItem;
-                        await this.playbackService.PlaySelectedAsync(new KeyValuePair<string, PlayableTrack>(selectedTrack.Key, selectedTrack.Value.Track));
+                        await this.playbackService.PlaySelectedAsync(new KeyValuePair<string, TrackViewModel>(selectedTrack.Key, selectedTrack.Value));
                     }
 
                     return;
@@ -90,18 +90,18 @@ namespace Dopamine.Views.Common.Base
                         List<KeyValuePair<string, TrackViewModel>> items = lb.Items.OfType<KeyValuePair<string, TrackViewModel>>().ToList();
                         KeyValuePair<string, TrackViewModel> selectedItem = (KeyValuePair<string, TrackViewModel>)lb.SelectedItem;
 
-                        var tracks = new List<KeyValuePair<string, PlayableTrack>>();
+                        var tracks = new List<KeyValuePair<string, TrackViewModel>>();
 
                         foreach (KeyValuePair<string, TrackViewModel> item in items)
                         {
-                            tracks.Add(new KeyValuePair<string, PlayableTrack>(item.Key, item.Value.Track));
+                            tracks.Add(new KeyValuePair<string, TrackViewModel>(item.Key, item.Value));
                         }
 
-                        await this.playbackService.EnqueueAsync(tracks, new KeyValuePair<string, PlayableTrack>(selectedItem.Key, selectedItem.Value.Track));
+                        await this.playbackService.EnqueueAsync(tracks, new KeyValuePair<string, TrackViewModel>(selectedItem.Key, selectedItem.Value));
                     }
                     else if (lb.SelectedItem.GetType().Name == typeof(PlaylistViewModel).Name)
                     {
-                        List<PlayableTrack> tracks = await this.playlistService.GetTracks(((PlaylistViewModel)lb.SelectedItem).Name);
+                        List<TrackViewModel> tracks = await this.playlistService.GetTracks(((PlaylistViewModel)lb.SelectedItem).Name);
                         await this.playbackService.EnqueueAsync(tracks);
                     }
                 }

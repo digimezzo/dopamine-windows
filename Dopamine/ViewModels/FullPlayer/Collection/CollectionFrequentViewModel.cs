@@ -82,13 +82,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.indexingService.IndexingStopped += async (_, __) => await this.PopulateAlbumHistoryAsync();
 
             // Commands
-            this.ClickCommand = new DelegateCommand<object>((album) =>
+            this.ClickCommand = new DelegateCommand<object>((albumViewModel) =>
             {
                 try
                 {
-                    if (album != null)
+                    if (albumViewModel != null)
                     {
-                        this.playbackService.EnqueueAlbumsAsync(new List<long> { ((Album)album).AlbumID }, false, false);
+                        this.playbackService.EnqueueAlbumsAsync(new List<string> { ((AlbumViewModel)albumViewModel).AlbumKey }, false, false);
                     }
                 }
                 catch (Exception ex)

@@ -40,7 +40,7 @@ namespace Dopamine.ViewModels.Common
         private II18nService i18nService;
         private ObservableCollection<KeyValuePair<string, TrackViewModel>> tracks;
         private CollectionViewSource tracksCvs;
-        private IList<KeyValuePair<string, PlayableTrack>> selectedTracks;
+        private IList<KeyValuePair<string, TrackViewModel>> selectedTracks;
         protected bool isDroppingTracks;
         private KeyValuePair<string, TrackViewModel> lastPlayingTrackVm;
         private bool showTrackArt;
@@ -59,10 +59,10 @@ namespace Dopamine.ViewModels.Common
             set { SetProperty<CollectionViewSource>(ref this.tracksCvs, value); }
         }
 
-        public IList<KeyValuePair<string, PlayableTrack>> SelectedTracks
+        public IList<KeyValuePair<string, TrackViewModel>> SelectedTracks
         {
             get { return this.selectedTracks; }
-            set { SetProperty<IList<KeyValuePair<string, PlayableTrack>>>(ref this.selectedTracks, value); }
+            set { SetProperty<IList<KeyValuePair<string, TrackViewModel>>>(ref this.selectedTracks, value); }
         }
 
         public bool ShowTrackArt
@@ -124,7 +124,7 @@ namespace Dopamine.ViewModels.Common
         private void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
             KeyValuePair<string, TrackViewModel> vm = (KeyValuePair<string, TrackViewModel>)e.Item;
-            e.Accepted = DataUtils.FilterTracks(vm.Value.Track, this.searchService.SearchText);
+            e.Accepted = EntityUtils.FilterTracks(vm.Value, this.searchService.SearchText);
         }
 
         private async void CalculateSizeInformationAsync(CollectionViewSource source)
@@ -178,7 +178,7 @@ namespace Dopamine.ViewModels.Common
             this.FillListsAsync();
         }
 
-        protected async Task GetTracksCommonAsync(OrderedDictionary<string, PlayableTrack> tracks)
+        protected async Task GetTracksCommonAsync(OrderedDictionary<string, TrackViewModel> tracks)
         {
             try
             {
@@ -187,10 +187,10 @@ namespace Dopamine.ViewModels.Common
 
                 await Task.Run(() =>
                 {
-                    foreach (KeyValuePair<string, PlayableTrack> track in tracks)
+                    foreach (KeyValuePair<string, TrackViewModel> track in tracks)
                     {
                         TrackViewModel vm = this.container.Resolve<TrackViewModel>();
-                        vm.Track = track.Value;
+                        vm = track.Value;
                         viewModels.Add(new KeyValuePair<string, TrackViewModel>(track.Key, vm));
                     }
                 });
@@ -268,7 +268,7 @@ namespace Dopamine.ViewModels.Common
 
         protected async Task PlayNextAsync()
         {
-            IList<PlayableTrack> selectedTracks = this.SelectedTracks.Select(t => t.Value).ToList();
+            IList<TrackViewModel> selectedTracks = this.SelectedTracks.Select(t => t.Value).ToList();
 
             EnqueueResult result = await this.playbackService.AddToQueueNextAsync(selectedTracks);
 
@@ -280,7 +280,7 @@ namespace Dopamine.ViewModels.Common
 
         protected async Task AddTracksToNowPlayingAsync()
         {
-            IList<PlayableTrack> selectedTracks = this.SelectedTracks.Select(t => t.Value).ToList();
+            IList<TrackViewModel> selectedTracks = this.SelectedTracks.Select(t => t.Value).ToList();
 
             EnqueueResult result = await this.playbackService.AddToQueueAsync(selectedTracks);
 
@@ -379,14 +379,14 @@ namespace Dopamine.ViewModels.Common
         {
             if (parameter != null)
             {
-                this.SelectedTracks = new List<KeyValuePair<string, PlayableTrack>>();
+                this.SelectedTracks = new List<KeyValuePair<string, TrackViewModel>>();
 
                 System.Collections.IList items = (System.Collections.IList)parameter;
                 var collection = items.Cast<KeyValuePair<string, TrackViewModel>>();
 
                 foreach (KeyValuePair<string, TrackViewModel> item in collection)
                 {
-                    this.SelectedTracks.Add(new KeyValuePair<string, PlayableTrack>(item.Key, item.Value.Track));
+                    this.SelectedTracks.Add(new KeyValuePair<string, TrackViewModel>(item.Key, item.Value));
                 }
             }
         }

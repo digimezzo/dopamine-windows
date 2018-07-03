@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dopamine.Services.Utils
+namespace Dopamine.Data
 {
     public static class MetadataUtils
     {
@@ -153,12 +153,11 @@ namespace Dopamine.Services.Utils
             return GetOrderedMultiValueTags(fileMetadata.AlbumArtists);
         }
 
-        public static void SplitMetadata(IFileMetadata fileMetadata, ref Track track, ref TrackStatistic trackStatistic)
+        public static void FillTrack(IFileMetadata fileMetadata, ref Track track)
         {
             string path = fileMetadata.Path;
             long nowTicks = DateTime.Now.Ticks;
 
-            // Track
             track.Path = path;
             track.SafePath = path.ToSafePath();
             track.FileName = FileUtils.NameWithoutExtension(path);
@@ -184,11 +183,7 @@ namespace Dopamine.Services.Utils
             track.AlbumTitle = string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : MetadataUtils.SanitizeTag(fileMetadata.Album.Value);
             track.AlbumArtists = GetAllAlbumArtists(fileMetadata);
             track.AlbumKey = GenerateInitialAlbumKey(track.AlbumTitle, track.AlbumArtists, track.Artists);
-
-            // TrackStatistic
-            trackStatistic.Path = path;
-            trackStatistic.SafePath = path.ToSafePath();
-            trackStatistic.Rating = fileMetadata.Rating.Value;
+            track.Rating = fileMetadata.Rating.Value;
         }
 
         private static string GenerateInitialAlbumKey(string albumTitle, string albumArtists, string trackArtists)
@@ -211,62 +206,31 @@ namespace Dopamine.Services.Utils
             return albumTitle;
         }
 
-        private static string GetCommaSeparatedMultiValueTags(string multiValueTagValue)
+        public static string GetCommaSeparatedMultiValueTags(string multiValueTagValue)
         {
             if (multiValueTagValue.Contains(Constants.MultiValueTagsSeparator))
             {
-                return string.Join(", ", multiValueTagValue.Split(Convert.ToChar(Constants.MultiValueTagsSeparator)));
+                return string.Join(", ", GetMultiValueTagsCollection(multiValueTagValue));
             }
 
             return multiValueTagValue;
         }
 
-        public static async Task<PlayableTrack> Path2TrackAsync(IFileMetadata fileMetadata, TrackStatistic savedTrackStatistic)
+        public static IEnumerable<string> GetMultiValueTagsCollection(string multiValueTagValue)
         {
-            var ptrack = new PlayableTrack();
+            return multiValueTagValue.Split(Convert.ToChar(Constants.MultiValueTagsSeparator));
+        }
+
+        public static async Task<Track> Path2TrackAsync(IFileMetadata fileMetadata)
+        {
+            var track = Track.CreateDefault(fileMetadata.Path);
 
             await Task.Run(() =>
             {
-                var track = new Track();
-                var trackStatistic = new TrackStatistic();
-
-                MetadataUtils.SplitMetadata(fileMetadata, ref track, ref trackStatistic);
-
-                ptrack.Path = track.Path;
-                ptrack.SafePath = track.Path.ToSafePath();
-                ptrack.FileName = track.FileName;
-                ptrack.MimeType = track.MimeType;
-                ptrack.FileSize = track.FileSize;
-                ptrack.BitRate = track.BitRate;
-                ptrack.SampleRate = track.SampleRate;
-                ptrack.TrackTitle = track.TrackTitle;
-                ptrack.TrackNumber = track.TrackNumber;
-                ptrack.TrackCount = track.TrackCount;
-                ptrack.DiscNumber = track.DiscNumber;
-                ptrack.DiscCount = track.DiscCount;
-                ptrack.Duration = track.Duration;
-                ptrack.Year = track.Year;
-                ptrack.HasLyrics = track.HasLyrics;
-                ptrack.AlbumTitle = track.AlbumTitle;
-                ptrack.ArtistName = GetCommaSeparatedMultiValueTags(track.Artists);
-                ptrack.GenreName = GetCommaSeparatedMultiValueTags(track.Genres);
-                ptrack.AlbumArtist = GetCommaSeparatedMultiValueTags(track.AlbumArtists);
-
-                // If there is a saved TrackStatistic, used that one. Otherwise the
-                // TrackStatistic from the file is used. That only contains rating.
-                if (savedTrackStatistic != null)
-                {
-                    trackStatistic = savedTrackStatistic;
-                }
-
-                ptrack.Rating = trackStatistic.Rating;
-                ptrack.Love = trackStatistic.Love;
-                ptrack.PlayCount = trackStatistic.PlayCount;
-                ptrack.SkipCount = trackStatistic.SkipCount;
-                ptrack.DateLastPlayed = trackStatistic.DateLastPlayed;
+                MetadataUtils.FillTrack(fileMetadata, ref track);
             });
 
-            return ptrack;
+            return track;
         }
     }
 }

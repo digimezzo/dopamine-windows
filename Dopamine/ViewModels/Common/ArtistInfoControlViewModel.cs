@@ -6,6 +6,7 @@ using Digimezzo.WPFControls.Enums;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Core.Base;
 using Dopamine.Data.Entities;
+using Dopamine.Services.Entities;
 using Dopamine.Services.I18n;
 using Dopamine.Services.Playback;
 using Prism.Commands;
@@ -81,7 +82,7 @@ namespace Dopamine.ViewModels.Common
             this.ShowArtistInfoAsync(this.playbackService.CurrentTrack.Value, true);
         }
 
-        private async Task ShowArtistInfoAsync(PlayableTrack track, bool forceReload)
+        private async Task ShowArtistInfoAsync(TrackViewModel track, bool forceReload)
         {
             this.previousArtist = this.artist;
 

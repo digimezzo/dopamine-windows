@@ -6,7 +6,10 @@ using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Entities;
+using Dopamine.Services.Extensions;
 using Dopamine.Services.Playback;
+using Dopamine.Services.Utils;
+using Prism.Ioc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,15 +25,17 @@ namespace Dopamine.Services.Collection
         private IFolderRepository folderRepository;
         private ICacheService cacheService;
         private IPlaybackService playbackService;
+        private IContainerProvider container;
         private List<Folder> markedFolders;
         private Timer saveMarkedFoldersTimer = new Timer(2000);
 
-        public CollectionService(ITrackRepository trackRepository, IFolderRepository folderRepository, ICacheService cacheService, IPlaybackService playbackService)
+        public CollectionService(ITrackRepository trackRepository, IFolderRepository folderRepository, ICacheService cacheService, IPlaybackService playbackService, IContainerProvider container)
         {
             this.trackRepository = trackRepository;
             this.folderRepository = folderRepository;
             this.cacheService = cacheService;
             this.playbackService = playbackService;
+            this.container = container;
             this.markedFolders = new List<Folder>();
 
             this.saveMarkedFoldersTimer.Elapsed += SaveMarkedFoldersTimer_Elapsed;
@@ -65,9 +70,9 @@ namespace Dopamine.Services.Collection
             await this.SaveMarkedFoldersAsync();
         }
 
-        public async Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<PlayableTrack> selectedTracks)
+        public async Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<TrackViewModel> selectedTracks)
         {
-            RemoveTracksResult result = await this.trackRepository.RemoveTracksAsync(selectedTracks);
+            RemoveTracksResult result = await this.trackRepository.RemoveTracksAsync(selectedTracks.Select(t => t.Track).ToList());
 
             if (result == RemoveTracksResult.Success)
             {
@@ -77,17 +82,17 @@ namespace Dopamine.Services.Collection
             return result;
         }
 
-        public async Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<PlayableTrack> selectedTracks)
+        public async Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<TrackViewModel> selectedTracks)
         {
             var sendToRecycleBinResult = RemoveTracksResult.Success;
-            var result = await this.trackRepository.RemoveTracksAsync(selectedTracks);
+            var result = await this.trackRepository.RemoveTracksAsync(selectedTracks.Select(t => t.Track).ToList());
 
             if (result == RemoveTracksResult.Success)
             {
                 // If result is Success: we can assume that all selected tracks were removed from the collection,
                 // as this happens in a transaction in trackRepository. If removing 1 or more tracks fails, the
                 // transaction is rolled back and no tracks are removed.
-                foreach (var track in selectedTracks)
+                foreach (TrackViewModel track in selectedTracks)
                 {
                     // When the track is playing, the corresponding file is handled by the CSCore.
                     // To delete the file properly, PlaybackService must release this handle.
@@ -225,7 +230,7 @@ namespace Dopamine.Services.Collection
 
         public async Task<IList<GenreViewModel>> GetAllGenresAsync()
         {
-            IList<string> genres = await this.trackRepository.GetAllGenresAsync();
+            IList<string> genres = await this.trackRepository.GetGenresAsync();
             IList<GenreViewModel> orderedGenres = (await this.GetUniqueGenresAsync(genres)).OrderBy(g => g.GenreName).ToList();
 
             // Workaround to make sure the "#" GroupHeader is shown at the top of the list
@@ -243,16 +248,16 @@ namespace Dopamine.Services.Collection
             switch (artistType)
             {
                 case ArtistType.All:
-                    IList<string> trackArtiss = await this.trackRepository.GetAllTrackArtistsAsync();
-                    IList<string> albumArtists = await this.trackRepository.GetAllAlbumArtistsAsync();
+                    IList<string> trackArtiss = await this.trackRepository.GetTrackArtistsAsync();
+                    IList<string> albumArtists = await this.trackRepository.GetAlbumArtistsAsync();
                     ((List<string>)trackArtiss).AddRange(albumArtists);
                     artists = trackArtiss;
                     break;
                 case ArtistType.Track:
-                    artists = await this.trackRepository.GetAllTrackArtistsAsync();
+                    artists = await this.trackRepository.GetTrackArtistsAsync();
                     break;
                 case ArtistType.Album:
-                    artists = await this.trackRepository.GetAllAlbumArtistsAsync();
+                    artists = await this.trackRepository.GetAlbumArtistsAsync();
                     break;
                 default:
                     // Can't happen
@@ -348,6 +353,30 @@ namespace Dopamine.Services.Collection
             });
 
             return orderedAlbums;
+        }
+
+        public async Task<IList<TrackViewModel>> GetArtistTracksAsync(IList<string> selectedArtists, TrackOrder trackOrder)
+        {
+            IList<Track> tracks = await this.trackRepository.GetArtistTracksAsync(selectedArtists);
+            IList<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(await this.container.ResolveTrackViewModelsAsync(tracks), trackOrder);
+
+            return orderedTracks;
+        }
+
+        public async Task<IList<TrackViewModel>> GetAlbumsTracksAsync(IList<string> selectedAlbumKeys, TrackOrder trackOrder)
+        {
+            IList<Track> tracks = await this.trackRepository.GetAlbumTracksAsync(selectedAlbumKeys);
+            IList<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(await this.container.ResolveTrackViewModelsAsync(tracks), trackOrder);
+
+            return orderedTracks;
+        }
+
+        public async Task<IList<TrackViewModel>> GetGenreTracksAsync(IList<string> selectedGenres, TrackOrder trackOrder)
+        {
+            IList<Track> tracks = await this.trackRepository.GetGenreTracksAsync(selectedGenres);
+            IList<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(await this.container.ResolveTrackViewModelsAsync(tracks), trackOrder);
+
+            return orderedTracks;
         }
     }
 }

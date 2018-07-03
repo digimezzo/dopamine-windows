@@ -88,6 +88,11 @@ namespace Dopamine.Data
                              "NeedsIndexing 	        INTEGER," +
                              "IndexingSuccess 	        INTEGER," +
                              "IndexingFailureReason     TEXT," +
+                             "Rating	            INTEGER," +
+                             "Love	                INTEGER," +
+                             "PlayCount	            INTEGER," +
+                             "SkipCount	            INTEGER," +
+                             "DateLastPlayed        INTEGER," +
                              "PRIMARY KEY(TrackID));");
 
                 conn.Execute("CREATE INDEX TrackPathIndex ON Track(Path);");
@@ -1022,6 +1027,11 @@ namespace Dopamine.Data
                 conn.Execute("ALTER TABLE Track ADD AlbumTitle TEXT;");
                 conn.Execute("ALTER TABLE Track ADD AlbumArtists TEXT;");
                 conn.Execute("ALTER TABLE Track ADD AlbumKey TEXT;");
+                conn.Execute("ALTER TABLE Track ADD Rating INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD Love INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD PlayCount INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD SkipCount INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD DateLastPlayed INTEGER;");
 
                 conn.Execute("ALTER TABLE Track ADD DateFileCreated INTEGER;");
 
