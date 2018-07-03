@@ -21,7 +21,12 @@ namespace Dopamine.Data.Repositories
 
         private string SelectTracksQuery()
         {
-            return @"SELECT DISTINCT *
+            return @"SELECT DISTINCT t.TrackID, t.Artists, t.Genres, t.AlbumTitle, t.AlbumArtists, t.AlbumKey,
+                     t.Path, t.SafePath, t.FileName, t.MimeType, t.FileSize, t.BitRate, 
+                     t.SampleRate, t.TrackTitle, t.TrackNumber, t.TrackCount, t.DiscNumber,
+                     t.DiscCount, t.Duration, t.Year, t.HasLyrics, t.DateAdded, t.DateFileCreated,
+                     t.DateLastSynced, t.DateFileModified, t.NeedsIndexing, t.IndexingSuccess,
+                     t.IndexingFailureReason, t.Rating, t.Love, t.PlayCount, t.SkipCount, t.DateLastPlayed
                      FROM Track t
                      INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
                      INNER JOIN Folder f ON ft.FolderID = f.FolderID

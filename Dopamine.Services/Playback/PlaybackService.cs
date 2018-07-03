@@ -273,7 +273,7 @@ namespace Dopamine.Services.Playback
                         if (this.CurrentTrack.Value.Track.Duration > this.player.GetTotalTime().TotalMilliseconds)
                         {
                             // To show the same duration everywhere, we report the TagLib duration here instead of the CSCore duration.
-                            return new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.CurrentTrack.Value.Duration));
+                            return new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.CurrentTrack.Value.Track.Duration));
                         }
                         else
                         {
