@@ -83,13 +83,13 @@ namespace Dopamine.ViewModels.Common
         {
             base.isDroppingTracks = true;
 
-            var droppedTracks = new List<KeyValuePair<string, PlayableTrack>>();
+            var droppedTracks = new List<KeyValuePair<string, TrackViewModel>>();
 
             // TargetCollection contains all tracks of the queue, in the new order.
             foreach (var item in dropInfo.TargetCollection)
             {
                 KeyValuePair<string, TrackViewModel> droppedItem = (KeyValuePair<string, TrackViewModel>)item;
-                droppedTracks.Add(new KeyValuePair<string, PlayableTrack>(droppedItem.Key, droppedItem.Value.Track));
+                droppedTracks.Add(new KeyValuePair<string, TrackViewModel>(droppedItem.Key, droppedItem.Value));
             }
 
             await this.playbackService.UpdateQueueOrderAsync(droppedTracks);
@@ -125,7 +125,7 @@ namespace Dopamine.ViewModels.Common
             try
             {
                 var filenames = base.GetDroppedFilenames(dropInfo);
-                List<PlayableTrack> tracks = await this.fileService.ProcessFilesAsync(filenames);
+                IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
                 await this.playbackService.AddToQueueAsync(tracks);
             }
             catch (Exception ex)

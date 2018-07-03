@@ -1,5 +1,4 @@
 ﻿using Dopamine.Data.Entities;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,21 +6,21 @@ namespace Dopamine.Data.Repositories
 {
     public interface ITrackRepository
     {
-        Task<List<PlayableTrack>> GetTracksAsync(IList<string> paths);
+        Task<List<Track>> GetTracksAsync(IList<string> paths);
 
-        Task<List<PlayableTrack>> GetTracksAsync();
+        Task<List<Track>> GetTracksAsync();
 
-        Task<List<PlayableTrack>> GetArtistTracksAsync(IList<Artist> artists);
+        Task<List<Track>> GetArtistTracksAsync(IList<string> artistNames);
 
-        Task<List<PlayableTrack>> GetGenreTracksAsync(IList<long> genreIds);
+        Task<List<Track>> GetGenreTracksAsync(IList<string> genreNames);
 
-        Task<List<PlayableTrack>> GetAlbumTracksAsync(IList<long> albumIds);
+        Task<List<Track>> GetAlbumTracksAsync(IList<string> albumKeys);
 
         Track GetTrack(string path);
 
         Task<Track> GetTrackAsync(string path);
 
-        Task<RemoveTracksResult> RemoveTracksAsync(IList<PlayableTrack> tracks);
+        Task<RemoveTracksResult> RemoveTracksAsync(IList<Track> tracks);
 
         Task<bool> UpdateTrackAsync(Track track);
 
@@ -29,11 +28,11 @@ namespace Dopamine.Data.Repositories
 
         Task ClearRemovedTrackAsync();
 
-        Task<IList<string>> GetAllGenresAsync();
+        Task<IList<string>> GetGenresAsync();
 
-        Task<IList<string>> GetAllTrackArtistsAsync();
+        Task<IList<string>> GetTrackArtistsAsync();
 
-        Task<IList<string>> GetAllAlbumArtistsAsync();
+        Task<IList<string>> GetAlbumArtistsAsync();
 
         Task<IList<AlbumData>> GetAlbumsAsync(IList<string> artists, IList<string> genres);
     }

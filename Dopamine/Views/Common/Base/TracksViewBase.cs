@@ -5,7 +5,6 @@ using Dopamine.Core.Base;
 using Dopamine.Services.Entities;
 using Dopamine.Services.Utils;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -60,7 +59,7 @@ namespace Dopamine.Views.Common.Base
                     // The user just wants to play the selected item. Don't enqueue.
                     if (lb.SelectedItem.GetType().Name == typeof(TrackViewModel).Name)
                     {
-                        await this.playbackService.PlaySelectedAsync(((TrackViewModel)lb.SelectedItem).Track);
+                        await this.playbackService.PlaySelectedAsync((TrackViewModel)lb.SelectedItem);
                     }
 
                     return;
@@ -69,10 +68,7 @@ namespace Dopamine.Views.Common.Base
                 // The user wants to enqueue tracks for the selected item
                 if (lb.SelectedItem.GetType().Name == typeof(TrackViewModel).Name)
                 {
-                    await this.playbackService.EnqueueAsync(
-                        lb.Items.OfType<TrackViewModel>().ToList().Select((vm) => vm.Track).ToList(),
-                        ((TrackViewModel)lb.SelectedItem).Track
-                        );
+                    await this.playbackService.EnqueueAsync(lb.Items.OfType<TrackViewModel>().ToList(), (TrackViewModel)lb.SelectedItem);
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(ArtistViewModel).Name)
                 {

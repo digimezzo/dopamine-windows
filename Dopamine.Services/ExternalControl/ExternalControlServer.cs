@@ -2,9 +2,8 @@
 using CSCore.Streams;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Extensions;
-using Dopamine.Data.Entities;
 using Dopamine.Services.Cache;
-using Dopamine.Services.ExternalControl;
+using Dopamine.Services.Entities;
 using Dopamine.Services.Playback;
 using System;
 using System.Collections.Generic;
@@ -138,7 +137,7 @@ namespace Dopamine.Services.ExternalControl
         public void SetProgress(double progress) => this.playbackService.SkipProgress(progress);
 
         [OperationBehavior]
-        public PlayableTrack GetCurrenTrack() => this.playbackService.CurrentTrack.Value;
+        public TrackViewModel GetCurrenTrack() => this.playbackService.CurrentTrack.Value;
 
         [OperationBehavior]
         public string GetCurrentTrackArtworkPath(string artworkId) => this.cacheService.GetCachedArtworkPath(artworkId);

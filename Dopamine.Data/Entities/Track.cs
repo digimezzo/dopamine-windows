@@ -6,18 +6,6 @@ namespace Dopamine.Data.Entities
 {
     public class Track
     {
-        // To delete
-        [Ignore]
-        public long ArtistID { get; set; }
-
-        // To delete
-        [Ignore]
-        public long GenreID { get; set; }
-
-        // To delete
-        [Ignore]
-        public long AlbumID { get; set; }
-
         [PrimaryKey(), AutoIncrement()]
         public long TrackID { get; set; }
 
@@ -74,6 +62,16 @@ namespace Dopamine.Data.Entities
         public long? IndexingSuccess { get; set; }
 
         public string IndexingFailureReason { get; set; }
+
+        public long? Rating { get; set; }
+
+        public long? Love { get; set; }
+
+        public long? PlayCount { get; set; }
+
+        public long? SkipCount { get; set; }
+
+        public long? DateLastPlayed { get; set; }
 
         public static Track CreateDefault(string path)
         {

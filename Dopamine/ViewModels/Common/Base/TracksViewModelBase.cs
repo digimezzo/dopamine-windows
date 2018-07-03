@@ -10,6 +10,7 @@ using Dopamine.Data.Repositories;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
+using Dopamine.Services.Extensions;
 using Dopamine.Services.I18n;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Playback;
@@ -45,7 +46,7 @@ namespace Dopamine.ViewModels.Common.Base
         private IPlaylistService playlistService;
         private ObservableCollection<TrackViewModel> tracks;
         private CollectionViewSource tracksCvs;
-        private IList<PlayableTrack> selectedTracks;
+        private IList<TrackViewModel> selectedTracks;
         private TrackViewModel lastPlayingTrackVm;
 
         public abstract bool CanOrderByAlbum { get; }
@@ -64,10 +65,10 @@ namespace Dopamine.ViewModels.Common.Base
             set { SetProperty<CollectionViewSource>(ref this.tracksCvs, value); }
         }
 
-        public IList<PlayableTrack> SelectedTracks
+        public IList<TrackViewModel> SelectedTracks
         {
             get { return this.selectedTracks; }
-            set { SetProperty<IList<PlayableTrack>>(ref this.selectedTracks, value); }
+            set { SetProperty<IList<TrackViewModel>>(ref this.selectedTracks, value); }
         }
 
         public TracksViewModelBase(IContainerProvider container) : base(container)
@@ -159,62 +160,59 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
-            TrackViewModel vm = e.Item as TrackViewModel;
-            e.Accepted = DataUtils.FilterTracks(vm.Track, this.searchService.SearchText);
+            TrackViewModel track = e.Item as TrackViewModel;
+            e.Accepted = EntityUtils.FilterTracks(track, this.searchService.SearchText);
         }
 
-        protected async Task GetTracksAsync(IList<Artist> selectedArtists, IList<long> selectedGenreIds, IList<long> selectedAlbumIds, TrackOrder trackOrder)
+        protected async Task GetTracksAsync(IList<string> artists, IList<string> genres, IList<string> albumKeys, TrackOrder trackOrder)
         {
 
-            if (selectedArtists.IsNullOrEmpty() & selectedGenreIds.IsNullOrEmpty() & selectedAlbumIds.IsNullOrEmpty())
+            if (artists.IsNullOrEmpty() & genres.IsNullOrEmpty() & albumKeys.IsNullOrEmpty())
             {
                 await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(), trackOrder);
             }
             else
             {
-                if (!selectedAlbumIds.IsNullOrEmpty())
+                if (!albumKeys.IsNullOrEmpty())
                 {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetAlbumTracksAsync(selectedAlbumIds), trackOrder);
+                    await this.GetTracksCommonAsync(await this.trackRepository.GetAlbumTracksAsync(albumKeys), trackOrder);
                     return;
                 }
 
-                if (!selectedArtists.IsNullOrEmpty())
+                if (!artists.IsNullOrEmpty())
                 {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetArtistTracksAsync(selectedArtists), trackOrder);
+                    await this.GetTracksCommonAsync(await this.trackRepository.GetArtistTracksAsync(artists), trackOrder);
                     return;
                 }
 
-                if (!selectedGenreIds.IsNullOrEmpty())
+                if (!genres.IsNullOrEmpty())
                 {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetGenreTracksAsync(selectedGenreIds), trackOrder);
+                    await this.GetTracksCommonAsync(await this.trackRepository.GetGenreTracksAsync(genres), trackOrder);
                     return;
                 }
             }
         }
 
-        protected async Task GetTracksCommonAsync(IList<PlayableTrack> tracks, TrackOrder trackOrder)
+        protected async Task GetTracksCommonAsync(IList<Track> tracks, TrackOrder trackOrder)
         {
             try
             {
-                // Do we need to show the TrackNumber?
-                bool showTracknumber = this.TrackOrder == TrackOrder.ByAlbum;
-
                 // Create new ObservableCollection
-                ObservableCollection<TrackViewModel> viewModels = new ObservableCollection<TrackViewModel>();
+                ObservableCollection<TrackViewModel> trackViewModels = new ObservableCollection<TrackViewModel>(await this.container.ResolveTrackViewModelsAsync(tracks));
 
-                // Order the incoming Tracks
-                List<PlayableTrack> orderedTracks = await DataUtils.OrderTracksAsync(tracks, trackOrder);
+                // Do we need to show the TrackNumber? // TODO: can this be improved?
+                bool showTracknumber = this.TrackOrder == TrackOrder.ByAlbum;
 
                 await Task.Run(() =>
                 {
-                    foreach (PlayableTrack t in orderedTracks)
+                    foreach (TrackViewModel vm in trackViewModels)
                     {
-                        TrackViewModel vm = this.container.Resolve<TrackViewModel>();
-                        vm.Track = t;
                         vm.ShowTrackNumber = showTracknumber;
-                        viewModels.Add(vm);
                     }
                 });
+
+                // Order the Tracks
+                List<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(trackViewModels, trackOrder);
 
                 // Unbind to improve UI performance
                 Application.Current.Dispatcher.Invoke(() =>
@@ -225,7 +223,7 @@ namespace Dopamine.ViewModels.Common.Base
                 });
 
                 // Populate ObservableCollection
-                Application.Current.Dispatcher.Invoke(() => this.Tracks = viewModels);
+                Application.Current.Dispatcher.Invoke(() => this.Tracks = trackViewModels);
             }
             catch (Exception ex)
             {
@@ -258,7 +256,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.ShowPlayingTrackAsync();
         }
 
-        protected async Task RemoveTracksFromCollectionAsync(IList<PlayableTrack> selectedTracks)
+        protected async Task RemoveTracksFromCollectionAsync(IList<TrackViewModel> selectedTracks)
         {
             string title = ResourceUtils.GetString("Language_Remove");
             string body = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Song");
@@ -283,7 +281,7 @@ namespace Dopamine.ViewModels.Common.Base
             }
         }
 
-        protected async Task RemoveTracksFromDiskAsync(IList<PlayableTrack> selectedTracks)
+        protected async Task RemoveTracksFromDiskAsync(IList<TrackViewModel> selectedTracks)
         {
             string title = ResourceUtils.GetString("Language_Remove_From_Disk");
             string body = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Song_From_Disk");
@@ -365,7 +363,7 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async Task PlayNextAsync()
         {
-            IList<PlayableTrack> selectedTracks = this.SelectedTracks;
+            IList<TrackViewModel> selectedTracks = this.SelectedTracks;
 
             EnqueueResult result = await this.playbackService.AddToQueueNextAsync(selectedTracks);
 
@@ -377,7 +375,7 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async Task AddTracksToNowPlayingAsync()
         {
-            IList<PlayableTrack> selectedTracks = this.SelectedTracks;
+            IList<TrackViewModel> selectedTracks = this.SelectedTracks;
 
             EnqueueResult result = await this.playbackService.AddToQueueAsync(selectedTracks);
 
@@ -505,11 +503,11 @@ namespace Dopamine.ViewModels.Common.Base
         {
             if (parameter != null)
             {
-                this.SelectedTracks = new List<PlayableTrack>();
+                this.SelectedTracks = new List<TrackViewModel>();
 
                 foreach (TrackViewModel item in (IList)parameter)
                 {
-                    this.SelectedTracks.Add(item.Track);
+                    this.SelectedTracks.Add(item);
                 }
             }
         }

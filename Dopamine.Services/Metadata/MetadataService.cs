@@ -7,10 +7,11 @@ using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
-using Dopamine.Services.Metadata;
-using Dopamine.Services.Playback;
+using Dopamine.Services.Entities;
+using Dopamine.Services.Extensions;
 using Dopamine.Services.Indexing;
-using Dopamine.Services.Utils;
+using Dopamine.Services.Playback;
+using Prism.Ioc;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,6 +31,7 @@ namespace Dopamine.Services.Metadata
         private ICacheService cacheService;
         private IPlaybackService playbackService;
         private Dictionary<string, IFileMetadata> fileMetadataDictionary;
+        private IContainerProvider container;
         private object lockObject = new object();
         private Timer updateFileMetadataTimer;
         private int updateFileMetadataShortTimeout = 50; // 50 milliseconds
@@ -47,7 +49,7 @@ namespace Dopamine.Services.Metadata
         public event Action<LoveChangedEventArgs> LoveChanged = delegate { };
 
         public MetadataService(ICacheService cacheService, IPlaybackService playbackService, ITrackRepository trackRepository,
-            ITrackStatisticRepository trackStatisticRepository, IFileMetadataFactory metadataFactory)
+            ITrackStatisticRepository trackStatisticRepository, IFileMetadataFactory metadataFactory, IContainerProvider container)
         {
             this.cacheService = cacheService;
             this.playbackService = playbackService;
@@ -55,6 +57,8 @@ namespace Dopamine.Services.Metadata
             this.trackStatisticRepository = trackStatisticRepository;
             this.trackRepository = trackRepository;
             this.metadataFactory = metadataFactory;
+
+            this.container = container;
 
             this.fileMetadataDictionary = new Dictionary<string, IFileMetadata>();
 
@@ -160,7 +164,7 @@ namespace Dopamine.Services.Metadata
             this.MetadataChanged(args);
         }
 
-        public async Task UpdateAlbumAsync(Album album, MetadataArtworkValue artwork, bool updateFileArtwork)
+        public async Task UpdateAlbumAsync(string albumKey, MetadataArtworkValue artwork, bool updateFileArtwork)
         {
             // Make sure that cached artwork cannot be out of date
             lock (this.cachedArtworkLock)
@@ -177,11 +181,12 @@ namespace Dopamine.Services.Metadata
             // Update artwork in database
             // TODO await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
 
-            List<PlayableTrack> albumTracks = await this.trackRepository.GetAlbumTracksAsync(new List<long> { album.AlbumID });
+            IList<Track> tracks = await this.trackRepository.GetAlbumTracksAsync(new List<string> { albumKey });
+            IList<TrackViewModel> albumTracks = await this.container.ResolveTrackViewModelsAsync(tracks);
 
             var fileMetadatas = new List<IFileMetadata>();
 
-            foreach (PlayableTrack track in albumTracks)
+            foreach (TrackViewModel track in albumTracks)
             {
                 var fmd = await this.GetFileMetadataAsync(track.Path);
                 fmd.ArtworkData = artwork;

@@ -4,6 +4,7 @@ using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
+using Dopamine.Services.Entities;
 using Dopamine.Services.Playback;
 using System;
 using System.Collections.Generic;
@@ -14,17 +15,17 @@ namespace Dopamine.Services.Playback
 {
     internal class QueueManager
     {
-        private KeyValuePair<string, PlayableTrack> currentTrack;
+        private KeyValuePair<string, TrackViewModel> currentTrack;
         private object queueLock = new object();
-        private OrderedDictionary<string, PlayableTrack> queue = new OrderedDictionary<string, PlayableTrack>(); // Queued tracks in original order
+        private OrderedDictionary<string, TrackViewModel> queue = new OrderedDictionary<string, TrackViewModel>(); // Queued tracks in original order
         private List<string> playbackOrder = new List<string>(); // Playback order of queued tracks
       
-        public OrderedDictionary<string, PlayableTrack> Queue
+        public OrderedDictionary<string, TrackViewModel> Queue
         {
             get { return this.queue; }
         }
     
-        private bool UpdateTrackPlaybackInfo(PlayableTrack track, IFileMetadata fileMetadata)
+        private bool UpdateTrackPlaybackInfo(TrackViewModel track, IFileMetadata fileMetadata)
         {
             bool isDisplayedPlaybackInfoChanged = false;
 
@@ -33,25 +34,25 @@ namespace Dopamine.Services.Playback
                 // Only update the properties that are displayed on Now Playing screens
                 if (fileMetadata.Title.IsValueChanged)
                 {
-                    track.TrackTitle = fileMetadata.Title.Value;
+                    // TODO track.TrackTitle = fileMetadata.Title.Value;
                     isDisplayedPlaybackInfoChanged = true;
                 }
 
                 if (fileMetadata.Artists.IsValueChanged)
                 {
-                    track.ArtistName = fileMetadata.Artists.Values.FirstOrDefault();
+                    // TODO track.ArtistName = fileMetadata.Artists.Values.FirstOrDefault();
                     isDisplayedPlaybackInfoChanged = true;
                 }
 
                 if (fileMetadata.Year.IsValueChanged)
                 {
-                    track.Year = fileMetadata.Year.Value.SafeConvertToLong();
+                    // TODO track.Year = fileMetadata.Year.Value.SafeConvertToLong();
                     isDisplayedPlaybackInfoChanged = true;
                 }
 
                 if (fileMetadata.Album.IsValueChanged)
                 {
-                    track.AlbumTitle = fileMetadata.Album.Value;
+                    // TODO track.AlbumTitle = fileMetadata.Album.Value;
                     isDisplayedPlaybackInfoChanged = true;
                 }
 
@@ -76,7 +77,7 @@ namespace Dopamine.Services.Playback
                 {
                     if (this.queue.Count > 0)
                     {
-                        if (this.currentTrack.Equals(default(KeyValuePair<string, PlayableTrack>)) || !this.queue.Keys.Contains(this.currentTrack.Key))
+                        if (this.currentTrack.Equals(default(KeyValuePair<string, TrackViewModel>)) || !this.queue.Keys.Contains(this.currentTrack.Key))
                         {
                             // We're not playing a track from the queue: just shuffle.
                             this.playbackOrder = new List<string>(this.queue.Keys).Randomize();
@@ -109,11 +110,11 @@ namespace Dopamine.Services.Playback
             });
         }
 
-        public KeyValuePair<string, PlayableTrack> CurrentTrack()
+        public KeyValuePair<string, TrackViewModel> CurrentTrack()
         {
             try
             {
-                if (!this.currentTrack.Equals(default(KeyValuePair<string, PlayableTrack>)))
+                if (!this.currentTrack.Equals(default(KeyValuePair<string, TrackViewModel>)))
                 {
                     return this.currentTrack;
                 }
@@ -127,18 +128,18 @@ namespace Dopamine.Services.Playback
                 LogClient.Error("Could not get current track. Exception: {0}", ex.Message);
             }
 
-            return default(KeyValuePair<string, PlayableTrack>);
+            return default(KeyValuePair<string, TrackViewModel>);
         }
 
-        public KeyValuePair<string, PlayableTrack> FirstTrack()
+        public KeyValuePair<string, TrackViewModel> FirstTrack()
         {
-            KeyValuePair<string, PlayableTrack> firstTrack = default(KeyValuePair<string, PlayableTrack>);
+            KeyValuePair<string, TrackViewModel> firstTrack = default(KeyValuePair<string, TrackViewModel>);
 
             try
             {
                 if (this.playbackOrder != null && this.playbackOrder.Count > 0)
                 {
-                    firstTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder.First(), this.queue[this.playbackOrder.First()]);
+                    firstTrack = new KeyValuePair<string, TrackViewModel>(this.playbackOrder.First(), this.queue[this.playbackOrder.First()]);
                 }
             }
             catch (Exception ex)
@@ -149,9 +150,9 @@ namespace Dopamine.Services.Playback
             return firstTrack;
         }
 
-        public async Task<KeyValuePair<string, PlayableTrack>> PreviousTrackAsync(LoopMode loopMode)
+        public async Task<KeyValuePair<string, TrackViewModel>> PreviousTrackAsync(LoopMode loopMode)
         {
-            KeyValuePair<string, PlayableTrack> previousTrack = default(KeyValuePair<string, PlayableTrack>);
+            KeyValuePair<string, TrackViewModel> previousTrack = default(KeyValuePair<string, TrackViewModel>);
 
             await Task.Run(() =>
             {
@@ -166,19 +167,19 @@ namespace Dopamine.Services.Playback
                             if (loopMode == LoopMode.One)
                             {
                                 // Return the current track
-                                previousTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder[currentTrackIndex], this.queue[this.playbackOrder[currentTrackIndex]]);
+                                previousTrack = new KeyValuePair<string, TrackViewModel>(this.playbackOrder[currentTrackIndex], this.queue[this.playbackOrder[currentTrackIndex]]);
                             }
                             else
                             {
                                 if (currentTrackIndex > 0)
                                 {
                                     // If we didn't reach the start of the queue, return the previous track.
-                                    previousTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder[currentTrackIndex - 1], this.queue[this.playbackOrder[currentTrackIndex - 1]]);
+                                    previousTrack = new KeyValuePair<string, TrackViewModel>(this.playbackOrder[currentTrackIndex - 1], this.queue[this.playbackOrder[currentTrackIndex - 1]]);
                                 }
                                 else if (loopMode == LoopMode.All)
                                 {
                                     // When LoopMode.All is enabled, when we reach the start of the queue, return the last track.
-                                    previousTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder.Last(), this.queue[this.playbackOrder.Last()]);
+                                    previousTrack = new KeyValuePair<string, TrackViewModel>(this.playbackOrder.Last(), this.queue[this.playbackOrder.Last()]);
                                 }
                             }
                         }
@@ -193,9 +194,9 @@ namespace Dopamine.Services.Playback
             return previousTrack;
         }
 
-        public async Task<KeyValuePair<string, PlayableTrack>> NextTrackAsync(LoopMode loopMode, bool returnToStart)
+        public async Task<KeyValuePair<string, TrackViewModel>> NextTrackAsync(LoopMode loopMode, bool returnToStart)
         {
-            KeyValuePair<string, PlayableTrack> nextTrack = default(KeyValuePair<string, PlayableTrack>);
+            KeyValuePair<string, TrackViewModel> nextTrack = default(KeyValuePair<string, TrackViewModel>);
 
             await Task.Run(() =>
             {
@@ -210,19 +211,19 @@ namespace Dopamine.Services.Playback
                             if (loopMode.Equals(LoopMode.One))
                             {
                                 // Return the current track
-                                nextTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder[currentTrackIndex], this.queue[this.playbackOrder[currentTrackIndex]]);
+                                nextTrack = new KeyValuePair<string, TrackViewModel>(this.playbackOrder[currentTrackIndex], this.queue[this.playbackOrder[currentTrackIndex]]);
                             }
                             else
                             {
                                 if (currentTrackIndex < this.playbackOrder.Count - 1)
                                 {
                                     // If we didn't reach the end of the queue, return the next track.
-                                    nextTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder[currentTrackIndex + 1], this.queue[this.playbackOrder[currentTrackIndex + 1]]);
+                                    nextTrack = new KeyValuePair<string, TrackViewModel>(this.playbackOrder[currentTrackIndex + 1], this.queue[this.playbackOrder[currentTrackIndex + 1]]);
                                 }
                                 else if (loopMode.Equals( LoopMode.All) | returnToStart)
                                 {
                                     // When LoopMode.All is enabled, when we reach the end of the queue, return the first track.
-                                    nextTrack = new KeyValuePair<string, PlayableTrack>(this.playbackOrder.First(), this.queue[this.playbackOrder.First()]);
+                                    nextTrack = new KeyValuePair<string, TrackViewModel>(this.playbackOrder.First(), this.queue[this.playbackOrder.First()]);
                                 }
                             }
                         }
@@ -237,7 +238,7 @@ namespace Dopamine.Services.Playback
             return nextTrack;
         }
 
-        public async Task<EnqueueResult> EnqueueAsync(IList<PlayableTrack> tracks, bool shuffle)
+        public async Task<EnqueueResult> EnqueueAsync(IList<TrackViewModel> tracks, bool shuffle)
         {
             var result = new EnqueueResult { IsSuccess = true };
 
@@ -247,7 +248,7 @@ namespace Dopamine.Services.Playback
                 {
                     lock (this.queueLock)
                     {
-                        foreach (PlayableTrack track in tracks)
+                        foreach (TrackViewModel track in tracks)
                         {
                             this.queue.Add(Guid.NewGuid().ToString(), track);
                         }
@@ -271,7 +272,7 @@ namespace Dopamine.Services.Playback
             return result;
         }
 
-        public async Task<EnqueueResult> EnqueueAsync(IList<KeyValuePair<string, PlayableTrack>> tracks, bool shuffle)
+        public async Task<EnqueueResult> EnqueueAsync(IList<KeyValuePair<string, TrackViewModel>> tracks, bool shuffle)
         {
             var result = new EnqueueResult { IsSuccess = true };
 
@@ -281,7 +282,7 @@ namespace Dopamine.Services.Playback
                 {
                     lock (this.queueLock)
                     {
-                        foreach (KeyValuePair<string, PlayableTrack> track in tracks)
+                        foreach (KeyValuePair<string, TrackViewModel> track in tracks)
                         {
                             this.queue.Add(track.Key, track.Value);
                         }
@@ -304,7 +305,7 @@ namespace Dopamine.Services.Playback
             return result;
         }
 
-        public async Task<EnqueueResult> EnqueueNextAsync(IList<PlayableTrack> tracks)
+        public async Task<EnqueueResult> EnqueueNextAsync(IList<TrackViewModel> tracks)
         {
             var result = new EnqueueResult { IsSuccess = true };
 
@@ -317,17 +318,17 @@ namespace Dopamine.Services.Playback
                         int queueIndex = 0;
                         int playbackOrderIndex = 0;
 
-                        if (!this.currentTrack.Equals(default(KeyValuePair<string, PlayableTrack>)))
+                        if (!this.currentTrack.Equals(default(KeyValuePair<string, TrackViewModel>)))
                         {
                             queueIndex = this.queue.IndexOf(this.currentTrack.Key);
                             playbackOrderIndex = this.playbackOrder.IndexOf(this.currentTrack.Key);
                         }
 
-                        var kvp = new List<KeyValuePair<string, PlayableTrack>>();
+                        var kvp = new List<KeyValuePair<string, TrackViewModel>>();
 
-                        foreach (PlayableTrack track in tracks)
+                        foreach (TrackViewModel track in tracks)
                         {
-                            kvp.Add(new KeyValuePair<string, PlayableTrack>(Guid.NewGuid().ToString(), track));
+                            kvp.Add(new KeyValuePair<string, TrackViewModel>(Guid.NewGuid().ToString(), track));
                         }
 
                         this.queue.InsertRange(queueIndex + 1, kvp);
@@ -357,7 +358,7 @@ namespace Dopamine.Services.Playback
                 {
                     lock (this.queueLock)
                     {
-                        this.currentTrack = default(KeyValuePair<string, PlayableTrack>);
+                        this.currentTrack = default(KeyValuePair<string, TrackViewModel>);
                         this.queue.Clear();
                         this.playbackOrder.Clear();
                     }
@@ -372,7 +373,7 @@ namespace Dopamine.Services.Playback
             return isSuccess;
         }
 
-        public async Task<bool> IsQueueDifferentAsync(IList<PlayableTrack> tracks)
+        public async Task<bool> IsQueueDifferentAsync(IList<TrackViewModel> tracks)
         {
             bool isQueueDifferent = false;
 
@@ -394,7 +395,7 @@ namespace Dopamine.Services.Playback
             return isQueueDifferent;
         }
 
-        public async Task<bool> IsQueueDifferentAsync(IList<KeyValuePair<string, PlayableTrack>> tracks)
+        public async Task<bool> IsQueueDifferentAsync(IList<KeyValuePair<string, TrackViewModel>> tracks)
         {
             bool isQueueDifferent = false;
 
@@ -408,7 +409,7 @@ namespace Dopamine.Services.Playback
                     }
                     else
                     {
-                        foreach (KeyValuePair<string, PlayableTrack> track in tracks)
+                        foreach (KeyValuePair<string, TrackViewModel> track in tracks)
                         {
                             if (!this.queue.ContainsKey(track.Key))
                             {
@@ -423,10 +424,10 @@ namespace Dopamine.Services.Playback
             return isQueueDifferent;
         }
 
-        public async Task<DequeueResult> DequeueAsync(IList<KeyValuePair<string, PlayableTrack>> tracks)
+        public async Task<DequeueResult> DequeueAsync(IList<KeyValuePair<string, TrackViewModel>> tracks)
         {
             bool isSuccess = true;
-            var dequeuedTracks = new List<KeyValuePair<string, PlayableTrack>>();
+            var dequeuedTracks = new List<KeyValuePair<string, TrackViewModel>>();
             int indexOfLastDeueuedTrack = 0;
             bool isPlayingTrackDequeued = false;
 
@@ -498,7 +499,7 @@ namespace Dopamine.Services.Playback
                 else if (this.playbackOrder.Count > indexOfLastDeueuedTrack)
                 {
                     dequeueResult.NextAvailableTrack =
-                        new KeyValuePair<string, PlayableTrack>(this.playbackOrder[indexOfLastDeueuedTrack],
+                        new KeyValuePair<string, TrackViewModel>(this.playbackOrder[indexOfLastDeueuedTrack],
                             this.queue[this.playbackOrder[indexOfLastDeueuedTrack]]);
                 }
             }
@@ -506,7 +507,7 @@ namespace Dopamine.Services.Playback
             return dequeueResult;
         }
 
-        public void SetCurrentTrack(KeyValuePair<string, PlayableTrack> track)
+        public void SetCurrentTrack(KeyValuePair<string, TrackViewModel> track)
         {
             if (!string.IsNullOrEmpty(track.Key))
             {
@@ -519,7 +520,7 @@ namespace Dopamine.Services.Playback
             }
         }
 
-        public async Task<bool> UpdateQueueOrderAsync(List<KeyValuePair<string, PlayableTrack>> tracks, bool isShuffled)
+        public async Task<bool> UpdateQueueOrderAsync(List<KeyValuePair<string, TrackViewModel>> tracks, bool isShuffled)
         {
             if (tracks == null || tracks.Count == 0) return false;
 
@@ -533,7 +534,7 @@ namespace Dopamine.Services.Playback
                     {
                         this.queue.Clear();
 
-                        foreach (KeyValuePair<string, PlayableTrack> track in tracks)
+                        foreach (KeyValuePair<string, TrackViewModel> track in tracks)
                         {
                             this.queue.Add(track.Key, track.Value);
                         }
@@ -564,7 +565,7 @@ namespace Dopamine.Services.Playback
                 {
                     if (this.Queue != null)
                     {
-                        foreach (PlayableTrack track in this.queue.Values)
+                        foreach (TrackViewModel track in this.queue.Values)
                         {
                             IFileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == track.SafePath).FirstOrDefault();
 

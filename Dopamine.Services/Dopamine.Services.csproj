@@ -130,6 +130,7 @@
     <Compile Include="Entities\TrackViewModel.cs" />
     <Compile Include="Equalizer\EqualizerService.cs" />
     <Compile Include="Equalizer\IEqualizerService.cs" />
+    <Compile Include="Extensions\ContainerProviderExtensions.cs" />
     <Compile Include="ExternalControl\ExternalControlServer.cs" />
     <Compile Include="ExternalControl\ExternalControlService.cs" />
     <Compile Include="ExternalControl\IExternalControlServer.cs" />
@@ -206,8 +207,7 @@
     <Compile Include="Update\IUpdateService.cs" />
     <Compile Include="Update\UpdateAvailableEventArgs.cs" />
     <Compile Include="Update\UpdateService.cs" />
-    <Compile Include="Utils\DataUtils.cs" />
-    <Compile Include="Utils\MetadataUtils.cs" />
+    <Compile Include="Utils\EntityUtils.cs" />
     <Compile Include="Utils\ScrollUtils.cs" />
     <Compile Include="Utils\SemanticZoomUtils.cs" />
     <Compile Include="Win32Input\AppCommandKeyboardHookManager.cs" />

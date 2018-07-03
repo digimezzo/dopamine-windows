@@ -151,7 +151,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             get
             {
                 return (this.SelectedArtists != null && this.SelectedArtists.Count > 0) |
-                     (this.SelectedAlbumIds != null && this.SelectedAlbumIds.Count > 0);
+                     (this.SelectedAlbumKeys != null && this.SelectedAlbumKeys.Count > 0);
             }
         }
 
@@ -405,7 +405,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             ArtistViewModel avm = e.Item as ArtistViewModel;
 
-            e.Accepted = DataUtils.FilterArtists(avm, this.searchService.SearchText);
+            e.Accepted = Services.Utils.EntityUtils.FilterArtists(avm, this.searchService.SearchText);
         }
 
         private async Task ToggleArtistTypeAsync()

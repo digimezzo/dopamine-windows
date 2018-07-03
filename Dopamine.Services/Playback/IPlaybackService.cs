@@ -4,6 +4,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Helpers;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
+using Dopamine.Services.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -19,13 +20,13 @@ namespace Dopamine.Services.Playback
     public interface IPlaybackService
     {
         IPlayer Player { get; }
-        KeyValuePair<string, PlayableTrack> CurrentTrack { get; }
+        KeyValuePair<string, TrackViewModel> CurrentTrack { get; }
 
         bool SupportsWindowsMediaFoundation { get; }
         bool HasCurrentTrack { get; }
         bool IsSavingQueuedTracks { get; }
         bool IsSavingPlaybackCounters { get; }
-        OrderedDictionary<string, PlayableTrack> Queue { get; }
+        OrderedDictionary<string, TrackViewModel> Queue { get; }
         bool Shuffle { get; }
         bool Mute { get; }
         bool IsStopped { get; }
@@ -50,32 +51,32 @@ namespace Dopamine.Services.Playback
         Task PlayNextAsync();
         Task PlayPreviousAsync();
         Task PlayOrPauseAsync();
-        Task PlaySelectedAsync(PlayableTrack track);
-        Task PlaySelectedAsync(KeyValuePair<string, PlayableTrack> trackPair);
-        Task<bool> PlaySelectedAsync(IList<PlayableTrack> tracks);
-        Task EnqueueAsync(List<KeyValuePair<string, PlayableTrack>> trackPairs, KeyValuePair<string, PlayableTrack> track);
-        Task EnqueueAsync(List<PlayableTrack> tracks, PlayableTrack trackPair);
-        Task EnqueueAsync(List<PlayableTrack> tracks);
+        Task PlaySelectedAsync(TrackViewModel track);
+        Task PlaySelectedAsync(KeyValuePair<string, TrackViewModel> trackPair);
+        Task<bool> PlaySelectedAsync(IList<TrackViewModel> tracks);
+        Task EnqueueAsync(List<KeyValuePair<string, TrackViewModel>> trackPairs, KeyValuePair<string, TrackViewModel> track);
+        Task EnqueueAsync(List<TrackViewModel> tracks, TrackViewModel trackPair);
+        Task EnqueueAsync(List<TrackViewModel> tracks);
         Task EnqueueAsync(bool shuffle, bool unshuffle);
-        Task EnqueueAsync(List<PlayableTrack> tracks, bool shuffle, bool unshuffle);
-        Task EnqueueArtistsAsync(IList<Artist> artists, bool shuffle, bool unshuffle);
-        Task EnqueueGenresAsync(IList<long> genreIds, bool shuffle, bool unshuffle);
-        Task EnqueueAlbumsAsync(IList<long> albumIds, bool shuffle, bool unshuffle);
-        Task StopIfPlayingAsync(PlayableTrack track);
-        Task<EnqueueResult> AddToQueueAsync(IList<PlayableTrack> tracks);
-        Task<EnqueueResult> AddArtistsToQueueAsync(IList<Artist> artists);
-        Task<EnqueueResult> AddGenresToQueueAsync(IList<long> genreIds);
-        Task<EnqueueResult> AddAlbumsToQueueAsync(IList<long> albumIds);
-        Task<EnqueueResult> AddToQueueNextAsync(IList<PlayableTrack> tracks);
-        Task<DequeueResult> DequeueAsync(IList<PlayableTrack> tracks);
-        Task<DequeueResult> DequeueAsync(IList<KeyValuePair<string, PlayableTrack>> tracks);
+        Task EnqueueAsync(List<TrackViewModel> tracks, bool shuffle, bool unshuffle);
+        Task EnqueueArtistsAsync(IList<string> artists, bool shuffle, bool unshuffle);
+        Task EnqueueGenresAsync(IList<string> genres, bool shuffle, bool unshuffle);
+        Task EnqueueAlbumsAsync(IList<string> albumKeys, bool shuffle, bool unshuffle);
+        Task StopIfPlayingAsync(TrackViewModel track);
+        Task<EnqueueResult> AddToQueueAsync(IList<TrackViewModel> tracks);
+        Task<EnqueueResult> AddArtistsToQueueAsync(IList<string> artists);
+        Task<EnqueueResult> AddGenresToQueueAsync(IList<string> genres);
+        Task<EnqueueResult> AddAlbumsToQueueAsync(IList<string> albumKeys);
+        Task<EnqueueResult> AddToQueueNextAsync(IList<TrackViewModel> tracks);
+        Task<DequeueResult> DequeueAsync(IList<TrackViewModel> tracks);
+        Task<DequeueResult> DequeueAsync(IList<KeyValuePair<string, TrackViewModel>> tracks);
         Task RefreshQueueLanguageAsync();
         Task SaveQueuedTracksAsync();
         Task SavePlaybackCountersAsync();
         void ApplyPreset(EqualizerPreset preset);
         Task SetIsEqualizerEnabledAsync(bool isEnabled);
         Task UpdateQueueMetadataAsync(List<IFileMetadata> fileMetadatas);
-        Task UpdateQueueOrderAsync(List<KeyValuePair<string, PlayableTrack>> tracks);
+        Task UpdateQueueOrderAsync(List<KeyValuePair<string, TrackViewModel>> tracks);
         Task<IList<MMDevice>> GetAllOutputDevicesAsync();
         Task SwitchOutputDeviceAsync(MMDevice outputDevice);
         Task<MMDevice> GetSavedAudioDeviceAsync();

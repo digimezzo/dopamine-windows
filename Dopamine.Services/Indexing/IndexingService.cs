@@ -564,18 +564,9 @@ namespace Dopamine.Services.Indexing
 
         private void ProcessTrack(Track track, SQLiteConnection conn)
         {
-            var newTrackStatistic = new TrackStatistic();
-
             try
             {
-                MetadataUtils.SplitMetadata(this.fileMetadataFactory.Create(track.Path), ref track, ref newTrackStatistic);
-
-                // Check if such TrackStatistic already exists in the database
-                if (!this.cache.HasCachedTrackStatistic(newTrackStatistic))
-                {
-                    // If not, add it.
-                    conn.Insert(newTrackStatistic);
-                }
+                MetadataUtils.FillTrack(this.fileMetadataFactory.Create(track.Path), ref track);
 
                 track.IndexingSuccess = 1;
             }

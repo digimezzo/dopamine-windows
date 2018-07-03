@@ -83,20 +83,20 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AlbumData.cs" />
-    <Compile Include="DatabaseUtils.cs" />
+    <Compile Include="DataUtils.cs" />
     <Compile Include="DbMigrator.cs" />
     <Compile Include="Entities\Album.cs" />
     <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Configuration.cs" />
     <Compile Include="Entities\Folder.cs" />
     <Compile Include="Entities\FolderTrack.cs" />
-    <Compile Include="Entities\PlayableTrack.cs" />
     <Compile Include="Entities\QueuedTrack.cs" />
     <Compile Include="Entities\RemovedTrack.cs" />
     <Compile Include="Entities\Track.cs" />
     <Compile Include="Entities\TrackStatistic.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ISQLiteConnectionFactory.cs" />
+    <Compile Include="MetaDataUtils.cs" />
     <Compile Include="Metadata\FileMetadata.cs" />
     <Compile Include="Metadata\FileMetadataFactory.cs" />
     <Compile Include="Metadata\IFileMetadata.cs" />

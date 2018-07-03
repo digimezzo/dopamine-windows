@@ -1,11 +1,10 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Api.Lastfm;
-using Dopamine.Core.Base;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
+using Dopamine.Services.Entities;
 using Dopamine.Services.Playback;
-using Dopamine.Services.Scrobbling;
 using System;
 using System.Threading.Tasks;
 
@@ -20,9 +19,9 @@ namespace Dopamine.Services.Scrobbling
         private IPlaybackService playbackService;
         private DateTime trackStartTime;
         private bool canScrobble;
-      
+
         public event Action<SignInState> SignInStateChanged = delegate { };
-    
+
         public SignInState SignInState
         {
             get
@@ -61,7 +60,7 @@ namespace Dopamine.Services.Scrobbling
                 this.password = value;
             }
         }
-    
+
         public LastFmScrobblingService(IPlaybackService playbackService)
         {
             this.playbackService = playbackService;
@@ -89,7 +88,7 @@ namespace Dopamine.Services.Scrobbling
             // When the user skips, we don't allow scrobbling.
             this.canScrobble = false;
         }
-      
+
         private async void PlaybackService_PlaybackSuccess(object sender, PlaybackSuccessEventArgs e)
         {
             if (this.SignInState == SignInState.SignedIn)
@@ -120,7 +119,7 @@ namespace Dopamine.Services.Scrobbling
                     {
                         LogClient.Error("Could not update Now Playing for track '{0} - {1}'. Exception: {2}", artist, trackTitle, ex.Message);
                     }
-                    
+
                 }
             }
         }
@@ -169,7 +168,7 @@ namespace Dopamine.Services.Scrobbling
                 }
             }
         }
-     
+
         public async Task SignIn()
         {
             try
@@ -210,40 +209,43 @@ namespace Dopamine.Services.Scrobbling
             this.SignInStateChanged(this.SignInState);
         }
 
-        public async Task<bool> SendTrackLoveAsync(PlayableTrack track, bool love)
+        public async Task SendTrackLoveAsync(TrackViewModel track, bool love)
         {
-            bool isSuccess = false;
-
             // We can't send track love for an unknown track
-            if (string.IsNullOrEmpty(track.TrackTitle)) return false;
+            if (string.IsNullOrEmpty(track.TrackTitle))
+            {
+                return;
+            }
 
             if (this.SignInState == SignInState.SignedIn)
             {
-                if (love)
+                foreach (string artist in MetadataUtils.GetMultiValueTagsCollection(track.Track.Artists))
                 {
-                    try
+                    if (love)
                     {
-                        isSuccess = await LastfmApi.TrackLove(this.sessionKey, track.ArtistName, track.TrackTitle);
+                        try
+                        {
+                            await LastfmApi.TrackLove(this.sessionKey, artist, track.TrackTitle);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not send track.love to Last.fm. Exception: {0}", ex.Message);
+                        }
+
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        LogClient.Error("Could not send track.love to Last.fm. Exception: {0}", ex.Message);
-                    }
-                    
-                }else
-                {
-                    try
-                    {
-                        isSuccess = await LastfmApi.TrackUnlove(this.sessionKey, track.ArtistName, track.TrackTitle);
-                    }
-                    catch (Exception ex)
-                    {
-                        LogClient.Error("Could not send track.unlove to Last.fm. Exception: {0}", ex.Message);
+                        try
+                        {
+                            await LastfmApi.TrackUnlove(this.sessionKey, artist, track.TrackTitle);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not send track.unlove to Last.fm. Exception: {0}", ex.Message);
+                        }
                     }
                 }
             }
-
-            return isSuccess;
         }
     }
 }
