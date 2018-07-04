@@ -86,7 +86,6 @@
     <Compile Include="DataUtils.cs" />
     <Compile Include="DbMigrator.cs" />
     <Compile Include="Entities\Album.cs" />
-    <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Configuration.cs" />
     <Compile Include="Entities\Folder.cs" />
     <Compile Include="Entities\FolderTrack.cs" />
@@ -117,7 +116,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Repositories\AlbumArtworkRepository.cs" />
     <Compile Include="Repositories\FolderRepository.cs" />
+    <Compile Include="Repositories\IAlbumArtworkRepository.cs" />
     <Compile Include="Repositories\IFolderRepository.cs" />
     <Compile Include="Repositories\IQueuedTrackRepository.cs" />
     <Compile Include="Repositories\ITrackRepository.cs" />

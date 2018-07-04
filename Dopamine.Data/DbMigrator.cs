@@ -98,6 +98,12 @@ namespace Dopamine.Data
                 conn.Execute("CREATE INDEX TrackPathIndex ON Track(Path);");
                 conn.Execute("CREATE INDEX TrackSafePathIndex ON Track(SafePath);");
 
+                conn.Execute("CREATE TABLE AlbumArtwork (" +
+                             "AlbumArtworkID	INTEGER," +
+                             "AlbumKey	        TEXT," +
+                             "ArtworkID	        TEXT," +
+                             "PRIMARY KEY(AlbumID));");
+
                 conn.Execute("CREATE TABLE FolderTrack (" +
                              "FolderTrackID      INTEGER PRIMARY KEY AUTOINCREMENT, " +
                              "FolderID	         INTEGER," +
@@ -1040,6 +1046,12 @@ namespace Dopamine.Data
                 conn.Execute("DROP INDEX IF EXISTS TrackGenreIDIndex;");
 
                 conn.Execute("UPDATE Track SET NeedsIndexing=1;");
+
+                conn.Execute("CREATE TABLE AlbumArtwork (" +
+                             "AlbumArtworkID	INTEGER," +
+                             "AlbumKey	        TEXT," +
+                             "ArtworkID	        TEXT," +
+                             "PRIMARY KEY(AlbumID));");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");
