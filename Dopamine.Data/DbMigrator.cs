@@ -102,7 +102,7 @@ namespace Dopamine.Data
                              "AlbumArtworkID	INTEGER," +
                              "AlbumKey	        TEXT," +
                              "ArtworkID	        TEXT," +
-                             "PRIMARY KEY(AlbumID));");
+                             "PRIMARY KEY(AlbumArtworkID));");
 
                 conn.Execute("CREATE TABLE FolderTrack (" +
                              "FolderTrackID      INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -1051,7 +1051,7 @@ namespace Dopamine.Data
                              "AlbumArtworkID	INTEGER," +
                              "AlbumKey	        TEXT," +
                              "ArtworkID	        TEXT," +
-                             "PRIMARY KEY(AlbumID));");
+                             "PRIMARY KEY(AlbumArtworkID));");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");
