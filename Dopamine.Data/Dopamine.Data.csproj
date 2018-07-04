@@ -85,7 +85,6 @@
     <Compile Include="AlbumData.cs" />
     <Compile Include="DataUtils.cs" />
     <Compile Include="DbMigrator.cs" />
-    <Compile Include="Entities\Album.cs" />
     <Compile Include="Entities\Configuration.cs" />
     <Compile Include="Entities\Folder.cs" />
     <Compile Include="Entities\FolderTrack.cs" />

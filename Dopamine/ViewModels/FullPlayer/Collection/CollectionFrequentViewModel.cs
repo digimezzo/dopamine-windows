@@ -78,8 +78,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.regionManager = container.Resolve<IRegionManager>();
 
             // Events
-            this.playbackService.TrackStatisticsChanged += async (_) => await this.PopulateAlbumHistoryAsync();
-            this.indexingService.IndexingStopped += async (_, __) => await this.PopulateAlbumHistoryAsync();
+            //this.playbackService.TrackStatisticsChanged += async (_) => await this.PopulateAlbumHistoryAsync();
+            //this.indexingService.IndexingStopped += async (_, __) => await this.PopulateAlbumHistoryAsync();
 
             // Commands
             this.ClickCommand = new DelegateCommand<object>((albumViewModel) =>
@@ -105,15 +105,15 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 isFirstLoad = false;
 
                 await Task.Delay(Constants.CommonListLoadDelay);
-                await this.PopulateAlbumHistoryAsync();
+                // await this.PopulateAlbumHistoryAsync();
             });
         }
 
-        private void UpdateAlbumViewModel(int number, List<Album> albums, ref AlbumViewModel albumViewModel)
-        {
-            if (albums.Count >= number)
-            {
-                Album alb = albums[number - 1];
+        //private void UpdateAlbumViewModel(int number, List<Album> albums, ref AlbumViewModel albumViewModel)
+        //{
+        //    if (albums.Count >= number)
+        //    {
+        //        Album alb = albums[number - 1];
 
                 //TODO if (albumViewModel == null || !albumViewModel.Album.Equals(alb))
                 //{
@@ -123,9 +123,9 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 //        ArtworkPath = this.cacheService.GetCachedArtworkPath(alb.ArtworkID)
                 //    };
                 //}
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 // Shows an empty tile
                 // TODO albumViewModel = new AlbumViewModel
                 //{
@@ -133,14 +133,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 //    ArtworkPath = string.Empty,
                 //    Opacity = 0.8 - (number / 10.0)
                 //};
-            }
+            //}
 
-            RaisePropertyChanged("AlbumViewModel" + number.ToString());
-            System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-        }
+            //RaisePropertyChanged("AlbumViewModel" + number.ToString());
+            //System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
+        //}
 
-        private async Task PopulateAlbumHistoryAsync()
-        {
+        //private async Task PopulateAlbumHistoryAsync()
+        //{
             //TODO var albums = await this.albumRepository.GetFrequentAlbumsAsync(6);
 
             //await Task.Run(() =>
@@ -152,6 +152,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             //    this.UpdateAlbumViewModel(5, albums, ref this.albumViewModel5);
             //    this.UpdateAlbumViewModel(6, albums, ref this.albumViewModel6);
             //});
-        }
+        //}
     }
 }
