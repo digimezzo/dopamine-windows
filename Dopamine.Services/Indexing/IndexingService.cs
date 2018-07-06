@@ -647,9 +647,9 @@ namespace Dopamine.Services.Indexing
             return await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(albumKey, this.fileMetadataFactory.Create(track.Path)));
         }
 
-        private async Task<string> GetArtworkFromInternet(string albumTitle, IList<string> albumArtists)
+        private async Task<string> GetArtworkFromInternet(string albumTitle, IList<string> albumArtists, string trackTitle, IList<string> artists)
         {
-            Uri artworkUri = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(albumTitle, albumArtists);
+            Uri artworkUri = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(albumTitle, albumArtists, trackTitle, artists);
             return await this.cacheService.CacheArtworkAsync(artworkUri);
         }
 
@@ -732,8 +732,10 @@ namespace Dopamine.Services.Indexing
                                     // During the 2nd pass, look for artwork on the Internet and set NeedsAlbumArtworkIndexing = 0.
                                     // We don't want future passes to index for this AlbumKey anymore.
                                     albumArtwork.ArtworkID = await this.GetArtworkFromInternet(
-                                        albumDataToIndex.AlbumTitle, 
-                                        MetadataUtils.GetMultiValueTagsCollection(albumDataToIndex.AlbumArtists).ToList()
+                                        albumDataToIndex.AlbumTitle,
+                                        MetadataUtils.GetMultiValueTagsCollection(albumDataToIndex.AlbumArtists).ToList(),
+                                        albumDataToIndex.TrackTitle,
+                                        MetadataUtils.GetMultiValueTagsCollection(albumDataToIndex.Artists).ToList()
                                         );
 
                                     await this.trackRepository.DisableNeedsAlbumArtworkIndexingAsync(albumDataToIndex.AlbumKey);

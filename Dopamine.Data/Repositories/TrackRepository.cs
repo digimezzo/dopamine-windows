@@ -35,7 +35,10 @@ namespace Dopamine.Data.Repositories
         private string SelectAllAlbumDataQuery()
         {
             return @"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
-                     MAX(Year) AS Year, MAX(DateFileCreated) AS DateFileCreated, 
+                     MAX(TrackTitle) as TrackTitle,
+                     MAX(Artists) as Artists,
+                     MAX(Year) AS Year, 
+                     MAX(DateFileCreated) AS DateFileCreated, 
                      MAX(DateAdded) AS DateAdded
                      FROM Track t";
         }
