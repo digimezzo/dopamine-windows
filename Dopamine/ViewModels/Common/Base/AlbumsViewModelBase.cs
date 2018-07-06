@@ -36,6 +36,7 @@ namespace Dopamine.ViewModels.Common.Base
         private ISearchService searchService;
         private IPlaylistService playlistService;
         private ICacheService cacheService;
+        private IAlbumArtworkRepository albumArtworkRepository;
         private ObservableCollection<AlbumViewModel> albums;
         private CollectionViewSource albumsCvs;
         private IList<string> selectedAlbumKeys;
@@ -141,6 +142,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.searchService = container.Resolve<ISearchService>();
             this.playlistService = container.Resolve<IPlaylistService>();
             this.cacheService = container.Resolve<ICacheService>();
+            this.albumArtworkRepository = container.Resolve<IAlbumArtworkRepository>();
 
             // Commands
             this.ToggleAlbumOrderCommand = new DelegateCommand(() => this.ToggleAlbumOrder());
@@ -167,68 +169,49 @@ namespace Dopamine.ViewModels.Common.Base
             });
         }
 
-        public async Task SetAlbumArtworkAsync(int delayMilliSeconds)
+        public async Task LoadAlbumArtworkAsync(int delayMilliSeconds)
         {
             await Task.Delay(delayMilliSeconds);
 
+            IList<AlbumArtwork> allAlbumArtwork = await this.albumArtworkRepository.GetAlbumArtworkAsync();
 
+            await this.SetAlbumArtwork(allAlbumArtwork);
+        }
+
+        public async Task RefreshAlbumArtworkAsync(IList<string> albumsKeys = null)
+        {
+            IList<AlbumArtwork> allAlbumArtwork = await this.albumArtworkRepository.GetAlbumArtworkAsync();
+
+            await this.SetAlbumArtwork(allAlbumArtwork, albumsKeys);
+        }
+
+        private async Task SetAlbumArtwork(IList<AlbumArtwork> allAlbumArtwork, IList<string> albumsKeys = null)
+        {
             if (this.albums != null && this.albums.Count > 0)
             {
                 await Task.Run(() =>
-            {
-                try
                 {
-                    foreach (AlbumViewModel alb in this.Albums)
+                    foreach (AlbumViewModel alb in this.albums)
                     {
                         try
                         {
-                            // TODO alb.ArtworkPath = this.cacheService.GetCachedArtworkPath(alb.Album.ArtworkID);
+                            if (allAlbumArtwork != null && allAlbumArtwork.Count > 0 && albumsKeys != null ? albumsKeys.Contains(alb.AlbumKey) : true)
+                            {
+                                AlbumArtwork albumArtwork = allAlbumArtwork.Where(a => a.AlbumKey.Equals(alb.AlbumKey)).FirstOrDefault();
+
+                                if (albumArtwork != null)
+                                {
+                                    alb.ArtworkPath = this.cacheService.GetCachedArtworkPath(albumArtwork.ArtworkID);
+                                }
+                            }
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Error while setting artwork for album with Album artist = '{0}' and Title='{1}'. Exception: {2}", alb.AlbumArtist, alb.AlbumTitle, ex.Message);
+                            LogClient.Error("Error while refreshing artwork for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Error while setting album artwork. Exception: {0}", ex.Message);
-                }
-            });
+                });
             }
-        }
-
-        public async Task RefreshArtworkAsync(IList<string> albumsKeys = null)
-        {
-            //TODO List<Album> dbAlbums = await this.albumRepository.GetAlbumsAsync();
-
-            //if (this.albums != null && this.albums.Count > 0)
-            //{
-            //    await Task.Run(() =>
-            //    {
-            //        foreach (AlbumViewModel alb in this.albums)
-            //        {
-            //            try
-            //            {
-            //                if (albumsIds == null || albumsIds.Contains(alb.Album.AlbumID))
-            //                {
-            //                    // Get an up to date version of this album from the database
-            //                    Album dbAlbum = dbAlbums.Where((a) => a.AlbumID.Equals(alb.Album.AlbumID)).Select((a) => a).FirstOrDefault();
-
-            //                    if (dbAlbum != null)
-            //                    {
-            //                        alb.Album.ArtworkID = dbAlbum.ArtworkID;
-            //                        alb.ArtworkPath = this.cacheService.GetCachedArtworkPath(dbAlbum.ArtworkID);
-            //                    }
-            //                }
-            //            }
-            //            catch (Exception ex)
-            //            {
-            //                LogClient.Error("Error while refreshing artwork for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
-            //            }
-            //        }
-            //    });
-            //}
         }
 
         private void EditSelectedAlbum()
@@ -342,7 +325,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.AlbumsCount = this.AlbumsCvs.View.Cast<AlbumViewModel>().Count();
 
             // Set Album artwork
-            this.SetAlbumArtworkAsync(Constants.ArtworkLoadDelay);
+            this.LoadAlbumArtworkAsync(Constants.ArtworkLoadDelay);
         }
 
         protected async Task AddAlbumsToPlaylistAsync(IList<string> albumKeys, string playlistName)
