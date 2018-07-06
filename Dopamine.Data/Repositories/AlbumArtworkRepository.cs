@@ -71,6 +71,35 @@ namespace Dopamine.Data.Repositories
             return unusedAlbumArtworkCount;
         }
 
+        public async Task<IList<AlbumArtwork>> GetAlbumArtworkAsync()
+        {
+            IList<AlbumArtwork> albumArtwork = new List<AlbumArtwork>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            albumArtwork = conn.Query<AlbumArtwork>("SELECT * FROM AlbumArtwork;");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get album artwork. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return albumArtwork;
+        }
+
         public async Task<IList<string>> GetArtworkIdsAsync()
         {
             IList<string> artworkIds = new List<string>();

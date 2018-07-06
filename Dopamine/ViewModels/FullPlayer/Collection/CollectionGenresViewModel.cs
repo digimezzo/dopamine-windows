@@ -186,7 +186,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
             // Events
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
-            this.indexingService.AlbumArtworkAdded += async (_, e) => await this.RefreshArtworkAsync(e.AlbumKeys);
+            this.indexingService.AlbumArtworkAdded += async (_, e) => await this.RefreshAlbumArtworkAsync(e.AlbumKeys);
 
             // Set the initial AlbumOrder
             this.AlbumOrder = (AlbumOrder)SettingsClient.Get<int>("Ordering", "GenresAlbumOrder");
@@ -234,7 +234,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
         {
-            if (e.IsArtworkChanged) await this.RefreshArtworkAsync();
+            if (e.IsArtworkChanged) await this.RefreshAlbumArtworkAsync();
             if (e.IsGenreChanged) await this.GetGenresAsync();
             // TODO if (e.IsGenreChanged | e.IsAlbumChanged) await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
             // TODO if (e.IsGenreChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbumIds, this.TrackOrder);
