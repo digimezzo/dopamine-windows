@@ -59,6 +59,8 @@ namespace Dopamine.Data.Entities
 
         public long? NeedsIndexing { get; set; }
 
+        public long? NeedsAlbumArtworkIndexing { get; set; }
+
         public long? IndexingSuccess { get; set; }
 
         public string IndexingFailureReason { get; set; }

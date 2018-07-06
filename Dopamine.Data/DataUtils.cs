@@ -6,9 +6,14 @@ namespace Dopamine.Data
 {
     public sealed class DataUtils
     {
+        public static string EscapeQuotes(string source)
+        {
+            return source.Replace("'", "''");
+        }
+
         public static string CreateInClause(string columnName, IList<string> clauseItems)
         {
-            string commaSeparatedItems = string.Join(",", clauseItems.Select((item) => "'" + item.Replace("'", "''") + "'").ToArray());
+            string commaSeparatedItems = string.Join(",", clauseItems.Select((item) => "'" + EscapeQuotes(item) + "'").ToArray());
 
             return $"{columnName} IN ({commaSeparatedItems})";
         }

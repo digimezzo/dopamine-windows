@@ -1,48 +1,51 @@
-﻿using Dopamine.Core.Base;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Dopamine.Core.Utils
 {
     public static class ArtworkUtils
     {
-        public static async Task<Uri> GetAlbumArtworkFromInternetAsync(string title, string artist, string alternateTitle = "", string alternateArtist = "")
+        public static async Task<Uri> GetAlbumArtworkFromInternetAsync(string albumTitle, IList<string> albumArtists, string trackTitle = "", IList<string> trackArtists = null)
         {
-            string albumTitle = string.Empty;
-            string albumArtist = string.Empty;
+            string title = string.Empty;
+            IList<string> artists = null;
 
             // Title
-            if (!string.IsNullOrEmpty(title))
+            if (!string.IsNullOrEmpty(albumTitle))
             {
-                albumTitle = title;
+                title = albumTitle;
             }
-            else if (!string.IsNullOrEmpty(alternateTitle))
+            else if (!string.IsNullOrEmpty(trackTitle))
             {
-                albumTitle = alternateTitle;
+                title = trackTitle;
             }
 
             // Artist
-            if (!string.IsNullOrEmpty(artist))
+            if (albumArtists != null && albumArtists.Count > 0)
             {
-                albumArtist = artist;
+                artists = albumArtists;
             }
-            else if (!string.IsNullOrEmpty(alternateArtist))
+            else if (trackArtists != null && trackArtists.Count > 0)
             {
-                albumArtist = alternateArtist;
+                artists = trackArtists;
             }
 
-            if (string.IsNullOrEmpty(albumTitle) || string.IsNullOrEmpty(albumArtist))
+            if (string.IsNullOrEmpty(title) || artists == null)
             {
                 return null;
             }
 
-            Api.Lastfm.Album lfmAlbum = await Api.Lastfm.LastfmApi.AlbumGetInfo(albumArtist, albumTitle, false, "EN");
-
-            if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
+            foreach (string artist in artists)
             {
-                return new Uri(lfmAlbum.LargestImage());
-            }
+                Api.Lastfm.Album lfmAlbum = await Api.Lastfm.LastfmApi.AlbumGetInfo(artist, title, false, "EN");
 
+                if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
+                {
+                    return new Uri(lfmAlbum.LargestImage());
+                }
+            }
+      
             return null;
         }
     }

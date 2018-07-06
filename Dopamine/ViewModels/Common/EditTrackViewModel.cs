@@ -240,9 +240,9 @@ namespace Dopamine.ViewModels.Common
             {
                 await base.DownloadArtworkAsync(
                    this.album.Value,
-                   this.albumArtists.Values.FirstOrDefault(),
+                   new List<string>() { this.albumArtists.Values.FirstOrDefault() },
                    this.Title.Value,
-                   this.artists.Values.FirstOrDefault());
+                   new List<string>() { this.artists.Values.FirstOrDefault() });
             }
             catch (Exception ex)
             {

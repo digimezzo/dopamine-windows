@@ -1,6 +1,14 @@
-﻿namespace Dopamine.Data.Repositories
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Dopamine.Data.Repositories
 {
-    public class IAlbumArtworkRepository
+    public interface IAlbumArtworkRepository
     {
+        Task DeleteAlbumArtworkAsync(string albumKey);
+
+        Task<long> DeleteUnusedAlbumArtworkAsync();
+
+        Task<IList<string>> GetArtworkIdsAsync();
     }
 }

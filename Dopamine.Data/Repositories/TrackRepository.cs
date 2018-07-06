@@ -1,6 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Data.Entities;
 using System;
@@ -19,13 +18,13 @@ namespace Dopamine.Data.Repositories
             this.factory = factory;
         }
 
-        private string SelectTracksQuery()
+        private string SelectVisibleTracksQuery()
         {
             return @"SELECT DISTINCT t.TrackID, t.Artists, t.Genres, t.AlbumTitle, t.AlbumArtists, t.AlbumKey,
                      t.Path, t.SafePath, t.FileName, t.MimeType, t.FileSize, t.BitRate, 
                      t.SampleRate, t.TrackTitle, t.TrackNumber, t.TrackCount, t.DiscNumber,
                      t.DiscCount, t.Duration, t.Year, t.HasLyrics, t.DateAdded, t.DateFileCreated,
-                     t.DateLastSynced, t.DateFileModified, t.NeedsIndexing, t.IndexingSuccess,
+                     t.DateLastSynced, t.DateFileModified, t.NeedsIndexing, t.NeedsAlbumArtworkIndexing, t.IndexingSuccess,
                      t.IndexingFailureReason, t.Rating, t.Love, t.PlayCount, t.SkipCount, t.DateLastPlayed
                      FROM Track t
                      INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
@@ -33,15 +32,20 @@ namespace Dopamine.Data.Repositories
                      WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1";
         }
 
-        private string SelectAlbumDataQuery()
+        private string SelectAllAlbumDataQuery()
         {
             return @"SELECT AlbumTitle, AlbumArtists, AlbumKey, 
                      MAX(Year) AS Year, MAX(DateFileCreated) AS DateFileCreated, 
                      MAX(DateAdded) AS DateAdded
-                     FROM Track t
-                     INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
-                     INNER JOIN Folder f ON ft.FolderID = f.FolderID
-                     WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1";
+                     FROM Track t";
+        }
+
+        private string SelectVisibleAlbumDataQuery()
+        {
+            return $@"{this.SelectAllAlbumDataQuery()}
+                      INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
+                      INNER JOIN Folder f ON ft.FolderID = f.FolderID
+                      WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1";
         }
 
         public async Task<List<Track>> GetTracksAsync(IList<string> paths)
@@ -58,7 +62,7 @@ namespace Dopamine.Data.Repositories
                         {
                             IList<string> safePaths = paths.Select((p) => p.ToSafePath()).ToList();
 
-                            tracks = conn.Query<Track>($"{this.SelectTracksQuery()} AND {DataUtils.CreateInClause("t.SafePath", safePaths)};");
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateInClause("t.SafePath", safePaths)};");
                         }
                         catch (Exception ex)
                         {
@@ -87,7 +91,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<Track>($"{this.SelectTracksQuery()};");
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()};");
                         }
                         catch (Exception ex)
                         {
@@ -116,7 +120,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<Track>($"{this.SelectTracksQuery()} AND {DataUtils.CreateInClause("t.Artists", artistNames)} OR {DataUtils.CreateInClause("t.AlbumArtists", artistNames)};");
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateInClause("t.Artists", artistNames)} OR {DataUtils.CreateInClause("t.AlbumArtists", artistNames)};");
                         }
                         catch (Exception ex)
                         {
@@ -145,7 +149,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<Track>($"{this.SelectTracksQuery()} AND {DataUtils.CreateInClause("t.Genres", genreNames)};");
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateInClause("t.Genres", genreNames)};");
                         }
                         catch (Exception ex)
                         {
@@ -174,7 +178,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<Track>(this.SelectTracksQuery() + $" AND {DataUtils.CreateInClause("t.AlbumKey", albumKeys)};");
+                            tracks = conn.Query<Track>(this.SelectVisibleTracksQuery() + $" AND {DataUtils.CreateInClause("t.AlbumKey", albumKeys)};");
                         }
                         catch (Exception ex)
                         {
@@ -383,7 +387,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            genreNames = conn.Query<Track>(this.SelectTracksQuery()).ToList()
+                            genreNames = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
                                                            .Select((t) => t.Genres).Where(g => !string.IsNullOrEmpty(g))
                                                            .SelectMany(g => MetadataUtils.GetMultiValueTagsCollection(g))
                                                            .Distinct().ToList();
@@ -415,7 +419,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            artistNames = conn.Query<Track>(this.SelectTracksQuery()).ToList()
+                            artistNames = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
                                                             .Select((t) => t.Artists).Where(a => !string.IsNullOrEmpty(a))
                                                             .SelectMany(a => MetadataUtils.GetMultiValueTagsCollection(a))
                                                             .Distinct().ToList();
@@ -447,7 +451,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            albumArtists = conn.Query<Track>(this.SelectTracksQuery()).ToList()
+                            albumArtists = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
                                                              .Select((t) => t.AlbumArtists).Where(a => !string.IsNullOrEmpty(a))
                                                              .SelectMany(a => MetadataUtils.GetMultiValueTagsCollection(a))
                                                              .Distinct().ToList();
@@ -469,7 +473,7 @@ namespace Dopamine.Data.Repositories
 
         public async Task<IList<AlbumData>> GetAlbumsAsync(IList<string> artists, IList<string> genres)
         {
-            var albumValues = new List<AlbumData>();
+            var albumData = new List<AlbumData>();
 
             await Task.Run(() =>
                 {
@@ -490,7 +494,7 @@ namespace Dopamine.Data.Repositories
                                     filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", genres)}";
                                 }
 
-                                albumValues = conn.Query<AlbumData>(this.SelectAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey");
+                                albumData = conn.Query<AlbumData>(this.SelectVisibleAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey");
                             }
                             catch (Exception ex)
                             {
@@ -504,7 +508,150 @@ namespace Dopamine.Data.Repositories
                     }
                 });
 
-            return albumValues;
+            return albumData;
+        }
+
+        public async Task<IList<AlbumData>> GetAlbumDataToIndexAsync()
+        {
+            var albumDataToIndex = new List<AlbumData>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            albumDataToIndex = conn.Query<AlbumData>($@"{this.SelectAllAlbumDataQuery()}
+                                                                        WHERE AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork) 
+                                                                        AND AlbumKey IS NOT NULL AND AlbumKey <> ''
+                                                                        AND NeedsAlbumArtworkIndexing=1 GROUP BY AlbumKey;");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get the albumKeys to index. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return albumDataToIndex;
+        }
+
+        public async Task<Track> GetLastModifiedTrackForAlbumKeyAsync(string albumKey)
+        {
+            Track lastModifiedTrack = null;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            lastModifiedTrack = conn.Table<Track>().Where((t) => t.AlbumKey.Equals(albumKey)).Select((t) => t).OrderByDescending((t) => t.DateFileModified).FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get the last modified track for the given albumKey. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return lastModifiedTrack;
+        }
+
+        public async Task DisableNeedsAlbumArtworkIndexingAsync(string albumKey)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute($"UPDATE Track SET NeedsAlbumArtworkIndexing=0 WHERE AlbumKey=?;", DataUtils.EscapeQuotes(albumKey));
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not disable NeedsAlbumArtworkIndexing for the given albumKey. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
+
+        public async Task DisableNeedsAlbumArtworkIndexingForAllTracksAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute($"UPDATE Track SET NeedsAlbumArtworkIndexing=0;");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not disable NeedsAlbumArtworkIndexing for all tracks. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
+
+        public async Task EnableNeedsAlbumArtworkIndexingForAllTracksAsync(bool onlyWhenHasNoCover)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            if (onlyWhenHasNoCover)
+                            {
+                                conn.Execute($"UPDATE Track SET NeedsAlbumArtworkIndexing=1 WHERE AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork);");
+                            }
+                            else
+                            {
+                                conn.Execute($"UPDATE Track SET NeedsAlbumArtworkIndexing=1;");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error($"Could not disable NeedsAlbumArtworkIndexing for all tracks. {nameof(onlyWhenHasNoCover)}={onlyWhenHasNoCover}. Exception: {ex.Message}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
         }
     }
 }
