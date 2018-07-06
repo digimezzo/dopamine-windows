@@ -77,32 +77,32 @@ namespace Dopamine.Services.Indexing
             return artworkData;
         }
 
-        // TODO public static byte[] GetArtwork(Album album, IFileMetadata fileMetadata)
-        //{
-        //    byte[] artworkData = null;
+        public static byte[] GetArtwork(string albumKey, IFileMetadata fileMetadata)
+        {
+            byte[] artworkData = null;
 
-        //    try
-        //    {
-        //        // Don't get artwork if the album is unknown
-        //        if (!string.IsNullOrEmpty(album.AlbumTitle))
-        //        {
-        //            // Get embedded artwork
-        //            artworkData = GetEmbeddedArtwork(fileMetadata);
+            try
+            {
+                // Don't get artwork if the album is unknown
+                if (!string.IsNullOrEmpty(albumKey))
+                {
+                    // Get embedded artwork
+                    artworkData = GetEmbeddedArtwork(fileMetadata);
 
-        //            if (artworkData == null || artworkData.Length == 0)
-        //            {
-        //                // If getting embedded artwork failed, try to get external artwork.
-        //                artworkData = GetExternalArtwork(fileMetadata.Path, 0, 0);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        LogClient.Error("Could not get artwork for Album with Title='{0}' and Album artist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
-        //    }
+                    if (artworkData == null || artworkData.Length == 0)
+                    {
+                        // If getting embedded artwork failed, try to get external artwork.
+                        artworkData = GetExternalArtwork(fileMetadata.Path, 0, 0);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error($"Could not get artwork for Album with AlbumKey='{albumKey}'. Exception: {ex.Message}");
+            }
 
-        //    return artworkData;
-        //}
+            return artworkData;
+        }
 
         public static long CalculateSaveItemCount(long numberItemsToAdd)
         {

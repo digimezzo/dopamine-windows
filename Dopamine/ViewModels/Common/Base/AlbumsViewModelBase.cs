@@ -198,7 +198,7 @@ namespace Dopamine.ViewModels.Common.Base
             }
         }
 
-        public async Task RefreshArtworkAsync(List<long> albumsIds = null)
+        public async Task RefreshArtworkAsync(IList<string> albumsKeys = null)
         {
             //TODO List<Album> dbAlbums = await this.albumRepository.GetAlbumsAsync();
 

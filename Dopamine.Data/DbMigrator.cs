@@ -86,6 +86,7 @@ namespace Dopamine.Data
                              "DateLastSynced	        INTEGER," +
                              "DateFileModified	        INTEGER," +
                              "NeedsIndexing 	        INTEGER," +
+                             "NeedsAlbumArtworkIndexing INTEGER," +
                              "IndexingSuccess 	        INTEGER," +
                              "IndexingFailureReason     TEXT," +
                              "Rating	            INTEGER," +
@@ -1038,6 +1039,7 @@ namespace Dopamine.Data
                 conn.Execute("ALTER TABLE Track ADD PlayCount INTEGER;");
                 conn.Execute("ALTER TABLE Track ADD SkipCount INTEGER;");
                 conn.Execute("ALTER TABLE Track ADD DateLastPlayed INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD NeedsAlbumArtworkIndexing INTEGER;");
 
                 conn.Execute("ALTER TABLE Track ADD DateFileCreated INTEGER;");
 
@@ -1046,6 +1048,7 @@ namespace Dopamine.Data
                 conn.Execute("DROP INDEX IF EXISTS TrackGenreIDIndex;");
 
                 conn.Execute("UPDATE Track SET NeedsIndexing=1;");
+                conn.Execute("UPDATE Track SET NeedsAlbumArtworkIndexing=1;");
 
                 conn.Execute("CREATE TABLE AlbumArtwork (" +
                              "AlbumArtworkID	INTEGER," +

@@ -173,6 +173,7 @@ namespace Dopamine.Data
             track.Year = MetadataUtils.SafeConvertToLong(fileMetadata.Year.Value);
             track.HasLyrics = string.IsNullOrWhiteSpace(fileMetadata.Lyrics.Value) ? 0 : 1;
             track.NeedsIndexing = 0;
+            track.NeedsAlbumArtworkIndexing = 0;
             track.FileSize = FileUtils.SizeInBytes(path);
             track.DateFileCreated = FileUtils.DateCreatedTicks(path);
             track.DateFileModified = FileUtils.DateModifiedTicks(path);
