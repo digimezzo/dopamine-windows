@@ -122,6 +122,7 @@ namespace Dopamine.Data
         {
             long result = 0;
             Int64.TryParse(str, out result);
+
             return result;
         }
 

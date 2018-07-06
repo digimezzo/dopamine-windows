@@ -731,7 +731,11 @@ namespace Dopamine.Services.Indexing
                                 {
                                     // During the 2nd pass, look for artwork on the Internet and set NeedsAlbumArtworkIndexing = 0.
                                     // We don't want future passes to index for this AlbumKey anymore.
-                                    albumArtwork.ArtworkID = await this.GetArtworkFromInternet(albumDataToIndex.AlbumTitle, MetadataUtils.GetMultiValueTagsCollection(albumDataToIndex.AlbumArtists).ToList());
+                                    albumArtwork.ArtworkID = await this.GetArtworkFromInternet(
+                                        albumDataToIndex.AlbumTitle, 
+                                        MetadataUtils.GetMultiValueTagsCollection(albumDataToIndex.AlbumArtists).ToList()
+                                        );
+
                                     await this.trackRepository.DisableNeedsAlbumArtworkIndexingAsync(albumDataToIndex.AlbumKey);
                                 }
 
