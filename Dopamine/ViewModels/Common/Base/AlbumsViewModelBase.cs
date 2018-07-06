@@ -12,7 +12,6 @@ using Dopamine.Services.Entities;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Playlist;
 using Dopamine.Services.Search;
-using Dopamine.Services.Utils;
 using Dopamine.Views.Common;
 using Prism.Commands;
 using Prism.Ioc;
