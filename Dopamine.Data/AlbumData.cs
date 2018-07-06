@@ -6,6 +6,10 @@
 
         public string AlbumArtists { get; set; }
 
+        public string TrackTitle { get; set; }
+
+        public string Artists { get; set; }
+
         public string AlbumKey { get; set; }
 
         public long? Year { get; set; }

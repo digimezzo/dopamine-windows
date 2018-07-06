@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dopamine.Core.Utils
@@ -9,7 +10,7 @@ namespace Dopamine.Core.Utils
         public static async Task<Uri> GetAlbumArtworkFromInternetAsync(string albumTitle, IList<string> albumArtists, string trackTitle = "", IList<string> trackArtists = null)
         {
             string title = string.Empty;
-            IList<string> artists = null;
+            List<string> artists = new List<string>();
 
             // Title
             if (!string.IsNullOrEmpty(albumTitle))
@@ -24,11 +25,12 @@ namespace Dopamine.Core.Utils
             // Artist
             if (albumArtists != null && albumArtists.Count > 0)
             {
-                artists = albumArtists;
+                artists.AddRange(albumArtists.Where(a => !string.IsNullOrEmpty(a)));
             }
-            else if (trackArtists != null && trackArtists.Count > 0)
+
+            if (trackArtists != null && trackArtists.Count > 0)
             {
-                artists = trackArtists;
+                artists.AddRange(trackArtists.Where(a => !string.IsNullOrEmpty(a)));
             }
 
             if (string.IsNullOrEmpty(title) || artists == null)
@@ -45,7 +47,7 @@ namespace Dopamine.Core.Utils
                     return new Uri(lfmAlbum.LargestImage());
                 }
             }
-      
+
             return null;
         }
     }
