@@ -18,7 +18,7 @@ namespace Dopamine.Data
             return $"{columnName} IN ({commaSeparatedItems})";
         }
 
-        public static string CreateOrLikeClause(string columnName, IList<string> clauseItems)
+        public static string CreateOrLikeClause(string columnName, IList<string> clauseItems, string delimiter = "")
         {
             var sb = new StringBuilder();
 
@@ -34,7 +34,7 @@ namespace Dopamine.Data
                 }
                 else
                 {
-                    orClauses.Add($@"LOWER({columnName}) LIKE '%{clauseItem.Replace("'", "''").ToLower()}%'");
+                    orClauses.Add($@"LOWER({columnName}) LIKE '%{delimiter}{clauseItem.Replace("'", "''").ToLower()}{delimiter}%'");
                 }
             }
 
