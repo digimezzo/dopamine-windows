@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
+using Dopamine.Core.Utils;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using System;
@@ -106,11 +107,23 @@ namespace Dopamine.Data
             valueList.Insert(index, string.Join(separator.ToString(), origParts));
         }
 
-        public static string SanitizeTag(string str)
+        public static string TrimTag(string str)
         {
             if (!string.IsNullOrEmpty(str))
             {
                 return str.Trim();
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        public static string DelimitTag(string str)
+        {
+            if (!string.IsNullOrEmpty(str))
+            {
+                return $"{Constants.TagDelimiter}{str.Trim()}{Constants.TagDelimiter}";
             }
             else
             {
@@ -134,9 +147,9 @@ namespace Dopamine.Data
             }
 
             IEnumerable<string> patchedEnumeration = MetadataUtils.PatchID3v23Enumeration(value.Values);
-            IEnumerable<string> sanitizedTags = patchedEnumeration.Select(x => MetadataUtils.SanitizeTag(x));
+            IEnumerable<string> delimitedTags = patchedEnumeration.Select(x => MetadataUtils.DelimitTag(x));
 
-            return string.Join(Constants.MultiValueTagsSeparator, sanitizedTags.OrderBy(x => x).ToArray());
+            return string.Join(string.Empty, delimitedTags.OrderBy(x => x).ToArray());
         }
 
         private static string GetAllArtists(IFileMetadata fileMetadata)
@@ -166,7 +179,7 @@ namespace Dopamine.Data
             track.MimeType = fileMetadata.MimeType;
             track.BitRate = fileMetadata.BitRate;
             track.SampleRate = fileMetadata.SampleRate;
-            track.TrackTitle = MetadataUtils.SanitizeTag(fileMetadata.Title.Value);
+            track.TrackTitle = MetadataUtils.TrimTag(fileMetadata.Title.Value);
             track.TrackNumber = MetadataUtils.SafeConvertToLong(fileMetadata.TrackNumber.Value);
             track.TrackCount = MetadataUtils.SafeConvertToLong(fileMetadata.TrackCount.Value);
             track.DiscNumber = MetadataUtils.SafeConvertToLong(fileMetadata.DiscNumber.Value);
@@ -182,13 +195,13 @@ namespace Dopamine.Data
             track.DateLastSynced = nowTicks;
             track.Artists = GetAllArtists(fileMetadata);
             track.Genres = GetAllGenres(fileMetadata);
-            track.AlbumTitle = string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : MetadataUtils.SanitizeTag(fileMetadata.Album.Value);
+            track.AlbumTitle = string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : MetadataUtils.TrimTag(fileMetadata.Album.Value);
             track.AlbumArtists = GetAllAlbumArtists(fileMetadata);
-            track.AlbumKey = GenerateInitialAlbumKey(track.AlbumTitle, track.AlbumArtists, track.Artists);
+            track.AlbumKey = GenerateInitialAlbumKey(track.AlbumTitle, track.AlbumArtists);
             track.Rating = fileMetadata.Rating.Value;
         }
 
-        private static string GenerateInitialAlbumKey(string albumTitle, string albumArtists, string trackArtists)
+        private static string GenerateInitialAlbumKey(string albumTitle, string albumArtists)
         {
             if (string.IsNullOrWhiteSpace(albumTitle))
             {
@@ -197,20 +210,15 @@ namespace Dopamine.Data
 
             if (!string.IsNullOrWhiteSpace(albumArtists))
             {
-                return string.Join(";", albumTitle, albumArtists);
+                return string.Join(string.Empty, DelimitTag(albumTitle), albumArtists);
             }
 
-            //if (!string.IsNullOrWhiteSpace(trackArtists))
-            //{
-            //    return string.Join(";", albumTitle, trackArtists);
-            //}
-
-            return albumTitle;
+            return DelimitTag(albumTitle);
         }
 
         public static string GetCommaSeparatedMultiValueTags(string multiValueTagValue)
         {
-            if (multiValueTagValue.Contains(Constants.MultiValueTagsSeparator))
+            if (multiValueTagValue.Contains(Constants.DoubleTagDelimiter))
             {
                 return string.Join(", ", GetMultiValueTagsCollection(multiValueTagValue));
             }
@@ -220,7 +228,7 @@ namespace Dopamine.Data
 
         public static IEnumerable<string> GetMultiValueTagsCollection(string multiValueTagValue)
         {
-            return multiValueTagValue.Split(Convert.ToChar(Constants.MultiValueTagsSeparator));
+            return multiValueTagValue.Split(Constants.DoubleTagDelimiter).Select(x => x.Trim(Constants.TagDelimiter));
         }
 
         public static async Task<Track> Path2TrackAsync(IFileMetadata fileMetadata)

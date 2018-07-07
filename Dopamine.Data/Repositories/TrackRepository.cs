@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Data.Entities;
 using System;
@@ -490,11 +491,11 @@ namespace Dopamine.Data.Repositories
 
                                 if (artists != null)
                                 {
-                                    filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists)} OR {DataUtils.CreateOrLikeClause("AlbumArtists", artists)})";
+                                    filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists, Constants.TagDelimiter)} OR {DataUtils.CreateOrLikeClause("AlbumArtists", artists)})";
                                 }
                                 else if (genres != null)
                                 {
-                                    filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", genres)}";
+                                    filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", genres, Constants.TagDelimiter)}";
                                 }
 
                                 albumData = conn.Query<AlbumData>(this.SelectVisibleAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey");

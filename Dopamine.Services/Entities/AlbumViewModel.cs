@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
+using Dopamine.Data;
 using Prism.Mvvm;
 
 namespace Dopamine.Services.Entities
@@ -19,7 +20,7 @@ namespace Dopamine.Services.Entities
         public AlbumViewModel(string albumTitle, string albumArtists, long? year, string albumKey, long? dateAdded, long? dateFileCreated)
         {
             this.albumTitle = !string.IsNullOrEmpty(albumTitle) ? albumTitle : ResourceUtils.GetString("Language_Unknown_Album");
-            this.albumArtist = !string.IsNullOrEmpty(albumArtists) ? albumArtists.Replace(Constants.MultiValueTagsSeparator, ", ") : ResourceUtils.GetString("Language_Unknown_Artist");
+            this.albumArtist = !string.IsNullOrEmpty(albumArtists) ? MetadataUtils.GetCommaSeparatedMultiValueTags(albumArtists) : ResourceUtils.GetString("Language_Unknown_Artist");
             this.year = year.HasValue && year.Value > 0 ? year.ToString() : string.Empty;
             this.SortYear = year.HasValue ? year.Value : 0;
             this.AlbumKey = albumKey;
