@@ -1,7 +1,6 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
-using Dopamine.Core.Utils;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using System;
@@ -167,6 +166,11 @@ namespace Dopamine.Data
             return GetOrderedMultiValueTags(fileMetadata.AlbumArtists);
         }
 
+        private static string GetAlbumTitle(IFileMetadata fileMetadata)
+        {
+            return string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : MetadataUtils.TrimTag(fileMetadata.Album.Value);
+        }
+
         public static void FillTrack(IFileMetadata fileMetadata, ref Track track)
         {
             string path = fileMetadata.Path;
@@ -195,7 +199,7 @@ namespace Dopamine.Data
             track.DateLastSynced = nowTicks;
             track.Artists = GetAllArtists(fileMetadata);
             track.Genres = GetAllGenres(fileMetadata);
-            track.AlbumTitle = string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : MetadataUtils.TrimTag(fileMetadata.Album.Value);
+            track.AlbumTitle = GetAlbumTitle(fileMetadata);
             track.AlbumArtists = GetAllAlbumArtists(fileMetadata);
             track.AlbumKey = GenerateInitialAlbumKey(track.AlbumTitle, track.AlbumArtists);
             track.Rating = fileMetadata.Rating.Value;
@@ -214,21 +218,6 @@ namespace Dopamine.Data
             }
 
             return DelimitTag(albumTitle);
-        }
-
-        public static string GetCommaSeparatedMultiValueTags(string multiValueTagValue)
-        {
-            if (multiValueTagValue.Contains(Constants.DoubleTagDelimiter))
-            {
-                return string.Join(", ", GetMultiValueTagsCollection(multiValueTagValue));
-            }
-
-            return multiValueTagValue;
-        }
-
-        public static IEnumerable<string> GetMultiValueTagsCollection(string multiValueTagValue)
-        {
-            return multiValueTagValue.Split(Constants.DoubleTagDelimiter).Select(x => x.Trim(Constants.TagDelimiter));
         }
 
         public static async Task<Track> Path2TrackAsync(IFileMetadata fileMetadata)

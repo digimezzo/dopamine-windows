@@ -9,6 +9,7 @@ using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
+using Dopamine.Services.Utils;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -732,9 +733,9 @@ namespace Dopamine.Services.Indexing
                                     // We don't want future passes to index for this AlbumKey anymore.
                                     albumArtwork.ArtworkID = await this.GetArtworkFromInternet(
                                         albumDataToIndex.AlbumTitle,
-                                        MetadataUtils.GetMultiValueTagsCollection(albumDataToIndex.AlbumArtists).ToList(),
+                                        DataUtils.SplitAndTrimColumnMultiValue(albumDataToIndex.AlbumArtists).ToList(),
                                         albumDataToIndex.TrackTitle,
-                                        MetadataUtils.GetMultiValueTagsCollection(albumDataToIndex.Artists).ToList()
+                                        DataUtils.SplitAndTrimColumnMultiValue(albumDataToIndex.Artists).ToList()
                                         );
 
                                     await this.trackRepository.DisableNeedsAlbumArtworkIndexingAsync(albumDataToIndex.AlbumKey);

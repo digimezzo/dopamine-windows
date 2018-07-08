@@ -6,6 +6,7 @@ using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Scrobbling;
+using Dopamine.Services.Utils;
 using Prism.Mvvm;
 using System;
 
@@ -73,11 +74,11 @@ namespace Dopamine.Services.Entities
 
         public string SafePath => this.Track.SafePath;
 
-        public string ArtistName => string.IsNullOrEmpty(this.Track.Artists) ? ResourceUtils.GetString("Language_Unknown_Artist") : MetadataUtils.GetCommaSeparatedMultiValueTags(this.Track.Artists);
+        public string ArtistName => string.IsNullOrEmpty(this.Track.Artists) ? ResourceUtils.GetString("Language_Unknown_Artist") : DataUtils.GetCommaSeparatedColumnMultiValue(this.Track.Artists);
 
-        public string AlbumArtist => string.IsNullOrEmpty(this.Track.AlbumArtists) ? ResourceUtils.GetString("Language_Unknown_Artist") : MetadataUtils.GetCommaSeparatedMultiValueTags(this.Track.AlbumArtists);
+        public string AlbumArtist => string.IsNullOrEmpty(this.Track.AlbumArtists) ? ResourceUtils.GetString("Language_Unknown_Artist") : DataUtils.GetCommaSeparatedColumnMultiValue(this.Track.AlbumArtists);
 
-        public string Genre => string.IsNullOrEmpty(this.Track.Genres) ? ResourceUtils.GetString("Language_Unknown_Genres") : MetadataUtils.GetCommaSeparatedMultiValueTags(this.Track.Genres);
+        public string Genre => string.IsNullOrEmpty(this.Track.Genres) ? ResourceUtils.GetString("Language_Unknown_Genres") : DataUtils.GetCommaSeparatedColumnMultiValue(this.Track.Genres);
 
         public string FormattedTrackNumber => this.Track.TrackNumber.HasValueLargerThan(0) ? Track.TrackNumber.Value.ToString("00") : "--";
 
@@ -91,7 +92,7 @@ namespace Dopamine.Services.Entities
 
         public string GroupSubHeader
         {
-            get { return MetadataUtils.GetCommaSeparatedMultiValueTags(this.Track.AlbumArtists); }
+            get { return DataUtils.GetCommaSeparatedColumnMultiValue(this.Track.AlbumArtists); }
         }
 
         public bool ShowTrackArt
