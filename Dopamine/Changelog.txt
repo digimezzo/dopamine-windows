@@ -2,6 +2,7 @@
 ----------------------------------
 
 - [Changed] Updated the Chinese (Simplified) translation
+- [Changed] Updated the Chinese (Traditional) translation
 - [Changed] Updated the Italian translation
 - [Changed] Updated the Hungarian translation
 
