@@ -19,7 +19,7 @@ namespace Dopamine.Services.Entities
         public AlbumViewModel(AlbumData albumData, bool setUnknownStrings)
         {
             this.albumTitle = !string.IsNullOrEmpty(albumData.AlbumTitle) || !setUnknownStrings ? albumData.AlbumTitle : ResourceUtils.GetString("Language_Unknown_Album");
-            this.albumArtist = !string.IsNullOrEmpty(albumData.AlbumArtists) || !setUnknownStrings ? MetadataUtils.GetCommaSeparatedMultiValueTags(albumData.AlbumArtists) : ResourceUtils.GetString("Language_Unknown_Artist");
+            this.albumArtist = !string.IsNullOrEmpty(albumData.AlbumArtists) || !setUnknownStrings ? DataUtils.GetCommaSeparatedColumnMultiValue(albumData.AlbumArtists) : ResourceUtils.GetString("Language_Unknown_Artist");
             this.year = albumData.Year.HasValue && albumData.Year.Value > 0 ? albumData.Year.Value.ToString() : string.Empty;
             this.SortYear = albumData.Year.HasValue ? albumData.Year.Value : 0;
             this.AlbumKey = albumData.AlbumKey;

@@ -1,4 +1,5 @@
 ﻿using Dopamine.Core.Utils;
+using Dopamine.Data;
 using Dopamine.Services.Utils;
 using Prism.Mvvm;
 using System;
@@ -12,7 +13,7 @@ namespace Dopamine.Services.Entities
 
         public ArtistViewModel(string artistName)
         {
-            this.artistName = artistName;
+            this.artistName = DataUtils.TrimColumnValue(artistName);
             this.isHeader = false;
         }
 

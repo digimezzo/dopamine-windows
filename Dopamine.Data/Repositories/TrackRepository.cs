@@ -397,7 +397,7 @@ namespace Dopamine.Data.Repositories
                         {
                             genreNames = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
                                                            .Select((t) => t.Genres).Where(g => !string.IsNullOrEmpty(g))
-                                                           .SelectMany(g => MetadataUtils.GetMultiValueTagsCollection(g))
+                                                           .SelectMany(g => DataUtils.SplitColumnMultiValue(g))
                                                            .Distinct().ToList();
                         }
                         catch (Exception ex)
@@ -429,7 +429,7 @@ namespace Dopamine.Data.Repositories
                         {
                             artistNames = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
                                                             .Select((t) => t.Artists).Where(a => !string.IsNullOrEmpty(a))
-                                                            .SelectMany(a => MetadataUtils.GetMultiValueTagsCollection(a))
+                                                            .SelectMany(a => DataUtils.SplitColumnMultiValue(a))
                                                             .Distinct().ToList();
                         }
                         catch (Exception ex)
@@ -461,7 +461,7 @@ namespace Dopamine.Data.Repositories
                         {
                             albumArtists = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
                                                              .Select((t) => t.AlbumArtists).Where(a => !string.IsNullOrEmpty(a))
-                                                             .SelectMany(a => MetadataUtils.GetMultiValueTagsCollection(a))
+                                                             .SelectMany(a => DataUtils.SplitColumnMultiValue(a))
                                                              .Distinct().ToList();
                         }
                         catch (Exception ex)

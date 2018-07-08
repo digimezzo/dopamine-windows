@@ -1,5 +1,8 @@
-﻿using Dopamine.Core.Utils;
+﻿using Dopamine.Core.Base;
+using Dopamine.Core.Utils;
 using Dopamine.Data;
+using Dopamine.Data.Entities;
+using Dopamine.Data.Metadata;
 using Dopamine.Services.Entities;
 using System;
 using System.Collections.Generic;

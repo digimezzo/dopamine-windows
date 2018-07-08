@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Dopamine.Core.Base;
+using Dopamine.Core.Utils;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -43,5 +45,30 @@ namespace Dopamine.Data
 
             return sb.ToString();
         }
+
+        public static IEnumerable<string> SplitColumnMultiValue(string columnMultiValue)
+        {
+            return columnMultiValue.Split(Constants.DoubleTagDelimiter);
+        }
+
+        public static string TrimColumnValue(string columnValue)
+        {
+            return columnValue.Trim(Constants.TagDelimiter);
+        }
+
+        public static IEnumerable<string> SplitAndTrimColumnMultiValue(string columnMultiValue)
+        {
+            return SplitColumnMultiValue(columnMultiValue).Select(x => TrimColumnValue(x));
+        }
+
+        public static string GetCommaSeparatedColumnMultiValue(string columnMultiValue)
+        {
+            if (columnMultiValue.Contains(Constants.DoubleTagDelimiter))
+            {
+                return string.Join(", ", SplitAndTrimColumnMultiValue(columnMultiValue));
+            }
+
+            return TrimColumnValue(columnMultiValue);
+        } 
     }
 }

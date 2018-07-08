@@ -5,6 +5,7 @@ using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Services.Entities;
 using Dopamine.Services.Playback;
+using Dopamine.Services.Utils;
 using System;
 using System.Threading.Tasks;
 
@@ -219,7 +220,7 @@ namespace Dopamine.Services.Scrobbling
 
             if (this.SignInState == SignInState.SignedIn)
             {
-                foreach (string artist in MetadataUtils.GetMultiValueTagsCollection(track.Track.Artists))
+                foreach (string artist in DataUtils.SplitAndTrimColumnMultiValue(track.Track.Artists))
                 {
                     if (love)
                     {
