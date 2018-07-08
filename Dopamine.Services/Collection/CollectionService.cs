@@ -209,13 +209,7 @@ namespace Dopamine.Services.Collection
             {
                 foreach (AlbumData album in albums)
                 {
-                    var newAlbum = new AlbumViewModel(
-                        album.AlbumTitle,
-                        album.AlbumArtists,
-                        album.Year,
-                        album.AlbumKey,
-                        album.DateAdded,
-                        album.DateFileCreated);
+                    var newAlbum = new AlbumViewModel(album, true);
 
                     if (!uniqueAlbums.Contains(newAlbum))
                     {
