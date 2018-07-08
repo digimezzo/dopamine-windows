@@ -1,6 +1,7 @@
-2018-06-16: Dopamine 2.0 Preview 2
+2018-07-08: Dopamine 2.0 Preview 2
 ----------------------------------
 
+- [Added] Added Japanese language
 - [Changed] Updated the Chinese (Simplified) translation
 - [Changed] Updated the Chinese (Traditional) translation
 - [Changed] Updated the Italian translation
