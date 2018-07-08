@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
+using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
@@ -22,6 +23,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private IIndexingService indexingService;
         private ICacheService cacheService;
         private IRegionManager regionManager;
+        private ITrackRepository trackRepository;
         private AlbumViewModel albumViewModel1;
         private AlbumViewModel albumViewModel2;
         private AlbumViewModel albumViewModel3;
@@ -76,10 +78,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.cacheService = container.Resolve<ICacheService>();
             this.indexingService = container.Resolve<IIndexingService>();
             this.regionManager = container.Resolve<IRegionManager>();
+            this.trackRepository = container.Resolve<ITrackRepository>();
 
             // Events
-            //this.playbackService.TrackStatisticsChanged += async (_) => await this.PopulateAlbumHistoryAsync();
-            //this.indexingService.IndexingStopped += async (_, __) => await this.PopulateAlbumHistoryAsync();
+            this.playbackService.TrackStatisticsChanged += async (_) => await this.PopulateAlbumHistoryAsync();
+            this.indexingService.IndexingStopped += async (_, __) => await this.PopulateAlbumHistoryAsync();
 
             // Commands
             this.ClickCommand = new DelegateCommand<object>((albumViewModel) =>
@@ -105,53 +108,48 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 isFirstLoad = false;
 
                 await Task.Delay(Constants.CommonListLoadDelay);
-                // await this.PopulateAlbumHistoryAsync();
+                await this.PopulateAlbumHistoryAsync();
             });
         }
 
-        //private void UpdateAlbumViewModel(int number, List<Album> albums, ref AlbumViewModel albumViewModel)
-        //{
-        //    if (albums.Count >= number)
-        //    {
-        //        Album alb = albums[number - 1];
+        private void UpdateAlbumViewModel(int number, IList<AlbumData> albumDatas, ref AlbumViewModel albumViewModel)
+        {
+            if (albumDatas.Count >= number)
+            {
+                AlbumData data = albumDatas[number - 1];
 
-                //TODO if (albumViewModel == null || !albumViewModel.Album.Equals(alb))
-                //{
-                //    albumViewModel = new AlbumViewModel
-                //    {
-                //        Album = alb,
-                //        ArtworkPath = this.cacheService.GetCachedArtworkPath(alb.ArtworkID)
-                //    };
-                //}
-            //}
-            //else
-            //{
+                if (albumViewModel == null || !albumViewModel.AlbumKey.Equals(data.AlbumKey))
+                {
+                    albumViewModel = new AlbumViewModel(data, true);
+                }
+            }
+            else
+            {
                 // Shows an empty tile
-                // TODO albumViewModel = new AlbumViewModel
-                //{
-                //    Album = new Album() { AlbumTitle = string.Empty, AlbumArtist = string.Empty },
-                //    ArtworkPath = string.Empty,
-                //    Opacity = 0.8 - (number / 10.0)
-                //};
-            //}
+                albumViewModel = new AlbumViewModel(AlbumData.CreateDefault(), false)
+                {
+                    ArtworkPath = string.Empty,
+                    Opacity = 0.8 - (number / 10.0)
+                };
+            }
 
-            //RaisePropertyChanged("AlbumViewModel" + number.ToString());
-            //System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
-        //}
+            RaisePropertyChanged("AlbumViewModel" + number.ToString());
+            System.Threading.Thread.Sleep(Constants.CloudLoadDelay);
+        }
 
-        //private async Task PopulateAlbumHistoryAsync()
-        //{
-            //TODO var albums = await this.albumRepository.GetFrequentAlbumsAsync(6);
+        private async Task PopulateAlbumHistoryAsync()
+        {
+            IList<AlbumData> albumDatas = await this.trackRepository.GetFrequentAlbumDataAsync(6);
 
-            //await Task.Run(() =>
-            //{
-            //    this.UpdateAlbumViewModel(1, albums, ref this.albumViewModel1);
-            //    this.UpdateAlbumViewModel(2, albums, ref this.albumViewModel2);
-            //    this.UpdateAlbumViewModel(3, albums, ref this.albumViewModel3);
-            //    this.UpdateAlbumViewModel(4, albums, ref this.albumViewModel4);
-            //    this.UpdateAlbumViewModel(5, albums, ref this.albumViewModel5);
-            //    this.UpdateAlbumViewModel(6, albums, ref this.albumViewModel6);
-            //});
-        //}
+            await Task.Run(() =>
+            {
+                this.UpdateAlbumViewModel(1, albumDatas, ref this.albumViewModel1);
+                this.UpdateAlbumViewModel(2, albumDatas, ref this.albumViewModel2);
+                this.UpdateAlbumViewModel(3, albumDatas, ref this.albumViewModel3);
+                this.UpdateAlbumViewModel(4, albumDatas, ref this.albumViewModel4);
+                this.UpdateAlbumViewModel(5, albumDatas, ref this.albumViewModel5);
+                this.UpdateAlbumViewModel(6, albumDatas, ref this.albumViewModel6);
+            });
+        }
     }
 }

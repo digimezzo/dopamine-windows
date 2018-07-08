@@ -1,5 +1,4 @@
 ﻿using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Base;
 using Dopamine.Data;
 using Prism.Mvvm;
 
@@ -17,15 +16,15 @@ namespace Dopamine.Services.Entities
         private long? dateFileCreated;
         private long sortYear;
 
-        public AlbumViewModel(string albumTitle, string albumArtists, long? year, string albumKey, long? dateAdded, long? dateFileCreated)
+        public AlbumViewModel(AlbumData albumData, bool setUnknownStrings)
         {
-            this.albumTitle = !string.IsNullOrEmpty(albumTitle) ? albumTitle : ResourceUtils.GetString("Language_Unknown_Album");
-            this.albumArtist = !string.IsNullOrEmpty(albumArtists) ? MetadataUtils.GetCommaSeparatedMultiValueTags(albumArtists) : ResourceUtils.GetString("Language_Unknown_Artist");
-            this.year = year.HasValue && year.Value > 0 ? year.ToString() : string.Empty;
-            this.SortYear = year.HasValue ? year.Value : 0;
-            this.AlbumKey = albumKey;
-            this.DateAdded = dateAdded;
-            this.DateFileCreated = dateFileCreated;
+            this.albumTitle = !string.IsNullOrEmpty(albumData.AlbumTitle) || !setUnknownStrings ? albumData.AlbumTitle : ResourceUtils.GetString("Language_Unknown_Album");
+            this.albumArtist = !string.IsNullOrEmpty(albumData.AlbumArtists) || !setUnknownStrings ? MetadataUtils.GetCommaSeparatedMultiValueTags(albumData.AlbumArtists) : ResourceUtils.GetString("Language_Unknown_Artist");
+            this.year = albumData.Year.HasValue && albumData.Year.Value > 0 ? albumData.Year.Value.ToString() : string.Empty;
+            this.SortYear = albumData.Year.HasValue ? albumData.Year.Value : 0;
+            this.AlbumKey = albumData.AlbumKey;
+            this.DateAdded = albumData.DateAdded;
+            this.DateFileCreated = albumData.DateFileCreated;
         }
 
         public string AlbumKey { get; set; }
@@ -68,7 +67,8 @@ namespace Dopamine.Services.Entities
         public string Year
         {
             get { return this.year; }
-            set {
+            set
+            {
                 SetProperty<string>(ref this.year, value);
                 RaisePropertyChanged(nameof(this.ToolTipYear));
             }
@@ -102,7 +102,8 @@ namespace Dopamine.Services.Entities
         public string ArtworkPath
         {
             get { return this.artworkPath; }
-            set {
+            set
+            {
                 SetProperty<string>(ref this.artworkPath, value);
                 RaisePropertyChanged(nameof(this.HasCover));
             }
