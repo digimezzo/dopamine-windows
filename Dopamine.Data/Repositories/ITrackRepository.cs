@@ -52,8 +52,8 @@ namespace Dopamine.Data.Repositories
 
         Task UpdateLoveAsync(string path, int love);
 
-        Task UpdatePlaybackCountersAsync(PlaybackCounters counters);
+        Task UpdatePlaybackCountersAsync(PlaybackCounter counters);
 
-        Task<PlaybackCounters> GetPlaybackCountersAsync(string path);
+        Task<PlaybackCounter> GetPlaybackCountersAsync(string path);
     }
 }

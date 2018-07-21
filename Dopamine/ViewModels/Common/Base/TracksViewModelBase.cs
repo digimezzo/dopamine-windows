@@ -112,19 +112,19 @@ namespace Dopamine.ViewModels.Common.Base
             this.playbackService.PlaybackCountersChanged += PlaybackService_PlaybackCountersChanged;
         }
 
-        private async void PlaybackService_PlaybackCountersChanged(IList<PlaybackCounters> countersCollection)
+        private async void PlaybackService_PlaybackCountersChanged(IList<PlaybackCounter> counters)
         {
             if (this.Tracks == null)
             {
                 return;
             }
 
-            if (countersCollection == null)
+            if (counters == null)
             {
                 return;
             }
 
-            if (countersCollection.Count == 0)
+            if (counters.Count == 0)
             {
                 return;
             }
@@ -133,10 +133,10 @@ namespace Dopamine.ViewModels.Common.Base
             {
                 foreach (TrackViewModel vm in this.Tracks)
                 {
-                    if (countersCollection.Select(c => c.SafePath).Contains(vm.Track.SafePath))
+                    if (counters.Select(c => c.SafePath).Contains(vm.Track.SafePath))
                     {
                         // The UI is only updated if PropertyChanged is fired on the UI thread
-                        PlaybackCounters counter = countersCollection.Where(c => c.SafePath.Equals(vm.Track.SafePath)).FirstOrDefault();
+                        PlaybackCounter counter = counters.Where(c => c.SafePath.Equals(vm.Track.SafePath)).FirstOrDefault();
                         Application.Current.Dispatcher.Invoke(() => vm.UpdateVisibleCounters(counter));
                     }
                 }

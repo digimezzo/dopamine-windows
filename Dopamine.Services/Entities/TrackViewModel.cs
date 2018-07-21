@@ -223,7 +223,7 @@ namespace Dopamine.Services.Entities
             this.RaisePropertyChanged(nameof(this.Love));
         }
 
-        public void UpdateVisibleCounters(PlaybackCounters counters)
+        public void UpdateVisibleCounters(PlaybackCounter counters)
         {
             this.Track.PlayCount = counters.PlayCount;
             this.Track.SkipCount = counters.SkipCount;

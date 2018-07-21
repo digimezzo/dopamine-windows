@@ -2,7 +2,7 @@
 
 namespace Dopamine.Data
 {
-    public class PlaybackCounters
+    public class PlaybackCounter
     {
         public string Path { get; set; }
 

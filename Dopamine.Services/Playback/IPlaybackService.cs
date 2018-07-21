@@ -14,7 +14,7 @@ namespace Dopamine.Services.Playback
     public delegate void PlaybackFailedEventHandler(object sender, PlaybackFailedEventArgs e);
     public delegate void PlaybackSuccessEventHandler(object sender, PlaybackSuccessEventArgs e);
     public delegate void PlaybackPausedEventHandler(object sender, PlaybackPausedEventArgs e);
-    public delegate void PlaybackCountersChangedEventHandler(IList<PlaybackCounters> counters);
+    public delegate void PlaybackCountersChangedEventHandler(IList<PlaybackCounter> counters);
     public delegate void PlaybackVolumeChangedEventhandler(object sender, PlaybackVolumeChangedEventArgs e);
 
     public interface IPlaybackService

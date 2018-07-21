@@ -122,7 +122,7 @@ namespace Dopamine.Services.File
 
             try
             {
-                PlaybackCounters playbackCounters = await this.trackRepository.GetPlaybackCountersAsync(path);
+                PlaybackCounter playbackCounters = await this.trackRepository.GetPlaybackCountersAsync(path);
                 Track track  = await MetadataUtils.Path2TrackAsync(this.fileMetadataFactory.Create(path));
 
                 returnTrack = container.ResolveTrackViewModel(track);
