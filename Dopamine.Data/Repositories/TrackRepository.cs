@@ -479,7 +479,7 @@ namespace Dopamine.Data.Repositories
             return albumArtists;
         }
 
-        public async Task<IList<AlbumData>> GetAlbumsAsync(IList<string> artists, IList<string> genres)
+        public async Task<IList<AlbumData>> GetAlbumDataAsync(IList<string> artists, IList<string> genres)
         {
             var albumData = new List<AlbumData>();
 
