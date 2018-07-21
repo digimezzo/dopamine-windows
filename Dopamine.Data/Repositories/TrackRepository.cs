@@ -745,7 +745,7 @@ namespace Dopamine.Data.Repositories
             });
         }
 
-        public async Task UpdatePlaybackCountersAsync(PlaybackCounters counters)
+        public async Task UpdatePlaybackCountersAsync(PlaybackCounter counters)
         {
             await Task.Run(() =>
             {
@@ -770,9 +770,9 @@ namespace Dopamine.Data.Repositories
             });
         }
 
-        public async Task<PlaybackCounters> GetPlaybackCountersAsync(string path)
+        public async Task<PlaybackCounter> GetPlaybackCountersAsync(string path)
         {
-            PlaybackCounters counters = null;
+            PlaybackCounter counters = null;
 
             await Task.Run(() =>
             {
@@ -782,7 +782,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            counters = conn.Query<PlaybackCounters>("SELECT Path, SafePath, PlayCount, SkipCount, DateLastPlayed FROM Track WHERE SafePath=?", path.ToSafePath()).FirstOrDefault();
+                            counters = conn.Query<PlaybackCounter>("SELECT Path, SafePath, PlayCount, SkipCount, DateLastPlayed FROM Track WHERE SafePath=?", path.ToSafePath()).FirstOrDefault();
                         }
                         catch (Exception ex)
                         {

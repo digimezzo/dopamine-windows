@@ -63,10 +63,10 @@ namespace Dopamine.Services.Playback
         private ITrackRepository trackRepository;
        
         private System.Timers.Timer savePlaybackCountersTimer = new System.Timers.Timer();
-        private int savePlaybackCountersTimeoutSeconds = 5;
+        private int savePlaybackCountersTimeoutSeconds = 2;
 
         private bool isSavingPLaybackCounters = false;
-        private Dictionary<string, PlaybackCounters> playbackCounters = new Dictionary<string, PlaybackCounters>();
+        private Dictionary<string, PlaybackCounter> playbackCounters = new Dictionary<string, PlaybackCounter>();
 
         private object playbackCountersLock = new object();
 
@@ -526,23 +526,23 @@ namespace Dopamine.Services.Playback
 
             this.isSavingPLaybackCounters = true;
 
-            IList<PlaybackCounters> localCountersCollection = null;
+            IList<PlaybackCounter> localCounters = null;
 
             await Task.Run(() =>
             {
                 lock (this.playbackCountersLock)
                 {
-                    localCountersCollection = new List<PlaybackCounters>(this.playbackCounters.Values);
+                    localCounters = new List<PlaybackCounter>(this.playbackCounters.Values);
                     this.playbackCounters.Clear();
                 }
             });
 
-            foreach (PlaybackCounters localCounters in localCountersCollection)
+            foreach (PlaybackCounter localCounter in localCounters)
             {
-                await this.trackRepository.UpdatePlaybackCountersAsync(localCounters);
+                await this.trackRepository.UpdatePlaybackCountersAsync(localCounter);
             }
 
-            this.PlaybackCountersChanged(localCountersCollection);
+            this.PlaybackCountersChanged(localCounters);
 
             LogClient.Info("Saved track statistics");
 
@@ -1005,12 +1005,12 @@ namespace Dopamine.Services.Playback
             if (!this.playbackCounters.ContainsKey(path))
             {
                 // Try to find existing statistic
-                PlaybackCounters counters = await this.trackRepository.GetPlaybackCountersAsync(path);
+                PlaybackCounter counters = await this.trackRepository.GetPlaybackCountersAsync(path);
 
                 // If no existing statistic was found, create a new one.
                 if (counters == null)
                 {
-                    counters = new PlaybackCounters();
+                    counters = new PlaybackCounter();
                 }
 
                 // Add statistic to the dictionary
