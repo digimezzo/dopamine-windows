@@ -91,7 +91,6 @@
     <Compile Include="Entities\QueuedTrack.cs" />
     <Compile Include="Entities\RemovedTrack.cs" />
     <Compile Include="Entities\Track.cs" />
-    <Compile Include="Entities\TrackStatistic.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ISQLiteConnectionFactory.cs" />
     <Compile Include="MetaDataUtils.cs" />
@@ -102,6 +101,7 @@
     <Compile Include="Metadata\MetadataArtworkValue.cs" />
     <Compile Include="Metadata\MetadataRatingValue.cs" />
     <Compile Include="Metadata\MetadataValue.cs" />
+    <Compile Include="PlaybackCounters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -122,10 +122,8 @@
     <Compile Include="Repositories\IFolderRepository.cs" />
     <Compile Include="Repositories\IQueuedTrackRepository.cs" />
     <Compile Include="Repositories\ITrackRepository.cs" />
-    <Compile Include="Repositories\ITrackStatisticRepository.cs" />
     <Compile Include="Repositories\QueuedTrackRepository.cs" />
     <Compile Include="Repositories\TrackRepository.cs" />
-    <Compile Include="Repositories\TrackStatisticRepository.cs" />
     <Compile Include="SQLiteConnectionFactory.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

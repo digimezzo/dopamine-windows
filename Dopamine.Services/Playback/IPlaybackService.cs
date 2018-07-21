@@ -2,7 +2,7 @@
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.Helpers;
-using Dopamine.Data.Entities;
+using Dopamine.Data;
 using Dopamine.Data.Metadata;
 using Dopamine.Services.Entities;
 using System;
@@ -14,7 +14,7 @@ namespace Dopamine.Services.Playback
     public delegate void PlaybackFailedEventHandler(object sender, PlaybackFailedEventArgs e);
     public delegate void PlaybackSuccessEventHandler(object sender, PlaybackSuccessEventArgs e);
     public delegate void PlaybackPausedEventHandler(object sender, PlaybackPausedEventArgs e);
-    public delegate void TrackStatisticsChangedEventHandler(IList<TrackStatistic> statistics);
+    public delegate void PlaybackCountersChangedEventHandler(IList<PlaybackCounters> counters);
     public delegate void PlaybackVolumeChangedEventhandler(object sender, PlaybackVolumeChangedEventArgs e);
 
     public interface IPlaybackService
@@ -94,7 +94,7 @@ namespace Dopamine.Services.Playback
         event EventHandler PlaybackShuffleChanged;
         event Action<bool> SpectrumVisibilityChanged;
         event Action<int> AddedTracksToQueue;
-        event TrackStatisticsChangedEventHandler TrackStatisticsChanged;
+        event PlaybackCountersChangedEventHandler PlaybackCountersChanged;
         event Action<bool> LoadingTrack;
         event EventHandler PlayingTrackPlaybackInfoChanged;
         event EventHandler PlayingTrackArtworkChanged;

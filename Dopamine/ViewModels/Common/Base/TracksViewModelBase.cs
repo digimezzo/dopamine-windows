@@ -109,22 +109,22 @@ namespace Dopamine.ViewModels.Common.Base
                 this.RefreshLanguage();
             };
 
-            this.playbackService.TrackStatisticsChanged += PlaybackService_TrackStatisticsChanged;
+            this.playbackService.PlaybackCountersChanged += PlaybackService_PlaybackCountersChanged;
         }
 
-        private async void PlaybackService_TrackStatisticsChanged(IList<TrackStatistic> trackStatistics)
+        private async void PlaybackService_PlaybackCountersChanged(IList<PlaybackCounters> countersCollection)
         {
             if (this.Tracks == null)
             {
                 return;
             }
 
-            if (trackStatistics == null)
+            if (countersCollection == null)
             {
                 return;
             }
 
-            if (trackStatistics.Count == 0)
+            if (countersCollection.Count == 0)
             {
                 return;
             }
@@ -133,11 +133,11 @@ namespace Dopamine.ViewModels.Common.Base
             {
                 foreach (TrackViewModel vm in this.Tracks)
                 {
-                    if (trackStatistics.Select(t => t.SafePath).Contains(vm.Track.SafePath))
+                    if (countersCollection.Select(c => c.SafePath).Contains(vm.Track.SafePath))
                     {
                         // The UI is only updated if PropertyChanged is fired on the UI thread
-                        TrackStatistic statistic = trackStatistics.Where(c => c.SafePath.Equals(vm.Track.SafePath)).FirstOrDefault();
-                        Application.Current.Dispatcher.Invoke(() => vm.UpdateVisibleCounters(statistic));
+                        PlaybackCounters counter = countersCollection.Where(c => c.SafePath.Equals(vm.Track.SafePath)).FirstOrDefault();
+                        Application.Current.Dispatcher.Invoke(() => vm.UpdateVisibleCounters(counter));
                     }
                 }
             });
