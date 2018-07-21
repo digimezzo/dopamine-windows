@@ -8,6 +8,8 @@ namespace Dopamine.Data.Repositories
     {
         Task<IList<AlbumArtwork>> GetAlbumArtworkAsync();
 
+        Task<AlbumArtwork> GetAlbumArtworkAsync(string albumKey);
+
         Task DeleteAlbumArtworkAsync(string albumKey);
 
         Task<long> DeleteUnusedAlbumArtworkAsync();

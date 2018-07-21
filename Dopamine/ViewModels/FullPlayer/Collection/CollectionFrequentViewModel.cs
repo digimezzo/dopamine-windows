@@ -24,6 +24,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private ICacheService cacheService;
         private IRegionManager regionManager;
         private ITrackRepository trackRepository;
+        private IAlbumArtworkRepository albumArtworkRepository;
         private AlbumViewModel albumViewModel1;
         private AlbumViewModel albumViewModel2;
         private AlbumViewModel albumViewModel3;
@@ -79,6 +80,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.indexingService = container.Resolve<IIndexingService>();
             this.regionManager = container.Resolve<IRegionManager>();
             this.trackRepository = container.Resolve<ITrackRepository>();
+            this.albumArtworkRepository = container.Resolve<IAlbumArtworkRepository>();
 
             // Events
             this.playbackService.PlaybackCountersChanged += async (_) => await this.PopulateAlbumHistoryAsync();
@@ -120,7 +122,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
                 if (albumViewModel == null || !albumViewModel.AlbumKey.Equals(data.AlbumKey))
                 {
-                    albumViewModel = new AlbumViewModel(data, true);
+                    Task<AlbumArtwork> task = this.albumArtworkRepository.GetAlbumArtworkAsync(data.AlbumKey);
+                    AlbumArtwork albumArtwork = task.Result;
+
+                    albumViewModel = new AlbumViewModel(data, true)
+                    {
+                        ArtworkPath = this.cacheService.GetCachedArtworkPath(albumArtwork.ArtworkID)
+                    };
                 }
             }
             else
