@@ -81,7 +81,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.trackRepository = container.Resolve<ITrackRepository>();
 
             // Events
-            this.playbackService.TrackStatisticsChanged += async (_) => await this.PopulateAlbumHistoryAsync();
+            this.playbackService.PlaybackCountersChanged += async (_) => await this.PopulateAlbumHistoryAsync();
             this.indexingService.IndexingStopped += async (_, __) => await this.PopulateAlbumHistoryAsync();
 
             // Commands

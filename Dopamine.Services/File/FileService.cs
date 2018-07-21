@@ -25,8 +25,8 @@ namespace Dopamine.Services.File
     public class FileService : IFileService
     {
         private ICacheService cacheService;
-        private ITrackStatisticRepository trackStatisticRepository;
         private IFileMetadataFactory fileMetadataFactory;
+        private ITrackRepository trackRepository;
         private IContainerProvider container;
         private IList<string> files;
         private object lockObject = new object();
@@ -34,12 +34,12 @@ namespace Dopamine.Services.File
         private int addFilesMilliseconds = 250;
         private string instanceGuid;
 
-        public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository,
-            IFileMetadataFactory fileMetadataFactory, IContainerProvider container)
+        public FileService(ICacheService cacheService, IFileMetadataFactory fileMetadataFactory,
+            ITrackRepository trackRepository, IContainerProvider container)
         {
             this.cacheService = cacheService;
-            this.trackStatisticRepository = trackStatisticRepository;
             this.fileMetadataFactory = fileMetadataFactory;
+            this.trackRepository = trackRepository;
             this.container = container;
 
             // Unique identifier which will be used by this instance only to create cached artwork.
@@ -122,7 +122,7 @@ namespace Dopamine.Services.File
 
             try
             {
-                var savedTrackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
+                PlaybackCounters playbackCounters = await this.trackRepository.GetPlaybackCountersAsync(path);
                 Track track  = await MetadataUtils.Path2TrackAsync(this.fileMetadataFactory.Create(path));
 
                 returnTrack = container.ResolveTrackViewModel(track);

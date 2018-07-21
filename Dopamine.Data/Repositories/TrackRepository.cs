@@ -695,5 +695,108 @@ namespace Dopamine.Data.Repositories
 
             return albumData;
         }
+
+        public async Task UpdateRatingAsync(string path, int rating)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute("UPDATE Track SET Rating=? WHERE SafePath=?", rating, path.ToSafePath());
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not update rating for path='{0}'. Exception: {1}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
+        public async Task UpdateLoveAsync(string path, int love)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute("UPDATE Track SET Love=? WHERE SafePath=?", love, path.ToSafePath());
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not update love for path='{0}'. Exception: {1}", path, ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
+
+        public async Task UpdatePlaybackCountersAsync(PlaybackCounters counters)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute("UPDATE Track SET PlayCount=?, SkipCount=?, DateLastPlayed=? WHERE SafePath=?", counters.PlayCount, counters.SkipCount, counters.DateLastPlayed, counters.Path.ToSafePath());
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not update statistics for path='{0}'. Exception: {1}", counters.Path, ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
+
+        public async Task<PlaybackCounters> GetPlaybackCountersAsync(string path)
+        {
+            PlaybackCounters counters = null;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            counters = conn.Query<PlaybackCounters>("SELECT Path, SafePath, PlayCount, SkipCount, DateLastPlayed FROM Track WHERE SafePath=?", path.ToSafePath()).FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get PlaybackCounters for path='{0}'. Exception: {1}", path, ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return counters;
+        }
     }
 }

@@ -47,5 +47,13 @@ namespace Dopamine.Data.Repositories
         Task DisableNeedsAlbumArtworkIndexingForAllTracksAsync();
 
         Task EnableNeedsAlbumArtworkIndexingForAllTracksAsync(bool onlyWhenHasNoCover);
+
+        Task UpdateRatingAsync(string path, int rating);
+
+        Task UpdateLoveAsync(string path, int love);
+
+        Task UpdatePlaybackCountersAsync(PlaybackCounters counters);
+
+        Task<PlaybackCounters> GetPlaybackCountersAsync(string path);
     }
 }

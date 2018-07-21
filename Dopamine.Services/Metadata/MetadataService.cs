@@ -24,7 +24,6 @@ namespace Dopamine.Services.Metadata
     public class MetadataService : IMetadataService
     {
         private ITrackRepository trackRepository;
-        private ITrackStatisticRepository trackStatisticRepository;
         private IFileMetadataFactory metadataFactory;
         private bool isUpdatingDatabaseMetadata;
         private bool isUpdatingFileMetadata;
@@ -49,12 +48,11 @@ namespace Dopamine.Services.Metadata
         public event Action<LoveChangedEventArgs> LoveChanged = delegate { };
 
         public MetadataService(ICacheService cacheService, IPlaybackService playbackService, ITrackRepository trackRepository,
-            ITrackStatisticRepository trackStatisticRepository, IFileMetadataFactory metadataFactory, IContainerProvider container)
+            IFileMetadataFactory metadataFactory, IContainerProvider container)
         {
             this.cacheService = cacheService;
             this.playbackService = playbackService;
 
-            this.trackStatisticRepository = trackStatisticRepository;
             this.trackRepository = trackRepository;
             this.metadataFactory = metadataFactory;
 
@@ -105,7 +103,7 @@ namespace Dopamine.Services.Metadata
 
         public async Task UpdateTrackRatingAsync(string path, int rating)
         {
-            await this.trackStatisticRepository.UpdateRatingAsync(path, rating);
+            await this.trackRepository.UpdateRatingAsync(path, rating);
 
             // Update the rating in the file if the user selected this option
             if (SettingsClient.Get<bool>("Behaviour", "SaveRatingToAudioFiles"))
@@ -124,7 +122,7 @@ namespace Dopamine.Services.Metadata
 
         public async Task UpdateTrackLoveAsync(string path, bool love)
         {
-            await this.trackStatisticRepository.UpdateLoveAsync(path, love);
+            await this.trackRepository.UpdateLoveAsync(path, love ? 1 : 0);
 
             this.LoveChanged(new LoveChangedEventArgs { SafePath = path.ToSafePath(), Love = love });
         }
