@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
+using Dopamine.Core.Extensions;
 using Dopamine.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -117,6 +118,35 @@ namespace Dopamine.Data.Repositories
                         catch (Exception ex)
                         {
                             LogClient.Error("Could not get album artwork. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return albumArtwork;
+        }
+
+        public async Task<AlbumArtwork> GetAlbumArtworkForPathAsync(string path)
+        {
+            AlbumArtwork albumArtwork = null;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            albumArtwork = conn.Query<AlbumArtwork>("SELECT * FROM AlbumArtwork a LEFT JOIN Track t ON a.AlbumKey = t.AlbumKey WHERE t.SafePath=?;", path.ToSafePath()).FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error($"Could not get album artwork for path '{path}'. Exception: {ex.Message}");
                         }
                     }
                 }

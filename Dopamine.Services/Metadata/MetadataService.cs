@@ -3,6 +3,7 @@ using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
+using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
@@ -24,6 +25,7 @@ namespace Dopamine.Services.Metadata
     public class MetadataService : IMetadataService
     {
         private ITrackRepository trackRepository;
+        private IAlbumArtworkRepository albumArtworkRepository;
         private IFileMetadataFactory metadataFactory;
         private bool isUpdatingDatabaseMetadata;
         private bool isUpdatingFileMetadata;
@@ -48,12 +50,13 @@ namespace Dopamine.Services.Metadata
         public event Action<LoveChangedEventArgs> LoveChanged = delegate { };
 
         public MetadataService(ICacheService cacheService, IPlaybackService playbackService, ITrackRepository trackRepository,
-            IFileMetadataFactory metadataFactory, IContainerProvider container)
+            IAlbumArtworkRepository albumArtworkRepository, IFileMetadataFactory metadataFactory, IContainerProvider container)
         {
             this.cacheService = cacheService;
             this.playbackService = playbackService;
 
             this.trackRepository = trackRepository;
+            this.albumArtworkRepository = albumArtworkRepository;
             this.metadataFactory = metadataFactory;
 
             this.container = container;
@@ -292,23 +295,23 @@ namespace Dopamine.Services.Metadata
         {
             byte[] artwork = null;
 
-            Track track = this.trackRepository.GetTrack(filename);
-            // TODO Album album = track != null ? this.albumRepository.GetAlbum(track.AlbumID) : null;
+            Task<AlbumArtwork> task = this.albumArtworkRepository.GetAlbumArtworkForPathAsync(filename);
+            AlbumArtwork albumArtwork = task.Result;
 
-            //if (album != null)
-            //{
-            //    string artworkPath = this.cacheService.GetCachedArtworkPath((string)album.ArtworkID);
+            if (albumArtwork != null)
+            {
+                string artworkPath = this.cacheService.GetCachedArtworkPath(albumArtwork.ArtworkID);
 
-            //    if (!string.IsNullOrEmpty(artworkPath))
-            //    {
-            //        artwork = ImageUtils.Image2ByteArray(artworkPath, size, size);
-            //    }
+                if (!string.IsNullOrEmpty(artworkPath))
+                {
+                    artwork = ImageUtils.Image2ByteArray(artworkPath, size, size);
+                }
 
-            //    if (artwork != null)
-            //    {
-            //        this.cachedArtwork = new Tuple<string, byte[]>(filename, artwork);
-            //    }
-            //}
+                if (artwork != null)
+                {
+                    this.cachedArtwork = new Tuple<string, byte[]>(filename, artwork);
+                }
+            }
 
             return artwork;
         }
