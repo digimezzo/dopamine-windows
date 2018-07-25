@@ -423,21 +423,27 @@ namespace Dopamine.ViewModels.Common.Base
                     lastPlayingTrackVm.IsPaused = true;
                 }
 
-                if (!this.playbackService.HasCurrentTrack) return;
-
-                if (this.Tracks == null) return;
+                if (!this.playbackService.HasCurrentTrack)
                 {
-                    var safePath = this.playbackService.CurrentTrack.Value.SafePath;
-
-                    TrackViewModel trackVm = this.Tracks.FirstOrDefault(vm => vm.Track.SafePath.Equals(safePath));
-
-                    if (!this.playbackService.IsStopped && trackVm != null)
-                    {
-                        trackVm.IsPlaying = true;
-                        trackVm.IsPaused = !this.playbackService.IsPlaying;
-                    }
-                    lastPlayingTrackVm = trackVm;
+                    return;
                 }
+
+                if (this.Tracks == null)
+                {
+                    return;
+                }
+
+                var safePath = this.playbackService.CurrentTrack.Value.SafePath;
+
+                TrackViewModel trackVm = this.Tracks.FirstOrDefault(vm => vm.Track.SafePath.Equals(safePath));
+
+                if (!this.playbackService.IsStopped && trackVm != null)
+                {
+                    trackVm.IsPlaying = true;
+                    trackVm.IsPaused = !this.playbackService.IsPlaying;
+                }
+
+                lastPlayingTrackVm = trackVm;
             });
 
             this.ConditionalScrollToPlayingTrack();
