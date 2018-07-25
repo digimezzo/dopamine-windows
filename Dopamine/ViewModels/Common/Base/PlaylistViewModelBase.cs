@@ -401,7 +401,10 @@ namespace Dopamine.ViewModels.Common
                     lastPlayingTrackVm.Value.IsPaused = true;
                 }
 
-                if (!this.playbackService.HasCurrentTrack) return;
+                if (!this.playbackService.HasCurrentTrack)
+                {
+                    return;
+                }
 
                 if (this.Tracks == null) return;
                 {
@@ -409,8 +412,9 @@ namespace Dopamine.ViewModels.Common
                     var trackSafePath = this.playbackService.CurrentTrack.Value.SafePath;
                     var isTrackFound = false;
 
-                    // Firstly, try to find a matching Guid. This is the most exact.
+                    // First, try to find a matching Guid. This is the most exact.
                     var trackVm = this.Tracks.FirstOrDefault(vm => vm.Key.Equals(trackGuid));
+
                     if (!trackVm.Equals(default(KeyValuePair<string, TrackViewModel>)))
                     {
                         isTrackFound = true;
@@ -422,18 +426,24 @@ namespace Dopamine.ViewModels.Common
                         // wrong track can be highlighted. That's because the Guids are not known by PlaybackService anymore and we need
                         // to rely on the path of the tracks.
                         trackVm = this.Tracks.FirstOrDefault(vm => vm.Value.Track.SafePath.Equals(trackSafePath));
+
                         if (!trackVm.Equals(default(KeyValuePair<string, TrackViewModel>)))
                         {
                             isTrackFound = true;
                         }
                     }
 
-                    if (!isTrackFound) return;
+                    if (!isTrackFound)
+                    {
+                        return;
+                    }
+
                     if (!this.playbackService.IsStopped)
                     {
                         trackVm.Value.IsPlaying = true;
                         trackVm.Value.IsPaused = !this.playbackService.IsPlaying;
                     }
+
                     lastPlayingTrackVm = trackVm;
                 }
             });

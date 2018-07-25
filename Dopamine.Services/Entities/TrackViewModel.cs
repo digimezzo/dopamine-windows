@@ -6,7 +6,6 @@ using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Scrobbling;
-using Dopamine.Services.Utils;
 using Prism.Mvvm;
 using System;
 
