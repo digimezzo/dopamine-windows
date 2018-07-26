@@ -238,19 +238,9 @@ namespace Dopamine.Services.Entities
             return this.TrackTitle;
         }
 
-        public override bool Equals(object obj)
+        public TrackViewModel DeepCopy()
         {
-            if (obj == null || !GetType().Equals(obj.GetType()))
-            {
-                return false;
-            }
-
-            return this.Track.Equals(((TrackViewModel)obj).Track);
-        }
-
-        public override int GetHashCode()
-        {
-            return this.Track.GetHashCode();
+            return new TrackViewModel(this.metadataService, this.scrobblingService, this.Track);
         }
     }
 }
