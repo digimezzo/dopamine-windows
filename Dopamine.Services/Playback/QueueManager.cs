@@ -236,6 +236,11 @@ namespace Dopamine.Services.Playback
             return nextTrack;
         }
 
+        private bool QueueContainsPath(string safePath)
+        {
+            return this.queue != null && this.queue.Any(x => x.Value.SafePath.Equals(safePath));
+        }
+
         public async Task<EnqueueResult> EnqueueAsync(IList<TrackViewModel> tracks, bool shuffle)
         {
             var result = new EnqueueResult { IsSuccess = true };
@@ -248,7 +253,14 @@ namespace Dopamine.Services.Playback
                     {
                         foreach (TrackViewModel track in tracks)
                         {
-                            this.queue.Add(Guid.NewGuid().ToString(), track);
+                            if (this.QueueContainsPath(track.SafePath))
+                            {
+                                this.queue.Add(Guid.NewGuid().ToString(), track.DeepCopy());
+                            }
+                            else
+                            {
+                                this.queue.Add(Guid.NewGuid().ToString(), track);
+                            }
                         }
 
                         result.EnqueuedTracks = tracks;
@@ -282,7 +294,14 @@ namespace Dopamine.Services.Playback
                     {
                         foreach (KeyValuePair<string, TrackViewModel> track in tracks)
                         {
-                            this.queue.Add(track.Key, track.Value);
+                            if (this.QueueContainsPath(track.Value.SafePath))
+                            {
+                                this.queue.Add(track.Key, track.Value.DeepCopy());
+                            }
+                            else
+                            {
+                                this.queue.Add(track.Key, track.Value);
+                            }
                         }
 
                         result.EnqueuedTracks = tracks.Select(t => t.Value).ToList();
@@ -326,7 +345,14 @@ namespace Dopamine.Services.Playback
 
                         foreach (TrackViewModel track in tracks)
                         {
-                            kvp.Add(new KeyValuePair<string, TrackViewModel>(Guid.NewGuid().ToString(), track));
+                            if (this.QueueContainsPath(track.SafePath))
+                            {
+                                kvp.Add(new KeyValuePair<string, TrackViewModel>(Guid.NewGuid().ToString(), track.DeepCopy()));
+                            }
+                            else
+                            {
+                                kvp.Add(new KeyValuePair<string, TrackViewModel>(Guid.NewGuid().ToString(), track));
+                            }   
                         }
 
                         this.queue.InsertRange(queueIndex + 1, kvp);
