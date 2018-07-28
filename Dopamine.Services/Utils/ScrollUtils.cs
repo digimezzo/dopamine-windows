@@ -119,7 +119,10 @@ namespace Dopamine.Services.Utils
                 }
             });
 
-            if (itemObject == null) return;
+            if (itemObject == null)
+            {
+                return;
+            }
 
             try
             {

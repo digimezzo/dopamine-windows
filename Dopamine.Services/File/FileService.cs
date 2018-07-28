@@ -66,7 +66,7 @@ namespace Dopamine.Services.File
             return new Tuple<List<TrackViewModel>, TrackViewModel>(tracks, selectedTrack);
         }
 
-        public async Task<List<TrackViewModel>> ProcessFilesAsync(List<string> paths)
+        public async Task<List<TrackViewModel>> ProcessFilesAsync(IList<string> paths)
         {
             var tracks = new List<TrackViewModel>();
 

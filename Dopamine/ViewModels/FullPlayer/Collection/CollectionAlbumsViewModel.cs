@@ -95,7 +95,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             base.ToggleTrackOrder();
 
             SettingsClient.Set<int>("Ordering", "AlbumsTrackOrder", (int)this.TrackOrder);
-            await this.GetTracksCommonAsync(this.Tracks.Select((t) => t.Track).ToList(), this.TrackOrder);
+            await this.GetTracksCommonAsync(this.Tracks, this.TrackOrder);
         }
 
         private async Task ToggleAlbumOrderAsync()

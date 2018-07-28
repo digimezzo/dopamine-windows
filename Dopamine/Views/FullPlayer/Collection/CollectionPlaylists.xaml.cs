@@ -1,19 +1,33 @@
-﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Core.Enums;
-using Dopamine.Views.Common.Base;
+﻿using CommonServiceLocator;
+using Digimezzo.Foundation.Core.IO;
+using Digimezzo.Foundation.Core.Logging;
+using Dopamine.Core.Base;
 using Dopamine.Core.Prism;
+using Dopamine.Services.Playlist;
+using Dopamine.ViewModels;
+using Dopamine.Views.Common.Base;
 using Prism.Commands;
-using Prism.Events;
-using Prism.Regions;
+using System;
+using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+
 namespace Dopamine.Views.FullPlayer.Collection
 {
-    public partial class CollectionPlaylists : PlaylistViewBase
+    public partial class CollectionPlaylists : TracksViewBase
     {
+        private IPlaylistService playlistService;
+
+        public DelegateCommand ViewPlaylistInExplorerCommand { get; set; }
+
         public CollectionPlaylists() : base()
         {
             InitializeComponent();
+
+            // We need a parameterless constructor to be able to use this UserControl in other UserControls without dependency injection.
+            // So for now there is no better solution than to find the EventAggregator by using the ServiceLocator.
+            this.playlistService = ServiceLocator.Current.GetInstance<IPlaylistService>();
 
             // Commands
             this.ViewPlaylistInExplorerCommand = new DelegateCommand(() => this.ViewPlaylistInExplorer(this.ListBoxPlaylists));
@@ -68,6 +82,26 @@ namespace Dopamine.Views.FullPlayer.Collection
                 {
                     this.ViewPlaylistInExplorer(this.ListBoxPlaylists);
                 }
+            }
+        }
+
+        private void ViewPlaylistInExplorer(Object sender)
+        {
+            try
+            {
+                // Cast sender to ListBox
+                ListBox lb = (ListBox)sender;
+
+                if (lb.SelectedItem != null)
+                {
+                    string playlist = ((PlaylistViewModel)lb.SelectedItem).Name;
+
+                    Actions.TryViewInExplorer(Path.Combine(this.playlistService.PlaylistFolder, playlist + FileFormats.M3U));
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not view playlist in Windows Explorer. Exception: {0}", ex.Message);
             }
         }
     }

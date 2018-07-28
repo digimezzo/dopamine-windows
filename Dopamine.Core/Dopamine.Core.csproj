@@ -49,6 +49,9 @@
     <Reference Include="Digimezzo.WPFControls">
       <HintPath>..\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
     </Reference>
+    <Reference Include="GongSolutions.WPF.DragDrop">
+      <HintPath>..\Dopamine\Libraries\GongSolutions.WPF.DragDrop.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -107,6 +110,7 @@
     <Compile Include="Enums\PlayerEnums.cs" />
     <Compile Include="Enums\SpectrumEnums.cs" />
     <Compile Include="Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Extensions\IDropInfoExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\LongExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

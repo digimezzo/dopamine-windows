@@ -3,18 +3,17 @@ using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.Prism;
-using Dopamine.Data.Entities;
-using Dopamine.ViewModels;
 using Dopamine.Services.Dialog;
+using Dopamine.Services.Entities;
 using Dopamine.Services.I18n;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Provider;
 using Dopamine.Services.Search;
 using Dopamine.Services.Utils;
-using Dopamine.ViewModels.Common.Base;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Ioc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,14 +21,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using Prism.Ioc;
-using GongSolutions.Wpf.DragDrop;
-using Dopamine.Core.Base;
-using Dopamine.Services.Entities;
 
-namespace Dopamine.ViewModels.Common
+namespace Dopamine.ViewModels.Common.Base
 {
-    public abstract class PlaylistViewModelBase : CommonViewModelBase
+    public abstract class QueueViewModelBase : CommonViewModelBase
     {
         private IContainerProvider container;
         private IPlaybackService playbackService;
@@ -71,7 +66,7 @@ namespace Dopamine.ViewModels.Common
             set { SetProperty(ref this.showTrackArt, value); }
         }
 
-        public PlaylistViewModelBase(IContainerProvider container) : base(container)
+        public QueueViewModelBase(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.container = container;
@@ -449,64 +444,6 @@ namespace Dopamine.ViewModels.Common
             });
 
             this.ConditionalScrollToPlayingTrack();
-        }
-
-        protected bool IsDraggingFiles(IDropInfo dropInfo)
-        {
-            try
-            {
-                var dataObject = dropInfo.Data as IDataObject;
-                return dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop);
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not detect if we're dragging files. Exception: {0}", ex.Message);
-            }
-
-            return false;
-        }
-
-        protected bool IsDraggingMediaFiles(IDropInfo dropInfo)
-        {
-            try
-            {
-                var dataObject = dropInfo.Data as DataObject;
-
-                var filenames = dataObject.GetFileDropList();
-                var supportedExtensions = FileFormats.SupportedMediaExtensions.Concat(FileFormats.SupportedPlaylistExtensions).ToArray();
-
-                foreach (string filename in filenames)
-                {
-                    if (supportedExtensions.Contains(System.IO.Path.GetExtension(filename.ToLower())))
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not detect if we're dragging valid files. Exception: {0}", ex.Message);
-            }
-
-            return false;
-        }
-
-        protected List<string> GetDroppedFilenames(IDropInfo dropInfo)
-        {
-            var dataObject = dropInfo.Data as DataObject;
-
-            List<string> filenames = new List<string>();
-
-            try
-            {
-                filenames = dataObject.GetFileDropList().Cast<string>().ToList();
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not get the dropped filenames. Exception: {0}", ex.Message);
-            }
-
-            return filenames;
         }
     }
 }

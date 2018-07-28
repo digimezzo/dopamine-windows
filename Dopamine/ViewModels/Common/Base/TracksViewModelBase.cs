@@ -166,39 +166,34 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async Task GetTracksAsync(IList<string> artists, IList<string> genres, IList<string> albumKeys, TrackOrder trackOrder)
         {
+            IList<Track> tracks = null;
 
-            if (artists.IsNullOrEmpty() & genres.IsNullOrEmpty() & albumKeys.IsNullOrEmpty())
+            if (!artists.IsNullOrEmpty())
             {
-                await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(), trackOrder);
+                tracks = await this.trackRepository.GetAlbumTracksAsync(artists);
+            }
+            else if (!genres.IsNullOrEmpty())
+            {
+                tracks = await this.trackRepository.GetGenreTracksAsync(genres);
+            }
+            else if (!albumKeys.IsNullOrEmpty())
+            {
+                tracks = await this.trackRepository.GetAlbumTracksAsync(albumKeys);
             }
             else
             {
-                if (!albumKeys.IsNullOrEmpty())
-                {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetAlbumTracksAsync(albumKeys), trackOrder);
-                    return;
-                }
-
-                if (!artists.IsNullOrEmpty())
-                {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetArtistTracksAsync(artists), trackOrder);
-                    return;
-                }
-
-                if (!genres.IsNullOrEmpty())
-                {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetGenreTracksAsync(genres), trackOrder);
-                    return;
-                }
+                tracks = await this.trackRepository.GetTracksAsync();
             }
+
+            await this.GetTracksCommonAsync(await this.container.ResolveTrackViewModelsAsync(tracks), trackOrder);
         }
 
-        protected async Task GetTracksCommonAsync(IList<Track> tracks, TrackOrder trackOrder)
+        protected async Task GetTracksCommonAsync(IList<TrackViewModel> tracks, TrackOrder trackOrder)
         {
             try
             {
                 // Create new ObservableCollection
-                ObservableCollection<TrackViewModel> trackViewModels = new ObservableCollection<TrackViewModel>(await this.container.ResolveTrackViewModelsAsync(tracks));
+                var trackViewModels = new ObservableCollection<TrackViewModel>(tracks);
 
                 // Do we need to show the TrackNumber? // TODO: can this be improved?
                 bool showTracknumber = this.TrackOrder == TrackOrder.ByAlbum;

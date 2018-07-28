@@ -1,11 +1,12 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
-using Dopamine.Data.Entities;
+using Dopamine.Core.Extensions;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
 using Dopamine.Services.File;
 using Dopamine.Services.Playback;
+using Dopamine.ViewModels.Common.Base;
 using GongSolutions.Wpf.DragDrop;
 using Prism.Commands;
 using Prism.Ioc;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Dopamine.ViewModels.Common
 {
-    public class NowPlayingControlViewModel : PlaylistViewModelBase, IDropTarget
+    public class NowPlayingControlViewModel : QueueViewModelBase, IDropTarget
     {
         private IPlaybackService playbackService;
         private IDialogService dialogService;
@@ -55,7 +56,7 @@ namespace Dopamine.ViewModels.Common
 
         public void DragOver(IDropInfo dropInfo)
         {
-            GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
+            DragDrop.DefaultDropHandler.DragOver(dropInfo);
 
             try
             {
@@ -63,9 +64,9 @@ namespace Dopamine.ViewModels.Common
                 if (dropInfo.Data is PlaylistViewModel) return;
 
                 // If we're dragging files, we need to be dragging valid files.
-                bool isDraggingFiles = base.IsDraggingFiles(dropInfo);
+                bool isDraggingFiles = dropInfo.IsDraggingFiles();
                 bool isDraggingValidFiles = false;
-                if (isDraggingFiles) isDraggingValidFiles = base.IsDraggingMediaFiles(dropInfo);
+                if (isDraggingFiles) isDraggingValidFiles = dropInfo.IsDraggingMediaFiles();
                 if (isDraggingFiles & !isDraggingValidFiles) return;
 
                 // In all other cases, allow dragging.
@@ -101,9 +102,9 @@ namespace Dopamine.ViewModels.Common
         {
             try
             {
-                if (base.IsDraggingFiles(dropInfo))
+                if (dropInfo.IsDraggingFiles())
                 {
-                    if (base.IsDraggingMediaFiles(dropInfo))
+                    if (dropInfo.IsDraggingMediaFiles())
                     {
                         await this.AddDroppedFilesToQueue(dropInfo);
                     }
@@ -124,7 +125,7 @@ namespace Dopamine.ViewModels.Common
         {
             try
             {
-                var filenames = base.GetDroppedFilenames(dropInfo);
+                IList<string> filenames = dropInfo.GetDroppedFilenames();
                 IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
                 await this.playbackService.AddToQueueAsync(tracks);
             }
