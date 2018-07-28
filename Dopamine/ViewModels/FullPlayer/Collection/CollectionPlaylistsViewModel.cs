@@ -556,7 +556,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 {
                     foreach (var item in dropInfo.TargetCollection)
                     {
-                        tracks.Add(((KeyValuePair<string, TrackViewModel>)item).Value);
+                        tracks.Add((TrackViewModel)item);
                     }
                 }
                 catch (Exception ex)
@@ -570,7 +570,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async Task AddDroppedTracksToHoveredPlaylist(IDropInfo dropInfo)
         {
-            if ((dropInfo.Data is KeyValuePair<string, TrackViewModel> | dropInfo.Data is List<KeyValuePair<string, TrackViewModel>>)
+            if ((dropInfo.Data is TrackViewModel | dropInfo.Data is IList<TrackViewModel>)
                 && dropInfo.TargetItem is PlaylistViewModel)
             {
                 try
@@ -583,17 +583,17 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
                     await Task.Run(() =>
                     {
-                        if (dropInfo.Data is KeyValuePair<string, TrackViewModel>)
+                        if (dropInfo.Data is TrackViewModel)
                         {
                             // We dropped a single track
-                            tracks.Add(((KeyValuePair<string, TrackViewModel>)dropInfo.Data).Value);
+                            tracks.Add((TrackViewModel)dropInfo.Data);
                         }
-                        else if (dropInfo.Data is List<KeyValuePair<string, TrackViewModel>>)
+                        else if (dropInfo.Data is IList<TrackViewModel>)
                         {
                             // We dropped multiple tracks
-                            foreach (KeyValuePair<string, TrackViewModel> pair in (List<KeyValuePair<string, TrackViewModel>>)dropInfo.Data)
+                            foreach (TrackViewModel track in (IList<TrackViewModel>)dropInfo.Data)
                             {
-                                tracks.Add(pair.Value);
+                                tracks.Add(track);
                             }
                         }
                     });
@@ -651,7 +651,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 {
                     PlaylistViewModel hoveredPlaylist = (PlaylistViewModel)dropInfo.TargetItem;
                     var filenames = dropInfo.GetDroppedFilenames();
-                    List<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
+                    IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
 
                     if (hoveredPlaylist != null && tracks != null) await this.playlistService.AddTracksToPlaylistAsync(tracks, hoveredPlaylist.Name);
                 }
@@ -668,7 +668,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 IList<string> playlistFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedPlaylistFile(f)).ToList();
 
                 // 2. Drop audio files in empty part of list: add these files to a new unique playlist
-                List<TrackViewModel> audiofileTracks = await this.fileService.ProcessFilesAsync(audioFileNames);
+                IList<TrackViewModel> audiofileTracks = await this.fileService.ProcessFilesAsync(audioFileNames);
 
                 if (audiofileTracks != null && audiofileTracks.Count > 0)
                 {
@@ -680,7 +680,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 foreach (string playlistFileName in playlistFileNames)
                 {
                     uniquePlaylistName = await this.playlistService.GetUniquePlaylistAsync(System.IO.Path.GetFileNameWithoutExtension(playlistFileName));
-                    var playlistFileTracks = await this.fileService.ProcessFilesAsync(new string[] { playlistFileName }.ToList());
+                    IList<TrackViewModel> playlistFileTracks = await this.fileService.ProcessFilesAsync(new string[] { playlistFileName }.ToList());
                     await this.playlistService.AddPlaylistAsync(uniquePlaylistName);
                     await this.playlistService.AddTracksToPlaylistAsync(playlistFileTracks, uniquePlaylistName);
                 }
@@ -692,7 +692,10 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             try
             {
                 // We don't allow dragging playlists
-                if (dropInfo.Data is PlaylistViewModel) return;
+                if (dropInfo.Data is PlaylistViewModel)
+                {
+                    return;
+                }
 
                 // If we're dragging files, we need to be dragging valid files.
                 bool isDraggingFiles = dropInfo.IsDraggingFiles();
@@ -710,6 +713,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
                 // If we're dragging into the list of tracks, there must be playlists, and a playlist must be selected.
                 ListBox target = dropInfo.VisualTarget as ListBox;
+
                 if (target.Name.Equals(tracksTarget) && (this.Playlists == null || this.Playlists.Count == 0 || this.SelectedPlaylist == null))
                 {
                     return;
@@ -717,6 +721,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
                 // If we're dragging tracks into the list of playlists, we cannot drag to the selected playlist.
                 string hoveredPlaylistName = null;
+
                 if (dropInfo.TargetItem != null && dropInfo.TargetItem is PlaylistViewModel)
                 {
                     hoveredPlaylistName = ((PlaylistViewModel)dropInfo.TargetItem).Name;
