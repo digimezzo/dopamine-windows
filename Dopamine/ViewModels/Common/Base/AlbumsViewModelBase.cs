@@ -110,7 +110,6 @@ namespace Dopamine.ViewModels.Common.Base
             set
             {
                 SetProperty<IList<string>>(ref this.selectedAlbumKeys, value);
-                RaisePropertyChanged(nameof(this.CanOrderByAlbum));
             }
         }
 

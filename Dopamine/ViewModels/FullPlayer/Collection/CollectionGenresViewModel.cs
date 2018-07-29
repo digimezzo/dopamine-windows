@@ -125,15 +125,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { GenresZoomSelectors = value; }
         }
 
-        public override bool CanOrderByAlbum
-        {
-            get
-            {
-                return (this.SelectedGenres != null && this.SelectedGenres.Count > 0) |
-                       (this.SelectedAlbumKeys != null && this.SelectedAlbumKeys.Count > 0);
-            }
-        }
-
         public CollectionGenresViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection

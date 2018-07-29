@@ -83,7 +83,7 @@ namespace Dopamine.Services.Utils
             grid.ScrollIntoView(itemObject);
         }
 
-        public static async Task ScrollToPlayingTrackAsync(ListBox box, Type itemType)
+        public static async Task ScrollToPlayingTrackAsync(ListBox box)
         {
             if (box == null) return;
 
@@ -95,21 +95,10 @@ namespace Dopamine.Services.Utils
                 {
                     for (int i = 0; i <= box.Items.Count - 1; i++)
                     {
-                        if (itemType == typeof(TrackViewModel))
+                        if (((TrackViewModel)box.Items[i]).IsPlaying)
                         {
-                            if (((TrackViewModel)box.Items[i]).IsPlaying)
-                            {
-                                itemObject = box.Items[i];
-                                break;
-                            }
-                        }
-                        else if (itemType == typeof(KeyValuePair<string, TrackViewModel>))
-                        {
-                            if (((KeyValuePair<string, TrackViewModel>)box.Items[i]).Value.IsPlaying)
-                            {
-                                itemObject = box.Items[i];
-                                break;
-                            }
+                            itemObject = box.Items[i];
+                            break;
                         }
                     }
                 }

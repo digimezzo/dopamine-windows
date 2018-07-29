@@ -103,7 +103,7 @@ namespace Dopamine.Views.Common.Base
 
                 await Application.Current.Dispatcher.Invoke(async () =>
                 {
-                    await ScrollUtils.ScrollToPlayingTrackAsync(lb, typeof(TrackViewModel));
+                    await ScrollUtils.ScrollToPlayingTrackAsync(lb);
                 });
             }
             catch (Exception ex)

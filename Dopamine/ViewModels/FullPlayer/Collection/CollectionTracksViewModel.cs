@@ -117,12 +117,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<bool>(ref this.bitrateVisible, value); }
         }
 
-        public override bool CanOrderByAlbum
-        {
-            // Doesn't need to return a useful value in this class
-            get { return false; }
-        }
-
         public DelegateCommand ChooseColumnsCommand { get; set; }
 
         public CollectionTracksViewModel(IContainerProvider container) : base(container)

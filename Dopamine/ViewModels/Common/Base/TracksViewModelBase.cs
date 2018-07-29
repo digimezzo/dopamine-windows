@@ -47,12 +47,19 @@ namespace Dopamine.ViewModels.Common.Base
         private ObservableCollection<TrackViewModel> tracks;
         private CollectionViewSource tracksCvs;
         private IList<TrackViewModel> selectedTracks;
-        
+        private bool showTrackArt;
+
+        public DelegateCommand<bool?> UpdateShowTrackArtCommand { get; set; }
+
         public TrackViewModel PreviousPlayingTrack { get; set; }
 
-        public abstract bool CanOrderByAlbum { get; }
-
         public bool ShowRemoveFromDisk => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
+
+        public bool ShowTrackArt
+        {
+            get { return this.showTrackArt; }
+            set { SetProperty(ref this.showTrackArt, value); }
+        }
 
         public ObservableCollection<TrackViewModel> Tracks
         {
@@ -93,12 +100,24 @@ namespace Dopamine.ViewModels.Common.Base
             this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
 
-            // Settings
+            this.UpdateShowTrackArtCommand = new DelegateCommand<bool?>((showTrackArt) =>
+            {
+                SettingsClient.Set<bool>("Appearance", "ShowTrackArtOnPlaylists", showTrackArt.Value, true);
+            });
+
+            // Settings changed
             SettingsClient.SettingChanged += (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "ShowRemoveFromDisk"))
                 {
                     RaisePropertyChanged(nameof(this.ShowRemoveFromDisk));
+                }
+
+
+                if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowTrackArtOnPlaylists"))
+                {
+                    this.ShowTrackArt = (bool)e.SettingValue;
+                    this.UpdateShowTrackArtAsync();
                 }
             };
 
@@ -111,6 +130,28 @@ namespace Dopamine.ViewModels.Common.Base
             };
 
             this.playbackService.PlaybackCountersChanged += PlaybackService_PlaybackCountersChanged;
+
+            // Load settings
+            this.ShowTrackArt = SettingsClient.Get<bool>("Appearance", "ShowTrackArtOnPlaylists");
+        }
+
+        private async void UpdateShowTrackArtAsync()
+        {
+            if (this.Tracks == null || this.Tracks.Count == 0)
+            {
+                return;
+            }
+
+            await Task.Run(() =>
+            {
+                foreach (TrackViewModel track in this.Tracks)
+                {
+                    if (track != null)
+                    {
+                        track.ShowTrackArt = this.showTrackArt;
+                    }
+                }
+            });
         }
 
         private async void PlaybackService_PlaybackCountersChanged(IList<PlaybackCounter> counters)
@@ -148,7 +189,7 @@ namespace Dopamine.ViewModels.Common.Base
         {
             TrackOrder savedTrackOrder = (TrackOrder)SettingsClient.Get<int>("Ordering", settingName);
 
-            if ((!this.EnableRating & savedTrackOrder == TrackOrder.ByRating) | (!this.CanOrderByAlbum & savedTrackOrder == TrackOrder.ByAlbum))
+            if ((!this.EnableRating & savedTrackOrder == TrackOrder.ByRating))
             {
                 this.TrackOrder = TrackOrder.Alphabetical;
             }
@@ -471,7 +512,10 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async override void MetadataService_LoveChangedAsync(LoveChangedEventArgs e)
         {
-            if (this.Tracks == null) return;
+            if (this.Tracks == null)
+            {
+                return;
+            }
 
             await Task.Run(() =>
             {
@@ -537,15 +581,7 @@ namespace Dopamine.ViewModels.Common.Base
                     this.TrackOrder = TrackOrder.ReverseAlphabetical;
                     break;
                 case TrackOrder.ReverseAlphabetical:
-
-                    if (this.CanOrderByAlbum)
-                    {
-                        this.TrackOrder = TrackOrder.ByAlbum;
-                    }
-                    else
-                    {
-                        this.TrackOrder = TrackOrder.ByRating;
-                    }
+                    this.TrackOrder = TrackOrder.ByAlbum;
                     break;
                 case TrackOrder.ByAlbum:
                     if (SettingsClient.Get<bool>("Behaviour", "EnableRating"))
@@ -556,6 +592,7 @@ namespace Dopamine.ViewModels.Common.Base
                     {
                         this.TrackOrder = TrackOrder.Alphabetical;
                     }
+
                     break;
                 case TrackOrder.ByRating:
                     this.TrackOrder = TrackOrder.Alphabetical;

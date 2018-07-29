@@ -13,7 +13,6 @@ using Prism.Commands;
 using Prism.Ioc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dopamine.ViewModels.Common
@@ -24,8 +23,6 @@ namespace Dopamine.ViewModels.Common
         private IDialogService dialogService;
         private IFileService fileService;
         protected bool isDroppingTracks;
-
-        public override bool CanOrderByAlbum => false;
 
         public NowPlayingControlViewModel(IContainerProvider container) : base(container)
         {

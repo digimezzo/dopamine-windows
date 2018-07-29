@@ -652,12 +652,12 @@ namespace Dopamine.Services.Playback
                     if (currentTime <= 10)
                     {
                         // Increase SkipCount
-                        await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Path, false, true); 
+                        await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Path, false, true);
                     }
                     else
                     {
                         // Increase PlayCount
-                        await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Path, true, false); 
+                        await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Path, true, false);
                     }
 
                 }
@@ -1114,7 +1114,7 @@ namespace Dopamine.Services.Playback
             if (this.isLoadingTrack)
             {
                 // Only load 1 track at a time (just in case)
-                return true; 
+                return true;
             }
 
             this.OnLoadingTrack(true);
@@ -1203,7 +1203,7 @@ namespace Dopamine.Services.Playback
 
             TrackViewModel previousTrack = await this.queueManager.PreviousTrackAsync(loopMode);
 
-            if (previousTrack.Equals(default(KeyValuePair<string, TrackViewModel>)))
+            if (previousTrack == null)
             {
                 this.Stop();
                 return true;
