@@ -2,7 +2,6 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls.Enums;
 using Dopamine.Core.Utils;
-using Dopamine.Data.Entities;
 using Dopamine.Services.Entities;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Playback;
@@ -217,6 +216,11 @@ namespace Dopamine.ViewModels.Common
 
         private void UpdateTime()
         {
+            if(this.PlaybackInfoViewModel == null)
+            {
+                return;
+            }
+
             this.PlaybackInfoViewModel.CurrentTime = FormatUtils.FormatTime(this.playbackService.GetCurrentTime);
             this.PlaybackInfoViewModel.TotalTime = " / " + FormatUtils.FormatTime(this.playbackService.GetTotalTime);
         }
