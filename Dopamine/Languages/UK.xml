@@ -325,7 +325,7 @@
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">Не можливо оновити пошуковий провайдер. Поля 'Name' та 'Url' є обов'язковими, 'Separator' не необов'язкове.</Text>
   <Text Key="Sign_In">Увійти</Text>
   <Text Key="Sign_Out">Вийти</Text>
-  <Text Key="Signed_In">Увійшли/Text>
+  <Text Key="Signed_In">Увійшли</Text>
   <Text Key="Sign_In_Failed">Вхід не вдалвся</Text>
   <Text Key="Artist_Information">Інформація про виконавця</Text>
   <Text Key="Biography">Біографія</Text>
@@ -344,7 +344,7 @@
   <Text Key="Cancel_Edit">Скасувати редагування</Text>
   <Text Key="Play_Song_And_Insert_Timestamp">Натисніть Ctrl + T під час відтворення пісні, щоб вставити мітку часу на початку поточного рядка</Text>
   <Text Key="Sign_In_To_Enable_Lastfm">Увійдіть, щоб увімкнути Last.fm 'Scrobble' та 'Love'</Text>
-  <Text Key="Create_A_Lastfm_Account"Створити Last.fm акаунт</Text>
+  <Text Key="Create_A_Lastfm_Account">Створити Last.fm акаунт</Text>
   <Text Key="Love">Love</Text>
   <Text Key="Show_Love_Button">Показувати кнопку 'Love'</Text>
   <Text Key="Show_Rating_Button">Показувати кнопку 'Рейтинг' button</Text>
@@ -408,7 +408,7 @@
   <Text Key="Album_Covers">Обкладинки альбому</Text>
   <Text Key="Reload_All_Covers">Перезавантажити всі обкладинки</Text>
   <Text Key="Reload_All_Covers_Description">Перезавантажити обкладинкки всіх альбомів, включаючи ті, що уже мають обкладинку.</Text>
-  <Text Key="Reload_Missing_Covers">Перезавантажити відсутні обкладинки/Text>
+  <Text Key="Reload_Missing_Covers">Перезавантажити відсутні обкладинки</Text>
   <Text Key="Reload_Missing_Covers_Description">Перезавантажити обкладинкки всіх альбомів, що ще не мають обкладинок</Text>
   <Text Key="Added_Songs">Додано {number} пісень ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Завантажити відсутні обкладтнки альбомів з Інтернету</Text>
