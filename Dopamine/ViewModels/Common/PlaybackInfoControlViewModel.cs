@@ -109,7 +109,7 @@ namespace Dopamine.ViewModels.Common
             };
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
-            this.playbackService.PlayingTrackPlaybackInfoChanged += (_, __) => this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack.Value, true);
+            this.playbackService.PlayingTrackPlaybackInfoChanged += (_, __) => this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack, true);
 
             this.metadataService.RatingChanged += (e) =>
             {
@@ -146,7 +146,7 @@ namespace Dopamine.ViewModels.Common
 
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;
-            this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack.Value, false);
+            this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack, false);
             this.EnableRating = SettingsClient.Get<bool>("Behaviour", "EnableRating");
             this.EnableLove = SettingsClient.Get<bool>("Behaviour", "EnableLove");
         }
@@ -154,7 +154,7 @@ namespace Dopamine.ViewModels.Common
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.refreshTimer.Stop();
-            this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack.Value, false);
+            this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack, false);
         }
 
         private void ClearPlaybackInfo()

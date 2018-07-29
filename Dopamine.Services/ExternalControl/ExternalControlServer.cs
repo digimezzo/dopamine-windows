@@ -137,7 +137,7 @@ namespace Dopamine.Services.ExternalControl
         public void SetProgress(double progress) => this.playbackService.SkipProgress(progress);
 
         [OperationBehavior]
-        public TrackViewModel GetCurrenTrack() => this.playbackService.CurrentTrack.Value;
+        public TrackViewModel GetCurrenTrack() => this.playbackService.CurrentTrack;
 
         [OperationBehavior]
         public string GetCurrentTrackArtworkPath(string artworkId) => this.cacheService.GetCachedArtworkPath(artworkId);

@@ -88,7 +88,7 @@ namespace Dopamine.ViewModels.Common.Base
                 return;
             }
 
-            var playingTrack = new List<TrackViewModel>() { this.playbackService.CurrentTrack.Value };
+            var playingTrack = new List<TrackViewModel>() { this.playbackService.CurrentTrack };
             await this.AddTracksToPlaylistAsync(playlistName, playingTrack);
         }
 

@@ -144,13 +144,13 @@ namespace Dopamine.ViewModels.Common
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.refreshTimer.Stop();
-            this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
+            this.RefreshLyricsAsync(this.playbackService.CurrentTrack);
         }
 
         private void UpdateLyricsAfterEditingTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.updateLyricsAfterEditingTimer.Stop();
-            this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
+            this.RefreshLyricsAsync(this.playbackService.CurrentTrack);
         }
 
         private async void HighlightTimer_Elapsed(object sender, ElapsedEventArgs e)

@@ -3,6 +3,7 @@ using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
+using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
@@ -61,7 +62,7 @@ namespace Dopamine.Services.Playback
         private IPlayerFactory playerFactory;
 
         private ITrackRepository trackRepository;
-       
+
         private System.Timers.Timer savePlaybackCountersTimer = new System.Timers.Timer();
         private int savePlaybackCountersTimeoutSeconds = 2;
 
@@ -78,20 +79,11 @@ namespace Dopamine.Services.Playback
 
         private bool supportsWindowsMediaFoundation;
 
-        public bool SupportsWindowsMediaFoundation
-        {
-            get { return this.supportsWindowsMediaFoundation; }
-        }
+        public bool SupportsWindowsMediaFoundation => this.supportsWindowsMediaFoundation;
 
-        public bool IsSavingQueuedTracks
-        {
-            get { return this.isSavingQueuedTracks; }
-        }
+        public bool IsSavingQueuedTracks => this.isSavingQueuedTracks;
 
-        public bool IsSavingPlaybackCounters
-        {
-            get { return this.isSavingPLaybackCounters; }
-        }
+        public bool IsSavingPlaybackCounters => this.isSavingPLaybackCounters;
 
         public bool IsStopped
         {
@@ -123,20 +115,11 @@ namespace Dopamine.Services.Playback
             }
         }
 
-        public OrderedDictionary<string, TrackViewModel> Queue
-        {
-            get { return this.queueManager.Queue; }
-        }
+        public IList<TrackViewModel> Queue => this.queueManager.Queue;
 
-        public KeyValuePair<string, TrackViewModel> CurrentTrack
-        {
-            get { return this.queueManager.CurrentTrack(); }
-        }
+        public TrackViewModel CurrentTrack => this.queueManager.CurrentTrack();
 
-        public bool HasCurrentTrack
-        {
-            get { return !this.queueManager.CurrentTrack().Equals(default(KeyValuePair<string, TrackViewModel>)) && this.queueManager.CurrentTrack().Value != null; }
-        }
+        public bool HasCurrentTrack => this.queueManager.CurrentTrack() != null;
 
         public double Progress
         {
@@ -266,13 +249,13 @@ namespace Dopamine.Services.Playback
                 try
                 {
                     // Check if there is a Track playing
-                    if (this.player != null && this.player.CanStop && this.HasCurrentTrack && this.CurrentTrack.Value.Duration != null)
+                    if (this.player != null && this.player.CanStop && this.HasCurrentTrack && this.CurrentTrack.Duration != null)
                     {
                         // In some cases, the duration reported by TagLib is 1 second longer than the duration reported by CSCore.
-                        if (this.CurrentTrack.Value.Track.Duration > this.player.GetTotalTime().TotalMilliseconds)
+                        if (this.CurrentTrack.Track.Duration > this.player.GetTotalTime().TotalMilliseconds)
                         {
                             // To show the same duration everywhere, we report the TagLib duration here instead of the CSCore duration.
-                            return new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.CurrentTrack.Value.Track.Duration));
+                            return new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.CurrentTrack.Track.Duration));
                         }
                         else
                         {
@@ -300,7 +283,7 @@ namespace Dopamine.Services.Playback
             get { return this.player; }
         }
 
-        public PlaybackService(IFileService fileService, II18nService i18nService, ITrackRepository trackRepository, 
+        public PlaybackService(IFileService fileService, II18nService i18nService, ITrackRepository trackRepository,
             IEqualizerService equalizerService, IQueuedTrackRepository queuedTrackRepository, IContainerProvider container)
         {
             this.fileService = fileService;
@@ -410,31 +393,47 @@ namespace Dopamine.Services.Playback
 
         public async Task StopIfPlayingAsync(TrackViewModel track)
         {
-            if (track.Equals(this.CurrentTrack.Value))
+            if (track.SafePath.Equals(this.CurrentTrack.SafePath))
             {
                 if (this.Queue.Count == 1)
+                {
                     this.Stop();
+                }
                 else
+                {
                     await this.PlayNextAsync();
+                }
             }
         }
 
-        public async Task UpdateQueueOrderAsync(List<KeyValuePair<string, TrackViewModel>> tracks)
+        public async Task UpdateQueueOrderAsync(IList<TrackViewModel> tracks)
         {
             if (await this.queueManager.UpdateQueueOrderAsync(tracks, this.shuffle))
             {
-                this.QueueChanged(this, new EventArgs()); // Required to update other Now Playing screens
+                // Required to update other Now Playing screens
+                this.QueueChanged(this, new EventArgs());
             }
         }
 
-        public async Task UpdateQueueMetadataAsync(List<IFileMetadata> fileMetadatas)
+        public async Task UpdateQueueMetadataAsync(IList<IFileMetadata> fileMetadatas)
         {
             UpdateQueueMetadataResult result = await this.queueManager.UpdateMetadataAsync(fileMetadatas);
 
             // Raise events
-            if (result.IsPlayingTrackPlaybackInfoChanged) this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
-            if (result.IsPlayingTrackArtworkChanged) this.PlayingTrackArtworkChanged(this, new EventArgs());
-            if (result.IsQueueChanged) this.QueueChanged(this, new EventArgs());
+            if (result.IsPlayingTrackPlaybackInfoChanged)
+            {
+                this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
+            }
+
+            if (result.IsPlayingTrackArtworkChanged)
+            {
+                this.PlayingTrackArtworkChanged(this, new EventArgs());
+            }
+
+            if (result.IsQueueChanged)
+            {
+                this.QueueChanged(this, new EventArgs());
+            }
         }
 
         public async Task SetIsEqualizerEnabledAsync(bool isEnabled)
@@ -442,17 +441,12 @@ namespace Dopamine.Services.Playback
             this.isEqualizerEnabled = isEnabled;
 
             this.desiredPreset = await this.equalizerService.GetSelectedPresetAsync();
+            this.activePreset = isEnabled ? this.desiredPreset : new EqualizerPreset();
 
-            if (isEnabled)
+            if (this.player != null)
             {
-                this.activePreset = this.desiredPreset;
+                this.player.ApplyFilter(this.activePreset.Bands);
             }
-            else
-            {
-                this.activePreset = new EqualizerPreset();
-            }
-
-            if (this.player != null) this.player.ApplyFilter(this.activePreset.Bands);
         }
 
         public void ApplyPreset(EqualizerPreset preset)
@@ -462,13 +456,20 @@ namespace Dopamine.Services.Playback
             if (this.isEqualizerEnabled)
             {
                 this.activePreset = desiredPreset;
-                if (this.player != null) this.player.ApplyFilter(this.activePreset.Bands);
+
+                if (this.player != null)
+                {
+                    this.player.ApplyFilter(this.activePreset.Bands);
+                }
             }
         }
 
         public async Task SaveQueuedTracksAsync()
         {
-            if (!this.isQueueChanged) return;
+            if (!this.isQueueChanged)
+            {
+                return;
+            }
 
             this.saveQueuedTracksTimer.Stop();
             this.isSavingQueuedTracks = true;
@@ -476,23 +477,22 @@ namespace Dopamine.Services.Playback
             try
             {
                 var queuedTracks = new List<QueuedTrack>();
-                OrderedDictionary<string, TrackViewModel> tracks = this.Queue;
-                KeyValuePair<string, TrackViewModel> currentTrack = this.CurrentTrack;
+                IList<string> tracksPaths = this.Queue.Select(x => x.Path).ToList();
+                string currentTrackPath = this.CurrentTrack.Path;
                 long progressSeconds = Convert.ToInt64(this.GetCurrentTime.TotalSeconds);
 
                 int orderID = 0;
 
-                foreach (KeyValuePair<string, TrackViewModel> track in tracks)
+                foreach (string trackPath in tracksPaths)
                 {
                     var queuedTrack = new QueuedTrack();
-                    queuedTrack.QueueID = track.Key;
-                    queuedTrack.Path = track.Value.Path;
-                    queuedTrack.SafePath = track.Value.SafePath;
+                    queuedTrack.Path = trackPath;
+                    queuedTrack.SafePath = trackPath.ToSafePath();
                     queuedTrack.OrderID = orderID;
                     queuedTrack.IsPlaying = 0;
                     queuedTrack.ProgressSeconds = 0;
 
-                    if (track.Key.Equals(currentTrack.Key))
+                    if (trackPath.Equals(currentTrackPath))
                     {
                         queuedTrack.IsPlaying = 1;
                         queuedTrack.ProgressSeconds = progressSeconds;
@@ -651,17 +651,19 @@ namespace Dopamine.Services.Playback
 
                     if (currentTime <= 10)
                     {
-                        await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Value.Path, false, true); // Increase SkipCount
+                        // Increase SkipCount
+                        await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Path, false, true); 
                     }
                     else
                     {
-                        await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Value.Path, true, false); // Increase PlayCount
+                        // Increase PlayCount
+                        await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Path, true, false); 
                     }
 
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not get time information for Track with path='{0}'. Exception: {1}", this.CurrentTrack.Value.Path, ex.Message);
+                    LogClient.Error("Could not get time information for Track with path='{0}'. Exception: {1}", this.CurrentTrack.Path, ex.Message);
                 }
             }
 
@@ -715,7 +717,7 @@ namespace Dopamine.Services.Playback
             }
         }
 
-        public async Task EnqueueAsync(List<TrackViewModel> tracks, bool shuffle, bool unshuffle)
+        public async Task EnqueueAsync(IList<TrackViewModel> tracks, bool shuffle, bool unshuffle)
         {
             if (tracks == null)
             {
@@ -751,12 +753,12 @@ namespace Dopamine.Services.Playback
             await this.EnqueueAsync(orederedTracks, shuffle, unshuffle);
         }
 
-        public async Task EnqueueAsync(List<TrackViewModel> tracks)
+        public async Task EnqueueAsync(IList<TrackViewModel> tracks)
         {
             await this.EnqueueAsync(tracks, false, false);
         }
 
-        public async Task EnqueueAsync(List<TrackViewModel> tracks, TrackViewModel track)
+        public async Task EnqueueAsync(IList<TrackViewModel> tracks, TrackViewModel track)
         {
             if (tracks == null || track == null)
             {
@@ -765,17 +767,6 @@ namespace Dopamine.Services.Playback
 
             await this.EnqueueIfDifferent(tracks, this.shuffle);
             await this.PlaySelectedAsync(track);
-        }
-
-        public async Task EnqueueAsync(List<KeyValuePair<string, TrackViewModel>> trackPairs, KeyValuePair<string, TrackViewModel> trackPair)
-        {
-            if (trackPairs == null || trackPair.Value == null)
-            {
-                return;
-            }
-
-            await this.EnqueueIfDifferent(trackPairs);
-            await this.PlaySelectedAsync(trackPair);
         }
 
         public async Task EnqueueArtistsAsync(IList<string> artists, bool shuffle, bool unshuffle)
@@ -816,11 +807,6 @@ namespace Dopamine.Services.Playback
 
         public async Task PlaySelectedAsync(TrackViewModel track)
         {
-            await this.TryPlayAsync(new KeyValuePair<string, TrackViewModel>(null, track));
-        }
-
-        public async Task PlaySelectedAsync(KeyValuePair<string, TrackViewModel> track)
-        {
             await this.TryPlayAsync(track);
         }
 
@@ -839,46 +825,11 @@ namespace Dopamine.Services.Playback
 
         public async Task<DequeueResult> DequeueAsync(IList<TrackViewModel> tracks)
         {
-            IList<KeyValuePair<string, TrackViewModel>> trackPairs = new List<KeyValuePair<string, TrackViewModel>>();
-
-            await Task.Run(() =>
-            {
-                foreach (TrackViewModel track in tracks)
-                {
-                    // New Guids are created here, they will never be found in the queue.
-                    // QueueManager will dequeue all tracks which have a matching SafePath.
-                    trackPairs.Add(new KeyValuePair<string, TrackViewModel>(Guid.NewGuid().ToString(), track));
-                }
-            });
-
-            DequeueResult dequeueResult = await this.queueManager.DequeueAsync(trackPairs);
-
-            if (dequeueResult.IsSuccess & dequeueResult.IsPlayingTrackDequeued)
-            {
-                if (!dequeueResult.NextAvailableTrack.Equals(default(KeyValuePair<string, TrackViewModel>)))
-                {
-                    await this.TryPlayAsync(dequeueResult.NextAvailableTrack);
-                }
-                else
-                {
-                    this.Stop();
-                }
-            }
-
-            this.QueueChanged(this, new EventArgs());
-
-            this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
-
-            return dequeueResult;
-        }
-
-        public async Task<DequeueResult> DequeueAsync(IList<KeyValuePair<string, TrackViewModel>> tracks)
-        {
             DequeueResult dequeueResult = await this.queueManager.DequeueAsync(tracks);
 
             if (dequeueResult.IsSuccess & dequeueResult.IsPlayingTrackDequeued)
             {
-                if (!dequeueResult.NextAvailableTrack.Equals(default(KeyValuePair<string, TrackViewModel>)))
+                if (dequeueResult.NextAvailableTrack != null)
                 {
                     await this.TryPlayAsync(dequeueResult.NextAvailableTrack);
                 }
@@ -1073,7 +1024,7 @@ namespace Dopamine.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not pause track with path='{0}'. Exception: {1}", this.CurrentTrack.Value.Path, ex.Message);
+                LogClient.Error("Could not pause track with path='{0}'. Exception: {1}", this.CurrentTrack.Path, ex.Message);
             }
         }
 
@@ -1098,7 +1049,7 @@ namespace Dopamine.Services.Playback
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not resume track with path='{0}'. Exception: {1}", this.CurrentTrack.Value.Path, ex.Message);
+                LogClient.Error("Could not resume track with path='{0}'. Exception: {1}", this.CurrentTrack.Path, ex.Message);
             }
         }
 
@@ -1121,7 +1072,7 @@ namespace Dopamine.Services.Playback
             }
         }
 
-        private async Task StartPlaybackAsync(KeyValuePair<string, TrackViewModel> track, bool silent = false)
+        private async Task StartPlaybackAsync(TrackViewModel track, bool silent = false)
         {
             // If we start playing a track, we need to make sure that
             // queued tracks are saved when the application is closed.
@@ -1143,7 +1094,7 @@ namespace Dopamine.Services.Playback
             this.queueManager.SetCurrentTrack(track);
 
             // Play the Track
-            await Task.Run(() => this.player.Play(track.Value.Path, this.outputDevice));
+            await Task.Run(() => this.player.Play(track.Path, this.outputDevice));
 
             // Start reporting progress
             this.progressTimer.Start();
@@ -1153,10 +1104,19 @@ namespace Dopamine.Services.Playback
             this.player.PlaybackFinished += this.PlaybackFinishedHandler;
         }
 
-        private async Task<bool> TryPlayAsync(KeyValuePair<string, TrackViewModel> trackPair, bool isSilent = false)
+        private async Task<bool> TryPlayAsync(TrackViewModel track, bool isSilent = false)
         {
-            if (trackPair.Value == null) return false;
-            if (this.isLoadingTrack) return true; // Only load 1 track at a time (just in case)
+            if (track == null)
+            {
+                return false;
+            }
+
+            if (this.isLoadingTrack)
+            {
+                // Only load 1 track at a time (just in case)
+                return true; 
+            }
+
             this.OnLoadingTrack(true);
 
             bool isPlaybackSuccess = true;
@@ -1168,13 +1128,13 @@ namespace Dopamine.Services.Playback
                 this.StopPlayback();
 
                 // Check that the file exists
-                if (!System.IO.File.Exists(trackPair.Value.Path))
+                if (!System.IO.File.Exists(track.Path))
                 {
-                    throw new FileNotFoundException(string.Format("File '{0}' was not found", trackPair.Value.Path));
+                    throw new FileNotFoundException(string.Format("File '{0}' was not found", track.Path));
                 }
 
                 // Start playing
-                await this.StartPlaybackAsync(trackPair, isSilent);
+                await this.StartPlaybackAsync(track, isSilent);
 
                 // Playing was successful
                 this.PlaybackSuccess(this, new PlaybackSuccessEventArgs()
@@ -1186,7 +1146,7 @@ namespace Dopamine.Services.Playback
                 // Set this to false again after raising the event. It is important to have a correct slide 
                 // direction for cover art when the next Track is a file from double click in Windows.
                 this.isPlayingPreviousTrack = false;
-                LogClient.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", trackPair.Value.Path, this.EventMode, this.ExclusiveMode, this.LoopMode, this.shuffle);
+                LogClient.Info("Playing the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}", track.Path, this.EventMode, this.ExclusiveMode, this.LoopMode, this.shuffle);
             }
             catch (FileNotFoundException fnfex)
             {
@@ -1210,7 +1170,7 @@ namespace Dopamine.Services.Playback
                     LogClient.Error("Could not stop the Player");
                 }
 
-                LogClient.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", trackPair.Value.Path, this.EventMode, this.ExclusiveMode, this.LoopMode, this.shuffle, playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
+                LogClient.Error("Could not play the file {0}. EventMode={1}, ExclusiveMode={2}, LoopMode={3}, Shuffle={4}. Exception: {5}. StackTrace: {6}", track.Path, this.EventMode, this.ExclusiveMode, this.LoopMode, this.shuffle, playbackFailedEventArgs.Message, playbackFailedEventArgs.StackTrace);
 
                 this.PlaybackFailed(this, playbackFailedEventArgs);
             }
@@ -1241,7 +1201,7 @@ namespace Dopamine.Services.Playback
             // When "loop one" is enabled and ignoreLoopOne is true, act like "loop all".
             LoopMode loopMode = this.LoopMode == LoopMode.One && ignoreLoopOne ? LoopMode.All : this.LoopMode;
 
-            KeyValuePair<string, TrackViewModel> previousTrack = await this.queueManager.PreviousTrackAsync(loopMode);
+            TrackViewModel previousTrack = await this.queueManager.PreviousTrackAsync(loopMode);
 
             if (previousTrack.Equals(default(KeyValuePair<string, TrackViewModel>)))
             {
@@ -1260,9 +1220,9 @@ namespace Dopamine.Services.Playback
 
             // When "loop one" is enabled and ignoreLoopOne is true, act like "loop all".
             bool returnToStart = SettingsClient.Get<bool>("Playback", "LoopWhenShuffle") & this.shuffle;
-            KeyValuePair<string, TrackViewModel> nextTrack = await this.queueManager.NextTrackAsync(loopMode, returnToStart);
+            TrackViewModel nextTrack = await this.queueManager.NextTrackAsync(loopMode, returnToStart);
 
-            if (nextTrack.Equals(default(KeyValuePair<string, TrackViewModel>)))
+            if (nextTrack == null)
             {
                 this.Stop();
                 return true;
@@ -1282,7 +1242,7 @@ namespace Dopamine.Services.Playback
             // Use our context to trigger the work, because this event is fired on the Player's Playback thread.
             this.context.Post(new SendOrPostCallback((state) =>
             {
-                LogClient.Info("Track interrupted: {0}", this.CurrentTrack.Value.Path);
+                LogClient.Info("Track interrupted: {0}", this.CurrentTrack.Path);
                 this.Stop();
             }), null);
         }
@@ -1293,8 +1253,8 @@ namespace Dopamine.Services.Playback
             // Use our context to trigger the work, because this event is fired on the Player's Playback thread.
             this.context.Post(new SendOrPostCallback(async (state) =>
             {
-                LogClient.Info("Track finished: {0}", this.CurrentTrack.Value.Path);
-                await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Value.Path, true, false); // Increase PlayCount
+                LogClient.Info("Track finished: {0}", this.CurrentTrack.Path);
+                await this.UpdatePlaybackCountersAsync(this.CurrentTrack.Path, true, false); // Increase PlayCount
                 await this.TryPlayNextAsync(false);
             }), null);
         }
@@ -1306,111 +1266,112 @@ namespace Dopamine.Services.Playback
 
         private async void GetSavedQueuedTracks()
         {
-            if (!this.canGetSavedQueuedTracks)
-            {
-                LogClient.Info("Aborting getting of saved queued tracks");
-                return;
-            }
+            // TODO
+            //if (!this.canGetSavedQueuedTracks)
+            //{
+            //    LogClient.Info("Aborting getting of saved queued tracks");
+            //    return;
+            //}
 
-            try
-            {
-                LogClient.Info("Getting saved queued tracks");
-                IList<QueuedTrack> savedQueuedTracks = await this.queuedTrackRepository.GetSavedQueuedTracksAsync();
-                IList<Track> tracks = await this.trackRepository.GetTracksAsync(savedQueuedTracks.Select(t => t.Path).ToList());
-                IList<TrackViewModel> trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks);
-                var tracksDictionary = new Dictionary<string, TrackViewModel>();
-                var tracksToEnqueue = new List<KeyValuePair<string, TrackViewModel>>();
-                KeyValuePair<string, TrackViewModel> playingTrack = default(KeyValuePair<string, TrackViewModel>);
-                int progressSeconds = 0;
+            //try
+            //{
+            //    LogClient.Info("Getting saved queued tracks");
+            //    IList<QueuedTrack> savedQueuedTracks = await this.queuedTrackRepository.GetSavedQueuedTracksAsync();
+            //    IList<Track> tracks = await this.trackRepository.GetTracksAsync(savedQueuedTracks.Select(t => t.Path).ToList());
+            //    IList<TrackViewModel> trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks);
+            //    var tracksDictionary = new Dictionary<string, TrackViewModel>();
+            //    var tracksToEnqueue = new List<KeyValuePair<string, TrackViewModel>>();
+            //    KeyValuePair<string, TrackViewModel> playingTrack = default(KeyValuePair<string, TrackViewModel>);
+            //    int progressSeconds = 0;
 
-                await Task.Run(() =>
-                {
-                    // Makes lookup faster
-                    foreach (var track in trackViewModels)
-                    {
-                        if (!this.canGetSavedQueuedTracks)
-                        {
-                            LogClient.Info("Aborting getting of saved queued tracks");
-                            return;
-                        }
+            //    await Task.Run(() =>
+            //    {
+            //        // Makes lookup faster
+            //        foreach (var track in trackViewModels)
+            //        {
+            //            if (!this.canGetSavedQueuedTracks)
+            //            {
+            //                LogClient.Info("Aborting getting of saved queued tracks");
+            //                return;
+            //            }
 
-                        tracksDictionary.Add(track.SafePath, track);
-                    }
+            //            tracksDictionary.Add(track.SafePath, track);
+            //        }
 
-                    foreach (QueuedTrack savedQueuedTrack in savedQueuedTracks)
-                    {
-                        if (!this.canGetSavedQueuedTracks)
-                        {
-                            LogClient.Info("Aborting getting of saved queued tracks");
-                            return;
-                        }
+            //        foreach (QueuedTrack savedQueuedTrack in savedQueuedTracks)
+            //        {
+            //            if (!this.canGetSavedQueuedTracks)
+            //            {
+            //                LogClient.Info("Aborting getting of saved queued tracks");
+            //                return;
+            //            }
 
-                        KeyValuePair<string, TrackViewModel> trackToEnqueue = default(KeyValuePair<string, TrackViewModel>);
+            //            KeyValuePair<string, TrackViewModel> trackToEnqueue = default(KeyValuePair<string, TrackViewModel>);
 
-                        // Enqueue only tracks which are found in the database and exist on disk.
-                        if (tracksDictionary.ContainsKey(savedQueuedTrack.SafePath) && System.IO.File.Exists(savedQueuedTrack.Path))
-                        {
-                            // Create the track
-                            trackToEnqueue = new KeyValuePair<string, TrackViewModel>(savedQueuedTrack.QueueID, tracksDictionary[savedQueuedTrack.SafePath]);
+            //            // Enqueue only tracks which are found in the database and exist on disk.
+            //            if (tracksDictionary.ContainsKey(savedQueuedTrack.SafePath) && System.IO.File.Exists(savedQueuedTrack.Path))
+            //            {
+            //                // Create the track
+            //                trackToEnqueue = new KeyValuePair<string, TrackViewModel>(savedQueuedTrack.QueueID, tracksDictionary[savedQueuedTrack.SafePath]);
 
-                            // Check if the track was playing
-                            if (savedQueuedTrack.IsPlaying == 1)
-                            {
-                                playingTrack = trackToEnqueue;
-                                progressSeconds = Convert.ToInt32(savedQueuedTrack.ProgressSeconds);
-                            }
+            //                // Check if the track was playing
+            //                if (savedQueuedTrack.IsPlaying == 1)
+            //                {
+            //                    playingTrack = trackToEnqueue;
+            //                    progressSeconds = Convert.ToInt32(savedQueuedTrack.ProgressSeconds);
+            //                }
 
-                            // Add to tracksToEnqueue
-                            tracksToEnqueue.Add(trackToEnqueue);
-                        }
-                    }
-                });
+            //                // Add to tracksToEnqueue
+            //                tracksToEnqueue.Add(trackToEnqueue);
+            //            }
+            //        }
+            //    });
 
-                if (!this.canGetSavedQueuedTracks)
-                {
-                    LogClient.Info("Aborting getting of saved queued tracks");
-                    return;
-                }
+            //    if (!this.canGetSavedQueuedTracks)
+            //    {
+            //        LogClient.Info("Aborting getting of saved queued tracks");
+            //        return;
+            //    }
 
-                if (tracksToEnqueue.Count > 0)
-                {
-                    LogClient.Info("Enqueuing {0} saved queued tracks", tracksToEnqueue.Count);
-                    await this.queueManager.EnqueueAsync(tracksToEnqueue, this.shuffle);
-                    this.QueueChanged(this, new EventArgs());
-                }
+            //    if (tracksToEnqueue.Count > 0)
+            //    {
+            //        LogClient.Info("Enqueuing {0} saved queued tracks", tracksToEnqueue.Count);
+            //        await this.queueManager.EnqueueAsync(tracksToEnqueue, this.shuffle);
+            //        this.QueueChanged(this, new EventArgs());
+            //    }
 
-                if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack"))
-                {
-                    return;
-                }
+            //    if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack"))
+            //    {
+            //        return;
+            //    }
 
-                if (!playingTrack.Equals(default(KeyValuePair<string, TrackViewModel>)))
-                {
-                    if (!this.canGetSavedQueuedTracks)
-                    {
-                        LogClient.Info("Aborting getting of saved queued tracks");
-                        return;
-                    }
+            //    if (!playingTrack.Equals(default(KeyValuePair<string, TrackViewModel>)))
+            //    {
+            //        if (!this.canGetSavedQueuedTracks)
+            //        {
+            //            LogClient.Info("Aborting getting of saved queued tracks");
+            //            return;
+            //        }
 
-                    try
-                    {
-                        LogClient.Info("Starting track {0} paused", playingTrack.Value.Path);
-                        await this.StartTrackPausedAsync(playingTrack, progressSeconds);
-                    }
-                    catch (Exception ex)
-                    {
-                        LogClient.Error("Could not set the playing track. Exception: {0}", ex.Message);
-                        this.Stop(); // Should not be required, but just in case.
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not get saved queued tracks. Exception: {0}", ex.Message);
-            }
+            //        try
+            //        {
+            //            LogClient.Info("Starting track {0} paused", playingTrack.Value.Path);
+            //            await this.StartTrackPausedAsync(playingTrack, progressSeconds);
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            LogClient.Error("Could not set the playing track. Exception: {0}", ex.Message);
+            //            this.Stop(); // Should not be required, but just in case.
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    LogClient.Error("Could not get saved queued tracks. Exception: {0}", ex.Message);
+            //}
         }
 
-        private async Task StartTrackPausedAsync(KeyValuePair<string, TrackViewModel> track, int progressSeconds)
+        private async Task StartTrackPausedAsync(TrackViewModel track, int progressSeconds)
         {
             if (await this.TryPlayAsync(track, true))
             {
@@ -1455,7 +1416,7 @@ namespace Dopamine.Services.Playback
             }
         }
 
-        private async Task EnqueueIfDifferent(List<TrackViewModel> tracks, bool shuffle)
+        private async Task EnqueueIfDifferent(IList<TrackViewModel> tracks, bool shuffle)
         {
             if (await this.queueManager.IsQueueDifferentAsync(tracks) || shuffle != this.shuffle)
             {
@@ -1475,7 +1436,7 @@ namespace Dopamine.Services.Playback
             }
         }
 
-        private async Task EnqueueIfDifferent(List<KeyValuePair<string, TrackViewModel>> tracks)
+        private async Task EnqueueIfDifferent(IList<TrackViewModel> tracks)
         {
             if (await this.queueManager.IsQueueDifferentAsync(tracks))
             {
