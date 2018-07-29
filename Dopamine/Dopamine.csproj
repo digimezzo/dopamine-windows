@@ -227,7 +227,6 @@
     <Compile Include="ViewModels\Common\Base\MiniPlayerViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\NowPlayingViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\PlaybackControlsViewModelBase.cs" />
-    <Compile Include="ViewModels\Common\Base\QueueViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\TracksViewModelBase.cs" />
     <Compile Include="ViewModels\Common\CollectionFoldersViewModel.cs" />
     <Compile Include="ViewModels\Common\CollectionPlaybackControlsViewModel.cs" />
@@ -314,7 +313,6 @@
     </Compile>
     <Compile Include="Views\Common\Base\CommonViewBase.cs" />
     <Compile Include="Views\Common\Base\MiniPlayerViewBase.cs" />
-    <Compile Include="Views\Common\Base\QueueViewBase.cs" />
     <Compile Include="Views\Common\Base\TracksViewBase.cs" />
     <Compile Include="Views\Common\CollectionFolders.xaml.cs">
       <DependentUpon>CollectionFolders.xaml</DependentUpon>

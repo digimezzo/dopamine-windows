@@ -97,9 +97,9 @@ namespace Dopamine.Services.Scrobbling
                 // As soon as a track starts playing, send a Now Playing request.
                 this.trackStartTime = DateTime.Now;
                 this.canScrobble = true;
-                string artist = string.IsNullOrEmpty(this.playbackService.CurrentTrack.Value.ArtistName) ? this.playbackService.CurrentTrack.Value.ArtistName : string.Empty;
-                string trackTitle = this.playbackService.CurrentTrack.Value.TrackTitle;
-                string albumTitle = string.IsNullOrEmpty(this.playbackService.CurrentTrack.Value.AlbumTitle) ? this.playbackService.CurrentTrack.Value.AlbumTitle : string.Empty;
+                string artist = string.IsNullOrEmpty(this.playbackService.CurrentTrack.ArtistName) ? this.playbackService.CurrentTrack.ArtistName : string.Empty;
+                string trackTitle = this.playbackService.CurrentTrack.TrackTitle;
+                string albumTitle = string.IsNullOrEmpty(this.playbackService.CurrentTrack.AlbumTitle) ? this.playbackService.CurrentTrack.AlbumTitle : string.Empty;
 
                 if (!string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {
@@ -132,9 +132,9 @@ namespace Dopamine.Services.Scrobbling
                 // When is a scrobble a scrobble?
                 // - The track must be longer than 30 seconds
                 // - And the track has been played for at least half its duration, or for 4 minutes (whichever occurs earlier)
-                string artist = string.IsNullOrEmpty(this.playbackService.CurrentTrack.Value.ArtistName) ? this.playbackService.CurrentTrack.Value.ArtistName : string.Empty;
-                string trackTitle = this.playbackService.CurrentTrack.Value.TrackTitle;
-                string albumTitle = string.IsNullOrEmpty(this.playbackService.CurrentTrack.Value.AlbumTitle) ? this.playbackService.CurrentTrack.Value.AlbumTitle : string.Empty;
+                string artist = string.IsNullOrEmpty(this.playbackService.CurrentTrack.ArtistName) ? this.playbackService.CurrentTrack.ArtistName : string.Empty;
+                string trackTitle = this.playbackService.CurrentTrack.TrackTitle;
+                string albumTitle = string.IsNullOrEmpty(this.playbackService.CurrentTrack.AlbumTitle) ? this.playbackService.CurrentTrack.AlbumTitle : string.Empty;
 
                 if (this.canScrobble && !string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {

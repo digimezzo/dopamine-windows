@@ -47,7 +47,8 @@ namespace Dopamine.ViewModels.Common.Base
         private ObservableCollection<TrackViewModel> tracks;
         private CollectionViewSource tracksCvs;
         private IList<TrackViewModel> selectedTracks;
-        private TrackViewModel lastPlayingTrackVm;
+        
+        public TrackViewModel PreviousPlayingTrack { get; set; }
 
         public abstract bool CanOrderByAlbum { get; }
 
@@ -412,10 +413,10 @@ namespace Dopamine.ViewModels.Common.Base
         {
             await Task.Run(() =>
             {
-                if (lastPlayingTrackVm != null)
+                if (this.PreviousPlayingTrack != null)
                 {
-                    lastPlayingTrackVm.IsPlaying = false;
-                    lastPlayingTrackVm.IsPaused = true;
+                    this.PreviousPlayingTrack.IsPlaying = false;
+                    this.PreviousPlayingTrack.IsPaused = true;
                 }
 
                 if (!this.playbackService.HasCurrentTrack)
@@ -428,17 +429,17 @@ namespace Dopamine.ViewModels.Common.Base
                     return;
                 }
 
-                var safePath = this.playbackService.CurrentTrack.Value.SafePath;
+                var safePath = this.playbackService.CurrentTrack.SafePath;
 
-                TrackViewModel trackVm = this.Tracks.FirstOrDefault(vm => vm.Track.SafePath.Equals(safePath));
+                TrackViewModel currentPlayingTrack = this.Tracks.FirstOrDefault(x => x.Track.SafePath.Equals(safePath));
 
-                if (!this.playbackService.IsStopped && trackVm != null)
+                if (!this.playbackService.IsStopped && currentPlayingTrack != null)
                 {
-                    trackVm.IsPlaying = true;
-                    trackVm.IsPaused = !this.playbackService.IsPlaying;
+                    currentPlayingTrack.IsPlaying = true;
+                    currentPlayingTrack.IsPaused = !this.playbackService.IsPlaying;
                 }
 
-                lastPlayingTrackVm = trackVm;
+                this.PreviousPlayingTrack = currentPlayingTrack;
             });
 
             this.ConditionalScrollToPlayingTrack();

@@ -7,8 +7,6 @@ namespace Dopamine.Data.Entities
         [PrimaryKey(), AutoIncrement()]
         public long QueuedTrackID { get; set; }
 
-        public string QueueID { get; set; }
-
         public string Path { get; set; }
 
         public string SafePath { get; set; }

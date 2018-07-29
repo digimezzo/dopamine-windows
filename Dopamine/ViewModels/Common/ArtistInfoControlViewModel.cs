@@ -67,17 +67,17 @@ namespace Dopamine.ViewModels.Common
             this.playbackService.PlaybackSuccess += async (_, e) =>
             {
                 this.SlideDirection = e.IsPlayingPreviousTrack ? SlideDirection.RightToLeft : SlideDirection.LeftToRight;
-                await this.ShowArtistInfoAsync(this.playbackService.CurrentTrack.Value, false);
+                await this.ShowArtistInfoAsync(this.playbackService.CurrentTrack, false);
             };
 
             this.i18nService.LanguageChanged += async (_, __) =>
             {
-                if (this.playbackService.HasCurrentTrack) await this.ShowArtistInfoAsync(this.playbackService.CurrentTrack.Value, true);
+                if (this.playbackService.HasCurrentTrack) await this.ShowArtistInfoAsync(this.playbackService.CurrentTrack, true);
             };
 
             // Defaults
             this.SlideDirection = SlideDirection.LeftToRight;
-            this.ShowArtistInfoAsync(this.playbackService.CurrentTrack.Value, true);
+            this.ShowArtistInfoAsync(this.playbackService.CurrentTrack, true);
         }
 
         private async Task ShowArtistInfoAsync(TrackViewModel track, bool forceReload)

@@ -2,6 +2,7 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
+using Dopamine.Data;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
 using Dopamine.Services.File;
@@ -17,11 +18,14 @@ using System.Threading.Tasks;
 
 namespace Dopamine.ViewModels.Common
 {
-    public class NowPlayingControlViewModel : QueueViewModelBase, IDropTarget
+    public class NowPlayingControlViewModel : TracksViewModelBase, IDropTarget
     {
         private IPlaybackService playbackService;
         private IDialogService dialogService;
         private IFileService fileService;
+        protected bool isDroppingTracks;
+
+        public override bool CanOrderByAlbum => false;
 
         public NowPlayingControlViewModel(IContainerProvider container) : base(container)
         {
@@ -34,12 +38,18 @@ namespace Dopamine.ViewModels.Common
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());
 
             // PlaybackService
-            this.playbackService.QueueChanged += async (_, __) => { if (!base.isDroppingTracks) await this.FillListsAsync(); };
+            this.playbackService.QueueChanged += async (_, __) =>
+            {
+                if (!this.isDroppingTracks)
+                {
+                    await this.FillListsAsync();
+                }
+            };
         }
 
         protected async Task GetTracksAsync()
         {
-            await this.GetTracksCommonAsync(this.playbackService.Queue);
+            await this.GetTracksCommonAsync(this.playbackService.Queue, TrackOrder.None);
         }
 
         protected override async Task FillListsAsync()
@@ -82,20 +92,19 @@ namespace Dopamine.ViewModels.Common
 
         private async Task UpdateQueueOrderAsync(IDropInfo dropInfo)
         {
-            base.isDroppingTracks = true;
+            this.isDroppingTracks = true;
 
-            var droppedTracks = new List<KeyValuePair<string, TrackViewModel>>();
+            var droppedTracks = new List<TrackViewModel>();
 
             // TargetCollection contains all tracks of the queue, in the new order.
             foreach (var item in dropInfo.TargetCollection)
             {
-                KeyValuePair<string, TrackViewModel> droppedItem = (KeyValuePair<string, TrackViewModel>)item;
-                droppedTracks.Add(new KeyValuePair<string, TrackViewModel>(droppedItem.Key, droppedItem.Value));
+                droppedTracks.Add((TrackViewModel)item);
             }
 
             await this.playbackService.UpdateQueueOrderAsync(droppedTracks);
 
-            base.isDroppingTracks = false;
+            this.isDroppingTracks = false;
         }
 
         public async void Drop(IDropInfo dropInfo)
@@ -140,35 +149,62 @@ namespace Dopamine.ViewModels.Common
             // Remove Tracks from PlaybackService (this dequeues the Tracks)
             DequeueResult dequeueResult = await this.playbackService.DequeueAsync(this.SelectedTracks);
 
-            var viewModelsToRemove = new List<KeyValuePair<string, TrackViewModel>>();
-
-            await Task.Run(() =>
-            {
-                // Collect the ViewModels to remove
-                viewModelsToRemove.AddRange(this.Tracks.Where(vm => dequeueResult.DequeuedTracks.Select(t => t.Key)
-                    .ToList()
-                    .Contains(vm.Key)));
-            });
-
-            // Remove the ViewModels from Tracks (this updates the UI)
-            foreach (KeyValuePair<string, TrackViewModel> vm in viewModelsToRemove)
-            {
-                this.Tracks.Remove(vm);
-            }
-
-            this.TracksCount = this.Tracks.Count;
-
             if (!dequeueResult.IsSuccess)
             {
                 this.dialogService.ShowNotification(
-                    0xe711,
-                    16,
-                    ResourceUtils.GetString("Language_Error"),
-                    ResourceUtils.GetString("Language_Error_Removing_From_Now_Playing"),
-                    ResourceUtils.GetString("Language_Ok"),
-                    true,
-                    ResourceUtils.GetString("Language_Log_File"));
+                     0xe711,
+                     16,
+                     ResourceUtils.GetString("Language_Error"),
+                     ResourceUtils.GetString("Language_Error_Removing_From_Now_Playing"),
+                     ResourceUtils.GetString("Language_Ok"),
+                     true,
+                     ResourceUtils.GetString("Language_Log_File"));
             }
+
+            // Remove the ViewModels from Tracks (this updates the UI)
+            foreach (TrackViewModel track in dequeueResult.DequeuedTracks)
+            {
+                if (this.Tracks.Contains(track))
+                {
+                    this.Tracks.Remove(track);
+                }
+            }
+
+            this.TracksCount = this.Tracks.Count;
+        }
+
+        protected override async Task ShowPlayingTrackAsync()
+        {
+            await Task.Run(() =>
+            {
+                if (this.PreviousPlayingTrack != null)
+                {
+                    this.PreviousPlayingTrack.IsPlaying = false;
+                    this.PreviousPlayingTrack.IsPaused = true;
+                }
+
+                if (!this.playbackService.HasCurrentTrack)
+                {
+                    return;
+                }
+
+                if (this.Tracks == null)
+                {
+                    return;
+                }
+
+                TrackViewModel currentPlayingTrack = this.Tracks.FirstOrDefault(x => x.Track.Equals(this.playbackService.CurrentTrack));
+
+                if (!this.playbackService.IsStopped && currentPlayingTrack != null)
+                {
+                    currentPlayingTrack.IsPlaying = true;
+                    currentPlayingTrack.IsPaused = !this.playbackService.IsPlaying;
+                }
+
+                this.PreviousPlayingTrack = currentPlayingTrack;
+            });
+
+            this.ConditionalScrollToPlayingTrack();
         }
     }
 }

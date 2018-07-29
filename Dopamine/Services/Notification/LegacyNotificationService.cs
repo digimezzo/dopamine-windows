@@ -190,12 +190,12 @@ namespace Dopamine.Services.Notification
 
                 if (this.playbackService.HasCurrentTrack)
                 {
-                    artworkData = await this.metadataService.GetArtworkAsync(this.playbackService.CurrentTrack.Value.Path);
+                    artworkData = await this.metadataService.GetArtworkAsync(this.playbackService.CurrentTrack.Path);
                 }
 
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    this.notification = new NotificationWindow(this.playbackService.CurrentTrack.Value,
+                    this.notification = new NotificationWindow(this.playbackService.CurrentTrack,
                                                           artworkData,
                                                           (NotificationPosition)SettingsClient.Get<int>("Behaviour", "NotificationPosition"),
                                                           SettingsClient.Get<bool>("Behaviour", "ShowNotificationControls"),

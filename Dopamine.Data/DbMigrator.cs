@@ -119,7 +119,6 @@ namespace Dopamine.Data
 
                 conn.Execute("CREATE TABLE QueuedTrack (" +
                              "QueuedTrackID         INTEGER," +
-                             "QueueID	            TEXT," +
                              "Path	                TEXT," +
                              "SafePath	            TEXT," +
                              "IsPlaying             INTEGER," +
@@ -1028,6 +1027,8 @@ namespace Dopamine.Data
                 conn.Execute("UPDATE Track SET GenreID=NULL;");
                 conn.Execute("UPDATE Track SET AlbumID=NULL;");
                 conn.Execute("UPDATE Track SET MetaDataHash=NULL;");
+
+                conn.Execute("UPDATE QueuedTrack SET QueuedID=NULL;");
 
                 conn.Execute("ALTER TABLE Track ADD Artists TEXT;");
                 conn.Execute("ALTER TABLE Track ADD Genres TEXT;");
