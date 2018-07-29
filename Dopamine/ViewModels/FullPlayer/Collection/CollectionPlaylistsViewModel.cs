@@ -121,8 +121,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        public override bool CanOrderByAlbum => false;
-
         public CollectionPlaylistsViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection
@@ -147,7 +145,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 if (this.IsPlaylistSelected) await this.ConfirmDeletePlaylistAsync(this.SelectedPlaylistName);
             });
 
-            // Settings
+            // Settings changed
             SettingsClient.SettingChanged += (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
@@ -169,7 +167,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.playlistService.PlaylistRenamed += (oldPlaylistName, newPlaylistName) => this.UpdateRenamedPlaylist(oldPlaylistName, newPlaylistName);
             this.playlistService.PlaylistFolderChanged += async (_, __) => await this.FillListsAsync();
 
-            // Set width of the panels
+            // Load settings
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
         }
 

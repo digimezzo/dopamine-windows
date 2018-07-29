@@ -267,11 +267,6 @@ namespace Dopamine.Services.Playback
             return nextTrack;
         }
 
-        private bool QueueContainsPath(string safePath)
-        {
-            return this.queue != null && this.queue.Any(x => x.SafePath.Equals(safePath));
-        }
-
         public async Task<EnqueueResult> EnqueueAsync(IList<TrackViewModel> tracks, bool shuffle)
         {
             var result = new EnqueueResult { IsSuccess = true };
@@ -284,7 +279,7 @@ namespace Dopamine.Services.Playback
                     {
                         foreach (TrackViewModel track in tracks)
                         {
-                            this.queue.Add(this.QueueContainsPath(track.SafePath) ? track.DeepCopy() : track);
+                            this.queue.Add(track.DeepCopy());
                         }
 
                         result.EnqueuedTracks = tracks;
@@ -333,7 +328,7 @@ namespace Dopamine.Services.Playback
 
                         foreach (TrackViewModel track in tracks)
                         {
-                            tracksToAdd.Add(this.QueueContainsPath(track.SafePath) ? track.DeepCopy() : track);
+                            tracksToAdd.Add(track.DeepCopy());
                         }
 
                         this.queue.InsertRange(queueIndex + 1, tracksToAdd);

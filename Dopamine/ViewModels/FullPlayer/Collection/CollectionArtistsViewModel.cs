@@ -146,15 +146,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { ArtistsZoomSelectors = value; }
         }
 
-        public override bool CanOrderByAlbum
-        {
-            get
-            {
-                return (this.SelectedArtists != null && this.SelectedArtists.Count > 0) |
-                     (this.SelectedAlbumKeys != null && this.SelectedAlbumKeys.Count > 0);
-            }
-        }
-
         public bool HasSelectedArtists
         {
             get

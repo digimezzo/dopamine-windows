@@ -32,8 +32,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        public override bool CanOrderByAlbum => this.SelectedAlbumKeys != null && this.SelectedAlbumKeys.Count > 0;
-
         public CollectionAlbumsViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection
