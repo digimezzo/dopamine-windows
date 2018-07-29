@@ -431,7 +431,14 @@ namespace Dopamine.ViewModels.Common.Base
 
                 var safePath = this.playbackService.CurrentTrack.SafePath;
 
-                TrackViewModel currentPlayingTrack = this.Tracks.FirstOrDefault(x => x.Track.SafePath.Equals(safePath));
+                // First, find the correct track by reference.
+                TrackViewModel currentPlayingTrack = this.Tracks.FirstOrDefault(x => x.Equals(this.playbackService.CurrentTrack));
+
+                // Then, if there is no reference match, find a track with the same path.
+                if (currentPlayingTrack == null)
+                {
+                    currentPlayingTrack = this.Tracks.FirstOrDefault(x => x.SafePath.Equals(this.playbackService.CurrentTrack.SafePath));
+                }
 
                 if (!this.playbackService.IsStopped && currentPlayingTrack != null)
                 {

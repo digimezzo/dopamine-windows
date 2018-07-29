@@ -172,39 +172,5 @@ namespace Dopamine.ViewModels.Common
 
             this.TracksCount = this.Tracks.Count;
         }
-
-        protected override async Task ShowPlayingTrackAsync()
-        {
-            await Task.Run(() =>
-            {
-                if (this.PreviousPlayingTrack != null)
-                {
-                    this.PreviousPlayingTrack.IsPlaying = false;
-                    this.PreviousPlayingTrack.IsPaused = true;
-                }
-
-                if (!this.playbackService.HasCurrentTrack)
-                {
-                    return;
-                }
-
-                if (this.Tracks == null)
-                {
-                    return;
-                }
-
-                TrackViewModel currentPlayingTrack = this.Tracks.FirstOrDefault(x => x.Track.Equals(this.playbackService.CurrentTrack));
-
-                if (!this.playbackService.IsStopped && currentPlayingTrack != null)
-                {
-                    currentPlayingTrack.IsPlaying = true;
-                    currentPlayingTrack.IsPaused = !this.playbackService.IsPlaying;
-                }
-
-                this.PreviousPlayingTrack = currentPlayingTrack;
-            });
-
-            this.ConditionalScrollToPlayingTrack();
-        }
     }
 }
