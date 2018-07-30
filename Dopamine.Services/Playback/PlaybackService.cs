@@ -1266,109 +1266,63 @@ namespace Dopamine.Services.Playback
 
         private async void GetSavedQueuedTracks()
         {
-            // TODO
-            //if (!this.canGetSavedQueuedTracks)
-            //{
-            //    LogClient.Info("Aborting getting of saved queued tracks");
-            //    return;
-            //}
+            if (!this.canGetSavedQueuedTracks)
+            {
+                LogClient.Info("Aborting getting of saved queued tracks");
+                return;
+            }
 
-            //try
-            //{
-            //    LogClient.Info("Getting saved queued tracks");
-            //    IList<QueuedTrack> savedQueuedTracks = await this.queuedTrackRepository.GetSavedQueuedTracksAsync();
-            //    IList<Track> tracks = await this.trackRepository.GetTracksAsync(savedQueuedTracks.Select(t => t.Path).ToList());
-            //    IList<TrackViewModel> trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks);
-            //    var tracksDictionary = new Dictionary<string, TrackViewModel>();
-            //    var tracksToEnqueue = new List<KeyValuePair<string, TrackViewModel>>();
-            //    KeyValuePair<string, TrackViewModel> playingTrack = default(KeyValuePair<string, TrackViewModel>);
-            //    int progressSeconds = 0;
+            try
+            {
+                LogClient.Info("Getting saved queued tracks");
+                IList<QueuedTrack> savedQueuedTracks = await this.queuedTrackRepository.GetSavedQueuedTracksAsync();
+                QueuedTrack playingSavedQueuedTrack = savedQueuedTracks.Where(x => x.IsPlaying == 1).FirstOrDefault();
+                IList<Track> existingTracks = await this.trackRepository.GetTracksAsync(savedQueuedTracks.Where(x => System.IO.File.Exists(x.Path)).Select(x => x.Path).ToList());
+                IList<TrackViewModel> existingTrackViewModels = await this.container.ResolveTrackViewModelsAsync(existingTracks);
 
-            //    await Task.Run(() =>
-            //    {
-            //        // Makes lookup faster
-            //        foreach (var track in trackViewModels)
-            //        {
-            //            if (!this.canGetSavedQueuedTracks)
-            //            {
-            //                LogClient.Info("Aborting getting of saved queued tracks");
-            //                return;
-            //            }
+                await this.EnqueueAsync(existingTrackViewModels, this.shuffle, false);
+                this.QueueChanged(this, new EventArgs());
 
-            //            tracksDictionary.Add(track.SafePath, track);
-            //        }
+                if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack"))
+                {
+                    return;
+                }
 
-            //        foreach (QueuedTrack savedQueuedTrack in savedQueuedTracks)
-            //        {
-            //            if (!this.canGetSavedQueuedTracks)
-            //            {
-            //                LogClient.Info("Aborting getting of saved queued tracks");
-            //                return;
-            //            }
+                if (!this.canGetSavedQueuedTracks)
+                {
+                    LogClient.Info("Aborting getting of saved queued tracks");
+                    return;
+                }
 
-            //            KeyValuePair<string, TrackViewModel> trackToEnqueue = default(KeyValuePair<string, TrackViewModel>);
+                if (playingSavedQueuedTrack == null)
+                {
+                    return;
+                }
 
-            //            // Enqueue only tracks which are found in the database and exist on disk.
-            //            if (tracksDictionary.ContainsKey(savedQueuedTrack.SafePath) && System.IO.File.Exists(savedQueuedTrack.Path))
-            //            {
-            //                // Create the track
-            //                trackToEnqueue = new KeyValuePair<string, TrackViewModel>(savedQueuedTrack.QueueID, tracksDictionary[savedQueuedTrack.SafePath]);
+                TrackViewModel playingTrackViewModel = existingTrackViewModels.Where(x => x.SafePath.Equals(playingSavedQueuedTrack.SafePath)).FirstOrDefault();
 
-            //                // Check if the track was playing
-            //                if (savedQueuedTrack.IsPlaying == 1)
-            //                {
-            //                    playingTrack = trackToEnqueue;
-            //                    progressSeconds = Convert.ToInt32(savedQueuedTrack.ProgressSeconds);
-            //                }
+                if (playingTrackViewModel == null)
+                {
+                    return;
+                }
 
-            //                // Add to tracksToEnqueue
-            //                tracksToEnqueue.Add(trackToEnqueue);
-            //            }
-            //        }
-            //    });
+                int progressSeconds = Convert.ToInt32(playingSavedQueuedTrack.ProgressSeconds);
 
-            //    if (!this.canGetSavedQueuedTracks)
-            //    {
-            //        LogClient.Info("Aborting getting of saved queued tracks");
-            //        return;
-            //    }
-
-            //    if (tracksToEnqueue.Count > 0)
-            //    {
-            //        LogClient.Info("Enqueuing {0} saved queued tracks", tracksToEnqueue.Count);
-            //        await this.queueManager.EnqueueAsync(tracksToEnqueue, this.shuffle);
-            //        this.QueueChanged(this, new EventArgs());
-            //    }
-
-            //    if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack"))
-            //    {
-            //        return;
-            //    }
-
-            //    if (!playingTrack.Equals(default(KeyValuePair<string, TrackViewModel>)))
-            //    {
-            //        if (!this.canGetSavedQueuedTracks)
-            //        {
-            //            LogClient.Info("Aborting getting of saved queued tracks");
-            //            return;
-            //        }
-
-            //        try
-            //        {
-            //            LogClient.Info("Starting track {0} paused", playingTrack.Value.Path);
-            //            await this.StartTrackPausedAsync(playingTrack, progressSeconds);
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            LogClient.Error("Could not set the playing track. Exception: {0}", ex.Message);
-            //            this.Stop(); // Should not be required, but just in case.
-            //        }
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    LogClient.Error("Could not get saved queued tracks. Exception: {0}", ex.Message);
-            //}
+                try
+                {
+                    LogClient.Info("Starting track {0} paused", playingTrackViewModel.Path);
+                    await this.StartTrackPausedAsync(playingTrackViewModel, progressSeconds);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not set the playing track. Exception: {0}", ex.Message);
+                    this.Stop(); // Should not be required, but just in case.
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not get saved queued tracks. Exception: {0}", ex.Message);
+            }
         }
 
         private async Task StartTrackPausedAsync(TrackViewModel track, int progressSeconds)
