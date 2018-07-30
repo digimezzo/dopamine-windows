@@ -7,7 +7,7 @@
 - [Changed] Updated the Chinese (Traditional) translation
 - [Changed] Updated the Italian translation
 - [Changed] Updated the Hungarian translation
-- [Changed] Updated the Ukrainian translation
+- [Changed] Updated the Ukrainian translation 
 
 
 2018-06-14: Dopamine 2.0 Preview 1
