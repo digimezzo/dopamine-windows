@@ -38,7 +38,7 @@ namespace Dopamine.ViewModels.Common.Base
         private IAlbumArtworkRepository albumArtworkRepository;
         private ObservableCollection<AlbumViewModel> albums;
         private CollectionViewSource albumsCvs;
-        private IList<string> selectedAlbumKeys;
+        private IList<AlbumViewModel> selectedAlbums;
         private bool delaySelectedAlbums;
         private long albumsCount;
         private AlbumOrder albumOrder;
@@ -104,12 +104,12 @@ namespace Dopamine.ViewModels.Common.Base
             set { SetProperty<CollectionViewSource>(ref this.albumsCvs, value); }
         }
 
-        public IList<string> SelectedAlbumKeys
+        public IList<AlbumViewModel> SelectedAlbums
         {
-            get { return this.selectedAlbumKeys; }
+            get { return this.selectedAlbums; }
             set
             {
-                SetProperty<IList<string>>(ref this.selectedAlbumKeys, value);
+                SetProperty<IList<AlbumViewModel>>(ref this.selectedAlbums, value);
             }
         }
 
@@ -144,10 +144,10 @@ namespace Dopamine.ViewModels.Common.Base
 
             // Commands
             this.ToggleAlbumOrderCommand = new DelegateCommand(() => this.ToggleAlbumOrder());
-            this.ShuffleSelectedAlbumsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAlbumsAsync(this.SelectedAlbumKeys, true, false));
-            this.AddAlbumsToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddAlbumsToPlaylistAsync(this.SelectedAlbumKeys, playlistName));
+            this.ShuffleSelectedAlbumsCommand = new DelegateCommand(async () => await this.playbackService.EnqueueAlbumsAsync(this.SelectedAlbums, true, false));
+            this.AddAlbumsToPlaylistCommand = new DelegateCommand<string>(async (playlistName) => await this.AddAlbumsToPlaylistAsync(this.SelectedAlbums, playlistName));
             this.EditAlbumCommand = new DelegateCommand(() => this.EditSelectedAlbum(), () => !this.IsIndexing);
-            this.AddAlbumsToNowPlayingCommand = new DelegateCommand(async () => await this.AddAlbumsToNowPlayingAsync(this.SelectedAlbumKeys));
+            this.AddAlbumsToNowPlayingCommand = new DelegateCommand(async () => await this.AddAlbumsToNowPlayingAsync(this.SelectedAlbums));
             this.DelaySelectedAlbumsCommand = new DelegateCommand(() => this.delaySelectedAlbums = true);
 
             this.SelectedAlbumsCommand = new DelegateCommand<object>(async (parameter) =>
@@ -214,13 +214,13 @@ namespace Dopamine.ViewModels.Common.Base
 
         private void EditSelectedAlbum()
         {
-            if (this.SelectedAlbumKeys == null || this.SelectedAlbumKeys.Count == 0)
+            if (this.SelectedAlbums == null || this.SelectedAlbums.Count == 0)
             {
                 return;
             }
 
             EditAlbum view = this.container.Resolve<EditAlbum>();
-            view.DataContext = this.container.Resolve<Func<string, EditAlbumViewModel>>()(this.SelectedAlbumKeys.First());
+            view.DataContext = this.container.Resolve<Func<AlbumViewModel, EditAlbumViewModel>>()(this.SelectedAlbums.First());
 
             this.dialogService.ShowCustomDialog(
                 0xe104,
@@ -326,7 +326,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.LoadAlbumArtworkAsync(Constants.ArtworkLoadDelay);
         }
 
-        protected async Task AddAlbumsToPlaylistAsync(IList<string> albumKeys, string playlistName)
+        protected async Task AddAlbumsToPlaylistAsync(IList<AlbumViewModel> albumViewModels, string playlistName)
         {
             AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
 
@@ -358,7 +358,7 @@ namespace Dopamine.ViewModels.Common.Base
                 case AddPlaylistResult.Success:
                 case AddPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.playlistService.AddAlbumsToPlaylistAsync(albumKeys, playlistName);
+                    AddTracksToPlaylistResult result = await this.playlistService.AddAlbumsToPlaylistAsync(albumViewModels, playlistName);
 
                     if (result == AddTracksToPlaylistResult.Error)
                     {
@@ -391,9 +391,9 @@ namespace Dopamine.ViewModels.Common.Base
             }
         }
 
-        protected async Task AddAlbumsToNowPlayingAsync(IList<string> albumKeys)
+        protected async Task AddAlbumsToNowPlayingAsync(IList<AlbumViewModel> albumViewModel)
         {
-            EnqueueResult result = await this.playbackService.AddAlbumsToQueueAsync(albumKeys);
+            EnqueueResult result = await this.playbackService.AddAlbumsToQueueAsync(albumViewModel);
 
             if (!result.IsSuccess)
             {
@@ -407,11 +407,11 @@ namespace Dopamine.ViewModels.Common.Base
 
             if (parameter != null)
             {
-                this.SelectedAlbumKeys = new List<string>();
+                this.SelectedAlbums = new List<AlbumViewModel>();
 
                 foreach (AlbumViewModel item in (IList)parameter)
                 {
-                    this.SelectedAlbumKeys.Add(item.AlbumKey);
+                    this.SelectedAlbums.Add(item);
                 }
             }
         }

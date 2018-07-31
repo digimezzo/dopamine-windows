@@ -80,7 +80,7 @@ namespace Dopamine
             }
             else
             {
-                // TODO: because shutdown is too fast, some logging might be missing in the log file.
+                // HACK: because shutdown is too fast, some logging might be missing in the log file.
                 LogClient.Warning("{0} is already running. Shutting down.", ProductInformation.ApplicationName);
                 this.Shutdown();
             }

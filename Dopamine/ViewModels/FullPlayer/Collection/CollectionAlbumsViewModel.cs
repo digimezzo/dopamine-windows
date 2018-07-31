@@ -47,14 +47,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 {
                     this.EnableRating = (bool)e.SettingValue;
                     this.SetTrackOrder("AlbumsTrackOrder");
-                    await this.GetTracksAsync(null, null, this.SelectedAlbumKeys, this.TrackOrder);
+                    await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
                 }
 
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
                 {
                     this.EnableLove = (bool)e.SettingValue;
                     this.SetTrackOrder("AlbumsTrackOrder");
-                    await this.GetTracksAsync(null, null, this.SelectedAlbumKeys, this.TrackOrder);
+                    await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
                 }
             };
 
@@ -85,7 +85,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             if (e.IsArtworkChanged) await this.RefreshAlbumArtworkAsync();
             if (e.IsAlbumChanged) await this.GetAlbumsAsync(null, null, this.AlbumOrder);
-            if (e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, null, this.SelectedAlbumKeys, this.TrackOrder);
+            if (e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
         }
 
         private async Task ToggleTrackOrderAsync()
@@ -113,7 +113,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         protected async override Task FillListsAsync()
         {
             await this.GetAlbumsAsync(null, null, this.AlbumOrder);
-            await this.GetTracksAsync(null, null, this.SelectedAlbumKeys, this.TrackOrder);
+            await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
         }
 
         protected async override Task SelectedAlbumsHandlerAsync(object parameter)
@@ -127,7 +127,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
 
             this.SetTrackOrder("AlbumsTrackOrder");
-            await this.GetTracksAsync(null, null, this.SelectedAlbumKeys, this.TrackOrder);
+            await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
         }
 
         protected override void RefreshLanguage()

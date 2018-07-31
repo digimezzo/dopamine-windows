@@ -206,7 +206,7 @@ namespace Dopamine.ViewModels.Common.Base
             e.Accepted = EntityUtils.FilterTracks(track, this.searchService.SearchText);
         }
 
-        protected async Task GetTracksAsync(IList<string> artists, IList<string> genres, IList<string> albumKeys, TrackOrder trackOrder)
+        protected async Task GetTracksAsync(IList<string> artists, IList<string> genres, IList<AlbumViewModel> albumViewModels, TrackOrder trackOrder)
         {
             IList<Track> tracks = null;
 
@@ -218,9 +218,9 @@ namespace Dopamine.ViewModels.Common.Base
             {
                 tracks = await this.trackRepository.GetGenreTracksAsync(genres);
             }
-            else if (!albumKeys.IsNullOrEmpty())
+            else if (albumViewModels != null && albumViewModels.Count > 0)
             {
-                tracks = await this.trackRepository.GetAlbumTracksAsync(albumKeys);
+                tracks = await this.trackRepository.GetAlbumTracksAsync(albumViewModels.Select(x => x.AlbumKey).ToList());
             }
             else
             {

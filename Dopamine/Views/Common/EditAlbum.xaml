@@ -81,13 +81,13 @@
                     <StackPanel.ToolTip>
                         <ToolTip>
                             <StackPanel>
-                                <TextBlock Text="{Binding Album.AlbumTitle}" FontWeight="Bold"/>
-                                <TextBlock Text="{Binding Album.AlbumArtist}"/>
+                                <TextBlock Text="{Binding AlbumViewModel.AlbumTitle}" FontWeight="Bold"/>
+                                <TextBlock Text="{Binding AlbumViewModel.AlbumArtist}"/>
                             </StackPanel>
                         </ToolTip>
                     </StackPanel.ToolTip>
-                    <TextBlock Text="{Binding Album.AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}"/>
-                    <TextBlock Text="{Binding Album.AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryText}"/>
+                    <TextBlock Text="{Binding AlbumViewModel.AlbumTitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <TextBlock Text="{Binding AlbumViewModel.AlbumArtist}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryText}"/>
                 </StackPanel>
             </StackPanel>
             <StackPanel HorizontalAlignment="Left" Margin="15,0,0,0" Width="{x:Static base:Constants.CoverLargeSize}">
