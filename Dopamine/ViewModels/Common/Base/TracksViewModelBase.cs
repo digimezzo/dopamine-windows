@@ -237,7 +237,7 @@ namespace Dopamine.ViewModels.Common.Base
                 // Create new ObservableCollection
                 var trackViewModels = new ObservableCollection<TrackViewModel>(tracks);
 
-                // Do we need to show the TrackNumber? // TODO: can this be improved?
+                // Do we need to show the TrackNumber?
                 bool showTracknumber = this.TrackOrder == TrackOrder.ByAlbum;
 
                 await Task.Run(() =>

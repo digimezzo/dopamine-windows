@@ -1096,7 +1096,7 @@ namespace Dopamine.Data
 
             using (var conn = this.factory.GetConnection())
             {
-                // TODO: in database version 11, the table Configurations was renamed to Configuration. When migrating from version 10 to 11, 
+                // HACK: in database version 11, the table Configurations was renamed to Configuration. When migrating from version 10 to 11, 
                 // we still need to get the version from the original table as the new Configuration doesn't exist yet and is not found. 
                 // At some later point in time, this try catch can be removed.
                 count = conn.ExecuteScalar<int>("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='Configurations'");
@@ -1125,7 +1125,7 @@ namespace Dopamine.Data
                 }
                 catch (Exception)
                 {
-                    // TODO: in database version 11, the table Configurations was renamed to Configuration. When migrating from version 10 to 11, 
+                    // HACK: in database version 11, the table Configurations was renamed to Configuration. When migrating from version 10 to 11, 
                     // we still need to get the version from the original table as the new Configuration doesn't exist yet and is not found. 
                     // At some later point in time, this try catch can be removed.
                     this.userDatabaseVersion = Convert.ToInt32(conn.ExecuteScalar<string>("SELECT Value FROM Configurations WHERE Key = 'DatabaseVersion'"));
