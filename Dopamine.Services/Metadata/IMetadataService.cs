@@ -1,5 +1,6 @@
 ﻿using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
+using Dopamine.Services.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace Dopamine.Services.Metadata
 
         Task UpdateTracksAsync(List<IFileMetadata> fileMetadatas, bool updateAlbumArtwork);
 
-        Task UpdateAlbumAsync(string albumKey, MetadataArtworkValue artwork, bool updateFileArtwork);
+        Task UpdateAlbumAsync(AlbumViewModel albumViewModel, MetadataArtworkValue artwork, bool updateFileArtwork);
 
         IFileMetadata GetFileMetadata(string path);
 

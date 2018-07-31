@@ -165,7 +165,7 @@ namespace Dopamine.Services.Metadata
             this.MetadataChanged(args);
         }
 
-        public async Task UpdateAlbumAsync(string albumKey, MetadataArtworkValue artwork, bool updateFileArtwork)
+        public async Task UpdateAlbumAsync(AlbumViewModel albumViewModel, MetadataArtworkValue artwork, bool updateFileArtwork)
         {
             // Make sure that cached artwork cannot be out of date
             lock (this.cachedArtworkLock)
@@ -182,7 +182,7 @@ namespace Dopamine.Services.Metadata
             // Update artwork in database
             // TODO await this.albumRepository.UpdateAlbumArtworkAsync(album.AlbumTitle, album.AlbumArtist, artworkID);
 
-            IList<Track> tracks = await this.trackRepository.GetAlbumTracksAsync(new List<string> { albumKey });
+            IList<Track> tracks = await this.trackRepository.GetAlbumTracksAsync(new List<string> { albumViewModel.AlbumKey });
             IList<TrackViewModel> albumTracks = await this.container.ResolveTrackViewModelsAsync(tracks);
 
             var fileMetadatas = new List<IFileMetadata>();

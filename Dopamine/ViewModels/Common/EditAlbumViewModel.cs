@@ -1,17 +1,14 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Base;
-using Dopamine.Data.Entities;
-using Dopamine.Data.Repositories;
-using Dopamine.Utils;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Dialog;
+using Dopamine.Services.Entities;
 using Dopamine.Services.Metadata;
+using Dopamine.Utils;
 using Dopamine.ViewModels.Common.Base;
 using Prism.Commands;
 using System;
 using System.Threading.Tasks;
-using Dopamine.Services.Entities;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -72,7 +69,7 @@ namespace Dopamine.ViewModels.Common
         {
             try
             {
-                // TODO await this.DownloadArtworkAsync(this.album.AlbumTitle, this.album.AlbumArtist);
+                await this.DownloadArtworkAsync(this.albumViewModel.AlbumTitle, this.albumViewModel.AlbumArtists);
             }
             catch (Exception ex)
             {
@@ -82,13 +79,12 @@ namespace Dopamine.ViewModels.Common
 
         private bool CanDownloadArtwork()
         {
-            // TODO if (this.album == null)
-            //{
-            //    return false;
-            //}
+            if (this.albumViewModel == null)
+            {
+                return false;
+            }
 
-            //return !string.IsNullOrEmpty(this.album.AlbumArtist) && !string.IsNullOrEmpty(this.Album.AlbumTitle);
-            return false; // TODO
+            return !string.IsNullOrEmpty(this.albumViewModel.AlbumArtist) && !string.IsNullOrEmpty(this.albumViewModel.AlbumTitle);
         }
 
         protected override void UpdateArtwork(byte[] imageData)
@@ -126,12 +122,12 @@ namespace Dopamine.ViewModels.Common
             {
                 if (this.Artwork.IsValueChanged)
                 {
-                    // TODO await this.metadataService.UpdateAlbumAsync(this.Album, this.Artwork, this.UpdateFileArtwork);
+                    await this.metadataService.UpdateAlbumAsync(this.albumViewModel, this.Artwork, this.UpdateFileArtwork);
                 }
             }
             catch (Exception ex)
             {
-                // TODO LogClient.Error("An error occurred while saving the album with title='{0}' and artist='{1}'. Exception: {2}", (string)this.Album.AlbumTitle, (string)this.Album.AlbumArtist, ex.Message);
+                LogClient.Error("An error occurred while saving the album with title='{0}' and artist='{1}'. Exception: {2}", (string)this.albumViewModel.AlbumTitle, (string)this.albumViewModel.AlbumArtist, ex.Message);
             }
 
             this.IsBusy = false;
