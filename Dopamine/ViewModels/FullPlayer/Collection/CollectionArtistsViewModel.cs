@@ -190,14 +190,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 {
                     this.EnableRating = (bool)e.SettingValue;
                     this.SetTrackOrder("ArtistsTrackOrder");
-                    await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumKeys, this.TrackOrder);
+                    await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
                 }
 
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
                 {
                     this.EnableLove = (bool)e.SettingValue;
                     this.SetTrackOrder("ArtistsTrackOrder");
-                    await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumKeys, this.TrackOrder);
+                    await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
                 }
             };
 
@@ -324,7 +324,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
             await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
             this.SetTrackOrder("ArtistsTrackOrder");
-            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumKeys, this.TrackOrder);
+            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
         }
 
         private async Task AddArtistsToPlaylistAsync(IList<string> artists, string playlistName)
@@ -483,7 +483,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             await this.GetArtistsAsync(this.ArtistType);
             await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
-            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumKeys, this.TrackOrder);
+            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
         }
 
         protected override void FilterLists()
@@ -507,7 +507,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             await base.SelectedAlbumsHandlerAsync(parameter);
 
             this.SetTrackOrder("ArtistsTrackOrder");
-            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbumKeys, this.TrackOrder);
+            await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
         }
 
         protected override void RefreshLanguage()

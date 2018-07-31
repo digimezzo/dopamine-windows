@@ -11,23 +11,24 @@ using Dopamine.ViewModels.Common.Base;
 using Prism.Commands;
 using System;
 using System.Threading.Tasks;
+using Dopamine.Services.Entities;
 
 namespace Dopamine.ViewModels.Common
 {
     public class EditAlbumViewModel : EditMetadataBase
     {
-        private string albumKey;
+        private AlbumViewModel albumViewModel;
         private IMetadataService metadataService;
         private IDialogService dialogService;
         private ICacheService cacheService;
         private bool updateFileArtwork;
 
-        public string AlbumKey
+        public AlbumViewModel AlbumViewModel
         {
-            get { return this.albumKey; }
+            get { return this.albumViewModel; }
             set
             {
-                SetProperty(ref this.albumKey, value);
+                SetProperty(ref this.albumViewModel, value);
                 this.DownloadArtworkCommand.RaiseCanExecuteChanged();
             }
         }
@@ -39,17 +40,20 @@ namespace Dopamine.ViewModels.Common
         }
 
         public DelegateCommand LoadedCommand { get; set; }
+
         public DelegateCommand ChangeArtworkCommand { get; set; }
+
         public DelegateCommand RemoveArtworkCommand { get; set; }
 
-        public EditAlbumViewModel(string albumKey, IMetadataService metadataService,
+        public EditAlbumViewModel(AlbumViewModel albumViewModel, IMetadataService metadataService,
             IDialogService dialogService, ICacheService cacheService) : base(cacheService)
         {
+            this.albumViewModel = albumViewModel;
             this.metadataService = metadataService;
             this.dialogService = dialogService;
             this.cacheService = cacheService;
 
-            this.LoadedCommand = new DelegateCommand(async () => await this.GetAlbumArtworkAsync(albumKey));
+            this.LoadedCommand = new DelegateCommand(async () => await this.GetAlbumArtworkAsync());
 
             this.ChangeArtworkCommand = new DelegateCommand(async () =>
            {
@@ -92,27 +96,24 @@ namespace Dopamine.ViewModels.Common
             base.UpdateArtwork(imageData);
         }
 
-        private async Task GetAlbumArtworkAsync(string albumKey)
+        private async Task GetAlbumArtworkAsync()
         {
             await Task.Run(() =>
             {
-                // TODO this.Album = this.albumRepository.GetAlbum(albumId);
-                // TODO string artworkPath = this.cacheService.GetCachedArtworkPath((string)this.Album.ArtworkID);
-
                 try
                 {
-                    // TODO if (!string.IsNullOrEmpty(artworkPath))
-                    //{
-                    //    this.ShowArtwork(ImageUtils.Image2ByteArray(artworkPath, 0, 0));
-                    //}
-                    //else
-                    //{
-                    //    this.ShowArtwork(null);
-                    //}
+                    if (!string.IsNullOrEmpty(this.albumViewModel.ArtworkPath))
+                    {
+                        this.ShowArtwork(ImageUtils.Image2ByteArray(this.albumViewModel.ArtworkPath, 0, 0));
+                    }
+                    else
+                    {
+                        this.ShowArtwork(null);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    // TODO LogClient.Error("An error occurred while getting the artwork for album title='{0}' and artist='{1}'. Exception: {2}", (string)this.Album.AlbumTitle, (string)this.Album.AlbumArtist, ex.Message);
+                    LogClient.Error("An error occurred while getting the artwork for album title='{0}' and artist='{1}'. Exception: {2}", (string)this.albumViewModel.AlbumTitle, (string)this.albumViewModel.AlbumArtist, ex.Message);
                 }
             });
         }

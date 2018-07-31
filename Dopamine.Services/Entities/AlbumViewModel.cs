@@ -1,6 +1,8 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Data;
 using Prism.Mvvm;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Dopamine.Services.Entities
 {
@@ -8,6 +10,7 @@ namespace Dopamine.Services.Entities
     {
         private string albumTitle;
         private string albumArtist;
+        private IList<string> albumArtists;
         private string year;
         private string artworkPath;
         private string mainHeader;
@@ -20,6 +23,7 @@ namespace Dopamine.Services.Entities
         {
             this.albumTitle = !string.IsNullOrEmpty(albumData.AlbumTitle) || !setUnknownStrings ? albumData.AlbumTitle : ResourceUtils.GetString("Language_Unknown_Album");
             this.albumArtist = !string.IsNullOrEmpty(albumData.AlbumArtists) || !setUnknownStrings ? DataUtils.GetCommaSeparatedColumnMultiValue(albumData.AlbumArtists) : ResourceUtils.GetString("Language_Unknown_Artist");
+            this.albumArtists = !string.IsNullOrEmpty(albumData.AlbumArtists) || !setUnknownStrings ? DataUtils.SplitAndTrimColumnMultiValue(albumData.AlbumArtists).ToList() : new List<string>() { ResourceUtils.GetString("Language_Unknown_Artist") };
             this.year = albumData.Year.HasValue && albumData.Year.Value > 0 ? albumData.Year.Value.ToString() : string.Empty;
             this.SortYear = albumData.Year.HasValue ? albumData.Year.Value : 0;
             this.AlbumKey = albumData.AlbumKey;
@@ -97,6 +101,12 @@ namespace Dopamine.Services.Entities
         {
             get { return this.albumArtist; }
             set { SetProperty<string>(ref this.albumArtist, value); }
+        }
+
+        public IList<string> AlbumArtists
+        {
+            get { return this.albumArtists; }
+            set { SetProperty<IList<string>>(ref this.albumArtists, value); }
         }
 
         public string ArtworkPath

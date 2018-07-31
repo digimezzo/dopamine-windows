@@ -93,7 +93,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 {
                     if (albumViewModel != null)
                     {
-                        this.playbackService.EnqueueAlbumsAsync(new List<string> { ((AlbumViewModel)albumViewModel).AlbumKey }, false, false);
+                        this.playbackService.EnqueueAlbumsAsync(new List<AlbumViewModel> { (AlbumViewModel)albumViewModel }, false, false);
                     }
                 }
                 catch (Exception ex)

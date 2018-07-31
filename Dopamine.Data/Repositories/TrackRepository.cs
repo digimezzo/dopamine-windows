@@ -798,5 +798,30 @@ namespace Dopamine.Data.Repositories
 
             return counters;
         }
+
+        public Task<AlbumData> GetAlbumDataAsync(string albumKey)
+        {
+            AlbumData albumData = null;
+
+            try
+            {
+                using (var conn = this.factory.GetConnection())
+                {
+                    try
+                    {
+                        albumData = conn.Query<AlbumData>($@"{this.SelectAllAlbumDataQuery()} WHERE AlbumKey=?;", albumKey).FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could not get AlbumData for albumKey='{0}'. Exception: {1}", albumKey, ex.Message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+            }
+            throw new NotImplementedException();
+        }
     }
 }

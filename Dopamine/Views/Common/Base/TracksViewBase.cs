@@ -81,7 +81,7 @@ namespace Dopamine.Views.Common.Base
                 }
                 else if (lb.SelectedItem.GetType().Name == typeof(AlbumViewModel).Name)
                 {
-                    await this.playbackService.EnqueueAlbumsAsync(new List<string> { ((AlbumViewModel)lb.SelectedItem).AlbumKey }, false, false);
+                    await this.playbackService.EnqueueAlbumsAsync(new List<AlbumViewModel> { (AlbumViewModel)lb.SelectedItem }, false, false);
                 }
             }
             catch (Exception ex)

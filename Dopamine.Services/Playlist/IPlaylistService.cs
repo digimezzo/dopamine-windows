@@ -37,7 +37,7 @@ namespace Dopamine.Services.Playlist
 
         Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<string> genres, string playlistName);
 
-        Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<string> albumKeys, string playlistName);
+        Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<AlbumViewModel> albumViewModels, string playlistName);
 
         Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<int> indexes, string playlistName);
 
