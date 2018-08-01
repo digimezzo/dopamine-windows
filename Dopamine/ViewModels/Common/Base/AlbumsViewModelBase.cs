@@ -9,6 +9,7 @@ using Dopamine.Services.Cache;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
+using Dopamine.Services.Metadata;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Playlist;
 using Dopamine.Services.Search;
@@ -242,6 +243,18 @@ namespace Dopamine.ViewModels.Common.Base
         {
             AlbumViewModel avm = e.Item as AlbumViewModel;
             e.Accepted = Services.Utils.EntityUtils.FilterAlbums(avm, this.searchService.SearchText);
+        }
+
+        protected override async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
+        {
+            if (e.IsOnlyArtworkChanged)
+            {
+                await this.RefreshAlbumArtworkAsync();
+            }
+            else
+            {
+                await this.FillListsAsync();
+            }
         }
 
         protected void UpdateAlbumOrderText(AlbumOrder albumOrder)

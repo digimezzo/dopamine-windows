@@ -16,7 +16,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
     {
         private IContainerProvider container;
         private IDialogService dialogService;
-        private IMetadataService metadataService;
         private IEventAggregator eventAggregator;
         private bool ratingVisible;
         private bool loveVisible;
@@ -124,7 +123,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             // Dependency injection
             this.container = container;
             this.dialogService = container.Resolve<IDialogService>();
-            this.metadataService = container.Resolve<IMetadataService>();
             this.eventAggregator = container.Resolve<IEventAggregator>();
 
             // Settings
@@ -148,19 +146,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
             this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async () => await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
 
-            // Events
-            this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
-
             // Show only the columns which are visible
             this.GetVisibleColumns();
-        }
-
-        private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
-        {
-            if (e.IsTrackChanged)
-            {
-                await this.GetTracksAsync(null, null, null, TrackOrder.ByAlbum);
-            }
         }
 
         private void ChooseColumns()

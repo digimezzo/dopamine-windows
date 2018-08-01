@@ -8,7 +8,6 @@ using Dopamine.Services.Collection;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
 using Dopamine.Services.Indexing;
-using Dopamine.Services.Metadata;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Playlist;
 using Dopamine.Services.Search;
@@ -32,7 +31,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
     {
         private ICollectionService collectionService;
         private IIndexingService indexingService;
-        private IMetadataService metadataService;
         private IDialogService dialogService;
         private IPlaybackService playbackService;
         private IPlaylistService playlistService;
@@ -131,7 +129,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.collectionService = container.Resolve<ICollectionService>();
             this.dialogService = container.Resolve<IDialogService>();
             this.indexingService = container.Resolve<IIndexingService>();
-            this.metadataService = container.Resolve<IMetadataService>();
             this.playbackService = container.Resolve<IPlaybackService>();
             this.playlistService = container.Resolve<IPlaylistService>();
             this.searchService = container.Resolve<ISearchService>();
@@ -176,7 +173,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.eventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsGenresZoomVisible = false);
 
             // Events
-            this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
             this.indexingService.AlbumArtworkAdded += async (_, e) => await this.RefreshAlbumArtworkAsync(e.AlbumKeys);
 
             // Set the initial AlbumOrder
@@ -221,14 +217,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                     gvm.IsHeader = false;
                 }
             }
-        }
-
-        private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
-        {
-            if (e.IsArtworkChanged) await this.RefreshAlbumArtworkAsync();
-            if (e.IsGenreChanged) await this.GetGenresAsync();
-            // TODO if (e.IsGenreChanged | e.IsAlbumChanged) await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
-            // TODO if (e.IsGenreChanged | e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbumIds, this.TrackOrder);
         }
 
         private async Task GetGenresAsync()
@@ -276,9 +264,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                     this.SelectedGenres.Add(item.GenreName);
                 }
             }
-
-            // Don't reload the lists when updating Metadata. MetadataChangedHandlerAsync handles that.
-            if (this.metadataService.IsUpdatingDatabaseMetadata) return;
 
             await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
             this.SetTrackOrder("GenresTrackOrder");
