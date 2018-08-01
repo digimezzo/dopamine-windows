@@ -3,13 +3,11 @@ using Dopamine.Core.Base;
 using Dopamine.Data;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Indexing;
-using Dopamine.Services.Metadata;
 using Dopamine.ViewModels.Common.Base;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Ioc;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
@@ -18,7 +16,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
     {
         private IIndexingService indexingService;
         private ICollectionService collectionService;
-        private IMetadataService metadataService;
         private IEventAggregator eventAggregator;
         private double leftPaneWidthPercent;
 
@@ -37,7 +34,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             // Dependency injection
             this.indexingService = container.Resolve<IIndexingService>();
             this.collectionService = container.Resolve<ICollectionService>();
-            this.metadataService = container.Resolve<IMetadataService>();
             this.eventAggregator = container.Resolve<IEventAggregator>();
 
             // Settings
@@ -59,7 +55,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             };
 
             // Events
-            this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
             this.indexingService.AlbumArtworkAdded += async (_, e) => await this.RefreshAlbumArtworkAsync(e.AlbumKeys);
 
             //  Commands
@@ -79,13 +74,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
             // Cover size
             this.SetCoversizeAsync((CoverSizeType)SettingsClient.Get<int>("CoverSizes", "AlbumsCoverSize"));
-        }
-
-        private async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
-        {
-            if (e.IsArtworkChanged) await this.RefreshAlbumArtworkAsync();
-            if (e.IsAlbumChanged) await this.GetAlbumsAsync(null, null, this.AlbumOrder);
-            if (e.IsAlbumChanged | e.IsTrackChanged) await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
         }
 
         private async Task ToggleTrackOrderAsync()
@@ -119,12 +107,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         protected async override Task SelectedAlbumsHandlerAsync(object parameter)
         {
             await base.SelectedAlbumsHandlerAsync(parameter);
-
-            // Don't reload the lists when updating Metadata. MetadataChangedHandlerAsync handles that.
-            if (this.metadataService.IsUpdatingDatabaseMetadata)
-            {
-                return;
-            }
 
             this.SetTrackOrder("AlbumsTrackOrder");
             await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);

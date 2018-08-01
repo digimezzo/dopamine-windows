@@ -36,7 +36,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private bool isLoadingPlaylists;
         private string playlistsTarget = "ListBoxPlaylists";
         private string tracksTarget = "ListBoxTracks";
-        private long playlistsCount;
         private double leftPaneWidthPercent;
 
         public DelegateCommand NewPlaylistCommand { get; set; }

@@ -143,13 +143,14 @@ namespace Dopamine.Services.Metadata
 
             foreach (IFileMetadata fmd in fileMetadatas)
             {
-                if (fmd.Artists.IsValueChanged) args.IsArtistChanged = true;
-                if (fmd.Genres.IsValueChanged) args.IsGenreChanged = true;
-                if (fmd.Album.IsValueChanged || fmd.AlbumArtists.IsValueChanged || fmd.Year.IsValueChanged) args.IsAlbumChanged = true;
-                if (fmd.ArtworkData.IsValueChanged) args.IsArtworkChanged = true;
-                if (fmd.Title.IsValueChanged || fmd.Year.IsValueChanged || fmd.TrackNumber.IsValueChanged ||
-                    fmd.TrackCount.IsValueChanged || fmd.DiscNumber.IsValueChanged || fmd.DiscCount.IsValueChanged ||
-                    fmd.Lyrics.IsValueChanged) args.IsTrackChanged = true;
+                // TODO
+                //if (fmd.Artists.IsValueChanged) args.IsArtistChanged = true;
+                //if (fmd.Genres.IsValueChanged) args.IsGenreChanged = true;
+                //if (fmd.Album.IsValueChanged || fmd.AlbumArtists.IsValueChanged || fmd.Year.IsValueChanged) args.IsAlbumChanged = true;
+                //if (fmd.ArtworkData.IsValueChanged) args.IsOnlyArtworkChanged = true;
+                //if (fmd.Title.IsValueChanged || fmd.Year.IsValueChanged || fmd.TrackNumber.IsValueChanged ||
+                //    fmd.TrackCount.IsValueChanged || fmd.DiscNumber.IsValueChanged || fmd.DiscCount.IsValueChanged ||
+                //    fmd.Lyrics.IsValueChanged) args.IsTrackChanged = true;
             }
 
             // Update the metadata in the database
@@ -174,7 +175,8 @@ namespace Dopamine.Services.Metadata
             }
 
             // Set event args
-            var args = new MetadataChangedEventArgs() { IsArtworkChanged = true };
+            // TODO
+            //var args = new MetadataChangedEventArgs() { IsOnlyArtworkChanged = true };
 
             // Cache new artwork
             string artworkID = await this.cacheService.CacheArtworkAsync(artwork.Value);
@@ -204,7 +206,7 @@ namespace Dopamine.Services.Metadata
             await this.playbackService.UpdateQueueMetadataAsync(fileMetadatas);
 
             // Raise event
-            this.MetadataChanged(args);
+            // TODO this.MetadataChanged(args);
         }
 
         public async Task<byte[]> GetArtworkAsync(string filename, int size = 0)

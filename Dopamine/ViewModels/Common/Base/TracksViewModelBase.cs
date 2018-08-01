@@ -44,6 +44,7 @@ namespace Dopamine.ViewModels.Common.Base
         private IEventAggregator eventAggregator;
         private IProviderService providerService;
         private IPlaylistService playlistService;
+        private IMetadataService metadataService;
         private ObservableCollection<TrackViewModel> tracks;
         private CollectionViewSource tracksCvs;
         private IList<TrackViewModel> selectedTracks;
@@ -92,6 +93,10 @@ namespace Dopamine.ViewModels.Common.Base
             this.eventAggregator = container.Resolve<IEventAggregator>();
             this.providerService = container.Resolve<IProviderService>();
             this.playlistService = container.Resolve<IPlaylistService>();
+            this.metadataService = container.Resolve<IMetadataService>();
+
+            // Events
+            this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
 
             // Commands
             this.ToggleTrackOrderCommand = new DelegateCommand(() => this.ToggleTrackOrder());
@@ -133,6 +138,11 @@ namespace Dopamine.ViewModels.Common.Base
 
             // Load settings
             this.ShowTrackArt = SettingsClient.Get<bool>("Appearance", "ShowTrackArtOnPlaylists");
+        }
+
+        protected virtual async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
+        {
+            await this.FillListsAsync();
         }
 
         private async void UpdateShowTrackArtAsync()
