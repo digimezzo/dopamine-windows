@@ -152,7 +152,11 @@ namespace Dopamine.ViewModels.Common.Base
 
             this.SelectedAlbumsCommand = new DelegateCommand<object>(async (parameter) =>
             {
-                if (this.delaySelectedAlbums) await Task.Delay(Constants.DelaySelectedAlbumsDelay);
+                if (this.delaySelectedAlbums)
+                {
+                    await Task.Delay(Constants.DelaySelectedAlbumsDelay);
+                }
+
                 this.delaySelectedAlbums = false;
                 await this.SelectedAlbumsHandlerAsync(parameter);
             });
