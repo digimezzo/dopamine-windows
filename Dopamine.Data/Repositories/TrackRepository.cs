@@ -30,7 +30,7 @@ namespace Dopamine.Data.Repositories
                      FROM Track t
                      INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
                      INNER JOIN Folder f ON ft.FolderID = f.FolderID
-                     WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1";
+                     WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1 AND t.NeedsIndexing = 0";
         }
 
         private string SelectedAlbumDataQueryPart()
