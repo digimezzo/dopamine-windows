@@ -27,12 +27,6 @@ namespace Dopamine.Services.Collection
 
         Task<IList<AlbumViewModel>> OrderAlbumsAsync(IList<AlbumViewModel> albums, AlbumOrder albumOrder);
 
-        Task<IList<TrackViewModel>> GetArtistTracksAsync(IList<string> selectedArtists, TrackOrder trackOrder);
-
-        Task<IList<TrackViewModel>> GetAlbumsTracksAsync(IList<string> selectedAlbumKeys, TrackOrder trackOrder);
-
-        Task<IList<TrackViewModel>> GetGenreTracksAsync(IList<string> selectedGenres, TrackOrder trackOrder);
-
         event EventHandler CollectionChanged;
     }
 }

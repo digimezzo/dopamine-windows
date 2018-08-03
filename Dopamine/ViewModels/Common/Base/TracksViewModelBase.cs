@@ -222,7 +222,7 @@ namespace Dopamine.ViewModels.Common.Base
 
             if (!artists.IsNullOrEmpty())
             {
-                tracks = await this.trackRepository.GetAlbumTracksAsync(artists);
+                tracks = await this.trackRepository.GetArtistTracksAsync(artists);
             }
             else if (!genres.IsNullOrEmpty())
             {
@@ -264,13 +264,17 @@ namespace Dopamine.ViewModels.Common.Base
                 // Unbind to improve UI performance
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    if (this.TracksCvs != null) this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
+                    if (this.TracksCvs != null)
+                    {
+                        this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
+                    }
+
                     this.TracksCvs = null;
                     this.Tracks = null;
-                });
 
-                // Populate ObservableCollection
-                Application.Current.Dispatcher.Invoke(() => this.Tracks = trackViewModels);
+                    // Populate ObservableCollection
+                    this.Tracks = trackViewModels;
+                });
             }
             catch (Exception ex)
             {
@@ -293,7 +297,10 @@ namespace Dopamine.ViewModels.Common.Base
                 this.TracksCount = this.TracksCvs.View.Cast<TrackViewModel>().Count();
 
                 // Group by Album if needed
-                if (this.TrackOrder == TrackOrder.ByAlbum) this.TracksCvs.GroupDescriptions.Add(new PropertyGroupDescription("GroupHeader"));
+                if (this.TrackOrder == TrackOrder.ByAlbum)
+                {
+                    this.TracksCvs.GroupDescriptions.Add(new PropertyGroupDescription("GroupHeader"));
+                }
             });
 
             // Update duration and size
@@ -550,7 +557,11 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async override Task LoadedCommandAsync()
         {
-            if (!this.IsFirstLoad()) return;
+            if (!this.IsFirstLoad())
+            {
+                return;
+            }
+
             await Task.Delay(Constants.CommonListLoadDelay);  // Wait for the UI to slide in
             await this.FillListsAsync(); // Fill all the lists
         }

@@ -17,5 +17,7 @@ namespace Dopamine.Data.Repositories
         Task<long> DeleteUnusedAlbumArtworkAsync();
 
         Task<IList<string>> GetArtworkIdsAsync();
+
+        Task UpdateAlbumArtworkAsync(string albumKey, string artworkId);
     }
 }

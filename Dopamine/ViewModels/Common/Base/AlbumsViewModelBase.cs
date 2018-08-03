@@ -9,7 +9,6 @@ using Dopamine.Services.Cache;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
-using Dopamine.Services.Metadata;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Playlist;
 using Dopamine.Services.Search;
@@ -160,7 +159,6 @@ namespace Dopamine.ViewModels.Common.Base
 
             this.SetCoverSizeCommand = new DelegateCommand<string>(async (coverSize) =>
             {
-
                 if (int.TryParse(coverSize, out int selectedCoverSize))
                 {
                     await this.SetCoversizeAsync((CoverSizeType)selectedCoverSize);
@@ -245,18 +243,6 @@ namespace Dopamine.ViewModels.Common.Base
             e.Accepted = Services.Utils.EntityUtils.FilterAlbums(avm, this.searchService.SearchText);
         }
 
-        protected override async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
-        {
-            if (e.IsOnlyArtworkChanged)
-            {
-                await this.RefreshAlbumArtworkAsync();
-            }
-            else
-            {
-                await this.FillListsAsync();
-            }
-        }
-
         protected void UpdateAlbumOrderText(AlbumOrder albumOrder)
         {
             switch (albumOrder)
@@ -290,12 +276,14 @@ namespace Dopamine.ViewModels.Common.Base
             if (!selectedArtists.IsNullOrEmpty())
             {
                 await this.GetAlbumsCommonAsync(await this.collectionService.GetArtistAlbumsAsync(selectedArtists), albumOrder);
+
                 return;
             }
 
             if (!selectedGenres.IsNullOrEmpty())
             {
                 await this.GetAlbumsCommonAsync(await this.collectionService.GetGenreAlbumsAsync(selectedGenres), albumOrder);
+
                 return;
             }
 
@@ -312,28 +300,41 @@ namespace Dopamine.ViewModels.Common.Base
                 // Create new ObservableCollection
                 var albumViewModels = new ObservableCollection<AlbumViewModel>(orderedAlbums);
 
-                // Unbind to improve UI performance
-                if (this.AlbumsCvs != null) this.AlbumsCvs.Filter -= new FilterEventHandler(AlbumsCvs_Filter);
-                this.Albums = null;
-                this.AlbumsCvs = null;
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    // Unbind to improve UI performance
+                    if (this.AlbumsCvs != null)
+                    {
+                        this.AlbumsCvs.Filter -= new FilterEventHandler(AlbumsCvs_Filter);
+                    }
 
-                // Populate ObservableCollection
-                this.Albums = albumViewModels;
+                    this.AlbumsCvs = null;
+                    this.Albums = null;
+
+                    // Populate ObservableCollection
+                    this.Albums = albumViewModels;
+                }); 
             }
             catch (Exception ex)
             {
                 LogClient.Error("An error occurred while getting Albums. Exception: {0}", ex.Message);
 
                 // Failed getting Albums. Create empty ObservableCollection.
-                this.Albums = new ObservableCollection<AlbumViewModel>();
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.Albums = new ObservableCollection<AlbumViewModel>();
+                });
             }
 
-            // Populate CollectionViewSource
-            this.AlbumsCvs = new CollectionViewSource { Source = this.Albums };
-            this.AlbumsCvs.Filter += new FilterEventHandler(AlbumsCvs_Filter);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // Populate CollectionViewSource
+                this.AlbumsCvs = new CollectionViewSource { Source = this.Albums };
+                this.AlbumsCvs.Filter += new FilterEventHandler(AlbumsCvs_Filter);
 
-            // Update count
-            this.AlbumsCount = this.AlbumsCvs.View.Cast<AlbumViewModel>().Count();
+                // Update count
+                this.AlbumsCount = this.AlbumsCvs.View.Cast<AlbumViewModel>().Count();
+            });
 
             // Set Album artwork
             this.LoadAlbumArtworkAsync(Constants.ArtworkLoadDelay);

@@ -478,7 +478,7 @@ namespace Dopamine.Services.Playback
             {
                 var queuedTracks = new List<QueuedTrack>();
                 IList<string> tracksPaths = this.Queue.Select(x => x.Path).ToList();
-                string currentTrackPath = this.CurrentTrack.Path;
+                string currentTrackPath = this.CurrentTrack?.Path;
                 long progressSeconds = Convert.ToInt64(this.GetCurrentTime.TotalSeconds);
 
                 int orderID = 0;
@@ -492,7 +492,7 @@ namespace Dopamine.Services.Playback
                     queuedTrack.IsPlaying = 0;
                     queuedTrack.ProgressSeconds = 0;
 
-                    if (trackPath.Equals(currentTrackPath))
+                    if (!string.IsNullOrEmpty(currentTrackPath) && trackPath.Equals(currentTrackPath))
                     {
                         queuedTrack.IsPlaying = 1;
                         queuedTrack.ProgressSeconds = progressSeconds;

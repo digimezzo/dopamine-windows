@@ -128,7 +128,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateInClause("t.Artists", artistNames)} OR {DataUtils.CreateInClause("t.AlbumArtists", artistNames)};");
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND ({DataUtils.CreateOrLikeClause("t.Artists", artistNames, Constants.TagDelimiter)} OR {DataUtils.CreateOrLikeClause("t.AlbumArtists", artistNames, Constants.TagDelimiter)});");
                         }
                         catch (Exception ex)
                         {
@@ -157,7 +157,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateInClause("t.Genres", genreNames)};");
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateOrLikeClause("t.Genres", genreNames, Constants.TagDelimiter)};");
                         }
                         catch (Exception ex)
                         {

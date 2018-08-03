@@ -160,6 +160,7 @@
     <Compile Include="Metadata\IMetadataService.cs" />
     <Compile Include="Metadata\LoveChangedEventArgs.cs" />
     <Compile Include="Metadata\MetadataChangedEventArgs.cs" />
+    <Compile Include="Metadata\FileMetadataUpdater.cs" />
     <Compile Include="Metadata\MetadataService.cs" />
     <Compile Include="Metadata\RatingChangedEventArgs.cs" />
     <Compile Include="Notification\INotificationService.cs" />

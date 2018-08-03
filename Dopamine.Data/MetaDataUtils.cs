@@ -151,24 +151,25 @@ namespace Dopamine.Data
             return string.Join(string.Empty, delimitedTags.OrderBy(x => x).ToArray());
         }
 
-        private static string GetAllArtists(IFileMetadata fileMetadata)
-        {
-            return GetOrderedMultiValueTags(fileMetadata.Artists);
-        }
-
-        private static string GetAllGenres(IFileMetadata fileMetadata)
-        {
-            return GetOrderedMultiValueTags(fileMetadata.Genres);
-        }
-
-        private static string GetAllAlbumArtists(IFileMetadata fileMetadata)
-        {
-            return GetOrderedMultiValueTags(fileMetadata.AlbumArtists);
-        }
-
         private static string GetAlbumTitle(IFileMetadata fileMetadata)
         {
             return string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : MetadataUtils.TrimTag(fileMetadata.Album.Value);
+        }
+
+        public static void FillTrackBase(IFileMetadata fileMetadata, ref Track track)
+        {
+            track.TrackTitle = TrimTag(fileMetadata.Title.Value);
+            track.Year = SafeConvertToLong(fileMetadata.Year.Value);
+            track.TrackNumber = SafeConvertToLong(fileMetadata.TrackNumber.Value);
+            track.TrackCount = SafeConvertToLong(fileMetadata.TrackCount.Value);
+            track.DiscNumber = SafeConvertToLong(fileMetadata.DiscNumber.Value);
+            track.DiscCount = SafeConvertToLong(fileMetadata.DiscCount.Value);
+            track.HasLyrics = string.IsNullOrWhiteSpace(fileMetadata.Lyrics.Value) ? 0 : 1;
+            track.Artists = GetOrderedMultiValueTags(fileMetadata.Artists);
+            track.Genres = GetOrderedMultiValueTags(fileMetadata.Genres);
+            track.AlbumTitle = GetAlbumTitle(fileMetadata);
+            track.AlbumArtists = GetOrderedMultiValueTags(fileMetadata.AlbumArtists);
+            track.AlbumKey = GenerateInitialAlbumKey(track.AlbumTitle, track.AlbumArtists);
         }
 
         public static void FillTrack(IFileMetadata fileMetadata, ref Track track)
@@ -183,13 +184,6 @@ namespace Dopamine.Data
             track.MimeType = fileMetadata.MimeType;
             track.BitRate = fileMetadata.BitRate;
             track.SampleRate = fileMetadata.SampleRate;
-            track.TrackTitle = MetadataUtils.TrimTag(fileMetadata.Title.Value);
-            track.TrackNumber = MetadataUtils.SafeConvertToLong(fileMetadata.TrackNumber.Value);
-            track.TrackCount = MetadataUtils.SafeConvertToLong(fileMetadata.TrackCount.Value);
-            track.DiscNumber = MetadataUtils.SafeConvertToLong(fileMetadata.DiscNumber.Value);
-            track.DiscCount = MetadataUtils.SafeConvertToLong(fileMetadata.DiscCount.Value);
-            track.Year = MetadataUtils.SafeConvertToLong(fileMetadata.Year.Value);
-            track.HasLyrics = string.IsNullOrWhiteSpace(fileMetadata.Lyrics.Value) ? 0 : 1;
             track.NeedsIndexing = 0;
             track.NeedsAlbumArtworkIndexing = 0;
             track.FileSize = FileUtils.SizeInBytes(path);
@@ -197,12 +191,9 @@ namespace Dopamine.Data
             track.DateFileModified = FileUtils.DateModifiedTicks(path);
             track.DateAdded = nowTicks;
             track.DateLastSynced = nowTicks;
-            track.Artists = GetAllArtists(fileMetadata);
-            track.Genres = GetAllGenres(fileMetadata);
-            track.AlbumTitle = GetAlbumTitle(fileMetadata);
-            track.AlbumArtists = GetAllAlbumArtists(fileMetadata);
-            track.AlbumKey = GenerateInitialAlbumKey(track.AlbumTitle, track.AlbumArtists);
             track.Rating = fileMetadata.Rating.Value;
+
+            FillTrackBase(fileMetadata, ref track);
         }
 
         private static string GenerateInitialAlbumKey(string albumTitle, string albumArtists)

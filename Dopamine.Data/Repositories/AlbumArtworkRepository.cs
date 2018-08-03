@@ -187,5 +187,31 @@ namespace Dopamine.Data.Repositories
 
             return artworkIds;
         }
+
+        public async Task UpdateAlbumArtworkAsync(string albumKey, string artworkId)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute($"DELETE FROM AlbumArtwork WHERE AlbumKey=?;", DataUtils.EscapeQuotes(albumKey));
+                            conn.Execute($"INSERT INTO AlbumArtwork(AlbumKey, ArtworkID) VALUES(?, ?);", DataUtils.EscapeQuotes(albumKey), artworkId);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not update AlbumArtwork. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
     }
 }
