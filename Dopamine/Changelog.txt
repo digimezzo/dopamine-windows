@@ -1,4 +1,4 @@
-2018-07-29: Dopamine 2.0 Preview 2
+2018-08-03: Dopamine 2.0 Preview 2
 ----------------------------------
 
 - [Added] It is now possible to sort songs by album, even when no album is selected.
@@ -8,6 +8,7 @@
 - [Changed] Updated the Italian translation
 - [Changed] Updated the Hungarian translation
 - [Changed] Updated the Ukrainian translation
+- [Fixed] Fixed an issue where a same Artist, but with different casing, was shown as mutiple artists. The same issue was fixed for Genres.
 
 
 2018-06-14: Dopamine 2.0 Preview 1
