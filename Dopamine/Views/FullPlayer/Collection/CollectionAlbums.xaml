@@ -60,7 +60,7 @@
                                        SelectionMode="Extended"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Top"
-                                       ItemsSource="{Binding AlbumsCvs.View,IsAsync=True}">
+                                       ItemsSource="{Binding AlbumsCvs.View}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectedAlbumsCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, Path=SelectedItems}"/>
@@ -100,7 +100,7 @@
                                                              VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                                                              VirtualizingStackPanel.VirtualizationMode="Recycling"                       
                                                              Style="{StaticResource ListBoxTracks}"
-                                                             ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
+                                                             ItemsSource="{Binding TracksCvs.View}"
                                                              MouseDoubleClick="ListBoxTracks_MouseDoubleClick"
                                                              PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
                                                              KeyUp="ListBoxTracks_KeyUp"

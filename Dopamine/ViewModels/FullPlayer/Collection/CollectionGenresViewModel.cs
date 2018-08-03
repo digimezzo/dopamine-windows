@@ -227,9 +227,17 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 var genreViewModels = new ObservableCollection<GenreViewModel>(await this.collectionService.GetAllGenresAsync());
 
                 // Unbind to improve UI performance
-                if (this.GenresCvs != null) this.GenresCvs.Filter -= new FilterEventHandler(GenresCvs_Filter);
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (this.GenresCvs != null)
+                    {
+                        this.GenresCvs.Filter -= new FilterEventHandler(GenresCvs_Filter);
+                    }
+
+                    this.GenresCvs = null;
+                });
+
                 this.Genres = null;
-                this.GenresCvs = null;
 
                 // Populate ObservableCollection
                 this.Genres = new ObservableCollection<ISemanticZoomable>(genreViewModels);
@@ -242,12 +250,15 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 this.Genres = new ObservableCollection<ISemanticZoomable>();
             }
 
-            // Populate CollectionViewSource
-            this.GenresCvs = new CollectionViewSource { Source = this.Genres };
-            this.GenresCvs.Filter += new FilterEventHandler(GenresCvs_Filter);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // Populate CollectionViewSource
+                this.GenresCvs = new CollectionViewSource { Source = this.Genres };
+                this.GenresCvs.Filter += new FilterEventHandler(GenresCvs_Filter);
 
-            // Update count
-            this.GenresCount = this.GenresCvs.View.Cast<ISemanticZoomable>().Count();
+                // Update count
+                this.GenresCount = this.GenresCvs.View.Cast<ISemanticZoomable>().Count();
+            });
 
             // Update Semantic Zoom Headers
             this.UpdateSemanticZoomHeaders();

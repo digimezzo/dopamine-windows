@@ -304,20 +304,21 @@ namespace Dopamine.ViewModels.Common.Base
                 // Create new ObservableCollection
                 var albumViewModels = new ObservableCollection<AlbumViewModel>(orderedAlbums);
 
+                // Unbind to improve UI performance
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    // Unbind to improve UI performance
                     if (this.AlbumsCvs != null)
                     {
                         this.AlbumsCvs.Filter -= new FilterEventHandler(AlbumsCvs_Filter);
                     }
 
                     this.AlbumsCvs = null;
-                    this.Albums = null;
+                });
 
-                    // Populate ObservableCollection
-                    this.Albums = albumViewModels;
-                }); 
+                this.Albums = null;
+
+                // Populate ObservableCollection
+                this.Albums = albumViewModels;
             }
             catch (Exception ex)
             {
