@@ -1019,15 +1019,6 @@ namespace Dopamine.Data
             {
                 conn.Execute("BEGIN TRANSACTION;");
 
-                conn.Execute("DROP TABLE Artist;");
-                conn.Execute("DROP TABLE Genre;");
-                conn.Execute("DROP TABLE Album;");
-
-                conn.Execute("UPDATE Track SET ArtistID=NULL;");
-                conn.Execute("UPDATE Track SET GenreID=NULL;");
-                conn.Execute("UPDATE Track SET AlbumID=NULL;");
-                conn.Execute("UPDATE Track SET MetaDataHash=NULL;");
-
                 conn.Execute("ALTER TABLE Track ADD Artists TEXT;");
                 conn.Execute("ALTER TABLE Track ADD Genres TEXT;");
                 conn.Execute("ALTER TABLE Track ADD AlbumTitle TEXT;");
@@ -1039,8 +1030,28 @@ namespace Dopamine.Data
                 conn.Execute("ALTER TABLE Track ADD SkipCount INTEGER;");
                 conn.Execute("ALTER TABLE Track ADD DateLastPlayed INTEGER;");
                 conn.Execute("ALTER TABLE Track ADD NeedsAlbumArtworkIndexing INTEGER;");
-
                 conn.Execute("ALTER TABLE Track ADD DateFileCreated INTEGER;");
+
+                //conn.Execute("UPDATE Track SET Artists=(SELECT ArtistName FROM Artist a WHERE a.ArtistID=ArtistID);");
+                //conn.Execute("UPDATE Track SET Genres=(SELECT GenreName FROM Genre g WHERE g.GenreID=GenreID);");
+                //conn.Execute("UPDATE Track SET AlbumTitle=(SELECT AlbumTitle FROM Album a WHERE a.AlbumID=AlbumID);");
+                //conn.Execute("UPDATE Track SET AlbumArtists=(SELECT AlbumArtist FROM Album a WHERE a.AlbumID=AlbumID);");
+                //conn.Execute("UPDATE Track SET AlbumKey=AlbumTitle;");
+
+                conn.Execute("UPDATE Track SET Artists='';");
+                conn.Execute("UPDATE Track SET Genres='';");
+                conn.Execute("UPDATE Track SET AlbumTitle='';");
+                conn.Execute("UPDATE Track SET AlbumArtists='';");
+                conn.Execute("UPDATE Track SET AlbumKey='';");
+
+                conn.Execute("DROP TABLE Artist;");
+                conn.Execute("DROP TABLE Genre;");
+                conn.Execute("DROP TABLE Album;");
+
+                conn.Execute("UPDATE Track SET ArtistID=NULL;");
+                conn.Execute("UPDATE Track SET GenreID=NULL;");
+                conn.Execute("UPDATE Track SET AlbumID=NULL;");
+                conn.Execute("UPDATE Track SET MetaDataHash=NULL;");
 
                 conn.Execute("DROP INDEX IF EXISTS TrackArtistIDIndex;");
                 conn.Execute("DROP INDEX IF EXISTS TrackAlbumIDIndex;");
