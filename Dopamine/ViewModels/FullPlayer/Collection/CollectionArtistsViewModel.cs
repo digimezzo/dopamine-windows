@@ -200,9 +200,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.eventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsArtistsZoomVisible = false);
             this.eventAggregator.GetEvent<ToggleArtistOrderCommand>().Subscribe((_) => this.ToggleArtistTypeAsync());
 
-            // Events
-            this.indexingService.AlbumArtworkAdded += async (_, e) => await this.RefreshAlbumArtworkAsync(e.AlbumKeys);
-
             // Set the initial ArtistOrder		
             this.ArtistType = (ArtistType)SettingsClient.Get<int>("Ordering", "ArtistsArtistType");
 
