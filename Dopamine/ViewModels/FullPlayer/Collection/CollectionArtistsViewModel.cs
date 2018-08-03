@@ -262,9 +262,17 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 var artistViewModels = new ObservableCollection<ArtistViewModel>(await this.collectionService.GetAllArtistsAsync(artistType));
 
                 // Unbind to improve UI performance
-                if (this.ArtistsCvs != null) this.ArtistsCvs.Filter -= new FilterEventHandler(ArtistsCvs_Filter);
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    if (this.ArtistsCvs != null)
+                    {
+                        this.ArtistsCvs.Filter -= new FilterEventHandler(ArtistsCvs_Filter);
+                    }
+
+                    this.ArtistsCvs = null;
+                });
+
                 this.Artists = null;
-                this.ArtistsCvs = null;
 
                 // Populate ObservableCollection
                 this.Artists = new ObservableCollection<ISemanticZoomable>(artistViewModels);
@@ -277,12 +285,15 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 this.Artists = new ObservableCollection<ISemanticZoomable>();
             }
 
-            // Populate CollectionViewSource
-            this.ArtistsCvs = new CollectionViewSource { Source = this.Artists };
-            this.ArtistsCvs.Filter += new FilterEventHandler(ArtistsCvs_Filter);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                // Populate CollectionViewSource
+                this.ArtistsCvs = new CollectionViewSource { Source = this.Artists };
+                this.ArtistsCvs.Filter += new FilterEventHandler(ArtistsCvs_Filter);
 
-            // Update count
-            this.ArtistsCount = this.ArtistsCvs.View.Cast<ISemanticZoomable>().Count();
+                // Update count
+                this.ArtistsCount = this.ArtistsCvs.View.Cast<ISemanticZoomable>().Count();
+            });
 
             // Update Semantic Zoom Headers
             this.UpdateSemanticZoomHeaders();

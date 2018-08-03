@@ -130,7 +130,7 @@
                          KeyUp="ListBoxTracks_KeyUp"
                          PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
                          Style="{StaticResource ListBoxPlaylistTracks}"
-                         ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
+                         ItemsSource="{Binding TracksCvs.View}"
                          BorderThickness="0"
                          SelectionMode="Extended">
                             <dc:MultiSelectListBox.InputBindings>

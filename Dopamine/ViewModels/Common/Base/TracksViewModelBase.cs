@@ -270,21 +270,19 @@ namespace Dopamine.ViewModels.Common.Base
                     }
 
                     this.TracksCvs = null;
-                    this.Tracks = null;
-
-                    // Populate ObservableCollection
-                    this.Tracks = trackViewModels;
                 });
+
+                this.Tracks = null;
+
+                // Populate ObservableCollection
+                this.Tracks = trackViewModels;
             }
             catch (Exception ex)
             {
                 LogClient.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
 
                 // Failed getting Tracks. Create empty ObservableCollection.
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    this.Tracks = new ObservableCollection<TrackViewModel>();
-                });
+                this.Tracks = new ObservableCollection<TrackViewModel>();
             }
 
             Application.Current.Dispatcher.Invoke(() =>
