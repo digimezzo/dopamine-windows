@@ -172,9 +172,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             // PubSub Events
             this.eventAggregator.GetEvent<ShellMouseUp>().Subscribe((_) => this.IsGenresZoomVisible = false);
 
-            // Events
-            this.indexingService.AlbumArtworkAdded += async (_, e) => await this.RefreshAlbumArtworkAsync(e.AlbumKeys);
-
             // Set the initial AlbumOrder
             this.AlbumOrder = (AlbumOrder)SettingsClient.Get<int>("Ordering", "GenresAlbumOrder");
 

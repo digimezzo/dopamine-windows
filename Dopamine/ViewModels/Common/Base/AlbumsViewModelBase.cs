@@ -9,6 +9,7 @@ using Dopamine.Services.Cache;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
+using Dopamine.Services.Indexing;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Playlist;
 using Dopamine.Services.Search;
@@ -35,6 +36,7 @@ namespace Dopamine.ViewModels.Common.Base
         private ISearchService searchService;
         private IPlaylistService playlistService;
         private ICacheService cacheService;
+        private IIndexingService indexingService;
         private IAlbumArtworkRepository albumArtworkRepository;
         private ObservableCollection<AlbumViewModel> albums;
         private CollectionViewSource albumsCvs;
@@ -140,6 +142,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.searchService = container.Resolve<ISearchService>();
             this.playlistService = container.Resolve<IPlaylistService>();
             this.cacheService = container.Resolve<ICacheService>();
+            this.indexingService = container.Resolve<IIndexingService>();
             this.albumArtworkRepository = container.Resolve<IAlbumArtworkRepository>();
 
             // Commands
@@ -149,6 +152,9 @@ namespace Dopamine.ViewModels.Common.Base
             this.EditAlbumCommand = new DelegateCommand(() => this.EditSelectedAlbum(), () => !this.IsIndexing);
             this.AddAlbumsToNowPlayingCommand = new DelegateCommand(async () => await this.AddAlbumsToNowPlayingAsync(this.SelectedAlbums));
             this.DelaySelectedAlbumsCommand = new DelegateCommand(() => this.delaySelectedAlbums = true);
+
+            // Events
+            this.indexingService.AlbumArtworkAdded += async (_, e) => await this.RefreshAlbumArtworkAsync(e.AlbumKeys);
 
             this.SelectedAlbumsCommand = new DelegateCommand<object>(async (parameter) =>
             {

@@ -54,9 +54,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 }
             };
 
-            // Events
-            this.indexingService.AlbumArtworkAdded += async (_, e) => await this.RefreshAlbumArtworkAsync(e.AlbumKeys);
-
             //  Commands
             this.ToggleAlbumOrderCommand = new DelegateCommand(async () => await this.ToggleAlbumOrderAsync());
             this.ToggleTrackOrderCommand = new DelegateCommand(async () => await this.ToggleTrackOrderAsync());
