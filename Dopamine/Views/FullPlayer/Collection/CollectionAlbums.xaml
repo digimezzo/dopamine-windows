@@ -53,14 +53,14 @@
                             Click="AlbumsButton_Click" ToolTip="{DynamicResource Language_Select_None}"/>
                 </DockPanel>
                 <dc:MultiSelectListBox x:Name="ListBoxAlbums"
-                                                             Style="{StaticResource ListBoxAlbums}"
-                                                             ItemsSource="{Binding AlbumsCvs.View,IsAsync=True}"
-                                                             BorderThickness="0"
-                                                             MouseDoubleClick="ListBoxAlbums_MouseDoubleClick"
-                                                             PreviewKeyDown="ListBoxAlbums_PreviewKeyDown" 
-                                                             SelectionMode="Extended"
-                                                             HorizontalAlignment="Left"
-                                                             VerticalAlignment="Top">
+                                       Style="{StaticResource ListBoxAlbums}"
+                                       BorderThickness="0"
+                                       MouseDoubleClick="ListBoxAlbums_MouseDoubleClick"
+                                       PreviewKeyDown="ListBoxAlbums_PreviewKeyDown" 
+                                       SelectionMode="Extended"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       ItemsSource="{Binding AlbumsCvs.View,IsAsync=True}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectedAlbumsCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListBox}}, Path=SelectedItems}"/>

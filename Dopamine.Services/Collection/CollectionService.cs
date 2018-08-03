@@ -348,29 +348,5 @@ namespace Dopamine.Services.Collection
 
             return orderedAlbums;
         }
-
-        public async Task<IList<TrackViewModel>> GetArtistTracksAsync(IList<string> selectedArtists, TrackOrder trackOrder)
-        {
-            IList<Track> tracks = await this.trackRepository.GetArtistTracksAsync(selectedArtists);
-            IList<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(await this.container.ResolveTrackViewModelsAsync(tracks), trackOrder);
-
-            return orderedTracks;
-        }
-
-        public async Task<IList<TrackViewModel>> GetAlbumsTracksAsync(IList<string> selectedAlbumKeys, TrackOrder trackOrder)
-        {
-            IList<Track> tracks = await this.trackRepository.GetAlbumTracksAsync(selectedAlbumKeys);
-            IList<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(await this.container.ResolveTrackViewModelsAsync(tracks), trackOrder);
-
-            return orderedTracks;
-        }
-
-        public async Task<IList<TrackViewModel>> GetGenreTracksAsync(IList<string> selectedGenres, TrackOrder trackOrder)
-        {
-            IList<Track> tracks = await this.trackRepository.GetGenreTracksAsync(selectedGenres);
-            IList<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(await this.container.ResolveTrackViewModelsAsync(tracks), trackOrder);
-
-            return orderedTracks;
-        }
     }
 }

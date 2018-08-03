@@ -3,11 +3,10 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Data.Metadata;
-using Dopamine.Data.Metadata;
-using Dopamine.Utils;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Metadata;
+using Dopamine.Utils;
 using Dopamine.ViewModels.Common.Base;
 using Dopamine.Views.Common;
 using Prism.Commands;
@@ -454,22 +453,22 @@ namespace Dopamine.ViewModels.Common
                 {
                     foreach (string path in this.paths)
                     {
-                        var fmd = this.metadataService.GetFileMetadata(path);
+                        IFileMetadata fmd = this.metadataService.GetFileMetadata(path);
 
-                        if (this.artists.IsValueChanged) fmd.Artists = this.artists;
-                        if (this.title.IsValueChanged) fmd.Title = this.title;
-                        if (this.album.IsValueChanged) fmd.Album = this.album;
-                        if (this.albumArtists.IsValueChanged) fmd.AlbumArtists = this.albumArtists;
-                        if (this.year.IsValueChanged) fmd.Year = this.year;
-                        if (this.trackNumber.IsValueChanged) fmd.TrackNumber = this.trackNumber;
-                        if (this.trackCount.IsValueChanged) fmd.TrackCount = this.trackCount;
-                        if (this.discNumber.IsValueChanged) fmd.DiscNumber = this.discNumber;
-                        if (this.discCount.IsValueChanged) fmd.DiscCount = this.discCount;
-                        if (this.genres.IsValueChanged) fmd.Genres = this.genres;
-                        if (this.grouping.IsValueChanged) fmd.Grouping = this.grouping;
-                        if (this.comment.IsValueChanged) fmd.Comment = this.comment;
-                        if (this.lyrics.IsValueChanged) fmd.Lyrics = this.lyrics;
-                        if (this.Artwork.IsValueChanged) fmd.ArtworkData = this.Artwork;
+                        fmd.Artists = this.artists;
+                        fmd.Title = this.title;
+                        fmd.Album = this.album;
+                        fmd.AlbumArtists = this.albumArtists;
+                        fmd.Year = this.year;
+                        fmd.TrackNumber = this.trackNumber;
+                        fmd.TrackCount = this.trackCount;
+                        fmd.DiscNumber = this.discNumber;
+                        fmd.DiscCount = this.discCount;
+                        fmd.Genres = this.genres;
+                        fmd.Grouping = this.grouping;
+                        fmd.Comment = this.comment;
+                        fmd.Lyrics = this.lyrics;
+                        fmd.ArtworkData = this.Artwork;
 
                         fmdList.Add(fmd);
                     }
@@ -478,12 +477,15 @@ namespace Dopamine.ViewModels.Common
                 {
                     LogClient.Error("An error occurred while setting the metadata. Exception: {0}", ex.Message);
                 }
-
             });
 
-            if (fmdList.Count > 0) await this.metadataService.UpdateTracksAsync(fmdList, this.UpdateAlbumArtwork);
+            if (fmdList.Count > 0)
+            {
+                await this.metadataService.UpdateTracksAsync(fmdList, this.UpdateAlbumArtwork);
+            }
 
             this.IsBusy = false;
+
             return true;
         }
     }

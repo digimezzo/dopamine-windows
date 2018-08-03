@@ -174,7 +174,7 @@ namespace Dopamine.Views
             // Update file metadata
             // --------------------
             LogClient.Info("Updating file metadata");
-            await this.metadataService.SafeUpdateFileMetadataAsync();
+            await this.metadataService.ForceSaveFileMetadataAsync();
 
             // Save track statistics
             // ---------------------
