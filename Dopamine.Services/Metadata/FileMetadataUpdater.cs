@@ -29,10 +29,10 @@ namespace Dopamine.Services.Metadata
             this.trackRepository = trackRepository;
 
             this.updateFileMetadataTimer.Interval = this.updateMetadataLongTimeout;
-            this.updateFileMetadataTimer.Elapsed += async (_, __) => await this.UpdateFileMetadataAsync();
-            this.playbackService.PlaybackStopped += async (_, __) => await this.UpdateFileMetadataAsync();
-            this.playbackService.PlaybackFailed += async (_, __) => await this.UpdateFileMetadataAsync();
-            this.playbackService.PlaybackSuccess += async (_, __) => await this.UpdateFileMetadataAsync();
+            this.updateFileMetadataTimer.Elapsed += async (_, __) => await this.UpdateFileMetadataAsync(true);
+            this.playbackService.PlaybackStopped += async (_, __) => await this.UpdateFileMetadataAsync(true);
+            this.playbackService.PlaybackFailed += async (_, __) => await this.UpdateFileMetadataAsync(true);
+            this.playbackService.PlaybackSuccess += async (_, __) => await this.UpdateFileMetadataAsync(true);
         }
 
         public async Task UpdateFileMetadataAsync(IList<IFileMetadata> fileMetadatas)
@@ -96,10 +96,10 @@ namespace Dopamine.Services.Metadata
             }
 
             // In case the previous loop didn't save all metadata to files, force it again.
-            await this.UpdateFileMetadataAsync();
+            await this.UpdateFileMetadataAsync(false);
         }
 
-        private async Task UpdateFileMetadataAsync()
+        private async Task UpdateFileMetadataAsync(bool canRetry)
         {
             bool mustStartTimer = false;
             this.updateFileMetadataTimer.Stop();
@@ -159,7 +159,7 @@ namespace Dopamine.Services.Metadata
 
             this.isUpdatingFileMetadata = false;
 
-            if (mustStartTimer)
+            if (canRetry && mustStartTimer)
             {
                 this.updateFileMetadataTimer.Start();
             }

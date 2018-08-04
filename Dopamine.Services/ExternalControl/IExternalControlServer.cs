@@ -82,9 +82,6 @@ namespace Dopamine.Services.ExternalControl
         Task RaiseEventPlaybackMuteChangedAsync();
 
         [OperationContract]
-        Task RaiseEventPlayingTrackPlaybackInfoChangedAsync();
-
-        [OperationContract]
-        Task RaiseEventPlayingTrackArtworkChangedAsync();
+        Task RaiseEventPlayingTrackChangedAsync();
     }
 }

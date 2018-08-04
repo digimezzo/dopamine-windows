@@ -29,7 +29,7 @@ namespace Dopamine.Services.Entities
             this.Track = track;
         }
 
-        public Track Track { get; }
+        public Track Track { get; private set; }
 
         // SortDuration is used to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00.
         public long SortDuration => this.Track.Duration.HasValue ? this.Track.Duration.Value : 0;
@@ -241,6 +241,18 @@ namespace Dopamine.Services.Entities
         public TrackViewModel DeepCopy()
         {
             return new TrackViewModel(this.metadataService, this.scrobblingService, this.Track);
+        }
+
+        public void UpdateTrack(Track track)
+        {
+            if(track == null)
+            {
+                return;
+            }
+
+            this.Track = track;
+
+            this.RaisePropertyChanged();
         }
     }
 }

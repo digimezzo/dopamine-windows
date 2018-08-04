@@ -108,7 +108,7 @@ namespace Dopamine.ViewModels.Common
             };
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
-            this.playbackService.PlayingTrackPlaybackInfoChanged += (_, __) => this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack, true);
+            this.playbackService.PlayingTrackChanged += (_, __) => this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack, true);
 
             this.metadataService.RatingChanged += (e) =>
             {
