@@ -7,9 +7,9 @@ using Dopamine.Services.Entities;
 using Dopamine.Services.Playback;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.MemoryMappedFiles;
+using System.Reflection;
 using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -230,7 +230,7 @@ namespace Dopamine.Services.ExternalControl
 
         private void ProxyMethod(string methodName)
         {
-            var methodInfo = typeof(IExternalControlServerCallback).GetMethod(methodName);
+            MethodInfo methodInfo = typeof(IExternalControlServerCallback).GetMethod(methodName);
 
             lock (clientsLock)
             {
@@ -242,7 +242,6 @@ namespace Dopamine.Services.ExternalControl
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine($"Remove client {client.Key} in ExternalControlServer, reason: {ex.Message}");
                         deadClients.Push(client.Key);
                     }
                 }
@@ -258,6 +257,7 @@ namespace Dopamine.Services.ExternalControl
         private void TryAddInputStreamHandler()
         {
             this.player = playbackService.Player as CSCorePlayer;
+
             if (this.player != null && !this.haveAddedInputStream)
             {
                 this.player.NotificationSource.SingleBlockRead += InputStream;
@@ -268,6 +268,7 @@ namespace Dopamine.Services.ExternalControl
         private void TryRemoveInputStreamHandler()
         {
             this.player = playbackService.Player as CSCorePlayer;
+
             if (this.player != null && this.haveAddedInputStream)
             {
                 this.player.NotificationSource.SingleBlockRead -= InputStream;
@@ -283,14 +284,14 @@ namespace Dopamine.Services.ExternalControl
             }
             catch (Exception)
             {
-                // ignored
+                // Intended suppression 
             }
         }
 
         private void FftProviderDataTimerElapsed(object sender, EventArgs e)
         {
             this.fftProviderDataTimer.Stop();
-            TryRemoveInputStreamHandler();
+            this.TryRemoveInputStreamHandler();
         }
     }
 }

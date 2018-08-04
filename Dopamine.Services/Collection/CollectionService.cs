@@ -94,7 +94,7 @@ namespace Dopamine.Services.Collection
                 // transaction is rolled back and no tracks are removed.
                 foreach (TrackViewModel track in selectedTracks)
                 {
-                    // When the track is playing, the corresponding file is handled by the CSCore.
+                    // When the track is playing, the corresponding file is handled by IPlayer.
                     // To delete the file properly, PlaybackService must release this handle.
                     await this.playbackService.StopIfPlayingAsync(track);
 
