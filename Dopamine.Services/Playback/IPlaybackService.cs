@@ -1,5 +1,4 @@
-﻿using CSCore.CoreAudioAPI;
-using Dopamine.Core.Audio;
+﻿using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Data;
 using Dopamine.Data.Metadata;
@@ -122,11 +121,11 @@ namespace Dopamine.Services.Playback
 
         Task UpdateQueueOrderAsync(IList<TrackViewModel> tracks);
 
-        Task<IList<MMDevice>> GetAllOutputDevicesAsync();
+        Task<IList<AudioDevice>> GetAllAudioDevicesAsync();
 
-        Task SwitchOutputDeviceAsync(MMDevice outputDevice);
+        Task SwitchAudioDeviceAsync(AudioDevice audioDevice);
 
-        Task<MMDevice> GetSavedAudioDeviceAsync();
+        Task<AudioDevice> GetSavedAudioDeviceAsync();
 
         event PlaybackSuccessEventHandler PlaybackSuccess;
         event PlaybackFailedEventHandler PlaybackFailed;
@@ -145,6 +144,5 @@ namespace Dopamine.Services.Playback
         event Action<bool> LoadingTrack;
         event EventHandler PlayingTrackChanged;
         event EventHandler QueueChanged;
-        event EventHandler AudioDevicesChanged;
     }
 }

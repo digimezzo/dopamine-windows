@@ -1,10 +1,9 @@
-﻿using CSCore.CoreAudioAPI;
-using Digimezzo.Utilities.Log;
+﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
-using Dopamine.Core.Helpers;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
@@ -74,8 +73,7 @@ namespace Dopamine.Services.Playback
         private SynchronizationContext context;
         private bool isLoadingTrack;
 
-        private MMDevice outputDevice;
-        private AudioDevicesWatcher watcher = new AudioDevicesWatcher();
+        private AudioDevice audioDevice;
 
         private bool supportsWindowsMediaFoundation;
 
@@ -251,16 +249,16 @@ namespace Dopamine.Services.Playback
                     // Check if there is a Track playing
                     if (this.player != null && this.player.CanStop && this.HasCurrentTrack && this.CurrentTrack.Duration != null)
                     {
-                        // In some cases, the duration reported by TagLib is 1 second longer than the duration reported by CSCore.
+                        // In some cases, the duration reported by TagLib is 1 second longer than the duration reported by IPlayer.
                         if (this.CurrentTrack.Track.Duration > this.player.GetTotalTime().TotalMilliseconds)
                         {
-                            // To show the same duration everywhere, we report the TagLib duration here instead of the CSCore duration.
+                            // To show the same duration everywhere, we report the TagLib duration here instead of the IPlayer duration.
                             return new TimeSpan(0, 0, 0, 0, Convert.ToInt32(this.CurrentTrack.Track.Duration));
                         }
                         else
                         {
                             // Unless the TagLib duration is incorrect. In rare cases it is 0, even if 
-                            // CSCore reports a correct duration. In such cases, report the CSCore duration.
+                            // IPlayer reports a correct duration. In such cases, report the IPlayer duration.
                             return this.player.GetTotalTime();
                         }
                     }
@@ -340,52 +338,54 @@ namespace Dopamine.Services.Playback
         public event Action<bool> LoadingTrack = delegate { };
         public event EventHandler PlayingTrackChanged = delegate { };
         public event EventHandler QueueChanged = delegate { };
-        public event EventHandler AudioDevicesChanged = delegate { };
         public event EventHandler PlaybackSkipped = delegate { };
 
-        public async Task<MMDevice> GetSavedAudioDeviceAsync()
+        private AudioDevice CreateDefaultAudioDevice()
         {
-            string savedAudioDeviceID = SettingsClient.Get<string>("Playback", "AudioDevice");
+            return new AudioDevice(ResourceUtils.GetString("Language_Default_Audio_Device"), string.Empty);
+        }
 
-            IList<MMDevice> outputDevices = await this.GetAllOutputDevicesAsync();
-            MMDevice savedDevice = outputDevices.Select(d => d).Where(d => d != null && d.DeviceID.Equals(savedAudioDeviceID)).FirstOrDefault();
+        public async Task<AudioDevice> GetSavedAudioDeviceAsync()
+        {
+            string savedAudioDeviceId = SettingsClient.Get<string>("Playback", "AudioDevice");
+
+            IList<AudioDevice> audioDevices = await this.GetAllAudioDevicesAsync();
+            AudioDevice savedDevice = audioDevices.Where(x => x.DeviceId.Equals(savedAudioDeviceId)).FirstOrDefault();
+
+            if(savedDevice == null)
+            {
+                LogClient.Warning($"Audio device with deviceId={savedAudioDeviceId} could not be found. Using default device instead.");
+                savedDevice = this.CreateDefaultAudioDevice();
+            }
 
             return savedDevice;
         }
 
-        public async Task<IList<MMDevice>> GetAllOutputDevicesAsync()
+        public async Task<IList<AudioDevice>> GetAllAudioDevicesAsync()
         {
-            List<MMDevice> devices = null;
-            await Task.Run(() =>
-            {
-                devices = new List<MMDevice>();
-                using (var mmdeviceEnumerator = new MMDeviceEnumerator())
-                {
-                    using (
-                        var mmdeviceCollection = mmdeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active))
-                    {
-                        foreach (var device in mmdeviceCollection)
-                        {
-                            devices.Add(device);
-                        }
-                    }
-                }
-            });
-
-            return devices;
-        }
-
-        public async Task SwitchOutputDeviceAsync(MMDevice device)
-        {
-            if (device != null && this.outputDevice != null && device.DeviceID == this.outputDevice.DeviceID) return;
-
-            this.outputDevice = device;
+            var audioDevices = new List<AudioDevice>();
 
             await Task.Run(() =>
             {
                 if (this.player != null)
                 {
-                    this.player.SwitchOutputDevice(this.outputDevice);
+                    audioDevices.Add(this.CreateDefaultAudioDevice());
+                    audioDevices.AddRange(this.player.GetAllAudioDevices());
+                }
+            });
+
+            return audioDevices;
+        }
+
+        public async Task SwitchAudioDeviceAsync(AudioDevice device)
+        {
+            this.audioDevice = device;
+
+            await Task.Run(() =>
+            {
+                if (this.player != null)
+                {
+                    this.player.SwitchAudioDevice(this.audioDevice);
                 }
             });
         }
@@ -918,18 +918,17 @@ namespace Dopamine.Services.Playback
             // Check if Windows Media Foundation is available
             this.CheckWindowsMediaFoundation();
 
-            // PlayerFactory
-            this.playerFactory = new PlayerFactory();
-
             // Settings
             this.SetPlaybackSettings();
 
+            // PlayerFactory
+            this.playerFactory = new PlayerFactory();
+
+            // Player (default for now, can be changed later when playing a file)
+            this.player = this.playerFactory.Create(this.supportsWindowsMediaFoundation);
+
             // Audio device
             await this.SetAudioDeviceAsync();
-
-            // Detect audio device changes
-            this.watcher.StartWatching();
-            this.watcher.AudioDevicesChanged += Watcher_AudioDevicesChanged;
 
             // Equalizer
             await this.SetIsEqualizerEnabledAsync(SettingsClient.Get<bool>("Equalizer", "IsEnabled"));
@@ -1087,7 +1086,7 @@ namespace Dopamine.Services.Playback
             this.queueManager.SetCurrentTrack(track);
 
             // Play the Track
-            await Task.Run(() => this.player.Play(track.Path, this.outputDevice));
+            await Task.Run(() => this.player.Play(track.Path, this.audioDevice));
 
             // Start reporting progress
             this.progressTimer.Start();
@@ -1428,13 +1427,7 @@ namespace Dopamine.Services.Playback
 
         private async Task SetAudioDeviceAsync()
         {
-            this.outputDevice = await this.GetSavedAudioDeviceAsync();
-        }
-
-        private async void Watcher_AudioDevicesChanged(object sender, EventArgs e)
-        {
-            await this.SetAudioDeviceAsync();
-            this.AudioDevicesChanged(this, new EventArgs());
+            this.audioDevice = await this.GetSavedAudioDeviceAsync();
         }
 
         public async Task RefreshQueueLanguageAsync()

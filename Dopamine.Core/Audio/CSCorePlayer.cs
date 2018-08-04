@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace Dopamine.Core.Audio
@@ -37,9 +38,11 @@ namespace Dopamine.Core.Audio
         private AudioClientShareMode audioClientShareMode = AudioClientShareMode.Shared; // Default is Shared
         private SingleBlockNotificationStream notificationSource;
         private float volume = 1.0F;
-        private MMDevice outputDevice;
         private ISoundOut soundOut;
         Stream audioStream;
+
+        private MMDevice selectedMMDevice;
+        IList<MMDevice> mmDevices = new List<MMDevice>();
 
         // Equalizer
         private CSCore.Streams.Effects.Equalizer equalizer;
@@ -103,19 +106,19 @@ namespace Dopamine.Core.Audio
         public event PlaybackInterruptedEventHandler PlaybackInterrupted = delegate { };
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
-        public void SwitchOutputDevice(MMDevice outputDevice)
+        public void SwitchAudioDevice(AudioDevice audioDevice)
         {
-            this.outputDevice = outputDevice;
+            this.SetSelectedAudioDevice(audioDevice);
             bool playerWasPaused = !this.canPause;
 
             if (this.CanStop)
             {
                 TimeSpan oldProgress = this.GetCurrentTime();
                 this.Stop();
-                this.Play(this.filename, outputDevice);
+                this.Play(this.filename, audioDevice);
                 this.Skip(Convert.ToInt32(oldProgress.TotalSeconds));
 
-                // The player was paused. Pause it again after switching output device.
+                // The player was paused. Pause it again after switching audio device.
                 if (playerWasPaused)
                 {
                     this.Pause();
@@ -232,8 +235,23 @@ namespace Dopamine.Core.Audio
             return false;
         }
 
-        public void Play(string filename)
+        private void SetSelectedAudioDevice(AudioDevice audioDevice)
         {
+            if (this.selectedMMDevice == null || !this.selectedMMDevice.DeviceID.Equals(audioDevice.DeviceId))
+            {
+                if (this.mmDevices == null || this.mmDevices.Count == 0)
+                {
+                    this.GetAllMMDevices();
+                }
+
+                this.selectedMMDevice = this.mmDevices.Where(x => x.DeviceID.Equals(audioDevice.DeviceId)).FirstOrDefault();
+            }
+        }
+
+        public void Play(string filename, AudioDevice audioDevice)
+        {
+            this.SetSelectedAudioDevice(audioDevice);
+
             this.filename = filename;
 
             this.IsPlaying = true;
@@ -245,12 +263,6 @@ namespace Dopamine.Core.Audio
             this.InitializeSoundOut(this.GetCodec(this.filename));
             this.ApplyFilter(this.filterValues);
             this.soundOut.Play();
-        }
-
-        public void Play(string filename, MMDevice outputDevice)
-        {
-            this.outputDevice = outputDevice;
-            this.Play(filename);
         }
 
         private IWaveSource GetCodec(string filename)
@@ -356,10 +368,10 @@ namespace Dopamine.Core.Audio
                 // Map stereo or mono file to all channels
                 ((WasapiOut)this.soundOut).UseChannelMixingMatrices = this.useAllAvailableChannels;
 
-                if (this.outputDevice == null)
+                if (this.selectedMMDevice == null)
                 {
                     // If no output device was provided, we're playing on the default device.
-                    // In such case, we want to detected when the default device changes.
+                    // In such case, we want to detect when the default device changes.
                     // This is done by setting stream routing options
                     ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.All;
                 }
@@ -368,7 +380,7 @@ namespace Dopamine.Core.Audio
                     // If an output device was provided, assign it to soundOut.Device.
                     // Only allow stream routing when the device was disconnected.
                     ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.OnDeviceDisconnect;
-                    ((WasapiOut)this.soundOut).Device = this.outputDevice;
+                    ((WasapiOut)this.soundOut).Device = this.selectedMMDevice;
                 }
 
                 // Initialize SoundOut 
@@ -639,6 +651,36 @@ namespace Dopamine.Core.Audio
         public void Dispose()
         {
             Dispose(true);
+        }
+
+        private void GetAllMMDevices()
+        {
+            this.mmDevices = new List<MMDevice>();
+
+            using (var mmdeviceEnumerator = new MMDeviceEnumerator())
+            {
+                using (MMDeviceCollection mmdeviceCollection = mmdeviceEnumerator.EnumAudioEndpoints(DataFlow.Render, DeviceState.Active))
+                {
+                    foreach (var device in mmdeviceCollection)
+                    {
+                        this.mmDevices.Add(device);
+                    }
+                }
+            }
+        }
+
+        public IList<AudioDevice> GetAllAudioDevices()
+        {
+            IList<AudioDevice> audioDevices = new List<AudioDevice>();
+
+            this.GetAllMMDevices();
+
+            foreach (MMDevice mmDevice in this.mmDevices)
+            {
+                audioDevices.Add(new AudioDevice(mmDevice.FriendlyName, mmDevice.DeviceID));
+            }
+
+            return audioDevices;
         }
     }
 }

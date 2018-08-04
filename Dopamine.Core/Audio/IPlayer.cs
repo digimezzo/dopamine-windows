@@ -1,6 +1,6 @@
 ﻿using Dopamine.Core.Enums;
 using System;
-using CSCore.CoreAudioAPI;
+using System.Collections.Generic;
 
 namespace Dopamine.Core.Audio
 {
@@ -20,9 +20,7 @@ namespace Dopamine.Core.Audio
 
         void Stop();
 
-        void Play(string filename);
-
-        void Play(string filename, MMDevice outputDevice);
+        void Play(string filename, AudioDevice audioDevice);
 
         void Skip(int gotoSeconds);
 
@@ -48,7 +46,9 @@ namespace Dopamine.Core.Audio
 
         ISpectrumPlayer GetWrapperSpectrumPlayer(SpectrumChannel channel);
 
-        void SwitchOutputDevice(MMDevice outputDevice);
+        void SwitchAudioDevice(AudioDevice audioDevice);
+
+        IList<AudioDevice> GetAllAudioDevices();
 
         event EventHandler PlaybackFinished;
         event PlaybackInterruptedEventHandler PlaybackInterrupted;

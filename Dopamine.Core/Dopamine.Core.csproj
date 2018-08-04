@@ -97,6 +97,7 @@
     <Compile Include="Audio\IPlayer.cs" />
     <Compile Include="Audio\IPlayerFactory.cs" />
     <Compile Include="Audio\ISpectrumPlayer.cs" />
+    <Compile Include="Audio\AudioDevice.cs" />
     <Compile Include="Audio\PlaybackInterruptedEventArgs.cs" />
     <Compile Include="Audio\PlayerFactory.cs" />
     <Compile Include="Base\Constants.cs" />

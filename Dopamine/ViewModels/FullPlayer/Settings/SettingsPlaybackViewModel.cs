@@ -1,7 +1,7 @@
-﻿using CSCore.CoreAudioAPI;
-using Digimezzo.Utilities.Helpers;
+﻿using Digimezzo.Utilities.Helpers;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.ExternalControl;
@@ -21,32 +21,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 {
     public class SettingsPlaybackViewModel : BindableBase
     {
-        public class OutputDevice
-        {
-            public string Name { get; set; }
-            public MMDevice Device { get; set; }
-
-            public override string ToString()
-            {
-                return this.Name;
-            }
-
-            public override bool Equals(object obj)
-            {
-                if (obj == null || !GetType().Equals(obj.GetType()))
-                {
-                    return false;
-                }
-
-                return this.Name.Equals(((OutputDevice)obj).Name);
-            }
-
-            public override int GetHashCode()
-            {
-                return new { this.Name, }.GetHashCode();
-            }
-        }
-
         private ObservableCollection<NameValue> latencies;
         private NameValue selectedLatency;
         private IPlaybackService playbackService;
@@ -73,10 +47,12 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private NameValue selectedNotificationPosition;
         private ObservableCollection<int> notificationSeconds;
         private int selectedNotificationSecond;
-        private ObservableCollection<OutputDevice> outputDevices;
-        private OutputDevice selectedOutputDevice;
+        private ObservableCollection<AudioDevice> audioDevices;
+        private AudioDevice selectedAudioDevice;
 
         public DelegateCommand ShowTestNotificationCommand { get; set; }
+
+        public DelegateCommand LoadedCommand { get; set; }
 
         public bool IsNotificationEnabled => (this.CheckBoxShowNotificationWhenPlayingChecked || this.CheckBoxShowNotificationWhenPausingChecked || this.CheckBoxShowNotificationWhenResumingChecked) && !this.CheckBoxEnableSystemNotificationChecked;
 
@@ -280,25 +256,25 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             }
         }
 
-        public ObservableCollection<OutputDevice> OutputDevices
+        public ObservableCollection<AudioDevice> AudioDevices
         {
-            get => this.outputDevices;
-            set => SetProperty<ObservableCollection<OutputDevice>>(ref this.outputDevices, value);
+            get => this.audioDevices;
+            set => SetProperty<ObservableCollection<AudioDevice>>(ref this.audioDevices, value);
         }
 
-        public OutputDevice SelectedOutputDevice
+        public AudioDevice SelectedAudioDevice
         {
-            get => this.selectedOutputDevice;
+            get => this.selectedAudioDevice;
             set
             {
-                SetProperty<OutputDevice>(ref this.selectedOutputDevice, value);
+                SetProperty<AudioDevice>(ref this.selectedAudioDevice, value);
 
                 // Due to two-way binding, this can be null when the list is being filled.
                 if (value != null)
                 {
-                    SettingsClient.Set<string>("Playback", "AudioDevice", value.Device == null ? string.Empty : value.Device.DeviceID);
+                    SettingsClient.Set<string>("Playback", "AudioDevice", value.DeviceId == null ? string.Empty : value.DeviceId);
 
-                    this.playbackService.SwitchOutputDeviceAsync(value.Device);
+                    this.playbackService.SwitchAudioDeviceAsync(value);
                 }
             }
         }
@@ -338,14 +314,13 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             this.i18nService = i18nService;
 
             this.ShowTestNotificationCommand = new DelegateCommand(() => this.notificationService.ShowNotificationAsync());
-
-            this.playbackService.AudioDevicesChanged += (_, __) => Application.Current.Dispatcher.Invoke(() => this.GetOutputDevicesAsync());
+            this.LoadedCommand = new DelegateCommand(() => this.GetAudioDevicesAsync());
 
             this.i18nService.LanguageChanged += (_, __) =>
             {
                 this.GetNotificationPositionsAsync();
                 this.GetLatenciesAsync();
-                this.GetOutputDevicesAsync();
+                this.GetAudioDevicesAsync();
                 this.GetSpectrumStylesAsync();
             };
 
@@ -353,29 +328,24 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             this.GetNotificationPositionsAsync();
             this.GetNotificationSecondsAsync();
             this.GetLatenciesAsync();
-            this.GetOutputDevicesAsync();
+            this.GetAudioDevicesAsync();
             this.GetSpectrumStylesAsync();
         }
 
-        private async void GetOutputDevicesAsync()
+        private async void GetAudioDevicesAsync()
         {
-            IList<MMDevice> outputDevices = await this.playbackService.GetAllOutputDevicesAsync();
+            IList<AudioDevice> audioDevices = await this.playbackService.GetAllAudioDevicesAsync();
 
-            this.OutputDevices = new ObservableCollection<OutputDevice>();
+            this.AudioDevices = new ObservableCollection<AudioDevice>();
 
-            this.OutputDevices.Add(new OutputDevice() { Name = ResourceUtils.GetString("Language_Default_Audio_Device"), Device = null });
+            this.AudioDevices.AddRange(audioDevices);
 
-            foreach (MMDevice device in outputDevices)
-            {
-                this.OutputDevices.Add(new OutputDevice() { Name = device.FriendlyName, Device = device });
-            }
+            AudioDevice savedAudioDevice = await this.playbackService.GetSavedAudioDeviceAsync();
 
-            MMDevice savedDevice = await this.playbackService.GetSavedAudioDeviceAsync();
-
-            this.selectedOutputDevice = null;
-            RaisePropertyChanged(nameof(this.SelectedOutputDevice));
-            this.selectedOutputDevice = savedDevice == null ? this.OutputDevices.First() : new OutputDevice() { Name = savedDevice.FriendlyName, Device = savedDevice };
-            RaisePropertyChanged(nameof(this.SelectedOutputDevice));
+            this.selectedAudioDevice = null;
+            RaisePropertyChanged(nameof(this.SelectedAudioDevice));
+            this.selectedAudioDevice = savedAudioDevice == null ? this.AudioDevices.First() : savedAudioDevice;
+            RaisePropertyChanged(nameof(this.SelectedAudioDevice));
         }
 
         private async void GetLatenciesAsync()
