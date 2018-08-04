@@ -2,9 +2,7 @@
 {
     public class UpdateQueueMetadataResult
     {
-        public bool IsPlayingTrackPlaybackInfoChanged { get; set; }
-
-        public bool IsPlayingTrackArtworkChanged { get; set; }
+        public bool IsPlayingTrackChanged { get; set; }
 
         public bool IsQueueChanged { get; set; }
     }

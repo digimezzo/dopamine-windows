@@ -295,7 +295,7 @@ namespace Dopamine.Services.Playback
 
             this.context = SynchronizationContext.Current;
 
-            this.queueManager = new QueueManager();
+            this.queueManager = new QueueManager(this.trackRepository);
 
             // Event handlers
             this.fileService.ImportingTracks += (_, __) => this.canGetSavedQueuedTracks = false;
@@ -338,8 +338,7 @@ namespace Dopamine.Services.Playback
         public event Action<int> AddedTracksToQueue = delegate { };
         public event PlaybackCountersChangedEventHandler PlaybackCountersChanged = delegate { };
         public event Action<bool> LoadingTrack = delegate { };
-        public event EventHandler PlayingTrackPlaybackInfoChanged = delegate { };
-        public event EventHandler PlayingTrackArtworkChanged = delegate { };
+        public event EventHandler PlayingTrackChanged = delegate { };
         public event EventHandler QueueChanged = delegate { };
         public event EventHandler AudioDevicesChanged = delegate { };
         public event EventHandler PlaybackSkipped = delegate { };
@@ -420,14 +419,9 @@ namespace Dopamine.Services.Playback
             UpdateQueueMetadataResult result = await this.queueManager.UpdateMetadataAsync(fileMetadatas);
 
             // Raise events
-            if (result.IsPlayingTrackPlaybackInfoChanged)
+            if (result.IsPlayingTrackChanged)
             {
-                this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
-            }
-
-            if (result.IsPlayingTrackArtworkChanged)
-            {
-                this.PlayingTrackArtworkChanged(this, new EventArgs());
+                this.PlayingTrackChanged(this, new EventArgs());
             }
 
             if (result.IsQueueChanged)
@@ -630,8 +624,7 @@ namespace Dopamine.Services.Playback
                 this.player.Stop();
             }
 
-            this.PlayingTrackArtworkChanged(this, new EventArgs());
-            this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
+            this.PlayingTrackChanged(this, new EventArgs());
 
             this.progressTimer.Stop();
             this.Progress = 0.0;

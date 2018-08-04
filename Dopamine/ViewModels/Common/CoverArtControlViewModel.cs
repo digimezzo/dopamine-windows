@@ -59,7 +59,7 @@ namespace Dopamine.ViewModels.Common
                 this.refreshTimer.Start();
             };
 
-            this.playbackService.PlayingTrackArtworkChanged += (_, __) => this.RefreshCoverArtAsync(this.playbackService.CurrentTrack);
+            this.playbackService.PlayingTrackChanged += (_, __) => this.RefreshCoverArtAsync(this.playbackService.CurrentTrack);
 
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;

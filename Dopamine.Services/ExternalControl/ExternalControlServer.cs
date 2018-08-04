@@ -173,8 +173,7 @@ namespace Dopamine.Services.ExternalControl
             this.playbackService.PlaybackProgressChanged += PlaybackProgressChangedCallBack;
             this.playbackService.PlaybackVolumeChanged += PlaybackVolumeChangedCallBack;
             this.playbackService.PlaybackMuteChanged += PlaybackMuteCallBack;
-            this.playbackService.PlayingTrackPlaybackInfoChanged += PlayingTrackPlaybackInfoChangedCallback;
-            this.playbackService.PlayingTrackArtworkChanged += PlayingTrackArtworkChangedCallBack;
+            this.playbackService.PlayingTrackChanged += PlayingTrackChangedCallback;
         }
 
         internal void Close()
@@ -186,18 +185,12 @@ namespace Dopamine.Services.ExternalControl
             this.playbackService.PlaybackProgressChanged -= PlaybackProgressChangedCallBack;
             this.playbackService.PlaybackVolumeChanged -= PlaybackVolumeChangedCallBack;
             this.playbackService.PlaybackMuteChanged -= PlaybackMuteCallBack;
-            this.playbackService.PlayingTrackPlaybackInfoChanged -= PlayingTrackPlaybackInfoChangedCallback;
-            this.playbackService.PlayingTrackArtworkChanged -= PlayingTrackArtworkChangedCallBack;
-        }
-   
-        private void PlayingTrackArtworkChangedCallBack(object sender, EventArgs e)
-        {
-            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlayingTrackArtworkChangedAsync));
+            this.playbackService.PlayingTrackChanged -= PlayingTrackChangedCallback;
         }
 
-        private void PlayingTrackPlaybackInfoChangedCallback(object sender, EventArgs e)
+        private void PlayingTrackChangedCallback(object sender, EventArgs e)
         {
-            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlayingTrackPlaybackInfoChangedAsync));
+            ProxyMethod(nameof(IExternalControlServerCallback.RaiseEventPlayingTrackChangedAsync));
         }
 
         private void PlaybackMuteCallBack(object sender, EventArgs e)

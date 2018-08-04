@@ -1,7 +1,9 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
+using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
+using Dopamine.Data.Repositories;
 using Dopamine.Services.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,58 +14,20 @@ namespace Dopamine.Services.Playback
 {
     internal class QueueManager
     {
+        private ITrackRepository trackRepository;
         private TrackViewModel currentTrack;
         private object queueLock = new object();
         private List<TrackViewModel> queue = new List<TrackViewModel>(); // Queued tracks in original order
         private List<int> playbackOrder = new List<int>(); // Playback order of queued tracks (Contains the indexes of list the queued tracks)
 
+        public QueueManager(ITrackRepository trackRepository)
+        {
+            this.trackRepository = trackRepository;
+        }
+
         public IList<TrackViewModel> Queue
         {
             get { return this.queue; }
-        }
-
-        private bool UpdateTrackPlaybackInfo(TrackViewModel track, IFileMetadata fileMetadata)
-        {
-            bool isDisplayedPlaybackInfoChanged = false;
-
-            try
-            {
-                // Only update the properties that are displayed on Now Playing screens
-                if (fileMetadata.Title.IsValueChanged)
-                {
-                    // TODO track.TrackTitle = fileMetadata.Title.Value;
-                    isDisplayedPlaybackInfoChanged = true;
-                }
-
-                if (fileMetadata.Artists.IsValueChanged)
-                {
-                    // TODO track.ArtistName = fileMetadata.Artists.Values.FirstOrDefault();
-                    isDisplayedPlaybackInfoChanged = true;
-                }
-
-                if (fileMetadata.Year.IsValueChanged)
-                {
-                    // TODO track.Year = fileMetadata.Year.Value.SafeConvertToLong();
-                    isDisplayedPlaybackInfoChanged = true;
-                }
-
-                if (fileMetadata.Album.IsValueChanged)
-                {
-                    // TODO track.AlbumTitle = fileMetadata.Album.Value;
-                    isDisplayedPlaybackInfoChanged = true;
-                }
-
-                if (fileMetadata.ArtworkData.IsValueChanged)
-                {
-                    isDisplayedPlaybackInfoChanged = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not update the track metadata. Exception: {0}", ex.Message);
-            }
-
-            return isDisplayedPlaybackInfoChanged;
         }
 
         private List<int> GetQueueIndices()
@@ -521,36 +485,29 @@ namespace Dopamine.Services.Playback
         {
             var result = new UpdateQueueMetadataResult();
 
+            IList<Track> tracks = await this.trackRepository.GetTracksAsync(fileMetadatas.Select(x => x.Path).ToList());
+
             await Task.Run(() =>
             {
                 lock (this.queueLock)
                 {
                     if (this.Queue != null)
                     {
-                        foreach (TrackViewModel track in this.queue)
+                        // Queue
+                        result.IsQueueChanged = true;
+
+                        foreach (TrackViewModel trackViewModel in this.queue)
                         {
-                            IFileMetadata fmd = fileMetadatas.Select(f => f).Where(f => f.SafePath == track.SafePath).FirstOrDefault();
+                            Track newTrack = tracks.Where(x => x.SafePath.Equals(trackViewModel.SafePath)).FirstOrDefault();
 
-                            if (fmd != null)
+                            trackViewModel.UpdateTrack(newTrack);
+
+                            // Playing track
+                            if (trackViewModel.SafePath.Equals(this.currentTrack.SafePath))
                             {
-                                // Queue
-                                if (this.UpdateTrackPlaybackInfo(track, fmd))
-                                {
-                                    result.IsQueueChanged = true;
-
-                                    // Playing track
-                                    if (track.SafePath.Equals(this.currentTrack.SafePath))
-                                    {
-                                        result.IsPlayingTrackPlaybackInfoChanged = true;
-
-                                        // Playing track artwork
-                                        if (fmd.ArtworkData.IsValueChanged)
-                                        {
-                                            result.IsPlayingTrackArtworkChanged = true;
-                                        }
-                                    }
-                                }
-                            }
+                                result.IsPlayingTrackChanged = true;
+                                this.currentTrack.UpdateTrack(newTrack);
+                            } 
                         }
                     }
                 }
