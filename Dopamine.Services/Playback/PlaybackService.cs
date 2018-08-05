@@ -298,7 +298,7 @@ namespace Dopamine.Services.Playback
             // Event handlers
             this.fileService.ImportingTracks += (_, __) => this.canGetSavedQueuedTracks = false;
             this.fileService.TracksImported += (tracks, track) => this.EnqueueFromFilesAsync(tracks, track);
-            this.i18nService.LanguageChanged += (_, __) => this.RefreshQueueLanguageAsync();
+            this.i18nService.LanguageChanged += (_, __) => this.UpdateQueueLanguageAsync();
 
             // Set up timers
             this.progressTimer.Interval = TimeSpan.FromSeconds(this.progressTimeoutSeconds).TotalMilliseconds;
@@ -428,6 +428,15 @@ namespace Dopamine.Services.Playback
             {
                 this.QueueChanged(this, new EventArgs());
             }
+        }
+
+        private async void UpdateQueueLanguageAsync()
+        {
+            await this.queueManager.UpdateQueueLanguageAsync();
+
+            // Raise events
+            this.PlayingTrackChanged(this, new EventArgs());
+            this.QueueChanged(this, new EventArgs());
         }
 
         public async Task SetIsEqualizerEnabledAsync(bool isEnabled)
@@ -1428,31 +1437,6 @@ namespace Dopamine.Services.Playback
         private async Task SetAudioDeviceAsync()
         {
             this.audioDevice = await this.GetSavedAudioDeviceAsync();
-        }
-
-        public async Task RefreshQueueLanguageAsync()
-        {
-            // TODO: we won't be able to update language from the database. Unknown stuff is not stored in the DB anymore.
-            //List<Track> databaseTracks = await this.trackRepository.GetTracksAsync(this.Queue.Select(t => t.Value.Path).ToList());
-
-            //await Task.Run(() =>
-            //{
-            //    foreach (KeyValuePair<string, TrackViewModel> pair in this.Queue)
-            //    {
-            //        TrackViewModel databaseTrack = databaseTracks.Where(t => t.SafePath.Equals(pair.Value.SafePath)).FirstOrDefault();
-
-            //        if (databaseTrack != null)
-            //        {
-            //            pair.Value.ArtistName = databaseTrack.ArtistName;
-            //            pair.Value.AlbumArtist = databaseTrack.AlbumArtist;
-            //            pair.Value.AlbumTitle = databaseTrack.AlbumTitle;
-            //            pair.Value.GenreName = databaseTrack.GenreName;
-            //        }
-            //    }
-            //});
-
-            //this.QueueChanged(this, new EventArgs());
-            //this.PlayingTrackPlaybackInfoChanged(this, new EventArgs());
         }
     }
 }
