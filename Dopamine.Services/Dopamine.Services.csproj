@@ -136,6 +136,7 @@
     <Compile Include="ExternalControl\IExternalControlServer.cs" />
     <Compile Include="ExternalControl\IExternalControlService.cs" />
     <Compile Include="ExternalControl\IFftDataServer.cs" />
+    <Compile Include="ExternalControl\ExternalTrack.cs" />
     <Compile Include="File\FileService.cs" />
     <Compile Include="File\IFileService.cs" />
     <Compile Include="I18n\I18nService.cs" />

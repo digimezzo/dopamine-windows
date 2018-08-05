@@ -3,7 +3,6 @@ using CSCore.Streams;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Extensions;
 using Dopamine.Services.Cache;
-using Dopamine.Services.Entities;
 using Dopamine.Services.Playback;
 using System;
 using System.Collections.Generic;
@@ -113,16 +112,16 @@ namespace Dopamine.Services.ExternalControl
         public void SendHeartbeat() { }
 
         [OperationBehavior]
-        public async Task PlayNextAsync() => await this.playbackService.PlayNextAsync();
+        public async Task PlayNext() => await this.playbackService.PlayNextAsync();
 
         [OperationBehavior]
-        public async Task PlayPreviousAsync() => await this.playbackService.PlayPreviousAsync();
+        public async Task PlayPrevious() => await this.playbackService.PlayPreviousAsync();
 
         [OperationBehavior]
         public void SetMute(bool mute) => this.playbackService.SetMute(mute);
 
         [OperationBehavior]
-        public Task PlayOrPauseAsync() => this.playbackService.PlayOrPauseAsync();
+        public Task PlayOrPause() => this.playbackService.PlayOrPauseAsync();
 
         [OperationBehavior]
         public bool GetIsStopped() => this.playbackService.IsStopped;
@@ -137,7 +136,7 @@ namespace Dopamine.Services.ExternalControl
         public void SetProgress(double progress) => this.playbackService.SkipProgress(progress);
 
         [OperationBehavior]
-        public TrackViewModel GetCurrenTrack() => this.playbackService.CurrentTrack;
+        public ExternalTrack GetCurrenTrack() => new ExternalTrack(this.playbackService.CurrentTrack);
 
         [OperationBehavior]
         public string GetCurrentTrackArtworkPath(string artworkId) => this.cacheService.GetCachedArtworkPath(artworkId);
