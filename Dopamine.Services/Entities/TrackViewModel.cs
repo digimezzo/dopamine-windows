@@ -254,5 +254,10 @@ namespace Dopamine.Services.Entities
 
             this.RaisePropertyChanged();
         }
+
+        public void Refresh()
+        {
+            this.RaisePropertyChanged();
+        }
     }
 }

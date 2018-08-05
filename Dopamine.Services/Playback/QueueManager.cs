@@ -507,13 +507,32 @@ namespace Dopamine.Services.Playback
                             {
                                 result.IsPlayingTrackChanged = true;
                                 this.currentTrack.UpdateTrack(newTrack);
-                            } 
+                            }
                         }
                     }
                 }
             });
 
             return result;
+        }
+
+        public async Task UpdateQueueLanguageAsync()
+        {
+            await Task.Run(() =>
+            {
+                lock (this.queueLock)
+                {
+                    if (this.Queue != null)
+                    {
+                        foreach (TrackViewModel trackViewModel in this.queue)
+                        {
+                            trackViewModel.Refresh();
+                        }
+
+                        this.currentTrack.Refresh();
+                    }
+                }
+            });
         }
     }
 }
