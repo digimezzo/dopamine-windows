@@ -429,4 +429,5 @@
   <Text Key="Open_Menu">開啟選單</Text>
   <Text Key="Toggle_Album_Order">切換專輯排序</Text>
   <Text Key="Toggle_Track_Order">切換音樂排序</Text>
+  <Text Key="Activate_Search_Field">Activate search field</Text>
 </Language>

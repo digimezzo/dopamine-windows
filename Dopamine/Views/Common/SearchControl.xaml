@@ -9,7 +9,8 @@
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <pc:SearchBox HorizontalAlignment="Stretch" Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
+    <pc:SearchBox x:Name="SearchBox" 
+                  HorizontalAlignment="Stretch" Text="{Binding SearchText,UpdateSourceTrigger=PropertyChanged}" 
                   Background="{DynamicResource Brush_TextBoxBackgroundInvisible}"  
                   Foreground="{DynamicResource Brush_PrimaryText}" FontSize="15" />
 </UserControl>

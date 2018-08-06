@@ -429,4 +429,5 @@
   <Text Key="Open_Menu">Menü öffnen</Text>
   <Text Key="Toggle_Album_Order">Album Reihenfolge umschalten</Text>
   <Text Key="Toggle_Track_Order">Titel Reihenfolge umschalten</Text>
+  <Text Key="Activate_Search_Field">Activate search field</Text>
 </Language>

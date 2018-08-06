@@ -429,4 +429,5 @@
   <Text Key="Open_Menu">Apri menu</Text>
   <Text Key="Toggle_Album_Order">Attiva / disattiva l'ordine degli album </Text>
   <Text Key="Toggle_Track_Order">Attiva / disattiva l'ordine dei brani </Text>
+  <Text Key="Activate_Search_Field">Activate search field</Text>
 </Language>
