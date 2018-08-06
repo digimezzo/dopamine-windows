@@ -429,4 +429,5 @@
   <Text Key="Open_Menu">Otvori izbornik</Text>
   <Text Key="Toggle_Album_Order">Promijeni raspored albuma</Text>
   <Text Key="Toggle_Track_Order">Promijeni raspored pjesama</Text>
+  <Text Key="Activate_Search_Field">Activate search field</Text>
 </Language>

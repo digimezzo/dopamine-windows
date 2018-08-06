@@ -429,4 +429,5 @@
   <Text Key="Open_Menu">Відкрити меню</Text>
   <Text Key="Toggle_Album_Order">Змінити порядок альбому</Text>
   <Text Key="Toggle_Track_Order">Змінити порядок пісень</Text>
+  <Text Key="Activate_Search_Field">Activate search field</Text>
 </Language>

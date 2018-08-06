@@ -1,12 +1,11 @@
 ﻿using Digimezzo.Utilities.Log;
-using Dopamine.Utils;
-using Dopamine.Views.Common.Base;
 using Dopamine.Core.Prism;
+using Dopamine.Services.Utils;
+using Dopamine.Views.Common.Base;
 using Prism.Commands;
 using System;
 using System.Windows;
 using System.Windows.Input;
-using Dopamine.Services.Utils;
 
 namespace Dopamine.Views.FullPlayer.Collection
 {

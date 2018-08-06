@@ -30,6 +30,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="{DynamicResource Language_Key_Plus}" Style="{StaticResource NormalKey}"/>
                 <TextBlock Grid.Row="0" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Increase_Volume_By_5_Percent}" Foreground="{DynamicResource Brush_PrimaryText}"/>
@@ -55,8 +56,11 @@
                 <pc:CombiLabel Grid.Row="7" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="{DynamicResource Language_Key_Ctrl}" Content2="&#xE72A;" Style="{StaticResource SegoeHotkey}"/>
                 <TextBlock Grid.Row="7" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Short_Jump_Forward}" Foreground="{DynamicResource Brush_PrimaryText}"/>
 
-                <pc:CombiLabel Grid.Row="8" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="{DynamicResource Language_Key_Ctrl}" Content2="L" Style="{StaticResource Hotkey}"/>
-                <TextBlock Grid.Row="8" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Log_File}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                <pc:CombiLabel Grid.Row="8" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="{DynamicResource Language_Key_Ctrl}" Content2="F" Style="{StaticResource Hotkey}"/>
+                <TextBlock Grid.Row="8" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Activate_Search_Field}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+
+                <pc:CombiLabel Grid.Row="9" Grid.Column="0" Margin="0,5,0,5" HorizontalAlignment="Left" Content="{DynamicResource Language_Key_Ctrl}" Content2="L" Style="{StaticResource Hotkey}"/>
+                <TextBlock Grid.Row="9" Grid.Column="1" Margin="30,0,0,0" VerticalAlignment="Center" Text="{DynamicResource Language_Log_File}" Foreground="{DynamicResource Brush_PrimaryText}"/>
             </Grid>
             <Separator Height="20" Background="Transparent" />
             <!-- Media keys -->

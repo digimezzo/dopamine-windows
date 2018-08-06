@@ -422,4 +422,5 @@
   <Text Key="Spectrum_Stripes">ストライプ</Text>
   <Text Key="Also_Check_For_Prereleases">プレリリースの確認</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">フォルダ '{foldername}' にアクセスできなかったため、コンテンツを追加できませんでした。フォルダのアクセス許可を確認してください。</Text>
+  <Text Key="Activate_Search_Field">Activate search field</Text>
 </Language>

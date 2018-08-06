@@ -429,4 +429,5 @@
   <Text Key="Open_Menu">메뉴 열기</Text>
   <Text Key="Toggle_Album_Order">앨범 순서 토글</Text>
   <Text Key="Toggle_Track_Order">노래 순서 토글</Text>
+  <Text Key="Activate_Search_Field">Activate search field</Text>
 </Language>

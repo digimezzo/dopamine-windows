@@ -95,5 +95,17 @@ namespace Dopamine.Controls
                 }
             }
         }
+
+        public void SetKeyboardFocus()
+        {
+            this.Focus();
+
+            // This function is activated by a keyboard shortcut. So, search boxes which have not yet been initialized 
+            // can try to call this function. If that happens, searchHint is null. We're trying to avoid a crash here.
+            if (this.IsVisible && this.searchHint != null)
+            {
+                this.searchHint.Visibility = Visibility.Collapsed;
+            }
+        }
     }
 }
