@@ -41,60 +41,10 @@
                     <fwc:MaterialIcon.ToolTip>
                         <TextBlock Text="{DynamicResource Language_Open_Menu}" FontSize="13"/>
                     </fwc:MaterialIcon.ToolTip>
-                    <fwc:MaterialIcon.Style>
-                        <Style>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsMouseOverSplitViewButton, ElementName=This}" Value="true">
-                                    <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetProperty="FontSize" To="24" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.EnterActions>
-                                    <DataTrigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetProperty="FontSize" To="1" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.ExitActions>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </fwc:MaterialIcon.Style>
                 </fwc:MaterialIcon>
                 <Viewbox x:Name="HeadPhoneIcon" Panel.ZIndex="1" Width="24" Height="24" Opacity="1">
                     <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="{DynamicResource Brush_WindowIcon}" 
                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Viewbox.Style>
-                        <Style>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsMouseOverSplitViewButton, ElementName=This}" Value="true">
-                                    <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetProperty="Width" To="0" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="Height" To="0" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.EnterActions>
-                                    <DataTrigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetProperty="Width" To="24" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="Height" To="24" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.ExitActions>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Viewbox.Style>
                 </Viewbox>
             </Grid>
         </fwc:SplitView.ButtonContent>
