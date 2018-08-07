@@ -430,4 +430,5 @@
   <Text Key="Toggle_Album_Order">Wijzig album volgorde</Text>
   <Text Key="Toggle_Track_Order">Wijzig nummer volgorde</Text>
   <Text Key="Activate_Search_Field">Zoek veld activeren</Text>
+  <Text Key="Back">Terug</Text>
 </Language>

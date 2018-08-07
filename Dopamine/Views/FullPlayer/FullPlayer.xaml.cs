@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Foundation.WPF.Controls;
+using Dopamine.Controls;
 using Prism.Regions;
 using System;
 using System.Windows;
@@ -10,6 +11,7 @@ namespace Dopamine.Views.FullPlayer
     public partial class FullPlayer : UserControl
     {
         private IRegionManager regionManager;
+        private SplitViewRadioButton selectedSplitViewRadioButton;
 
         public FullPlayer(IRegionManager regionManager)
         {
@@ -25,6 +27,13 @@ namespace Dopamine.Views.FullPlayer
 
             this.HamburgerIcon.BeginAnimation(MaterialIcon.FontSizeProperty, sizeAnimation);
             this.HamburgerIcon.BeginAnimation(MaterialIcon.OpacityProperty, opacityAnimation);
+        }
+
+        private void AnimateBackIcon(int newSize, TimeSpan duration)
+        {
+            DoubleAnimation sizeAnimation = new DoubleAnimation(newSize, duration);
+
+            this.BackIcon.BeginAnimation(SegoeIcon.FontSizeProperty, sizeAnimation);
         }
 
         private void AnimateHeadPhoneIcon(int newSize, int newOpacity, TimeSpan duration)
@@ -58,12 +67,14 @@ namespace Dopamine.Views.FullPlayer
         {
             this.AnimateHamburgerIcon(24, 1, TimeSpan.FromMilliseconds(250));
             this.AnimateHeadPhoneIcon(1, 0, TimeSpan.FromMilliseconds(250));
+            this.AnimateBackIcon(22, TimeSpan.FromMilliseconds(100));
         }
 
         private void Grid_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             this.AnimateHamburgerIcon(1, 0, TimeSpan.FromMilliseconds(250));
             this.AnimateHeadPhoneIcon(24, 1, TimeSpan.FromMilliseconds(250));
+            this.AnimateBackIcon(16, TimeSpan.FromMilliseconds(100));
         }
 
         private void InformationButton_Checked(object sender, RoutedEventArgs e)
@@ -74,6 +85,7 @@ namespace Dopamine.Views.FullPlayer
         private void CollectionButton_Checked(object sender, RoutedEventArgs e)
         {
             this.MySplitView.IsPaneOpen = false;
+            this.selectedSplitViewRadioButton = (SplitViewRadioButton)sender;
         }
 
         private void SettingsButton_Checked(object sender, RoutedEventArgs e)
@@ -84,6 +96,13 @@ namespace Dopamine.Views.FullPlayer
         private void HeaderButton_Click(object sender, RoutedEventArgs e)
         {
             this.MySplitView.IsPaneOpen = false;
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            // This suppresses the standard splitview button click action (which opens the splitview pane)
+            e.Handled = true;
+            this.selectedSplitViewRadioButton.IsChecked = true;
         }
     }
 }
