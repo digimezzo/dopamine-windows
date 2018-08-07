@@ -430,4 +430,5 @@
   <Text Key="Toggle_Album_Order">Toggle album order</Text>
   <Text Key="Toggle_Track_Order">Toggle song order</Text>
   <Text Key="Activate_Search_Field">Activate search field</Text>
+  <Text Key="Back">Back</Text>
 </Language>

@@ -430,4 +430,5 @@
   <Text Key="Toggle_Album_Order">Modifier l'ordre des albums</Text>
   <Text Key="Toggle_Track_Order">Modifier l'ordre des morceaux</Text>
   <Text Key="Activate_Search_Field">Activer le champ de recherche</Text>
+  <Text Key="Back">Retour</Text>
 </Language>

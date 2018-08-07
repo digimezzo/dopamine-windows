@@ -30,21 +30,35 @@
                    PaneClosed="MySplitView_PaneClosed">
         <!-- SplitView ButtonContent -->
         <fwc:SplitView.ButtonContent>
-            <Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
+            <Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" >
                 <Viewbox Width="34" Height="34" Panel.ZIndex="0">
                     <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                 </Viewbox>
-                <fwc:MaterialIcon x:Name="HamburgerIcon" Panel.ZIndex="1" Text="&#xE5D2;" FontSize="1" Opacity="0"
+                <Button x:Name="BackButton" Style="{StaticResource TransparentFixedButton}" Command="{Binding BackButtonCommand}"
+                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Panel.ZIndex="1" Click="BackButton_Click">
+                    <fwc:SegoeIcon x:Name="BackIcon" Text="&#xE72B;" FontSize="16"
+                               Foreground="{DynamicResource Brush_WindowIcon}" HorizontalAlignment="Center" 
+                               VerticalAlignment="Center"
+                               Visibility="{Binding ShowBackButton, Converter={StaticResource BooleanToCollapsedConverter}}">
+                        <fwc:SegoeIcon.ToolTip>
+                            <TextBlock Text="{DynamicResource Language_Back}" FontSize="13"/>
+                        </fwc:SegoeIcon.ToolTip>
+                    </fwc:SegoeIcon>
+                </Button>
+                <Grid Panel.ZIndex="2" Background="#00000000"
+                      Visibility="{Binding ShowBackButton, Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
+                    <fwc:MaterialIcon x:Name="HamburgerIcon" Text="&#xE5D2;" FontSize="1" Opacity="0"
                                   Foreground="{DynamicResource Brush_WindowIcon}" HorizontalAlignment="Center" 
                                   VerticalAlignment="Center">
-                    <fwc:MaterialIcon.ToolTip>
-                        <TextBlock Text="{DynamicResource Language_Open_Menu}" FontSize="13"/>
-                    </fwc:MaterialIcon.ToolTip>
-                </fwc:MaterialIcon>
-                <Viewbox x:Name="HeadPhoneIcon" Panel.ZIndex="1" Width="24" Height="24" Opacity="1">
-                    <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="{DynamicResource Brush_WindowIcon}" 
+                        <fwc:MaterialIcon.ToolTip>
+                            <TextBlock Text="{DynamicResource Language_Open_Menu}" FontSize="13"/>
+                        </fwc:MaterialIcon.ToolTip>
+                    </fwc:MaterialIcon>
+                    <Viewbox x:Name="HeadPhoneIcon" Panel.ZIndex="1" Width="24" Height="24" Opacity="1">
+                        <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="{DynamicResource Brush_WindowIcon}" 
                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </Viewbox>
+                    </Viewbox>
+                </Grid>
             </Grid>
         </fwc:SplitView.ButtonContent>
         <!-- SplitView Pane -->
