@@ -330,7 +330,6 @@ namespace Dopamine.Services.Playlist
                         {
                             try
                             {
-
                                 writer.WriteLine(path);
                             }
                             catch (Exception ex)

@@ -435,39 +435,46 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        private async Task OpenPlaylistAsync()
+        private async Task OpenPlaylistAsync(string playlistPath = "")
         {
-            // Set up the file dialog box
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.Title = Application.Current.FindResource("Language_Open_Playlist").ToString();
-            dlg.DefaultExt = FileFormats.M3U; // Default file extension
-
-            // Filter files by extension
-            dlg.Filter = ResourceUtils.GetString("Language_Playlists") + " (*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL + ")|*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL;
-
-            // Show the file dialog box
-            bool? dialogResult = dlg.ShowDialog();
-
-            // Process the file dialog box result
-            if ((bool)dialogResult)
+            if (string.IsNullOrEmpty(playlistPath))
             {
-                this.IsLoadingPlaylists = true;
+                // Set up the file dialog box
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+                dlg.Title = Application.Current.FindResource("Language_Open_Playlist").ToString();
+                dlg.DefaultExt = FileFormats.M3U; // Default file extension
 
-                OpenPlaylistResult openResult = await this.playlistService.OpenPlaylistAsync(dlg.FileName);
+                // Filter files by extension
+                dlg.Filter = ResourceUtils.GetString("Language_Playlists") + " (*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL + ")|*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL;
 
-                if (openResult == OpenPlaylistResult.Error)
+                // Show the file dialog box
+                bool? dialogResult = dlg.ShowDialog();
+
+                // Process the file dialog box result
+                if (!(bool)dialogResult)
                 {
-                    this.IsLoadingPlaylists = false;
-
-                    this.dialogService.ShowNotification(
-                        0xe711,
-                        16,
-                        ResourceUtils.GetString("Language_Error"),
-                        ResourceUtils.GetString("Language_Error_Opening_Playlist"),
-                        ResourceUtils.GetString("Language_Ok"),
-                        true,
-                        ResourceUtils.GetString("Language_Log_File"));
+                    return;
                 }
+
+                playlistPath = dlg.FileName;
+            }
+
+            this.IsLoadingPlaylists = true;
+
+            OpenPlaylistResult openResult = await this.playlistService.OpenPlaylistAsync(playlistPath);
+
+            if (openResult == OpenPlaylistResult.Error)
+            {
+                this.IsLoadingPlaylists = false;
+
+                this.dialogService.ShowNotification(
+                    0xe711,
+                    16,
+                    ResourceUtils.GetString("Language_Error"),
+                    ResourceUtils.GetString("Language_Error_Opening_Playlist"),
+                    ResourceUtils.GetString("Language_Ok"),
+                    true,
+                    ResourceUtils.GetString("Language_Log_File"));
             }
         }
 
@@ -695,10 +702,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 // 3. Drop playlist files in empty part of list: add the playlist with a unique name
                 foreach (string playlistFileName in playlistFileNames)
                 {
-                    uniquePlaylistName = await this.playlistService.GetUniquePlaylistAsync(System.IO.Path.GetFileNameWithoutExtension(playlistFileName));
-                    IList<TrackViewModel> playlistFileTracks = await this.fileService.ProcessFilesAsync(new string[] { playlistFileName }.ToList());
-                    await this.playlistService.AddPlaylistAsync(uniquePlaylistName);
-                    await this.playlistService.AddTracksToPlaylistAsync(playlistFileTracks, uniquePlaylistName);
+                    await this.OpenPlaylistAsync(playlistFileName);
                 }
             }
         }
