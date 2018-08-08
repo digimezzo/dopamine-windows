@@ -429,6 +429,6 @@
   <Text Key="Open_Menu">Abrir menu</Text>
   <Text Key="Toggle_Album_Order">Alternar ordem do álbum</Text>
   <Text Key="Toggle_Track_Order">Alternar ordem da faixa</Text>
-  <Text Key="Activate_Search_Field">Activate search field</Text>
-  <Text Key="Back">Back</Text>
+  <Text Key="Activate_Search_Field">Ativar campo de pesquisa</Text>
+  <Text Key="Back">Recuar</Text>
 </Language>
