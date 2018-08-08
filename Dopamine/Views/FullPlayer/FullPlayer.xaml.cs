@@ -18,6 +18,8 @@ namespace Dopamine.Views.FullPlayer
             InitializeComponent();
 
             this.regionManager = regionManager;
+
+            this.MySplitView.ShowButton = false;
         }
 
         private void AnimateHamburgerIcon(int newSize, int newOpacity, TimeSpan duration)
@@ -53,21 +55,11 @@ namespace Dopamine.Views.FullPlayer
             this.CollectionButton.IsChecked = true;
         }
 
-        private void MySplitView_PaneOpened(object sender, System.EventArgs e)
-        {
-            this.MySplitView.ShowButton = false;
-        }
-
-        private void MySplitView_PaneClosed(object sender, System.EventArgs e)
-        {
-            this.MySplitView.ShowButton = true;
-        }
-
         private void Grid_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             this.AnimateHamburgerIcon(24, 1, TimeSpan.FromMilliseconds(250));
             this.AnimateHeadPhoneIcon(1, 0, TimeSpan.FromMilliseconds(250));
-            this.AnimateBackIcon(22, TimeSpan.FromMilliseconds(100));
+            this.AnimateBackIcon(20, TimeSpan.FromMilliseconds(125));
         }
 
         private void Grid_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
@@ -98,10 +90,13 @@ namespace Dopamine.Views.FullPlayer
             this.MySplitView.IsPaneOpen = false;
         }
 
+        private void OpenMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.MySplitView.IsPaneOpen = true;
+        }
+
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            // This suppresses the standard splitview button click action (which opens the splitview pane)
-            e.Handled = true;
             this.selectedSplitViewRadioButton.IsChecked = true;
         }
     }
