@@ -11,8 +11,8 @@
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <StackPanel>
-        <TextBlock Visibility="Collapsed" Text="{DynamicResource Language_Choose_Theme}" Foreground="{DynamicResource Brush_PrimaryText}"/>
-        <dc:Windows10ToggleSwitch Visibility="Collapsed" x:Name="CheckBoxTheme" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxThemeChecked}"/>
+        <TextBlock Text="{DynamicResource Language_Choose_Theme}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+        <dc:Windows10ToggleSwitch x:Name="CheckBoxTheme" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxThemeChecked}"/>
         <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Follow_Windows_Color}" Foreground="{DynamicResource Brush_PrimaryText}"/>
         <dc:Windows10ToggleSwitch x:Name="CheckBoxWindowsColor" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxWindowsColorChecked}"/>
         <StackPanel Visibility="{Binding ShowFollowAlbumCoverColor, ElementName=AppearanceThemeControl,Converter={StaticResource BooleanToCollapsedConverter}}">
