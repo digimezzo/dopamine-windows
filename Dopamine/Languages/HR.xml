@@ -429,6 +429,6 @@
   <Text Key="Open_Menu">Otvori izbornik</Text>
   <Text Key="Toggle_Album_Order">Promijeni raspored albuma</Text>
   <Text Key="Toggle_Track_Order">Promijeni raspored pjesama</Text>
-  <Text Key="Activate_Search_Field">Activate search field</Text>
-  <Text Key="Back">Back</Text>
+  <Text Key="Activate_Search_Field">Aktiviraj polje za pretraživanje</Text>
+  <Text Key="Back">Natrag</Text>
 </Language>
