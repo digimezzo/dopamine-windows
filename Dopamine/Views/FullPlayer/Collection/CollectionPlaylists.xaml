@@ -1,4 +1,4 @@
-﻿<baseviews:PlaylistViewBase x:Class="Dopamine.Views.FullPlayer.Collection.CollectionPlaylists"
+﻿<baseviews:TracksViewBase x:Class="Dopamine.Views.FullPlayer.Collection.CollectionPlaylists"
                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -130,7 +130,7 @@
                          KeyUp="ListBoxTracks_KeyUp"
                          PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
                          Style="{StaticResource ListBoxPlaylistTracks}"
-                         ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
+                         ItemsSource="{Binding TracksCvs.View}"
                          BorderThickness="0"
                          SelectionMode="Extended">
                             <dc:MultiSelectListBox.InputBindings>
@@ -147,4 +147,4 @@
             </dc:MultiPanePanel.MiddlePaneContent>
         </dc:MultiPanePanel>
     </DockPanel>
-</baseviews:PlaylistViewBase>
+</baseviews:TracksViewBase>

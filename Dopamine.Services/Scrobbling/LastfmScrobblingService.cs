@@ -1,11 +1,11 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Api.Lastfm;
-using Dopamine.Core.Base;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
+using Dopamine.Services.Entities;
 using Dopamine.Services.Playback;
-using Dopamine.Services.Scrobbling;
+using Dopamine.Services.Utils;
 using System;
 using System.Threading.Tasks;
 
@@ -20,9 +20,9 @@ namespace Dopamine.Services.Scrobbling
         private IPlaybackService playbackService;
         private DateTime trackStartTime;
         private bool canScrobble;
-      
+
         public event Action<SignInState> SignInStateChanged = delegate { };
-    
+
         public SignInState SignInState
         {
             get
@@ -61,7 +61,7 @@ namespace Dopamine.Services.Scrobbling
                 this.password = value;
             }
         }
-    
+
         public LastFmScrobblingService(IPlaybackService playbackService)
         {
             this.playbackService = playbackService;
@@ -89,7 +89,7 @@ namespace Dopamine.Services.Scrobbling
             // When the user skips, we don't allow scrobbling.
             this.canScrobble = false;
         }
-      
+
         private async void PlaybackService_PlaybackSuccess(object sender, PlaybackSuccessEventArgs e)
         {
             if (this.SignInState == SignInState.SignedIn)
@@ -97,9 +97,9 @@ namespace Dopamine.Services.Scrobbling
                 // As soon as a track starts playing, send a Now Playing request.
                 this.trackStartTime = DateTime.Now;
                 this.canScrobble = true;
-                string artist = this.playbackService.CurrentTrack.Value.ArtistName != Defaults.UnknownArtistText ? this.playbackService.CurrentTrack.Value.ArtistName : string.Empty;
-                string trackTitle = this.playbackService.CurrentTrack.Value.TrackTitle;
-                string albumTitle = this.playbackService.CurrentTrack.Value.AlbumTitle != Defaults.UnknownAlbumText ? this.playbackService.CurrentTrack.Value.AlbumTitle : string.Empty;
+                string artist = string.IsNullOrEmpty(this.playbackService.CurrentTrack.ArtistName) ? this.playbackService.CurrentTrack.ArtistName : string.Empty;
+                string trackTitle = this.playbackService.CurrentTrack.TrackTitle;
+                string albumTitle = string.IsNullOrEmpty(this.playbackService.CurrentTrack.AlbumTitle) ? this.playbackService.CurrentTrack.AlbumTitle : string.Empty;
 
                 if (!string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {
@@ -120,7 +120,7 @@ namespace Dopamine.Services.Scrobbling
                     {
                         LogClient.Error("Could not update Now Playing for track '{0} - {1}'. Exception: {2}", artist, trackTitle, ex.Message);
                     }
-                    
+
                 }
             }
         }
@@ -132,9 +132,9 @@ namespace Dopamine.Services.Scrobbling
                 // When is a scrobble a scrobble?
                 // - The track must be longer than 30 seconds
                 // - And the track has been played for at least half its duration, or for 4 minutes (whichever occurs earlier)
-                string artist = this.playbackService.CurrentTrack.Value.ArtistName != Defaults.UnknownArtistText ? this.playbackService.CurrentTrack.Value.ArtistName : string.Empty;
-                string trackTitle = this.playbackService.CurrentTrack.Value.TrackTitle;
-                string albumTitle = this.playbackService.CurrentTrack.Value.AlbumTitle != Defaults.UnknownAlbumText ? this.playbackService.CurrentTrack.Value.AlbumTitle : string.Empty;
+                string artist = string.IsNullOrEmpty(this.playbackService.CurrentTrack.ArtistName) ? this.playbackService.CurrentTrack.ArtistName : string.Empty;
+                string trackTitle = this.playbackService.CurrentTrack.TrackTitle;
+                string albumTitle = string.IsNullOrEmpty(this.playbackService.CurrentTrack.AlbumTitle) ? this.playbackService.CurrentTrack.AlbumTitle : string.Empty;
 
                 if (this.canScrobble && !string.IsNullOrEmpty(artist) && !string.IsNullOrEmpty(trackTitle))
                 {
@@ -169,7 +169,7 @@ namespace Dopamine.Services.Scrobbling
                 }
             }
         }
-     
+
         public async Task SignIn()
         {
             try
@@ -210,40 +210,43 @@ namespace Dopamine.Services.Scrobbling
             this.SignInStateChanged(this.SignInState);
         }
 
-        public async Task<bool> SendTrackLoveAsync(PlayableTrack track, bool love)
+        public async Task SendTrackLoveAsync(TrackViewModel track, bool love)
         {
-            bool isSuccess = false;
-
             // We can't send track love for an unknown track
-            if (track.ArtistName == Defaults.UnknownArtistText | string.IsNullOrEmpty(track.TrackTitle)) return false;
+            if (string.IsNullOrEmpty(track.TrackTitle))
+            {
+                return;
+            }
 
             if (this.SignInState == SignInState.SignedIn)
             {
-                if (love)
+                foreach (string artist in DataUtils.SplitAndTrimColumnMultiValue(track.Track.Artists))
                 {
-                    try
+                    if (love)
                     {
-                        isSuccess = await LastfmApi.TrackLove(this.sessionKey, track.ArtistName, track.TrackTitle);
+                        try
+                        {
+                            await LastfmApi.TrackLove(this.sessionKey, artist, track.TrackTitle);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not send track.love to Last.fm. Exception: {0}", ex.Message);
+                        }
+
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        LogClient.Error("Could not send track.love to Last.fm. Exception: {0}", ex.Message);
-                    }
-                    
-                }else
-                {
-                    try
-                    {
-                        isSuccess = await LastfmApi.TrackUnlove(this.sessionKey, track.ArtistName, track.TrackTitle);
-                    }
-                    catch (Exception ex)
-                    {
-                        LogClient.Error("Could not send track.unlove to Last.fm. Exception: {0}", ex.Message);
+                        try
+                        {
+                            await LastfmApi.TrackUnlove(this.sessionKey, artist, track.TrackTitle);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not send track.unlove to Last.fm. Exception: {0}", ex.Message);
+                        }
                     }
                 }
             }
-
-            return isSuccess;
         }
     }
 }

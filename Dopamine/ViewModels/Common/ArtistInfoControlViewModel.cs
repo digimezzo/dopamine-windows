@@ -4,8 +4,7 @@ using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Digimezzo.WPFControls.Enums;
 using Dopamine.Core.Api.Lastfm;
-using Dopamine.Core.Base;
-using Dopamine.Data.Entities;
+using Dopamine.Services.Entities;
 using Dopamine.Services.I18n;
 using Dopamine.Services.Playback;
 using Prism.Commands;
@@ -22,8 +21,8 @@ namespace Dopamine.ViewModels.Common
         private ArtistInfoViewModel artistInfoViewModel;
         private IPlaybackService playbackService;
         private II18nService i18nService;
-        private Data.Entities.Artist previousArtist;
-        private Data.Entities.Artist artist;
+        private string previousArtistName;
+        private string artistName;
         private SlideDirection slideDirection;
         private bool isBusy;
 
@@ -68,48 +67,48 @@ namespace Dopamine.ViewModels.Common
             this.playbackService.PlaybackSuccess += async (_, e) =>
             {
                 this.SlideDirection = e.IsPlayingPreviousTrack ? SlideDirection.RightToLeft : SlideDirection.LeftToRight;
-                await this.ShowArtistInfoAsync(this.playbackService.CurrentTrack.Value, false);
+                await this.ShowArtistInfoAsync(this.playbackService.CurrentTrack, false);
             };
 
             this.i18nService.LanguageChanged += async (_, __) =>
             {
-                if (this.playbackService.HasCurrentTrack) await this.ShowArtistInfoAsync(this.playbackService.CurrentTrack.Value, true);
+                if (this.playbackService.HasCurrentTrack) await this.ShowArtistInfoAsync(this.playbackService.CurrentTrack, true);
             };
 
             // Defaults
             this.SlideDirection = SlideDirection.LeftToRight;
-            this.ShowArtistInfoAsync(this.playbackService.CurrentTrack.Value, true);
+            this.ShowArtistInfoAsync(this.playbackService.CurrentTrack, true);
         }
 
-        private async Task ShowArtistInfoAsync(PlayableTrack track, bool forceReload)
+        private async Task ShowArtistInfoAsync(TrackViewModel track, bool forceReload)
         {
-            this.previousArtist = this.artist;
+            this.previousArtistName = this.artistName;
 
             // User doesn't want to download artist info, or no track is selected.
             if (!SettingsClient.Get<bool>("Lastfm", "DownloadArtistInformation") || track == null)
             {
                 this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                this.artist = null;
+                this.artistName = string.Empty;
                 return;
             }
 
             // Artist name is unknown
-            if (track.ArtistName == Defaults.UnknownArtistText)
+            if (string.IsNullOrEmpty(track.ArtistName))
             {
                 ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                await localArtistInfoViewModel.SetLastFmArtistAsync(new Core.Api.Lastfm.Artist { Name = Defaults.UnknownArtistText });
+                await localArtistInfoViewModel.SetLastFmArtistAsync(new Artist { Name = string.Empty });
                 this.ArtistInfoViewModel = localArtistInfoViewModel;
-                this.artist = null;
+                this.artistName = string.Empty;
                 return;
             }
 
-            this.artist = new Data.Entities.Artist
-            {
-                ArtistName = track.ArtistName
-            };
+            this.artistName = track.ArtistName;
 
             // The artist didn't change: leave the previous artist info.
-            if (this.artist.Equals(this.previousArtist) & !forceReload) return;
+            if (this.artistName.Equals(this.previousArtistName) & !forceReload)
+            {
+                return;
+            }
 
             // The artist changed: we need to show new artist info.
             string artworkPath = string.Empty;
@@ -118,7 +117,7 @@ namespace Dopamine.ViewModels.Common
 
             try
             {
-                Core.Api.Lastfm.Artist lfmArtist = await LastfmApi.ArtistGetInfo(track.ArtistName, true, ResourceUtils.GetString("Language_ISO639-1"));
+                Artist lfmArtist = await LastfmApi.ArtistGetInfo(track.ArtistName, true, ResourceUtils.GetString("Language_ISO639-1"));
 
                 if (lfmArtist != null)
                 {
@@ -144,7 +143,7 @@ namespace Dopamine.ViewModels.Common
             {
                 LogClient.Error("Could not show artist information for Track {0}. Exception: {1}", track.Path, ex.Message);
                 this.ArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                this.artist = null;
+                this.artistName = string.Empty;
             }
 
             this.IsBusy = false;

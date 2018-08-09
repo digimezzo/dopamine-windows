@@ -1,14 +1,15 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
-using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
+using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
-using Dopamine.Services.File;
-using Dopamine.Services.Utils;
+using Dopamine.Services.Entities;
+using Dopamine.Services.Extensions;
+using Prism.Ioc;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,22 +25,22 @@ namespace Dopamine.Services.File
     public class FileService : IFileService
     {
         private ICacheService cacheService;
-        private ILocalizationInfo info;
-        private ITrackStatisticRepository trackStatisticRepository;
         private IFileMetadataFactory fileMetadataFactory;
+        private ITrackRepository trackRepository;
+        private IContainerProvider container;
         private IList<string> files;
         private object lockObject = new object();
         private Timer addFilesTimer;
         private int addFilesMilliseconds = 250;
         private string instanceGuid;
 
-        public FileService(ICacheService cacheService, ITrackStatisticRepository trackStatisticRepository,
-            IFileMetadataFactory fileMetadataFactory, ILocalizationInfo info)
+        public FileService(ICacheService cacheService, IFileMetadataFactory fileMetadataFactory,
+            ITrackRepository trackRepository, IContainerProvider container)
         {
             this.cacheService = cacheService;
-            this.trackStatisticRepository = trackStatisticRepository;
             this.fileMetadataFactory = fileMetadataFactory;
-            this.info = info;
+            this.trackRepository = trackRepository;
+            this.container = container;
 
             // Unique identifier which will be used by this instance only to create cached artwork.
             // This prevents the cleanup function to delete artwork which is in use by this instance.
@@ -55,19 +56,19 @@ namespace Dopamine.Services.File
         public event TracksImportedHandler TracksImported = delegate { };
         public event EventHandler ImportingTracks = delegate { };
 
-        private async Task<Tuple<List<PlayableTrack>, PlayableTrack>> ProcessFileAsync(string path)
+        private async Task<Tuple<List<TrackViewModel>, TrackViewModel>> ProcessFileAsync(string path)
         {
-            var tracks = new List<PlayableTrack>();
-            PlayableTrack selectedTrack = await this.CreateTrackAsync(path);
+            var tracks = new List<TrackViewModel>();
+            TrackViewModel selectedTrack = await this.CreateTrackAsync(path);
 
             tracks.Add(await this.CreateTrackAsync(path));
 
-            return new Tuple<List<PlayableTrack>, PlayableTrack>(tracks, selectedTrack);
+            return new Tuple<List<TrackViewModel>, TrackViewModel>(tracks, selectedTrack);
         }
 
-        public async Task<List<PlayableTrack>> ProcessFilesAsync(List<string> paths)
+        public async Task<List<TrackViewModel>> ProcessFilesAsync(IList<string> paths)
         {
-            var tracks = new List<PlayableTrack>();
+            var tracks = new List<TrackViewModel>();
 
             await Task.Run(async () =>
             {
@@ -115,26 +116,23 @@ namespace Dopamine.Services.File
             this.ImportTracks(args);
         }
 
-        public async Task<PlayableTrack> CreateTrackAsync(string path)
+        public async Task<TrackViewModel> CreateTrackAsync(string path)
         {
-            var returnTrack = new PlayableTrack();
+            TrackViewModel returnTrack = null;
 
             try
             {
-                var savedTrackStatistic = await this.trackStatisticRepository.GetTrackStatisticAsync(path);
-                returnTrack = await MetadataUtils.Path2TrackAsync(this.fileMetadataFactory.Create(path), savedTrackStatistic);
+                PlaybackCounter playbackCounters = await this.trackRepository.GetPlaybackCountersAsync(path);
+                Track track  = await MetadataUtils.Path2TrackAsync(this.fileMetadataFactory.Create(path));
+
+                returnTrack = container.ResolveTrackViewModel(track);
             }
             catch (Exception ex)
             {
                 // Make sure the file can be opened by creating a Track with some default values
-                returnTrack = PlayableTrack.CreateDefault(path);
+                returnTrack = container.ResolveTrackViewModel(Track.CreateDefault(path));
                 LogClient.Error("Error while creating Track from file '{0}'. Creating default track. Exception: {1}", path, ex.Message);
             }
-
-            returnTrack.ArtistName = returnTrack.ArtistName.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
-            returnTrack.AlbumArtist = returnTrack.AlbumArtist.Replace(Defaults.UnknownArtistText, info.UnknownArtistText);
-            returnTrack.AlbumTitle = returnTrack.AlbumTitle.Replace(Defaults.UnknownAlbumText, info.UnknownAlbumText);
-            returnTrack.GenreName = returnTrack.GenreName.Replace(Defaults.UnknownGenreText, info.UnknownGenreText);
 
             return returnTrack;
         }
@@ -210,8 +208,8 @@ namespace Dopamine.Services.File
                     tempFiles.Sort(); // Sort the files alphabetically
                 });
 
-                List<PlayableTrack> tracks = await this.ProcessFilesAsync(tempFiles);
-                PlayableTrack selectedTrack = tracks.First();
+                List<TrackViewModel> tracks = await this.ProcessFilesAsync(tempFiles);
+                TrackViewModel selectedTrack = tracks.First();
 
                 LogClient.Info("Number of tracks to play = {0}", tracks.Count.ToString());
 

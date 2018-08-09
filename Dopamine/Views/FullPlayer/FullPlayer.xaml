@@ -1,5 +1,4 @@
 ﻿<UserControl x:Class="Dopamine.Views.FullPlayer.FullPlayer"
-             x:Name="This"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -24,80 +23,7 @@
     </i:Interaction.Triggers>
 
     <fwc:SplitView x:Name="MySplitView" IsPaneOpen="False" OpenPaneLength="300"
-                   OverlayBackground="{DynamicResource Brush_DimBackground}"
-                   ButtonHeight="56"
-                   ButtonWidth="56"
-                   PaneOpened="MySplitView_PaneOpened"
-                   PaneClosed="MySplitView_PaneClosed">
-        <!-- SplitView ButtonContent -->
-        <fwc:SplitView.ButtonContent>
-            <Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave">
-                <Viewbox Width="34" Height="34" Panel.ZIndex="0">
-                    <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
-                </Viewbox>
-                <fwc:MaterialIcon x:Name="HamburgerIcon" Panel.ZIndex="1" Text="&#xE5D2;" FontSize="1" Opacity="0"
-                                  Foreground="{DynamicResource Brush_WindowIcon}" HorizontalAlignment="Center" 
-                                  VerticalAlignment="Center">
-                    <fwc:MaterialIcon.ToolTip>
-                        <TextBlock Text="{DynamicResource Language_Open_Menu}" FontSize="13"/>
-                    </fwc:MaterialIcon.ToolTip>
-                    <fwc:MaterialIcon.Style>
-                        <Style>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsMouseOverSplitViewButton, ElementName=This}" Value="true">
-                                    <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetProperty="FontSize" To="24" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.EnterActions>
-                                    <DataTrigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetProperty="FontSize" To="1" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.ExitActions>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </fwc:MaterialIcon.Style>
-                </fwc:MaterialIcon>
-                <Viewbox x:Name="HeadPhoneIcon" Panel.ZIndex="1" Width="24" Height="24" Opacity="1">
-                    <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="{DynamicResource Brush_WindowIcon}" 
-                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    <Viewbox.Style>
-                        <Style>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsMouseOverSplitViewButton, ElementName=This}" Value="true">
-                                    <DataTrigger.EnterActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetProperty="Width" To="0" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="Height" To="0" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.EnterActions>
-                                    <DataTrigger.ExitActions>
-                                        <BeginStoryboard>
-                                            <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetProperty="Width" To="24" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="Height" To="24" Duration="0:0:0.25"/>
-                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
-                                            </Storyboard>
-                                        </BeginStoryboard>
-                                    </DataTrigger.ExitActions>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Viewbox.Style>
-                </Viewbox>
-            </Grid>
-        </fwc:SplitView.ButtonContent>
+                   OverlayBackground="{DynamicResource Brush_DimBackground}">
         <!-- SplitView Pane -->
         <fwc:SplitView.Pane>
             <Grid>
@@ -140,17 +66,55 @@
         <!-- SplitView Content -->
         <fwc:SplitView.Content>
             <Grid x:Name="SplitViewContent">
-                <Border VerticalAlignment="Top" HorizontalAlignment="Stretch"
-                        Height="56" Background="{DynamicResource Brush_WindowHeaderBackground}"/>
-                <DockPanel>
+                <Border VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="56" Panel.ZIndex="0"
+                        Background="{DynamicResource Brush_WindowHeaderBackground}"/>
+                <DockPanel Panel.ZIndex="1">
                     <DockPanel DockPanel.Dock="Top">
-                        <Border DockPanel.Dock="Left" Width="65"/>
+                        <Grid DockPanel.Dock="Left" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave"
+                              Width="56" Height="56" Background="#00000000">
+                            <!-- Droplet -->
+                            <Viewbox Width="34" Height="34" Panel.ZIndex="0">
+                                <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
+                            </Viewbox>
+                            <!-- Back button -->
+                            <Button x:Name="BackButton" Style="{StaticResource TransparentFixedButton}" Command="{Binding BackButtonCommand}"
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Panel.ZIndex="1"
+                                    Visibility="{Binding ShowBackButton, Converter={StaticResource BooleanToCollapsedConverter}}"
+                                    Click="BackButton_Click">
+                                <fwc:SegoeIcon x:Name="BackIcon" Text="&#xE72B;" FontSize="20"
+                                               Foreground="{DynamicResource Brush_WindowIcon}" HorizontalAlignment="Center" 
+                                               VerticalAlignment="Center">
+                                    <fwc:SegoeIcon.ToolTip>
+                                        <TextBlock Text="{DynamicResource Language_Back}" FontSize="13"/>
+                                    </fwc:SegoeIcon.ToolTip>
+                                </fwc:SegoeIcon>
+                            </Button>
+                            <!-- Open menu button -->
+                            <Button x:Name="OpenMenuButton" Style="{StaticResource TransparentFixedButton}"
+                                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Panel.ZIndex="1"
+                                    Visibility="{Binding ShowBackButton, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"
+                                    Click="OpenMenuButton_Click">
+                                <Grid>
+                                    <fwc:MaterialIcon x:Name="HamburgerIcon" Text="&#xE5D2;" FontSize="1" Opacity="0"
+                                                  Foreground="{DynamicResource Brush_WindowIcon}" HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center">
+                                        <fwc:MaterialIcon.ToolTip>
+                                            <TextBlock Text="{DynamicResource Language_Open_Menu}" FontSize="13"/>
+                                        </fwc:MaterialIcon.ToolTip>
+                                    </fwc:MaterialIcon>
+                                    <Viewbox x:Name="HeadPhoneIcon" Panel.ZIndex="1" Width="24" Height="24" Opacity="1">
+                                        <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="{DynamicResource Brush_WindowIcon}" 
+                                          HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Viewbox>
+                                </Grid>
+                            </Button>
+                        </Grid>
                         <controls:TransitioningContentControl 
-                            FadeIn="True" FadeInTimeout="0.75" SlideIn="True" 
-                            SlideInTimeout="0.75" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerMenuRegion" 
-                            prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerMenuRegion}"/>
+                                FadeIn="True" FadeInTimeout="0.75" SlideIn="True" 
+                                SlideInTimeout="0.75" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerMenuRegion" 
+                                prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerMenuRegion}"/>
                     </DockPanel>
-                    <Grid DockPanel.Dock="Top" Margin="0,0,0,0">
+                    <Grid DockPanel.Dock="Top">
                         <commonviews:UpdateStatus Panel.ZIndex="0"/>
                         <commonviews:IndexingStatus Panel.ZIndex="1"/>
                     </Grid>

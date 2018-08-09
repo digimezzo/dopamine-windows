@@ -11,6 +11,7 @@ using Prism.Mvvm;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Collections.Generic;
 
 namespace Dopamine.ViewModels.Common.Base
 {
@@ -109,15 +110,19 @@ namespace Dopamine.ViewModels.Common.Base
             this.ExportArtworkCommand.RaiseCanExecuteChanged();
         }
 
-        protected async Task DownloadArtworkAsync(string title, string artist, string alternateTitle = "", string alternateArtist = "")
+        protected async Task DownloadArtworkAsync(string title, IList<string> artists, string alternateTitle = "", IList<string> alternateArtists = null)
         {
             this.IsBusy = true;
 
             try
             {
-                Uri artworkUri = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(title, artist, alternateTitle, alternateArtist);
-                string temporaryFile = await this.cacheService.DownloadFileToTemporaryCacheAsync(artworkUri);
-                this.UpdateArtwork(ImageUtils.Image2ByteArray(temporaryFile, 0, 0));
+                Uri artworkUri = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(title, artists, alternateTitle, alternateArtists);
+
+                if(artworkUri != null)
+                {
+                    string temporaryFile = await this.cacheService.DownloadFileToTemporaryCacheAsync(artworkUri);
+                    this.UpdateArtwork(ImageUtils.Image2ByteArray(temporaryFile, 0, 0));
+                }
             }
             catch (Exception ex)
             {

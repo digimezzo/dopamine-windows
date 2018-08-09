@@ -6,7 +6,9 @@ namespace Dopamine.Data.Entities
     {
         [PrimaryKey(), AutoIncrement()]
         public long FolderTrackID { get; set; }
+
         public long FolderID { get; set; }
+
         public long TrackID { get; set; }
 
         public FolderTrack()

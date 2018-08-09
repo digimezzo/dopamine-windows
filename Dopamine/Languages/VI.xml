@@ -429,4 +429,6 @@
   <Text Key="Open_Menu">Mở menu</Text>
   <Text Key="Toggle_Album_Order">Chuyển đổi thứ tự album</Text>
   <Text Key="Toggle_Track_Order">Chuyển đổi thứ tự bài hát</Text>
+  <Text Key="Activate_Search_Field">Activate search field</Text>
+  <Text Key="Back">Back</Text>
 </Language>

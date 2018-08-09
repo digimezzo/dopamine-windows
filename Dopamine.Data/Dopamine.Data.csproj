@@ -82,21 +82,18 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DatabaseUtils.cs" />
+    <Compile Include="AlbumData.cs" />
+    <Compile Include="DataUtils.cs" />
     <Compile Include="DbMigrator.cs" />
-    <Compile Include="Entities\Album.cs" />
-    <Compile Include="Entities\Artist.cs" />
     <Compile Include="Entities\Configuration.cs" />
     <Compile Include="Entities\Folder.cs" />
     <Compile Include="Entities\FolderTrack.cs" />
-    <Compile Include="Entities\Genre.cs" />
-    <Compile Include="Entities\PlayableTrack.cs" />
     <Compile Include="Entities\QueuedTrack.cs" />
     <Compile Include="Entities\RemovedTrack.cs" />
     <Compile Include="Entities\Track.cs" />
-    <Compile Include="Entities\TrackStatistic.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ISQLiteConnectionFactory.cs" />
+    <Compile Include="MetaDataUtils.cs" />
     <Compile Include="Metadata\FileMetadata.cs" />
     <Compile Include="Metadata\FileMetadataFactory.cs" />
     <Compile Include="Metadata\IFileMetadata.cs" />
@@ -104,6 +101,7 @@
     <Compile Include="Metadata\MetadataArtworkValue.cs" />
     <Compile Include="Metadata\MetadataRatingValue.cs" />
     <Compile Include="Metadata\MetadataValue.cs" />
+    <Compile Include="PlaybackCounters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -117,20 +115,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Repositories\AlbumRepository.cs" />
-    <Compile Include="Repositories\ArtistRepository.cs" />
+    <Compile Include="Entities\AlbumArtwork.cs" />
+    <Compile Include="Repositories\AlbumArtworkRepository.cs" />
     <Compile Include="Repositories\FolderRepository.cs" />
-    <Compile Include="Repositories\GenreRepository.cs" />
-    <Compile Include="Repositories\IAlbumRepository.cs" />
-    <Compile Include="Repositories\IArtistRepository.cs" />
+    <Compile Include="Repositories\IAlbumArtworkRepository.cs" />
     <Compile Include="Repositories\IFolderRepository.cs" />
-    <Compile Include="Repositories\IGenreRepository.cs" />
     <Compile Include="Repositories\IQueuedTrackRepository.cs" />
     <Compile Include="Repositories\ITrackRepository.cs" />
-    <Compile Include="Repositories\ITrackStatisticRepository.cs" />
     <Compile Include="Repositories\QueuedTrackRepository.cs" />
     <Compile Include="Repositories\TrackRepository.cs" />
-    <Compile Include="Repositories\TrackStatisticRepository.cs" />
     <Compile Include="SQLiteConnectionFactory.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

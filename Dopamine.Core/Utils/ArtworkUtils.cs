@@ -1,46 +1,51 @@
-﻿using Dopamine.Core.Base;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dopamine.Core.Utils
 {
     public static class ArtworkUtils
     {
-        public static async Task<Uri> GetAlbumArtworkFromInternetAsync(string title, string artist, string alternateTitle = "", string alternateArtist = "")
+        public static async Task<Uri> GetAlbumArtworkFromInternetAsync(string albumTitle, IList<string> albumArtists, string trackTitle = "", IList<string> trackArtists = null)
         {
-            string albumTitle = string.Empty;
-            string albumArtist = string.Empty;
+            string title = string.Empty;
+            List<string> artists = new List<string>();
 
             // Title
-            if (!title.Equals(Defaults.UnknownAlbumText) && !string.IsNullOrEmpty(title))
+            if (!string.IsNullOrEmpty(albumTitle))
             {
-                albumTitle = title;
+                title = albumTitle;
             }
-            else if (!alternateTitle.Equals(Defaults.UnknownAlbumText) && !string.IsNullOrEmpty(alternateTitle))
+            else if (!string.IsNullOrEmpty(trackTitle))
             {
-                albumTitle = alternateTitle;
+                title = trackTitle;
             }
 
             // Artist
-            if (!artist.Equals(Defaults.UnknownAlbumText) && !string.IsNullOrEmpty(artist))
+            if (albumArtists != null && albumArtists.Count > 0)
             {
-                albumArtist = artist;
-            }
-            else if (!alternateArtist.Equals(Defaults.UnknownAlbumText) && !string.IsNullOrEmpty(alternateArtist))
-            {
-                albumArtist = alternateArtist;
+                artists.AddRange(albumArtists.Where(a => !string.IsNullOrEmpty(a)));
             }
 
-            if (string.IsNullOrEmpty(albumTitle) || string.IsNullOrEmpty(albumArtist))
+            if (trackArtists != null && trackArtists.Count > 0)
+            {
+                artists.AddRange(trackArtists.Where(a => !string.IsNullOrEmpty(a)));
+            }
+
+            if (string.IsNullOrEmpty(title) || artists == null)
             {
                 return null;
             }
 
-            Api.Lastfm.Album lfmAlbum = await Api.Lastfm.LastfmApi.AlbumGetInfo(albumArtist, albumTitle, false, "EN");
-
-            if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
+            foreach (string artist in artists)
             {
-                return new Uri(lfmAlbum.LargestImage());
+                Api.Lastfm.Album lfmAlbum = await Api.Lastfm.LastfmApi.AlbumGetInfo(artist, title, false, "EN");
+
+                if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
+                {
+                    return new Uri(lfmAlbum.LargestImage());
+                }
             }
 
             return null;

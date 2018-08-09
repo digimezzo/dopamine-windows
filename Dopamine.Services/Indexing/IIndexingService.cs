@@ -8,15 +8,25 @@ namespace Dopamine.Services.Indexing
     public interface IIndexingService
     {
         void OnFoldersChanged();
+
         bool IsIndexing { get; }
+
         Task RefreshCollectionAsync();
+
         Task RefreshCollectionIfFoldersChangedAsync();
+
         Task RefreshCollectionImmediatelyAsync();
-        void ReloadAlbumArtworkAsync(bool reloadOnlyMissing);
+
+        void ReScanAlbumArtworkAsync(bool reloadOnlyMissing);
+
         event EventHandler IndexingStarted;
+
         event EventHandler IndexingStopped;
+
         event Action<IndexingStatusEventArgs> IndexingStatusChanged;
+
         event EventHandler RefreshLists;
+
         event AlbumArtworkAddedEventHandler AlbumArtworkAdded;
     }
 }

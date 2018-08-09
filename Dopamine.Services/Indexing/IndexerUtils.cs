@@ -77,14 +77,14 @@ namespace Dopamine.Services.Indexing
             return artworkData;
         }
 
-        public static byte[] GetArtwork(Album album, IFileMetadata fileMetadata)
+        public static byte[] GetArtwork(string albumKey, IFileMetadata fileMetadata)
         {
             byte[] artworkData = null;
 
             try
             {
-                // Don't get artwork is the album is unknown
-                if (!album.AlbumTitle.Equals(Defaults.UnknownAlbumText))
+                // Don't get artwork if the album is unknown
+                if (!string.IsNullOrEmpty(albumKey))
                 {
                     // Get embedded artwork
                     artworkData = GetEmbeddedArtwork(fileMetadata);
@@ -98,7 +98,7 @@ namespace Dopamine.Services.Indexing
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not get artwork for Album with Title='{0}' and Album artist='{1}'. Exception: {2}", album.AlbumTitle, album.AlbumArtist, ex.Message);
+                LogClient.Error($"Could not get artwork for Album with AlbumKey='{albumKey}'. Exception: {ex.Message}");
             }
 
             return artworkData;

@@ -1,4 +1,4 @@
-﻿using Dopamine.Data.Entities;
+﻿using Dopamine.Services.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -16,17 +16,29 @@ namespace Dopamine.Services.Playlist
         string PlaylistFolder { get; }
 
         Task<string> GetUniquePlaylistAsync(string proposedPlaylistName);
+
         Task<AddPlaylistResult> AddPlaylistAsync(string playlistName);
+
         Task<DeletePlaylistsResult> DeletePlaylistAsync(string playlistName);
+
         Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName);
+
         Task<List<string>> GetPlaylistsAsync();
+
         Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName);
-        Task<List<PlayableTrack>> GetTracks(string playlistName);
-        Task SetPlaylistOrderAsync(IList<PlayableTrack> tracks, string playlistName);
-        Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlistName);
-        Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName);
-        Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<long> genreIds, string playlistName);
-        Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<long> albumIds, string playlistName);
+
+        Task<List<TrackViewModel>> GetTracks(string playlistName);
+
+        Task SetPlaylistOrderAsync(IList<TrackViewModel> tracks, string playlistName);
+
+        Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<TrackViewModel> tracks, string playlistName);
+
+        Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<string> artists, string playlistName);
+
+        Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<string> genres, string playlistName);
+
+        Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<AlbumViewModel> albumViewModels, string playlistName);
+
         Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<int> indexes, string playlistName);
 
         event PlaylistAddedHandler PlaylistAdded;

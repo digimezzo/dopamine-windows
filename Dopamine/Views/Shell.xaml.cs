@@ -174,7 +174,7 @@ namespace Dopamine.Views
             // Update file metadata
             // --------------------
             LogClient.Info("Updating file metadata");
-            await this.metadataService.SafeUpdateFileMetadataAsync();
+            await this.metadataService.ForceSaveFileMetadataAsync();
 
             // Save track statistics
             // ---------------------
@@ -341,7 +341,7 @@ namespace Dopamine.Views
             // I18nService
             this.i18nService.LanguageChanged += (_, __) =>
             {
-                // TODO: the DynamicResource binding doesn't update the PART_MiniPlayerButton ToolTip on language change.
+                // HACK: the DynamicResource binding doesn't update the PART_MiniPlayerButton ToolTip on language change.
                 // This is a workaround to make sure the PART_MiniPlayerButton ToolTip also gets updated on a language change.
                 // Is there a better way to do this.
                 if (this.PART_MiniPlayerButton != null)
@@ -531,6 +531,10 @@ namespace Dopamine.Views
                     {
                         LogClient.Error("Could not view the log file {0} in explorer. Exception: {1}", LogClient.Logfile(), ex.Message);
                     }
+                }
+                else if (e.Key == Key.F)
+                {
+                    this.eventAggregator.GetEvent<FocusSearchBox>().Publish(null);
                 }
                 else if (e.Key == Key.OemPlus | e.Key == Key.Add)
                 {

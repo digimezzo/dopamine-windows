@@ -54,7 +54,7 @@
                                        Foreground="{DynamicResource Brush_SecondaryText}" />
                         </Button>
                         <Button x:Name="ArtistsButton"
-                                Content="{Binding ArtistOrderText}" 
+                                Content="{Binding ArtistTypeText}" 
                                 Style="{StaticResource TransparentButton}"
                                 FontSize="13" 
                                 Margin="10,0,0,0"
@@ -75,7 +75,7 @@
                                                VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                                                VirtualizingStackPanel.VirtualizationMode="Recycling"    
                                                Style="{StaticResource ListBoxArtists}"
-                                               ItemsSource="{Binding ArtistsCvs.View,IsAsync=True}"
+                                               ItemsSource="{Binding ArtistsCvs.View}"
                                                BorderThickness="0" 
                                                MouseDoubleClick="ListBoxArtists_MouseDoubleClick" 
                                                PreviewKeyDown="ListBoxArtists_PreviewKeyDown"
@@ -116,7 +116,7 @@
                                          HorizontalAlignment="Stretch"
                                          VerticalAlignment="Stretch"
                                          Style="{StaticResource ListBoxSemanticZoom}"
-                                         ItemsSource="{Binding ArtistsZoomSelectors,IsAsync=True}"/>
+                                         ItemsSource="{Binding ArtistsZoomSelectors}"/>
                             </Border>
                         </Border>
                     </Grid>
@@ -141,7 +141,7 @@
                 </DockPanel>
                 <dc:MultiSelectListBox x:Name="ListBoxAlbums"
                                        Style="{StaticResource ListBoxAlbums}"
-                                       ItemsSource="{Binding AlbumsCvs.View,IsAsync=True}"
+                                       ItemsSource="{Binding AlbumsCvs.View}"
                                        BorderThickness="0"
                                        MouseDoubleClick="ListBoxAlbums_MouseDoubleClick"
                                        PreviewKeyDown="ListBoxAlbums_PreviewKeyDown"
@@ -186,7 +186,7 @@
                                            VirtualizingPanel.IsVirtualizingWhenGrouping="True"
                                            VirtualizingStackPanel.VirtualizationMode="Recycling"                       
                                            Style="{StaticResource ListBoxTracks}"
-                                           ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
+                                           ItemsSource="{Binding TracksCvs.View}"
                                            MouseDoubleClick="ListBoxTracks_MouseDoubleClick"
                                            PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
                                            KeyUp="ListBoxTracks_KeyUp" 

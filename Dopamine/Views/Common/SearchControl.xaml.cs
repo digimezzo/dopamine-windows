@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using CommonServiceLocator;
+using Dopamine.Core.Prism;
+using Prism.Events;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Dopamine.Views.Common
 {
@@ -20,6 +10,10 @@ namespace Dopamine.Views.Common
         public SearchControl()
         {
             InitializeComponent();
+
+            IEventAggregator eventAggregator = ServiceLocator.Current.GetInstance<IEventAggregator>();
+
+            eventAggregator.GetEvent<FocusSearchBox>().Subscribe((_) => this.SearchBox.SetKeyboardFocus());
         }
     }
 }

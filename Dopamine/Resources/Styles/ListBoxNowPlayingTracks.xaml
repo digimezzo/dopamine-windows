@@ -57,15 +57,15 @@
                             <Border.ToolTip>
                                 <ToolTip>
                                     <StackPanel>
-                                        <TextBlock Text="{Binding Value.TrackTitle}" FontWeight="Bold"/>
-                                        <TextBlock Text="{Binding Value.ArtistName}"/>
+                                        <TextBlock Text="{Binding TrackTitle}" FontWeight="Bold"/>
+                                        <TextBlock Text="{Binding ArtistName}"/>
                                     </StackPanel>
                                 </ToolTip>
                             </Border.ToolTip>
                             <DockPanel Margin="10,0,10,0">
                                 <Grid DockPanel.Dock="Left">
                                     <Grid Panel.ZIndex="0"
-                                      Visibility="{Binding Value.ShowTrackArt,Converter={StaticResource BooleanToCollapsedConverter}}">
+                                      Visibility="{Binding ShowTrackArt,Converter={StaticResource BooleanToCollapsedConverter}}">
                                         <pc:Tile Width="40" Height="40"
                                              Panel.ZIndex="0"
                                              IconSizePercent="{x:Static base:Constants.HeadPhoneLargeSize}"
@@ -76,12 +76,12 @@
                                                 </Viewbox>
                                             </pc:Tile.Content>
                                         </pc:Tile>
-                                        <Image Panel.ZIndex="1" Width="40" Height="40" Source="{Binding Value.TrackArt}" RenderOptions.BitmapScalingMode="HighQuality"/>
+                                        <Image Panel.ZIndex="1" Width="40" Height="40" Source="{Binding TrackArt}" RenderOptions.BitmapScalingMode="HighQuality"/>
                                     </Grid>
                                     <Border Panel.ZIndex="1" MinWidth="20" Height="40" 
-                                        Visibility="{Binding Value.ShowTrackArt,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
+                                        Visibility="{Binding ShowTrackArt,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
                                         <TextBlock 
-                                        Text="{Binding Value.FormattedTrackNumber}" 
+                                        Text="{Binding FormattedTrackNumber}" 
                                         HorizontalAlignment="Center" 
                                         VerticalAlignment="Center"
                                         Foreground="{DynamicResource Brush_SecondaryText}"
@@ -92,19 +92,19 @@
                                     <DockPanel Height="20">
                                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                                             <Label Style="{DynamicResource SpectrumAnimation}"
-                                                   Visibility="{Binding Value.IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                   IsHitTestVisible="{Binding Value.IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                   Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                                   IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                                    Foreground="{DynamicResource Brush_Accent}" 
                                                    Margin="0,0,10,0" 
                                                    VerticalAlignment="Center"/>
                                             <TextBlock
-                                                Text="{Binding Value.Duration}" 
+                                                Text="{Binding Duration}" 
                                                 TextAlignment="Right"
                                                 FontSize="13" 
                                                 VerticalAlignment="Center"
                                                 Margin="0,0,2,0"/>
                                         </StackPanel>
-                                        <TextBlock Text="{Binding Value.TrackTitle}"
+                                        <TextBlock Text="{Binding TrackTitle}"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Stretch" 
                                                TextTrimming="CharacterEllipsis"
@@ -116,15 +116,15 @@
                                             <pc:RatingButton 
                                             VerticalAlignment="Center" 
                                             Visibility="{Binding DataContext.EnableRating,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Converter={StaticResource BooleanToCollapsedConverter}}"
-                                            Rating="{Binding Value.Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            Rating="{Binding Rating, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                             <pc:LoveButton 
                                             Margin="10,0,0,0"
                                             VerticalAlignment="Center" 
                                             SelectedForeground="{DynamicResource Brush_Accent}"
                                             Visibility="{Binding DataContext.EnableLove,UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}},Converter={StaticResource BooleanToCollapsedConverter}}"
-                                            Love="{Binding Value.Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                                            Love="{Binding Love, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                                         </StackPanel>
-                                        <TextBlock Text="{Binding Value.ArtistName}"
+                                        <TextBlock Text="{Binding ArtistName}"
                                                VerticalAlignment="Center"
                                                HorizontalAlignment="Stretch" 
                                                TextTrimming="CharacterEllipsis"

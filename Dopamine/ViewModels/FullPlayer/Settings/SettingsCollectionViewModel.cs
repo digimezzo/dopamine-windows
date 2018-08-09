@@ -53,7 +53,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
                 if (value)
                 {
-                    this.indexingService.ReloadAlbumArtworkAsync(true);
+                    this.indexingService.ReScanAlbumArtworkAsync(true);
                 }
             }
         }
@@ -76,8 +76,8 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             this.trackRepository = trackRepository;
 
             this.RefreshNowCommand = new DelegateCommand(this.RefreshNow);
-            this.ReloadAllCoversCommand = new DelegateCommand(() => this.indexingService.ReloadAlbumArtworkAsync(false));
-            this.ReloadMissingCoversCommand = new DelegateCommand(() => this.indexingService.ReloadAlbumArtworkAsync(true));
+            this.ReloadAllCoversCommand = new DelegateCommand(() => this.indexingService.ReScanAlbumArtworkAsync(false));
+            this.ReloadMissingCoversCommand = new DelegateCommand(() => this.indexingService.ReScanAlbumArtworkAsync(true));
 
             this.GetCheckBoxesAsync();
         }

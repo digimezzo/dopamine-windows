@@ -12,12 +12,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
+using Dopamine.Services.Entities;
 
 namespace Dopamine.ViewModels.Common
 {
     public class LyricsViewModel : ContextMenuViewModelBase
     {
-        private PlayableTrack track;
+        private TrackViewModel track;
         private Lyrics lyrics;
         private Lyrics uneditedLyrics;
         private ObservableCollection<LyricsLineViewModel> lyricsLines;
@@ -138,7 +139,7 @@ namespace Dopamine.ViewModels.Common
             await this.metadataService.UpdateTracksAsync(fmdList, false);
         }
 
-        public LyricsViewModel(IContainerProvider container, PlayableTrack track) : base(container)
+        public LyricsViewModel(IContainerProvider container, TrackViewModel track) : base(container)
         {
             this.metadataService = container.Resolve<IMetadataService>();
             this.providerService = container.Resolve<IProviderService>();

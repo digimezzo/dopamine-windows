@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>103</Value>
+      <Value>105</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -225,10 +225,7 @@
     </Setting>
   </Namespace>
   <Namespace Name="Ordering">
-    <Setting Name="ArtistsArtistOrder">
-      <Value>1</Value>
-    </Setting>
-    <Setting Name="GenresGenreOrder">
+    <Setting Name="ArtistsArtistType">
       <Value>1</Value>
     </Setting>
     <Setting Name="ArtistsTrackOrder">

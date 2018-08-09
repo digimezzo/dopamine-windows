@@ -46,7 +46,7 @@
             KeyUp="DataGridTracks_KeyUp"
             VirtualizingStackPanel.IsVirtualizing="True" 
             VirtualizingStackPanel.VirtualizationMode="Recycling" 
-            ItemsSource="{Binding TracksCvs.View,IsAsync=True}">
+            ItemsSource="{Binding TracksCvs.View}">
             <pc:DataGridEx.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding RemoveSelectedTracksCommand}" />
             </pc:DataGridEx.InputBindings>

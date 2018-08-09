@@ -80,7 +80,7 @@ namespace Dopamine
             }
             else
             {
-                // TODO: because shutdown is too fast, some logging might be missing in the log file.
+                // HACK: because shutdown is too fast, some logging might be missing in the log file.
                 LogClient.Warning("{0} is already running. Shutting down.", ProductInformation.ApplicationName);
                 this.Shutdown();
             }
@@ -216,11 +216,8 @@ namespace Dopamine
             void RegisterRepositories()
             {
                 containerRegistry.RegisterSingleton<IFolderRepository, FolderRepository>();
-                containerRegistry.RegisterSingleton<IAlbumRepository, AlbumRepository>();
-                containerRegistry.RegisterSingleton<IArtistRepository, ArtistRepository>();
-                containerRegistry.RegisterSingleton<IGenreRepository, GenreRepository>();
                 containerRegistry.RegisterSingleton<ITrackRepository, TrackRepository>();
-                containerRegistry.RegisterSingleton<ITrackStatisticRepository, TrackStatisticRepository>();
+                containerRegistry.RegisterSingleton<IAlbumArtworkRepository, AlbumArtworkRepository>();
                 containerRegistry.RegisterSingleton<IQueuedTrackRepository, QueuedTrackRepository>();
             }
 
@@ -288,8 +285,7 @@ namespace Dopamine
             {
                 // Making sure resources are set before we need them
                 Container.Resolve<II18nService>().ApplyLanguageAsync(SettingsClient.Get<string>("Appearance", "Language"));
-                // Container.Resolve<IAppearanceService>().ApplyTheme(SettingsClient.Get<bool>("Appearance", "EnableLightTheme"));
-                Container.Resolve<IAppearanceService>().ApplyTheme(false);
+                Container.Resolve<IAppearanceService>().ApplyTheme(SettingsClient.Get<bool>("Appearance", "EnableLightTheme"));
                 Container.Resolve<IAppearanceService>().ApplyColorSchemeAsync(
                     SettingsClient.Get<string>("Appearance", "ColorScheme"),
                     SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"),

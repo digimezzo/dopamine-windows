@@ -90,7 +90,7 @@ namespace Dopamine.Services.Notification
         private async void PlaybackSuccessSystemNotificationHandler(object sender, PlaybackSuccessEventArgs e)
         {
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Playing;
-            var track = this.PlaybackService.CurrentTrack.Value;
+            var track = this.PlaybackService.CurrentTrack;
             musicProperties.AlbumTitle = track.AlbumTitle;
             musicProperties.Artist = track.ArtistName;
             musicProperties.Title = track.TrackTitle;
