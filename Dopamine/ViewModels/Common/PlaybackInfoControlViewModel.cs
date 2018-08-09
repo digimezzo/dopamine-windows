@@ -2,7 +2,7 @@
 using Digimezzo.Utilities.Settings;
 using Digimezzo.WPFControls.Enums;
 using Dopamine.Core.Utils;
-using Dopamine.Data.Entities;
+using Dopamine.Services.Entities;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Scrobbling;
@@ -20,8 +20,8 @@ namespace Dopamine.ViewModels.Common
         private IMetadataService metadataService;
         private IScrobblingService scrobblingService;
         private SlideDirection slideDirection;
-        private PlayableTrack previousTrack;
-        private PlayableTrack track;
+        private TrackViewModel previousTrack;
+        private TrackViewModel track;
         private Timer refreshTimer = new Timer();
         private int refreshTimerIntervalMilliseconds = 250;
         private bool enableRating;
@@ -37,7 +37,7 @@ namespace Dopamine.ViewModels.Common
             {
                 if (this.track != null)
                 {
-                    this.track.Rating = (long?)value;
+                    this.track.Rating = value;
                     RaisePropertyChanged(nameof(this.Rating));
                     this.metadataService.UpdateTrackRatingAsync(this.track.Path, value);
                 }
@@ -48,14 +48,14 @@ namespace Dopamine.ViewModels.Common
         {
             get
             {
-                return this.track == null ? false : NumberUtils.ConvertToBoolean(this.track.Love);
+                return this.track == null ? false : this.track.Love;
             }
             set
             {
                 if (this.track != null)
                 {
                     // Update the UI
-                    this.track.Love = value ? 1 : 0;
+                    this.track.Love = value;
                     RaisePropertyChanged(nameof(this.Love));
 
                     // Update Love in the database
@@ -108,7 +108,7 @@ namespace Dopamine.ViewModels.Common
             };
 
             this.playbackService.PlaybackProgressChanged += (_, __) => this.UpdateTime();
-            this.playbackService.PlayingTrackPlaybackInfoChanged += (_, __) => this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack.Value, true);
+            this.playbackService.PlayingTrackChanged += (_, __) => this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack, true);
 
             this.metadataService.RatingChanged += (e) =>
             {
@@ -123,7 +123,7 @@ namespace Dopamine.ViewModels.Common
             {
                 if (this.track != null && e.SafePath.Equals(this.track.SafePath))
                 {
-                    this.track.Love = e.Love ? 1 : 0;
+                    this.track.Love = e.Love;
                     this.RaisePropertyChanged(nameof(Love));
                 }
             };
@@ -145,7 +145,7 @@ namespace Dopamine.ViewModels.Common
 
             // Defaults
             this.SlideDirection = SlideDirection.DownToUp;
-            this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack.Value, false);
+            this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack, false);
             this.EnableRating = SettingsClient.Get<bool>("Behaviour", "EnableRating");
             this.EnableLove = SettingsClient.Get<bool>("Behaviour", "EnableLove");
         }
@@ -153,7 +153,7 @@ namespace Dopamine.ViewModels.Common
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.refreshTimer.Stop();
-            this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack.Value, false);
+            this.RefreshPlaybackInfoAsync(this.playbackService.CurrentTrack, false);
         }
 
         private void ClearPlaybackInfo()
@@ -171,7 +171,7 @@ namespace Dopamine.ViewModels.Common
             this.track = null;
         }
 
-        private async void RefreshPlaybackInfoAsync(PlayableTrack track, bool allowRefreshingCurrentTrack)
+        private async void RefreshPlaybackInfoAsync(TrackViewModel track, bool allowRefreshingCurrentTrack)
         {
             await Task.Run(() =>
             {
@@ -192,19 +192,12 @@ namespace Dopamine.ViewModels.Common
                 // The track changed: we need to show new playback info.
                 try
                 {
-                    string year = string.Empty;
-
-                    if (track.Year != null && track.Year > 0)
-                    {
-                        year = track.Year.ToString();
-                    }
-
                     this.PlaybackInfoViewModel = new PlaybackInfoViewModel
                     {
                         Title = string.IsNullOrEmpty(track.TrackTitle) ? track.FileName : track.TrackTitle,
                         Artist = track.ArtistName,
                         Album = track.AlbumTitle,
-                        Year = year,
+                        Year = track.Year,
                         CurrentTime = FormatUtils.FormatTime(new TimeSpan(0)),
                         TotalTime = FormatUtils.FormatTime(new TimeSpan(0))
                     };
@@ -223,6 +216,11 @@ namespace Dopamine.ViewModels.Common
 
         private void UpdateTime()
         {
+            if(this.PlaybackInfoViewModel == null)
+            {
+                return;
+            }
+
             this.PlaybackInfoViewModel.CurrentTime = FormatUtils.FormatTime(this.playbackService.GetCurrentTime);
             this.PlaybackInfoViewModel.TotalTime = " / " + FormatUtils.FormatTime(this.playbackService.GetTotalTime);
         }

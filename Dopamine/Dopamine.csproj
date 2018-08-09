@@ -202,9 +202,6 @@
     <Compile Include="Converters\StringToLowerConverter.cs" />
     <Compile Include="Converters\StringToUpperConverter.cs" />
     <Compile Include="Initializer.cs" />
-    <Compile Include="Interfaces\ISemanticZoomable.cs" />
-    <Compile Include="Interfaces\ISemanticZoomSelector.cs" />
-    <Compile Include="Interfaces\ISemanticZoomViewModel.cs" />
     <Compile Include="Services\Notification\LegacyNotificationService.cs" />
     <Compile Include="Services\Notification\NotificationService.cs" />
     <Compile Include="Services\Notification\NotificationWindow.xaml.cs">
@@ -216,13 +213,9 @@
     <Compile Include="Utils\BindingProxy.cs" />
     <Compile Include="Utils\OpenFileUtils.cs" />
     <Compile Include="Utils\SaveFileUtils.cs" />
-    <Compile Include="Utils\ScrollUtils.cs" />
-    <Compile Include="Utils\SemanticZoomUtils.cs" />
     <Compile Include="Utils\SlidingContentControlRegionAdapter.cs" />
     <Compile Include="Utils\UriUtils.cs" />
-    <Compile Include="ViewModels\AlbumViewModel.cs" />
     <Compile Include="ViewModels\ArtistInfoViewModel.cs" />
-    <Compile Include="ViewModels\ArtistViewModel.cs" />
     <Compile Include="ViewModels\Common\AppearanceLanguageViewModel.cs" />
     <Compile Include="ViewModels\Common\AppearanceThemeViewModel.cs" />
     <Compile Include="ViewModels\Common\ArtistInfoControlViewModel.cs" />
@@ -234,7 +227,6 @@
     <Compile Include="ViewModels\Common\Base\MiniPlayerViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\NowPlayingViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\PlaybackControlsViewModelBase.cs" />
-    <Compile Include="ViewModels\Common\Base\PlaylistViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\TracksViewModelBase.cs" />
     <Compile Include="ViewModels\Common\CollectionFoldersViewModel.cs" />
     <Compile Include="ViewModels\Common\CollectionPlaybackControlsViewModel.cs" />
@@ -291,7 +283,6 @@
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsPlaybackViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsStartupViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\GenreViewModel.cs" />
     <Compile Include="ViewModels\InitializeViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\CoverPlayerViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\MicroPlayerViewModel.cs" />
@@ -303,10 +294,8 @@
     <Compile Include="ViewModels\PlaybackControlsViewModel.cs" />
     <Compile Include="ViewModels\PlaybackInfoViewModel.cs" />
     <Compile Include="ViewModels\PlaylistViewModel.cs" />
-    <Compile Include="ViewModels\SemanticZoomSelectorViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\SimilarArtistViewModel.cs" />
-    <Compile Include="ViewModels\TrackViewModel.cs" />
     <Compile Include="ViewModels\VerticalVolumeControlsViewModel.cs" />
     <Compile Include="ViewModels\VolumeControlsViewModel.cs" />
     <Compile Include="Views\Base\VolumeControlViewBase.cs" />
@@ -324,7 +313,6 @@
     </Compile>
     <Compile Include="Views\Common\Base\CommonViewBase.cs" />
     <Compile Include="Views\Common\Base\MiniPlayerViewBase.cs" />
-    <Compile Include="Views\Common\Base\PlaylistViewBase.cs" />
     <Compile Include="Views\Common\Base\TracksViewBase.cs" />
     <Compile Include="Views\Common\CollectionFolders.xaml.cs">
       <DependentUpon>CollectionFolders.xaml</DependentUpon>
@@ -739,15 +727,9 @@
     <Content Include="Icons\Zpl.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Languages\BG.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Languages\CS.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Languages\DA.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Languages\BG.xml" />
+    <Resource Include="Languages\CS.xml" />
+    <Resource Include="Languages\DA.xml" />
     <Content Include="Languages\DE.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -772,6 +754,7 @@
     <Content Include="Languages\IT.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Languages\JP.xml" />
     <Content Include="Languages\KO.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

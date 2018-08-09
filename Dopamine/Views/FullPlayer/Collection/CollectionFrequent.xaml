@@ -5,7 +5,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:pc="clr-namespace:Dopamine.Controls"
-             xmlns:vm="clr-namespace:Dopamine.ViewModels"
+             xmlns:vm="clr-namespace:Dopamine.Services.Entities;assembly=Dopamine.Services"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
@@ -47,7 +47,7 @@
             </Storyboard>
         </Storyboard>
         <DataTemplate DataType="{x:Type vm:AlbumViewModel}">
-            <Button x:Name="TheButton" Style="{StaticResource TransparentFixedButton}" Command="{Binding DataContext.ClickCommand,ElementName=This}" CommandParameter="{Binding Album}">
+            <Button x:Name="TheButton" Style="{StaticResource TransparentFixedButton}" Command="{Binding DataContext.ClickCommand,ElementName=This}" CommandParameter="{Binding}">
                 <Grid 
                     Width="{Binding ActualWidth,ElementName=TheButton}"
                     Height="{Binding ActualHeight,ElementName=TheButton}">

@@ -1,6 +1,4 @@
-﻿using Dopamine.Data;
-using Dopamine.Data.Entities;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.Threading.Tasks;
 
 namespace Dopamine.Services.ExternalControl
@@ -28,16 +26,16 @@ namespace Dopamine.Services.ExternalControl
         void SendHeartbeat();
 
         [OperationContract]
-        Task PlayNextAsync();
+        Task PlayNext();
 
         [OperationContract]
-        Task PlayPreviousAsync();
+        Task PlayPrevious();
 
         [OperationContract]
         void SetMute(bool mute);
 
         [OperationContract]
-        Task PlayOrPauseAsync();
+        Task PlayOrPause();
 
         [OperationContract]
         bool GetIsStopped();
@@ -52,7 +50,7 @@ namespace Dopamine.Services.ExternalControl
         void SetProgress(double progress);
 
         [OperationContract]
-        PlayableTrack GetCurrenTrack();
+        ExternalTrack GetCurrenTrack();
 
         [OperationContract]
         string GetCurrentTrackArtworkPath(string artworkId);
@@ -83,9 +81,6 @@ namespace Dopamine.Services.ExternalControl
         Task RaiseEventPlaybackMuteChangedAsync();
 
         [OperationContract]
-        Task RaiseEventPlayingTrackPlaybackInfoChangedAsync();
-
-        [OperationContract]
-        Task RaiseEventPlayingTrackArtworkChangedAsync();
+        Task RaiseEventPlayingTrackChangedAsync();
     }
 }

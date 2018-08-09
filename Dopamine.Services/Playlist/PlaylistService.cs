@@ -3,12 +3,13 @@ using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
 using Dopamine.Data;
-using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories;
+using Dopamine.Services.Entities;
+using Dopamine.Services.Extensions;
 using Dopamine.Services.File;
-using Dopamine.Services.Playlist;
 using Dopamine.Services.Utils;
+using Prism.Ioc;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -23,6 +24,7 @@ namespace Dopamine.Services.Playlist
     {
         private IFileService fileService;
         private ITrackRepository trackRepository;
+        private IContainerProvider container;
         private string playlistFolder;
         private FileSystemWatcher watcher = new FileSystemWatcher();
         private Timer playlistFolderChangedTimer = new Timer();
@@ -32,13 +34,11 @@ namespace Dopamine.Services.Playlist
             get { return this.playlistFolder; }
         }
      
-        public PlaylistService(IFileService fileService, ITrackRepository trackRepository)
+        public PlaylistService(IFileService fileService, ITrackRepository trackRepository, IContainerProvider container)
         {
-            // Services
             this.fileService = fileService;
-
-            // Repositories
             this.trackRepository = trackRepository;
+            this.container = container;
 
             // Initialize Playlists folder
             string musicFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
@@ -330,7 +330,6 @@ namespace Dopamine.Services.Playlist
                         {
                             try
                             {
-
                                 writer.WriteLine(path);
                             }
                             catch (Exception ex)
@@ -355,16 +354,16 @@ namespace Dopamine.Services.Playlist
             return OpenPlaylistResult.Success;
         }
 
-        public async Task<List<PlayableTrack>> GetTracks(string playlistName)
+        public async Task<List<TrackViewModel>> GetTracks(string playlistName)
         {
             // If no playlist was selected, return no tracks.
             if (string.IsNullOrEmpty(playlistName))
             {
                 LogClient.Error("PlaylistName is empty. Returning empty list of tracks.");
-                return new List<PlayableTrack>();
+                return new List<TrackViewModel>();
             }
 
-            var tracks = new List<PlayableTrack>();
+            var tracks = new List<TrackViewModel>();
             var decoder = new PlaylistDecoder();
 
             await Task.Run(async () =>
@@ -392,7 +391,7 @@ namespace Dopamine.Services.Playlist
             return tracks;
         }
 
-        public async Task SetPlaylistOrderAsync(IList<PlayableTrack> tracks, string playlistName)
+        public async Task SetPlaylistOrderAsync(IList<TrackViewModel> tracks, string playlistName)
         {
             if (tracks == null || tracks.Count == 0)
             {
@@ -418,7 +417,7 @@ namespace Dopamine.Services.Playlist
                     {
                         using (StreamWriter sw = new StreamWriter(fs))
                         {
-                            foreach (PlayableTrack track in tracks)
+                            foreach (TrackViewModel track in tracks)
                             {
                                 sw.WriteLine(track.Path);
                             }
@@ -434,7 +433,7 @@ namespace Dopamine.Services.Playlist
             watcher.EnableRaisingEvents = true; // Start watching the playlist folder
         }
 
-        public async Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<PlayableTrack> tracks, string playlistName)
+        public async Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<TrackViewModel> tracks, string playlistName)
         {
             if (tracks == null || tracks.Count == 0)
             {
@@ -463,7 +462,7 @@ namespace Dopamine.Services.Playlist
                     {
                         using (var writer = new StreamWriter(fs))
                         {
-                            foreach (PlayableTrack track in tracks)
+                            foreach (TrackViewModel track in tracks)
                             {
                                 try
                                 {
@@ -492,26 +491,29 @@ namespace Dopamine.Services.Playlist
             return result;
         }
 
-        public async Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<Artist> artists, string playlistName)
+        public async Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<string> artists, string playlistName)
         {
-            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetArtistTracksAsync(artists), TrackOrder.ByAlbum);
-            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlistName);
+            IList<Track> tracks = await this.trackRepository.GetArtistTracksAsync(artists);
+            List<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(tracks.Select(t => this.container.ResolveTrackViewModel(t)).ToList(), TrackOrder.ByAlbum);
+            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(orderedTracks, playlistName);
 
             return result;
         }
 
-        public async Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<long> genreIds, string playlistName)
+        public async Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<string> genres, string playlistName)
         {
-            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetGenreTracksAsync(genreIds), TrackOrder.ByAlbum);
-            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlistName);
+            IList<Track> tracks = await this.trackRepository.GetGenreTracksAsync(genres);
+            List<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(tracks.Select(t => this.container.ResolveTrackViewModel(t)).ToList(), TrackOrder.ByAlbum);
+            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(orderedTracks, playlistName);
 
             return result;
         }
 
-        public async Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<long> albumIds, string playlistName)
+        public async Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<AlbumViewModel> albumViewModels, string playlistName)
         {
-            List<PlayableTrack> tracks = await DataUtils.OrderTracksAsync(await this.trackRepository.GetAlbumTracksAsync(albumIds), TrackOrder.ByAlbum);
-            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(tracks, playlistName);
+            IList<Track> tracks = await this.trackRepository.GetAlbumTracksAsync(albumViewModels.Select(x => x.AlbumKey).ToList());
+            List<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(tracks.Select(t => this.container.ResolveTrackViewModel(t)).ToList(), TrackOrder.ByAlbum);
+            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(orderedTracks, playlistName);
 
             return result;
         }

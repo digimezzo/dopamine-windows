@@ -5,6 +5,6 @@ namespace Dopamine.Services.Indexing
 {
     public class AlbumArtworkAddedEventArgs : EventArgs
     {
-        public List<long> AlbumIds { get; set; }
+        public IList<string> AlbumKeys { get; set; }
     }
 }

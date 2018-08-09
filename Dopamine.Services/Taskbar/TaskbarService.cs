@@ -84,13 +84,13 @@ namespace Dopamine.Services.Taskbar
 
             this.playbackService.PlaybackSuccess += (_, __) =>
             {
-                if (!string.IsNullOrWhiteSpace(this.playbackService.CurrentTrack.Value.ArtistName) && !string.IsNullOrWhiteSpace(this.playbackService.CurrentTrack.Value.TrackTitle))
+                if (!string.IsNullOrWhiteSpace(this.playbackService.CurrentTrack.ArtistName) && !string.IsNullOrWhiteSpace(this.playbackService.CurrentTrack.TrackTitle))
                 {
-                    this.Description = this.playbackService.CurrentTrack.Value.ArtistName + " - " + this.playbackService.CurrentTrack.Value.TrackTitle;
+                    this.Description = this.playbackService.CurrentTrack.ArtistName + " - " + this.playbackService.CurrentTrack.TrackTitle;
                 }
                 else
                 {
-                    this.Description = this.playbackService.CurrentTrack.Value.FileName;
+                    this.Description = this.playbackService.CurrentTrack.FileName;
                 }
 
                 this.SetTaskbarProgressState(SettingsClient.Get<bool>("Playback", "ShowProgressInTaskbar"), this.playbackService.IsPlaying);

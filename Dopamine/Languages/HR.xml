@@ -420,13 +420,15 @@
   <Text Key="Spectrum_Stripes">Trake</Text>
   <Text Key="Also_Check_For_Prereleases">Provjeri jesu li dostupna i predizdanja</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Nije moguće dodati mapu '{foldername}' jer nije moguće pristupiti sadržaju te mape. Molimo provjerite dopuštenja za tu mapu.</Text>
-  <Text Key="Search_Hint">Search...</Text>
-  <Text Key="Time">Time</Text>
-  <Text Key="Song_Artists">Song artists</Text>
-  <Text Key="Album_Artists">Album artists</Text>
+  <Text Key="Search_Hint">Traži...</Text>
+  <Text Key="Time">Vrijeme</Text>
+  <Text Key="Song_Artists">Izvođači pjesme</Text>
+  <Text Key="Album_Artists">Izvođači albuma</Text>
   <Text Key="Toggle_Artists">Toggle artists</Text>
-  <Text Key="Select_None">Select none</Text>
-  <Text Key="Open_Menu">Open menu</Text>
-  <Text Key="Toggle_Album_Order">Toggle album order</Text>
-  <Text Key="Toggle_Track_Order">Toggle song order</Text>
+  <Text Key="Select_None">Odznači sve</Text>
+  <Text Key="Open_Menu">Otvori izbornik</Text>
+  <Text Key="Toggle_Album_Order">Promijeni raspored albuma</Text>
+  <Text Key="Toggle_Track_Order">Promijeni raspored pjesama</Text>
+  <Text Key="Activate_Search_Field">Activate search field</Text>
+  <Text Key="Back">Back</Text>
 </Language>

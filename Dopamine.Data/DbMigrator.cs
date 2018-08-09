@@ -26,7 +26,7 @@ namespace Dopamine.Data
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 24;
+        protected const int CURRENT_VERSION = 25;
         private ISQLiteConnectionFactory factory;
         private int userDatabaseVersion;
 
@@ -53,35 +53,6 @@ namespace Dopamine.Data
         {
             using (var conn = this.factory.GetConnection())
             {
-                conn.Execute("CREATE TABLE Artist (" +
-                             "ArtistID           INTEGER," +
-                             "ArtistName	     TEXT," +
-                             "PRIMARY KEY(ArtistID));");
-
-                conn.Execute("CREATE INDEX ArtistIndex ON Artist(ArtistName);");
-
-                conn.Execute("CREATE TABLE Genre (" +
-                             "GenreID           INTEGER," +
-                             "GenreName	        TEXT," +
-                             "PRIMARY KEY(GenreID));");
-
-                conn.Execute("CREATE INDEX GenreIndex ON Genre(GenreName);");
-
-                conn.Execute("CREATE TABLE Album (" +
-                             "AlbumID	        INTEGER," +
-                             "AlbumTitle	    TEXT," +
-                             "AlbumArtist	    TEXT," +
-                             "Year	            INTEGER," +
-                             "ArtworkID	        TEXT," +
-                             "DateLastSynced	INTEGER," +
-                             "DateAdded	        INTEGER," +
-                             "DateCreated	    INTEGER," +
-                             "NeedsIndexing	    INTEGER," +
-                             "PRIMARY KEY(AlbumID));");
-
-                conn.Execute("CREATE INDEX AlbumIndex ON Album(AlbumTitle, AlbumArtist);");
-                conn.Execute("CREATE INDEX AlbumYearIndex ON Album(Year);");
-
                 conn.Execute("CREATE TABLE Folder (" +
                              "FolderID	         INTEGER PRIMARY KEY AUTOINCREMENT," +
                              "Path	             TEXT," +
@@ -90,9 +61,11 @@ namespace Dopamine.Data
 
                 conn.Execute("CREATE TABLE Track (" +
                              "TrackID	                INTEGER," +
-                             "ArtistID	                INTEGER," +
-                             "GenreID	                INTEGER," +
-                             "AlbumID	                INTEGER," +
+                             "Artists	                TEXT," +
+                             "Genres	                TEXT," +
+                             "AlbumTitle	            TEXT," +
+                             "AlbumArtists	            TEXT," +
+                             "AlbumKey	                TEXT," +
                              "Path	                    TEXT," +
                              "SafePath	                TEXT," +
                              "FileName	                TEXT," +
@@ -109,19 +82,28 @@ namespace Dopamine.Data
                              "Year	                    INTEGER," +
                              "HasLyrics	                INTEGER," +
                              "DateAdded  	            INTEGER," +
+                             "DateFileCreated  	        INTEGER," +
                              "DateLastSynced	        INTEGER," +
                              "DateFileModified	        INTEGER," +
-                             "MetaDataHash	            TEXT," +
                              "NeedsIndexing 	        INTEGER," +
+                             "NeedsAlbumArtworkIndexing INTEGER," +
                              "IndexingSuccess 	        INTEGER," +
                              "IndexingFailureReason     TEXT," +
+                             "Rating	            INTEGER," +
+                             "Love	                INTEGER," +
+                             "PlayCount	            INTEGER," +
+                             "SkipCount	            INTEGER," +
+                             "DateLastPlayed        INTEGER," +
                              "PRIMARY KEY(TrackID));");
 
-                conn.Execute("CREATE INDEX TrackArtistIDIndex ON Track(ArtistID);");
-                conn.Execute("CREATE INDEX TrackAlbumIDIndex ON Track(AlbumID);");
-                conn.Execute("CREATE INDEX TrackGenreIDIndex ON Track(GenreID);");
                 conn.Execute("CREATE INDEX TrackPathIndex ON Track(Path);");
                 conn.Execute("CREATE INDEX TrackSafePathIndex ON Track(SafePath);");
+
+                conn.Execute("CREATE TABLE AlbumArtwork (" +
+                             "AlbumArtworkID	INTEGER," +
+                             "AlbumKey	        TEXT," +
+                             "ArtworkID	        TEXT," +
+                             "PRIMARY KEY(AlbumArtworkID));");
 
                 conn.Execute("CREATE TABLE FolderTrack (" +
                              "FolderTrackID      INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -137,7 +119,6 @@ namespace Dopamine.Data
 
                 conn.Execute("CREATE TABLE QueuedTrack (" +
                              "QueuedTrackID         INTEGER," +
-                             "QueueID	            TEXT," +
                              "Path	                TEXT," +
                              "SafePath	            TEXT," +
                              "IsPlaying             INTEGER," +
@@ -428,8 +409,8 @@ namespace Dopamine.Data
                 conn.Execute("INSERT INTO Genres(GenreName) SELECT DISTINCT Genre FROM Tracks WHERE TRIM(Genre) <>'';");
                 conn.Execute("UPDATE Tracks SET GenreID=(SELECT GenreID FROM Genres WHERE Genres.GenreName=Tracks.Genre) WHERE TRIM(Genre) <> '';");
 
-                conn.Execute(String.Format("INSERT INTO Genres(GenreName) VALUES('{0}');", Defaults.UnknownGenreText));
-                conn.Execute(String.Format("UPDATE Tracks SET GenreID=(SELECT GenreID FROM Genres WHERE Genres.GenreName='{0}') WHERE TRIM(Genre) = '';", Defaults.UnknownGenreText));
+                conn.Execute("INSERT INTO Genres(GenreName) VALUES('%unknown_genre%');");
+                conn.Execute("UPDATE Tracks SET GenreID=(SELECT GenreID FROM Genres WHERE Genres.GenreName='%unknown_genre%') WHERE TRIM(Genre) = '';");
 
                 conn.Execute("CREATE TABLE Tracks_Backup (" +
                              "TrackID	            INTEGER," +
@@ -951,9 +932,9 @@ namespace Dopamine.Data
             {
                 conn.Execute("BEGIN TRANSACTION;");
 
-                conn.Execute($"UPDATE Album SET AlbumTitle='{Defaults.UnknownAlbumText}' WHERE AlbumTitle='Unknown Album';");
-                conn.Execute($"UPDATE Album SET AlbumArtist='{Defaults.UnknownArtistText}' WHERE AlbumArtist IN ('Unknown Artist','Unknown Album Artist');");
-                conn.Execute($"UPDATE Genre SET GenreName='{Defaults.UnknownGenreText}' WHERE GenreName='Unknown Genre';");
+                conn.Execute($"UPDATE Album SET AlbumTitle='%unknown_album%' WHERE AlbumTitle='Unknown Album';");
+                conn.Execute($"UPDATE Album SET AlbumArtist='%unknown_artist%' WHERE AlbumArtist IN ('Unknown Artist','Unknown Album Artist');");
+                conn.Execute($"UPDATE Genre SET GenreName='%unknown_genre%' WHERE GenreName='Unknown Genre';");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");
@@ -1031,6 +1012,59 @@ namespace Dopamine.Data
             }
         }
 
+        [DatabaseVersion(25)]
+        private void Migrate25()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("ALTER TABLE Track ADD Artists TEXT;");
+                conn.Execute("ALTER TABLE Track ADD Genres TEXT;");
+                conn.Execute("ALTER TABLE Track ADD AlbumTitle TEXT;");
+                conn.Execute("ALTER TABLE Track ADD AlbumArtists TEXT;");
+                conn.Execute("ALTER TABLE Track ADD AlbumKey TEXT;");
+                conn.Execute("ALTER TABLE Track ADD Rating INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD Love INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD PlayCount INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD SkipCount INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD DateLastPlayed INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD NeedsAlbumArtworkIndexing INTEGER;");
+                conn.Execute("ALTER TABLE Track ADD DateFileCreated INTEGER;");
+
+                conn.Execute("UPDATE Track SET Artists='';");
+                conn.Execute("UPDATE Track SET Genres='';");
+                conn.Execute("UPDATE Track SET AlbumTitle='';");
+                conn.Execute("UPDATE Track SET AlbumArtists='';");
+                conn.Execute("UPDATE Track SET AlbumKey='';");
+
+                conn.Execute("DROP TABLE Artist;");
+                conn.Execute("DROP TABLE Genre;");
+                conn.Execute("DROP TABLE Album;");
+
+                conn.Execute("UPDATE Track SET ArtistID=NULL;");
+                conn.Execute("UPDATE Track SET GenreID=NULL;");
+                conn.Execute("UPDATE Track SET AlbumID=NULL;");
+                conn.Execute("UPDATE Track SET MetaDataHash=NULL;");
+
+                conn.Execute("DROP INDEX IF EXISTS TrackArtistIDIndex;");
+                conn.Execute("DROP INDEX IF EXISTS TrackAlbumIDIndex;");
+                conn.Execute("DROP INDEX IF EXISTS TrackGenreIDIndex;");
+
+                conn.Execute("UPDATE Track SET NeedsIndexing=1;");
+                conn.Execute("UPDATE Track SET NeedsAlbumArtworkIndexing=1;");
+
+                conn.Execute("CREATE TABLE AlbumArtwork (" +
+                             "AlbumArtworkID	INTEGER," +
+                             "AlbumKey	        TEXT," +
+                             "ArtworkID	        TEXT," +
+                             "PRIMARY KEY(AlbumArtworkID));");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+
         public void Migrate()
         {
             try
@@ -1065,7 +1099,7 @@ namespace Dopamine.Data
 
             using (var conn = this.factory.GetConnection())
             {
-                // TODO: in database version 11, the table Configurations was renamed to Configuration. When migrating from version 10 to 11, 
+                // HACK: in database version 11, the table Configurations was renamed to Configuration. When migrating from version 10 to 11, 
                 // we still need to get the version from the original table as the new Configuration doesn't exist yet and is not found. 
                 // At some later point in time, this try catch can be removed.
                 count = conn.ExecuteScalar<int>("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='Configurations'");
@@ -1094,7 +1128,7 @@ namespace Dopamine.Data
                 }
                 catch (Exception)
                 {
-                    // TODO: in database version 11, the table Configurations was renamed to Configuration. When migrating from version 10 to 11, 
+                    // HACK: in database version 11, the table Configurations was renamed to Configuration. When migrating from version 10 to 11, 
                     // we still need to get the version from the original table as the new Configuration doesn't exist yet and is not found. 
                     // At some later point in time, this try catch can be removed.
                     this.userDatabaseVersion = Convert.ToInt32(conn.ExecuteScalar<string>("SELECT Value FROM Configurations WHERE Key = 'DatabaseVersion'"));

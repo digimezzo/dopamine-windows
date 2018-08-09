@@ -2,7 +2,6 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
-using Dopamine.Core.Helpers;
 using Dopamine.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -14,37 +13,52 @@ namespace Dopamine.Data.Repositories
     public class TrackRepository : ITrackRepository
     {
         private ISQLiteConnectionFactory factory;
-        private ILocalizationInfo info;
 
-        public TrackRepository(ISQLiteConnectionFactory factory, ILocalizationInfo info)
+        public TrackRepository(ISQLiteConnectionFactory factory)
         {
             this.factory = factory;
-            this.info = info;
         }
 
-        private string SelectQueryPart()
+        private string SelectVisibleTracksQuery()
         {
-            return "SELECT DISTINCT tra.TrackID, tra.ArtistID, tra.GenreID, tra.AlbumID, tra.Path, tra.SafePath, " +
-                   "tra.FileName, tra.MimeType, tra.FileSize, tra.BitRate, tra.SampleRate, tra.TrackTitle, " +
-                   "tra.TrackNumber, tra.TrackCount, tra.DiscNumber, tra.DiscCount, tra.Duration, tra.Year, " +
-                   "tra.HasLyrics, tra.DateAdded, tra.DateLastSynced, " +
-                   "tra.DateFileModified, tra.MetaDataHash, " +
-                   $"REPLACE(art.ArtistName,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') ArtistName, " +
-                   $"REPLACE(gen.GenreName,'{Defaults.UnknownGenreText}','{this.info.UnknownGenreText}') GenreName, " +
-                   $"REPLACE(alb.AlbumTitle,'{Defaults.UnknownAlbumText}','{this.info.UnknownAlbumText}') AlbumTitle, " +
-                   $"REPLACE(alb.AlbumArtist,'{Defaults.UnknownArtistText}','{this.info.UnknownArtistText}') AlbumArtist, " +
-                   "alb.Year AS AlbumYear, " +
-                   "ts.Rating, ts.Love, ts.PlayCount, ts.SkipCount, ts.DateLastPlayed " +
-                   "FROM Track tra " +
-                   "INNER JOIN Album alb ON tra.AlbumID=alb.AlbumID " +
-                   "INNER JOIN Artist art ON tra.ArtistID=art.ArtistID " +
-                   "INNER JOIN Genre gen ON tra.GenreID=gen.GenreID " +
-                   "INNER JOIN TrackStatistic ts ON tra.SafePath=ts.SafePath ";
+            return @"SELECT DISTINCT t.TrackID, t.Artists, t.Genres, t.AlbumTitle, t.AlbumArtists, t.AlbumKey,
+                     t.Path, t.SafePath, t.FileName, t.MimeType, t.FileSize, t.BitRate, 
+                     t.SampleRate, t.TrackTitle, t.TrackNumber, t.TrackCount, t.DiscNumber,
+                     t.DiscCount, t.Duration, t.Year, t.HasLyrics, t.DateAdded, t.DateFileCreated,
+                     t.DateLastSynced, t.DateFileModified, t.NeedsIndexing, t.NeedsAlbumArtworkIndexing, t.IndexingSuccess,
+                     t.IndexingFailureReason, t.Rating, t.Love, t.PlayCount, t.SkipCount, t.DateLastPlayed
+                     FROM Track t
+                     INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
+                     INNER JOIN Folder f ON ft.FolderID = f.FolderID
+                     WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1 AND t.NeedsIndexing = 0";
         }
 
-        public async Task<List<PlayableTrack>> GetTracksAsync(IList<string> paths)
+        private string SelectedAlbumDataQueryPart()
         {
-            var tracks = new List<PlayableTrack>();
+            return @"SELECT t.AlbumTitle, t.AlbumArtists, t.AlbumKey, 
+                     MAX(t.TrackTitle) as TrackTitle,
+                     MAX(t.Artists) as Artists,
+                     MAX(t.Year) AS Year, 
+                     MAX(t.DateFileCreated) AS DateFileCreated, 
+                     MAX(t.DateAdded) AS DateAdded";
+        }
+
+        private string SelectAllAlbumDataQuery()
+        {
+            return $"{this.SelectedAlbumDataQueryPart()} FROM Track t";
+        }
+
+        private string SelectVisibleAlbumDataQuery()
+        {
+            return $@"{this.SelectAllAlbumDataQuery()}
+                      INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
+                      INNER JOIN Folder f ON ft.FolderID = f.FolderID
+                      WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1";
+        }
+
+        public async Task<List<Track>> GetTracksAsync(IList<string> paths)
+        {
+            var tracks = new List<Track>();
 
             await Task.Run(() =>
             {
@@ -54,12 +68,9 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            var safePaths = paths.Select((p) => p.ToSafePath()).ToList();
+                            IList<string> safePaths = paths.Select((p) => p.ToSafePath()).ToList();
 
-                            string q = string.Format(this.SelectQueryPart() +
-                                                     "WHERE tra.SafePath IN ({0});", DatabaseUtils.ToQueryList(safePaths));
-
-                            tracks = conn.Query<PlayableTrack>(q);
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateInClause("t.SafePath", safePaths)};");
                         }
                         catch (Exception ex)
                         {
@@ -76,9 +87,9 @@ namespace Dopamine.Data.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetTracksAsync()
+        public async Task<List<Track>> GetTracksAsync()
         {
-            var tracks = new List<PlayableTrack>();
+            var tracks = new List<Track>();
 
             await Task.Run(() =>
             {
@@ -88,10 +99,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<PlayableTrack>(this.SelectQueryPart() +
-                                                             "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
-                                                             "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
-                                                             "WHERE fol.ShowInCollection=1 AND tra.IndexingSuccess=1;");
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()};");
                         }
                         catch (Exception ex)
                         {
@@ -108,9 +116,9 @@ namespace Dopamine.Data.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetArtistTracksAsync(IList<Artist> artists)
+        public async Task<List<Track>> GetArtistTracksAsync(IList<string> artistNames)
         {
-            var tracks = new List<PlayableTrack>();
+            var tracks = new List<Track>();
 
             await Task.Run(() =>
             {
@@ -120,15 +128,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            List<long> artistIDs = artists.Select((a) => a.ArtistID).ToList();
-                            List<string> artistNames = artists.Select((a) => a.ArtistName).ToList();
-
-                            string q = string.Format(this.SelectQueryPart() +
-                                                     "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
-                                                     "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
-                                                     "WHERE (tra.ArtistID IN ({0}) OR alb.AlbumArtist IN ({1})) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(artistIDs), DatabaseUtils.ToQueryList(artistNames));
-
-                            tracks = conn.Query<PlayableTrack>(q);
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND ({DataUtils.CreateOrLikeClause("t.Artists", artistNames, Constants.TagDelimiter)} OR {DataUtils.CreateOrLikeClause("t.AlbumArtists", artistNames, Constants.TagDelimiter)});");
                         }
                         catch (Exception ex)
                         {
@@ -145,9 +145,9 @@ namespace Dopamine.Data.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetGenreTracksAsync(IList<long> genreIds)
+        public async Task<List<Track>> GetGenreTracksAsync(IList<string> genreNames)
         {
-            var tracks = new List<PlayableTrack>();
+            var tracks = new List<Track>();
 
             await Task.Run(() =>
             {
@@ -157,12 +157,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            string q = string.Format(this.SelectQueryPart() +
-                                                     "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
-                                                     "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
-                                                     "WHERE tra.GenreID IN ({0}) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(genreIds));
-
-                            tracks = conn.Query<PlayableTrack>(q);
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateOrLikeClause("t.Genres", genreNames, Constants.TagDelimiter)};");
                         }
                         catch (Exception ex)
                         {
@@ -179,9 +174,9 @@ namespace Dopamine.Data.Repositories
             return tracks;
         }
 
-        public async Task<List<PlayableTrack>> GetAlbumTracksAsync(IList<long> albumIds)
+        public async Task<List<Track>> GetAlbumTracksAsync(IList<string> albumKeys)
         {
-            var tracks = new List<PlayableTrack>();
+            var tracks = new List<Track>();
 
             await Task.Run(() =>
             {
@@ -191,12 +186,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            string q = string.Format(this.SelectQueryPart() +
-                                                     "INNER JOIN FolderTrack ft ON ft.TrackID=tra.TrackID " +
-                                                     "INNER JOIN Folder fol ON ft.FolderID=fol.FolderID " +
-                                                     "WHERE tra.AlbumID IN ({0}) AND fol.ShowInCollection=1 AND tra.IndexingSuccess=1;", DatabaseUtils.ToQueryList(albumIds));
-
-                            tracks = conn.Query<PlayableTrack>(q);
+                            tracks = conn.Query<Track>(this.SelectVisibleTracksQuery() + $" AND {DataUtils.CreateInClause("t.AlbumKey", albumKeys)};");
                         }
                         catch (Exception ex)
                         {
@@ -251,7 +241,7 @@ namespace Dopamine.Data.Repositories
             return track;
         }
 
-        public async Task<RemoveTracksResult> RemoveTracksAsync(IList<PlayableTrack> tracks)
+        public async Task<RemoveTracksResult> RemoveTracksAsync(IList<Track> tracks)
         {
             RemoveTracksResult result = RemoveTracksResult.Success;
 
@@ -263,7 +253,7 @@ namespace Dopamine.Data.Repositories
                     {
                         using (var conn = this.factory.GetConnection())
                         {
-                            List<string> pathsToRemove = tracks.Select((t) => t.Path).ToList();
+                            IList<string> pathsToRemove = tracks.Select((t) => t.Path).ToList();
 
                             conn.Execute("BEGIN TRANSACTION");
 
@@ -391,6 +381,447 @@ namespace Dopamine.Data.Repositories
             });
 
             return updateSuccess;
+        }
+
+        public async Task<IList<string>> GetGenresAsync()
+        {
+            var genreNames = new List<string>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            genreNames = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
+                                                           .Select((t) => t.Genres).Where(g => !string.IsNullOrEmpty(g))
+                                                           .SelectMany(g => DataUtils.SplitColumnMultiValue(g))
+                                                           .Distinct().ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the genres. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return genreNames;
+        }
+
+        public async Task<IList<string>> GetTrackArtistsAsync()
+        {
+            var artistNames = new List<string>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            artistNames = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
+                                                            .Select((t) => t.Artists).Where(a => !string.IsNullOrEmpty(a))
+                                                            .SelectMany(a => DataUtils.SplitColumnMultiValue(a))
+                                                            .Distinct().ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the track artists. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return artistNames;
+        }
+
+        public async Task<IList<string>> GetAlbumArtistsAsync()
+        {
+            var albumArtists = new List<string>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            albumArtists = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
+                                                             .Select((t) => t.AlbumArtists).Where(a => !string.IsNullOrEmpty(a))
+                                                             .SelectMany(a => DataUtils.SplitColumnMultiValue(a))
+                                                             .Distinct().ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the album artists. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return albumArtists;
+        }
+
+        public async Task<IList<AlbumData>> GetAlbumDataAsync(IList<string> artists, IList<string> genres)
+        {
+            var albumData = new List<AlbumData>();
+
+            await Task.Run(() =>
+                {
+                    try
+                    {
+                        using (var conn = this.factory.GetConnection())
+                        {
+                            try
+                            {
+                                string filterQuery = string.Empty;
+
+                                if (artists != null)
+                                {
+                                    filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists, Constants.TagDelimiter)} OR {DataUtils.CreateOrLikeClause("AlbumArtists", artists)})";
+                                }
+                                else if (genres != null)
+                                {
+                                    filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", genres, Constants.TagDelimiter)}";
+                                }
+
+                                albumData = conn.Query<AlbumData>(this.SelectVisibleAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey");
+                            }
+                            catch (Exception ex)
+                            {
+                                LogClient.Error("Could not get all the album values. Exception: {0}", ex.Message);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                    }
+                });
+
+            return albumData;
+        }
+
+        public async Task<IList<AlbumData>> GetAlbumDataToIndexAsync()
+        {
+            var albumDataToIndex = new List<AlbumData>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            albumDataToIndex = conn.Query<AlbumData>($@"{this.SelectAllAlbumDataQuery()}
+                                                                        WHERE AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork) 
+                                                                        AND AlbumKey IS NOT NULL AND AlbumKey <> ''
+                                                                        AND NeedsAlbumArtworkIndexing=1 GROUP BY AlbumKey;");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get the albumKeys to index. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return albumDataToIndex;
+        }
+
+        public async Task<Track> GetLastModifiedTrackForAlbumKeyAsync(string albumKey)
+        {
+            Track lastModifiedTrack = null;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            lastModifiedTrack = conn.Table<Track>().Where((t) => t.AlbumKey.Equals(albumKey)).Select((t) => t).OrderByDescending((t) => t.DateFileModified).FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get the last modified track for the given albumKey. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return lastModifiedTrack;
+        }
+
+        public async Task DisableNeedsAlbumArtworkIndexingAsync(string albumKey)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute($"UPDATE Track SET NeedsAlbumArtworkIndexing=0 WHERE AlbumKey=?;", DataUtils.EscapeQuotes(albumKey));
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not disable NeedsAlbumArtworkIndexing for the given albumKey. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
+
+        public async Task DisableNeedsAlbumArtworkIndexingForAllTracksAsync()
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute($"UPDATE Track SET NeedsAlbumArtworkIndexing=0;");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not disable NeedsAlbumArtworkIndexing for all tracks. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
+
+        public async Task EnableNeedsAlbumArtworkIndexingForAllTracksAsync(bool onlyWhenHasNoCover)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            if (onlyWhenHasNoCover)
+                            {
+                                conn.Execute($"UPDATE Track SET NeedsAlbumArtworkIndexing=1 WHERE AlbumKey NOT IN (SELECT AlbumKey FROM AlbumArtwork);");
+                            }
+                            else
+                            {
+                                conn.Execute($"UPDATE Track SET NeedsAlbumArtworkIndexing=1;");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error($"Could not disable NeedsAlbumArtworkIndexing for all tracks. {nameof(onlyWhenHasNoCover)}={onlyWhenHasNoCover}. Exception: {ex.Message}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
+
+        public async Task<IList<AlbumData>> GetFrequentAlbumDataAsync(int limit)
+        {
+            var albumData = new List<AlbumData>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            albumData = conn.Query<AlbumData>($@"{this.SelectedAlbumDataQueryPart()},
+                                                                MAX(t.DateLastPlayed) AS maxdatelastplayed, 
+                                                                SUM(t.PlayCount) AS playcountsum FROM Track t
+                                                                WHERE t.PlayCount IS NOT NULL AND t.PlayCount > 0 
+                                                                GROUP BY t.AlbumKey
+                                                                ORDER BY playcountsum DESC, maxdatelastplayed DESC LIMIT {limit}");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get the frequent Album data. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return albumData;
+        }
+
+        public async Task UpdateRatingAsync(string path, int rating)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute("UPDATE Track SET Rating=? WHERE SafePath=?", rating, path.ToSafePath());
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not update rating for path='{0}'. Exception: {1}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
+        public async Task UpdateLoveAsync(string path, int love)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute("UPDATE Track SET Love=? WHERE SafePath=?", love, path.ToSafePath());
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not update love for path='{0}'. Exception: {1}", path, ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
+
+        public async Task UpdatePlaybackCountersAsync(PlaybackCounter counters)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            conn.Execute("UPDATE Track SET PlayCount=?, SkipCount=?, DateLastPlayed=? WHERE SafePath=?", counters.PlayCount, counters.SkipCount, counters.DateLastPlayed, counters.Path.ToSafePath());
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not update statistics for path='{0}'. Exception: {1}", counters.Path, ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+        }
+
+        public async Task<PlaybackCounter> GetPlaybackCountersAsync(string path)
+        {
+            PlaybackCounter counters = null;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            counters = conn.Query<PlaybackCounter>("SELECT Path, SafePath, PlayCount, SkipCount, DateLastPlayed FROM Track WHERE SafePath=?", path.ToSafePath()).FirstOrDefault();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get PlaybackCounters for path='{0}'. Exception: {1}", path, ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return counters;
+        }
+
+        public Task<AlbumData> GetAlbumDataAsync(string albumKey)
+        {
+            AlbumData albumData = null;
+
+            try
+            {
+                using (var conn = this.factory.GetConnection())
+                {
+                    try
+                    {
+                        albumData = conn.Query<AlbumData>($@"{this.SelectAllAlbumDataQuery()} WHERE AlbumKey=?;", albumKey).FirstOrDefault();
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Could not get AlbumData for albumKey='{0}'. Exception: {1}", albumKey, ex.Message);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+            }
+            throw new NotImplementedException();
         }
     }
 }

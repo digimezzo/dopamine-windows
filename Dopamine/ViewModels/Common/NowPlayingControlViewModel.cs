@@ -1,26 +1,28 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
-using Dopamine.Data.Entities;
-using Dopamine.ViewModels;
+using Dopamine.Core.Extensions;
+using Dopamine.Data;
 using Dopamine.Services.Dialog;
+using Dopamine.Services.Entities;
+using Dopamine.Services.File;
 using Dopamine.Services.Playback;
+using Dopamine.ViewModels.Common.Base;
 using GongSolutions.Wpf.DragDrop;
 using Prism.Commands;
+using Prism.Ioc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Prism.Ioc;
-using Dopamine.Services.File;
 
 namespace Dopamine.ViewModels.Common
 {
-    public class NowPlayingControlViewModel : PlaylistViewModelBase, IDropTarget
+    public class NowPlayingControlViewModel : TracksViewModelBase, IDropTarget
     {
         private IPlaybackService playbackService;
         private IDialogService dialogService;
         private IFileService fileService;
+        protected bool isDroppingTracks;
 
         public NowPlayingControlViewModel(IContainerProvider container) : base(container)
         {
@@ -33,12 +35,18 @@ namespace Dopamine.ViewModels.Common
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());
 
             // PlaybackService
-            this.playbackService.QueueChanged += async (_, __) => { if (!base.isDroppingTracks) await this.FillListsAsync(); };
+            this.playbackService.QueueChanged += async (_, __) =>
+            {
+                if (!this.isDroppingTracks)
+                {
+                    await this.FillListsAsync();
+                }
+            };
         }
 
         protected async Task GetTracksAsync()
         {
-            await this.GetTracksCommonAsync(this.playbackService.Queue);
+            await this.GetTracksCommonAsync(this.playbackService.Queue, TrackOrder.None);
         }
 
         protected override async Task FillListsAsync()
@@ -55,7 +63,7 @@ namespace Dopamine.ViewModels.Common
 
         public void DragOver(IDropInfo dropInfo)
         {
-            GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.DragOver(dropInfo);
+            DragDrop.DefaultDropHandler.DragOver(dropInfo);
 
             try
             {
@@ -63,9 +71,9 @@ namespace Dopamine.ViewModels.Common
                 if (dropInfo.Data is PlaylistViewModel) return;
 
                 // If we're dragging files, we need to be dragging valid files.
-                bool isDraggingFiles = base.IsDraggingFiles(dropInfo);
+                bool isDraggingFiles = dropInfo.IsDraggingFiles();
                 bool isDraggingValidFiles = false;
-                if (isDraggingFiles) isDraggingValidFiles = base.IsDraggingMediaFiles(dropInfo);
+                if (isDraggingFiles) isDraggingValidFiles = dropInfo.IsDraggingMediaFiles();
                 if (isDraggingFiles & !isDraggingValidFiles) return;
 
                 // In all other cases, allow dragging.
@@ -81,29 +89,28 @@ namespace Dopamine.ViewModels.Common
 
         private async Task UpdateQueueOrderAsync(IDropInfo dropInfo)
         {
-            base.isDroppingTracks = true;
+            this.isDroppingTracks = true;
 
-            var droppedTracks = new List<KeyValuePair<string, PlayableTrack>>();
+            var droppedTracks = new List<TrackViewModel>();
 
             // TargetCollection contains all tracks of the queue, in the new order.
             foreach (var item in dropInfo.TargetCollection)
             {
-                KeyValuePair<string, TrackViewModel> droppedItem = (KeyValuePair<string, TrackViewModel>)item;
-                droppedTracks.Add(new KeyValuePair<string, PlayableTrack>(droppedItem.Key, droppedItem.Value.Track));
+                droppedTracks.Add((TrackViewModel)item);
             }
 
             await this.playbackService.UpdateQueueOrderAsync(droppedTracks);
 
-            base.isDroppingTracks = false;
+            this.isDroppingTracks = false;
         }
 
         public async void Drop(IDropInfo dropInfo)
         {
             try
             {
-                if (base.IsDraggingFiles(dropInfo))
+                if (dropInfo.IsDraggingFiles())
                 {
-                    if (base.IsDraggingMediaFiles(dropInfo))
+                    if (dropInfo.IsDraggingMediaFiles())
                     {
                         await this.AddDroppedFilesToQueue(dropInfo);
                     }
@@ -124,8 +131,8 @@ namespace Dopamine.ViewModels.Common
         {
             try
             {
-                var filenames = base.GetDroppedFilenames(dropInfo);
-                List<PlayableTrack> tracks = await this.fileService.ProcessFilesAsync(filenames);
+                IList<string> filenames = dropInfo.GetDroppedFilenames();
+                IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
                 await this.playbackService.AddToQueueAsync(tracks);
             }
             catch (Exception ex)
@@ -139,35 +146,28 @@ namespace Dopamine.ViewModels.Common
             // Remove Tracks from PlaybackService (this dequeues the Tracks)
             DequeueResult dequeueResult = await this.playbackService.DequeueAsync(this.SelectedTracks);
 
-            var viewModelsToRemove = new List<KeyValuePair<string, TrackViewModel>>();
-
-            await Task.Run(() =>
-            {
-                // Collect the ViewModels to remove
-                viewModelsToRemove.AddRange(this.Tracks.Where(vm => dequeueResult.DequeuedTracks.Select(t => t.Key)
-                    .ToList()
-                    .Contains(vm.Key)));
-            });
-
-            // Remove the ViewModels from Tracks (this updates the UI)
-            foreach (KeyValuePair<string, TrackViewModel> vm in viewModelsToRemove)
-            {
-                this.Tracks.Remove(vm);
-            }
-
-            this.TracksCount = this.Tracks.Count;
-
             if (!dequeueResult.IsSuccess)
             {
                 this.dialogService.ShowNotification(
-                    0xe711,
-                    16,
-                    ResourceUtils.GetString("Language_Error"),
-                    ResourceUtils.GetString("Language_Error_Removing_From_Now_Playing"),
-                    ResourceUtils.GetString("Language_Ok"),
-                    true,
-                    ResourceUtils.GetString("Language_Log_File"));
+                     0xe711,
+                     16,
+                     ResourceUtils.GetString("Language_Error"),
+                     ResourceUtils.GetString("Language_Error_Removing_From_Now_Playing"),
+                     ResourceUtils.GetString("Language_Ok"),
+                     true,
+                     ResourceUtils.GetString("Language_Log_File"));
             }
+
+            // Remove the ViewModels from Tracks (this updates the UI)
+            foreach (TrackViewModel track in dequeueResult.DequeuedTracks)
+            {
+                if (this.Tracks.Contains(track))
+                {
+                    this.Tracks.Remove(track);
+                }
+            }
+
+            this.TracksCount = this.Tracks.Count;
         }
     }
 }

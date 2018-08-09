@@ -128,6 +128,7 @@
               <File Source="Languages\HR.xml" />
               <File Source="Languages\HU.xml" />
               <File Source="Languages\IT.xml" />
+              <File Source="Languages\JP.xml" />
               <File Source="Languages\KO.xml" />
               <File Source="Languages\NL.xml" />
               <File Source="Languages\PL.xml" />

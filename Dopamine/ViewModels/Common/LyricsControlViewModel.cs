@@ -19,6 +19,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using Prism.Ioc;
+using Dopamine.Services.Entities;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -30,7 +31,7 @@ namespace Dopamine.ViewModels.Common
         private IPlaybackService playbackService;
         private II18nService i18NService;
         private LyricsViewModel lyricsViewModel;
-        private PlayableTrack previousTrack;
+        private TrackViewModel previousTrack;
         private int contentSlideInFrom;
         private Timer highlightTimer = new Timer();
         private int highlightTimerIntervalMilliseconds = 100;
@@ -143,13 +144,13 @@ namespace Dopamine.ViewModels.Common
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.refreshTimer.Stop();
-            this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
+            this.RefreshLyricsAsync(this.playbackService.CurrentTrack);
         }
 
         private void UpdateLyricsAfterEditingTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             this.updateLyricsAfterEditingTimer.Stop();
-            this.RefreshLyricsAsync(this.playbackService.CurrentTrack.Value);
+            this.RefreshLyricsAsync(this.playbackService.CurrentTrack);
         }
 
         private async void HighlightTimer_Elapsed(object sender, ElapsedEventArgs e)
@@ -177,12 +178,12 @@ namespace Dopamine.ViewModels.Common
             this.highlightTimer.Stop();
         }
 
-        private void ClearLyrics(PlayableTrack track)
+        private void ClearLyrics(TrackViewModel track)
         {
             this.LyricsViewModel = new LyricsViewModel(this.container, track);
         }
 
-        private async void RefreshLyricsAsync(PlayableTrack track)
+        private async void RefreshLyricsAsync(TrackViewModel track)
         {
             if (!this.isNowPlayingPageActive || !this.isNowPlayingLyricsPageActive) return;
             if (track == null) return;

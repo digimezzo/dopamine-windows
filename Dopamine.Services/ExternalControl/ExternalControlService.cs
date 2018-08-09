@@ -1,7 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Services.Cache;
-using Dopamine.Services.ExternalControl;
 using Dopamine.Services.Playback;
 using System;
 using System.ServiceModel;
@@ -45,14 +44,14 @@ namespace Dopamine.Services.ExternalControl
 #endif
             }, "/ExternalControlService");
 
-            svcHost.AddServiceEndpoint(typeof(IFftDataServer), new NetNamedPipeBinding()
-            {
-#if DEBUG
-                SendTimeout = new TimeSpan(0, 0, 8),
-#else
-                SendTimeout = new TimeSpan(0, 0, 1),
-#endif
-            }, "/ExternalControlService/FftDataServer");
+//            svcHost.AddServiceEndpoint(typeof(IFftDataServer), new NetNamedPipeBinding()
+//            {
+//#if DEBUG
+//                SendTimeout = new TimeSpan(0, 0, 8),
+//#else
+//                SendTimeout = new TimeSpan(0, 0, 1),
+//#endif
+//            }, "/ExternalControlService/FftDataServer");
 
             var smb = svcHost.Description.Behaviors.Find<ServiceMetadataBehavior>() ?? new ServiceMetadataBehavior();
             smb.MetadataExporter.PolicyVersion = PolicyVersion.Policy15;

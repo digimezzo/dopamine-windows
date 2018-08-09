@@ -9,7 +9,6 @@ using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
-using Dopamine.Services.Indexing;
 using Dopamine.Services.Utils;
 using SQLite;
 using System;
@@ -27,10 +26,8 @@ namespace Dopamine.Services.Indexing
 
         // Repositories
         private ITrackRepository trackRepository;
+        private IAlbumArtworkRepository albumArtworkRepository;
         private IFolderRepository folderRepository;
-        private IAlbumRepository albumRepository;
-        private IArtistRepository artistRepository;
-        private IGenreRepository genreRepository;
 
         // Factories
         private ISQLiteConnectionFactory factory;
@@ -66,15 +63,12 @@ namespace Dopamine.Services.Indexing
         }
 
         public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, ITrackRepository trackRepository,
-            IAlbumRepository albumRepository, IGenreRepository genreRepository, IArtistRepository artistRepository,
-            IFolderRepository folderRepository, IFileMetadataFactory fileMetadataFactory)
+            IFolderRepository folderRepository, IFileMetadataFactory fileMetadataFactory, IAlbumArtworkRepository albumArtworkRepository)
         {
             this.cacheService = cacheService;
             this.trackRepository = trackRepository;
-            this.albumRepository = albumRepository;
-            this.genreRepository = genreRepository;
-            this.artistRepository = artistRepository;
             this.folderRepository = folderRepository;
+            this.albumArtworkRepository = albumArtworkRepository;
             this.factory = factory;
             this.fileMetadataFactory = fileMetadataFactory;
 
@@ -242,19 +236,6 @@ namespace Dopamine.Services.Indexing
             }
         }
 
-        private Track GetLastModifiedTrack(Album album)
-        {
-            // Get the Track from this Album which was last modified
-            Track lastModifiedTrack = null;
-
-            using (SQLiteConnection conn = this.factory.GetConnection())
-            {
-                lastModifiedTrack = conn.Table<Track>().Where((t) => t.AlbumID.Equals(album.AlbumID)).Select((t) => t).OrderByDescending((t) => t.DateFileModified).FirstOrDefault();
-            }
-
-            return lastModifiedTrack;
-        }
-
         private async Task<long> IndexTracksAsync(bool ignoreRemovedFiles)
         {
             LogClient.Info("+++ STARTED INDEXING COLLECTION +++");
@@ -291,12 +272,6 @@ namespace Dopamine.Services.Indexing
                 numberTracksAdded = await this.AddTracksAsync();
 
                 LogClient.Info("Tracks added: {0}. Time required: {1} ms +++", numberTracksAdded, Convert.ToInt64(DateTime.Now.Subtract(addTracksStartTime).TotalMilliseconds));
-
-                // Step 4: delete orphans
-                // ----------------------
-                await this.albumRepository.DeleteOrphanedAlbumsAsync(); // Delete orphaned Albums
-                await this.artistRepository.DeleteOrphanedArtistsAsync(); // Delete orphaned Artists
-                await this.genreRepository.DeleteOrphanedGenresAsync(); // Delete orphaned Genres
             }
             catch (Exception ex)
             {
@@ -579,69 +554,19 @@ namespace Dopamine.Services.Indexing
 
         private void ProcessTrack(Track track, SQLiteConnection conn)
         {
-            var newTrackStatistic = new TrackStatistic();
-            var newAlbum = new Album() { NeedsIndexing = 1 }; // Make sure album art gets indexed for this album
-            var newArtist = new Artist();
-            var newGenre = new Genre();
-
             try
             {
-                MetadataUtils.SplitMetadata(this.fileMetadataFactory.Create(track.Path), ref track, ref newTrackStatistic, ref newAlbum, ref newArtist, ref newGenre);
-
-                // Check if such TrackStatistic already exists in the database
-                if (!this.cache.HasCachedTrackStatistic(newTrackStatistic))
-                {
-                    // If not, add it.
-                    conn.Insert(newTrackStatistic);
-                }
-
-                // Check if such Artist already exists in the database
-                if (!this.cache.HasCachedArtist(ref newArtist))
-                {
-                    // If not, add it.
-                    conn.Insert(newArtist);
-                }
-
-                // Check if such Genre already exists in the database 
-                if (!this.cache.HasCachedGenre(ref newGenre))
-                {
-                    // If not, add it.
-                    conn.Insert(newGenre);
-                }
-
-                // Check if such Album already exists in the database
-                if (!this.cache.HasCachedAlbum(ref newAlbum))
-                {
-                    // If Not, add it.
-                    conn.Insert(newAlbum);
-                }
-                else
-                {
-                    // Make sure the Year of the existing album is updated
-                    Album dbAlbum = conn.Table<Album>().Where((a) => a.AlbumID.Equals(newAlbum.AlbumID)).FirstOrDefault();
-
-                    if (dbAlbum != null)
-                    {
-                        dbAlbum.Year = newAlbum.Year;
-
-                        // A track from this album has changed, so make sure album art gets re-indexed.
-                        dbAlbum.NeedsIndexing = 1;
-                        conn.Update(dbAlbum);
-                    }
-                }
+                MetadataUtils.FillTrack(this.fileMetadataFactory.Create(track.Path), ref track);
 
                 track.IndexingSuccess = 1;
-                track.AlbumID = newAlbum.AlbumID;
-                track.ArtistID = newArtist.ArtistID;
-                track.GenreID = newGenre.GenreID;
+
+                // Make sure that we check for album cover art
+                track.NeedsAlbumArtworkIndexing = 1;
             }
             catch (Exception ex)
             {
                 // When updating tracks: for tracks that were indexed successfully in the past and had IndexingSuccess = 1
                 track.IndexingSuccess = 0;
-                track.AlbumID = 0;
-                track.ArtistID = 0;
-                track.GenreID = 0;
                 track.IndexingFailureReason = ex.Message;
 
                 LogClient.Error("Error while retrieving tag information for file {0}. Exception: {1}", track.Path, ex.Message);
@@ -655,49 +580,21 @@ namespace Dopamine.Services.Indexing
             await this.RefreshCollectionAsync();
         }
 
-        private async Task<long> DeleteUnusedArtworkFromDatabaseAsync()
-        {
-            long numberDeleted = 0;
-
-            await Task.Run(() =>
-            {
-                using (SQLiteConnection conn = this.factory.GetConnection())
-                {
-                    conn.BeginTransaction();
-
-                    foreach (Album alb in conn.Table<Album>().Where((a) => (a.ArtworkID != null && a.ArtworkID != string.Empty)))
-                    {
-                        if (!System.IO.File.Exists(this.cacheService.GetCachedArtworkPath(alb.ArtworkID)))
-                        {
-                            alb.ArtworkID = string.Empty;
-                            conn.Update(alb);
-                            numberDeleted += 1;
-                        }
-                    }
-
-                    conn.Commit();
-                }
-            });
-
-            return numberDeleted;
-        }
-
         private async Task<long> DeleteUnusedArtworkFromCacheAsync()
         {
             long numberDeleted = 0;
 
-            await Task.Run(() =>
+            await Task.Run(async() =>
             {
                 string[] artworkFiles = Directory.GetFiles(this.cacheService.CoverArtCacheFolderPath, "album-*.jpg");
 
                 using (SQLiteConnection conn = this.factory.GetConnection())
                 {
-                    List<Album> albumsWithArtwork = conn.Table<Album>().Where((t) => t.ArtworkID != null && t.ArtworkID != string.Empty).Select((t) => t).ToList();
-                    List<string> artworkIDs = albumsWithArtwork.Select((a) => a.ArtworkID).ToList();
+                    IList<string> artworkIds = await this.albumArtworkRepository.GetArtworkIdsAsync();
 
                     foreach (string artworkFile in artworkFiles)
                     {
-                        if (!artworkIDs.Contains(System.IO.Path.GetFileNameWithoutExtension(artworkFile)))
+                        if (!artworkIds.Contains(Path.GetFileNameWithoutExtension(artworkFile)))
                         {
                             try
                             {
@@ -726,9 +623,9 @@ namespace Dopamine.Services.Indexing
 
             try
             {
-                // Step 1: delete unused artwork from the database
-                // -----------------------------------------------
-                numberDeletedFromDatabase = await this.DeleteUnusedArtworkFromDatabaseAsync();
+                // Step 1: delete unused AlbumArtwork from the database (Which isn't mapped to a Track's AlbumKey)
+                // -----------------------------------------------------------------------------------------------
+                numberDeletedFromDatabase = await this.albumArtworkRepository.DeleteUnusedAlbumArtworkAsync();
 
                 // Step 2: delete unused artwork from the cache
                 // --------------------------------------------
@@ -744,15 +641,15 @@ namespace Dopamine.Services.Indexing
             return numberDeletedFromDatabase + numberDeletedFromDisk > 0;
         }
 
-        private async Task<string> GetArtworkFromFile(Album album)
+        private async Task<string> GetArtworkFromFile(string albumKey)
         {
-            Track trk = this.GetLastModifiedTrack(album);
-            return await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(album, this.fileMetadataFactory.Create(trk.Path)));
+            Track track = await this.trackRepository.GetLastModifiedTrackForAlbumKeyAsync(albumKey);
+            return await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(albumKey, this.fileMetadataFactory.Create(track.Path)));
         }
 
-        private async Task<string> GetArtworkFromInternet(Album album)
+        private async Task<string> GetArtworkFromInternet(string albumTitle, IList<string> albumArtists, string trackTitle, IList<string> artists)
         {
-            Uri artworkUri = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(album.AlbumTitle, album.AlbumArtist);
+            Uri artworkUri = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(albumTitle, albumArtists, trackTitle, artists);
             return await this.cacheService.CacheArtworkAsync(artworkUri);
         }
 
@@ -767,16 +664,9 @@ namespace Dopamine.Services.Indexing
                 // Add artwork from the Internet.
                 await this.AddArtworkInBackgroundAsync(2);
             }
-            else
-            {
-                // Don't add artwork from the Internet. Mark all albums as indexed.
-                await this.MarkAllAlbumsAsIndexed();
-            }
-        }
 
-        private async Task MarkAllAlbumsAsIndexed()
-        {
-            await this.albumRepository.SetAlbumsNeedsIndexing(0, false);
+            // We don't need to scan for artwork anymore
+            await this.trackRepository.DisableNeedsAlbumArtworkIndexingForAllTracksAsync();
         }
 
         private async Task AddArtworkInBackgroundAsync(int passNumber)
@@ -793,17 +683,18 @@ namespace Dopamine.Services.Indexing
                 {
                     try
                     {
-                        List<long> albumIdsWithArtwork = new List<long>();
-                        List<Album> albumsToIndex = conn.Table<Album>().ToList().Where(a => a.NeedsIndexing == 1).ToList();
+                        IList<string> albumKeysWithArtwork = new List<string>();
+                        IList<AlbumData> albumDatasToIndex = await this.trackRepository.GetAlbumDataToIndexAsync();
 
-                        foreach (Album alb in albumsToIndex)
+                        foreach (AlbumData albumDataToIndex in albumDatasToIndex)
                         {
+                            // Check if we must cancel artwork indexing
                             if (!this.canIndexArtwork)
                             {
                                 try
                                 {
                                     LogClient.Info("+++ ABORTED ADDING ARTWORK IN THE BACKGROUND. Time required: {0} ms +++", Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
-                                    this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIdsWithArtwork }); // Update UI
+                                    this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumKeys = albumKeysWithArtwork }); // Update UI
                                 }
                                 catch (Exception ex)
                                 {
@@ -815,54 +706,65 @@ namespace Dopamine.Services.Indexing
                                 return;
                             }
 
+                            // Start indexing artwork
                             try
                             {
+                                // Delete existing AlbumArtwork
+                                await this.albumArtworkRepository.DeleteAlbumArtworkAsync(albumDataToIndex.AlbumKey);
+
+                                // Create a new AlbumArtwork
+                                var albumArtwork = new AlbumArtwork(albumDataToIndex.AlbumKey);
+
                                 if (passNumber.Equals(1))
                                 {
                                     // During the 1st pass, look for artwork in file(s).
-                                    // Only set NeedsIndexing = 0 if artwork was found. If no artwork was found, 
+                                    // Only set NeedsAlbumArtworkIndexing = 0 if artwork was found. So when no artwork was found, 
                                     // this gives the 2nd pass a chance to look for artwork on the Internet.
-                                    alb.ArtworkID = await this.GetArtworkFromFile(alb);
+                                    albumArtwork.ArtworkID = await this.GetArtworkFromFile(albumDataToIndex.AlbumKey);
 
-                                    if (!string.IsNullOrEmpty(alb.ArtworkID))
+                                    if (!string.IsNullOrEmpty(albumArtwork.ArtworkID))
                                     {
-                                        alb.NeedsIndexing = 0;
+                                        await this.trackRepository.DisableNeedsAlbumArtworkIndexingAsync(albumDataToIndex.AlbumKey);
                                     }
                                 }
                                 else if (passNumber.Equals(2))
                                 {
-                                    // During the 2nd pass, look for artwork on the Internet and set alb.NeedsIndexing = 0.
-                                    // We don't want future passes to index this album anymore.
-                                    alb.ArtworkID = await this.GetArtworkFromInternet(alb);
-                                    alb.NeedsIndexing = 0;
+                                    // During the 2nd pass, look for artwork on the Internet and set NeedsAlbumArtworkIndexing = 0.
+                                    // We don't want future passes to index for this AlbumKey anymore.
+                                    albumArtwork.ArtworkID = await this.GetArtworkFromInternet(
+                                        albumDataToIndex.AlbumTitle,
+                                        DataUtils.SplitAndTrimColumnMultiValue(albumDataToIndex.AlbumArtists).ToList(),
+                                        albumDataToIndex.TrackTitle,
+                                        DataUtils.SplitAndTrimColumnMultiValue(albumDataToIndex.Artists).ToList()
+                                        );
+
+                                    await this.trackRepository.DisableNeedsAlbumArtworkIndexingAsync(albumDataToIndex.AlbumKey);
                                 }
 
                                 // If artwork was found, keep track of the albumID
-                                if (!string.IsNullOrEmpty(alb.ArtworkID))
+                                if (!string.IsNullOrEmpty(albumArtwork.ArtworkID))
                                 {
-                                    albumIdsWithArtwork.Add(alb.AlbumID);
+                                    albumKeysWithArtwork.Add(albumArtwork.AlbumKey);
+                                    conn.Insert(albumArtwork);
                                 }
 
-                                alb.DateLastSynced = DateTime.Now.Ticks;
-                                conn.Update(alb);
-
                                 // If artwork was found for 20 albums, trigger a refresh of the UI.
-                                if (albumIdsWithArtwork.Count >= 20)
+                                if (albumKeysWithArtwork.Count >= 20)
                                 {
-                                    List<long> eventAlbumIds = new List<long>(albumIdsWithArtwork);
-                                    albumIdsWithArtwork.Clear();
-                                    this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = eventAlbumIds }); // Update UI
+                                    var eventAlbumKeys = new List<string>(albumKeysWithArtwork);
+                                    albumKeysWithArtwork.Clear();
+                                    this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumKeys = eventAlbumKeys }); // Update UI
                                 }
                             }
                             catch (Exception ex)
                             {
-                                LogClient.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", alb.AlbumTitle, alb.AlbumArtist, ex.Message);
+                                LogClient.Error("There was a problem while updating the cover art for Album {0}/{1}. Exception: {2}", albumDataToIndex.AlbumTitle, albumDataToIndex.AlbumArtists, ex.Message);
                             }
                         }
 
                         try
                         {
-                            this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumIds = albumIdsWithArtwork }); // Update UI
+                            this.AlbumArtworkAdded(this, new AlbumArtworkAddedEventArgs() { AlbumKeys = albumKeysWithArtwork }); // Update UI
                         }
                         catch (Exception ex)
                         {
@@ -880,7 +782,7 @@ namespace Dopamine.Services.Indexing
             LogClient.Error("+++ FINISHED ADDING ARTWORK IN THE BACKGROUND. Time required: {0} ms +++", Convert.ToInt64(DateTime.Now.Subtract(startTime).TotalMilliseconds));
         }
 
-        public async void ReloadAlbumArtworkAsync(bool onlyUpdateWhenNoCover)
+        public async void ReScanAlbumArtworkAsync(bool onlyWhenHasNoCover)
         {
             this.canIndexArtwork = false;
 
@@ -890,7 +792,7 @@ namespace Dopamine.Services.Indexing
                 await Task.Delay(100);
             }
 
-            await this.albumRepository.SetAlbumsNeedsIndexing(1, onlyUpdateWhenNoCover);
+            await this.trackRepository.EnableNeedsAlbumArtworkIndexingForAllTracksAsync(onlyWhenHasNoCover);
 
             this.AddArtworkInBackgroundAsync();
         }

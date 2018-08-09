@@ -1,28 +1,30 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
+using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories;
-using Dopamine.ViewModels;
 using Dopamine.Services.Cache;
+using Dopamine.Services.Entities;
 using Dopamine.Services.Indexing;
 using Dopamine.Services.Playback;
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Prism.Ioc;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
     public class CollectionFrequentViewModel : BindableBase
     {
-        private IAlbumRepository albumRepository;
         private IPlaybackService playbackService;
         private IIndexingService indexingService;
         private ICacheService cacheService;
         private IRegionManager regionManager;
+        private ITrackRepository trackRepository;
+        private IAlbumArtworkRepository albumArtworkRepository;
         private AlbumViewModel albumViewModel1;
         private AlbumViewModel albumViewModel2;
         private AlbumViewModel albumViewModel3;
@@ -73,24 +75,25 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         public CollectionFrequentViewModel(IContainerProvider container)
         {
             // Dependency injection
-            this.albumRepository = container.Resolve<IAlbumRepository>();
             this.playbackService = container.Resolve<IPlaybackService>();
             this.cacheService = container.Resolve<ICacheService>();
             this.indexingService = container.Resolve<IIndexingService>();
             this.regionManager = container.Resolve<IRegionManager>();
+            this.trackRepository = container.Resolve<ITrackRepository>();
+            this.albumArtworkRepository = container.Resolve<IAlbumArtworkRepository>();
 
             // Events
-            this.playbackService.TrackStatisticsChanged += async (_) => await this.PopulateAlbumHistoryAsync();
+            this.playbackService.PlaybackCountersChanged += async (_) => await this.PopulateAlbumHistoryAsync();
             this.indexingService.IndexingStopped += async (_, __) => await this.PopulateAlbumHistoryAsync();
 
             // Commands
-            this.ClickCommand = new DelegateCommand<object>((album) =>
+            this.ClickCommand = new DelegateCommand<object>((albumViewModel) =>
             {
                 try
                 {
-                    if (album != null)
+                    if (albumViewModel != null)
                     {
-                        this.playbackService.EnqueueAlbumsAsync(new List<long> { ((Album)album).AlbumID }, false, false);
+                        this.playbackService.EnqueueAlbumsAsync(new List<AlbumViewModel> { (AlbumViewModel)albumViewModel }, false, false);
                     }
                 }
                 catch (Exception ex)
@@ -111,27 +114,28 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             });
         }
 
-        private void UpdateAlbumViewModel(int number, List<Album> albums, ref AlbumViewModel albumViewModel)
+        private void UpdateAlbumViewModel(int number, IList<AlbumData> albumDatas, ref AlbumViewModel albumViewModel)
         {
-            if (albums.Count >= number)
+            if (albumDatas.Count >= number)
             {
-                Album alb = albums[number - 1];
+                AlbumData data = albumDatas[number - 1];
 
-                if (albumViewModel == null || !albumViewModel.Album.Equals(alb))
+                if (albumViewModel == null || !albumViewModel.AlbumKey.Equals(data.AlbumKey))
                 {
-                    albumViewModel = new AlbumViewModel
+                    Task<AlbumArtwork> task = this.albumArtworkRepository.GetAlbumArtworkAsync(data.AlbumKey);
+                    AlbumArtwork albumArtwork = task.Result;
+
+                    albumViewModel = new AlbumViewModel(data, true)
                     {
-                        Album = alb,
-                        ArtworkPath = this.cacheService.GetCachedArtworkPath(alb.ArtworkID)
+                        ArtworkPath = this.cacheService.GetCachedArtworkPath(albumArtwork.ArtworkID)
                     };
                 }
             }
             else
             {
                 // Shows an empty tile
-                albumViewModel = new AlbumViewModel
+                albumViewModel = new AlbumViewModel(AlbumData.CreateDefault(), false)
                 {
-                    Album = new Album() { AlbumTitle = string.Empty, AlbumArtist = string.Empty },
                     ArtworkPath = string.Empty,
                     Opacity = 0.8 - (number / 10.0)
                 };
@@ -143,16 +147,16 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async Task PopulateAlbumHistoryAsync()
         {
-            var albums = await this.albumRepository.GetFrequentAlbumsAsync(6);
+            IList<AlbumData> albumDatas = await this.trackRepository.GetFrequentAlbumDataAsync(6);
 
             await Task.Run(() =>
             {
-                this.UpdateAlbumViewModel(1, albums, ref this.albumViewModel1);
-                this.UpdateAlbumViewModel(2, albums, ref this.albumViewModel2);
-                this.UpdateAlbumViewModel(3, albums, ref this.albumViewModel3);
-                this.UpdateAlbumViewModel(4, albums, ref this.albumViewModel4);
-                this.UpdateAlbumViewModel(5, albums, ref this.albumViewModel5);
-                this.UpdateAlbumViewModel(6, albums, ref this.albumViewModel6);
+                this.UpdateAlbumViewModel(1, albumDatas, ref this.albumViewModel1);
+                this.UpdateAlbumViewModel(2, albumDatas, ref this.albumViewModel2);
+                this.UpdateAlbumViewModel(3, albumDatas, ref this.albumViewModel3);
+                this.UpdateAlbumViewModel(4, albumDatas, ref this.albumViewModel4);
+                this.UpdateAlbumViewModel(5, albumDatas, ref this.albumViewModel5);
+                this.UpdateAlbumViewModel(6, albumDatas, ref this.albumViewModel6);
             });
         }
     }

@@ -6,8 +6,11 @@ namespace Dopamine.Data.Entities
     {
         [PrimaryKey(), AutoIncrement()]
         public long TrackID { get; set; }
+
         public string Path { get; set; }
+
         public string SafePath { get; set; }
+
         public long DateRemoved { get; set; }
 
         public override bool Equals(object obj)

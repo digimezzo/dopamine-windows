@@ -9,6 +9,8 @@ using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Dialog;
+using Dopamine.Services.Entities;
+using Dopamine.Services.Extensions;
 using Dopamine.Services.I18n;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Playback;
@@ -42,14 +44,23 @@ namespace Dopamine.ViewModels.Common.Base
         private IEventAggregator eventAggregator;
         private IProviderService providerService;
         private IPlaylistService playlistService;
+        private IMetadataService metadataService;
         private ObservableCollection<TrackViewModel> tracks;
         private CollectionViewSource tracksCvs;
-        private IList<PlayableTrack> selectedTracks;
-        private TrackViewModel lastPlayingTrackVm;
+        private IList<TrackViewModel> selectedTracks;
+        private bool showTrackArt;
 
-        public abstract bool CanOrderByAlbum { get; }
+        public DelegateCommand<bool?> UpdateShowTrackArtCommand { get; set; }
+
+        public TrackViewModel PreviousPlayingTrack { get; set; }
 
         public bool ShowRemoveFromDisk => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
+
+        public bool ShowTrackArt
+        {
+            get { return this.showTrackArt; }
+            set { SetProperty(ref this.showTrackArt, value); }
+        }
 
         public ObservableCollection<TrackViewModel> Tracks
         {
@@ -63,10 +74,10 @@ namespace Dopamine.ViewModels.Common.Base
             set { SetProperty<CollectionViewSource>(ref this.tracksCvs, value); }
         }
 
-        public IList<PlayableTrack> SelectedTracks
+        public IList<TrackViewModel> SelectedTracks
         {
             get { return this.selectedTracks; }
-            set { SetProperty<IList<PlayableTrack>>(ref this.selectedTracks, value); }
+            set { SetProperty<IList<TrackViewModel>>(ref this.selectedTracks, value); }
         }
 
         public TracksViewModelBase(IContainerProvider container) : base(container)
@@ -82,6 +93,10 @@ namespace Dopamine.ViewModels.Common.Base
             this.eventAggregator = container.Resolve<IEventAggregator>();
             this.providerService = container.Resolve<IProviderService>();
             this.playlistService = container.Resolve<IPlaylistService>();
+            this.metadataService = container.Resolve<IMetadataService>();
+
+            // Events
+            this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
 
             // Commands
             this.ToggleTrackOrderCommand = new DelegateCommand(() => this.ToggleTrackOrder());
@@ -90,12 +105,24 @@ namespace Dopamine.ViewModels.Common.Base
             this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
 
-            // Settings
+            this.UpdateShowTrackArtCommand = new DelegateCommand<bool?>((showTrackArt) =>
+            {
+                SettingsClient.Set<bool>("Appearance", "ShowTrackArtOnPlaylists", showTrackArt.Value, true);
+            });
+
+            // Settings changed
             SettingsClient.SettingChanged += (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "ShowRemoveFromDisk"))
                 {
                     RaisePropertyChanged(nameof(this.ShowRemoveFromDisk));
+                }
+
+
+                if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowTrackArtOnPlaylists"))
+                {
+                    this.ShowTrackArt = (bool)e.SettingValue;
+                    this.UpdateShowTrackArtAsync();
                 }
             };
 
@@ -107,22 +134,49 @@ namespace Dopamine.ViewModels.Common.Base
                 this.RefreshLanguage();
             };
 
-            this.playbackService.TrackStatisticsChanged += PlaybackService_TrackStatisticsChanged;
+            this.playbackService.PlaybackCountersChanged += PlaybackService_PlaybackCountersChanged;
+
+            // Load settings
+            this.ShowTrackArt = SettingsClient.Get<bool>("Appearance", "ShowTrackArtOnPlaylists");
         }
 
-        private async void PlaybackService_TrackStatisticsChanged(IList<TrackStatistic> trackStatistics)
+        protected virtual async void MetadataChangedHandlerAsync(MetadataChangedEventArgs e)
+        {
+            await this.FillListsAsync();
+        }
+
+        private async void UpdateShowTrackArtAsync()
+        {
+            if (this.Tracks == null || this.Tracks.Count == 0)
+            {
+                return;
+            }
+
+            await Task.Run(() =>
+            {
+                foreach (TrackViewModel track in this.Tracks)
+                {
+                    if (track != null)
+                    {
+                        track.ShowTrackArt = this.showTrackArt;
+                    }
+                }
+            });
+        }
+
+        private async void PlaybackService_PlaybackCountersChanged(IList<PlaybackCounter> counters)
         {
             if (this.Tracks == null)
             {
                 return;
             }
 
-            if (trackStatistics == null)
+            if (counters == null)
             {
                 return;
             }
 
-            if (trackStatistics.Count == 0)
+            if (counters.Count == 0)
             {
                 return;
             }
@@ -131,11 +185,11 @@ namespace Dopamine.ViewModels.Common.Base
             {
                 foreach (TrackViewModel vm in this.Tracks)
                 {
-                    if (trackStatistics.Select(t => t.SafePath).Contains(vm.Track.SafePath))
+                    if (counters.Select(c => c.SafePath).Contains(vm.Track.SafePath))
                     {
                         // The UI is only updated if PropertyChanged is fired on the UI thread
-                        TrackStatistic statistic = trackStatistics.Where(c => c.SafePath.Equals(vm.Track.SafePath)).FirstOrDefault();
-                        Application.Current.Dispatcher.Invoke(() => vm.UpdateVisibleCounters(statistic));
+                        PlaybackCounter counter = counters.Where(c => c.SafePath.Equals(vm.Track.SafePath)).FirstOrDefault();
+                        Application.Current.Dispatcher.Invoke(() => vm.UpdateVisibleCounters(counter));
                     }
                 }
             });
@@ -145,7 +199,7 @@ namespace Dopamine.ViewModels.Common.Base
         {
             TrackOrder savedTrackOrder = (TrackOrder)SettingsClient.Get<int>("Ordering", settingName);
 
-            if ((!this.EnableRating & savedTrackOrder == TrackOrder.ByRating) | (!this.CanOrderByAlbum & savedTrackOrder == TrackOrder.ByAlbum))
+            if ((!this.EnableRating & savedTrackOrder == TrackOrder.ByRating))
             {
                 this.TrackOrder = TrackOrder.Alphabetical;
             }
@@ -158,83 +212,77 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected void TracksCvs_Filter(object sender, FilterEventArgs e)
         {
-            TrackViewModel vm = e.Item as TrackViewModel;
-            e.Accepted = DataUtils.FilterTracks(vm.Track, this.searchService.SearchText);
+            TrackViewModel track = e.Item as TrackViewModel;
+            e.Accepted = EntityUtils.FilterTracks(track, this.searchService.SearchText);
         }
 
-        protected async Task GetTracksAsync(IList<Artist> selectedArtists, IList<long> selectedGenreIds, IList<long> selectedAlbumIds, TrackOrder trackOrder)
+        protected async Task GetTracksAsync(IList<string> artists, IList<string> genres, IList<AlbumViewModel> albumViewModels, TrackOrder trackOrder)
         {
+            IList<Track> tracks = null;
 
-            if (selectedArtists.IsNullOrEmpty() & selectedGenreIds.IsNullOrEmpty() & selectedAlbumIds.IsNullOrEmpty())
+            if (!artists.IsNullOrEmpty())
             {
-                await this.GetTracksCommonAsync(await this.trackRepository.GetTracksAsync(), trackOrder);
+                tracks = await this.trackRepository.GetArtistTracksAsync(artists);
+            }
+            else if (!genres.IsNullOrEmpty())
+            {
+                tracks = await this.trackRepository.GetGenreTracksAsync(genres);
+            }
+            else if (albumViewModels != null && albumViewModels.Count > 0)
+            {
+                tracks = await this.trackRepository.GetAlbumTracksAsync(albumViewModels.Select(x => x.AlbumKey).ToList());
             }
             else
             {
-                if (!selectedAlbumIds.IsNullOrEmpty())
-                {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetAlbumTracksAsync(selectedAlbumIds), trackOrder);
-                    return;
-                }
-
-                if (!selectedArtists.IsNullOrEmpty())
-                {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetArtistTracksAsync(selectedArtists), trackOrder);
-                    return;
-                }
-
-                if (!selectedGenreIds.IsNullOrEmpty())
-                {
-                    await this.GetTracksCommonAsync(await this.trackRepository.GetGenreTracksAsync(selectedGenreIds), trackOrder);
-                    return;
-                }
+                tracks = await this.trackRepository.GetTracksAsync();
             }
+
+            await this.GetTracksCommonAsync(await this.container.ResolveTrackViewModelsAsync(tracks), trackOrder);
         }
 
-        protected async Task GetTracksCommonAsync(IList<PlayableTrack> tracks, TrackOrder trackOrder)
+        protected async Task GetTracksCommonAsync(IList<TrackViewModel> tracks, TrackOrder trackOrder)
         {
             try
             {
+                // Create new ObservableCollection
+                var trackViewModels = new ObservableCollection<TrackViewModel>(tracks);
+
                 // Do we need to show the TrackNumber?
                 bool showTracknumber = this.TrackOrder == TrackOrder.ByAlbum;
 
-                // Create new ObservableCollection
-                ObservableCollection<TrackViewModel> viewModels = new ObservableCollection<TrackViewModel>();
-
-                // Order the incoming Tracks
-                List<PlayableTrack> orderedTracks = await DataUtils.OrderTracksAsync(tracks, trackOrder);
-
                 await Task.Run(() =>
                 {
-                    foreach (PlayableTrack t in orderedTracks)
+                    foreach (TrackViewModel vm in trackViewModels)
                     {
-                        TrackViewModel vm = this.container.Resolve<TrackViewModel>();
-                        vm.Track = t;
                         vm.ShowTrackNumber = showTracknumber;
-                        viewModels.Add(vm);
                     }
                 });
+
+                // Order the Tracks
+                List<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(trackViewModels, trackOrder);
 
                 // Unbind to improve UI performance
                 Application.Current.Dispatcher.Invoke(() =>
                 {
-                    if (this.TracksCvs != null) this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
+                    if (this.TracksCvs != null)
+                    {
+                        this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
+                    }
+
                     this.TracksCvs = null;
-                    this.Tracks = null;
                 });
 
+                this.Tracks = null;
+
                 // Populate ObservableCollection
-                Application.Current.Dispatcher.Invoke(() => this.Tracks = viewModels);
+                this.Tracks = trackViewModels;
             }
             catch (Exception ex)
             {
                 LogClient.Error("An error occurred while getting Tracks. Exception: {0}", ex.Message);
 
                 // Failed getting Tracks. Create empty ObservableCollection.
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    this.Tracks = new ObservableCollection<TrackViewModel>();
-                });
+                this.Tracks = new ObservableCollection<TrackViewModel>();
             }
 
             Application.Current.Dispatcher.Invoke(() =>
@@ -247,7 +295,10 @@ namespace Dopamine.ViewModels.Common.Base
                 this.TracksCount = this.TracksCvs.View.Cast<TrackViewModel>().Count();
 
                 // Group by Album if needed
-                if (this.TrackOrder == TrackOrder.ByAlbum) this.TracksCvs.GroupDescriptions.Add(new PropertyGroupDescription("GroupHeader"));
+                if (this.TrackOrder == TrackOrder.ByAlbum)
+                {
+                    this.TracksCvs.GroupDescriptions.Add(new PropertyGroupDescription("GroupHeader"));
+                }
             });
 
             // Update duration and size
@@ -257,7 +308,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.ShowPlayingTrackAsync();
         }
 
-        protected async Task RemoveTracksFromCollectionAsync(IList<PlayableTrack> selectedTracks)
+        protected async Task RemoveTracksFromCollectionAsync(IList<TrackViewModel> selectedTracks)
         {
             string title = ResourceUtils.GetString("Language_Remove");
             string body = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Song");
@@ -282,7 +333,7 @@ namespace Dopamine.ViewModels.Common.Base
             }
         }
 
-        protected async Task RemoveTracksFromDiskAsync(IList<PlayableTrack> selectedTracks)
+        protected async Task RemoveTracksFromDiskAsync(IList<TrackViewModel> selectedTracks)
         {
             string title = ResourceUtils.GetString("Language_Remove_From_Disk");
             string body = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Song_From_Disk");
@@ -364,7 +415,7 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async Task PlayNextAsync()
         {
-            IList<PlayableTrack> selectedTracks = this.SelectedTracks;
+            IList<TrackViewModel> selectedTracks = this.SelectedTracks;
 
             EnqueueResult result = await this.playbackService.AddToQueueNextAsync(selectedTracks);
 
@@ -376,7 +427,7 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async Task AddTracksToNowPlayingAsync()
         {
-            IList<PlayableTrack> selectedTracks = this.SelectedTracks;
+            IList<TrackViewModel> selectedTracks = this.SelectedTracks;
 
             EnqueueResult result = await this.playbackService.AddToQueueAsync(selectedTracks);
 
@@ -418,27 +469,40 @@ namespace Dopamine.ViewModels.Common.Base
         {
             await Task.Run(() =>
             {
-                if (lastPlayingTrackVm != null)
+                if (this.PreviousPlayingTrack != null)
                 {
-                    lastPlayingTrackVm.IsPlaying = false;
-                    lastPlayingTrackVm.IsPaused = true;
+                    this.PreviousPlayingTrack.IsPlaying = false;
+                    this.PreviousPlayingTrack.IsPaused = true;
                 }
 
-                if (!this.playbackService.HasCurrentTrack) return;
-
-                if (this.Tracks == null) return;
+                if (!this.playbackService.HasCurrentTrack)
                 {
-                    var safePath = this.playbackService.CurrentTrack.Value.SafePath;
-
-                    TrackViewModel trackVm = this.Tracks.FirstOrDefault(vm => vm.Track.SafePath.Equals(safePath));
-
-                    if (!this.playbackService.IsStopped && trackVm != null)
-                    {
-                        trackVm.IsPlaying = true;
-                        trackVm.IsPaused = !this.playbackService.IsPlaying;
-                    }
-                    lastPlayingTrackVm = trackVm;
+                    return;
                 }
+
+                if (this.Tracks == null)
+                {
+                    return;
+                }
+
+                var safePath = this.playbackService.CurrentTrack.SafePath;
+
+                // First, find the correct track by reference.
+                TrackViewModel currentPlayingTrack = this.Tracks.FirstOrDefault(x => x.Equals(this.playbackService.CurrentTrack));
+
+                // Then, if there is no reference match, find a track with the same path.
+                if (currentPlayingTrack == null)
+                {
+                    currentPlayingTrack = this.Tracks.FirstOrDefault(x => x.SafePath.Equals(this.playbackService.CurrentTrack.SafePath));
+                }
+
+                if (!this.playbackService.IsStopped && currentPlayingTrack != null)
+                {
+                    currentPlayingTrack.IsPlaying = true;
+                    currentPlayingTrack.IsPaused = !this.playbackService.IsPlaying;
+                }
+
+                this.PreviousPlayingTrack = currentPlayingTrack;
             });
 
             this.ConditionalScrollToPlayingTrack();
@@ -463,7 +527,10 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async override void MetadataService_LoveChangedAsync(LoveChangedEventArgs e)
         {
-            if (this.Tracks == null) return;
+            if (this.Tracks == null)
+            {
+                return;
+            }
 
             await Task.Run(() =>
             {
@@ -488,7 +555,11 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async override Task LoadedCommandAsync()
         {
-            if (!this.IsFirstLoad()) return;
+            if (!this.IsFirstLoad())
+            {
+                return;
+            }
+
             await Task.Delay(Constants.CommonListLoadDelay);  // Wait for the UI to slide in
             await this.FillListsAsync(); // Fill all the lists
         }
@@ -504,11 +575,11 @@ namespace Dopamine.ViewModels.Common.Base
         {
             if (parameter != null)
             {
-                this.SelectedTracks = new List<PlayableTrack>();
+                this.SelectedTracks = new List<TrackViewModel>();
 
                 foreach (TrackViewModel item in (IList)parameter)
                 {
-                    this.SelectedTracks.Add(item.Track);
+                    this.SelectedTracks.Add(item);
                 }
             }
         }
@@ -529,15 +600,7 @@ namespace Dopamine.ViewModels.Common.Base
                     this.TrackOrder = TrackOrder.ReverseAlphabetical;
                     break;
                 case TrackOrder.ReverseAlphabetical:
-
-                    if (this.CanOrderByAlbum)
-                    {
-                        this.TrackOrder = TrackOrder.ByAlbum;
-                    }
-                    else
-                    {
-                        this.TrackOrder = TrackOrder.ByRating;
-                    }
+                    this.TrackOrder = TrackOrder.ByAlbum;
                     break;
                 case TrackOrder.ByAlbum:
                     if (SettingsClient.Get<bool>("Behaviour", "EnableRating"))
@@ -548,6 +611,7 @@ namespace Dopamine.ViewModels.Common.Base
                     {
                         this.TrackOrder = TrackOrder.Alphabetical;
                     }
+
                     break;
                 case TrackOrder.ByRating:
                     this.TrackOrder = TrackOrder.Alphabetical;

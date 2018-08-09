@@ -12,12 +12,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type pc:CombiLabel}">
                     <StackPanel Orientation="Horizontal">
-                        <Border Width="48" Height="26" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
-                            <Label Content="{TemplateBinding Content}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                        <Border CornerRadius="3" Width="60" Height="30" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
+                            <Label Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource Brush_PrimaryText}"/>
                         </Border>
-                        <Label Content="+" Foreground="{DynamicResource Brush_PrimaryText}" Padding="0" VerticalAlignment="Center" Margin="5,0,5,0"/>
-                        <Border Width="26" Height="26" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
-                            <Label Content="{TemplateBinding Content2}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                        <Label Content="+" Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                        <Border CornerRadius="3" Width="30" Height="30" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
+                            <Label Content="{TemplateBinding Content2}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource Brush_PrimaryText}"/>
                         </Border>
                     </StackPanel>
                 </ControlTemplate>
@@ -31,12 +33,15 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type pc:CombiLabel}">
                     <StackPanel Orientation="Horizontal">
-                        <Border Width="48" Height="26" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
-                            <Label Content="{TemplateBinding Content}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                        <Border CornerRadius="3" Width="60" Height="30" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
+                            <Label Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource Brush_PrimaryText}"/>
                         </Border>
-                        <Label Content="+" Foreground="{DynamicResource Brush_PrimaryText}" Padding="0" VerticalAlignment="Center" Margin="5,0,5,0"/>
-                        <Border Width="26" Height="26" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
-                            <Label Content="{TemplateBinding Content2}" Style="{StaticResource SegoeAssets}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                        <Label Content="+" Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center" Margin="5,0,5,0"/>
+                        <Border CornerRadius="3" Width="30" Height="30" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
+                            <Label Content="{TemplateBinding Content2}" Style="{StaticResource SegoeAssets}"
+                                   VerticalAlignment="Center" HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource Brush_PrimaryText}"/>
                         </Border>
                     </StackPanel>
                 </ControlTemplate>
@@ -49,8 +54,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
-                    <Border Width="48" Height="26" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
-                        <Label Content="{TemplateBinding Content}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <Border CornerRadius="3" Width="60" Height="30" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
+                        <Label Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Foreground="{DynamicResource Brush_PrimaryText}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -62,8 +68,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
-                    <Border Width="26" Height="26" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
-                        <Label Content="{TemplateBinding Content}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <Border CornerRadius="3" Width="30" Height="30" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
+                        <Label Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Foreground="{DynamicResource Brush_PrimaryText}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -75,8 +82,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
-                    <Border Width="26" Height="26" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
-                        <Label Content="{TemplateBinding Content}" Style="{StaticResource SegoeAssets}" VerticalAlignment="Bottom" Padding="0" Margin="4,3,3,3" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <Border CornerRadius="3" Width="30" Height="30" Background="{DynamicResource Brush_HotKeyBackground}" VerticalAlignment="Center">
+                        <Label Content="{TemplateBinding Content}" Style="{StaticResource SegoeAssets}"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Foreground="{DynamicResource Brush_PrimaryText}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

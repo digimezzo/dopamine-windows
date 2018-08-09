@@ -2,6 +2,7 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Data.Entities;
+using Dopamine.Services.Entities;
 using System;
 using System.ComponentModel;
 using System.Windows;
@@ -19,7 +20,7 @@ namespace Dopamine.Services.Notification
         private int notificationShadowSize = 10;
         private int notificationMarginFromScreen = 0;
        
-        public NotificationWindow(PlayableTrack track, byte[] artworkData, NotificationPosition position, bool showControls, int maxSecondsVisible) : base()
+        public NotificationWindow(TrackViewModel track, byte[] artworkData, NotificationPosition position, bool showControls, int maxSecondsVisible) : base()
         {
             this.InitializeComponent();
 

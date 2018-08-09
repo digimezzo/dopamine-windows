@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Dopamine.Services.Entities;
 
 namespace Dopamine.ViewModels.Common.Base
 {
@@ -87,7 +88,7 @@ namespace Dopamine.ViewModels.Common.Base
                 return;
             }
 
-            var playingTrack = new List<PlayableTrack>() { this.playbackService.CurrentTrack.Value };
+            var playingTrack = new List<TrackViewModel>() { this.playbackService.CurrentTrack };
             await this.AddTracksToPlaylistAsync(playlistName, playingTrack);
         }
 
@@ -143,7 +144,7 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected bool HasContextMenuSearchProviders => this.ContextMenuSearchProviders != null && this.ContextMenuSearchProviders.Count > 0;
 
-        protected async Task AddTracksToPlaylistAsync(string playlistName, IList<PlayableTrack> tracks)
+        protected async Task AddTracksToPlaylistAsync(string playlistName, IList<TrackViewModel> tracks)
         {
             AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
 

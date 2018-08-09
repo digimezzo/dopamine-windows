@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Dopamine.Views.Common
 {
-    public partial class NowPlayingControl : PlaylistViewBase
+    public partial class NowPlayingControl : TracksViewBase
     {
         public NowPlayingControl()
         {

@@ -19,6 +19,7 @@ namespace Dopamine.Data.Metadata
             get
             {
                 int parsedValue = 0;
+
                 return this.IsValueChanged & !string.IsNullOrEmpty(this.Value) ? int.TryParse(this.Value, out parsedValue) ? parsedValue >= 0 : false : true;
             }
         }
@@ -84,13 +85,21 @@ namespace Dopamine.Data.Metadata
 
         private string[] ConvertToValues(string value)
         {
-            if (value != null && value.Split(';').Count() > 0) return this.values = value.Split(';');
+            if (value != null && value.Split(';').Count() > 0)
+            {
+                return this.values = value.Split(';');
+            }
+
             return null;
         }
 
         private string ConvertToValue(string[] values)
         {
-            if (values != null && values.Count() > 0) return string.Join(";", values);
+            if (values != null && values.Count() > 0)
+            {
+                return string.Join(";", values);
+            }
+
             return string.Empty;
         }
     }
