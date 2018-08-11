@@ -4,7 +4,7 @@ using System.Windows.Controls;
 
 namespace Dopamine.Views.Common
 {
-    public partial class CollectionFolders : UserControl
+    public partial class CollectionFoldersSettings : UserControl
     {
         public bool ShowControls
         {
@@ -13,9 +13,9 @@ namespace Dopamine.Views.Common
         }
 
         public static readonly DependencyProperty ShowControlsProperty = 
-            DependencyProperty.Register(nameof(ShowControls), typeof(bool), typeof(CollectionFolders), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ShowControls), typeof(bool), typeof(CollectionFoldersSettings), new PropertyMetadata(null));
 
-        public CollectionFolders()
+        public CollectionFoldersSettings()
         {
             InitializeComponent();
         }

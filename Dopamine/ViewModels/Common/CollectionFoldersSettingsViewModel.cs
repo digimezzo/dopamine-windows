@@ -19,7 +19,7 @@ using WPFFolderBrowser;
 
 namespace Dopamine.ViewModels.Common
 {
-    public class CollectionFoldersViewModel : BindableBase
+    public class CollectionFoldersSettingsViewModel : BindableBase
     {
         private IIndexingService indexingService;
         private IDialogService dialogService;
@@ -80,7 +80,7 @@ namespace Dopamine.ViewModels.Common
             }
         }
 
-        public CollectionFoldersViewModel(IIndexingService indexingService, IDialogService dialogService, ICollectionService collectionservice, IFolderRepository folderRepository)
+        public CollectionFoldersSettingsViewModel(IIndexingService indexingService, IDialogService dialogService, ICollectionService collectionservice, IFolderRepository folderRepository)
         {
             this.indexingService = indexingService;
             this.dialogService = dialogService;
