@@ -48,9 +48,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 case CollectionPage.Songs:
                     this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionTracks).FullName);
                     break;
-                case CollectionPage.Playlists:
-                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionPlaylists).FullName);
-                    break;
                 case CollectionPage.Frequent:
                     this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionFrequent).FullName);
                     break;
