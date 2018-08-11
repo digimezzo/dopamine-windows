@@ -428,7 +428,8 @@
   <Text Key="Select_None">无选中</Text>
   <Text Key="Open_Menu">打开菜单</Text>
   <Text Key="Toggle_Album_Order">切换专辑顺序</Text>
-  <Text Key="Toggle_Track_Order">切换歌曲顺序>/Text>
+  <Text Key="Toggle_Track_Order">切换歌曲顺序</Text>
   <Text Key="Activate_Search_Field">激活搜索区域</Text>
   <Text Key="Back">返回</Text>
+  <Text Key="Folders">Folders</Text>
 </Language>

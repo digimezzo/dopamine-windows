@@ -228,7 +228,7 @@
     <Compile Include="ViewModels\Common\Base\NowPlayingViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\PlaybackControlsViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\TracksViewModelBase.cs" />
-    <Compile Include="ViewModels\Common\CollectionFoldersViewModel.cs" />
+    <Compile Include="ViewModels\Common\CollectionFoldersSettingsViewModel.cs" />
     <Compile Include="ViewModels\Common\CollectionPlaybackControlsViewModel.cs" />
     <Compile Include="ViewModels\Common\CompactPlaybackControlsViewModel.cs" />
     <Compile Include="ViewModels\Common\CoverArtControlViewModel.cs" />
@@ -260,6 +260,7 @@
     <Compile Include="ViewModels\CoverArtViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionAlbumsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionArtistsViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\CollectionFoldersViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionFrequentViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionGenresViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionMenuViewModel.cs" />
@@ -316,8 +317,8 @@
     <Compile Include="Views\Common\Base\CommonViewBase.cs" />
     <Compile Include="Views\Common\Base\MiniPlayerViewBase.cs" />
     <Compile Include="Views\Common\Base\TracksViewBase.cs" />
-    <Compile Include="Views\Common\CollectionFolders.xaml.cs">
-      <DependentUpon>CollectionFolders.xaml</DependentUpon>
+    <Compile Include="Views\Common\CollectionFoldersSettings.xaml.cs">
+      <DependentUpon>CollectionFoldersSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Common\CollectionPlaybackControls.xaml.cs">
       <DependentUpon>CollectionPlaybackControls.xaml</DependentUpon>
@@ -438,6 +439,9 @@
     </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionArtists.xaml.cs">
       <DependentUpon>CollectionArtists.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Collection\CollectionFolders.xaml.cs">
+      <DependentUpon>CollectionFolders.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionFrequent.xaml.cs">
       <DependentUpon>CollectionFrequent.xaml</DependentUpon>
@@ -1079,7 +1083,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Common\CollectionFolders.xaml">
+    <Page Include="Views\Common\CollectionFoldersSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1240,6 +1244,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullPlayer\Collection\CollectionArtists.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Collection\CollectionFolders.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

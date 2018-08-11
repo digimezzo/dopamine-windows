@@ -1,4 +1,4 @@
-2018-08-09: Dopamine 2.0 Preview 2
+2018-08-11: Dopamine 2.0 Preview 2
 ----------------------------------
 
 - [Added] Added support for the AIFF format
