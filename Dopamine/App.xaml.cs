@@ -40,6 +40,7 @@ using Dopamine.Views.Common;
 using Dopamine.Views.FullPlayer;
 using Dopamine.Views.FullPlayer.Collection;
 using Dopamine.Views.FullPlayer.Information;
+using Dopamine.Views.FullPlayer.Playlists;
 using Dopamine.Views.FullPlayer.Settings;
 using Dopamine.Views.MiniPlayer;
 using Dopamine.Views.NowPlaying;
@@ -314,8 +315,12 @@ namespace Dopamine
                 containerRegistry.Register<object, CollectionArtists>(typeof(CollectionArtists).FullName);
                 containerRegistry.Register<object, CollectionFrequent>(typeof(CollectionFrequent).FullName);
                 containerRegistry.Register<object, CollectionGenres>(typeof(CollectionGenres).FullName);
-                containerRegistry.Register<object, CollectionPlaylists>(typeof(CollectionPlaylists).FullName);
                 containerRegistry.Register<object, CollectionTracks>(typeof(CollectionTracks).FullName);
+
+                // Playlists
+                containerRegistry.Register<object, PlaylistsMenu>(typeof(PlaylistsMenu).FullName);
+                containerRegistry.Register<object, Playlists>(typeof(Playlists).FullName);
+                containerRegistry.Register<object, PlaylistsPlaylists>(typeof(PlaylistsPlaylists).FullName);
 
                 // Settings
                 containerRegistry.Register<object, SettingsMenu>(typeof(SettingsMenu).FullName);

@@ -1,5 +1,5 @@
-﻿<UserControl x:Class="Dopamine.Views.FullPlayer.Collection.CollectionMenu"
-             x:Name="This"
+﻿<UserControl x:Class="Dopamine.Views.FullPlayer.Playlists.PlaylistsMenu"
+              x:Name="This"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -21,15 +21,11 @@
 
     <DockPanel Margin="0,0,180,0">
         <dc:Pivot DockPanel.Dock="Left" Style="{DynamicResource MenuPivot}"
-                  SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:CollectionPage}}">
-            <dc:PivotItem Header="{DynamicResource Language_Artists}" Style="{StaticResource MenuPivotItem}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Genres}" Style="{StaticResource MenuPivotItem}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Albums}" Style="{StaticResource MenuPivotItem}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Songs}" Style="{StaticResource MenuPivotItem}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Frequent}" Style="{StaticResource MenuPivotItem}"/>
+                  SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:PlaylistsPage}}">
+            <dc:PivotItem Header="{DynamicResource Language_Playlists}" Style="{StaticResource MenuPivotItem}"/>
         </dc:Pivot>
         <commonviews:SearchControl 
-            Margin="0,14,20,0" Width="170" VerticalAlignment="Top" HorizontalAlignment="Right"
-            Visibility="{Binding DataContext.CanSearch, ElementName=This,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            Margin="0,14,20,0" Width="170" VerticalAlignment="Top" HorizontalAlignment="Right"/>
     </DockPanel>
 </UserControl>
+

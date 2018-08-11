@@ -674,12 +674,15 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            albumData = conn.Query<AlbumData>($@"{this.SelectedAlbumDataQueryPart()},
+                            string query = $@"{this.SelectedAlbumDataQueryPart()},
                                                                 MAX(t.DateLastPlayed) AS maxdatelastplayed, 
                                                                 SUM(t.PlayCount) AS playcountsum FROM Track t
                                                                 WHERE t.PlayCount IS NOT NULL AND t.PlayCount > 0 
+                                                                AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
                                                                 GROUP BY t.AlbumKey
-                                                                ORDER BY playcountsum DESC, maxdatelastplayed DESC LIMIT {limit}");
+                                                                ORDER BY playcountsum DESC, maxdatelastplayed DESC LIMIT {limit}";
+
+                            albumData = conn.Query<AlbumData>(query);
                         }
                         catch (Exception ex)
                         {

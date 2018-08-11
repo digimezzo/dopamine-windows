@@ -263,7 +263,7 @@
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionFrequentViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionGenresViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionMenuViewModel.cs" />
-    <Compile Include="ViewModels\FullPlayer\Collection\CollectionPlaylistsViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Playlists\PlaylistsPlaylistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksColumnsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionViewModel.cs" />
@@ -274,6 +274,8 @@
     <Compile Include="ViewModels\FullPlayer\Information\InformationHelpViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationMenuViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Playlists\PlaylistsMenuViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Playlists\PlaylistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsAppearanceViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsBehaviourViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsCollectionViewModel.cs" />
@@ -446,14 +448,17 @@
     <Compile Include="Views\FullPlayer\Collection\CollectionMenu.xaml.cs">
       <DependentUpon>CollectionMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FullPlayer\Collection\CollectionPlaylists.xaml.cs">
-      <DependentUpon>CollectionPlaylists.xaml</DependentUpon>
+    <Compile Include="Views\FullPlayer\Playlists\PlaylistsPlaylists.xaml.cs">
+      <DependentUpon>PlaylistsPlaylists.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionTracks.xaml.cs">
       <DependentUpon>CollectionTracks.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionTracksColumns.xaml.cs">
       <DependentUpon>CollectionTracksColumns.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Playlists\Playlists.xaml.cs">
+      <DependentUpon>Playlists.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\FullPlayer.xaml.cs">
       <DependentUpon>FullPlayer.xaml</DependentUpon>
@@ -472,6 +477,9 @@
     </Compile>
     <Compile Include="Views\FullPlayer\Information\InformationMenu.xaml.cs">
       <DependentUpon>InformationMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Playlists\PlaylistsMenu.xaml.cs">
+      <DependentUpon>PlaylistsMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -1247,7 +1255,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FullPlayer\Collection\CollectionPlaylists.xaml">
+    <Page Include="Views\FullPlayer\Playlists\PlaylistsPlaylists.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1256,6 +1264,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullPlayer\Collection\CollectionTracksColumns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Playlists\Playlists.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1280,6 +1292,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullPlayer\Information\InformationMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Playlists\PlaylistsMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
