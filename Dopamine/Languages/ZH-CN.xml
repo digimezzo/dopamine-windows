@@ -421,14 +421,14 @@
   <Text Key="Also_Check_For_Prereleases">同时检查预览版本</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">文件夹 '{foldername}' 无法被添加，因为路径无法访问。请检查文件夹权限设置。</Text>
   <Text Key="Search_Hint">搜索...</Text>
-  <Text Key="Time">Time</Text>
-  <Text Key="Song_Artists">Song artists</Text>
-  <Text Key="Album_Artists">Album artists</Text>
-  <Text Key="Toggle_Artists">Toggle artists</Text>
-  <Text Key="Select_None">Select none</Text>
-  <Text Key="Open_Menu">Open menu</Text>
-  <Text Key="Toggle_Album_Order">Toggle album order</Text>
-  <Text Key="Toggle_Track_Order">Toggle song order</Text>
-  <Text Key="Activate_Search_Field">Activate search field</Text>
-  <Text Key="Back">Back</Text>
+  <Text Key="Time">时间</Text>
+  <Text Key="Song_Artists">歌曲艺术家</Text>
+  <Text Key="Album_Artists">专辑艺术家</Text>
+  <Text Key="Toggle_Artists">切换艺术家</Text>
+  <Text Key="Select_None">无选中</Text>
+  <Text Key="Open_Menu">打开菜单</Text>
+  <Text Key="Toggle_Album_Order">切换专辑顺序</Text>
+  <Text Key="Toggle_Track_Order">切换歌曲顺序>/Text>
+  <Text Key="Activate_Search_Field">激活搜索区域</Text>
+  <Text Key="Back">返回</Text>
 </Language>
