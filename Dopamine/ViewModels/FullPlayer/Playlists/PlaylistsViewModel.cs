@@ -39,9 +39,9 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                 case PlaylistsPage.Playlists:
                     this.regionManager.RequestNavigate(RegionNames.PlaylistsRegion, typeof(PlaylistsPlaylists).FullName);
                     break;
-                //case CollectionPage.Genres:
-                //    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionGenres).FullName);
-                //    break;
+                case PlaylistsPage.SmartPlaylists:
+                    this.regionManager.RequestNavigate(RegionNames.PlaylistsRegion, typeof(PlaylistsSmartPlaylists).FullName);
+                    break;
                 default:
                     break;
             }

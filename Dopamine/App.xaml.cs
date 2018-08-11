@@ -321,6 +321,7 @@ namespace Dopamine
                 // Playlists
                 containerRegistry.Register<object, PlaylistsMenu>(typeof(PlaylistsMenu).FullName);
                 containerRegistry.Register<object, Playlists>(typeof(Playlists).FullName);
+                containerRegistry.Register<object, PlaylistsSmartPlaylists>(typeof(PlaylistsSmartPlaylists).FullName);
                 containerRegistry.Register<object, PlaylistsPlaylists>(typeof(PlaylistsPlaylists).FullName);
 
                 // Settings
