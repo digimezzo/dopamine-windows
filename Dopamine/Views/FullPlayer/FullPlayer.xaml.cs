@@ -69,26 +69,30 @@ namespace Dopamine.Views.FullPlayer
             this.AnimateBackIcon(16, TimeSpan.FromMilliseconds(100));
         }
 
-        private void InformationButton_Checked(object sender, RoutedEventArgs e)
-        {
-            this.MySplitView.IsPaneOpen = false;
-        }
-
         private void CollectionButton_Checked(object sender, RoutedEventArgs e)
         {
             this.MySplitView.IsPaneOpen = false;
             this.goBackButton = (SplitViewRadioButton)sender;
+            this.ShowPlaybackControls();
         }
 
         private void PlaylistsButton_Checked(object sender, RoutedEventArgs e)
         {
             this.MySplitView.IsPaneOpen = false;
             this.goBackButton = (SplitViewRadioButton)sender;
+            this.ShowPlaybackControls();
         }
 
         private void SettingsButton_Checked(object sender, RoutedEventArgs e)
         {
             this.MySplitView.IsPaneOpen = false;
+            this.HidePlaybackControls();
+        }
+
+        private void InformationButton_Checked(object sender, RoutedEventArgs e)
+        {
+            this.MySplitView.IsPaneOpen = false;
+            this.HidePlaybackControls();
         }
 
         private void HeaderButton_Click(object sender, RoutedEventArgs e)
@@ -104,6 +108,18 @@ namespace Dopamine.Views.FullPlayer
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             this.goBackButton.IsChecked = true;
+        }
+
+        private void ShowPlaybackControls()
+        {
+            this.PlaybackControls.Visibility = Visibility.Visible;
+            this.PlaybackControlsBorder.Visibility = Visibility.Collapsed;
+        }
+
+        private void HidePlaybackControls()
+        {
+            this.PlaybackControls.Visibility = Visibility.Collapsed;
+            this.PlaybackControlsBorder.Visibility = Visibility.Visible;
         }
 
         private void AlignSpectrumAnalyzer()
