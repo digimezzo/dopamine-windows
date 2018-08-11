@@ -36,7 +36,8 @@
 
     public enum PlaylistsPage
     {
-        Playlists = 0
+        Playlists = 0,
+        SmartPlaylists = 1
     }
 
     public enum SettingsPage
