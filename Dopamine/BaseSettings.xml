@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>106</Value>
+      <Value>108</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -269,6 +269,9 @@
     <Setting Name="PlaylistsLeftPaneWidthPercent">
       <Value>30</Value>
     </Setting>
+    <Setting Name="FoldersLeftPaneWidthPercent">
+      <Value>30</Value>
+    </Setting>
   </Namespace>
   <Namespace Name="TracksGrid">
     <Setting Name="VisibleColumns">
@@ -334,6 +337,11 @@
   <Namespace Name="Covers">
     <Setting Name="DownloadMissingAlbumCovers">
       <Value>True</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Selections">
+    <Setting Name="SelectedFolder">
+      <Value></Value>
     </Setting>
   </Namespace>
 </Settings>

@@ -125,6 +125,7 @@
     </Compile>
     <Compile Include="Entities\AlbumViewModel.cs" />
     <Compile Include="Entities\ArtistViewModel.cs" />
+    <Compile Include="Entities\FolderViewModel.cs" />
     <Compile Include="Entities\GenreViewModel.cs" />
     <Compile Include="Entities\SemanticZoomSelectorViewModel.cs" />
     <Compile Include="Entities\TrackViewModel.cs" />
@@ -139,6 +140,8 @@
     <Compile Include="ExternalControl\ExternalTrack.cs" />
     <Compile Include="File\FileService.cs" />
     <Compile Include="File\IFileService.cs" />
+    <Compile Include="Folders\FoldersService.cs" />
+    <Compile Include="Folders\IFoldersService.cs" />
     <Compile Include="I18n\I18nService.cs" />
     <Compile Include="I18n\II18nService.cs" />
     <Compile Include="I18n\Language.cs" />

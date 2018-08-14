@@ -237,7 +237,6 @@
     <Compile Include="ViewModels\Common\EditTrackViewModel.cs" />
     <Compile Include="ViewModels\Common\EqualizerControlViewModel.cs" />
     <Compile Include="ViewModels\Common\FileInformationViewModel.cs" />
-    <Compile Include="ViewModels\Common\FolderViewModel.cs" />
     <Compile Include="ViewModels\Common\HorizontalVolumeControlsViewModel.cs" />
     <Compile Include="ViewModels\Common\IndexingStatusViewModel.cs" />
     <Compile Include="ViewModels\Common\LyricsControlViewModel.cs" />
@@ -938,6 +937,10 @@
     <Page Include="Resources\Styles\ListBoxSimilarArtists.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxSubfolders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Styles\ListBoxTracks.xaml">
       <Generator>MSBuild:Compile</Generator>
