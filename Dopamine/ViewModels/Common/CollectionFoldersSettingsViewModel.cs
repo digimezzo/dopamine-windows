@@ -3,15 +3,14 @@ using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.IO;
 using Dopamine.Data;
-using Dopamine.Data.Entities;
-using Dopamine.Data.Repositories;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Dialog;
+using Dopamine.Services.Entities;
+using Dopamine.Services.Folders;
 using Dopamine.Services.Indexing;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,15 +23,18 @@ namespace Dopamine.ViewModels.Common
         private IIndexingService indexingService;
         private IDialogService dialogService;
         private ICollectionService collectionservice;
-        private IFolderRepository folderRepository;
+        private IFoldersService foldersService;
         private ObservableCollection<FolderViewModel> folders;
         private bool isLoadingFolders;
         private bool showAllFoldersInCollection;
         private bool isIndexing;
 
         public DelegateCommand<string> AddFolderCommand { get; set; }
+
         public DelegateCommand<long?> RemoveFolderCommand { get; set; }
+
         public DelegateCommand<long?> ShowInCollectionChangedCommand { get; set; }
+
         public bool IsBusy
         {
             get { return this.IsIndexing | this.IsLoadingFolders; }
@@ -80,12 +82,13 @@ namespace Dopamine.ViewModels.Common
             }
         }
 
-        public CollectionFoldersSettingsViewModel(IIndexingService indexingService, IDialogService dialogService, ICollectionService collectionservice, IFolderRepository folderRepository)
+        public CollectionFoldersSettingsViewModel(IIndexingService indexingService, IDialogService dialogService, 
+            ICollectionService collectionservice, IFoldersService foldersService)
         {
             this.indexingService = indexingService;
             this.dialogService = dialogService;
             this.collectionservice = collectionservice;
-            this.folderRepository = folderRepository;
+            this.foldersService = foldersService;
 
             this.AddFolderCommand = new DelegateCommand<string>((_) => { this.AddFolder(); });
 
@@ -103,7 +106,7 @@ namespace Dopamine.ViewModels.Common
 
                 lock (this.Folders)
                 {
-                    this.collectionservice.MarkFolderAsync(this.Folders.Select((f) => f.Folder).Where((f) => f.FolderID == folderId).FirstOrDefault());
+                    this.foldersService.MarkFolderAsync(this.Folders.Where((f) => f.Folder.FolderID == folderId).FirstOrDefault());
                 }
             });
 
@@ -139,7 +142,7 @@ namespace Dopamine.ViewModels.Common
                     // First, check if the folder's content is accessible. If not, don't add the folder.
                     if (FileOperations.IsDirectoryContentAccessible(dlg.FileName))
                     {
-                        result = await this.folderRepository.AddFolderAsync(dlg.FileName);
+                        result = await this.foldersService.AddFolderAsync(dlg.FileName);
                     }
                     else
                     {
@@ -213,7 +216,7 @@ namespace Dopamine.ViewModels.Common
             try
             {
                 this.IsLoadingFolders = true;
-                RemoveFolderResult result = await this.folderRepository.RemoveFolderAsync(folderId);
+                RemoveFolderResult result = await this.foldersService.RemoveFolderAsync(folderId);
                 this.IsLoadingFolders = false;
 
                 switch (result)
@@ -243,18 +246,7 @@ namespace Dopamine.ViewModels.Common
         {
             this.IsLoadingFolders = true;
 
-            List<Folder> foldersList = await this.folderRepository.GetFoldersAsync();
-
-            var localFolders = new ObservableCollection<FolderViewModel>();
-
-            await Task.Run(() =>
-            {
-                foreach (Folder fol in foldersList)
-                {
-                    localFolders.Add(new FolderViewModel { Folder = fol });
-                }
-
-            });
+            var localFolders = new ObservableCollection<FolderViewModel>(await this.foldersService.GetFoldersAsync());
 
             this.IsLoadingFolders = false;
 
@@ -269,10 +261,10 @@ namespace Dopamine.ViewModels.Common
             {
                 lock (this.Folders)
                 {
-                    foreach (FolderViewModel fol in this.Folders)
+                    foreach (FolderViewModel folder in this.Folders)
                     {
-                        fol.ShowInCollection = true;
-                        this.collectionservice.MarkFolderAsync(fol.Folder);
+                        folder.ShowInCollection = true;
+                        this.foldersService.MarkFolderAsync(folder);
                     }
                 }
             });

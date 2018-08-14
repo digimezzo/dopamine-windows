@@ -18,6 +18,7 @@ using Dopamine.Services.Dialog;
 using Dopamine.Services.Equalizer;
 using Dopamine.Services.ExternalControl;
 using Dopamine.Services.File;
+using Dopamine.Services.Folders;
 using Dopamine.Services.I18n;
 using Dopamine.Services.Indexing;
 using Dopamine.Services.JumpList;
@@ -235,6 +236,7 @@ namespace Dopamine
                 containerRegistry.RegisterSingleton<ISearchService, SearchService>();
                 containerRegistry.RegisterSingleton<ITaskbarService, TaskbarService>();
                 containerRegistry.RegisterSingleton<ICollectionService, CollectionService>();
+                containerRegistry.RegisterSingleton<IFoldersService, FoldersService>();
                 containerRegistry.RegisterSingleton<IJumpListService, JumpListService>();
                 containerRegistry.RegisterSingleton<IFileService, FileService>();
                 containerRegistry.RegisterSingleton<ICommandService, CommandService>();
