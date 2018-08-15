@@ -10,14 +10,14 @@ namespace Dopamine.Services.Entities
 
         public string SafePath { get; }
 
-        public bool IsOneUpFolder { get; }
+        public bool IsGoToParent { get; }
 
-        public SubfolderViewModel(string path, bool isOneUpSubfolder)
+        public SubfolderViewModel(string path, bool isGoToParent)
         {
             this.Path = path;
             this.SafePath = path.ToSafePath();
-            this.DisplayName = isOneUpSubfolder ? ".." : System.IO.Path.GetFileName(path);
-            this.IsOneUpFolder = isOneUpSubfolder;
+            this.DisplayName = isGoToParent ? ".." : System.IO.Path.GetFileName(path);
+            this.IsGoToParent = isGoToParent;
         }
 
         public override bool Equals(object obj)

@@ -20,6 +20,6 @@ namespace Dopamine.Services.Folders
 
         Task<FolderViewModel> GetSelectedFolderAsync();
 
-        Task<IList<SubfolderViewModel>> GetSubfoldersAsync(FolderViewModel selectedFolder, SubfolderViewModel parentFolder);
+        Task<IList<SubfolderViewModel>> GetSubfoldersAsync(FolderViewModel selectedRootFolder, SubfolderViewModel selectedSubfolder);
     }
 }

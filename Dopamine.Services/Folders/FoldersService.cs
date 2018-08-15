@@ -169,27 +169,30 @@ namespace Dopamine.Services.Folders
                 }
                 else
                 {
-                    string subFolderPathToBrowse = selectedSubfolder.Path;
+                    string subfolderPathToBrowse = selectedSubfolder.Path;
 
-                    // If the ".." subfolder is selected, first go up 1 level.
-                    if (selectedSubfolder.IsOneUpFolder)
+                    // If the ".." subfolder is selected, go to the parent folder.
+                    if (selectedSubfolder.IsGoToParent)
                     {
-                        subFolderPathToBrowse = Directory.GetParent(selectedSubfolder.Path).FullName;
+                        subfolderPathToBrowse = Directory.GetParent(selectedSubfolder.Path).FullName;
                     }
 
                     // If we're not browing the root folder, show a folder to go up 1 level.
-                    if (!subFolderPathToBrowse.ToSafePath().Equals(selectedRootFolder.SafePath))
+                    if (!subfolderPathToBrowse.ToSafePath().Equals(selectedRootFolder.SafePath))
                     {
-                        subFolders.Add(new SubfolderViewModel(subFolderPathToBrowse, true));
+                        subFolders.Add(new SubfolderViewModel(subfolderPathToBrowse, true));
                     }
 
                     // Return the subfolders of the selected subfolder
-                    directories = Directory.GetDirectories(subFolderPathToBrowse);
+                    directories = Directory.GetDirectories(subfolderPathToBrowse);
                 }
 
-                foreach (string directory in directories)
+                if(directories != null)
                 {
-                    subFolders.Add(new SubfolderViewModel(directory, false));
+                    foreach (string directory in directories)
+                    {
+                        subFolders.Add(new SubfolderViewModel(directory, false));
+                    }
                 }
             });
 
