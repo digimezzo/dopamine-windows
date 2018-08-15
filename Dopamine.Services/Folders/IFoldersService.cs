@@ -19,5 +19,7 @@ namespace Dopamine.Services.Folders
         Task<RemoveFolderResult> RemoveFolderAsync(long folderId);
 
         Task<FolderViewModel> GetSelectedFolderAsync();
+
+        Task<IList<SubfolderViewModel>> GetSubfoldersAsync(FolderViewModel selectedFolder, SubfolderViewModel parentFolder);
     }
 }

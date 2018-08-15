@@ -56,4 +56,8 @@ namespace Dopamine.Core.Prism
     public class FocusSearchBox : PubSubEvent<object>
     {
     }
+
+    public class ActiveSubfolderChanged : PubSubEvent<object>
+    {
+    }
 }

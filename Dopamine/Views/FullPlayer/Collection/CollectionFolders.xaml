@@ -37,23 +37,11 @@
                               Style="{StaticResource MetroComboBox}" Padding="0" 
                               ItemsSource="{Binding Folders}" SelectedItem="{Binding SelectedFolder}"/>
                     </StackPanel>
-                    <!--<DockPanel DockPanel.Dock="Top" Margin="10,0,10,20">
-                        <TextBlock Text="{Binding PlaylistsCount}" FontSize="13"
-                                       Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
-                        <Button 
-                                x:Name="PlaylistsButton"
-                                Content="{DynamicResource Language_Playlists}" 
-                                Style="{StaticResource TransparentButton}"
-                                FontSize="13" 
-                                Margin="10,0,0,0"
-                                Foreground="{DynamicResource Brush_PrimaryText}"
-                                Click="PlaylistsButton_Click" ToolTip="{DynamicResource Language_Select_None}">
-                        </Button>
-                    </DockPanel>-->
                     <dc:MultiSelectListBox x:Name="ListBoxSubfolders"
                                            VirtualizingStackPanel.IsVirtualizing="True"
                                            VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                                           VirtualizingStackPanel.VirtualizationMode="Recycling"    
+                                           VirtualizingStackPanel.VirtualizationMode="Recycling"   
+                                           MouseDoubleClick="ListBoxSubfolders_MouseDoubleClick"
                                            Style="{StaticResource ListBoxSubfolders}"
                                            ItemsSource="{Binding Subfolders}"
                                            BorderThickness="0"
