@@ -7,6 +7,7 @@ using Prism.Events;
 using Prism.Ioc;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,7 +21,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private ObservableCollection<FolderViewModel> folders;
         private ObservableCollection<SubfolderViewModel> subfolders;
         private FolderViewModel selectedFolder;
-        private SubfolderViewModel selectedSubfolder;
+        private string activeSubfolderPath;
 
         public double LeftPaneWidthPercent
         {
@@ -55,14 +56,17 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        public SubfolderViewModel SelectedSubfolder
+        
+
+        public string ActiveSubfolderPath
         {
-            get { return this.selectedSubfolder; }
+            get { return this.activeSubfolderPath; }
             set
             {
-                SetProperty<SubfolderViewModel>(ref this.selectedSubfolder, value);
+                SetProperty<string>(ref this.activeSubfolderPath, value);
             }
         }
+
 
         public CollectionFoldersViewModel(IContainerProvider container, IFoldersService foldersService,
             IEventAggregator eventAggregator) : base(container)
@@ -96,8 +100,9 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async Task GetSubfoldersAsync(SubfolderViewModel activeSubfolder)
         {
-            this.Subfolders = null;
+            this.Subfolders = null; // Required to correctly reset the selectedSubfolder
             this.Subfolders = new ObservableCollection<SubfolderViewModel>(await this.foldersService.GetSubfoldersAsync(this.selectedFolder, activeSubfolder));
+            this.ActiveSubfolderPath = this.subfolders.Count > 0 && this.subfolders.Any(x => x.IsGoToParent) ? this.subfolders.Where(x => x.IsGoToParent).First().Path : this.selectedFolder.Path;
         }
 
         protected async override Task FillListsAsync()

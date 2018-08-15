@@ -29,10 +29,10 @@
             <Border Background="{DynamicResource Brush_PaneBackground}">
                 <DockPanel Margin="10,20,10,26">
                     <StackPanel Margin="10,0,10,20" DockPanel.Dock="Top">
-                        <TextBlock x:Name="GenresButton" 
+                        <!--<TextBlock x:Name="GenresButton" 
                                Text="{DynamicResource Language_Folders}" 
                                FontSize="13" 
-                               Foreground="{DynamicResource Brush_PrimaryText}" Margin="0,0,0,20"/>
+                               Foreground="{DynamicResource Brush_PrimaryText}" Margin="0,0,0,20"/>-->
                         <ComboBox x:Name="ComboBoxFolders"
                               Style="{StaticResource MetroComboBox}" Padding="0" 
                               ItemsSource="{Binding Folders}" SelectedItem="{Binding SelectedFolder}"/>
@@ -45,7 +45,6 @@
                                            Style="{StaticResource ListBoxSubfolders}"
                                            ItemsSource="{Binding Subfolders}"
                                            BorderThickness="0"
-                                           SelectedItem="{Binding SelectedSubfolder}"
                                            SelectionMode="Single">
                     </dc:MultiSelectListBox>
                 </DockPanel>
@@ -53,6 +52,8 @@
         </dc:MultiPanePanel.LeftPaneContent>
         <dc:MultiPanePanel.MiddlePaneContent>
             <DockPanel Margin="10,20,10,26">
+                <TextBlock Text="{Binding ActiveSubfolderPath}" DockPanel.Dock="Top" Margin="10,3,10,31"
+                           FontSize="13" Foreground="{DynamicResource Brush_SecondaryText}" TextWrapping="Wrap"/>
                 <DockPanel DockPanel.Dock="Top" Margin="10,0,10,20">
                     <TextBlock Text="{Binding TracksCount}" FontSize="13"
                                Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
