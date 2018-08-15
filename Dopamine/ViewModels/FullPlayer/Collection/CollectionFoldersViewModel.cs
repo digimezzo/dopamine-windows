@@ -1,13 +1,15 @@
 ﻿using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Core.Prism;
+using Dopamine.Data;
 using Dopamine.Services.Entities;
+using Dopamine.Services.File;
 using Dopamine.Services.Folders;
 using Dopamine.ViewModels.Common.Base;
 using Prism.Events;
 using Prism.Ioc;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,6 +18,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
     public class CollectionFoldersViewModel : TracksViewModelBase
     {
         private IFoldersService foldersService;
+        private IFileService fileService;
         private IEventAggregator eventAggregator;
         private double leftPaneWidthPercent;
         private ObservableCollection<FolderViewModel> folders;
@@ -68,10 +71,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         }
 
 
-        public CollectionFoldersViewModel(IContainerProvider container, IFoldersService foldersService,
+        public CollectionFoldersViewModel(IContainerProvider container, IFoldersService foldersService, IFileService fileService,
             IEventAggregator eventAggregator) : base(container)
         {
             this.foldersService = foldersService;
+            this.fileService = fileService;
             this.eventAggregator = eventAggregator;
 
             // Load settings
@@ -103,6 +107,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.Subfolders = null; // Required to correctly reset the selectedSubfolder
             this.Subfolders = new ObservableCollection<SubfolderViewModel>(await this.foldersService.GetSubfoldersAsync(this.selectedFolder, activeSubfolder));
             this.ActiveSubfolderPath = this.subfolders.Count > 0 && this.subfolders.Any(x => x.IsGoToParent) ? this.subfolders.Where(x => x.IsGoToParent).First().Path : this.selectedFolder.Path;
+            await this.GetTracksAsync();
+        }
+
+        private async Task GetTracksAsync()
+        {
+            IList<TrackViewModel> tracks = await this.fileService.ProcessFilesInDirectoryAsync(this.activeSubfolderPath);
+            await this.GetTracksCommonAsync(tracks, TrackOrder.None);
         }
 
         protected async override Task FillListsAsync()

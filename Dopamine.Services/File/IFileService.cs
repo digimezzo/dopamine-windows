@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Services.File
 {
-    public delegate void TracksImportedHandler(List<TrackViewModel> tracks, TrackViewModel trackToPlay);
+    public delegate void TracksImportedHandler(IList<TrackViewModel> tracks, TrackViewModel trackToPlay);
 
     [ServiceContract(Namespace = "http://Dopamine.FileService")]
     public interface IFileService
@@ -14,7 +14,9 @@ namespace Dopamine.Services.File
         [OperationContract()]
         void ProcessArguments(string[] iArgs);
 
-        Task<List<TrackViewModel>> ProcessFilesAsync(IList<string> filenames);
+        Task<IList<TrackViewModel>> ProcessFilesInDirectoryAsync(string directoryPath);
+
+        Task<IList<TrackViewModel>> ProcessFilesAsync(IList<string> filenames);
 
         Task<TrackViewModel> CreateTrackAsync(string path);
 

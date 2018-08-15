@@ -66,7 +66,19 @@ namespace Dopamine.Services.File
             return new Tuple<List<TrackViewModel>, TrackViewModel>(tracks, selectedTrack);
         }
 
-        public async Task<List<TrackViewModel>> ProcessFilesAsync(IList<string> paths)
+        public async Task<IList<TrackViewModel>> ProcessFilesInDirectoryAsync(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                return new List<TrackViewModel>();
+            }
+
+            string[] filePaths = Directory.GetFiles(directoryPath);
+
+            return await this.ProcessFilesAsync(filePaths);
+        }
+
+        public async Task<IList<TrackViewModel>> ProcessFilesAsync(IList<string> paths)
         {
             var tracks = new List<TrackViewModel>();
 
@@ -208,7 +220,7 @@ namespace Dopamine.Services.File
                     tempFiles.Sort(); // Sort the files alphabetically
                 });
 
-                List<TrackViewModel> tracks = await this.ProcessFilesAsync(tempFiles);
+                IList<TrackViewModel> tracks = await this.ProcessFilesAsync(tempFiles);
                 TrackViewModel selectedTrack = tracks.First();
 
                 LogClient.Info("Number of tracks to play = {0}", tracks.Count.ToString());

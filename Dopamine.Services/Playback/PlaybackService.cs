@@ -313,7 +313,7 @@ namespace Dopamine.Services.Playback
             this.Initialize();
         }
 
-        private async void EnqueueFromFilesAsync(List<TrackViewModel> tracks, TrackViewModel track)
+        private async void EnqueueFromFilesAsync(IList<TrackViewModel> tracks, TrackViewModel track)
         {
             this.canGetSavedQueuedTracks = false;
 
