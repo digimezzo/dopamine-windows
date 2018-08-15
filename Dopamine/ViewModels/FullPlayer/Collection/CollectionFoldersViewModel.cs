@@ -1,7 +1,9 @@
 ﻿using Digimezzo.Foundation.Core.Settings;
+using Dopamine.Core.Prism;
 using Dopamine.Services.Entities;
 using Dopamine.Services.Folders;
 using Dopamine.ViewModels.Common.Base;
+using Prism.Events;
 using Prism.Ioc;
 using System;
 using System.Collections.ObjectModel;
@@ -13,9 +15,12 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
     public class CollectionFoldersViewModel : TracksViewModelBase
     {
         private IFoldersService foldersService;
+        private IEventAggregator eventAggregator;
         private double leftPaneWidthPercent;
         private ObservableCollection<FolderViewModel> folders;
+        private ObservableCollection<SubfolderViewModel> subfolders;
         private FolderViewModel selectedFolder;
+        private SubfolderViewModel selectedSubfolder;
 
         public double LeftPaneWidthPercent
         {
@@ -33,6 +38,12 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<ObservableCollection<FolderViewModel>>(ref this.folders, value); }
         }
 
+        public ObservableCollection<SubfolderViewModel> Subfolders
+        {
+            get { return this.subfolders; }
+            set { SetProperty<ObservableCollection<SubfolderViewModel>>(ref this.subfolders, value); }
+        }
+
         public FolderViewModel SelectedFolder
         {
             get { return this.selectedFolder; }
@@ -40,18 +51,34 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             {
                 SetProperty<FolderViewModel>(ref this.selectedFolder, value);
                 SettingsClient.Set<string>("Selections", "SelectedFolder", value != null ? value.Path : string.Empty);
+                this.GetSubfoldersAsync(null);
             }
         }
 
-        public CollectionFoldersViewModel(IContainerProvider container, IFoldersService foldersService) : base(container)
+        public SubfolderViewModel SelectedSubfolder
+        {
+            get { return this.selectedSubfolder; }
+            set
+            {
+                SetProperty<SubfolderViewModel>(ref this.selectedSubfolder, value);
+            }
+        }
+
+        public CollectionFoldersViewModel(IContainerProvider container, IFoldersService foldersService,
+            IEventAggregator eventAggregator) : base(container)
         {
             this.foldersService = foldersService;
+            this.eventAggregator = eventAggregator;
 
             // Load settings
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "FoldersLeftPaneWidthPercent");
 
             // Events
             this.foldersService.FoldersChanged += FoldersService_FoldersChanged;
+            this.eventAggregator.GetEvent<ActiveSubfolderChanged>().Subscribe((activeSubfolder) =>
+            {
+                this.GetSubfoldersAsync(activeSubfolder as SubfolderViewModel);
+            });
         }
 
         private async void FoldersService_FoldersChanged(object sender, EventArgs e)
@@ -67,9 +94,16 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.RaisePropertyChanged(nameof(this.SelectedFolder));
         }
 
+        private async Task GetSubfoldersAsync(SubfolderViewModel activeSubfolder)
+        {
+            this.Subfolders = null;
+            this.Subfolders = new ObservableCollection<SubfolderViewModel>(await this.foldersService.GetSubfoldersAsync(this.selectedFolder, activeSubfolder));
+        }
+
         protected async override Task FillListsAsync()
         {
             await this.GetFoldersAsync();
+            await this.GetSubfoldersAsync(null);
         }
     }
 }

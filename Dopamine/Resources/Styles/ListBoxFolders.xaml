@@ -35,8 +35,8 @@
                             <TextBlock 
                                 x:Name="FolderIcon"
                                 DockPanel.Dock="Left"
-                                Text="&#xF115;"
-                                Style="{StaticResource FontAwesome}"
+                                Text="&#xF12B;"
+                                Style="{StaticResource SegoeAssets}"
                                 Margin="10,0,10,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"

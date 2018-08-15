@@ -7,6 +7,7 @@ using Dopamine.Data.Repositories;
 using Dopamine.Services.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
@@ -133,18 +134,66 @@ namespace Dopamine.Services.Folders
             IList<FolderViewModel> allFolders = await this.GetFoldersAsync();
             string savedSelectedBrowseFolderPath = SettingsClient.Get<string>("Selections", "SelectedFolder");
 
-            if(allFolders.Count == 0)
+            if (allFolders.Count == 0)
             {
                 return null;
             }
 
-            if (string.IsNullOrEmpty(savedSelectedBrowseFolderPath) || 
+            if (string.IsNullOrEmpty(savedSelectedBrowseFolderPath) ||
                 !allFolders.Select(x => x.SafePath).Contains(savedSelectedBrowseFolderPath.ToSafePath()))
             {
                 return allFolders.First();
             }
 
             return allFolders.Where(x => x.SafePath.Equals(savedSelectedBrowseFolderPath.ToSafePath())).FirstOrDefault();
+        }
+
+        public async Task<IList<SubfolderViewModel>> GetSubfoldersAsync(FolderViewModel selectedRootFolder, SubfolderViewModel selectedSubfolder)
+        {
+            // If no root folder is selected, return no subfolders.
+            if (selectedRootFolder == null)
+            {
+                return new List<SubfolderViewModel>();
+            }
+
+            IList<SubfolderViewModel> subFolders = new List<SubfolderViewModel>();
+
+            await Task.Run(() =>
+            {
+                string[] directories = null;
+
+                if (selectedSubfolder == null)
+                {
+                    // If no subfolder is selected, return the subfolders of the root folder.
+                    directories = Directory.GetDirectories(selectedRootFolder.Path);
+                }
+                else
+                {
+                    string subFolderPathToBrowse = selectedSubfolder.Path;
+
+                    // If the ".." subfolder is selected, first go up 1 level.
+                    if (selectedSubfolder.IsOneUpFolder)
+                    {
+                        subFolderPathToBrowse = Directory.GetParent(selectedSubfolder.Path).FullName;
+                    }
+
+                    // If we're not browing the root folder, show a folder to go up 1 level.
+                    if (!subFolderPathToBrowse.ToSafePath().Equals(selectedRootFolder.SafePath))
+                    {
+                        subFolders.Add(new SubfolderViewModel(subFolderPathToBrowse, true));
+                    }
+
+                    // Return the subfolders of the selected subfolder
+                    directories = Directory.GetDirectories(subFolderPathToBrowse);
+                }
+
+                foreach (string directory in directories)
+                {
+                    subFolders.Add(new SubfolderViewModel(directory, false));
+                }
+            });
+
+            return subFolders;
         }
     }
 }
