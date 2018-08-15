@@ -632,7 +632,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             try
             {
                 IList<string> filenames = dropInfo.GetDroppedFilenames();
-                List<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
+                IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
                 await this.playlistService.AddTracksToPlaylistAsync(tracks, this.SelectedPlaylistName);
             }
             catch (Exception ex)
