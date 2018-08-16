@@ -431,6 +431,6 @@
   <Text Key="Toggle_Track_Order">Alternar ordem da faixa</Text>
   <Text Key="Activate_Search_Field">Ativar campo de pesquisa</Text>
   <Text Key="Back">Recuar</Text>
-  <Text Key="Folders">Folders</Text>
-  <Text Key="Smart_Playlists">Smart playlists</Text>
+  <Text Key="Folders">Pastas</Text>
+  <Text Key="Smart_Playlists">Listas de reprodução inteligentes</Text>
 </Language>
