@@ -93,7 +93,7 @@
                          MouseDoubleClick="ListBoxTracks_MouseDoubleClick"
                          KeyUp="ListBoxTracks_KeyUp"
                          PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
-                         Style="{StaticResource ListBoxPlaylistTracks}"
+                         Style="{StaticResource ListBoxFolderTracks}"
                          ItemsSource="{Binding TracksCvs.View}"
                          BorderThickness="0"
                          SelectionMode="Extended">
