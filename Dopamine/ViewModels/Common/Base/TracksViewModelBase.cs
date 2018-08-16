@@ -104,6 +104,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.PlaySelectedCommand = new DelegateCommand(async () => await this.PlaySelectedAsync());
             this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
+            this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async () => await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
 
             this.UpdateShowTrackArtCommand = new DelegateCommand<bool?>((showTrackArt) =>
             {
