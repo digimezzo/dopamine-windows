@@ -1,6 +1,5 @@
 ﻿using Dopamine.Core.Enums;
 using Dopamine.Services.Playback;
-using Dopamine.Services.Playback;
 using Prism.Mvvm;
 
 namespace Dopamine.ViewModels.Common.Base

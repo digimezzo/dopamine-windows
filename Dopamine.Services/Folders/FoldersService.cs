@@ -198,5 +198,23 @@ namespace Dopamine.Services.Folders
 
             return subFolders;
         }
+
+        public async Task<IList<SubfolderBreadCrumb>> GetSubfolderBreadCrumbsAsync(FolderViewModel selectedRootFolder, string selectedSubfolderPath)
+        {
+            string parentDirectoryPath = selectedSubfolderPath;
+            IList<SubfolderBreadCrumb> subfolderBreadCrumbs = new List<SubfolderBreadCrumb>();
+
+            // Add sub folders, if applicable.
+            while (!parentDirectoryPath.ToSafePath().Equals(selectedRootFolder.SafePath))
+            {
+                subfolderBreadCrumbs.Add(new SubfolderBreadCrumb(parentDirectoryPath));
+                parentDirectoryPath = Directory.GetParent(parentDirectoryPath)?.FullName;
+            }
+
+            // Always add the root folder
+            subfolderBreadCrumbs.Add(new SubfolderBreadCrumb(selectedRootFolder.Path));
+
+            return subfolderBreadCrumbs.Reverse().ToList();
+        }
     }
 }
