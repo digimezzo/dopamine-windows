@@ -52,6 +52,7 @@
     <SolidColorBrush x:Key="Brush_ContextMenuTextSelected" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_Accent" Color="{DynamicResource Color_Accent}"/>
     <SolidColorBrush x:Key="Brush_ToolTipText" Color="{DynamicResource Color_White}"/>
+    <SolidColorBrush x:Key="Brush_ListHeaderComboBoxItemSelected" Color="{DynamicResource Color_White}"/>
 
     <!-- Gradient Brushes -->
     <LinearGradientBrush x:Key="Brush_TopBlackBottomTransparent" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
