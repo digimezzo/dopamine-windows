@@ -256,7 +256,7 @@ namespace Dopamine.ViewModels.Common.Base
                     foreach (TrackViewModel vm in trackViewModels)
                     {
                         vm.ShowTrackNumber = showTracknumber;
-                        vm.ShowTrackArt = this.showTrackArt;
+                        // vm.ShowTrackArt = this.showTrackArt;
                     }
                 });
 
@@ -305,6 +305,9 @@ namespace Dopamine.ViewModels.Common.Base
 
             // Update duration and size
             this.CalculateSizeInformationAsync(this.TracksCvs);
+
+            // Show track art if necessary
+            this.UpdateShowTrackArtAsync();
 
             // Show playing Track
             this.ShowPlayingTrackAsync();

@@ -1282,7 +1282,6 @@ namespace Dopamine.Services.Playback
                 IList<TrackViewModel> existingTrackViewModels = await this.container.ResolveTrackViewModelsAsync(existingTracks);
 
                 await this.EnqueueAsync(existingTrackViewModels, this.shuffle, false);
-                this.QueueChanged(this, new EventArgs());
 
                 if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack"))
                 {

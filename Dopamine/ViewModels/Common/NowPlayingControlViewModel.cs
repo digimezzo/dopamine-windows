@@ -39,7 +39,7 @@ namespace Dopamine.ViewModels.Common
             {
                 if (!this.isDroppingTracks)
                 {
-                    await this.FillListsAsync();
+                    await this.GetTracksAsync();
                 }
             };
         }
@@ -51,7 +51,7 @@ namespace Dopamine.ViewModels.Common
 
         protected override async Task FillListsAsync()
         {
-            await this.GetTracksAsync();
+            // await this.GetTracksAsync();
         }
 
         protected async override Task LoadedCommandAsync()
