@@ -28,15 +28,16 @@
         <dc:MultiPanePanel.LeftPaneContent>
             <Border Background="{DynamicResource Brush_PaneBackground}">
                 <DockPanel Margin="10,20,10,26">
-                    <StackPanel Margin="10,0,10,20" DockPanel.Dock="Top">
-                        <!--<TextBlock x:Name="GenresButton" 
-                               Text="{DynamicResource Language_Folders}" 
-                               FontSize="13" 
-                               Foreground="{DynamicResource Brush_PrimaryText}" Margin="0,0,0,20"/>-->
+                    <DockPanel DockPanel.Dock="Top" Margin="10,0,10,20">
+                        <TextBlock DockPanel.Dock="Left" FontSize="13" 
+                                   Text="{DynamicResource Language_Folder}" 
+                                   Foreground="{DynamicResource Brush_PrimaryText}"/>
                         <ComboBox x:Name="ComboBoxFolders"
-                              Style="{StaticResource MetroComboBox}" Padding="0" 
-                              ItemsSource="{Binding Folders}" SelectedItem="{Binding SelectedFolder}"/>
-                    </StackPanel>
+                                  DockPanel.Dock="Right"
+                                  Style="{StaticResource ListHeaderComboBox}" Padding="0" 
+                                  ItemsSource="{Binding Folders}" SelectedItem="{Binding SelectedFolder}"/>
+                        <ContentControl/>
+                    </DockPanel>
                     <dc:MultiSelectListBox x:Name="ListBoxSubfolders"
                                            VirtualizingStackPanel.IsVirtualizing="True"
                                            VirtualizingPanel.IsVirtualizingWhenGrouping="True"
@@ -52,14 +53,15 @@
         </dc:MultiPanePanel.LeftPaneContent>
         <dc:MultiPanePanel.MiddlePaneContent>
             <DockPanel Margin="10,20,10,26">
-                <TextBlock Text="{Binding ActiveSubfolderPath}" DockPanel.Dock="Top" Margin="10,3,10,31"
-                           FontSize="13" Foreground="{DynamicResource Brush_SecondaryText}" TextWrapping="Wrap"/>
                 <DockPanel DockPanel.Dock="Top" Margin="10,0,10,20">
                     <TextBlock Text="{Binding TracksCount}" FontSize="13"
                                Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
                     <TextBlock Text="{DynamicResource Language_Songs}" FontSize="13" Margin="10,0,0,0"
                                Foreground="{DynamicResource Brush_PrimaryText}" />
                 </DockPanel>
+                <ListBox DockPanel.Dock="Top" Margin="7,0,7,20" 
+                         Style="{DynamicResource ListBoxSubfolderBreadCrumbs}" 
+                         ItemsSource="{Binding SubfolderBreadCrumbs}"/>
                 <DockPanel>
                     <DockPanel DockPanel.Dock="Bottom" Margin="10,20,10,0">
                         <ToggleButton x:Name="ShowPicturesButton" DockPanel.Dock="Right" VerticalAlignment="Center" Margin="20,0,0,0"

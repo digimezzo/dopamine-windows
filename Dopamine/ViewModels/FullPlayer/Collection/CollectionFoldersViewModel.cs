@@ -5,6 +5,7 @@ using Dopamine.Services.Entities;
 using Dopamine.Services.File;
 using Dopamine.Services.Folders;
 using Dopamine.ViewModels.Common.Base;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Ioc;
 using System;
@@ -25,6 +26,15 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private ObservableCollection<SubfolderViewModel> subfolders;
         private FolderViewModel selectedFolder;
         private string activeSubfolderPath;
+        private ObservableCollection<SubfolderBreadCrumb> subfolderBreadCrumbs;
+
+        public DelegateCommand<string> JumpSubfolderCommand { get; set; }
+
+        public ObservableCollection<SubfolderBreadCrumb> SubfolderBreadCrumbs
+        {
+            get { return this.subfolderBreadCrumbs; }
+            set { SetProperty<ObservableCollection<SubfolderBreadCrumb>>(ref this.subfolderBreadCrumbs, value); }
+        }
 
         public double LeftPaneWidthPercent
         {
@@ -59,24 +69,15 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        
-
-        public string ActiveSubfolderPath
-        {
-            get { return this.activeSubfolderPath; }
-            set
-            {
-                SetProperty<string>(ref this.activeSubfolderPath, value);
-            }
-        }
-
-
         public CollectionFoldersViewModel(IContainerProvider container, IFoldersService foldersService, IFileService fileService,
             IEventAggregator eventAggregator) : base(container)
         {
             this.foldersService = foldersService;
             this.fileService = fileService;
             this.eventAggregator = eventAggregator;
+
+            // Commands
+            this.JumpSubfolderCommand = new DelegateCommand<string>((subfolderPath) => this.GetSubfoldersAsync(new SubfolderViewModel(subfolderPath, false)));
 
             // Load settings
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "FoldersLeftPaneWidthPercent");
@@ -105,9 +106,16 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private async Task GetSubfoldersAsync(SubfolderViewModel activeSubfolder)
         {
             this.Subfolders = null; // Required to correctly reset the selectedSubfolder
-            this.Subfolders = new ObservableCollection<SubfolderViewModel>(await this.foldersService.GetSubfoldersAsync(this.selectedFolder, activeSubfolder));
-            this.ActiveSubfolderPath = this.subfolders.Count > 0 && this.subfolders.Any(x => x.IsGoToParent) ? this.subfolders.Where(x => x.IsGoToParent).First().Path : this.selectedFolder.Path;
-            await this.GetTracksAsync();
+            this.SubfolderBreadCrumbs = null;
+            this.activeSubfolderPath = string.Empty;
+
+            if (this.selectedFolder != null)
+            {
+                this.Subfolders = new ObservableCollection<SubfolderViewModel>(await this.foldersService.GetSubfoldersAsync(this.selectedFolder, activeSubfolder));
+                this.activeSubfolderPath = this.subfolders.Count > 0 && this.subfolders.Any(x => x.IsGoToParent) ? this.subfolders.Where(x => x.IsGoToParent).First().Path : this.selectedFolder.Path;
+                this.SubfolderBreadCrumbs = new ObservableCollection<SubfolderBreadCrumb>(await this.foldersService.GetSubfolderBreadCrumbsAsync(this.selectedFolder, this.activeSubfolderPath));
+                await this.GetTracksAsync();
+            }
         }
 
         private async Task GetTracksAsync()
