@@ -256,6 +256,7 @@ namespace Dopamine.ViewModels.Common.Base
                     foreach (TrackViewModel vm in trackViewModels)
                     {
                         vm.ShowTrackNumber = showTracknumber;
+                        vm.ShowTrackArt = this.showTrackArt;
                     }
                 });
 

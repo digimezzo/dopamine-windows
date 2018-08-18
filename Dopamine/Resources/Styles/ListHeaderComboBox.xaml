@@ -76,6 +76,8 @@
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListHeaderComboBoxItem}" />
         <Setter Property="OverridesDefaultStyle"
           Value="true" />
+        <Setter Property="FontSize"
+          Value="13" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
           Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility"
