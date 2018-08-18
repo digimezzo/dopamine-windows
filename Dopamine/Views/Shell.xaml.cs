@@ -149,7 +149,7 @@ namespace Dopamine.Views
             // Write the settings
             // ------------------
             LogClient.Info("Writing settings");
-            SettingsClient.Write();
+            // SettingsClient.Write();
 
             // Save queued tracks
             // ------------------
