@@ -58,8 +58,10 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ItemHovered}" />
+                            <!--<Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ItemHovered}" />-->
                             <!--<Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />-->
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_Accent}" />
+                            <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Brush_ListHeaderComboBoxItemSelected}" />
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <!--<Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ItemSelected}" />-->
