@@ -24,7 +24,7 @@ using System.Windows.Controls;
 
 namespace Dopamine.ViewModels.FullPlayer.Playlists
 {
-    public class PlaylistsPlaylistsViewModel : TracksViewModelBase, IDropTarget
+    public class PlaylistsPlaylistsViewModel : TracksViewModelBaseWithTrackArt, IDropTarget
     {
         private IFileService fileService;
         private IPlaylistService playlistService;

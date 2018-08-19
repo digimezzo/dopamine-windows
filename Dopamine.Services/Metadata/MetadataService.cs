@@ -27,8 +27,6 @@ namespace Dopamine.Services.Metadata
         private IAlbumArtworkRepository albumArtworkRepository;
         private IFileMetadataFactory metadataFactory;
         private FileMetadataUpdater updater;
-        private Tuple<string, byte[]> cachedArtwork;
-        private object cachedArtworkLock = new object();
 
         public event Action<MetadataChangedEventArgs> MetadataChanged = delegate { };
         public event Action<RatingChangedEventArgs> RatingChanged = delegate { };
@@ -96,18 +94,6 @@ namespace Dopamine.Services.Metadata
             this.LoveChanged(new LoveChangedEventArgs(path.ToSafePath(), love));
         }
 
-        private byte[] GetCachedArtwork(string filename)
-        {
-            byte[] artwork = null;
-
-            if (this.cachedArtwork != null && this.cachedArtwork.Item1.ToSafePath() == filename.ToSafePath())
-            {
-                if (this.cachedArtwork.Item2 != null) artwork = this.cachedArtwork.Item2;
-            }
-
-            return artwork;
-        }
-
         private byte[] GetEmbeddedArtwork(string filename, int size)
         {
             byte[] artwork = null;
@@ -129,11 +115,6 @@ namespace Dopamine.Services.Metadata
 
             artwork = IndexerUtils.GetExternalArtwork(filename, size, size);
 
-            if (artwork != null)
-            {
-                this.cachedArtwork = new Tuple<string, byte[]>(filename, artwork);
-            }
-
             return artwork;
         }
 
@@ -152,11 +133,6 @@ namespace Dopamine.Services.Metadata
                 {
                     artwork = ImageUtils.Image2ByteArray(artworkPath, size, size);
                 }
-
-                if (artwork != null)
-                {
-                    this.cachedArtwork = new Tuple<string, byte[]>(filename, artwork);
-                }
             }
 
             return artwork;
@@ -168,37 +144,19 @@ namespace Dopamine.Services.Metadata
 
             await Task.Run(() =>
             {
-                lock (this.cachedArtworkLock)
+                // First try to find embedded artwork.
+                artwork = this.GetEmbeddedArtwork(filename, size);
+
+                if (artwork == null)
                 {
-                    // First, if we need full size artwork, check if artwork for this path has been asked for recently.
-                    if (size == 0)
-                    {
-                        artwork = this.GetCachedArtwork(filename);
-                    }
+                    // If no embedded artwork was found, try to find external artwork.
+                    artwork = this.GetExternalArtwork(filename, size);
+                }
 
-                    if (artwork == null)
-                    {
-                        // If no cached artwork was found, try to find embedded artwork.
-                        artwork = this.GetEmbeddedArtwork(filename, size);
-                    }
-
-                    if (artwork == null)
-                    {
-                        // If no embedded artwork was found, try to find external artwork.
-                        artwork = this.GetExternalArtwork(filename, size);
-                    }
-
-                    if (artwork == null)
-                    {
-                        // If no external artwork was found, try to find album artwork.
-                        artwork = this.GetAlbumArtwork(filename, size);
-                    }
-
-                    if (artwork != null && size == 0)
-                    {
-                        // If any artwork was found, and it wasn't resized, cache it for the next request for this file.
-                        this.cachedArtwork = new Tuple<string, byte[]>(filename, artwork);
-                    }
+                if (artwork == null)
+                {
+                    // If no external artwork was found, try to find album artwork.
+                    artwork = this.GetAlbumArtwork(filename, size);
                 }
             });
 
@@ -253,12 +211,6 @@ namespace Dopamine.Services.Metadata
 
         public async Task UpdateTracksAsync(IList<IFileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
-            // Make sure that cached artwork cannot be out of date
-            lock (this.cachedArtworkLock)
-            {
-                this.cachedArtwork = null;
-            }
-
             // Update metadata in the files
             await this.updater.UpdateFileMetadataAsync(fileMetadatas);
 
@@ -274,12 +226,6 @@ namespace Dopamine.Services.Metadata
 
         public async Task UpdateAlbumAsync(AlbumViewModel albumViewModel, MetadataArtworkValue artwork, bool updateFileArtwork)
         {
-            // Make sure that cached artwork cannot be out of date
-            lock (this.cachedArtworkLock)
-            {
-                this.cachedArtwork = null;
-            }
-
             // Cache the new artwork
             string artworkID = await this.cacheService.CacheArtworkAsync(artwork.Value);
 

@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
-    public class CollectionFoldersViewModel : TracksViewModelBase
+    public class CollectionFoldersViewModel : TracksViewModelBaseWithTrackArt
     {
         private IFoldersService foldersService;
         private IFileService fileService;
