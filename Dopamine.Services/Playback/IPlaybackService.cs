@@ -23,6 +23,8 @@ namespace Dopamine.Services.Playback
 
         bool SupportsWindowsMediaFoundation { get; }
 
+        bool HasQueue { get; }
+
         bool HasCurrentTrack { get; }
 
         bool IsSavingQueuedTracks { get; }
