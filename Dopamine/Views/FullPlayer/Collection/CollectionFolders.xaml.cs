@@ -8,6 +8,7 @@ using Digimezzo.WPFControls;
 using System.Windows.Media;
 using Dopamine.Services.Entities;
 using Dopamine.Core.Prism;
+using Prism.Commands;
 
 namespace Dopamine.Views.FullPlayer.Collection
 {
@@ -16,6 +17,13 @@ namespace Dopamine.Views.FullPlayer.Collection
         public CollectionFolders()
         {
             InitializeComponent();
+
+            // Commands
+            this.ViewInExplorerCommand = new DelegateCommand(() => this.ViewInExplorer(this.ListBoxTracks));
+            this.JumpToPlayingTrackCommand = new DelegateCommand(async () => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
+
+            // PubSub Events
+            this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Subscribe(async (_) => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
         }
 
         private async void ListBoxTracks_KeyUp(object sender, KeyEventArgs e)
