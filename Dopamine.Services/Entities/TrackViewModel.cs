@@ -103,7 +103,10 @@ namespace Dopamine.Services.Entities
 
                 if (value)
                 {
-                    this.GetTrackArt();
+                    if(this.trackArt == null || this.trackArt.Length == 0)
+                    {
+                        this.GetTrackArt();
+                    }
                 }
                 else
                 {
