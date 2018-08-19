@@ -160,6 +160,8 @@
     <Compile Include="Entities\ISemanticZoomViewModel.cs" />
     <Compile Include="JumpList\IJumpListService.cs" />
     <Compile Include="JumpList\JumpListService.cs" />
+    <Compile Include="Lifetime\ILifetimeService.cs" />
+    <Compile Include="Lifetime\LifetimeService.cs" />
     <Compile Include="Lyrics\ILyricsService.cs" />
     <Compile Include="Lyrics\LyricsLineViewModel.cs" />
     <Compile Include="Lyrics\LyricsService.cs" />
