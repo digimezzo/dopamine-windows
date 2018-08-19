@@ -28,6 +28,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
 using Prism.Ioc;
+using Dopamine.Services.Lifetime;
 
 namespace Dopamine.Views
 {
@@ -42,12 +43,12 @@ namespace Dopamine.Views
         private IAppearanceService appearanceService;
         private IShellService shellService;
         private II18nService i18nService;
+        private ILifetimeService lifetimeService;
         private IEventAggregator eventAggregator;
         private System.Windows.Forms.NotifyIcon trayIcon;
         private ContextMenu trayIconContextMenu;
         private TrayControls trayControls;
         private MiniPlayerPlaylist miniPlayerPlaylist;
-        private bool mustPerformClosingTasks = true;
         private bool isShuttingDown = false;
         private Storyboard backgroundAnimation;
 
@@ -59,7 +60,8 @@ namespace Dopamine.Views
 
         public Shell(IContainerProvider container, IWindowsIntegrationService windowsIntegrationService, II18nService i18nService,
             INotificationService notificationService, IWin32InputService win32InputService, IAppearanceService appearanceService,
-            IPlaybackService playbackService, IMetadataService metadataService, IEventAggregator eventAggregator)
+            IPlaybackService playbackService, IMetadataService metadataService, ILifetimeService lifetimeService,
+            IEventAggregator eventAggregator)
         {
             InitializeComponent();
 
@@ -71,6 +73,7 @@ namespace Dopamine.Views
             this.metadataService = metadataService;
             this.appearanceService = appearanceService;
             this.i18nService = i18nService;
+            this.lifetimeService = lifetimeService;
             this.eventAggregator = eventAggregator;
 
             this.shellService = container.Resolve<Func<string, string, string, string, string, IShellService>>()(
@@ -107,7 +110,7 @@ namespace Dopamine.Views
             this.Close();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon") &
                                   SettingsClient.Get<bool>("Behaviour", "CloseToTray") &
@@ -133,68 +136,15 @@ namespace Dopamine.Views
             }
             else
             {
-                if (this.mustPerformClosingTasks)
+                LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
+
+                if (this.lifetimeService.MustPerformClosingTasks)
                 {
                     e.Cancel = true;
-                    this.PerformClosingTasksAsync();
+                    await this.lifetimeService.PerformClosingTasksAsync();
+                    this.Close();
                 }
             }
-        }
-
-        private async Task PerformClosingTasksAsync()
-        {
-            LogClient.Info("Performing closing tasks");
-            this.ShowClosingAnimation();
-
-            // Write the settings
-            // ------------------
-            LogClient.Info("Writing settings");
-            // SettingsClient.Write();
-
-            // Save queued tracks
-            // ------------------
-            LogClient.Info("Saving queued tracks");
-            if (this.playbackService.IsSavingQueuedTracks)
-            {
-                while (this.playbackService.IsSavingQueuedTracks)
-                {
-                    await Task.Delay(50);
-                }
-            }
-            else
-            {
-                await this.playbackService.SaveQueuedTracksAsync();
-            }
-
-            // Stop playing
-            // ------------
-            LogClient.Info("Stopping playback");
-            this.playbackService.Stop();
-
-            // Update file metadata
-            // --------------------
-            LogClient.Info("Updating file metadata");
-            await this.metadataService.ForceSaveFileMetadataAsync();
-
-            // Save track statistics
-            // ---------------------
-            LogClient.Info("Saving playback counters");
-            if (this.playbackService.IsSavingPlaybackCounters)
-            {
-                while (this.playbackService.IsSavingPlaybackCounters)
-                {
-                    await Task.Delay(50);
-                }
-            }
-            else
-            {
-                await this.playbackService.SavePlaybackCountersAsync();
-            }
-
-            LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
-
-            this.mustPerformClosingTasks = false;
-            this.Close();
         }
 
         private void ShowClosingAnimation()
@@ -419,6 +369,9 @@ namespace Dopamine.Views
             // the main window is closed, because the default ShutDownMode of a WPF application is
             // OnLastWindowClose. This was happening here because of the Mini Player Playlist.
             Application.Current.Shutdown();
+
+            LogClient.Info("### STOPPED {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
+
         }
 
         private void Window_Restored(object sender, System.EventArgs e)
