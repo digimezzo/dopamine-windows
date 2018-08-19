@@ -117,6 +117,8 @@ namespace Dopamine.Services.Playback
 
         public TrackViewModel CurrentTrack => this.queueManager.CurrentTrack();
 
+        public bool HasQueue => this.queueManager.Queue != null && this.queueManager.Queue.Count > 0;
+
         public bool HasCurrentTrack => this.queueManager.CurrentTrack() != null;
 
         public double Progress
