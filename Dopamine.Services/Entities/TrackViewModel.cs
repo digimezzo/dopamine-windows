@@ -99,12 +99,14 @@ namespace Dopamine.Services.Entities
             get { return this.showTrackArt; }
             set
             {
-                bool oldValue = this.showTrackArt;
                 SetProperty(ref this.showTrackArt, value);
 
-                if (oldValue != value && value)
+                if (value)
                 {
-                    this.GetTrackArt();
+                    if(this.trackArt == null || this.trackArt.Length == 0)
+                    {
+                        this.GetTrackArt();
+                    }
                 }
                 else
                 {

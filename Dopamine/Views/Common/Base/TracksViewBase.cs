@@ -42,17 +42,26 @@ namespace Dopamine.Views.Common.Base
                 // Check if an item is selected
                 ListBox lb = (ListBox)sender;
 
-                if (lb.SelectedItem == null) return;
+                if (lb.SelectedItem == null)
+                {
+                    return;
+                }
 
                 // Confirm that the user double clicked a valid item (and not on the scrollbar for example)
-                if (source == null) return;
+                if (source == null)
+                {
+                    return;
+                }
 
                 while (source != null && !(source is MultiSelectListBox.MultiSelectListBoxItem))
                 {
                     source = VisualTreeHelper.GetParent(source);
                 }
 
-                if (source == null || source.GetType() != typeof(MultiSelectListBox.MultiSelectListBoxItem)) return;
+                if (source == null || source.GetType() != typeof(MultiSelectListBox.MultiSelectListBoxItem))
+                {
+                    return;
+                }
 
                 // The user double clicked a valid item
                 if (!enqueue)

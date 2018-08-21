@@ -33,7 +33,7 @@
   <Text Key="Donate">Spenden</Text>
   <Text Key="Donate_With_PayPal">Über Paypal spenden</Text>
   <Text Key="File_Types">Dateitypen</Text>
-  <Text Key="File_Types_Description">Die folgenden Dateitypen werden unterstützt: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, APE, OPUS.</Text>
+  <Text Key="File_Types_Description">Die folgenden Dateitypen werden unterstützt: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, APE, OPUS, AIFF.</Text>
   <Text Key="Keyboard_Shortcuts">Tastenkombinationen</Text>
   <Text Key="Key_Plus">+</Text>
   <Text Key="Key_Minus">-</Text>
@@ -431,4 +431,6 @@
   <Text Key="Toggle_Track_Order">Titel Reihenfolge umschalten</Text>
   <Text Key="Activate_Search_Field">Activate search field</Text>
   <Text Key="Back">Back</Text>
+  <Text Key="Folders">Folders</Text>
+  <Text Key="Smart_Playlists">Smart playlists</Text>
 </Language>

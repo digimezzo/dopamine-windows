@@ -13,8 +13,6 @@ namespace Dopamine.Services.Collection
 
         Task<RemoveTracksResult> RemoveTracksFromDiskAsync(IList<TrackViewModel> selectedTracks);
 
-        Task MarkFolderAsync(Folder folder);
-
         Task<IList<ArtistViewModel>> GetAllArtistsAsync(ArtistType artistType);
 
         Task<IList<GenreViewModel>> GetAllGenresAsync();

@@ -228,7 +228,8 @@
     <Compile Include="ViewModels\Common\Base\NowPlayingViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\PlaybackControlsViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\TracksViewModelBase.cs" />
-    <Compile Include="ViewModels\Common\CollectionFoldersViewModel.cs" />
+    <Compile Include="ViewModels\Common\Base\TracksViewModelBaseWithTrackArt.cs" />
+    <Compile Include="ViewModels\Common\CollectionFoldersSettingsViewModel.cs" />
     <Compile Include="ViewModels\Common\CollectionPlaybackControlsViewModel.cs" />
     <Compile Include="ViewModels\Common\CompactPlaybackControlsViewModel.cs" />
     <Compile Include="ViewModels\Common\CoverArtControlViewModel.cs" />
@@ -237,7 +238,6 @@
     <Compile Include="ViewModels\Common\EditTrackViewModel.cs" />
     <Compile Include="ViewModels\Common\EqualizerControlViewModel.cs" />
     <Compile Include="ViewModels\Common\FileInformationViewModel.cs" />
-    <Compile Include="ViewModels\Common\FolderViewModel.cs" />
     <Compile Include="ViewModels\Common\HorizontalVolumeControlsViewModel.cs" />
     <Compile Include="ViewModels\Common\IndexingStatusViewModel.cs" />
     <Compile Include="ViewModels\Common\LyricsControlViewModel.cs" />
@@ -260,10 +260,11 @@
     <Compile Include="ViewModels\CoverArtViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionAlbumsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionArtistsViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\CollectionFoldersViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionFrequentViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionGenresViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionMenuViewModel.cs" />
-    <Compile Include="ViewModels\FullPlayer\Collection\CollectionPlaylistsViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Playlists\PlaylistsPlaylistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksColumnsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionViewModel.cs" />
@@ -274,6 +275,9 @@
     <Compile Include="ViewModels\FullPlayer\Information\InformationHelpViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationMenuViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Playlists\PlaylistsMenuViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Playlists\PlaylistsViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Playlists\PlaylistsSmartPlaylistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsAppearanceViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsBehaviourViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsCollectionViewModel.cs" />
@@ -314,8 +318,9 @@
     <Compile Include="Views\Common\Base\CommonViewBase.cs" />
     <Compile Include="Views\Common\Base\MiniPlayerViewBase.cs" />
     <Compile Include="Views\Common\Base\TracksViewBase.cs" />
-    <Compile Include="Views\Common\CollectionFolders.xaml.cs">
-      <DependentUpon>CollectionFolders.xaml</DependentUpon>
+    <Compile Include="Views\Common\Base\TracksViewBaseWithTrackArt.cs" />
+    <Compile Include="Views\Common\CollectionFoldersSettings.xaml.cs">
+      <DependentUpon>CollectionFoldersSettings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Common\CollectionPlaybackControls.xaml.cs">
       <DependentUpon>CollectionPlaybackControls.xaml</DependentUpon>
@@ -437,6 +442,9 @@
     <Compile Include="Views\FullPlayer\Collection\CollectionArtists.xaml.cs">
       <DependentUpon>CollectionArtists.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FullPlayer\Collection\CollectionFolders.xaml.cs">
+      <DependentUpon>CollectionFolders.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionFrequent.xaml.cs">
       <DependentUpon>CollectionFrequent.xaml</DependentUpon>
     </Compile>
@@ -446,14 +454,17 @@
     <Compile Include="Views\FullPlayer\Collection\CollectionMenu.xaml.cs">
       <DependentUpon>CollectionMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FullPlayer\Collection\CollectionPlaylists.xaml.cs">
-      <DependentUpon>CollectionPlaylists.xaml</DependentUpon>
+    <Compile Include="Views\FullPlayer\Playlists\PlaylistsPlaylists.xaml.cs">
+      <DependentUpon>PlaylistsPlaylists.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionTracks.xaml.cs">
       <DependentUpon>CollectionTracks.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionTracksColumns.xaml.cs">
       <DependentUpon>CollectionTracksColumns.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Playlists\Playlists.xaml.cs">
+      <DependentUpon>Playlists.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\FullPlayer.xaml.cs">
       <DependentUpon>FullPlayer.xaml</DependentUpon>
@@ -472,6 +483,12 @@
     </Compile>
     <Compile Include="Views\FullPlayer\Information\InformationMenu.xaml.cs">
       <DependentUpon>InformationMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Playlists\PlaylistsMenu.xaml.cs">
+      <DependentUpon>PlaylistsMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Playlists\PlaylistsSmartPlaylists.xaml.cs">
+      <DependentUpon>PlaylistsSmartPlaylists.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -899,6 +916,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Styles\ListBoxFolderTracks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Styles\ListBoxGenres.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -923,9 +944,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resources\Styles\ListBoxSubfolderBreadCrumbs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\ListBoxSubfolders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\Styles\ListBoxTracks.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\ListHeaderComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Styles\MetroCheckBox.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1071,7 +1104,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Common\CollectionFolders.xaml">
+    <Page Include="Views\Common\CollectionFoldersSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1235,6 +1268,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\FullPlayer\Collection\CollectionFolders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\FullPlayer\Collection\CollectionFrequent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1247,7 +1284,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FullPlayer\Collection\CollectionPlaylists.xaml">
+    <Page Include="Views\FullPlayer\Playlists\PlaylistsPlaylists.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1256,6 +1293,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullPlayer\Collection\CollectionTracksColumns.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Playlists\Playlists.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1280,6 +1321,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullPlayer\Information\InformationMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Playlists\PlaylistsMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Playlists\PlaylistsSmartPlaylists.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

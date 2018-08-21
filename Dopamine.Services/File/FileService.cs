@@ -66,7 +66,32 @@ namespace Dopamine.Services.File
             return new Tuple<List<TrackViewModel>, TrackViewModel>(tracks, selectedTrack);
         }
 
-        public async Task<List<TrackViewModel>> ProcessFilesAsync(IList<string> paths)
+        public async Task<IList<TrackViewModel>> ProcessFilesInDirectoryAsync(string directoryPath)
+        {
+            if (!Directory.Exists(directoryPath))
+            {
+                return new List<TrackViewModel>();
+            }
+
+            string[] paths = Directory.GetFiles(directoryPath);
+
+            var tracks = new List<TrackViewModel>();
+
+            await Task.Run(async () =>
+            {
+                foreach (string path in paths)
+                {
+                    if (FileFormats.IsSupportedAudioFile(path))
+                    {
+                        tracks.Add(await this.CreateTrackAsync(path));
+                    }
+                }
+            });
+
+            return tracks;
+        }
+
+        public async Task<IList<TrackViewModel>> ProcessFilesAsync(IList<string> paths)
         {
             var tracks = new List<TrackViewModel>();
 
@@ -123,7 +148,7 @@ namespace Dopamine.Services.File
             try
             {
                 PlaybackCounter playbackCounters = await this.trackRepository.GetPlaybackCountersAsync(path);
-                Track track  = await MetadataUtils.Path2TrackAsync(this.fileMetadataFactory.Create(path));
+                Track track = await MetadataUtils.Path2TrackAsync(this.fileMetadataFactory.Create(path));
 
                 returnTrack = container.ResolveTrackViewModel(track);
             }
@@ -208,7 +233,7 @@ namespace Dopamine.Services.File
                     tempFiles.Sort(); // Sort the files alphabetically
                 });
 
-                List<TrackViewModel> tracks = await this.ProcessFilesAsync(tempFiles);
+                IList<TrackViewModel> tracks = await this.ProcessFilesAsync(tempFiles);
                 TrackViewModel selectedTrack = tracks.First();
 
                 LogClient.Info("Number of tracks to play = {0}", tracks.Count.ToString());

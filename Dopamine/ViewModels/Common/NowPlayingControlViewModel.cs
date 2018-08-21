@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Dopamine.ViewModels.Common
 {
-    public class NowPlayingControlViewModel : TracksViewModelBase, IDropTarget
+    public class NowPlayingControlViewModel : TracksViewModelBaseWithTrackArt, IDropTarget
     {
         private IPlaybackService playbackService;
         private IDialogService dialogService;
@@ -33,15 +33,6 @@ namespace Dopamine.ViewModels.Common
 
             // Commands
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await RemoveSelectedTracksFromNowPlayingAsync());
-
-            // PlaybackService
-            this.playbackService.QueueChanged += async (_, __) =>
-            {
-                if (!this.isDroppingTracks)
-                {
-                    await this.FillListsAsync();
-                }
-            };
         }
 
         protected async Task GetTracksAsync()
@@ -51,14 +42,33 @@ namespace Dopamine.ViewModels.Common
 
         protected override async Task FillListsAsync()
         {
-            await this.GetTracksAsync();
+            // Not implemented here.
         }
 
         protected async override Task LoadedCommandAsync()
         {
-            if (!this.IsFirstLoad()) return;
-            await Task.Delay(Constants.NowPlayingListLoadDelay);  // Wait for the UI to slide in
-            await this.FillListsAsync(); // Fill all the lists
+            if (!this.IsFirstLoad())
+            {
+                return;
+            }
+
+            // Wait for the UI to slide in
+            await Task.Delay(Constants.NowPlayingListLoadDelay);  
+
+            // If there is a queue, get the tracks.
+            if (this.playbackService.HasQueue)
+            {
+                await this.GetTracksAsync();
+            }
+
+            // Listen to queue changes.
+            this.playbackService.QueueChanged += async (_, __) =>
+            {
+                if (!this.isDroppingTracks)
+                {
+                    await this.GetTracksAsync();
+                }
+            };
         }
 
         public void DragOver(IDropInfo dropInfo)

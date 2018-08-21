@@ -2,13 +2,12 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Data;
 using Dopamine.Services.Dialog;
-using Dopamine.Services.Metadata;
 using Dopamine.ViewModels.Common.Base;
 using Dopamine.Views.FullPlayer.Collection;
 using Prism.Commands;
 using Prism.Events;
-using System.Threading.Tasks;
 using Prism.Ioc;
+using System.Threading.Tasks;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
@@ -144,8 +143,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             // Commands
             this.ChooseColumnsCommand = new DelegateCommand(this.ChooseColumns);
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.RemoveTracksFromCollectionAsync(this.SelectedTracks), () => !this.IsIndexing);
-            this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async () => await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
-
+            
             // Show only the columns which are visible
             this.GetVisibleColumns();
         }

@@ -22,9 +22,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Dopamine.ViewModels.FullPlayer.Collection
+namespace Dopamine.ViewModels.FullPlayer.Playlists
 {
-    public class CollectionPlaylistsViewModel : TracksViewModelBase, IDropTarget
+    public class PlaylistsPlaylistsViewModel : TracksViewModelBaseWithTrackArt, IDropTarget
     {
         private IFileService fileService;
         private IPlaylistService playlistService;
@@ -120,7 +120,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        public CollectionPlaylistsViewModel(IContainerProvider container) : base(container)
+        public PlaylistsPlaylistsViewModel(IContainerProvider container) : base(container)
         {
             // Dependency injection
             this.fileService = container.Resolve<IFileService>();
@@ -632,7 +632,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             try
             {
                 IList<string> filenames = dropInfo.GetDroppedFilenames();
-                List<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
+                IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
                 await this.playlistService.AddTracksToPlaylistAsync(tracks, this.SelectedPlaylistName);
             }
             catch (Exception ex)

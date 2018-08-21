@@ -46,8 +46,34 @@
           Background="{TemplateBinding Background}" />
     </ControlTemplate>
 
+    <Style x:Key="MetroComboBoxItem"
+       TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="OverridesDefaultStyle"
+          Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                    <Border x:Name="Border" Background="Transparent">
+                        <Label x:Name="Label" Padding="10,3,10,3" Foreground="{DynamicResource Brush_PrimaryText}" Content="{TemplateBinding Content}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ItemHovered}" />
+                            <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ItemSelected}" />
+                            <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="MetroComboBox"
        TargetType="{x:Type ComboBox}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource MetroComboBoxItem}" />
         <Setter Property="OverridesDefaultStyle"
           Value="true" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility"
@@ -194,31 +220,6 @@
                                 <Setter TargetName="ToggleButton" Property="Background" Value="{DynamicResource Brush_ItemSelected}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="{x:Type ComboBoxItem}"
-       TargetType="{x:Type ComboBoxItem}">
-        <Setter Property="OverridesDefaultStyle"
-          Value="true" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                    <Border x:Name="Border" Background="Transparent">
-                        <Label x:Name="Label" Padding="10,3,10,3" Foreground="{DynamicResource Brush_PrimaryText}" Content="{TemplateBinding Content}"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ItemHovered}" />
-                            <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource Brush_ItemSelected}" />
-                            <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Brush_PrimaryText}" />
-                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

@@ -13,15 +13,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Dopamine.Views.FullPlayer.Collection
+namespace Dopamine.Views.FullPlayer.Playlists
 {
-    public partial class CollectionPlaylists : TracksViewBase
+    public partial class PlaylistsPlaylists : TracksViewBase
     {
         private IPlaylistService playlistService;
 
         public DelegateCommand ViewPlaylistInExplorerCommand { get; set; }
 
-        public CollectionPlaylists() : base()
+        public PlaylistsPlaylists() : base()
         {
             InitializeComponent();
 

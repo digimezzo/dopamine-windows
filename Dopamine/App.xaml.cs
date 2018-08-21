@@ -18,9 +18,11 @@ using Dopamine.Services.Dialog;
 using Dopamine.Services.Equalizer;
 using Dopamine.Services.ExternalControl;
 using Dopamine.Services.File;
+using Dopamine.Services.Folders;
 using Dopamine.Services.I18n;
 using Dopamine.Services.Indexing;
 using Dopamine.Services.JumpList;
+using Dopamine.Services.Lifetime;
 using Dopamine.Services.Lyrics;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Notification;
@@ -40,6 +42,7 @@ using Dopamine.Views.Common;
 using Dopamine.Views.FullPlayer;
 using Dopamine.Views.FullPlayer.Collection;
 using Dopamine.Views.FullPlayer.Information;
+using Dopamine.Views.FullPlayer.Playlists;
 using Dopamine.Views.FullPlayer.Settings;
 using Dopamine.Views.MiniPlayer;
 using Dopamine.Views.NowPlaying;
@@ -234,6 +237,7 @@ namespace Dopamine
                 containerRegistry.RegisterSingleton<ISearchService, SearchService>();
                 containerRegistry.RegisterSingleton<ITaskbarService, TaskbarService>();
                 containerRegistry.RegisterSingleton<ICollectionService, CollectionService>();
+                containerRegistry.RegisterSingleton<IFoldersService, FoldersService>();
                 containerRegistry.RegisterSingleton<IJumpListService, JumpListService>();
                 containerRegistry.RegisterSingleton<IFileService, FileService>();
                 containerRegistry.RegisterSingleton<ICommandService, CommandService>();
@@ -246,6 +250,7 @@ namespace Dopamine
                 containerRegistry.RegisterSingleton<IWindowsIntegrationService, WindowsIntegrationService>();
                 containerRegistry.RegisterSingleton<ILyricsService, LyricsService>();
                 containerRegistry.RegisterSingleton<IShellService, ShellService>();
+                containerRegistry.RegisterSingleton<ILifetimeService, LifetimeService>();
 
                 INotificationService notificationService;
 
@@ -312,10 +317,16 @@ namespace Dopamine
                 containerRegistry.Register<object, Collection>(typeof(Collection).FullName);
                 containerRegistry.Register<object, CollectionAlbums>(typeof(CollectionAlbums).FullName);
                 containerRegistry.Register<object, CollectionArtists>(typeof(CollectionArtists).FullName);
+                containerRegistry.Register<object, CollectionFolders>(typeof(CollectionFolders).FullName);
                 containerRegistry.Register<object, CollectionFrequent>(typeof(CollectionFrequent).FullName);
                 containerRegistry.Register<object, CollectionGenres>(typeof(CollectionGenres).FullName);
-                containerRegistry.Register<object, CollectionPlaylists>(typeof(CollectionPlaylists).FullName);
                 containerRegistry.Register<object, CollectionTracks>(typeof(CollectionTracks).FullName);
+
+                // Playlists
+                containerRegistry.Register<object, PlaylistsMenu>(typeof(PlaylistsMenu).FullName);
+                containerRegistry.Register<object, Playlists>(typeof(Playlists).FullName);
+                containerRegistry.Register<object, PlaylistsSmartPlaylists>(typeof(PlaylistsSmartPlaylists).FullName);
+                containerRegistry.Register<object, PlaylistsPlaylists>(typeof(PlaylistsPlaylists).FullName);
 
                 // Settings
                 containerRegistry.Register<object, SettingsMenu>(typeof(SettingsMenu).FullName);
