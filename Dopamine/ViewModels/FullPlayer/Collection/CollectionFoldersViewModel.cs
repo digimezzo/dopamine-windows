@@ -4,6 +4,7 @@ using Dopamine.Data;
 using Dopamine.Services.Entities;
 using Dopamine.Services.File;
 using Dopamine.Services.Folders;
+using Dopamine.Services.Playback;
 using Dopamine.ViewModels.Common.Base;
 using Prism.Commands;
 using Prism.Events;
@@ -20,6 +21,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
     {
         private IFoldersService foldersService;
         private IFileService fileService;
+        private IPlaybackService playbackService;
         private IEventAggregator eventAggregator;
         private double leftPaneWidthPercent;
         private ObservableCollection<FolderViewModel> folders;
@@ -70,10 +72,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         }
 
         public CollectionFoldersViewModel(IContainerProvider container, IFoldersService foldersService, IFileService fileService,
-            IEventAggregator eventAggregator) : base(container)
+            IPlaybackService playbackService, IEventAggregator eventAggregator) : base(container)
         {
             this.foldersService = foldersService;
             this.fileService = fileService;
+            this.playbackService = playbackService;
             this.eventAggregator = eventAggregator;
 
             // Commands
@@ -84,6 +87,12 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
             // Events
             this.foldersService.FoldersChanged += FoldersService_FoldersChanged;
+            this.playbackService.PlaybackFailed += (async(_,__) => await this.foldersService.SetPlayingSubFolderAsync(this.Subfolders));
+            this.playbackService.PlaybackPaused += (async (_, __) => await this.foldersService.SetPlayingSubFolderAsync(this.Subfolders));
+            this.playbackService.PlaybackResumed += (async (_, __) => await this.foldersService.SetPlayingSubFolderAsync(this.Subfolders));
+            this.playbackService.PlaybackSuccess += (async (_, __) => await this.foldersService.SetPlayingSubFolderAsync(this.Subfolders));
+            this.playbackService.PlaybackStopped += (async (_, __) => await this.foldersService.SetPlayingSubFolderAsync(this.Subfolders));
+
             this.eventAggregator.GetEvent<ActiveSubfolderChanged>().Subscribe((activeSubfolder) =>
             {
                 this.GetSubfoldersAsync(activeSubfolder as SubfolderViewModel);
@@ -115,6 +124,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 this.activeSubfolderPath = this.subfolders.Count > 0 && this.subfolders.Any(x => x.IsGoToParent) ? this.subfolders.Where(x => x.IsGoToParent).First().Path : this.selectedFolder.Path;
                 this.SubfolderBreadCrumbs = new ObservableCollection<SubfolderBreadCrumb>(await this.foldersService.GetSubfolderBreadCrumbsAsync(this.selectedFolder, this.activeSubfolderPath));
                 await this.GetTracksAsync();
+                await this.foldersService.SetPlayingSubFolderAsync(this.Subfolders);
             }
         }
 

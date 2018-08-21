@@ -25,6 +25,9 @@ namespace Dopamine.Core.Base
         public static string WPL = ".wpl";
         public static string ZPL = ".zpl";
 
+        // Smart playlist extensions
+        public static string DSPL = ".dspl";
+
         // Image extensions
         public static string PNG = ".png";
         public static string JPG = ".jpg";
