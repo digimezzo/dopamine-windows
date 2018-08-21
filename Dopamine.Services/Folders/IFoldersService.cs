@@ -23,5 +23,7 @@ namespace Dopamine.Services.Folders
         Task<IList<SubfolderViewModel>> GetSubfoldersAsync(FolderViewModel selectedRootFolder, SubfolderViewModel selectedSubfolder);
 
         Task<IList<SubfolderBreadCrumb>> GetSubfolderBreadCrumbsAsync(FolderViewModel selectedRootFolder, string path);
+
+        Task SetPlayingSubFolderAsync(IEnumerable<SubfolderViewModel> subfolderViewModels);
     }
 }

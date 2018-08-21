@@ -5,6 +5,7 @@ using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Entities;
+using Dopamine.Services.Playback;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,12 +19,14 @@ namespace Dopamine.Services.Folders
     public class FoldersService : IFoldersService
     {
         private IFolderRepository folderRepository;
+        private IPlaybackService playbackService;
         private IList<FolderViewModel> markedFolders = new List<FolderViewModel>();
         private Timer saveMarkedFoldersTimer = new Timer(2000);
 
-        public FoldersService(IFolderRepository folderRepository)
+        public FoldersService(IFolderRepository folderRepository, IPlaybackService playbackService)
         {
             this.folderRepository = folderRepository;
+            this.playbackService = playbackService;
 
             this.saveMarkedFoldersTimer.Elapsed += SaveMarkedFoldersTimer_Elapsed;
         }
@@ -187,7 +190,7 @@ namespace Dopamine.Services.Folders
                     directories = Directory.GetDirectories(subfolderPathToBrowse);
                 }
 
-                if(directories != null)
+                if (directories != null)
                 {
                     foreach (string directory in directories)
                     {
@@ -197,6 +200,47 @@ namespace Dopamine.Services.Folders
             });
 
             return subFolders;
+        }
+
+        public async Task SetPlayingSubFolderAsync(IEnumerable<SubfolderViewModel> subfolderViewModels)
+        {
+            try
+            {
+                if (!this.playbackService.HasCurrentTrack)
+                {
+                    return;
+                }
+
+                await Task.Run(() =>
+                {
+                    foreach (SubfolderViewModel subfolderViewModel in subfolderViewModels)
+                    {
+                        subfolderViewModel.IsPlaying = false;
+                        subfolderViewModel.IsPaused = true;
+
+                        if (!this.playbackService.HasCurrentTrack)
+                        {
+                            continue;
+                        }
+
+                        if (!subfolderViewModel.IsGoToParent &&
+                        !this.playbackService.IsStopped &&
+                        this.playbackService.CurrentTrack.SafePath.Contains(subfolderViewModel.SafePath))
+                        {
+                            subfolderViewModel.IsPlaying = true;
+
+                            if (this.playbackService.IsPlaying)
+                            {
+                                subfolderViewModel.IsPaused = false;
+                            }
+                        }
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error($"Could not set the playing subfolder. Exception: {ex.Message}");
+            }
         }
 
         public async Task<IList<SubfolderBreadCrumb>> GetSubfolderBreadCrumbsAsync(FolderViewModel selectedRootFolder, string selectedSubfolderPath)
