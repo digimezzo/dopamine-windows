@@ -14,6 +14,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Loaded="UserControl_Loaded"
+             SizeChanged="UserControl_SizeChanged"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>
@@ -42,13 +43,13 @@
                                                            Content="{DynamicResource Language_Settings}" 
                                                            GroupName="SplitViewButtonGroup" 
                                                            Command="{Binding SetSelectedFullPlayerPageCommand}"
-                                                           CommandParameter="1"
+                                                           CommandParameter="2"
                                                            Icon="&#xE713;" Checked="SettingsButton_Checked"/>
                             <controls:SplitViewRadioButton x:Name="InformationButton" 
                                                            Content="{DynamicResource Language_Information}" 
                                                            GroupName="SplitViewButtonGroup" 
                                                            Command="{Binding SetSelectedFullPlayerPageCommand}"
-                                                           CommandParameter="2"
+                                                           CommandParameter="3"
                                                            Icon="&#xE946;" Checked="InformationButton_Checked" />
                         </StackPanel>
                         <StackPanel Margin="0,18,0,0">
@@ -58,6 +59,12 @@
                                                            Command="{Binding SetSelectedFullPlayerPageCommand}"
                                                            CommandParameter="0"
                                                            Icon="&#xE8D6;" Checked="CollectionButton_Checked"/>
+                            <controls:SplitViewRadioButton x:Name="PlaylistsButton" 
+                                                           Content="{DynamicResource Language_Playlists}" 
+                                                           GroupName="SplitViewButtonGroup" 
+                                                           Command="{Binding SetSelectedFullPlayerPageCommand}"
+                                                           CommandParameter="1"
+                                                           Icon="&#xE142;" Checked="PlaylistsButton_Checked"/>
                         </StackPanel>
                     </DockPanel>
                 </DockPanel>
@@ -109,19 +116,31 @@
                                 </Grid>
                             </Button>
                         </Grid>
+                        <!-- Menu -->
                         <controls:TransitioningContentControl 
                                 FadeIn="True" FadeInTimeout="0.75" SlideIn="True" 
                                 SlideInTimeout="0.75" SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerMenuRegion" 
                                 prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerMenuRegion}"/>
                     </DockPanel>
+                    <!-- Status -->
                     <Grid DockPanel.Dock="Top">
                         <commonviews:UpdateStatus Panel.ZIndex="0"/>
                         <commonviews:IndexingStatus Panel.ZIndex="1"/>
                     </Grid>
-                    <controls:TransitioningContentControl 
-                        FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
-                        SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerRegion" 
-                        prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerRegion}"/>
+                    <!-- Content -->
+                    <DockPanel>
+                        <Border x:Name="PlaybackControlsBorder" DockPanel.Dock="Bottom" Panel.ZIndex="1" Height="6"/>
+                        <Grid x:Name="PlaybackControls" DockPanel.Dock="Bottom" Panel.ZIndex="1">
+                            <Border Panel.ZIndex="0" Background="{DynamicResource Brush_WindowHeaderBackground}" 
+                                    HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="70"/>
+                            <commonviews:SpectrumAnalyzerControl x:Name="SpectrumAnalyzer" Panel.ZIndex="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" SizeChanged="SpectrumAnalyzer_SizeChanged"/>
+                            <commonviews:CollectionPlaybackControls Panel.ZIndex="2" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                        </Grid>
+                        <controls:TransitioningContentControl Panel.ZIndex="0" Margin="0,0,0,-6"
+                            FadeIn="True" FadeInTimeout="0.5" SlideIn="True" SlideInTimeout="0.5" 
+                            SlideInFrom="{Binding SlideInFrom}" SlideInTo="0" x:Name="FullPlayerRegion" 
+                            prism:RegionManager.RegionName="{x:Static cp:RegionNames.FullPlayerRegion}"/>
+                    </DockPanel>
                 </DockPanel>
             </Grid>
         </fwc:SplitView.Content>

@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Prism.Ioc;
+using Dopamine.Services.Folders;
 
 namespace Dopamine.ViewModels.Common.Base
 {
@@ -32,6 +33,7 @@ namespace Dopamine.ViewModels.Common.Base
         private IDialogService dialogService;
         private ISearchService searchService;
         private IPlaylistService playlistService;
+        private IFoldersService foldersService;
         private IEventAggregator eventAggregator;
         private bool enableRating;
         private bool enableLove;
@@ -108,6 +110,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.metadataService = container.Resolve<IMetadataService>();
             this.i18nService = container.Resolve<II18nService>();
             this.playlistService = container.Resolve<IPlaylistService>();
+            this.foldersService = container.Resolve<IFoldersService>();
 
             // Commands
             this.ShowSelectedTrackInformationCommand = new DelegateCommand(() => this.ShowSelectedTrackInformation());
@@ -123,6 +126,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.playbackService.PlaybackStopped += (_, __) => this.ShowPlayingTrackAsync();
             this.playbackService.PlaybackSuccess += (_,__) => this.ShowPlayingTrackAsync();
             this.collectionService.CollectionChanged += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the Collection has changed
+            this.foldersService.FoldersChanged += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when marked folders have changed
             this.indexingService.RefreshLists += async (_, __) => await this.FillListsAsync(); // Refreshes the lists when the indexer has finished indexing
             this.indexingService.IndexingStarted += (_, __) => this.SetEditCommands();
             this.indexingService.IndexingStopped += (_, __) => this.SetEditCommands();

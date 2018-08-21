@@ -30,8 +30,14 @@
         Genres = 1,
         Albums = 2,
         Songs = 3,
-        Playlists = 4,
+        Folders = 4,
         Frequent = 5
+    }
+
+    public enum PlaylistsPage
+    {
+        Playlists = 0,
+        SmartPlaylists = 1
     }
 
     public enum SettingsPage
@@ -53,8 +59,9 @@
     public enum FullPlayerPage
     {
         Collection = 0,
-        Settings = 1,
-        Information = 2
+        Playlists = 1,
+        Settings = 2,
+        Information = 3
     }
 
     public enum EditTrackPage

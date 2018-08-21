@@ -37,6 +37,10 @@ namespace Dopamine.Core.Prism
     {
     }
 
+    public class IsPlaylistsPageChanged : PubSubEvent<Tuple<SlideDirection, PlaylistsPage>>
+    {
+    }
+
     public class IsSettingsPageChanged : PubSubEvent<Tuple<SlideDirection, SettingsPage>>
     {
     }
@@ -50,6 +54,10 @@ namespace Dopamine.Core.Prism
     }
 
     public class FocusSearchBox : PubSubEvent<object>
+    {
+    }
+
+    public class ActiveSubfolderChanged : PubSubEvent<object>
     {
     }
 }

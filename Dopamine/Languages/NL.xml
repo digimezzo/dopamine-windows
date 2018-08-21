@@ -33,7 +33,7 @@
   <Text Key="Donate">Doneren</Text>
   <Text Key="Donate_With_PayPal">Doneren via PayPal</Text>
   <Text Key="File_Types">Bestandsformaten</Text>
-  <Text Key="File_Types_Description">Deze bestandsformaten worden ondersteund: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, APE, OPUS.</Text>
+  <Text Key="File_Types_Description">Deze bestandsformaten worden ondersteund: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, APE, OPUS, AIFF.</Text>
   <Text Key="Keyboard_Shortcuts">Sneltoetsen</Text>
   <Text Key="Key_Plus">+</Text>
   <Text Key="Key_Minus">-</Text>
@@ -431,4 +431,6 @@
   <Text Key="Toggle_Track_Order">Wijzig nummer volgorde</Text>
   <Text Key="Activate_Search_Field">Zoek veld activeren</Text>
   <Text Key="Back">Terug</Text>
+  <Text Key="Folders">Mappen</Text>
+  <Text Key="Smart_Playlists">Slimme playlists</Text>
 </Language>

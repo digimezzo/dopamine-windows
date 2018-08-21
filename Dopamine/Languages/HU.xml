@@ -33,7 +33,7 @@
   <Text Key="Donate">Adományozás</Text>
   <Text Key="Donate_With_PayPal">Adományozz PayPal-al</Text>
   <Text Key="File_Types">Fájl típus</Text>
-  <Text Key="File_Types_Description">Támogatott fájl típusok: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, APE, OPUS.</Text>
+  <Text Key="File_Types_Description">Támogatott fájl típusok: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, APE, OPUS, AIFF.</Text>
   <Text Key="Keyboard_Shortcuts">Billentyű parancsok</Text>
   <Text Key="Key_Plus">+</Text>
   <Text Key="Key_Minus">-</Text>
@@ -431,4 +431,6 @@
   <Text Key="Toggle_Track_Order">Toggle song order</Text>
   <Text Key="Activate_Search_Field">Activate search field</Text>
   <Text Key="Back">Back</Text>
+  <Text Key="Folders">Folders</Text>
+  <Text Key="Smart_Playlists">Smart playlists</Text>
 </Language>

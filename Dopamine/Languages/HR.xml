@@ -33,7 +33,7 @@
   <Text Key="Donate">Doniraj</Text>
   <Text Key="Donate_With_PayPal">Donirajte pomoću PayPala</Text>
   <Text Key="File_Types">Vrste datoteka</Text>
-  <Text Key="File_Types_Description">Podržane su ove vrste datoteka: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, APE, OPUS.</Text>
+  <Text Key="File_Types_Description">Podržane su ove vrste datoteka: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, APE, OPUS, AIFF.</Text>
   <Text Key="Keyboard_Shortcuts">Tipkovnički prečaci</Text>
   <Text Key="Key_Plus">+</Text>
   <Text Key="Key_Minus">-</Text>
@@ -429,6 +429,8 @@
   <Text Key="Open_Menu">Otvori izbornik</Text>
   <Text Key="Toggle_Album_Order">Promijeni raspored albuma</Text>
   <Text Key="Toggle_Track_Order">Promijeni raspored pjesama</Text>
-  <Text Key="Activate_Search_Field">Activate search field</Text>
-  <Text Key="Back">Back</Text>
+  <Text Key="Activate_Search_Field">Aktiviraj polje za pretraživanje</Text>
+  <Text Key="Back">Natrag</Text>
+  <Text Key="Folders">Folders</Text>
+  <Text Key="Smart_Playlists">Smart playlists</Text>
 </Language>

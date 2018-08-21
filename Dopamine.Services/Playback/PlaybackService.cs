@@ -117,6 +117,8 @@ namespace Dopamine.Services.Playback
 
         public TrackViewModel CurrentTrack => this.queueManager.CurrentTrack();
 
+        public bool HasQueue => this.queueManager.Queue != null && this.queueManager.Queue.Count > 0;
+
         public bool HasCurrentTrack => this.queueManager.CurrentTrack() != null;
 
         public double Progress
@@ -313,7 +315,7 @@ namespace Dopamine.Services.Playback
             this.Initialize();
         }
 
-        private async void EnqueueFromFilesAsync(List<TrackViewModel> tracks, TrackViewModel track)
+        private async void EnqueueFromFilesAsync(IList<TrackViewModel> tracks, TrackViewModel track)
         {
             this.canGetSavedQueuedTracks = false;
 
@@ -1056,7 +1058,10 @@ namespace Dopamine.Services.Playback
 
         private async Task PlayFirstAsync()
         {
-            if (this.Queue.Count > 0) await this.TryPlayAsync(this.queueManager.FirstTrack());
+            if (this.Queue.Count > 0)
+            {
+                await this.TryPlayAsync(this.queueManager.FirstTrack());
+            }
         }
 
         private void StopPlayback()
@@ -1092,7 +1097,7 @@ namespace Dopamine.Services.Playback
             // So if we go into the Catch when trying to play the Track,
             // at least, the next time TryPlayNext is called, it will know that 
             // we already tried to play this track and it can find the next Track.
-            this.queueManager.SetCurrentTrack(track);
+            this.queueManager.SetCurrentTrack(track.Path);
 
             // Play the Track
             await Task.Run(() => this.player.Play(track.Path, this.audioDevice));
@@ -1282,7 +1287,6 @@ namespace Dopamine.Services.Playback
                 IList<TrackViewModel> existingTrackViewModels = await this.container.ResolveTrackViewModelsAsync(existingTracks);
 
                 await this.EnqueueAsync(existingTrackViewModels, this.shuffle, false);
-                this.QueueChanged(this, new EventArgs());
 
                 if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack"))
                 {
