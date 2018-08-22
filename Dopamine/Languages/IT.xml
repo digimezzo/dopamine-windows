@@ -337,8 +337,8 @@
   <Text Key="No_Lyrics_Found">Testo non trovato</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Scorri automaticamente fino alla canzone in riproduzione</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Lo scrorrimento del mouse cambia il volume di</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Questa brano non può essere trovato. Probabilmente è stato spostato o cancellato. Vuoi aggiornare la tua collezione?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Uno o più brani non possono essere trovati. Probabilmente sono stati spostati o cancellati. Vuoi aggiornare la tua collezione?</Text>
+  <Text Key="Song_Cannot_Be_Found">Questa brano non può essere trovato. Probabilmente è stato spostato o cancellato.</Text>
+  <Text Key="Songs_Cannot_Be_Found">Uno o più brani non possono essere trovati. Probabilmente sono stati spostati o cancellati.</Text>
   <Text Key="Automatic_Scrolling">Scorrimento automatico</Text>
   <Text Key="Font_Size">Dimensione font</Text>
   <Text Key="Cancel_Edit">Cancella modifica</Text>

@@ -337,8 +337,8 @@
   <Text Key="No_Lyrics_Found">Текст песни не найден</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Автоматически прокручивать к воспроизводимой песне</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Прокрутка мыши изменяет громкость на</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Эта песня не найдена. Скорее всего, файл был перемещен или удален. Хотите ли вы обновить коллекцию?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Одна или несколько песен не найдены. Скорее всего, файлы были перемещены или удалены. Хотите ли вы обновить коллекцию?</Text>
+  <Text Key="Song_Cannot_Be_Found">Эта песня не найдена. Скорее всего, файл был перемещен или удален.</Text>
+  <Text Key="Songs_Cannot_Be_Found">Одна или несколько песен не найдены. Скорее всего, файлы были перемещены или удалены.</Text>
   <Text Key="Automatic_Scrolling">Автоматическая прокрутка</Text>
   <Text Key="Font_Size">Размер шрифта</Text>
   <Text Key="Cancel_Edit">Отмена редактирования</Text>

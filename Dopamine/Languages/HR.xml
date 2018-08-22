@@ -337,8 +337,8 @@
   <Text Key="No_Lyrics_Found">Tekst nije pronađen</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatski pomiči uz pjesmu</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Kotačić na mišu mijenja glasnoću za</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Nije moguće pronaći pjesmu. Vjerojatno je premještena ili izbrisana. Želite li osvježiti kolekciju?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Nije moguće pronaći jednu ili više pjesama. Vjerojatno su premještene ili izbrisane. Želite li osvježiti kolekciju?</Text>
+  <Text Key="Song_Cannot_Be_Found">Nije moguće pronaći pjesmu. Vjerojatno je premještena ili izbrisana.</Text>
+  <Text Key="Songs_Cannot_Be_Found">Nije moguće pronaći jednu ili više pjesama. Vjerojatno su premještene ili izbrisane.</Text>
   <Text Key="Automatic_Scrolling">Automatsko pomicanje</Text>
   <Text Key="Font_Size">Veličina fonta</Text>
   <Text Key="Cancel_Edit">Prekini uređivanje</Text>

@@ -337,8 +337,8 @@
   <Text Key="No_Lyrics_Found">Er werd geen songtekst gevonden</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatisch scrollen naar het afgespeelde nummer</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Dit nummer werd niet gevonden. Het werd waarschijnlijk verplaatst of verwijderd. Wil je jouw collectie verversen?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Eén of meerdere nummers werden niet gevonden. Ze werden waarschijnlijk verplaatst of verwijderd. Wil je jouw collectie verversen?</Text>
+  <Text Key="Song_Cannot_Be_Found">Dit nummer werd niet gevonden. Het werd waarschijnlijk verplaatst of verwijderd.</Text>
+  <Text Key="Songs_Cannot_Be_Found">Eén of meerdere nummers werden niet gevonden. Ze werden waarschijnlijk verplaatst of verwijderd.</Text>
   <Text Key="Automatic_Scrolling">Automatisch scrollen</Text>
   <Text Key="Font_Size">Font grootte</Text>
   <Text Key="Cancel_Edit">Annuleer aanpassing</Text>

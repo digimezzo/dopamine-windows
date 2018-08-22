@@ -337,8 +337,8 @@
   <Text Key="No_Lyrics_Found">找不到歌詞</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">自動捲動至現正播放的音樂</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">滑鼠滾輪每滾動一格時增減音量</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">無法找到音訊檔案。它可能已被刪除或移動。您要重新整理媒體庫嗎？</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">無法找到一個或多個音訊檔案。它們可能已被刪除或移動。您要重新整理媒體庫嗎？</Text>
+  <Text Key="Song_Cannot_Be_Found">無法找到音訊檔案。它可能已被刪除或移動。</Text>
+  <Text Key="Songs_Cannot_Be_Found">無法找到一個或多個音訊檔案。它們可能已被刪除或移動。</Text>
   <Text Key="Automatic_Scrolling">自動捲動</Text>
   <Text Key="Font_Size">字型大小</Text>
   <Text Key="Cancel_Edit">取消編輯</Text>

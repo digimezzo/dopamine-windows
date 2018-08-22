@@ -337,8 +337,8 @@
   <Text Key="No_Lyrics_Found">Χωρίς στίχους</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Αυτόματη μετακίνηση στο αναπαραγόμενο τραγούδι</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Η κύλιση ροδέλας ποντικιού αλλάζει τον ήχο κατά</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Το τραγούδι δεν υπάρχει. Πιθανόν να μεταφέρθηκε ή να διαγράφηκε. Θέλετε να ανανεωθεί ή συλλογή;</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Ένα ή περισσότερα τραγούδια δεν υπάρχουν. Πιθανόν να μεταφέρθηκαν ή να διαγράφηκαν. Θέλετε να ανανεωθεί ή συλλογή;</Text>
+  <Text Key="Song_Cannot_Be_Found">Το τραγούδι δεν υπάρχει. Πιθανόν να μεταφέρθηκε ή να διαγράφηκε.</Text>
+  <Text Key="Songs_Cannot_Be_Found">Ένα ή περισσότερα τραγούδια δεν υπάρχουν. Πιθανόν να μεταφέρθηκαν ή να διαγράφηκαν.</Text>
   <Text Key="Automatic_Scrolling">Αυτόματη μετακίνηση</Text>
   <Text Key="Font_Size">Μέγεθος κειμένου</Text>
   <Text Key="Cancel_Edit">Ακύρωση επεξεργασίας</Text>

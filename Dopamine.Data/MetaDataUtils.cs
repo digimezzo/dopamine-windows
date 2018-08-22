@@ -6,6 +6,7 @@ using Dopamine.Data.Metadata;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -211,14 +212,19 @@ namespace Dopamine.Data
             return DelimitTag(albumTitle);
         }
 
-        public static async Task<Track> Path2TrackAsync(FileMetadata fileMetadata)
+        public static async Task<Track> Path2TrackAsync(string path)
         {
-            var track = Track.CreateDefault(fileMetadata.Path);
+            var track = Track.CreateDefault(path);
 
-            await Task.Run(() =>
+            if (File.Exists(path))
             {
-                MetadataUtils.FillTrack(fileMetadata, ref track);
-            });
+                FileMetadata fileMetadata = new FileMetadata(path);
+
+                await Task.Run(() =>
+                {
+                    MetadataUtils.FillTrack(fileMetadata, ref track);
+                });
+            }
 
             return track;
         }

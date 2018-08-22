@@ -337,8 +337,8 @@
   <Text Key="No_Lyrics_Found">Жодних текстів не знайдено</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Автоматично перейти до відтворюваної пісні</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Прокрутка миші змінює гучність на</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Ця пісня не знайдена. Можливо, вона було переміщена чи видалена. Ви хочете оновити свою колекцію?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Неможливо знайти одну або декілька пісень. Можливо, вони були переміщені чи видалені. Ви хочете оновити свою колекцію?</Text>
+  <Text Key="Song_Cannot_Be_Found">Ця пісня не знайдена. Можливо, вона було переміщена чи видалена.</Text>
+  <Text Key="Songs_Cannot_Be_Found">Неможливо знайти одну або декілька пісень. Можливо, вони були переміщені чи видалені.</Text>
   <Text Key="Automatic_Scrolling">Автоматична прокрутка</Text>
   <Text Key="Font_Size">Розмір шрифту</Text>
   <Text Key="Cancel_Edit">Скасувати редагування</Text>
