@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>108</Value>
+      <Value>109</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -34,6 +34,9 @@
     </Setting>
     <Setting Name="Left">
       <Value>50</Value>
+    </Setting>
+    <Setting Name="SelectedPage">
+      <Value>0</Value>
     </Setting>
     <Setting Name="SelectedCollectionPage">
       <Value>0</Value>
