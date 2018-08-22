@@ -151,12 +151,12 @@ namespace Dopamine.Data
             return string.Join(string.Empty, delimitedTags.OrderBy(x => x).ToArray());
         }
 
-        private static string GetAlbumTitle(IFileMetadata fileMetadata)
+        private static string GetAlbumTitle(FileMetadata fileMetadata)
         {
             return string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : MetadataUtils.TrimTag(fileMetadata.Album.Value);
         }
 
-        public static void FillTrackBase(IFileMetadata fileMetadata, ref Track track)
+        public static void FillTrackBase(FileMetadata fileMetadata, ref Track track)
         {
             track.TrackTitle = TrimTag(fileMetadata.Title.Value);
             track.Year = SafeConvertToLong(fileMetadata.Year.Value);
@@ -172,7 +172,7 @@ namespace Dopamine.Data
             track.AlbumKey = GenerateInitialAlbumKey(track.AlbumTitle, track.AlbumArtists);
         }
 
-        public static void FillTrack(IFileMetadata fileMetadata, ref Track track)
+        public static void FillTrack(FileMetadata fileMetadata, ref Track track)
         {
             string path = fileMetadata.Path;
             long nowTicks = DateTime.Now.Ticks;
@@ -211,7 +211,7 @@ namespace Dopamine.Data
             return DelimitTag(albumTitle);
         }
 
-        public static async Task<Track> Path2TrackAsync(IFileMetadata fileMetadata)
+        public static async Task<Track> Path2TrackAsync(FileMetadata fileMetadata)
         {
             var track = Track.CreateDefault(fileMetadata.Path);
 

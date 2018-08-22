@@ -193,7 +193,7 @@ namespace Dopamine.ViewModels.Common
 
             this.StopHighlighting();
 
-            IFileMetadata fmd = await this.metadataService.GetFileMetadataAsync(track.Path);
+            FileMetadata fmd = await this.metadataService.GetFileMetadataAsync(track.Path);
 
             await Task.Run(() =>
             {

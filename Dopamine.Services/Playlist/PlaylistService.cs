@@ -199,7 +199,7 @@ namespace Dopamine.Services.Playlist
             return result;
         }
 
-        public async Task<List<string>> GetPlaylistsAsync()
+        public async Task<IList<string>> GetPlaylistsAsync()
         {
             var playlists = new List<string>();
 
@@ -217,7 +217,7 @@ namespace Dopamine.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Error while getting playlist. Exception: {0}", ex.Message);
+                    LogClient.Error("Error while getting playlists. Exception: {0}", ex.Message);
                 }
             });
 
@@ -305,7 +305,7 @@ namespace Dopamine.Services.Playlist
             return OpenPlaylistResult.Success;
         }
 
-        public async Task<List<TrackViewModel>> GetTracks(string playlistName)
+        public async Task<IList<TrackViewModel>> GetTracks(string playlistName)
         {
             // If no playlist was selected, return no tracks.
             if (string.IsNullOrEmpty(playlistName))

@@ -23,11 +23,11 @@ namespace Dopamine.Services.Playlist
 
         Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName);
 
-        Task<List<string>> GetPlaylistsAsync();
+        Task<IList<string>> GetPlaylistsAsync();
 
         Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName);
 
-        Task<List<TrackViewModel>> GetTracks(string playlistName);
+        Task<IList<TrackViewModel>> GetTracks(string playlistName);
 
         Task SetPlaylistOrderAsync(IList<TrackViewModel> tracks, string playlistName);
 

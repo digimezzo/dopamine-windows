@@ -117,7 +117,7 @@ namespace Dopamine.ViewModels.Common.Base
                 // Unbind to improve UI performance
                 this.ContextMenuPlaylists = null;
 
-                List<string> playlists = await this.playlistService.GetPlaylistsAsync();
+                IList<string> playlists = await this.playlistService.GetPlaylistsAsync();
 
                 // Populate an ObservableCollection
                 var playlistViewModels = new ObservableCollection<PlaylistViewModel>();

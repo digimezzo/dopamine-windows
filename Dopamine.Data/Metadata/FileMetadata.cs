@@ -6,7 +6,7 @@ using TagLib;
 
 namespace Dopamine.Data.Metadata
 {
-    public class FileMetadata : IFileMetadata
+    public class FileMetadata
     {
         private TagLib.File file;
         private MetadataValue title;
@@ -399,7 +399,7 @@ namespace Dopamine.Data.Metadata
                 return false;
             }
 
-            return this.SafePath.Equals(((IFileMetadata)obj).SafePath);
+            return this.SafePath.Equals(((FileMetadata)obj).SafePath);
         }
 
         public override int GetHashCode()

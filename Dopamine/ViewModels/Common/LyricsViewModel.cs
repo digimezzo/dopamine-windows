@@ -131,7 +131,7 @@ namespace Dopamine.ViewModels.Common
             var fmd = await this.metadataService.GetFileMetadataAsync(this.track.Path);
             fmd.Lyrics = new MetadataValue() { Value = this.lyrics.Text };
 
-            var fmdList = new List<IFileMetadata>
+            var fmdList = new List<FileMetadata>
             {
                 fmd
             };
