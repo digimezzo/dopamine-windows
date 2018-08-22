@@ -49,7 +49,7 @@ namespace Dopamine.Services.Entities
 
         public string SortSkipCount => this.Track.SkipCount.HasValueLargerThan(0) ? this.Track.SkipCount.Value.ToString("0000") : string.Empty;
 
-        public long SortTrackNumber => this.Track.TrackNumber.Value;
+        public long SortTrackNumber => this.Track.TrackNumber.HasValue ? this.Track.TrackNumber.Value : 0;
 
         public bool HasLyrics => this.Track.HasLyrics == 1 ? true : false;
 

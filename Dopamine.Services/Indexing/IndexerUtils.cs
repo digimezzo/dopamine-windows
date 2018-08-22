@@ -39,7 +39,7 @@ namespace Dopamine.Services.Indexing
             return string.Empty;
         }
 
-        public static byte[] GetEmbeddedArtwork(IFileMetadata fileMetadata)
+        public static byte[] GetEmbeddedArtwork(FileMetadata fileMetadata)
         {
 
             byte[] artworkData = null;
@@ -77,7 +77,7 @@ namespace Dopamine.Services.Indexing
             return artworkData;
         }
 
-        public static byte[] GetArtwork(string albumKey, IFileMetadata fileMetadata)
+        public static byte[] GetArtwork(string albumKey, FileMetadata fileMetadata)
         {
             byte[] artworkData = null;
 

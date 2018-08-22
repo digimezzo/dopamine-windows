@@ -481,7 +481,7 @@ namespace Dopamine.Services.Playback
             return isSuccess;
         }
 
-        public async Task<UpdateQueueMetadataResult> UpdateMetadataAsync(IList<IFileMetadata> fileMetadatas)
+        public async Task<UpdateQueueMetadataResult> UpdateMetadataAsync(IList<FileMetadata> fileMetadatas)
         {
             var result = new UpdateQueueMetadataResult();
 
