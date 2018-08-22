@@ -339,8 +339,8 @@
   <Text Key="No_Lyrics_Found">歌詞が見つかりませんでした</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">自動で再生中の曲にスクロールする</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">マウスホイールで音量を変更</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">この曲は見つかりませんでした。おそらく、削除されたか移動したものと思われます。コレクションをクリーンアップしますか？</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">いくつかの曲が見つかりませんでした。おそらく、削除されたか移動したものと思われます。コレクションをクリーンアップしますか？</Text>
+  <Text Key="Song_Cannot_Be_Found">この曲は見つかりませんでした。おそらく、削除されたか移動したものと思われます。</Text>
+  <Text Key="Songs_Cannot_Be_Found">いくつかの曲が見つかりませんでした。おそらく、削除されたか移動したものと思われます。</Text>
   <Text Key="Automatic_Scrolling">自動スクロール</Text>
   <Text Key="Font_Size">フォントサイズ</Text>
   <Text Key="Cancel_Edit">編集のキャンセル</Text>

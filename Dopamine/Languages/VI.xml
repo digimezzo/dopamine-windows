@@ -337,8 +337,8 @@
   <Text Key="No_Lyrics_Found">Không tìm thấy lời bài hát</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Tự động cuộn đến bài hát đang chơi</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Di chuyển chuột sẽ thay đổi độ tăng giảm âm lượng bằng</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Không tìm thấy bài hát này. Nó có thể đã được di chuyển hoặc xóa. Bạn có muốn làm mới thư viện nhạc của mình bây giờ?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Không thể tìm thấy một hoặc nhiều bài hát. Có lẽ chúng đã bị di chuyển hoặc bị xóa. Bạn có muốn làm mới thư viện nhạc của mình bây giờ?</Text>
+  <Text Key="Song_Cannot_Be_Found">Không tìm thấy bài hát này. Nó có thể đã được di chuyển hoặc xóa.</Text>
+  <Text Key="Songs_Cannot_Be_Found">Không thể tìm thấy một hoặc nhiều bài hát. Có lẽ chúng đã bị di chuyển hoặc bị xóa.</Text>
   <Text Key="Automatic_Scrolling">Tự động cuộn</Text>
   <Text Key="Font_Size">Kích cỡ chữ</Text>
   <Text Key="Cancel_Edit">Hủy bỏ chỉnh sửa</Text>

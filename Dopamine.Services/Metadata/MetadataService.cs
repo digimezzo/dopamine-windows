@@ -140,23 +140,26 @@ namespace Dopamine.Services.Metadata
         {
             byte[] artwork = null;
 
-            await Task.Run(() =>
+            if (System.IO.File.Exists(filename))
             {
+                await Task.Run(() =>
+                {
                 // First try to find embedded artwork.
                 artwork = this.GetEmbeddedArtwork(filename, size);
 
-                if (artwork == null)
-                {
+                    if (artwork == null)
+                    {
                     // If no embedded artwork was found, try to find external artwork.
                     artwork = this.GetExternalArtwork(filename, size);
-                }
+                    }
 
-                if (artwork == null)
-                {
+                    if (artwork == null)
+                    {
                     // If no external artwork was found, try to find album artwork.
                     artwork = this.GetAlbumArtwork(filename, size);
-                }
-            });
+                    }
+                });
+            }
 
             return artwork;
         }

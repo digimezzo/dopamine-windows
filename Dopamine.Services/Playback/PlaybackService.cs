@@ -1169,7 +1169,10 @@ namespace Dopamine.Services.Playback
             {
                 try
                 {
-                    if (this.player != null) this.player.Stop();
+                    if (this.player != null)
+                    {
+                        this.player.Stop();
+                    }
                 }
                 catch (Exception)
                 {

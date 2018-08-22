@@ -337,8 +337,8 @@
   <Text Key="No_Lyrics_Found">Inga låttexter hittades</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Skrolla automatiskt till spelande låt</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Mus skrollning ändrar volymen med</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Denna låt hittades inte. Den var troligen flyttad eller raderad. Vill du uppdatera samlingen?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">En eller flera låtar hittades inte. Dom var troligen flyttade eller raderade. Vill du uppdatera samlingen?</Text>
+  <Text Key="Song_Cannot_Be_Found">Denna låt hittades inte. Den var troligen flyttad eller raderad.</Text>
+  <Text Key="Songs_Cannot_Be_Found">En eller flera låtar hittades inte. Dom var troligen flyttade eller raderade.</Text>
   <Text Key="Automatic_Scrolling">Automatisk skrollning</Text>
   <Text Key="Font_Size">Tecken storlek</Text>
   <Text Key="Cancel_Edit">Avbryt redigering</Text>

@@ -337,8 +337,8 @@
   <Text Key="No_Lyrics_Found">Nie można znaleźć tekstu piosenki</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatycznie przewiń do odtwarzanego utworu</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Scroll myszy zmienia głośność o</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Ta piosenka nie może zostać znaleziona. Prawdopodobnie została usunięta lub przeniesiona. Czy chcesz odświeżyć swoją kolekcję?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Jedna lub więcej piosenek nie może zostać znaleziona. Prawdopodobnie zostały usunięte lub przeniesione. Czy chcesz odświeżyć swoją kolekcję?</Text>
+  <Text Key="Song_Cannot_Be_Found">Ta piosenka nie może zostać znaleziona. Prawdopodobnie została usunięta lub przeniesiona.</Text>
+  <Text Key="Songs_Cannot_Be_Found">Jedna lub więcej piosenek nie może zostać znaleziona. Prawdopodobnie zostały usunięte lub przeniesione.</Text>
   <Text Key="Automatic_Scrolling">Automatyczne przesuwanie</Text>
   <Text Key="Font_Size">Rozmiar czcionki</Text>
   <Text Key="Cancel_Edit">Anuluj edycje</Text>

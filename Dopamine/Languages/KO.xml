@@ -337,8 +337,8 @@
   <Text Key="No_Lyrics_Found">가사를 찾지 못했습니다</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">현재 재생 중인 노래로 자동 스크롤 하기</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">마우스 스크롤로 변경하는 볼륨</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">해당 노래를 찾을 수 없습니다. 옮겨지거나 삭제된 것 같습니다. 컬렉션을 새로 고칠까요?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">하나 이상의 노래를 찾을 수 없습니다. 옮겨지거나 삭제된 것 같습니다. 컬렉션을 새로 고칠까요?</Text>
+  <Text Key="Song_Cannot_Be_Found">해당 노래를 찾을 수 없습니다. 옮겨지거나 삭제된 것 같습니다. </Text>
+  <Text Key="Songs_Cannot_Be_Found">하나 이상의 노래를 찾을 수 없습니다. 옮겨지거나 삭제된 것 같습니다. </Text>
   <Text Key="Automatic_Scrolling">자동 스크롤</Text>
   <Text Key="Font_Size">폰트 크기</Text>
   <Text Key="Cancel_Edit">편집 취소</Text>

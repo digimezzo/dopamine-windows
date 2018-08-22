@@ -337,8 +337,8 @@
   <Text Key="No_Lyrics_Found">Não encontrada</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Deslocar automaticamente para a faixa em reprodução</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Roda do rato altera o volume em</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Faixa não encontrada. Pode ter sido movida ou apagada. Deseja atualizar a coleção?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Uma ou mais faixas não encontradas. Podem ter sido movidas ou apagadas. Deseja atualizar a coleção?</Text>
+  <Text Key="Song_Cannot_Be_Found">Faixa não encontrada. Pode ter sido movida ou apagada.</Text>
+  <Text Key="Songs_Cannot_Be_Found">Uma ou mais faixas não encontradas. Podem ter sido movidas ou apagadas.</Text>
   <Text Key="Automatic_Scrolling">Deslocação automática</Text>
   <Text Key="Font_Size">Tamanho do tipo de letra</Text>
   <Text Key="Cancel_Edit">Cancelar edição</Text>
