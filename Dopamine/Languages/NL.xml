@@ -433,4 +433,5 @@
   <Text Key="Folders">Mappen</Text>
   <Text Key="Smart_Playlists">Slimme playlists</Text>
   <Text Key="Import_Playlists">Playlists importeren</Text>
+  <Text Key="Error_Importing_Playlists">Er is een fout opgetreden bij het importeren van afspeellijsten. Raadpleeg het log bestand voor meer informatie.</Text>
 </Language>

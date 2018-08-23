@@ -24,25 +24,25 @@ namespace Dopamine.Services.Playlist
         private IFileService fileService;
         private ITrackRepository trackRepository;
         private IContainerProvider container;
-     
+
         public PlaylistService(IFileService fileService, ITrackRepository trackRepository, IContainerProvider container) : base()
         {
             this.fileService = fileService;
             this.trackRepository = trackRepository;
             this.container = container;
         }
-     
+
         public event PlaylistAddedHandler PlaylistAdded = delegate { };
         public event PlaylistDeletedHandler PlaylistDeleted = delegate { };
         public event PlaylistRenamedHandler PlaylistRenamed = delegate { };
         public event TracksAddedHandler TracksAdded = delegate { };
         public event TracksDeletedHandler TracksDeleted = delegate { };
-    
+
         private string CreatePlaylistFilename(string playlist)
         {
             return Path.Combine(this.PlaylistFolder, playlist + FileFormats.M3U);
         }
-    
+
         public async Task<string> GetUniquePlaylistAsync(string proposedPlaylistName)
         {
             string uniquePlaylist = proposedPlaylistName;
@@ -224,12 +224,12 @@ namespace Dopamine.Services.Playlist
             return playlists;
         }
 
-        public async Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName)
+        private async Task<ImportPlaylistResult> ImportPlaylistAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
                 LogClient.Error("FileName is empty");
-                return OpenPlaylistResult.Error;
+                return ImportPlaylistResult.Error;
             }
 
             this.Watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
@@ -247,7 +247,7 @@ namespace Dopamine.Services.Playlist
             if (!decodeResult.DecodeResult.Result)
             {
                 LogClient.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
-                return OpenPlaylistResult.Error;
+                return ImportPlaylistResult.Error;
             }
 
             // Set the paths
@@ -263,7 +263,7 @@ namespace Dopamine.Services.Playlist
             catch (Exception ex)
             {
                 LogClient.Error("Error while getting unique playlist filename. Exception: {0}", ex.Message);
-                return OpenPlaylistResult.Error;
+                return ImportPlaylistResult.Error;
             }
 
             // Create the Playlist in the playlists folder
@@ -294,7 +294,7 @@ namespace Dopamine.Services.Playlist
             catch (Exception ex)
             {
                 LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
-                return OpenPlaylistResult.Error;
+                return ImportPlaylistResult.Error;
             }
 
             // If we arrive at this point, OpenPlaylistResult = OpenPlaylistResult.Success, so we can always raise the PlaylistAdded Event.
@@ -302,7 +302,24 @@ namespace Dopamine.Services.Playlist
 
             this.Watcher.EnableRaisingEvents = true; // Start watching the playlist folder
 
-            return OpenPlaylistResult.Success;
+            return ImportPlaylistResult.Success;
+        }
+
+        public async Task<ImportPlaylistResult> ImportPlaylistsAsync(IList<string> fileNames)
+        {
+            ImportPlaylistResult finalResult = ImportPlaylistResult.Success;
+
+            foreach (string fileName in fileNames)
+            {
+                ImportPlaylistResult result = await this.ImportPlaylistAsync(fileName);
+
+                if (!result.Equals(ImportPlaylistResult.Success))
+                {
+                    finalResult = result;
+                }
+            }
+
+            return finalResult;
         }
 
         public async Task<IList<TrackViewModel>> GetTracks(string playlistName)
@@ -488,7 +505,7 @@ namespace Dopamine.Services.Playlist
             this.Watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
 
             string filename = this.CreatePlaylistFilename(playlistName);
-           
+
             var builder = new StringBuilder();
 
             string line = null;

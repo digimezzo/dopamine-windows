@@ -462,23 +462,20 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
             this.IsLoadingPlaylists = true;
 
-            foreach (string playlistPath in playlistPaths)
+            ImportPlaylistResult result = await this.playlistService.ImportPlaylistsAsync(playlistPaths);
+
+            if (result == ImportPlaylistResult.Error)
             {
-                OpenPlaylistResult openResult = await this.playlistService.OpenPlaylistAsync(playlistPath);
+                this.IsLoadingPlaylists = false;
 
-                if (openResult == OpenPlaylistResult.Error)
-                {
-                    this.IsLoadingPlaylists = false;
-
-                    this.dialogService.ShowNotification(
-                        0xe711,
-                        16,
-                        ResourceUtils.GetString("Language_Error"),
-                        ResourceUtils.GetString("Language_Error_Opening_Playlist"),
-                        ResourceUtils.GetString("Language_Ok"),
-                        true,
-                        ResourceUtils.GetString("Language_Log_File"));
-                }
+                this.dialogService.ShowNotification(
+                    0xe711,
+                    16,
+                    ResourceUtils.GetString("Language_Error"),
+                    ResourceUtils.GetString("Language_Error_Importing_Playlists"),
+                    ResourceUtils.GetString("Language_Ok"),
+                    true,
+                    ResourceUtils.GetString("Language_Log_File"));
             }
         }
 

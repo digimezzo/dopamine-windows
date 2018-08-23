@@ -433,4 +433,5 @@
   <Text Key="Folders">Mape</Text>
   <Text Key="Smart_Playlists">Pametni popisi</Text>
   <Text Key="Import_Playlists">Import playlists</Text>
+  <Text Key="Error_Importing_Playlists">An error occurred while importing playlists. Please consult the log file for more information.</Text>
 </Language>
