@@ -33,7 +33,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
         private IEventAggregator eventAggregator;
         private ObservableCollection<PlaylistViewModel> playlists;
         private PlaylistViewModel selectedPlaylist;
-        private bool isLoadingPlaylists;
         private string playlistsTarget = "ListBoxPlaylists";
         private string tracksTarget = "ListBoxTracks";
         private double leftPaneWidthPercent;
@@ -63,12 +62,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
         }
 
         public bool IsPlaylistSelected => this.selectedPlaylist != null;
-
-        public bool IsLoadingPlaylists
-        {
-            get { return this.isLoadingPlaylists; }
-            set { SetProperty<bool>(ref this.isLoadingPlaylists, value); }
-        }
 
         public ObservableCollection<PlaylistViewModel> Playlists
         {
@@ -141,7 +134,10 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
             this.DeleteSelectedPlaylistCommand = new DelegateCommand(async () =>
             {
-                if (this.IsPlaylistSelected) await this.ConfirmDeletePlaylistAsync(this.SelectedPlaylistName);
+                if (this.IsPlaylistSelected)
+                {
+                    await this.ConfirmDeletePlaylistAsync(this.SelectedPlaylistName);
+                }
             });
 
             // Settings changed
@@ -161,9 +157,9 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             // Events
             this.playlistService.TracksAdded += async (numberTracksAdded, playlistName) => await this.UpdateAddedTracksAsync(playlistName);
             this.playlistService.TracksDeleted += async (playlistName) => await this.UpdateDeletedTracksAsync(playlistName);
-            this.playlistService.PlaylistAdded += (addedPlaylistName) => this.UpdateAddedPlaylist(addedPlaylistName);
-            this.playlistService.PlaylistDeleted += (deletedPlaylistName) => this.UpdateDeletedPlaylist(deletedPlaylistName);
-            this.playlistService.PlaylistRenamed += (oldPlaylistName, newPlaylistName) => this.UpdateRenamedPlaylist(oldPlaylistName, newPlaylistName);
+            this.playlistService.PlaylistAdded += (addedPlaylist) => this.UpdateAddedPlaylist(addedPlaylist);
+            this.playlistService.PlaylistDeleted += (deletedPlaylist) => this.UpdateDeletedPlaylist(deletedPlaylist);
+            this.playlistService.PlaylistRenamed += (oldPlaylist, newPlaylist) => this.UpdateRenamedPlaylist(oldPlaylist, newPlaylist);
             this.playlistService.PlaylistFolderChanged += async (_, __) => await this.FillListsAsync();
 
             // Load settings
@@ -185,9 +181,9 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
         }
 
-        private void UpdateAddedPlaylist(string addedPlaylistName)
+        private void UpdateAddedPlaylist(PlaylistViewModel addedPlaylist)
         {
-            this.Playlists.Add(new PlaylistViewModel() { Name = addedPlaylistName });
+            this.Playlists.Add(addedPlaylist);
 
             // If there is only 1 playlist, automatically select it.
             if (this.Playlists != null && this.Playlists.Count == 1)
@@ -199,9 +195,9 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             this.RaisePropertyChanged(nameof(this.PlaylistsCount));
         }
 
-        private void UpdateDeletedPlaylist(string deletedPlaylistName)
+        private void UpdateDeletedPlaylist(PlaylistViewModel deletedPlaylist)
         {
-            this.Playlists.Remove(new PlaylistViewModel() { Name = deletedPlaylistName });
+            this.Playlists.Remove(deletedPlaylist);
 
             // If the selected playlist was deleted, select the first playlist.
             if (this.SelectedPlaylist == null)
@@ -213,18 +209,16 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             this.RaisePropertyChanged(nameof(this.PlaylistsCount));
         }
 
-        private void UpdateRenamedPlaylist(string oldPlaylistName, string newPlaylistName)
+        private void UpdateRenamedPlaylist(PlaylistViewModel oldPlaylist, PlaylistViewModel newPlaylist)
         {
             // Remove the old playlist
-            var oldPlaylist = new PlaylistViewModel() { Name = oldPlaylistName };
-
             if (this.Playlists.Contains(oldPlaylist))
             {
                 this.Playlists.Remove(oldPlaylist);
             }
 
             // Add the new playlist
-            this.Playlists.Add(new PlaylistViewModel() { Name = newPlaylistName });
+            this.Playlists.Add(newPlaylist);
         }
 
         private async Task UpdateAddedTracksAsync(string playlistName)
@@ -306,24 +300,10 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
         private async Task GetPlaylistsAsync()
         {
-            // Notify the user
-            this.IsLoadingPlaylists = true;
-
             try
             {
-                // Get the Albums from the database
-                IList<string> playlists = await this.playlistService.GetPlaylistsAsync();
-
                 // Populate an ObservableCollection
-                var playlistViewModels = new ObservableCollection<PlaylistViewModel>();
-
-                await Task.Run(() =>
-                {
-                    foreach (string playlist in playlists)
-                    {
-                        playlistViewModels.Add(new PlaylistViewModel { Name = playlist });
-                    }
-                });
+                var playlistViewModels = new ObservableCollection<PlaylistViewModel>(await this.playlistService.GetPlaylistsAsync());
 
                 // Unbind and rebind to improve UI performance
                 this.Playlists = null;
@@ -336,9 +316,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                 // If loading from the database failed, create and empty Collection.
                 this.Playlists = new ObservableCollection<PlaylistViewModel>();
             }
-
-            // Stop notifying
-            this.IsLoadingPlaylists = false;
 
             // Notify that the count has changed
             this.RaisePropertyChanged(nameof(this.PlaylistsCount));
@@ -380,7 +357,10 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
         private async Task RenameSelectedPlaylistAsync()
         {
-            if (!this.IsPlaylistSelected) return;
+            if (!this.IsPlaylistSelected)
+            {
+                return;
+            }
 
             string oldPlaylistName = this.SelectedPlaylistName;
             string newPlaylistName = oldPlaylistName;
@@ -460,14 +440,10 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                 playlistPaths = dlg.FileNames;
             }
 
-            this.IsLoadingPlaylists = true;
-
             ImportPlaylistResult result = await this.playlistService.ImportPlaylistsAsync(playlistPaths);
 
             if (result == ImportPlaylistResult.Error)
             {
-                this.IsLoadingPlaylists = false;
-
                 this.dialogService.ShowNotification(
                     0xe711,
                     16,

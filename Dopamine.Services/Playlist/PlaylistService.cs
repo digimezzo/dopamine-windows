@@ -74,7 +74,10 @@ namespace Dopamine.Services.Playlist
 
         public async Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
         {
-            if (string.IsNullOrWhiteSpace(playlistName)) return AddPlaylistResult.Blank;
+            if (string.IsNullOrWhiteSpace(playlistName))
+            {
+                return AddPlaylistResult.Blank;
+            }
 
             string sanitizedPlaylistName = FileUtils.SanitizeFilename(playlistName);
             string filename = this.CreatePlaylistFilename(sanitizedPlaylistName);
@@ -97,7 +100,10 @@ namespace Dopamine.Services.Playlist
                 }
             });
 
-            if (result == AddPlaylistResult.Success) this.PlaylistAdded(sanitizedPlaylistName);
+            if (result == AddPlaylistResult.Success)
+            {
+                this.PlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
+            }
 
             this.Watcher.EnableRaisingEvents = true; // Start watching the playlist folder
 
@@ -116,11 +122,13 @@ namespace Dopamine.Services.Playlist
 
             this.Watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
 
+            string filename = string.Empty;
+
             await Task.Run(() =>
             {
                 try
                 {
-                    string filename = this.CreatePlaylistFilename(playlistName);
+                    filename = this.CreatePlaylistFilename(playlistName);
 
                     if (System.IO.File.Exists(filename))
                     {
@@ -140,7 +148,7 @@ namespace Dopamine.Services.Playlist
 
             if (result == DeletePlaylistsResult.Success)
             {
-                this.PlaylistDeleted(playlistName);
+                this.PlaylistDeleted(new PlaylistViewModel(playlistName, filename));
             }
 
             this.Watcher.EnableRaisingEvents = true; // Start watching the playlist folder
@@ -168,8 +176,8 @@ namespace Dopamine.Services.Playlist
                 return RenamePlaylistResult.Error;
             }
 
-            string sanitizedNewPlaylist = FileUtils.SanitizeFilename(newPlaylistName);
-            string newFilename = this.CreatePlaylistFilename(sanitizedNewPlaylist);
+            string sanitizedNewPlaylistName = FileUtils.SanitizeFilename(newPlaylistName);
+            string newFilename = this.CreatePlaylistFilename(sanitizedNewPlaylistName);
             if (System.IO.File.Exists(newFilename)) return RenamePlaylistResult.Duplicate;
 
             RenamePlaylistResult result = RenamePlaylistResult.Success;
@@ -191,7 +199,9 @@ namespace Dopamine.Services.Playlist
 
             if (result == RenamePlaylistResult.Success)
             {
-                this.PlaylistRenamed(oldPlaylistName, sanitizedNewPlaylist);
+                this.PlaylistRenamed(
+                    new PlaylistViewModel(oldPlaylistName, oldFilename), 
+                    new PlaylistViewModel(sanitizedNewPlaylistName, newFilename));
             }
 
             this.Watcher.EnableRaisingEvents = true; // Start watching the playlist folder
@@ -199,20 +209,20 @@ namespace Dopamine.Services.Playlist
             return result;
         }
 
-        public async Task<IList<string>> GetPlaylistsAsync()
+        public async Task<IList<PlaylistViewModel>> GetPlaylistsAsync()
         {
-            var playlists = new List<string>();
+            IList<PlaylistViewModel> playlists = new List<PlaylistViewModel>();
 
             await Task.Run(() =>
             {
                 try
                 {
                     var di = new DirectoryInfo(this.PlaylistFolder);
-                    var fi = di.GetFiles("*" + FileFormats.M3U, SearchOption.TopDirectoryOnly);
+                    FileInfo[] fi = di.GetFiles("*" + FileFormats.M3U, SearchOption.TopDirectoryOnly);
 
                     foreach (FileInfo f in fi)
                     {
-                        playlists.Add(Path.GetFileNameWithoutExtension(f.FullName));
+                        playlists.Add(new PlaylistViewModel(Path.GetFileNameWithoutExtension(f.FullName), f.FullName));
                     }
                 }
                 catch (Exception ex)
@@ -268,8 +278,8 @@ namespace Dopamine.Services.Playlist
 
             // Create the Playlist in the playlists folder
             // -------------------------------------------
-            string sanitizedPlaylist = FileUtils.SanitizeFilename(playlistName);
-            string filename = this.CreatePlaylistFilename(sanitizedPlaylist);
+            string sanitizedPlaylistName = FileUtils.SanitizeFilename(playlistName);
+            string filename = this.CreatePlaylistFilename(sanitizedPlaylistName);
 
             try
             {
@@ -298,7 +308,7 @@ namespace Dopamine.Services.Playlist
             }
 
             // If we arrive at this point, OpenPlaylistResult = OpenPlaylistResult.Success, so we can always raise the PlaylistAdded Event.
-            this.PlaylistAdded(playlistName);
+            this.PlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
 
             this.Watcher.EnableRaisingEvents = true; // Start watching the playlist folder
 
