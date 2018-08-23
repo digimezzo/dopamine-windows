@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>109</Value>
+      <Value>110</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -270,6 +270,9 @@
       <Value>65</Value>
     </Setting>
     <Setting Name="PlaylistsLeftPaneWidthPercent">
+      <Value>30</Value>
+    </Setting>
+    <Setting Name="SmartPlaylistsLeftPaneWidthPercent">
       <Value>30</Value>
     </Setting>
     <Setting Name="FoldersLeftPaneWidthPercent">
