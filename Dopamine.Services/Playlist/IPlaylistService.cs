@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Services.Playlist
 {
-    public delegate void PlaylistAddedHandler(string addedPlaylistName);
+    public delegate void PlaylistAddedHandler(PlaylistViewModel addedPlaylist);
     public delegate void TracksAddedHandler(int numberTracksAdded, string playlistName);
     public delegate void TracksDeletedHandler(string playlistName);
-    public delegate void PlaylistDeletedHandler(string deletedPlaylistName);
-    public delegate void PlaylistRenamedHandler(string oldPLaylistName, string newPlaylistName);
+    public delegate void PlaylistDeletedHandler(PlaylistViewModel deletedPlaylist);
+    public delegate void PlaylistRenamedHandler(PlaylistViewModel oldPLaylist, PlaylistViewModel newPlaylist);
 
     public interface IPlaylistService
     {
@@ -23,7 +23,7 @@ namespace Dopamine.Services.Playlist
 
         Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName);
 
-        Task<IList<string>> GetPlaylistsAsync();
+        Task<IList<PlaylistViewModel>> GetPlaylistsAsync();
 
         Task<ImportPlaylistResult> ImportPlaylistsAsync(IList<string> fileNames);
 

@@ -427,4 +427,6 @@
   <Text Key="Smart_Playlists">Smart playlists</Text>
   <Text Key="Import_Playlists">Import playlists</Text>
   <Text Key="Error_Importing_Playlists">An error occurred while importing playlists. Please consult the log file for more information.</Text>
+  <Text Key="New_Smart_Playlist">New smart playlist</Text>
+  <Text Key="Import_Smart_Playlists">Import smart playlists</Text>
 </Language>

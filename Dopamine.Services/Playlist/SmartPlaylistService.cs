@@ -1,9 +1,12 @@
 ﻿using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
+using Dopamine.Services.Entities;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Dopamine.Services.Playlist
 {
@@ -13,9 +16,30 @@ namespace Dopamine.Services.Playlist
         {
         }
 
-        public async Task<IList<string>> GetSmartPlaylistsAsync()
+        private string GetSmartPlaylistName(string smartPlaylistPath)
         {
-            var playlists = new List<string>();
+            string name = string.Empty;
+
+            try
+            {
+                XDocument xdoc = XDocument.Load(smartPlaylistPath);
+
+                XElement nameElement = (from t in xdoc.Element("smartplaylist").Elements("name")
+                                        select t).FirstOrDefault();
+
+                name = nameElement.Value;
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error($"Could not get name for smart playlist '{smartPlaylistPath}'. Exception: {ex.Message}");
+            }
+
+            return name;
+        }
+
+        public async Task<IList<PlaylistViewModel>> GetSmartPlaylistsAsync()
+        {
+            IList<PlaylistViewModel> playlists = new List<PlaylistViewModel>();
 
             await Task.Run(() =>
             {
@@ -26,7 +50,12 @@ namespace Dopamine.Services.Playlist
 
                     foreach (FileInfo f in fi)
                     {
-                        playlists.Add(Path.GetFileNameWithoutExtension(f.FullName));
+                        string name = this.GetSmartPlaylistName(f.FullName);
+
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            playlists.Add(new PlaylistViewModel(name, Path.GetFileNameWithoutExtension(f.FullName)));
+                        }
                     }
                 }
                 catch (Exception ex)

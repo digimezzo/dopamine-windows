@@ -28,14 +28,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private ObservableCollection<SubfolderViewModel> subfolders;
         private FolderViewModel selectedFolder;
         private string activeSubfolderPath;
-        private ObservableCollection<SubfolderBreadCrumb> subfolderBreadCrumbs;
+        private ObservableCollection<SubfolderBreadCrumbViewModel> subfolderBreadCrumbs;
 
         public DelegateCommand<string> JumpSubfolderCommand { get; set; }
 
-        public ObservableCollection<SubfolderBreadCrumb> SubfolderBreadCrumbs
+        public ObservableCollection<SubfolderBreadCrumbViewModel> SubfolderBreadCrumbs
         {
             get { return this.subfolderBreadCrumbs; }
-            set { SetProperty<ObservableCollection<SubfolderBreadCrumb>>(ref this.subfolderBreadCrumbs, value); }
+            set { SetProperty<ObservableCollection<SubfolderBreadCrumbViewModel>>(ref this.subfolderBreadCrumbs, value); }
         }
 
         public double LeftPaneWidthPercent
@@ -122,7 +122,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             {
                 this.Subfolders = new ObservableCollection<SubfolderViewModel>(await this.foldersService.GetSubfoldersAsync(this.selectedFolder, activeSubfolder));
                 this.activeSubfolderPath = this.subfolders.Count > 0 && this.subfolders.Any(x => x.IsGoToParent) ? this.subfolders.Where(x => x.IsGoToParent).First().Path : this.selectedFolder.Path;
-                this.SubfolderBreadCrumbs = new ObservableCollection<SubfolderBreadCrumb>(await this.foldersService.GetSubfolderBreadCrumbsAsync(this.selectedFolder, this.activeSubfolderPath));
+                this.SubfolderBreadCrumbs = new ObservableCollection<SubfolderBreadCrumbViewModel>(await this.foldersService.GetSubfolderBreadCrumbsAsync(this.selectedFolder, this.activeSubfolderPath));
                 await this.GetTracksAsync();
                 await this.foldersService.SetPlayingSubFolderAsync(this.Subfolders);
             }

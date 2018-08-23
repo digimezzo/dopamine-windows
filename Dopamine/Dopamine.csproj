@@ -297,7 +297,6 @@
     <Compile Include="ViewModels\OobeViewModel.cs" />
     <Compile Include="ViewModels\PlaybackControlsViewModel.cs" />
     <Compile Include="ViewModels\PlaybackInfoViewModel.cs" />
-    <Compile Include="ViewModels\PlaylistViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\SimilarArtistViewModel.cs" />
     <Compile Include="ViewModels\VerticalVolumeControlsViewModel.cs" />

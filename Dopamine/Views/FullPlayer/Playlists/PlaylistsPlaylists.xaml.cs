@@ -3,6 +3,7 @@ using Digimezzo.Foundation.Core.IO;
 using Digimezzo.Foundation.Core.Logging;
 using Dopamine.Core.Base;
 using Dopamine.Core.Prism;
+using Dopamine.Services.Entities;
 using Dopamine.Services.Playlist;
 using Dopamine.ViewModels;
 using Dopamine.Views.Common.Base;
