@@ -40,7 +40,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
         public DelegateCommand NewPlaylistCommand { get; set; }
 
-        public DelegateCommand OpenPlaylistCommand { get; set; }
+        public DelegateCommand ImportPlaylistsCommand { get; set; }
 
         public DelegateCommand<string> DeletePlaylistByNameCommand { get; set; }
 
@@ -132,7 +132,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             // Commands
             this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
             this.NewPlaylistCommand = new DelegateCommand(async () => await this.ConfirmAddPlaylistAsync());
-            this.OpenPlaylistCommand = new DelegateCommand(async () => await this.OpenPlaylistAsync());
+            this.ImportPlaylistsCommand = new DelegateCommand(async () => await this.ImportPlaylistsAsync());
             this.RenameSelectedPlaylistCommand = new DelegateCommand(async () => await this.RenameSelectedPlaylistAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.DeleteTracksFromPlaylistsAsync());
             this.AddPlaylistToNowPlayingCommand = new DelegateCommand(async () => await this.AddPlaylistToNowPlayingAsync());
@@ -435,14 +435,15 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
         }
 
-        private async Task OpenPlaylistAsync(string playlistPath = "")
+        private async Task ImportPlaylistsAsync(IList<string> playlistPaths = null)
         {
-            if (string.IsNullOrEmpty(playlistPath))
+            if (playlistPaths == null)
             {
                 // Set up the file dialog box
                 Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-                dlg.Title = Application.Current.FindResource("Language_Open_Playlist").ToString();
+                dlg.Title = Application.Current.FindResource("Language_Import_Playlists").ToString();
                 dlg.DefaultExt = FileFormats.M3U; // Default file extension
+                dlg.Multiselect = true;
 
                 // Filter files by extension
                 dlg.Filter = ResourceUtils.GetString("Language_Playlists") + " (*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL + ")|*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL;
@@ -456,25 +457,28 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                     return;
                 }
 
-                playlistPath = dlg.FileName;
+                playlistPaths = dlg.FileNames;
             }
 
             this.IsLoadingPlaylists = true;
 
-            OpenPlaylistResult openResult = await this.playlistService.OpenPlaylistAsync(playlistPath);
-
-            if (openResult == OpenPlaylistResult.Error)
+            foreach (string playlistPath in playlistPaths)
             {
-                this.IsLoadingPlaylists = false;
+                OpenPlaylistResult openResult = await this.playlistService.OpenPlaylistAsync(playlistPath);
 
-                this.dialogService.ShowNotification(
-                    0xe711,
-                    16,
-                    ResourceUtils.GetString("Language_Error"),
-                    ResourceUtils.GetString("Language_Error_Opening_Playlist"),
-                    ResourceUtils.GetString("Language_Ok"),
-                    true,
-                    ResourceUtils.GetString("Language_Log_File"));
+                if (openResult == OpenPlaylistResult.Error)
+                {
+                    this.IsLoadingPlaylists = false;
+
+                    this.dialogService.ShowNotification(
+                        0xe711,
+                        16,
+                        ResourceUtils.GetString("Language_Error"),
+                        ResourceUtils.GetString("Language_Error_Opening_Playlist"),
+                        ResourceUtils.GetString("Language_Ok"),
+                        true,
+                        ResourceUtils.GetString("Language_Log_File"));
+                }
             }
         }
 
@@ -700,10 +704,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                 }
 
                 // 3. Drop playlist files in empty part of list: add the playlist with a unique name
-                foreach (string playlistFileName in playlistFileNames)
-                {
-                    await this.OpenPlaylistAsync(playlistFileName);
-                }
+                await this.ImportPlaylistsAsync(playlistFileNames);
             }
         }
 

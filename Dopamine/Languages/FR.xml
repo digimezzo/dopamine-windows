@@ -134,7 +134,6 @@
   <Text Key="Not_Available_In_Portable_Version">Non disponible dans la version portable</Text>
   <Text Key="Refresh_Now">Actualiser maintenant</Text>
   <Text Key="New_Playlist">Nouvelle playlist</Text>
-  <Text Key="Open_Playlist">Ouvrir playlist</Text>
   <Text Key="All_Playlists">Toutes les playlists</Text>
   <Text Key="Enter_Name_For_New_Playlist">Nommez votre nouvelle playlist</Text>
   <Text Key="Already_Exists">Existe déjà</Text>
@@ -433,4 +432,5 @@
   <Text Key="Back">Retour</Text>
   <Text Key="Folders">Dossiers</Text>
   <Text Key="Smart_Playlists">Playlists intelligentes</Text>
+  <Text Key="Import_Playlists">Importer playlists</Text>
 </Language>

@@ -134,7 +134,6 @@
   <Text Key="Not_Available_In_Portable_Version">ポータブル版では利用できません</Text>
   <Text Key="Refresh_Now">クリーンアップする</Text>
   <Text Key="New_Playlist">新規プレイリスト</Text>
-  <Text Key="Open_Playlist">プレイリストを開く</Text>
   <Text Key="All_Playlists">全てのプレイリスト</Text>
   <Text Key="Enter_Name_For_New_Playlist">新規プレイリスト名を入力してください</Text>
   <Text Key="Already_Exists">既に存在しています</Text>
@@ -426,4 +425,5 @@
   <Text Key="Back">Back</Text>
   <Text Key="Folders">Folders</Text>
   <Text Key="Smart_Playlists">Smart playlists</Text>
+  <Text Key="Import_Playlists">Import playlists</Text>
 </Language>
