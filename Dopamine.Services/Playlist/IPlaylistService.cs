@@ -25,7 +25,7 @@ namespace Dopamine.Services.Playlist
 
         Task<IList<string>> GetPlaylistsAsync();
 
-        Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName);
+        Task<ImportPlaylistResult> ImportPlaylistsAsync(IList<string> fileNames);
 
         Task<IList<TrackViewModel>> GetTracks(string playlistName);
 

@@ -433,4 +433,5 @@
   <Text Key="Folders">Dossiers</Text>
   <Text Key="Smart_Playlists">Playlists intelligentes</Text>
   <Text Key="Import_Playlists">Importer playlists</Text>
+  <Text Key="Error_Importing_Playlists">Une erreur s'est produite durant l'import de playlists. Consultez le fichier log pour plus de détails.</Text>
 </Language>

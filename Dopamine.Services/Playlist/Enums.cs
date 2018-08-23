@@ -34,7 +34,7 @@
       Success = 1
    }
 
-   public enum OpenPlaylistResult
+   public enum ImportPlaylistResult
    {
       Error = 0,
       Success = 1
