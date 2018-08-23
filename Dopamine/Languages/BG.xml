@@ -134,7 +134,6 @@
   <Text Key="Not_Available_In_Portable_Version">Не е налично в портативната версия</Text>
   <Text Key="Refresh_Now">Обнови сега</Text>
   <Text Key="New_Playlist">Нов плейлист</Text>
-  <Text Key="Open_Playlist">Отвори плейлист</Text>
   <Text Key="All_Playlists">Всички плейлисти</Text>
   <Text Key="Enter_Name_For_New_Playlist">Въведете име на плейлиста</Text>
   <Text Key="Already_Exists">Вече съществува</Text>
@@ -433,4 +432,5 @@
   <Text Key="Back">Back</Text>
   <Text Key="Folders">Folders</Text>
   <Text Key="Smart_Playlists">Smart playlists</Text>
+  <Text Key="Import_Playlists">Import playlists</Text>
 </Language>

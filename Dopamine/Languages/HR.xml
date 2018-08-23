@@ -134,7 +134,6 @@
   <Text Key="Not_Available_In_Portable_Version">Nije dostupno u prijenosnoj inačici</Text>
   <Text Key="Refresh_Now">Osvježi sada</Text>
   <Text Key="New_Playlist">Novi popis za izvođenje</Text>
-  <Text Key="Open_Playlist">Otvori popis za izvođenje</Text>
   <Text Key="All_Playlists">Svi popisi za izvođenje</Text>
   <Text Key="Enter_Name_For_New_Playlist">Unesite ime za Vaš popis za izvođenje</Text>
   <Text Key="Already_Exists">Već postoji</Text>
@@ -433,4 +432,5 @@
   <Text Key="Back">Natrag</Text>
   <Text Key="Folders">Mape</Text>
   <Text Key="Smart_Playlists">Pametni popisi</Text>
+  <Text Key="Import_Playlists">Import playlists</Text>
 </Language>

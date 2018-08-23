@@ -134,7 +134,6 @@
   <Text Key="Not_Available_In_Portable_Version">Niet beschikbaar in de portable versie</Text>
   <Text Key="Refresh_Now">Nu verversen</Text>
   <Text Key="New_Playlist">Nieuwe afspeellijst</Text>
-  <Text Key="Open_Playlist">Open afspeellijst</Text>
   <Text Key="All_Playlists">Alle afspeellijsten</Text>
   <Text Key="Enter_Name_For_New_Playlist">Geef een naam voor jouw nieuwe afspeelijst</Text>
   <Text Key="Already_Exists">Bestaat al</Text>
@@ -433,4 +432,5 @@
   <Text Key="Back">Terug</Text>
   <Text Key="Folders">Mappen</Text>
   <Text Key="Smart_Playlists">Slimme playlists</Text>
+  <Text Key="Import_Playlists">Playlists importeren</Text>
 </Language>

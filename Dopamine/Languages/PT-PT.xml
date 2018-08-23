@@ -134,7 +134,6 @@
   <Text Key="Not_Available_In_Portable_Version">não disponível na versão portátil</Text>
   <Text Key="Refresh_Now">Recarregar agora</Text>
   <Text Key="New_Playlist">Nova lista de reprodução</Text>
-  <Text Key="Open_Playlist">Abrir lista de reprodução</Text>
   <Text Key="All_Playlists">Todas as listas de reprodução</Text>
   <Text Key="Enter_Name_For_New_Playlist">Digite o nome para a sua nova lista de reprodução:</Text>
   <Text Key="Already_Exists">Já existe</Text>
@@ -433,4 +432,5 @@
   <Text Key="Back">Recuar</Text>
   <Text Key="Folders">Pastas</Text>
   <Text Key="Smart_Playlists">Listas de reprodução inteligentes</Text>
+  <Text Key="Import_Playlists">Import playlists</Text>
 </Language>
