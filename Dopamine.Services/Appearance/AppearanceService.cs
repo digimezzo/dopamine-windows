@@ -3,6 +3,7 @@ using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
+using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Core.Utils;
 using Dopamine.Services.Metadata;
@@ -14,7 +15,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -28,10 +28,8 @@ namespace Dopamine.Services.Appearance
         private IMetadataService metadataService;
         private const int WM_DWMCOLORIZATIONCOLORCHANGED = 0x320;
         private bool followAlbumCoverColor;
-        private FileSystemWatcher colorSchemeWatcher;
-        private Timer colorSchemeTimer = new Timer();
+        private GentleFolderWatcher watcher;
         private string colorSchemesSubDirectory;
-        private double colorSchemeTimeoutSeconds = 0.2;
         private bool followWindowsColor = false;
         private List<ColorScheme> colorSchemes = new List<ColorScheme>();
         private ColorScheme[] builtInColorSchemes = {
@@ -109,24 +107,25 @@ namespace Dopamine.Services.Appearance
 
             System.IO.File.WriteAllLines(howToFile, lines, System.Text.Encoding.UTF8);
 
-            // Configure the ColorSchemeTimer
-            // ------------------------------
-            this.colorSchemeTimer.Interval = TimeSpan.FromSeconds(this.colorSchemeTimeoutSeconds).TotalMilliseconds;
-            this.colorSchemeTimer.Elapsed += new ElapsedEventHandler(ColorSchemeTimerElapsed);
 
-            // Start the ColorSchemeWatcher
-            // ----------------------------
-            this.colorSchemeWatcher = new FileSystemWatcher(this.colorSchemesSubDirectory);
-            this.colorSchemeWatcher.EnableRaisingEvents = true;
-
-            this.colorSchemeWatcher.Changed += new FileSystemEventHandler(WatcherChangedHandler);
-            this.colorSchemeWatcher.Deleted += new FileSystemEventHandler(WatcherChangedHandler);
-            this.colorSchemeWatcher.Created += new FileSystemEventHandler(WatcherChangedHandler);
-            this.colorSchemeWatcher.Renamed += new RenamedEventHandler(WatcherRenamedHandler);
+            // Watcher
+            // -------
+            this.watcher = new GentleFolderWatcher(this.colorSchemesSubDirectory, false);
+            this.watcher.FolderChanged += Watcher_FolderChanged;
+            this.watcher.Resume();
 
             // Get the available ColorSchemes
             // ------------------------------
             this.GetAllColorSchemes();
+        }
+
+        private void Watcher_FolderChanged(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.GetAllColorSchemes();
+                this.OnColorSchemesChanged(new EventArgs());
+            });
         }
 
         private void PlaybackService_PlaybackSuccess(object sender, PlaybackSuccessEventArgs e)
@@ -137,30 +136,6 @@ namespace Dopamine.Services.Appearance
             }
 
             this.ApplyColorSchemeAsync(string.Empty, this.followWindowsColor, this.followAlbumCoverColor);
-        }
-
-        private void WatcherChangedHandler(object sender, FileSystemEventArgs e)
-        {
-            // Using a Timer here prevents that consecutive WatcherChanged events trigger multiple ColorSchemesChanged events
-            this.colorSchemeTimer.Stop();
-            this.colorSchemeTimer.Start();
-        }
-
-        private void WatcherRenamedHandler(object sender, EventArgs e)
-        {
-            // Using a Timer here prevents that consecutive WatcherRenamed events trigger multiple ColorSchemesChanged events
-            this.colorSchemeTimer.Stop();
-            this.colorSchemeTimer.Start();
-        }
-
-        private void ColorSchemeTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            this.colorSchemeTimer.Stop();
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                this.GetAllColorSchemes();
-                this.OnColorSchemesChanged(new EventArgs());
-            });
         }
 
         private void GetBuiltInColorSchemes()
@@ -403,7 +378,7 @@ namespace Dopamine.Services.Appearance
 
         private async void InterpolateAccentColorAsync(Color accentColor)
         {
-            await Task.Run(async() =>
+            await Task.Run(async () =>
             {
                 int loop = 0;
                 int loopMax = 30;
