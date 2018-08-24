@@ -1,13 +1,12 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Core.Base;
+using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
-using Dopamine.Services.I18n;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
 using System.Xml.Linq;
 
@@ -19,9 +18,7 @@ namespace Dopamine.Services.I18n
         private string customLanguagesDirectory = System.IO.Path.Combine(SettingsClient.ApplicationFolder(), ApplicationPaths.CustomLanguagesFolder);
         private List<Language> languages;
         private Language defaultLanguage;
-        private FileSystemWatcher languageWatcher;
-        private Timer languageTimer = new Timer();
-        private double languageTimeoutSeconds = 0.2;
+        private GentleFolderWatcher watcher;
    
         public I18nService()
         {
@@ -35,24 +32,23 @@ namespace Dopamine.Services.I18n
 
             this.LoadLanguages();
 
-            // Configure the ColorSchemeTimer
-            // ------------------------------
-            this.languageTimer.Interval = TimeSpan.FromSeconds(this.languageTimeoutSeconds).TotalMilliseconds;
-            this.languageTimer.Elapsed += new ElapsedEventHandler(LanguageTimerElapsed);
-
-
-            // Start the LanguageWatcher
-            // -------------------------
-
-            this.languageWatcher = new FileSystemWatcher(this.customLanguagesDirectory);
-            this.languageWatcher.EnableRaisingEvents = true;
-
-            this.languageWatcher.Changed += new FileSystemEventHandler(WatcherChangedHandler);
-            this.languageWatcher.Deleted += new FileSystemEventHandler(WatcherChangedHandler);
-            this.languageWatcher.Created += new FileSystemEventHandler(WatcherChangedHandler);
-            this.languageWatcher.Renamed += new RenamedEventHandler(WatcherRenamedHandler);
+          
+            // Watcher
+            // -------
+            this.watcher = new GentleFolderWatcher(this.customLanguagesDirectory, false);
+            this.watcher.FolderChanged += Watcher_FolderChanged;
+            this.watcher.Resume();
         }
-    
+
+        private void Watcher_FolderChanged(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.LoadLanguages();
+                this.LanguagesChanged(this, new EventArgs());
+            });
+        }
+
         public async Task ApplyLanguageAsync(string code, bool raiseEvent = false)
         {
             await Task.Run(() =>
@@ -193,29 +189,5 @@ namespace Dopamine.Services.I18n
      
         public event EventHandler LanguagesChanged = delegate { };
         public event EventHandler LanguageChanged = delegate { };
-       
-        private void WatcherChangedHandler(object sender, FileSystemEventArgs e)
-        {
-            // Using a Timer here prevents that consecutive WatcherChanged events trigger multiple CustomLanguagesChanged events
-            this.languageTimer.Stop();
-            this.languageTimer.Start();
-        }
-
-        private void WatcherRenamedHandler(object sender, EventArgs e)
-        {
-            // Using a Timer here prevents that consecutive WatcherRenamed events trigger multiple CustomLanguagesChanged events
-            this.languageTimer.Stop();
-            this.languageTimer.Start();
-        }
-
-        private void LanguageTimerElapsed(Object sender, ElapsedEventArgs e)
-        {
-            this.languageTimer.Stop();
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                this.LoadLanguages();
-                this.LanguagesChanged(this, new EventArgs());
-            });
-        }
     }
 }
