@@ -24,7 +24,6 @@ namespace Dopamine.Services.I18n
         {
             // Initialize the CustomLanguages directory
             // ----------------------------------------
-            // If the CustomLanguages subdirectory doesn't exist, create it
             if (!Directory.Exists(this.customLanguagesDirectory))
             {
                 Directory.CreateDirectory(System.IO.Path.Combine(this.customLanguagesDirectory));
@@ -32,7 +31,6 @@ namespace Dopamine.Services.I18n
 
             this.LoadLanguages();
 
-          
             // Watcher
             // -------
             this.watcher = new GentleFolderWatcher(this.customLanguagesDirectory, false);
