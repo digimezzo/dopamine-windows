@@ -186,6 +186,8 @@
     <Compile Include="Playback\UpdateQueueMetadataResult.cs" />
     <Compile Include="Playlist\Enums.cs" />
     <Compile Include="Playlist\IPlaylistService.cs" />
+    <Compile Include="Playlist\IPlaylistServiceBase.cs" />
+    <Compile Include="Playlist\PlaylistEventHandlers.cs" />
     <Compile Include="Playlist\PlaylistService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
