@@ -227,6 +227,7 @@
     <Compile Include="ViewModels\Common\Base\MiniPlayerViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\NowPlayingViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\PlaybackControlsViewModelBase.cs" />
+    <Compile Include="ViewModels\Common\Base\PlaylistsViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\TracksViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\TracksViewModelBaseWithTrackArt.cs" />
     <Compile Include="ViewModels\Common\CollectionFoldersSettingsViewModel.cs" />
