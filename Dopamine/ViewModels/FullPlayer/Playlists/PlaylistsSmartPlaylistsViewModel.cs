@@ -37,6 +37,11 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             // TODO
         }
 
+        protected override async Task GetPlaylistsAsync()
+        {
+           // TODO
+        }
+
         protected override async Task GetTracksAsync()
         {
             // TODO
