@@ -697,7 +697,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
                 if (isDraggingFiles)
                 {
-                    isDraggingValidFiles = dropInfo.IsDraggingMediaFiles();
+                    isDraggingValidFiles = dropInfo.IsDraggingMediaFiles() || dropInfo.IsDraggingPlaylistFiles();
                 }
 
                 if (isDraggingFiles & !isDraggingValidFiles)

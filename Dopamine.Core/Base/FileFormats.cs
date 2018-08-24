@@ -39,22 +39,26 @@ namespace Dopamine.Core.Base
 
         // Supported extensions
         public static string[] SupportedMediaExtensions = {
-                                                            FileFormats.MP3,
-                                                            FileFormats.OGG,
-                                                            FileFormats.WMA,
-                                                            FileFormats.FLAC,
-                                                            FileFormats.M4A,
-                                                            FileFormats.AAC,
-                                                            FileFormats.WAV,
-                                                            FileFormats.APE,
-                                                            FileFormats.OPUS,
-                                                            FileFormats.AIFF
-                                                          };
+            FileFormats.MP3,
+            FileFormats.OGG,
+            FileFormats.WMA,
+            FileFormats.FLAC,
+            FileFormats.M4A,
+            FileFormats.AAC,
+            FileFormats.WAV,
+            FileFormats.APE,
+            FileFormats.OPUS,
+            FileFormats.AIFF
+        };
 
         public static string[] SupportedPlaylistExtensions = {
-                                                                FileFormats.M3U,
-                                                                FileFormats.ZPL
-                                                             };
+            FileFormats.M3U,
+            FileFormats.ZPL
+        };
+
+        public static string[] SupportedSmartPlaylistExtensions = {
+            FileFormats.DSPL
+        };
 
         public static bool IsSupportedAudioFile(string path)
         {
@@ -64,6 +68,11 @@ namespace Dopamine.Core.Base
         public static bool IsSupportedPlaylistFile(string path)
         {
             return SupportedPlaylistExtensions.Contains(System.IO.Path.GetExtension(path), StringComparer.OrdinalIgnoreCase);
+        }
+
+        public static bool IsSupportedSmartPlaylistFile(string path)
+        {
+            return SupportedSmartPlaylistExtensions.Contains(System.IO.Path.GetExtension(path), StringComparer.OrdinalIgnoreCase);
         }
     }
 }
