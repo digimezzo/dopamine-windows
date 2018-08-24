@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
+using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
@@ -16,7 +17,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
+using System.Windows;
 
 namespace Dopamine.Services.Playlist
 {
@@ -25,8 +26,7 @@ namespace Dopamine.Services.Playlist
         private IFileService fileService;
         private ITrackRepository trackRepository;
         private IContainerProvider container;
-        private Timer playlistFolderChangedTimer = new Timer();
-        private FileSystemWatcher watcher = new FileSystemWatcher();
+        private GentleFolderWatcher watcher;
 
         public string PlaylistFolder { get; }
 
@@ -53,28 +53,18 @@ namespace Dopamine.Services.Playlist
                 }
             }
 
-            // Set watcher path
-            this.watcher.Path = this.PlaylistFolder;
+            // Watcher
+            this.watcher = new GentleFolderWatcher(this.PlaylistFolder, false);
+            this.watcher.FolderChanged += Watcher_FolderChanged;
+            this.watcher.Resume();
+        }
 
-            // Watch for changes in LastAccess and LastWrite times, and the renaming of files or directories.
-            this.watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-
-            // Only watch m3u files
-            this.watcher.Filter = "*" + FileFormats.M3U;
-
-            // Add event handlers
-            this.watcher.Changed += new FileSystemEventHandler(OnChanged);
-            this.watcher.Created += new FileSystemEventHandler(OnChanged);
-            this.watcher.Deleted += new FileSystemEventHandler(OnChanged);
-            this.watcher.Renamed += new RenamedEventHandler(OnRenamed);
-
-            // Begin watching
-            this.watcher.EnableRaisingEvents = true;
-
-            // Configure timer
-            playlistFolderChangedTimer.Interval = 250;
-            playlistFolderChangedTimer.Elapsed += PlaylistsChangedTimer_Elapsed;
-            playlistFolderChangedTimer.Start();
+        private void Watcher_FolderChanged(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.PlaylistFolderChanged(this, new EventArgs());
+            });
         }
 
         public event PlaylistAddedHandler PlaylistAdded = delegate { };
@@ -83,24 +73,6 @@ namespace Dopamine.Services.Playlist
         public event TracksAddedHandler TracksAdded = delegate { };
         public event TracksDeletedHandler TracksDeleted = delegate { };
         public event EventHandler PlaylistFolderChanged = delegate { };
-
-        private void PlaylistsChangedTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            playlistFolderChangedTimer.Stop();
-            this.PlaylistFolderChanged(this, new EventArgs());
-        }
-
-        private void OnRenamed(object sender, RenamedEventArgs e)
-        {
-            playlistFolderChangedTimer.Stop();
-            playlistFolderChangedTimer.Start();
-        }
-
-        private void OnChanged(object sender, FileSystemEventArgs e)
-        {
-            playlistFolderChangedTimer.Stop();
-            playlistFolderChangedTimer.Start();
-        }
 
         private string CreatePlaylistFilename(string playlist)
         {
@@ -153,7 +125,7 @@ namespace Dopamine.Services.Playlist
 
             AddPlaylistResult result = AddPlaylistResult.Success;
 
-            this.watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            this.watcher.Suspend(); // Stop watching the playlist folder
 
             await Task.Run(() =>
             {
@@ -173,7 +145,7 @@ namespace Dopamine.Services.Playlist
                 this.PlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
             }
 
-            this.watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+            this.watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
@@ -188,7 +160,7 @@ namespace Dopamine.Services.Playlist
 
             DeletePlaylistsResult result = DeletePlaylistsResult.Success;
 
-            this.watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            this.watcher.Suspend(); // Stop watching the playlist folder
 
             string filename = string.Empty;
 
@@ -219,7 +191,7 @@ namespace Dopamine.Services.Playlist
                 this.PlaylistDeleted(new PlaylistViewModel(playlistName, filename));
             }
 
-            this.watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+            this.watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
@@ -250,7 +222,7 @@ namespace Dopamine.Services.Playlist
 
             RenamePlaylistResult result = RenamePlaylistResult.Success;
 
-            this.watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            this.watcher.Suspend(); // Stop watching the playlist folder
 
             await Task.Run(() =>
             {
@@ -272,7 +244,7 @@ namespace Dopamine.Services.Playlist
                     new PlaylistViewModel(sanitizedNewPlaylistName, newFilename));
             }
 
-            this.watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+            this.watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
@@ -310,7 +282,7 @@ namespace Dopamine.Services.Playlist
                 return ImportPlaylistResult.Error;
             }
 
-            this.watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            this.watcher.Suspend(); // Stop watching the playlist folder
 
             string playlistName = String.Empty;
             var paths = new List<String>();
@@ -382,7 +354,7 @@ namespace Dopamine.Services.Playlist
                 this.PlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
             }
 
-            this.watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+            this.watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
@@ -455,7 +427,7 @@ namespace Dopamine.Services.Playlist
                 return;
             }
 
-            this.watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            this.watcher.Suspend(); // Stop watching the playlist folder
 
             await Task.Run(() =>
             {
@@ -480,7 +452,7 @@ namespace Dopamine.Services.Playlist
                 }
             });
 
-            this.watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+            this.watcher.Resume(); // Start watching the playlist folder
         }
 
         public async Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<TrackViewModel> tracks, string playlistName)
@@ -499,7 +471,7 @@ namespace Dopamine.Services.Playlist
 
             AddTracksToPlaylistResult result = AddTracksToPlaylistResult.Success;
 
-            this.watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            this.watcher.Suspend(); // Stop watching the playlist folder
 
             int numberTracksAdded = 0;
             string filename = this.CreatePlaylistFilename(playlistName);
@@ -536,7 +508,7 @@ namespace Dopamine.Services.Playlist
 
             if (result == AddTracksToPlaylistResult.Success) this.TracksAdded(numberTracksAdded, playlistName);
 
-            this.watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+            this.watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
@@ -584,7 +556,7 @@ namespace Dopamine.Services.Playlist
 
             DeleteTracksFromPlaylistResult result = DeleteTracksFromPlaylistResult.Success;
 
-            this.watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            this.watcher.Suspend(); // Stop watching the playlist folder
 
             string filename = this.CreatePlaylistFilename(playlistName);
 
@@ -631,7 +603,7 @@ namespace Dopamine.Services.Playlist
                 this.TracksDeleted(playlistName);
             }
 
-            this.watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+            this.watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
