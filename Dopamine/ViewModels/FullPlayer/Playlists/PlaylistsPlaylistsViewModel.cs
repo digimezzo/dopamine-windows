@@ -99,32 +99,53 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             };
 
             // Events
-            this.playlistService.TracksAdded += async (numberTracksAdded, playlistName) => await this.UpdateAddedTracksAsync(playlistName);
-            this.playlistService.TracksDeleted += async (playlistName) => await this.UpdateDeletedTracksAsync(playlistName);
-            this.playlistService.PlaylistAdded += (addedPlaylist) => this.UpdateAddedPlaylist(addedPlaylist);
-            this.playlistService.PlaylistDeleted += (deletedPlaylist) => this.UpdateDeletedPlaylist(deletedPlaylist);
-            this.playlistService.PlaylistRenamed += (oldPlaylist, newPlaylist) => this.UpdateRenamedPlaylist(oldPlaylist, newPlaylist);
-            this.playlistService.PlaylistFolderChanged += async (_, __) => await this.FillListsAsync();
+            this.playlistService.TracksAdded += PlaylistService_TracksAdded;
+            this.playlistService.TracksDeleted += PlaylistService_TracksDeleted;
+            this.playlistService.PlaylistAdded += PlaylistService_PlaylistAdded;
+            this.playlistService.PlaylistDeleted += PlaylistService_PlaylistDeleted;
+            this.playlistService.PlaylistRenamed += PlaylistService_PlaylistRenamed;
+            this.playlistService.PlaylistFolderChanged += PlaylistService_PlaylistFolderChanged;
 
             // Load settings
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
         }
 
-        private void UpdateAddedPlaylist(PlaylistViewModel addedPlaylist)
+        private async void PlaylistService_PlaylistFolderChanged(object sender, EventArgs e)
         {
-            this.Playlists.Add(addedPlaylist);
-
-            // If there is only 1 playlist, automatically select it.
-            if (this.Playlists != null && this.Playlists.Count == 1)
-            {
-                this.TrySelectFirstPlaylist();
-            }
-
-            // Notify that the count has changed
-            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
+            await this.FillListsAsync();
         }
 
-        private void UpdateDeletedPlaylist(PlaylistViewModel deletedPlaylist)
+        private async void PlaylistService_TracksDeleted(string playlistName)
+        {
+            // Only update the tracks, if the selected playlist was modified.
+            if (this.IsPlaylistSelected && string.Equals(this.SelectedPlaylistName, playlistName, StringComparison.InvariantCultureIgnoreCase))
+            {
+                await this.GetTracksAsync();
+            }
+        }
+
+        private async void PlaylistService_TracksAdded(int numberTracksAdded, string playlistName)
+        {
+            // Only update the tracks, if the selected playlist was modified.
+            if (this.IsPlaylistSelected && string.Equals(this.SelectedPlaylistName, playlistName, StringComparison.InvariantCultureIgnoreCase))
+            {
+                await this.GetTracksAsync();
+            }
+        }
+
+        private void PlaylistService_PlaylistRenamed(PlaylistViewModel oldPlaylist, PlaylistViewModel newPlaylist)
+        {
+            // Remove the old playlist
+            if (this.Playlists.Contains(oldPlaylist))
+            {
+                this.Playlists.Remove(oldPlaylist);
+            }
+
+            // Add the new playlist
+            this.Playlists.Add(newPlaylist);
+        }
+
+        private void PlaylistService_PlaylistDeleted(PlaylistViewModel deletedPlaylist)
         {
             this.Playlists.Remove(deletedPlaylist);
 
@@ -138,34 +159,18 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             this.RaisePropertyChanged(nameof(this.PlaylistsCount));
         }
 
-        private void UpdateRenamedPlaylist(PlaylistViewModel oldPlaylist, PlaylistViewModel newPlaylist)
+        private void PlaylistService_PlaylistAdded(PlaylistViewModel addedPlaylist)
         {
-            // Remove the old playlist
-            if (this.Playlists.Contains(oldPlaylist))
+            this.Playlists.Add(addedPlaylist);
+
+            // If there is only 1 playlist, automatically select it.
+            if (this.Playlists != null && this.Playlists.Count == 1)
             {
-                this.Playlists.Remove(oldPlaylist);
+                this.TrySelectFirstPlaylist();
             }
 
-            // Add the new playlist
-            this.Playlists.Add(newPlaylist);
-        }
-
-        private async Task UpdateAddedTracksAsync(string playlistName)
-        {
-            // Only update the tracks, if the selected playlist was modified.
-            if (this.IsPlaylistSelected && string.Equals(this.SelectedPlaylistName, playlistName, StringComparison.InvariantCultureIgnoreCase))
-            {
-                await this.GetTracksAsync();
-            }
-        }
-
-        private async Task UpdateDeletedTracksAsync(string playlistName)
-        {
-            // Only update the tracks, if the selected playlist was modified.
-            if (this.IsPlaylistSelected && string.Equals(this.SelectedPlaylistName, playlistName, StringComparison.InvariantCultureIgnoreCase))
-            {
-                await this.GetTracksAsync();
-            }
+            // Notify that the count has changed
+            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
         }
 
         private async Task ConfirmAddPlaylistAsync()
