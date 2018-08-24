@@ -24,13 +24,15 @@ using System.Windows.Controls;
 
 namespace Dopamine.ViewModels.FullPlayer.Playlists
 {
-    public class PlaylistsPlaylistsViewModel : PlaylistsViewModelBase, IDropTarget
+    public class PlaylistsPlaylistsViewModel : TracksViewModelBaseWithTrackArt, IDropTarget
     {
         private IFileService fileService;
         private IPlaylistService playlistService;
         private IDialogService dialogService;
         private IPlaybackService playbackService;
         private IEventAggregator eventAggregator;
+        private ObservableCollection<PlaylistViewModel> playlists;
+        private PlaylistViewModel selectedPlaylist;
         private string playlistsTarget = "ListBoxPlaylists";
         private string tracksTarget = "ListBoxTracks";
         private double leftPaneWidthPercent;
@@ -56,6 +58,58 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             {
                 SetProperty<double>(ref this.leftPaneWidthPercent, value);
                 SettingsClient.Set<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent", Convert.ToInt32(value));
+            }
+        }
+
+        public bool IsPlaylistSelected => this.selectedPlaylist != null;
+
+        public ObservableCollection<PlaylistViewModel> Playlists
+        {
+            get { return this.playlists; }
+            set { SetProperty<ObservableCollection<PlaylistViewModel>>(ref this.playlists, value); }
+        }
+
+        public PlaylistViewModel SelectedPlaylist
+        {
+            get { return this.selectedPlaylist; }
+            set
+            {
+                SetProperty<PlaylistViewModel>(ref this.selectedPlaylist, value);
+
+                if (value != null)
+                {
+                    this.GetTracksAsync();
+                }
+                else
+                {
+                    this.ClearTracks();
+                }
+            }
+        }
+
+        public string SelectedPlaylistName
+        {
+            get
+            {
+                if (this.SelectedPlaylist != null && !string.IsNullOrEmpty(this.SelectedPlaylist.Name))
+                {
+                    return this.SelectedPlaylist.Name;
+                }
+
+                return null;
+            }
+        }
+
+        public long PlaylistsCount
+        {
+            get
+            {
+                if (this.playlists == null)
+                {
+                    return 0;
+                }
+
+                return this.playlists.Count;
             }
         }
 
@@ -110,6 +164,21 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
             // Load settings
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
+        }
+
+        private void TrySelectFirstPlaylist()
+        {
+            try
+            {
+                if (this.Playlists.Count > 0)
+                {
+                    this.SelectedPlaylist = this.Playlists[0];
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("An error occurred while selecting the playlist. Exception: {0}", ex.Message);
+            }
         }
 
         private void UpdateAddedPlaylist(PlaylistViewModel addedPlaylist)
@@ -229,7 +298,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
         }
 
-        protected override async Task GetPlaylistsAsync()
+        private async Task GetPlaylistsAsync()
         {
             try
             {
@@ -386,10 +455,15 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
         }
 
-        protected override async Task GetTracksAsync()
+        private async Task GetTracksAsync()
         {
             IList<TrackViewModel> tracks = await this.playlistService.GetTracks(this.SelectedPlaylistName);
             await this.GetTracksCommonAsync(tracks, TrackOrder.None);
+        }
+
+        private async Task ClearTracks()
+        {
+            await this.GetTracksCommonAsync(new List<TrackViewModel>(), TrackOrder.None);
         }
 
         private async Task DeleteTracksFromPlaylistsAsync()
@@ -702,6 +776,20 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             {
                 LogClient.Error("Could not perform drop. Exception: {0}", ex.Message);
             }
+        }
+
+        protected override async Task FillListsAsync()
+        {
+            await this.GetPlaylistsAsync();
+            await this.GetTracksAsync();
+        }
+
+        protected override async Task LoadedCommandAsync()
+        {
+            if (!this.IsFirstLoad()) return;
+
+            await Task.Delay(Constants.CommonListLoadDelay); // Wait for the UI to slide in
+            await this.FillListsAsync(); // Fill all the lists
         }
     }
 }
