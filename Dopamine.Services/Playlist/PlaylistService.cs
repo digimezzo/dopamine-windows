@@ -145,7 +145,11 @@ namespace Dopamine.Services.Playlist
 
             string sanitizedPlaylistName = FileUtils.SanitizeFilename(playlistName);
             string filename = this.CreatePlaylistFilename(sanitizedPlaylistName);
-            if (System.IO.File.Exists(filename)) return AddPlaylistResult.Duplicate;
+
+            if (System.IO.File.Exists(filename))
+            {
+                return AddPlaylistResult.Duplicate;
+            }
 
             AddPlaylistResult result = AddPlaylistResult.Success;
 
@@ -345,6 +349,8 @@ namespace Dopamine.Services.Playlist
             string sanitizedPlaylistName = FileUtils.SanitizeFilename(playlistName);
             string filename = this.CreatePlaylistFilename(sanitizedPlaylistName);
 
+            ImportPlaylistResult result = ImportPlaylistResult.Success;
+
             try
             {
                 using (FileStream fs = System.IO.File.Create(filename))
@@ -368,15 +374,17 @@ namespace Dopamine.Services.Playlist
             catch (Exception ex)
             {
                 LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
-                return ImportPlaylistResult.Error;
+                result = ImportPlaylistResult.Error;
             }
 
-            // If we arrive at this point, OpenPlaylistResult = OpenPlaylistResult.Success, so we can always raise the PlaylistAdded Event.
-            this.PlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
+            if (result.Equals(ImportPlaylistResult.Success))
+            {
+                this.PlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
+            }
 
             this.watcher.EnableRaisingEvents = true; // Start watching the playlist folder
 
-            return ImportPlaylistResult.Success;
+            return result;
         }
 
         public async Task<ImportPlaylistResult> ImportPlaylistsAsync(IList<string> fileNames)

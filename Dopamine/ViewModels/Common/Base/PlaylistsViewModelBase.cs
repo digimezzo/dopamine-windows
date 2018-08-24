@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Utilities.Log;
+using Dopamine.Core.Base;
 using Dopamine.Data;
 using Dopamine.Services.Entities;
 using Prism.Ioc;
@@ -65,6 +66,8 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected abstract Task GetTracksAsync();
 
+        protected abstract Task GetPlaylistsAsync();
+
         private async Task ClearTracks()
         {
             await this.GetTracksCommonAsync(new List<TrackViewModel>(), TrackOrder.None);
@@ -83,6 +86,23 @@ namespace Dopamine.ViewModels.Common.Base
             {
                 LogClient.Error("An error occurred while selecting the playlist. Exception: {0}", ex.Message);
             }
+        }
+
+        protected override async Task FillListsAsync()
+        {
+            await this.GetPlaylistsAsync();
+            await this.GetTracksAsync();
+        }
+
+        protected override async Task LoadedCommandAsync()
+        {
+            if (!this.IsFirstLoad())
+            {
+                return;
+            }
+
+            await Task.Delay(Constants.CommonListLoadDelay); // Wait for the UI to slide in
+            await this.FillListsAsync(); // Fill all the lists
         }
     }
 }
