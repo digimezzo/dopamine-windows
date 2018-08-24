@@ -1,24 +1,24 @@
 ﻿using System;
 using System.IO;
 using System.Timers;
+using System.Windows;
 
 namespace Dopamine.Core.Helpers
 {
     /// <summary>
     /// A folder watcher that is not too nervous when notifying of changes
     /// </summary>
-    public class GentleFolderWatcher
+    public class GentleFolderWatcher : IDisposable
     {
         private FileSystemWatcher watcher = new FileSystemWatcher();
         private Timer changeNotificationTimer = new Timer();
-        private double changeNotificationTimeoutSeconds = 0.2;
 
         public event EventHandler FolderChanged = delegate { };
 
-        public GentleFolderWatcher(string folderPath, bool includeSubdirectories)
+        public GentleFolderWatcher(string folderPath, bool includeSubdirectories, int intervalMilliSeconds = 200)
         {
             // Timer
-            this.changeNotificationTimer.Interval = TimeSpan.FromSeconds(this.changeNotificationTimeoutSeconds).TotalMilliseconds;
+            this.changeNotificationTimer.Interval = intervalMilliSeconds;
             this.changeNotificationTimer.Elapsed += new ElapsedEventHandler(ChangeNotificationTimerElapsed);
 
             // Set the folder to watch
@@ -49,7 +49,11 @@ namespace Dopamine.Core.Helpers
         private void ChangeNotificationTimerElapsed(object sender, ElapsedEventArgs e)
         {
             this.changeNotificationTimer.Stop();
-            this.FolderChanged(this, new EventArgs());
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.FolderChanged(this, new EventArgs());
+            });
         }
 
         public void Suspend()
@@ -61,6 +65,31 @@ namespace Dopamine.Core.Helpers
         public void Resume()
         {
             this.watcher.EnableRaisingEvents = true;
+        }
+
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                   if(this.watcher != null)
+                    {
+                        this.watcher.EnableRaisingEvents = false;
+                        this.changeNotificationTimer.Stop();
+                        this.watcher.Dispose();
+                    }
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }
