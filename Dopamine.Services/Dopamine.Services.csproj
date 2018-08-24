@@ -187,7 +187,6 @@
     <Compile Include="Playlist\Enums.cs" />
     <Compile Include="Playlist\IPlaylistService.cs" />
     <Compile Include="Playlist\PlaylistService.cs" />
-    <Compile Include="Playlist\PlaylistServiceBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -212,8 +211,6 @@
     <Compile Include="Search\SearchService.cs" />
     <Compile Include="Shell\EventArgs.cs" />
     <Compile Include="Shell\IShellService.cs" />
-    <Compile Include="Playlist\ISmartPlaylistService.cs" />
-    <Compile Include="Playlist\SmartPlaylistService.cs" />
     <Compile Include="Taskbar\ITaskbarService.cs" />
     <Compile Include="Taskbar\TaskbarService.cs" />
     <Compile Include="Update\IUpdateService.cs" />
