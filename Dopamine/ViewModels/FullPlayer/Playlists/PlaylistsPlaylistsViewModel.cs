@@ -232,7 +232,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
         }
 
-        private async Task GetPlaylistsAsync()
+        protected override async Task GetPlaylistsAsync()
         {
             try
             {
@@ -712,23 +712,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             {
                 LogClient.Error("Could not perform drop. Exception: {0}", ex.Message);
             }
-        }
-
-        protected override async Task FillListsAsync()
-        {
-            await this.GetPlaylistsAsync();
-            await this.GetTracksAsync();
-        }
-
-        protected override async Task LoadedCommandAsync()
-        {
-            if (!this.IsFirstLoad())
-            {
-                return;
-            }
-
-            await Task.Delay(Constants.CommonListLoadDelay); // Wait for the UI to slide in
-            await this.FillListsAsync(); // Fill all the lists
         }
     }
 }
