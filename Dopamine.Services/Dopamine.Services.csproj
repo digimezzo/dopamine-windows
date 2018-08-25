@@ -187,8 +187,10 @@
     <Compile Include="Playlist\Enums.cs" />
     <Compile Include="Playlist\IPlaylistService.cs" />
     <Compile Include="Playlist\IPlaylistServiceBase.cs" />
+    <Compile Include="Playlist\ISmartPlaylistService.cs" />
     <Compile Include="Playlist\PlaylistEventHandlers.cs" />
     <Compile Include="Playlist\PlaylistService.cs" />
+    <Compile Include="Playlist\SmartPlaylistService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
