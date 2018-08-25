@@ -6,7 +6,7 @@ namespace Dopamine.Services.Playlist
 {
     public interface IPlaylistService : IPlaylistServiceBase
     {
-        Task<string> GetUniquePlaylistAsync(string proposedPlaylistName);
+        Task<string> GetUniquePlaylistNameAsync(string proposedPlaylistName);
 
         Task<IList<TrackViewModel>> GetTracks(string playlistName);
 
