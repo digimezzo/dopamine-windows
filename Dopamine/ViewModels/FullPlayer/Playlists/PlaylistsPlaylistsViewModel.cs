@@ -33,10 +33,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
         private IEventAggregator eventAggregator;
         private double leftPaneWidthPercent;
 
-        public DelegateCommand NewPlaylistCommand { get; set; }
-
-        public DelegateCommand ImportPlaylistsCommand { get; set; }
-
         public DelegateCommand<string> DeletePlaylistByNameCommand { get; set; }
 
         public DelegateCommand RenameSelectedPlaylistCommand { get; set; }
@@ -175,7 +171,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
         private async Task ConfirmAddPlaylistAsync()
         {
-            string responseText = await this.playlistService.GetUniquePlaylistAsync(ResourceUtils.GetString("Language_New_Playlist"));
+            string responseText = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
 
             if (this.dialogService.ShowInputDialog(
                 0xea37,
@@ -598,7 +594,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
             else if (dropInfo.TargetItem == null)
             {
-                string uniquePlaylistName = await this.playlistService.GetUniquePlaylistAsync(ResourceUtils.GetString("Language_New_Playlist"));
+                string uniquePlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
                 IList<string> allFilenames = dropInfo.GetDroppedFilenames();
                 IList<string> audioFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedAudioFile(f)).ToList();
                 IList<string> playlistFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedPlaylistFile(f)).ToList();

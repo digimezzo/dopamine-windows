@@ -2,6 +2,7 @@
 using Dopamine.Core.Base;
 using Dopamine.Data;
 using Dopamine.Services.Entities;
+using Prism.Commands;
 using Prism.Ioc;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,10 @@ namespace Dopamine.ViewModels.Common.Base
     {
         private ObservableCollection<PlaylistViewModel> playlists;
         private PlaylistViewModel selectedPlaylist;
+
+        public DelegateCommand NewPlaylistCommand { get; set; }
+
+        public DelegateCommand ImportPlaylistsCommand { get; set; }
 
         public PlaylistsViewModelBase(IContainerProvider container) : base(container)
         {

@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
+using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Data;
@@ -79,25 +80,17 @@ namespace Dopamine.Services.Playlist
             return Path.Combine(this.PlaylistFolder, playlist + FileFormats.M3U);
         }
 
-        public async Task<string> GetUniquePlaylistAsync(string proposedPlaylistName)
+        public async Task<string> GetUniquePlaylistNameAsync(string proposedPlaylistName)
         {
-            string uniquePlaylist = proposedPlaylistName;
+            string uniquePlaylistName = proposedPlaylistName;
 
             try
             {
-                string[] filenames = Directory.GetFiles(this.PlaylistFolder);
-
-                List<string> existingPlaylists = filenames.Select(f => System.IO.Path.GetFileNameWithoutExtension(f)).ToList();
-
                 await Task.Run(() =>
                 {
-                    int number = 1;
-
-                    while (existingPlaylists.Contains(uniquePlaylist))
-                    {
-                        number++;
-                        uniquePlaylist = proposedPlaylistName + " (" + number + ")";
-                    }
+                    string[] filenames = Directory.GetFiles(this.PlaylistFolder);
+                    IList<string> existingPlaylistNames = filenames.Select(f => System.IO.Path.GetFileNameWithoutExtension(f)).ToList();
+                    uniquePlaylistName = proposedPlaylistName.MakeUnique(existingPlaylistNames);
                 });
             }
             catch (Exception ex)
@@ -105,7 +98,7 @@ namespace Dopamine.Services.Playlist
                 LogClient.Error("Could not generate unique playlist name for playlist '{0}'. Exception: {1}", proposedPlaylistName, ex.Message);
             }
 
-            return uniquePlaylist;
+            return uniquePlaylistName;
         }
 
         public async Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
@@ -308,7 +301,7 @@ namespace Dopamine.Services.Playlist
             // ----------------------------------
             try
             {
-                playlistName = await this.GetUniquePlaylistAsync(System.IO.Path.GetFileNameWithoutExtension(fileName));
+                playlistName = await this.GetUniquePlaylistNameAsync(System.IO.Path.GetFileNameWithoutExtension(fileName));
             }
             catch (Exception ex)
             {

@@ -106,19 +106,17 @@ namespace Dopamine.Services.Playlist
             return playlists;
         }
 
+        public Task<ImportPlaylistResult> ImportPlaylistsAsync(IList<string> fileNames)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
         {
             throw new NotImplementedException();
         }
 
         public Task<DeletePlaylistsResult> DeletePlaylistAsync(string playlistName)
-        {
-            throw new NotImplementedException();
-        }
-
-        
-
-        public Task<ImportPlaylistResult> ImportPlaylistsAsync(IList<string> fileNames)
         {
             throw new NotImplementedException();
         }
