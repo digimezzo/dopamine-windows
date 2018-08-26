@@ -95,9 +95,9 @@ namespace Dopamine.Views.FullPlayer.Playlists
 
                 if (lb.SelectedItem != null)
                 {
-                    string playlist = ((PlaylistViewModel)lb.SelectedItem).Name;
+                    PlaylistViewModel playlist = lb.SelectedItem as PlaylistViewModel;
 
-                    Actions.TryViewInExplorer(Path.Combine(this.playlistService.PlaylistFolder, playlist + FileFormats.M3U));
+                    Actions.TryViewInExplorer(playlist.Path);
                 }
             }
             catch (Exception ex)
