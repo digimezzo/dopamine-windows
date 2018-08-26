@@ -22,14 +22,13 @@ using System.Windows;
 
 namespace Dopamine.Services.Playlist
 {
-    public class PlaylistService : IPlaylistService
+    public class PlaylistService : PlaylistServiceBase, IPlaylistService
     {
         private IFileService fileService;
         private ITrackRepository trackRepository;
         private IContainerProvider container;
-        private GentleFolderWatcher watcher;
 
-        public string PlaylistFolder { get; }
+        public override string PlaylistFolder { get; }
 
         public PlaylistService(IFileService fileService, ITrackRepository trackRepository, IContainerProvider container) : base()
         {
@@ -55,25 +54,21 @@ namespace Dopamine.Services.Playlist
             }
 
             // Watcher
-            this.watcher = new GentleFolderWatcher(this.PlaylistFolder, false);
-            this.watcher.FolderChanged += Watcher_FolderChanged;
-            this.watcher.Resume();
+            this.Watcher = new GentleFolderWatcher(this.PlaylistFolder, false);
+            this.Watcher.FolderChanged += Watcher_FolderChanged;
+            this.Watcher.Resume();
         }
 
         private void Watcher_FolderChanged(object sender, EventArgs e)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                this.PlaylistFolderChanged(this, new EventArgs());
+                this.OnPlaylistFolderChanged(this);
             });
         }
 
-        public event PlaylistAddedHandler PlaylistAdded = delegate { };
-        public event PlaylistDeletedHandler PlaylistDeleted = delegate { };
-        public event PlaylistRenamedHandler PlaylistRenamed = delegate { };
         public event TracksAddedHandler TracksAdded = delegate { };
         public event TracksDeletedHandler TracksDeleted = delegate { };
-        public event EventHandler PlaylistFolderChanged = delegate { };
 
         private string CreatePlaylistFilename(string playlist)
         {
@@ -118,7 +113,7 @@ namespace Dopamine.Services.Playlist
 
             AddPlaylistResult result = AddPlaylistResult.Success;
 
-            this.watcher.Suspend(); // Stop watching the playlist folder
+            this.Watcher.Suspend(); // Stop watching the playlist folder
 
             await Task.Run(() =>
             {
@@ -135,56 +130,10 @@ namespace Dopamine.Services.Playlist
 
             if (result == AddPlaylistResult.Success)
             {
-                this.PlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
+                this.OnPlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
             }
 
-            this.watcher.Resume(); // Start watching the playlist folder
-
-            return result;
-        }
-
-        public async Task<DeletePlaylistsResult> DeletePlaylistAsync(string playlistName)
-        {
-            if (string.IsNullOrWhiteSpace(playlistName))
-            {
-                LogClient.Error("PlaylistName is empty");
-                return DeletePlaylistsResult.Error;
-            }
-
-            DeletePlaylistsResult result = DeletePlaylistsResult.Success;
-
-            this.watcher.Suspend(); // Stop watching the playlist folder
-
-            string filename = string.Empty;
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    filename = this.CreatePlaylistFilename(playlistName);
-
-                    if (System.IO.File.Exists(filename))
-                    {
-                        System.IO.File.Delete(filename);
-                    }
-                    else
-                    {
-                        result = DeletePlaylistsResult.Error;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Error while deleting playlist '{0}'. Exception: {1}", playlistName, ex.Message);
-                    result = DeletePlaylistsResult.Error;
-                }
-            });
-
-            if (result == DeletePlaylistsResult.Success)
-            {
-                this.PlaylistDeleted(new PlaylistViewModel(playlistName, filename));
-            }
-
-            this.watcher.Resume(); // Start watching the playlist folder
+            this.Watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
@@ -215,7 +164,7 @@ namespace Dopamine.Services.Playlist
 
             RenamePlaylistResult result = RenamePlaylistResult.Success;
 
-            this.watcher.Suspend(); // Stop watching the playlist folder
+            this.Watcher.Suspend(); // Stop watching the playlist folder
 
             await Task.Run(() =>
             {
@@ -232,12 +181,12 @@ namespace Dopamine.Services.Playlist
 
             if (result == RenamePlaylistResult.Success)
             {
-                this.PlaylistRenamed(
+                this.OnPlaylistRenamed(
                     new PlaylistViewModel(oldPlaylistName, oldFilename),
                     new PlaylistViewModel(sanitizedNewPlaylistName, newFilename));
             }
 
-            this.watcher.Resume(); // Start watching the playlist folder
+            this.Watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
@@ -267,7 +216,7 @@ namespace Dopamine.Services.Playlist
             return playlists;
         }
 
-        private async Task<ImportPlaylistResult> ImportPlaylistAsync(string fileName)
+        protected override async Task<ImportPlaylistResult> ImportPlaylistAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -275,7 +224,7 @@ namespace Dopamine.Services.Playlist
                 return ImportPlaylistResult.Error;
             }
 
-            this.watcher.Suspend(); // Stop watching the playlist folder
+            this.Watcher.Suspend(); // Stop watching the playlist folder
 
             string playlistName = String.Empty;
             var paths = new List<String>();
@@ -344,29 +293,12 @@ namespace Dopamine.Services.Playlist
 
             if (result.Equals(ImportPlaylistResult.Success))
             {
-                this.PlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
+                this.OnPlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
             }
 
-            this.watcher.Resume(); // Start watching the playlist folder
+            this.Watcher.Resume(); // Start watching the playlist folder
 
             return result;
-        }
-
-        public async Task<ImportPlaylistResult> ImportPlaylistsAsync(IList<string> fileNames)
-        {
-            ImportPlaylistResult finalResult = ImportPlaylistResult.Success;
-
-            foreach (string fileName in fileNames)
-            {
-                ImportPlaylistResult result = await this.ImportPlaylistAsync(fileName);
-
-                if (!result.Equals(ImportPlaylistResult.Success))
-                {
-                    finalResult = result;
-                }
-            }
-
-            return finalResult;
         }
 
         public async Task<IList<TrackViewModel>> GetTracks(string playlistName)
@@ -420,7 +352,7 @@ namespace Dopamine.Services.Playlist
                 return;
             }
 
-            this.watcher.Suspend(); // Stop watching the playlist folder
+            this.Watcher.Suspend(); // Stop watching the playlist folder
 
             await Task.Run(() =>
             {
@@ -445,7 +377,7 @@ namespace Dopamine.Services.Playlist
                 }
             });
 
-            this.watcher.Resume(); // Start watching the playlist folder
+            this.Watcher.Resume(); // Start watching the playlist folder
         }
 
         public async Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<TrackViewModel> tracks, string playlistName)
@@ -464,7 +396,7 @@ namespace Dopamine.Services.Playlist
 
             AddTracksToPlaylistResult result = AddTracksToPlaylistResult.Success;
 
-            this.watcher.Suspend(); // Stop watching the playlist folder
+            this.Watcher.Suspend(); // Stop watching the playlist folder
 
             int numberTracksAdded = 0;
             string filename = this.CreatePlaylistFilename(playlistName);
@@ -501,7 +433,7 @@ namespace Dopamine.Services.Playlist
 
             if (result == AddTracksToPlaylistResult.Success) this.TracksAdded(numberTracksAdded, playlistName);
 
-            this.watcher.Resume(); // Start watching the playlist folder
+            this.Watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
@@ -549,7 +481,7 @@ namespace Dopamine.Services.Playlist
 
             DeleteTracksFromPlaylistResult result = DeleteTracksFromPlaylistResult.Success;
 
-            this.watcher.Suspend(); // Stop watching the playlist folder
+            this.Watcher.Suspend(); // Stop watching the playlist folder
 
             string filename = this.CreatePlaylistFilename(playlistName);
 
@@ -596,7 +528,7 @@ namespace Dopamine.Services.Playlist
                 this.TracksDeleted(playlistName);
             }
 
-            this.watcher.Resume(); // Start watching the playlist folder
+            this.Watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }

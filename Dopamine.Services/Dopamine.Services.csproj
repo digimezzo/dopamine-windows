@@ -190,6 +190,7 @@
     <Compile Include="Playlist\ISmartPlaylistService.cs" />
     <Compile Include="Playlist\PlaylistEventHandlers.cs" />
     <Compile Include="Playlist\PlaylistService.cs" />
+    <Compile Include="Playlist\PlaylistServiceBase.cs" />
     <Compile Include="Playlist\SmartPlaylistService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -11,7 +11,7 @@ namespace Dopamine.Services.Playlist
 
         Task<AddPlaylistResult> AddPlaylistAsync(string playlistName);
 
-        Task<DeletePlaylistsResult> DeletePlaylistAsync(string playlistName);
+        Task<DeletePlaylistsResult> DeletePlaylistAsync(PlaylistViewModel playlist);
 
         Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName);
 
