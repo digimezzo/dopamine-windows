@@ -27,7 +27,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
         private double leftPaneWidthPercent;
 
         public PlaylistsSmartPlaylistsViewModel(IContainerProvider container, ISmartPlaylistService smartPlaylistService,
-            IDialogService dialogService) : base(container)
+            IDialogService dialogService) : base(container, dialogService)
         {
             // Dependency injection
             this.smartPlaylistService = smartPlaylistService;
@@ -39,6 +39,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             // Events
             this.smartPlaylistService.PlaylistFolderChanged += SmartPlaylistService_PlaylistFolderChanged;
             this.smartPlaylistService.PlaylistAdded += PlaylistAddedHandler;
+            this.smartPlaylistService.PlaylistDeleted += PlaylistDeletedHandler;
 
             // Load settings
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "SmartPlaylistsLeftPaneWidthPercent");
@@ -200,6 +201,23 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
         protected override async Task GetTracksAsync()
         {
             // TODO
+        }
+
+        protected override async Task DeletePlaylistAsync(PlaylistViewModel playlist)
+        {
+            DeletePlaylistsResult result = await this.smartPlaylistService.DeletePlaylistAsync(playlist);
+
+            if (result == DeletePlaylistsResult.Error)
+            {
+                this.dialogService.ShowNotification(
+                    0xe711,
+                    16,
+                    ResourceUtils.GetString("Language_Error"),
+                    ResourceUtils.GetString("Language_Error_Deleting_Playlist").Replace("{playlistname}", playlist.Name),
+                    ResourceUtils.GetString("Language_Ok"),
+                    true,
+                    ResourceUtils.GetString("Language_Log_File"));
+            }
         }
     }
 }

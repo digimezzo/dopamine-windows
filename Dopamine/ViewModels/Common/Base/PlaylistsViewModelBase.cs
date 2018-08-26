@@ -1,6 +1,8 @@
 ﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Data;
+using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
 using Prism.Commands;
 using Prism.Ioc;
@@ -15,13 +17,30 @@ namespace Dopamine.ViewModels.Common.Base
     {
         private ObservableCollection<PlaylistViewModel> playlists;
         private PlaylistViewModel selectedPlaylist;
+        private IDialogService dialogService;
 
         public DelegateCommand NewPlaylistCommand { get; set; }
 
         public DelegateCommand ImportPlaylistsCommand { get; set; }
 
-        public PlaylistsViewModelBase(IContainerProvider container) : base(container)
+        public DelegateCommand DeleteSelectedPlaylistCommand { get; set; }
+
+        public DelegateCommand<PlaylistViewModel> DeletePlaylistCommand { get; set; }
+
+        public PlaylistsViewModelBase(IContainerProvider container, IDialogService dialogService) : base(container)
         {
+            this.dialogService = dialogService;
+
+            // Commands
+            this.DeletePlaylistCommand = new DelegateCommand<PlaylistViewModel>(async (playlist) => await this.ConfirmDeletePlaylistAsync(playlist));
+
+            this.DeleteSelectedPlaylistCommand = new DelegateCommand(async () =>
+            {
+                if (this.IsPlaylistSelected)
+                {
+                    await this.ConfirmDeletePlaylistAsync(this.SelectedPlaylist);
+                }
+            });
         }
 
         public string PlaylistsTarget => "ListBoxPlaylists";
@@ -122,6 +141,36 @@ namespace Dopamine.ViewModels.Common.Base
 
             // Notify that the count has changed
             this.RaisePropertyChanged(nameof(this.PlaylistsCount));
+        }
+
+        protected void PlaylistDeletedHandler(PlaylistViewModel deletedPlaylist)
+        {
+            this.Playlists.Remove(deletedPlaylist);
+
+            // If the selected playlist was deleted, select the first playlist.
+            if (this.SelectedPlaylist == null)
+            {
+                this.TrySelectFirstPlaylist();
+            }
+
+            // Notify that the count has changed
+            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
+        }
+
+        protected abstract Task DeletePlaylistAsync(PlaylistViewModel playlist);
+
+        private async Task ConfirmDeletePlaylistAsync(PlaylistViewModel playlist)
+        {
+            if (this.dialogService.ShowConfirmation(
+                0xe11b,
+                16,
+                ResourceUtils.GetString("Language_Delete"),
+                ResourceUtils.GetString("Language_Are_You_Sure_To_Delete_Playlist").Replace("{playlistname}", playlist.Name),
+                ResourceUtils.GetString("Language_Yes"),
+                ResourceUtils.GetString("Language_No")))
+            {
+                await this.DeletePlaylistAsync(playlist);
+            }
         }
     }
 }

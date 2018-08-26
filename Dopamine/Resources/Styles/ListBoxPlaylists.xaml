@@ -46,8 +46,8 @@
                                     DockPanel.Dock="Right"
                                     VerticalAlignment="Center" 
                                     Style="{DynamicResource TransparentButton}"
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.DeletePlaylistByNameCommand}" 
-                                    CommandParameter="{Binding Name}"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.DeletePlaylistCommand}" 
+                                    CommandParameter="{Binding}"
                                     ToolTip="{DynamicResource Language_Delete_This_Playlist}">
                                         <TextBlock 
                                                     DockPanel.Dock="Right"
