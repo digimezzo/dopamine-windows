@@ -97,7 +97,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             // Events
             this.playlistService.TracksAdded += PlaylistService_TracksAdded;
             this.playlistService.TracksDeleted += PlaylistService_TracksDeleted;
-            this.playlistService.PlaylistAdded += PlaylistService_PlaylistAdded;
+            this.playlistService.PlaylistAdded += PlaylistAddedHandler;
             this.playlistService.PlaylistDeleted += PlaylistService_PlaylistDeleted;
             this.playlistService.PlaylistRenamed += PlaylistService_PlaylistRenamed;
             this.playlistService.PlaylistFolderChanged += PlaylistService_PlaylistFolderChanged;
@@ -147,20 +147,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
             // If the selected playlist was deleted, select the first playlist.
             if (this.SelectedPlaylist == null)
-            {
-                this.TrySelectFirstPlaylist();
-            }
-
-            // Notify that the count has changed
-            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
-        }
-
-        private void PlaylistService_PlaylistAdded(PlaylistViewModel addedPlaylist)
-        {
-            this.Playlists.Add(addedPlaylist);
-
-            // If there is only 1 playlist, automatically select it.
-            if (this.Playlists != null && this.Playlists.Count == 1)
             {
                 this.TrySelectFirstPlaylist();
             }
