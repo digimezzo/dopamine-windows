@@ -109,5 +109,19 @@ namespace Dopamine.ViewModels.Common.Base
             await Task.Delay(Constants.CommonListLoadDelay); // Wait for the UI to slide in
             await this.FillListsAsync(); // Fill all the lists
         }
+
+        protected void PlaylistAddedHandler(PlaylistViewModel addedPlaylist)
+        {
+            this.Playlists.Add(addedPlaylist);
+
+            // If there is only 1 playlist, automatically select it.
+            if (this.Playlists != null && this.Playlists.Count == 1)
+            {
+                this.TrySelectFirstPlaylist();
+            }
+
+            // Notify that the count has changed
+            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
+        }
     }
 }

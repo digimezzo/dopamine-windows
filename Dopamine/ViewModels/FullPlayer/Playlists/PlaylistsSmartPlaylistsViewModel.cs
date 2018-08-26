@@ -37,7 +37,8 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             this.ImportPlaylistsCommand = new DelegateCommand(async () => await this.ImportPlaylistsAsync());
 
             // Events
-            this.smartPlaylistService.PlaylistFolderChanged += SmartPlaylistService_PlaylistFolderChanged; ;
+            this.smartPlaylistService.PlaylistFolderChanged += SmartPlaylistService_PlaylistFolderChanged;
+            this.smartPlaylistService.PlaylistAdded += PlaylistAddedHandler;
 
             // Load settings
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "SmartPlaylistsLeftPaneWidthPercent");
