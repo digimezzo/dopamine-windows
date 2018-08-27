@@ -14,12 +14,16 @@ namespace Dopamine.Services.Playlist
 
         public abstract string PlaylistFolder { get; }
 
+        public abstract string DialogFileFilter { get; }
+
         public event PlaylistAddedHandler PlaylistAdded = delegate { };
         public event PlaylistDeletedHandler PlaylistDeleted = delegate { };
         public event PlaylistRenamedHandler PlaylistRenamed = delegate { };
         public event EventHandler PlaylistFolderChanged = delegate { };
 
         public DelegateCommand<PlaylistViewModel> DeletePlaylistCommand { get; set; }
+
+        
 
         public void OnPlaylistAdded(PlaylistViewModel addedPlaylist)
         {

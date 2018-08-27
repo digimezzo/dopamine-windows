@@ -30,6 +30,8 @@ namespace Dopamine.Services.Playlist
 
         public override string PlaylistFolder { get; }
 
+        public override string DialogFileFilter => $"(*{FileFormats.M3U};*{FileFormats.WPL};*{FileFormats.ZPL})|*{FileFormats.M3U};*{FileFormats.WPL};*{FileFormats.ZPL}";
+
         public PlaylistService(IFileService fileService, ITrackRepository trackRepository, IContainerProvider container) : base()
         {
             // Dependency injection

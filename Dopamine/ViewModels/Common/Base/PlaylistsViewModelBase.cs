@@ -1,15 +1,18 @@
 ﻿using Digimezzo.Utilities.Log;
+using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Data;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
+using Dopamine.Services.Playlist;
 using Prism.Commands;
 using Prism.Ioc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Dopamine.ViewModels.Common.Base
 {
@@ -18,6 +21,7 @@ namespace Dopamine.ViewModels.Common.Base
         private ObservableCollection<PlaylistViewModel> playlists;
         private PlaylistViewModel selectedPlaylist;
         private IDialogService dialogService;
+        private IPlaylistServiceBase playlistServiceBase;
 
         public DelegateCommand NewPlaylistCommand { get; set; }
 
@@ -27,12 +31,19 @@ namespace Dopamine.ViewModels.Common.Base
 
         public DelegateCommand<PlaylistViewModel> DeletePlaylistCommand { get; set; }
 
-        public PlaylistsViewModelBase(IContainerProvider container, IDialogService dialogService) : base(container)
+        public PlaylistsViewModelBase(IContainerProvider container, IDialogService dialogService, IPlaylistServiceBase playlistServiceBase) : base(container)
         {
             this.dialogService = dialogService;
+            this.playlistServiceBase = playlistServiceBase;
+
+            // Events
+            this.playlistServiceBase.PlaylistFolderChanged += PlaylistServiceBase_PlaylistFolderChanged; ;
+            this.playlistServiceBase.PlaylistAdded += PlaylistServiceBase_PlaylistAdded; ;
+            this.playlistServiceBase.PlaylistDeleted += PlaylistServiceBase_PlaylistDeleted; ;
 
             // Commands
             this.DeletePlaylistCommand = new DelegateCommand<PlaylistViewModel>(async (playlist) => await this.ConfirmDeletePlaylistAsync(playlist));
+            this.ImportPlaylistsCommand = new DelegateCommand(async () => await this.ImportPlaylistsAsync());
 
             this.DeleteSelectedPlaylistCommand = new DelegateCommand(async () =>
             {
@@ -41,6 +52,53 @@ namespace Dopamine.ViewModels.Common.Base
                     await this.ConfirmDeletePlaylistAsync(this.SelectedPlaylist);
                 }
             });
+
+            // Settings changed
+            SettingsClient.SettingChanged += (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
+                {
+                    this.EnableRating = (bool)e.SettingValue;
+                }
+
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
+                {
+                    this.EnableLove = (bool)e.SettingValue;
+                }
+            };
+        }
+
+        private void PlaylistServiceBase_PlaylistDeleted(PlaylistViewModel deletedPlaylist)
+        {
+            this.Playlists.Remove(deletedPlaylist);
+
+            // If the selected playlist was deleted, select the first playlist.
+            if (this.SelectedPlaylist == null)
+            {
+                this.TrySelectFirstPlaylist();
+            }
+
+            // Notify that the count has changed
+            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
+        }
+
+        private void PlaylistServiceBase_PlaylistAdded(PlaylistViewModel addedPlaylist)
+        {
+            this.Playlists.Add(addedPlaylist);
+
+            // If there is only 1 playlist, automatically select it.
+            if (this.Playlists != null && this.Playlists.Count == 1)
+            {
+                this.TrySelectFirstPlaylist();
+            }
+
+            // Notify that the count has changed
+            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
+        }
+
+        private async void PlaylistServiceBase_PlaylistFolderChanged(object sender, EventArgs e)
+        {
+            await this.FillListsAsync();
         }
 
         public string PlaylistsTarget => "ListBoxPlaylists";
@@ -92,6 +150,48 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected abstract Task GetPlaylistsAsync();
 
+        protected async Task ImportPlaylistsAsync(IList<string> playlistPaths = null)
+        {
+            if (playlistPaths == null)
+            {
+                // Set up the file dialog box
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+                dlg.Title = Application.Current.FindResource("Language_Import_Playlists").ToString();
+                dlg.DefaultExt = FileFormats.M3U; // Default file extension
+                dlg.Multiselect = true;
+
+                // Filter files by extension
+                dlg.Filter = $"{ResourceUtils.GetString("Language_Playlists")} {this.playlistServiceBase.DialogFileFilter}";
+
+                // Show the file dialog box
+                bool? dialogResult = dlg.ShowDialog();
+
+                // Process the file dialog box result
+                if (!(bool)dialogResult)
+                {
+                    return;
+                }
+
+                playlistPaths = dlg.FileNames;
+            }
+
+            ImportPlaylistResult result = await this.playlistServiceBase.ImportPlaylistsAsync(playlistPaths);
+
+            if (result == ImportPlaylistResult.Error)
+            {
+                this.dialogService.ShowNotification(
+                    0xe711,
+                    16,
+                    ResourceUtils.GetString("Language_Error"),
+                    ResourceUtils.GetString("Language_Error_Importing_Playlists"),
+                    ResourceUtils.GetString("Language_Ok"),
+                    true,
+                    ResourceUtils.GetString("Language_Log_File"));
+            }
+        }
+
+        protected abstract Task DeletePlaylistAsync(PlaylistViewModel playlist);
+
         private async Task ClearTracks()
         {
             await this.GetTracksCommonAsync(new List<TrackViewModel>(), TrackOrder.None);
@@ -128,36 +228,6 @@ namespace Dopamine.ViewModels.Common.Base
             await Task.Delay(Constants.CommonListLoadDelay); // Wait for the UI to slide in
             await this.FillListsAsync(); // Fill all the lists
         }
-
-        protected void PlaylistAddedHandler(PlaylistViewModel addedPlaylist)
-        {
-            this.Playlists.Add(addedPlaylist);
-
-            // If there is only 1 playlist, automatically select it.
-            if (this.Playlists != null && this.Playlists.Count == 1)
-            {
-                this.TrySelectFirstPlaylist();
-            }
-
-            // Notify that the count has changed
-            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
-        }
-
-        protected void PlaylistDeletedHandler(PlaylistViewModel deletedPlaylist)
-        {
-            this.Playlists.Remove(deletedPlaylist);
-
-            // If the selected playlist was deleted, select the first playlist.
-            if (this.SelectedPlaylist == null)
-            {
-                this.TrySelectFirstPlaylist();
-            }
-
-            // Notify that the count has changed
-            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
-        }
-
-        protected abstract Task DeletePlaylistAsync(PlaylistViewModel playlist);
 
         private async Task ConfirmDeletePlaylistAsync(PlaylistViewModel playlist)
         {

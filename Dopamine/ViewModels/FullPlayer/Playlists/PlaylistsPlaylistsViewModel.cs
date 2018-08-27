@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace Dopamine.ViewModels.FullPlayer.Playlists
@@ -49,53 +48,31 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
         }
 
-        public PlaylistsPlaylistsViewModel(IContainerProvider container, IDialogService dialogService) : base(container, dialogService)
+        public PlaylistsPlaylistsViewModel(IContainerProvider container, IDialogService dialogService,
+            IPlaylistService playlistService, IFileService fileService, IPlaybackService playbackService,
+            IEventAggregator eventAggregator) : base(container, dialogService, playlistService)
         {
             // Dependency injection
-            this.fileService = container.Resolve<IFileService>();
-            this.playlistService = container.Resolve<IPlaylistService>();
-            this.playbackService = container.Resolve<IPlaybackService>();
-            this.eventAggregator = container.Resolve<IEventAggregator>();
-            this.dialogService = container.Resolve<IDialogService>();
+            this.fileService = fileService;
+            this.playlistService = playlistService;
+            this.playbackService = playbackService;
+            this.eventAggregator = eventAggregator;
+            this.dialogService = dialogService;
 
             // Commands
             this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
             this.NewPlaylistCommand = new DelegateCommand(async () => await this.ConfirmAddPlaylistAsync());
-            this.ImportPlaylistsCommand = new DelegateCommand(async () => await this.ImportPlaylistsAsync());
             this.RenameSelectedPlaylistCommand = new DelegateCommand(async () => await this.RenameSelectedPlaylistAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.DeleteTracksFromPlaylistsAsync());
             this.AddPlaylistToNowPlayingCommand = new DelegateCommand(async () => await this.AddPlaylistToNowPlayingAsync());
             this.ShuffleSelectedPlaylistCommand = new DelegateCommand(async () => await this.ShuffleSelectedPlaylistAsync());
 
-            // Settings changed
-            SettingsClient.SettingChanged += (_, e) =>
-            {
-                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
-                {
-                    this.EnableRating = (bool)e.SettingValue;
-                }
-
-                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
-                {
-                    this.EnableLove = (bool)e.SettingValue;
-                }
-            };
-
             // Events
             this.playlistService.TracksAdded += PlaylistService_TracksAdded;
             this.playlistService.TracksDeleted += PlaylistService_TracksDeleted;
-            this.playlistService.PlaylistAdded += PlaylistAddedHandler;
-            this.playlistService.PlaylistDeleted += PlaylistDeletedHandler;
-            this.playlistService.PlaylistRenamed += PlaylistService_PlaylistRenamed;
-            this.playlistService.PlaylistFolderChanged += PlaylistService_PlaylistFolderChanged;
 
             // Load settings
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
-        }
-
-        private async void PlaylistService_PlaylistFolderChanged(object sender, EventArgs e)
-        {
-            await this.FillListsAsync();
         }
 
         private async void PlaylistService_TracksDeleted(string playlistName)
@@ -287,46 +264,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                         // Never happens
                         break;
                 }
-            }
-        }
-
-        private async Task ImportPlaylistsAsync(IList<string> playlistPaths = null)
-        {
-            if (playlistPaths == null)
-            {
-                // Set up the file dialog box
-                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-                dlg.Title = Application.Current.FindResource("Language_Import_Playlists").ToString();
-                dlg.DefaultExt = FileFormats.M3U; // Default file extension
-                dlg.Multiselect = true;
-
-                // Filter files by extension
-                dlg.Filter = ResourceUtils.GetString("Language_Playlists") + " (*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL + ")|*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL;
-
-                // Show the file dialog box
-                bool? dialogResult = dlg.ShowDialog();
-
-                // Process the file dialog box result
-                if (!(bool)dialogResult)
-                {
-                    return;
-                }
-
-                playlistPaths = dlg.FileNames;
-            }
-
-            ImportPlaylistResult result = await this.playlistService.ImportPlaylistsAsync(playlistPaths);
-
-            if (result == ImportPlaylistResult.Error)
-            {
-                this.dialogService.ShowNotification(
-                    0xe711,
-                    16,
-                    ResourceUtils.GetString("Language_Error"),
-                    ResourceUtils.GetString("Language_Error_Importing_Playlists"),
-                    ResourceUtils.GetString("Language_Ok"),
-                    true,
-                    ResourceUtils.GetString("Language_Log_File"));
             }
         }
 

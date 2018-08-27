@@ -9,6 +9,8 @@ namespace Dopamine.Services.Playlist
     {
         string PlaylistFolder { get; }
 
+        string DialogFileFilter { get; }
+
         Task<AddPlaylistResult> AddPlaylistAsync(string playlistName);
 
         Task<DeletePlaylistsResult> DeletePlaylistAsync(PlaylistViewModel playlist);

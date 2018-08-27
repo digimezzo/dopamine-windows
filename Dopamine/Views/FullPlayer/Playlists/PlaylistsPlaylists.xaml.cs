@@ -1,22 +1,14 @@
 ﻿using CommonServiceLocator;
-using Digimezzo.Foundation.Core.IO;
-using Digimezzo.Foundation.Core.Logging;
-using Dopamine.Core.Base;
 using Dopamine.Core.Prism;
-using Dopamine.Services.Entities;
 using Dopamine.Services.Playlist;
-using Dopamine.ViewModels;
 using Dopamine.Views.Common.Base;
 using Prism.Commands;
-using System;
-using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Dopamine.Views.FullPlayer.Playlists
 {
-    public partial class PlaylistsPlaylists : TracksViewBase
+    public partial class PlaylistsPlaylists : PlaylistsViewBase
     {
         private IPlaylistService playlistService;
 
@@ -83,26 +75,6 @@ namespace Dopamine.Views.FullPlayer.Playlists
                 {
                     this.ViewPlaylistInExplorer(this.ListBoxPlaylists);
                 }
-            }
-        }
-
-        private void ViewPlaylistInExplorer(Object sender)
-        {
-            try
-            {
-                // Cast sender to ListBox
-                ListBox lb = (ListBox)sender;
-
-                if (lb.SelectedItem != null)
-                {
-                    PlaylistViewModel playlist = lb.SelectedItem as PlaylistViewModel;
-
-                    Actions.TryViewInExplorer(playlist.Path);
-                }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not view playlist in Windows Explorer. Exception: {0}", ex.Message);
             }
         }
     }
