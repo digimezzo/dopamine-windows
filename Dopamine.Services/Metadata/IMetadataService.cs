@@ -12,13 +12,13 @@ namespace Dopamine.Services.Metadata
 
         Task UpdateTrackLoveAsync(string path, bool love);
 
-        Task UpdateTracksAsync(IList<IFileMetadata> fileMetadatas, bool updateAlbumArtwork);
+        Task UpdateTracksAsync(IList<FileMetadata> fileMetadatas, bool updateAlbumArtwork);
 
         Task UpdateAlbumAsync(AlbumViewModel albumViewModel, MetadataArtworkValue artwork, bool updateFileArtwork);
 
-        IFileMetadata GetFileMetadata(string path);
+        FileMetadata GetFileMetadata(string path);
 
-        Task<IFileMetadata> GetFileMetadataAsync(string path);
+        Task<FileMetadata> GetFileMetadataAsync(string path);
 
         Task<byte[]> GetArtworkAsync(string path, int size = 0);
         

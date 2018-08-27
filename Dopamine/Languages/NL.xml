@@ -134,7 +134,6 @@
   <Text Key="Not_Available_In_Portable_Version">Niet beschikbaar in de portable versie</Text>
   <Text Key="Refresh_Now">Nu verversen</Text>
   <Text Key="New_Playlist">Nieuwe afspeellijst</Text>
-  <Text Key="Open_Playlist">Open afspeellijst</Text>
   <Text Key="All_Playlists">Alle afspeellijsten</Text>
   <Text Key="Enter_Name_For_New_Playlist">Geef een naam voor jouw nieuwe afspeelijst</Text>
   <Text Key="Already_Exists">Bestaat al</Text>
@@ -337,8 +336,8 @@
   <Text Key="No_Lyrics_Found">Er werd geen songtekst gevonden</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatisch scrollen naar het afgespeelde nummer</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Mouse scroll changes the volume by</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Dit nummer werd niet gevonden. Het werd waarschijnlijk verplaatst of verwijderd. Wil je jouw collectie verversen?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Eén of meerdere nummers werden niet gevonden. Ze werden waarschijnlijk verplaatst of verwijderd. Wil je jouw collectie verversen?</Text>
+  <Text Key="Song_Cannot_Be_Found">Dit nummer werd niet gevonden. Het werd waarschijnlijk verplaatst of verwijderd.</Text>
+  <Text Key="Songs_Cannot_Be_Found">Eén of meerdere nummers werden niet gevonden. Ze werden waarschijnlijk verplaatst of verwijderd.</Text>
   <Text Key="Automatic_Scrolling">Automatisch scrollen</Text>
   <Text Key="Font_Size">Font grootte</Text>
   <Text Key="Cancel_Edit">Annuleer aanpassing</Text>
@@ -433,4 +432,8 @@
   <Text Key="Back">Terug</Text>
   <Text Key="Folders">Mappen</Text>
   <Text Key="Smart_Playlists">Slimme playlists</Text>
+  <Text Key="Import_Playlists">Playlists importeren</Text>
+  <Text Key="Error_Importing_Playlists">Er is een fout opgetreden bij het importeren van afspeellijsten. Raadpleeg het log bestand voor meer informatie.</Text>
+  <Text Key="New_Smart_Playlist">Nieuw slimme playlist</Text>
+  <Text Key="Import_Smart_Playlists">Slimme playlists importeren</Text>
 </Language>

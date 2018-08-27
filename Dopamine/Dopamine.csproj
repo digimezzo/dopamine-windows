@@ -227,6 +227,7 @@
     <Compile Include="ViewModels\Common\Base\MiniPlayerViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\NowPlayingViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\PlaybackControlsViewModelBase.cs" />
+    <Compile Include="ViewModels\Common\Base\PlaylistsViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\TracksViewModelBase.cs" />
     <Compile Include="ViewModels\Common\Base\TracksViewModelBaseWithTrackArt.cs" />
     <Compile Include="ViewModels\Common\CollectionFoldersSettingsViewModel.cs" />
@@ -297,7 +298,6 @@
     <Compile Include="ViewModels\OobeViewModel.cs" />
     <Compile Include="ViewModels\PlaybackControlsViewModel.cs" />
     <Compile Include="ViewModels\PlaybackInfoViewModel.cs" />
-    <Compile Include="ViewModels\PlaylistViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\SimilarArtistViewModel.cs" />
     <Compile Include="ViewModels\VerticalVolumeControlsViewModel.cs" />
@@ -317,6 +317,7 @@
     </Compile>
     <Compile Include="Views\Common\Base\CommonViewBase.cs" />
     <Compile Include="Views\Common\Base\MiniPlayerViewBase.cs" />
+    <Compile Include="Views\Common\Base\PlaylistsViewBase.cs" />
     <Compile Include="Views\Common\Base\TracksViewBase.cs" />
     <Compile Include="Views\Common\Base\TracksViewBaseWithTrackArt.cs" />
     <Compile Include="Views\Common\CollectionFoldersSettings.xaml.cs">

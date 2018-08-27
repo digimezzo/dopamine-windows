@@ -1,6 +1,7 @@
-2018-08-11: Dopamine 2.0 Preview 2
+2018-08-21: Dopamine 2.0 Preview 2
 ----------------------------------
 
+- [Added] Added folder view
 - [Added] Added support for the AIFF format
 - [Added] It is now possible to sort songs by album, even when no album is selected.
 - [Added] The search field can now be activated by pressing CTRL+F
@@ -8,8 +9,9 @@
 - [Changed] Updated the Chinese (Simplified) translation
 - [Changed] Updated the Chinese (Traditional) translation
 - [Changed] Updated the Croatian translation
-- [Changed] Updated the Italian translation
 - [Changed] Updated the Hungarian translation
+- [Changed] Updated the Italian translation
+- [Changed] Updated the Korean translation
 - [Changed] Updated the Portuguese (Portugal) translation
 - [Changed] Updated the Ukrainian translation
 - [Fixed] Fixed an issue where a same Artist, but with different casing, was shown as mutiple artists. The same issue was fixed for Genres.

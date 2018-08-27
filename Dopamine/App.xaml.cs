@@ -213,7 +213,6 @@ namespace Dopamine
             void RegisterFactories()
             {
                 containerRegistry.RegisterSingleton<ISQLiteConnectionFactory, SQLiteConnectionFactory>();
-                containerRegistry.RegisterSingleton<IFileMetadataFactory, FileMetadataFactory>();
             }
 
             void RegisterRepositories()
@@ -246,6 +245,7 @@ namespace Dopamine
                 containerRegistry.RegisterSingleton<IProviderService, ProviderService>();
                 containerRegistry.RegisterSingleton<IScrobblingService, LastFmScrobblingService>();
                 containerRegistry.RegisterSingleton<IPlaylistService, PlaylistService>();
+                containerRegistry.RegisterSingleton<ISmartPlaylistService, SmartPlaylistService>();
                 containerRegistry.RegisterSingleton<IExternalControlService, ExternalControlService>();
                 containerRegistry.RegisterSingleton<IWindowsIntegrationService, WindowsIntegrationService>();
                 containerRegistry.RegisterSingleton<ILyricsService, LyricsService>();

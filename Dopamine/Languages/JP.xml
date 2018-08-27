@@ -134,7 +134,6 @@
   <Text Key="Not_Available_In_Portable_Version">ポータブル版では利用できません</Text>
   <Text Key="Refresh_Now">クリーンアップする</Text>
   <Text Key="New_Playlist">新規プレイリスト</Text>
-  <Text Key="Open_Playlist">プレイリストを開く</Text>
   <Text Key="All_Playlists">全てのプレイリスト</Text>
   <Text Key="Enter_Name_For_New_Playlist">新規プレイリスト名を入力してください</Text>
   <Text Key="Already_Exists">既に存在しています</Text>
@@ -339,8 +338,8 @@
   <Text Key="No_Lyrics_Found">歌詞が見つかりませんでした</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">自動で再生中の曲にスクロールする</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">マウスホイールで音量を変更</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">この曲は見つかりませんでした。おそらく、削除されたか移動したものと思われます。コレクションをクリーンアップしますか？</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">いくつかの曲が見つかりませんでした。おそらく、削除されたか移動したものと思われます。コレクションをクリーンアップしますか？</Text>
+  <Text Key="Song_Cannot_Be_Found">この曲は見つかりませんでした。おそらく、削除されたか移動したものと思われます。</Text>
+  <Text Key="Songs_Cannot_Be_Found">いくつかの曲が見つかりませんでした。おそらく、削除されたか移動したものと思われます。</Text>
   <Text Key="Automatic_Scrolling">自動スクロール</Text>
   <Text Key="Font_Size">フォントサイズ</Text>
   <Text Key="Cancel_Edit">編集のキャンセル</Text>
@@ -426,4 +425,8 @@
   <Text Key="Back">Back</Text>
   <Text Key="Folders">Folders</Text>
   <Text Key="Smart_Playlists">Smart playlists</Text>
+  <Text Key="Import_Playlists">Import playlists</Text>
+  <Text Key="Error_Importing_Playlists">An error occurred while importing playlists. Please consult the log file for more information.</Text>
+  <Text Key="New_Smart_Playlist">New smart playlist</Text>
+  <Text Key="Import_Smart_Playlists">Import smart playlists</Text>
 </Language>

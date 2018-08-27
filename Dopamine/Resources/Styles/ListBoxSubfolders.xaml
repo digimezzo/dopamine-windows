@@ -1,10 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:Dopamine.Converters"
                     xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/FontStyles.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <converters:InvertingBooleanConverter x:Key="InvertingBooleanConverter" />
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:InvertingBooleanToVisibilityConverter x:Key="InvertingBooleanToVisibilityConverter" />
 
     <Style x:Key="ListBoxSubfoldersItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
@@ -19,16 +24,26 @@
                         <Border Height="32" ToolTip="{Binding Path}">
                             <DockPanel Background="{TemplateBinding Background}"
                             Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
-                                <TextBlock 
-                                x:Name="FolderIcon"
-                                DockPanel.Dock="Left"
-                                Text="&#xF12B;"
-                                Style="{StaticResource SegoeAssets}"
-                                Margin="10,0,10,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Foreground="{DynamicResource Brush_Accent}" 
-                                FontSize="16"/>
+                                <Grid>
+                                    <Label x:Name="SpectrumAnimation"
+                                           Style="{DynamicResource SpectrumAnimation}"
+                                           Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                           IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                           Foreground="{DynamicResource Brush_Accent}" 
+                                           Margin="10,0,10,0" 
+                                           VerticalAlignment="Center"/>
+                                    <TextBlock 
+                                        x:Name="FolderIcon"
+                                        Visibility="{Binding IsPlaying, Converter={StaticResource InvertingBooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                        DockPanel.Dock="Left"
+                                        Text="&#xF12B;"
+                                        Style="{StaticResource SegoeAssets}"
+                                        Margin="10,0,10,0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Foreground="{DynamicResource Brush_Accent}" 
+                                        FontSize="16"/>
+                                </Grid>
                                 <TextBlock Margin="5,0,0,0" TextTrimming="CharacterEllipsis" VerticalAlignment="Center"
                                        Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding DisplayName}"/>
                             </DockPanel>
@@ -59,6 +74,7 @@
     </Style>
 
     <Style x:Key="ListBoxSubfolders" TargetType="{x:Type ListBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxSubfoldersItem}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />

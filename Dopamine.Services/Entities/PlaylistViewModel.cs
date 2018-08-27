@@ -1,22 +1,23 @@
 ﻿using Prism.Mvvm;
 
-namespace Dopamine.ViewModels
+namespace Dopamine.Services.Entities
 {
     public class PlaylistViewModel : BindableBase
     {
-        private string name;
-
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        public string Name { get; }
+        public string Path { get; }
 
         public string SortName
         {
-           get { return name.ToLowerInvariant(); }
+           get { return Name.ToLowerInvariant(); }
         }
-     
+
+        public PlaylistViewModel(string name, string path)
+        {
+            this.Name = name;
+            this.Path = path;
+        }
+
         public override string ToString()
         {
             return this.Name;

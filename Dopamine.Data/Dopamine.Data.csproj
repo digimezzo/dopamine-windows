@@ -95,9 +95,6 @@
     <Compile Include="ISQLiteConnectionFactory.cs" />
     <Compile Include="MetaDataUtils.cs" />
     <Compile Include="Metadata\FileMetadata.cs" />
-    <Compile Include="Metadata\FileMetadataFactory.cs" />
-    <Compile Include="Metadata\IFileMetadata.cs" />
-    <Compile Include="Metadata\IFileMetadataFactory.cs" />
     <Compile Include="Metadata\MetadataArtworkValue.cs" />
     <Compile Include="Metadata\MetadataRatingValue.cs" />
     <Compile Include="Metadata\MetadataValue.cs" />

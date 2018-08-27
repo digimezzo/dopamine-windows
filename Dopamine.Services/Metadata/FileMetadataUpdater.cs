@@ -19,7 +19,7 @@ namespace Dopamine.Services.Metadata
         private Timer updateFileMetadataTimer = new Timer();
         private int updateMetadataShortTimeout = 50; // 50 milliseconds
         private int updateMetadataLongTimeout = 15000; // 15 seconds
-        private Dictionary<string, IFileMetadata> fileMetadataToUpdate = new Dictionary<string, IFileMetadata>();
+        private Dictionary<string, FileMetadata> fileMetadataToUpdate = new Dictionary<string, FileMetadata>();
         private object fileMetadataToUpdateLock = new object();
         private bool isUpdatingFileMetadata;
 
@@ -35,7 +35,7 @@ namespace Dopamine.Services.Metadata
             this.playbackService.PlaybackSuccess += async (_, __) => await this.UpdateFileMetadataAsync(true);
         }
 
-        public async Task UpdateFileMetadataAsync(IList<IFileMetadata> fileMetadatas)
+        public async Task UpdateFileMetadataAsync(IList<FileMetadata> fileMetadatas)
         {
             this.updateFileMetadataTimer.Stop();
 
@@ -43,7 +43,7 @@ namespace Dopamine.Services.Metadata
             {
                 lock (this.fileMetadataToUpdateLock)
                 {
-                    foreach (IFileMetadata fmd in fileMetadatas)
+                    foreach (FileMetadata fmd in fileMetadatas)
                     {
                         if (this.fileMetadataToUpdate.ContainsKey(fmd.SafePath))
                         {
@@ -62,12 +62,12 @@ namespace Dopamine.Services.Metadata
             this.updateFileMetadataTimer.Start();
         }
 
-        public IFileMetadata GetFileMetadataToUpdate(string path)
+        public FileMetadata GetFileMetadataToUpdate(string path)
         {
             bool mustStartTimer = this.updateFileMetadataTimer.Enabled;
             this.updateFileMetadataTimer.Stop();
 
-            IFileMetadata fileMetadata = null;
+            FileMetadata fileMetadata = null;
 
             lock (fileMetadataToUpdateLock)
             {
@@ -105,7 +105,7 @@ namespace Dopamine.Services.Metadata
             this.updateFileMetadataTimer.Stop();
             this.isUpdatingFileMetadata = true;
 
-            var filesToSync = new List<IFileMetadata>();
+            var filesToSync = new List<FileMetadata>();
 
             await Task.Run(() =>
             {
@@ -120,7 +120,7 @@ namespace Dopamine.Services.Metadata
 
                     while (numberToProcess > 0)
                     {
-                        IFileMetadata fmd = this.fileMetadataToUpdate.First().Value;
+                        FileMetadata fmd = this.fileMetadataToUpdate.First().Value;
                         numberToProcess--;
 
                         try
@@ -149,7 +149,7 @@ namespace Dopamine.Services.Metadata
             });
 
             // Sync file size and last modified date in the database
-            foreach (IFileMetadata fmd in filesToSync)
+            foreach (FileMetadata fmd in filesToSync)
             {
                 await this.trackRepository.UpdateTrackFileInformationAsync(fmd.SafePath);
             }

@@ -20,7 +20,41 @@ namespace Dopamine.Core.Extensions
         {
             DataObject dataObject = dropInfo.Data as DataObject;
             StringCollection filenames = dataObject.GetFileDropList();
-            string[] supportedExtensions = FileFormats.SupportedMediaExtensions.Concat(FileFormats.SupportedPlaylistExtensions).ToArray();
+            string[] supportedExtensions = FileFormats.SupportedMediaExtensions;
+
+            foreach (string filename in filenames)
+            {
+                if (supportedExtensions.Contains(System.IO.Path.GetExtension(filename.ToLower())))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool IsDraggingPlaylistFiles(this IDropInfo dropInfo)
+        {
+            DataObject dataObject = dropInfo.Data as DataObject;
+            StringCollection filenames = dataObject.GetFileDropList();
+            string[] supportedExtensions = FileFormats.SupportedPlaylistExtensions;
+
+            foreach (string filename in filenames)
+            {
+                if (supportedExtensions.Contains(System.IO.Path.GetExtension(filename.ToLower())))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool IsDraggingSmartPlaylistFiles(this IDropInfo dropInfo)
+        {
+            DataObject dataObject = dropInfo.Data as DataObject;
+            StringCollection filenames = dataObject.GetFileDropList();
+            string[] supportedExtensions = FileFormats.SupportedSmartPlaylistExtensions;
 
             foreach (string filename in filenames)
             {

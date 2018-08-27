@@ -25,7 +25,6 @@ namespace Dopamine.Services.File
     public class FileService : IFileService
     {
         private ICacheService cacheService;
-        private IFileMetadataFactory fileMetadataFactory;
         private ITrackRepository trackRepository;
         private IContainerProvider container;
         private IList<string> files;
@@ -34,11 +33,9 @@ namespace Dopamine.Services.File
         private int addFilesMilliseconds = 250;
         private string instanceGuid;
 
-        public FileService(ICacheService cacheService, IFileMetadataFactory fileMetadataFactory,
-            ITrackRepository trackRepository, IContainerProvider container)
+        public FileService(ICacheService cacheService, ITrackRepository trackRepository, IContainerProvider container)
         {
             this.cacheService = cacheService;
-            this.fileMetadataFactory = fileMetadataFactory;
             this.trackRepository = trackRepository;
             this.container = container;
 
@@ -148,7 +145,7 @@ namespace Dopamine.Services.File
             try
             {
                 PlaybackCounter playbackCounters = await this.trackRepository.GetPlaybackCountersAsync(path);
-                Track track = await MetadataUtils.Path2TrackAsync(this.fileMetadataFactory.Create(path));
+                Track track = await MetadataUtils.Path2TrackAsync(path);
 
                 returnTrack = container.ResolveTrackViewModel(track);
             }

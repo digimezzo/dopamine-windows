@@ -22,6 +22,7 @@
 
     <!-- ListBoxSubfolderBreadCrumbs -->
     <Style x:Key="ListBoxSubfolderBreadCrumbs" TargetType="{x:Type ListBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxSubfolderBreadCrumbsItem}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />

@@ -351,8 +351,8 @@ namespace Dopamine.ViewModels.Common.Base
 
                         foreach (TrackViewModel vm in viewCopy)
                         {
-                            totalDuration += vm.Track.Duration.Value;
-                            totalSize += vm.Track.FileSize.Value;
+                            totalDuration += vm.Track.Duration.HasValue ? vm.Track.Duration.Value : 0;
+                            totalSize += vm.Track.FileSize.HasValue ? vm.Track.FileSize.Value : 0;
                         }
 
                         this.SetSizeInformation(totalDuration, totalSize);

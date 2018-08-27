@@ -1,5 +1,5 @@
 ﻿using Dopamine.Core.Base;
-using Dopamine.Core.Utils;
+using Dopamine.Core.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
