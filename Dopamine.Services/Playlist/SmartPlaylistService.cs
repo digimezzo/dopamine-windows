@@ -187,9 +187,53 @@ namespace Dopamine.Services.Playlist
             return result;
         }
 
-        public override Task<RenamePlaylistResult> RenamePlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
+        public override async Task<RenamePlaylistResult> RenamePlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
         {
-            throw new NotImplementedException();
+            if (playlistToRename == null)
+            {
+                LogClient.Error($"{nameof(playlistToRename)} is null");
+                return RenamePlaylistResult.Error;
+            }
+            if (string.IsNullOrWhiteSpace(newPlaylistName))
+            {
+                LogClient.Error($"{nameof(newPlaylistName)} is empty");
+                return RenamePlaylistResult.Blank;
+            }
+
+            IList<PlaylistViewModel> existingPlaylists = await this.GetPlaylistsAsync();
+
+            if (existingPlaylists.Any(x => x.Name.ToLower().Equals(newPlaylistName.ToLower())))
+            {
+                return RenamePlaylistResult.Duplicate;
+            }
+
+            RenamePlaylistResult result = RenamePlaylistResult.Success;
+
+            this.Watcher.Suspend(); // Stop watching the playlist folder
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    this.SetPlaylistNameIfDifferent(playlistToRename.Path, newPlaylistName);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", playlistToRename.Name, newPlaylistName, ex.Message);
+                    result = RenamePlaylistResult.Error;
+                }
+            });
+
+            if (result == RenamePlaylistResult.Success)
+            {
+                this.OnPlaylistRenamed(
+                    playlistToRename,
+                    new PlaylistViewModel(newPlaylistName, playlistToRename.Path));
+            }
+
+            this.Watcher.Resume(); // Start watching the playlist folder
+
+            return result;
         }
 
         public override Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)

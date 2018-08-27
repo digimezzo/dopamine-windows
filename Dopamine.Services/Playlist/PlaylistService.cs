@@ -491,7 +491,7 @@ namespace Dopamine.Services.Playlist
             }
             if (string.IsNullOrWhiteSpace(newPlaylistName))
             {
-                LogClient.Error("NewPlaylistName is empty");
+                LogClient.Error($"{nameof(newPlaylistName)} is empty");
                 return RenamePlaylistResult.Blank;
             }
 
@@ -531,7 +531,7 @@ namespace Dopamine.Services.Playlist
             if (result == RenamePlaylistResult.Success)
             {
                 this.OnPlaylistRenamed(
-                    new PlaylistViewModel(playlistToRename.Name, oldFilename),
+                    playlistToRename,
                     new PlaylistViewModel(sanitizedNewPlaylistName, newFilename));
             }
 

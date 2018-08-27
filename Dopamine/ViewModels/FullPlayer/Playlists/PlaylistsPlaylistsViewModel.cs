@@ -32,8 +32,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
         private IEventAggregator eventAggregator;
         private double leftPaneWidthPercent;
 
-        public DelegateCommand RenameSelectedPlaylistCommand { get; set; }
-
         public DelegateCommand AddPlaylistToNowPlayingCommand { get; set; }
 
         public DelegateCommand ShuffleSelectedPlaylistCommand { get; set; }
@@ -62,7 +60,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             // Commands
             this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
             this.NewPlaylistCommand = new DelegateCommand(async () => await this.ConfirmAddPlaylistAsync());
-            this.RenameSelectedPlaylistCommand = new DelegateCommand(async () => await this.RenameSelectedPlaylistAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.DeleteTracksFromPlaylistsAsync());
             this.AddPlaylistToNowPlayingCommand = new DelegateCommand(async () => await this.AddPlaylistToNowPlayingAsync());
             this.ShuffleSelectedPlaylistCommand = new DelegateCommand(async () => await this.ShuffleSelectedPlaylistAsync());
@@ -192,66 +189,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                     ResourceUtils.GetString("Language_Ok"),
                     true,
                     ResourceUtils.GetString("Language_Log_File"));
-            }
-        }
-
-        private async Task RenameSelectedPlaylistAsync()
-        {
-            if (!this.IsPlaylistSelected)
-            {
-                return;
-            }
-
-            PlaylistViewModel oldPlaylist = this.SelectedPlaylist;
-            string newPlaylistName = oldPlaylist.Name;
-
-            if (this.dialogService.ShowInputDialog(
-                0xea37,
-                16,
-                ResourceUtils.GetString("Language_Rename_Playlist"),
-                ResourceUtils.GetString("Language_Enter_New_Name_For_Playlist").Replace("{playlistname}", oldPlaylist.Name),
-                ResourceUtils.GetString("Language_Ok"),
-                ResourceUtils.GetString("Language_Cancel"),
-                ref newPlaylistName))
-            {
-                RenamePlaylistResult result = await this.playlistService.RenamePlaylistAsync(this.SelectedPlaylist, newPlaylistName);
-
-                switch (result)
-                {
-                    case RenamePlaylistResult.Duplicate:
-                        this.dialogService.ShowNotification(
-                            0xe711,
-                            16,
-                            ResourceUtils.GetString("Language_Already_Exists"),
-                            ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("{playlistname}", newPlaylistName),
-                            ResourceUtils.GetString("Language_Ok"),
-                            false,
-                            string.Empty);
-                        break;
-                    case RenamePlaylistResult.Error:
-                        this.dialogService.ShowNotification(
-                            0xe711,
-                            16,
-                            ResourceUtils.GetString("Language_Error"),
-                            ResourceUtils.GetString("Language_Error_Renaming_Playlist"),
-                            ResourceUtils.GetString("Language_Ok"),
-                            true,
-                            ResourceUtils.GetString("Language_Log_File"));
-                        break;
-                    case RenamePlaylistResult.Blank:
-                        this.dialogService.ShowNotification(
-                            0xe711,
-                            16,
-                            ResourceUtils.GetString("Language_Error"),
-                            ResourceUtils.GetString("Language_Provide_Playlist_Name"),
-                            ResourceUtils.GetString("Language_Ok"),
-                            false,
-                            string.Empty);
-                        break;
-                    default:
-                        // Never happens
-                        break;
-                }
             }
         }
 
