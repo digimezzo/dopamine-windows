@@ -228,6 +228,7 @@
 
     <!-- ListBox -->
     <Style x:Key="ListBoxTracks" TargetType="{x:Type ListBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxTracksItem}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent"/>

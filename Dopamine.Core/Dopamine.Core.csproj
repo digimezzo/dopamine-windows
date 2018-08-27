@@ -117,6 +117,7 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Base\ProductInformation.cs" />
     <Compile Include="Extensions\WindowExtensions.cs" />
+    <Compile Include="Helpers\GentleFolderWatcher.cs" />
     <Compile Include="Helpers\ILocalizationInfo.cs" />
     <Compile Include="Helpers\LocalizationInfo.cs" />
     <Compile Include="Helpers\OrderedDictionary.cs" />
@@ -147,7 +148,6 @@
     <Compile Include="Utils\ColorUtils.cs" />
     <Compile Include="Utils\FormatUtils.cs" />
     <Compile Include="Utils\NumberUtils.cs" />
-    <Compile Include="Utils\StringUtils.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

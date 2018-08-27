@@ -198,13 +198,19 @@ namespace Dopamine.ViewModels.Common.Base
 
             if (!allSelectedTracksExist)
             {
-                string message = ResourceUtils.GetString("Language_Song_Cannot_Be_Found_Refresh_Collection");
-                if (paths.Count > 1) message = ResourceUtils.GetString("Language_Songs_Cannot_Be_Found_Refresh_Collection");
+                string message = ResourceUtils.GetString("Language_Song_Cannot_Be_Found");
 
-                if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetString("Language_Refresh"), message, ResourceUtils.GetString("Language_Yes"), ResourceUtils.GetString("Language_No")))
+                if (paths.Count > 1)
                 {
-                    this.indexingService.RefreshCollectionImmediatelyAsync();
+                    message = ResourceUtils.GetString("Language_Songs_Cannot_Be_Found");
                 }
+
+                this.dialogService.ShowNotification(
+                    0xe711, 
+                    16, 
+                    ResourceUtils.GetString("Language_Error"), 
+                    message, 
+                    ResourceUtils.GetString("Language_Ok"), false, string.Empty);
             }
 
             return allSelectedTracksExist;

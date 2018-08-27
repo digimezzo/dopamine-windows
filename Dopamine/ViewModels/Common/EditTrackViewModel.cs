@@ -286,7 +286,7 @@ namespace Dopamine.ViewModels.Common
 
         private async Task GetFilesMetadataAsync()
         {
-            var fileMetadatas = new List<IFileMetadata>();
+            var fileMetadatas = new List<FileMetadata>();
 
             try
             {
@@ -368,7 +368,7 @@ namespace Dopamine.ViewModels.Common
             });
         }
 
-        private void GetArtwork(List<IFileMetadata> fileMetadatas)
+        private void GetArtwork(List<FileMetadata> fileMetadatas)
         {
             byte[] foundArtwork = null;
 
@@ -443,7 +443,7 @@ namespace Dopamine.ViewModels.Common
         {
             if (!this.AllEntriesValid()) return false;
 
-            var fmdList = new List<IFileMetadata>();
+            var fmdList = new List<FileMetadata>();
 
             this.IsBusy = true;
 
@@ -453,7 +453,7 @@ namespace Dopamine.ViewModels.Common
                 {
                     foreach (string path in this.paths)
                     {
-                        IFileMetadata fmd = this.metadataService.GetFileMetadata(path);
+                        FileMetadata fmd = this.metadataService.GetFileMetadata(path);
 
                         fmd.Artists = this.artists;
                         fmd.Title = this.title;

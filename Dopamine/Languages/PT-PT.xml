@@ -134,7 +134,6 @@
   <Text Key="Not_Available_In_Portable_Version">não disponível na versão portátil</Text>
   <Text Key="Refresh_Now">Recarregar agora</Text>
   <Text Key="New_Playlist">Nova lista de reprodução</Text>
-  <Text Key="Open_Playlist">Abrir lista de reprodução</Text>
   <Text Key="All_Playlists">Todas as listas de reprodução</Text>
   <Text Key="Enter_Name_For_New_Playlist">Digite o nome para a sua nova lista de reprodução:</Text>
   <Text Key="Already_Exists">Já existe</Text>
@@ -337,8 +336,8 @@
   <Text Key="No_Lyrics_Found">Não encontrada</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Deslocar automaticamente para a faixa em reprodução</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Roda do rato altera o volume em</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Faixa não encontrada. Pode ter sido movida ou apagada. Deseja atualizar a coleção?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">Uma ou mais faixas não encontradas. Podem ter sido movidas ou apagadas. Deseja atualizar a coleção?</Text>
+  <Text Key="Song_Cannot_Be_Found">Faixa não encontrada. Pode ter sido movida ou apagada.</Text>
+  <Text Key="Songs_Cannot_Be_Found">Uma ou mais faixas não encontradas. Podem ter sido movidas ou apagadas.</Text>
   <Text Key="Automatic_Scrolling">Deslocação automática</Text>
   <Text Key="Font_Size">Tamanho do tipo de letra</Text>
   <Text Key="Cancel_Edit">Cancelar edição</Text>
@@ -433,4 +432,8 @@
   <Text Key="Back">Recuar</Text>
   <Text Key="Folders">Pastas</Text>
   <Text Key="Smart_Playlists">Listas de reprodução inteligentes</Text>
+  <Text Key="Import_Playlists">Import playlists</Text>
+  <Text Key="Error_Importing_Playlists">An error occurred while importing playlists. Please consult the log file for more information.</Text>
+  <Text Key="New_Smart_Playlist">New smart playlist</Text>
+  <Text Key="Import_Smart_Playlists">Import smart playlists</Text>
 </Language>

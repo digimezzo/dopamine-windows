@@ -1,9 +1,13 @@
 ﻿using Dopamine.Core.Extensions;
+using Prism.Mvvm;
 
 namespace Dopamine.Services.Entities
 {
-    public class SubfolderViewModel
+    public class SubfolderViewModel : BindableBase
     {
+        private bool isPlaying;
+        private bool isPaused;
+
         public string DisplayName { get; }
 
         public string Path { get; }
@@ -11,6 +15,18 @@ namespace Dopamine.Services.Entities
         public string SafePath { get; }
 
         public bool IsGoToParent { get; }
+
+        public bool IsPlaying
+        {
+            get { return this.isPlaying; }
+            set { SetProperty<bool>(ref this.isPlaying, value); }
+        }
+
+        public bool IsPaused
+        {
+            get { return this.isPaused; }
+            set { SetProperty<bool>(ref this.isPaused, value); }
+        }
 
         public SubfolderViewModel(string path, bool isGoToParent)
         {

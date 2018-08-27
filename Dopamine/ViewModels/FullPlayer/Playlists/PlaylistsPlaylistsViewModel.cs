@@ -19,34 +19,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace Dopamine.ViewModels.FullPlayer.Playlists
 {
-    public class PlaylistsPlaylistsViewModel : TracksViewModelBaseWithTrackArt, IDropTarget
+    public class PlaylistsPlaylistsViewModel : PlaylistsViewModelBase, IDropTarget
     {
         private IFileService fileService;
         private IPlaylistService playlistService;
         private IDialogService dialogService;
         private IPlaybackService playbackService;
         private IEventAggregator eventAggregator;
-        private ObservableCollection<PlaylistViewModel> playlists;
-        private PlaylistViewModel selectedPlaylist;
-        private bool isLoadingPlaylists;
-        private string playlistsTarget = "ListBoxPlaylists";
-        private string tracksTarget = "ListBoxTracks";
         private double leftPaneWidthPercent;
-
-        public DelegateCommand NewPlaylistCommand { get; set; }
-
-        public DelegateCommand OpenPlaylistCommand { get; set; }
-
-        public DelegateCommand<string> DeletePlaylistByNameCommand { get; set; }
-
-        public DelegateCommand RenameSelectedPlaylistCommand { get; set; }
-
-        public DelegateCommand DeleteSelectedPlaylistCommand { get; set; }
 
         public DelegateCommand AddPlaylistToNowPlayingCommand { get; set; }
 
@@ -62,172 +46,33 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
         }
 
-        public bool IsPlaylistSelected => this.selectedPlaylist != null;
-
-        public bool IsLoadingPlaylists
-        {
-            get { return this.isLoadingPlaylists; }
-            set { SetProperty<bool>(ref this.isLoadingPlaylists, value); }
-        }
-
-        public ObservableCollection<PlaylistViewModel> Playlists
-        {
-            get { return this.playlists; }
-            set { SetProperty<ObservableCollection<PlaylistViewModel>>(ref this.playlists, value); }
-        }
-
-        public PlaylistViewModel SelectedPlaylist
-        {
-            get { return this.selectedPlaylist; }
-            set
-            {
-                SetProperty<PlaylistViewModel>(ref this.selectedPlaylist, value);
-
-                if (value != null)
-                {
-                    this.GetTracksAsync();
-                }
-                else
-                {
-                    this.ClearTracks();
-                }
-            }
-        }
-
-        public string SelectedPlaylistName
-        {
-            get
-            {
-                if (this.SelectedPlaylist != null && !string.IsNullOrEmpty(this.SelectedPlaylist.Name))
-                {
-                    return this.SelectedPlaylist.Name;
-                }
-
-                return null;
-            }
-        }
-
-        public long PlaylistsCount
-        {
-            get
-            {
-                if (this.playlists == null)
-                {
-                    return 0;
-                }
-
-                return this.playlists.Count;
-            }
-        }
-
-        public PlaylistsPlaylistsViewModel(IContainerProvider container) : base(container)
+        public PlaylistsPlaylistsViewModel(IContainerProvider container, IDialogService dialogService,
+            IPlaylistService playlistService, IFileService fileService, IPlaybackService playbackService,
+            IEventAggregator eventAggregator) : base(container, dialogService, playlistService)
         {
             // Dependency injection
-            this.fileService = container.Resolve<IFileService>();
-            this.playlistService = container.Resolve<IPlaylistService>();
-            this.playbackService = container.Resolve<IPlaybackService>();
-            this.eventAggregator = container.Resolve<IEventAggregator>();
-            this.dialogService = container.Resolve<IDialogService>();
+            this.fileService = fileService;
+            this.playlistService = playlistService;
+            this.playbackService = playbackService;
+            this.eventAggregator = eventAggregator;
+            this.dialogService = dialogService;
 
             // Commands
             this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
             this.NewPlaylistCommand = new DelegateCommand(async () => await this.ConfirmAddPlaylistAsync());
-            this.OpenPlaylistCommand = new DelegateCommand(async () => await this.OpenPlaylistAsync());
-            this.RenameSelectedPlaylistCommand = new DelegateCommand(async () => await this.RenameSelectedPlaylistAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.DeleteTracksFromPlaylistsAsync());
             this.AddPlaylistToNowPlayingCommand = new DelegateCommand(async () => await this.AddPlaylistToNowPlayingAsync());
-            this.DeletePlaylistByNameCommand = new DelegateCommand<string>(async (playlistName) => await this.ConfirmDeletePlaylistAsync(playlistName));
             this.ShuffleSelectedPlaylistCommand = new DelegateCommand(async () => await this.ShuffleSelectedPlaylistAsync());
 
-            this.DeleteSelectedPlaylistCommand = new DelegateCommand(async () =>
-            {
-                if (this.IsPlaylistSelected) await this.ConfirmDeletePlaylistAsync(this.SelectedPlaylistName);
-            });
-
-            // Settings changed
-            SettingsClient.SettingChanged += (_, e) =>
-            {
-                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
-                {
-                    this.EnableRating = (bool)e.SettingValue;
-                }
-
-                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
-                {
-                    this.EnableLove = (bool)e.SettingValue;
-                }
-            };
-
             // Events
-            this.playlistService.TracksAdded += async (numberTracksAdded, playlistName) => await this.UpdateAddedTracksAsync(playlistName);
-            this.playlistService.TracksDeleted += async (playlistName) => await this.UpdateDeletedTracksAsync(playlistName);
-            this.playlistService.PlaylistAdded += (addedPlaylistName) => this.UpdateAddedPlaylist(addedPlaylistName);
-            this.playlistService.PlaylistDeleted += (deletedPlaylistName) => this.UpdateDeletedPlaylist(deletedPlaylistName);
-            this.playlistService.PlaylistRenamed += (oldPlaylistName, newPlaylistName) => this.UpdateRenamedPlaylist(oldPlaylistName, newPlaylistName);
-            this.playlistService.PlaylistFolderChanged += async (_, __) => await this.FillListsAsync();
+            this.playlistService.TracksAdded += PlaylistService_TracksAdded;
+            this.playlistService.TracksDeleted += PlaylistService_TracksDeleted;
 
             // Load settings
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
         }
 
-        private void TrySelectFirstPlaylist()
-        {
-            try
-            {
-                if (this.Playlists.Count > 0)
-                {
-                    this.SelectedPlaylist = this.Playlists[0];
-                }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("An error occurred while selecting the playlist. Exception: {0}", ex.Message);
-            }
-        }
-
-        private void UpdateAddedPlaylist(string addedPlaylistName)
-        {
-            this.Playlists.Add(new PlaylistViewModel() { Name = addedPlaylistName });
-
-            // If there is only 1 playlist, automatically select it.
-            if (this.Playlists != null && this.Playlists.Count == 1)
-            {
-                this.TrySelectFirstPlaylist();
-            }
-
-            // Notify that the count has changed
-            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
-        }
-
-        private void UpdateDeletedPlaylist(string deletedPlaylistName)
-        {
-            this.Playlists.Remove(new PlaylistViewModel() { Name = deletedPlaylistName });
-
-            // If the selected playlist was deleted, select the first playlist.
-            if (this.SelectedPlaylist == null)
-            {
-                this.TrySelectFirstPlaylist();
-            }
-
-            // Notify that the count has changed
-            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
-        }
-
-        private void UpdateRenamedPlaylist(string oldPlaylistName, string newPlaylistName)
-        {
-            // Remove the old playlist
-            var oldPlaylist = new PlaylistViewModel() { Name = oldPlaylistName };
-
-            if (this.Playlists.Contains(oldPlaylist))
-            {
-                this.Playlists.Remove(oldPlaylist);
-            }
-
-            // Add the new playlist
-            this.Playlists.Add(new PlaylistViewModel() { Name = newPlaylistName });
-        }
-
-        private async Task UpdateAddedTracksAsync(string playlistName)
+        private async void PlaylistService_TracksDeleted(string playlistName)
         {
             // Only update the tracks, if the selected playlist was modified.
             if (this.IsPlaylistSelected && string.Equals(this.SelectedPlaylistName, playlistName, StringComparison.InvariantCultureIgnoreCase))
@@ -236,7 +81,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
         }
 
-        private async Task UpdateDeletedTracksAsync(string playlistName)
+        private async void PlaylistService_TracksAdded(int numberTracksAdded, string playlistName)
         {
             // Only update the tracks, if the selected playlist was modified.
             if (this.IsPlaylistSelected && string.Equals(this.SelectedPlaylistName, playlistName, StringComparison.InvariantCultureIgnoreCase))
@@ -247,7 +92,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
         private async Task ConfirmAddPlaylistAsync()
         {
-            string responseText = await this.playlistService.GetUniquePlaylistAsync(ResourceUtils.GetString("Language_New_Playlist"));
+            string responseText = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
 
             if (this.dialogService.ShowInputDialog(
                 0xea37,
@@ -304,26 +149,12 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
         }
 
-        private async Task GetPlaylistsAsync()
+        protected override async Task GetPlaylistsAsync()
         {
-            // Notify the user
-            this.IsLoadingPlaylists = true;
-
             try
             {
-                // Get the Albums from the database
-                IList<string> playlists = await this.playlistService.GetPlaylistsAsync();
-
                 // Populate an ObservableCollection
-                var playlistViewModels = new ObservableCollection<PlaylistViewModel>();
-
-                await Task.Run(() =>
-                {
-                    foreach (string playlist in playlists)
-                    {
-                        playlistViewModels.Add(new PlaylistViewModel { Name = playlist });
-                    }
-                });
+                var playlistViewModels = new ObservableCollection<PlaylistViewModel>(await this.playlistService.GetPlaylistsAsync());
 
                 // Unbind and rebind to improve UI performance
                 this.Playlists = null;
@@ -337,9 +168,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                 this.Playlists = new ObservableCollection<PlaylistViewModel>();
             }
 
-            // Stop notifying
-            this.IsLoadingPlaylists = false;
-
             // Notify that the count has changed
             this.RaisePropertyChanged(nameof(this.PlaylistsCount));
 
@@ -347,9 +175,9 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             this.TrySelectFirstPlaylist();
         }
 
-        private async Task DeletePlaylistAsync(string playlistName)
+        protected override async Task DeletePlaylistAsync(PlaylistViewModel playlist)
         {
-            DeletePlaylistsResult result = await this.playlistService.DeletePlaylistAsync(playlistName);
+            DeletePlaylistsResult result = await this.playlistService.DeletePlaylistAsync(playlist);
 
             if (result == DeletePlaylistsResult.Error)
             {
@@ -357,136 +185,17 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                     0xe711,
                     16,
                     ResourceUtils.GetString("Language_Error"),
-                    ResourceUtils.GetString("Language_Error_Deleting_Playlist").Replace("{playlistname}", playlistName),
+                    ResourceUtils.GetString("Language_Error_Deleting_Playlist").Replace("{playlistname}", playlist.Name),
                     ResourceUtils.GetString("Language_Ok"),
                     true,
                     ResourceUtils.GetString("Language_Log_File"));
             }
         }
 
-        private async Task ConfirmDeletePlaylistAsync(string playlistName)
-        {
-            if (this.dialogService.ShowConfirmation(
-                0xe11b,
-                16,
-                ResourceUtils.GetString("Language_Delete"),
-                ResourceUtils.GetString("Language_Are_You_Sure_To_Delete_Playlist").Replace("{playlistname}", playlistName),
-                ResourceUtils.GetString("Language_Yes"),
-                ResourceUtils.GetString("Language_No")))
-            {
-                await this.DeletePlaylistAsync(playlistName);
-            }
-        }
-
-        private async Task RenameSelectedPlaylistAsync()
-        {
-            if (!this.IsPlaylistSelected) return;
-
-            string oldPlaylistName = this.SelectedPlaylistName;
-            string newPlaylistName = oldPlaylistName;
-
-            if (this.dialogService.ShowInputDialog(
-                0xea37,
-                16,
-                ResourceUtils.GetString("Language_Rename_Playlist"),
-                ResourceUtils.GetString("Language_Enter_New_Name_For_Playlist").Replace("{playlistname}", oldPlaylistName),
-                ResourceUtils.GetString("Language_Ok"),
-                ResourceUtils.GetString("Language_Cancel"),
-                ref newPlaylistName))
-            {
-                RenamePlaylistResult result = await this.playlistService.RenamePlaylistAsync(oldPlaylistName, newPlaylistName);
-
-                switch (result)
-                {
-                    case RenamePlaylistResult.Duplicate:
-                        this.dialogService.ShowNotification(
-                            0xe711,
-                            16,
-                            ResourceUtils.GetString("Language_Already_Exists"),
-                            ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("{playlistname}", newPlaylistName),
-                            ResourceUtils.GetString("Language_Ok"),
-                            false,
-                            string.Empty);
-                        break;
-                    case RenamePlaylistResult.Error:
-                        this.dialogService.ShowNotification(
-                            0xe711,
-                            16,
-                            ResourceUtils.GetString("Language_Error"),
-                            ResourceUtils.GetString("Language_Error_Renaming_Playlist"),
-                            ResourceUtils.GetString("Language_Ok"),
-                            true,
-                            ResourceUtils.GetString("Language_Log_File"));
-                        break;
-                    case RenamePlaylistResult.Blank:
-                        this.dialogService.ShowNotification(
-                            0xe711,
-                            16,
-                            ResourceUtils.GetString("Language_Error"),
-                            ResourceUtils.GetString("Language_Provide_Playlist_Name"),
-                            ResourceUtils.GetString("Language_Ok"),
-                            false,
-                            string.Empty);
-                        break;
-                    default:
-                        // Never happens
-                        break;
-                }
-            }
-        }
-
-        private async Task OpenPlaylistAsync(string playlistPath = "")
-        {
-            if (string.IsNullOrEmpty(playlistPath))
-            {
-                // Set up the file dialog box
-                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-                dlg.Title = Application.Current.FindResource("Language_Open_Playlist").ToString();
-                dlg.DefaultExt = FileFormats.M3U; // Default file extension
-
-                // Filter files by extension
-                dlg.Filter = ResourceUtils.GetString("Language_Playlists") + " (*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL + ")|*" + FileFormats.M3U + ";*" + FileFormats.WPL + ";*" + FileFormats.ZPL;
-
-                // Show the file dialog box
-                bool? dialogResult = dlg.ShowDialog();
-
-                // Process the file dialog box result
-                if (!(bool)dialogResult)
-                {
-                    return;
-                }
-
-                playlistPath = dlg.FileName;
-            }
-
-            this.IsLoadingPlaylists = true;
-
-            OpenPlaylistResult openResult = await this.playlistService.OpenPlaylistAsync(playlistPath);
-
-            if (openResult == OpenPlaylistResult.Error)
-            {
-                this.IsLoadingPlaylists = false;
-
-                this.dialogService.ShowNotification(
-                    0xe711,
-                    16,
-                    ResourceUtils.GetString("Language_Error"),
-                    ResourceUtils.GetString("Language_Error_Opening_Playlist"),
-                    ResourceUtils.GetString("Language_Ok"),
-                    true,
-                    ResourceUtils.GetString("Language_Log_File"));
-            }
-        }
-
-        private async Task GetTracksAsync()
+        protected override async Task GetTracksAsync()
         {
             IList<TrackViewModel> tracks = await this.playlistService.GetTracks(this.SelectedPlaylistName);
             await this.GetTracksCommonAsync(tracks, TrackOrder.None);
-        }
-
-        private async Task ClearTracks()
-        {
-            await this.GetTracksCommonAsync(new List<TrackViewModel>(), TrackOrder.None);
         }
 
         private async Task DeleteTracksFromPlaylistsAsync()
@@ -497,6 +206,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
 
             string question = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Songs_From_Playlist").Replace("{playlistname}", this.SelectedPlaylistName);
+
             if (this.SelectedTracks.Count == 1)
             {
                 question = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Song_From_Playlist").Replace("{playlistname}", this.SelectedPlaylistName);
@@ -551,13 +261,13 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
         private async Task ShuffleSelectedPlaylistAsync()
         {
-            List<TrackViewModel> tracks = await this.playlistService.GetTracks(this.SelectedPlaylistName);
+            IList<TrackViewModel> tracks = await this.playlistService.GetTracks(this.SelectedPlaylistName);
             await this.playbackService.EnqueueAsync(tracks, true, false);
         }
 
         private async Task AddPlaylistToNowPlayingAsync()
         {
-            List<TrackViewModel> tracks = await this.playlistService.GetTracks(this.SelectedPlaylistName);
+            IList<TrackViewModel> tracks = await this.playlistService.GetTracks(this.SelectedPlaylistName);
             EnqueueResult result = await this.playbackService.AddToQueueAsync(tracks);
 
             if (!result.IsSuccess)
@@ -597,7 +307,10 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                 {
                     string hoveredPlaylistName = ((PlaylistViewModel)dropInfo.TargetItem).Name;
 
-                    if (hoveredPlaylistName.Equals(this.SelectedPlaylistName)) return; // Don't add tracks to the same playlist
+                    if (hoveredPlaylistName.Equals(this.SelectedPlaylistName))
+                    {
+                        return; // Don't add tracks to the same playlist
+                    }
 
                     var tracks = new List<TrackViewModel>();
 
@@ -652,7 +365,10 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                 IList<string> filenames = dropInfo.GetDroppedFilenames();
                 tracks = await this.fileService.ProcessFilesAsync(filenames);
 
-                if (hoveredPlaylist != null && tracks != null) await this.playlistService.AddTracksToPlaylistAsync(tracks, hoveredPlaylist.Name);
+                if (hoveredPlaylist != null && tracks != null)
+                {
+                    await this.playlistService.AddTracksToPlaylistAsync(tracks, hoveredPlaylist.Name);
+                }
             }
             catch (Exception ex)
             {
@@ -685,7 +401,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
             else if (dropInfo.TargetItem == null)
             {
-                string uniquePlaylistName = await this.playlistService.GetUniquePlaylistAsync(ResourceUtils.GetString("Language_New_Playlist"));
+                string uniquePlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
                 IList<string> allFilenames = dropInfo.GetDroppedFilenames();
                 IList<string> audioFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedAudioFile(f)).ToList();
                 IList<string> playlistFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedPlaylistFile(f)).ToList();
@@ -700,10 +416,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                 }
 
                 // 3. Drop playlist files in empty part of list: add the playlist with a unique name
-                foreach (string playlistFileName in playlistFileNames)
-                {
-                    await this.OpenPlaylistAsync(playlistFileName);
-                }
+                await this.ImportPlaylistsAsync(playlistFileNames);
             }
         }
 
@@ -723,7 +436,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
                 if (isDraggingFiles)
                 {
-                    isDraggingValidFiles = dropInfo.IsDraggingMediaFiles();
+                    isDraggingValidFiles = dropInfo.IsDraggingMediaFiles() || dropInfo.IsDraggingPlaylistFiles();
                 }
 
                 if (isDraggingFiles & !isDraggingValidFiles)
@@ -734,7 +447,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                 // If we're dragging into the list of tracks, there must be playlists, and a playlist must be selected.
                 ListBox target = dropInfo.VisualTarget as ListBox;
 
-                if (target.Name.Equals(tracksTarget) && (this.Playlists == null || this.Playlists.Count == 0 || this.SelectedPlaylist == null))
+                if (target.Name.Equals(this.TracksTarget) && (this.Playlists == null || this.Playlists.Count == 0 || this.SelectedPlaylist == null))
                 {
                     return;
                 }
@@ -747,7 +460,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                     hoveredPlaylistName = ((PlaylistViewModel)dropInfo.TargetItem).Name;
                 }
 
-                if (!isDraggingFiles && target.Name.Equals(playlistsTarget) &&
+                if (!isDraggingFiles && target.Name.Equals(this.PlaylistsTarget) &&
                     !string.IsNullOrEmpty(hoveredPlaylistName) &&
                     !string.IsNullOrEmpty(this.SelectedPlaylistName) &&
                     hoveredPlaylistName.Equals(this.SelectedPlaylistName))
@@ -772,7 +485,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             {
                 ListBox target = dropInfo.VisualTarget as ListBox;
 
-                if (target.Name.Equals(this.playlistsTarget))
+                if (target.Name.Equals(this.PlaylistsTarget))
                 {
                     // Dragging to the Playlists listbox
                     if (dropInfo.IsDraggingFiles())
@@ -784,7 +497,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                         await this.AddDroppedTracksToHoveredPlaylist(dropInfo);
                     }
                 }
-                else if (target.Name.Equals(this.tracksTarget))
+                else if (target.Name.Equals(this.TracksTarget))
                 {
                     // Dragging to the Tracks listbox
                     if (dropInfo.IsDraggingFiles())
@@ -802,20 +515,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             {
                 LogClient.Error("Could not perform drop. Exception: {0}", ex.Message);
             }
-        }
-
-        protected override async Task FillListsAsync()
-        {
-            await this.GetPlaylistsAsync();
-            await this.GetTracksAsync();
-        }
-
-        protected override async Task LoadedCommandAsync()
-        {
-            if (!this.IsFirstLoad()) return;
-
-            await Task.Delay(Constants.CommonListLoadDelay); // Wait for the UI to slide in
-            await this.FillListsAsync(); // Fill all the lists
         }
     }
 }

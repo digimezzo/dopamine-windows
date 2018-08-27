@@ -118,6 +118,7 @@
 
     <!-- ListBox -->
     <Style x:Key="ListBoxGenres" TargetType="{x:Type ListBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource ListBoxGenresItem}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />

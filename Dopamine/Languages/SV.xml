@@ -134,7 +134,6 @@
   <Text Key="Not_Available_In_Portable_Version">Inte tillgängligt i portabla versionen</Text>
   <Text Key="Refresh_Now">Uppdatera nu</Text>
   <Text Key="New_Playlist">Ny spellista</Text>
-  <Text Key="Open_Playlist">Öppna spellista</Text>
   <Text Key="All_Playlists">Alla spellistor</Text>
   <Text Key="Enter_Name_For_New_Playlist">Namnge nya spellistan</Text>
   <Text Key="Already_Exists">Finns redan</Text>
@@ -337,8 +336,8 @@
   <Text Key="No_Lyrics_Found">Inga låttexter hittades</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Skrolla automatiskt till spelande låt</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">Mus skrollning ändrar volymen med</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">Denna låt hittades inte. Den var troligen flyttad eller raderad. Vill du uppdatera samlingen?</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">En eller flera låtar hittades inte. Dom var troligen flyttade eller raderade. Vill du uppdatera samlingen?</Text>
+  <Text Key="Song_Cannot_Be_Found">Denna låt hittades inte. Den var troligen flyttad eller raderad.</Text>
+  <Text Key="Songs_Cannot_Be_Found">En eller flera låtar hittades inte. Dom var troligen flyttade eller raderade.</Text>
   <Text Key="Automatic_Scrolling">Automatisk skrollning</Text>
   <Text Key="Font_Size">Tecken storlek</Text>
   <Text Key="Cancel_Edit">Avbryt redigering</Text>
@@ -433,4 +432,8 @@
   <Text Key="Back">Back</Text>
   <Text Key="Folders">Folders</Text>
   <Text Key="Smart_Playlists">Smart playlists</Text>
+  <Text Key="Import_Playlists">Import playlists</Text>
+  <Text Key="Error_Importing_Playlists">An error occurred while importing playlists. Please consult the log file for more information.</Text>
+  <Text Key="New_Smart_Playlist">New smart playlist</Text>
+  <Text Key="Import_Smart_Playlists">Import smart playlists</Text>
 </Language>

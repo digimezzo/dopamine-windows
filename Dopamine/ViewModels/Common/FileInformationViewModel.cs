@@ -6,6 +6,7 @@ using Dopamine.Services.Metadata;
 using Prism.Mvvm;
 using System;
 using System.Globalization;
+using System.IO;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -137,6 +138,11 @@ namespace Dopamine.ViewModels.Common
         {
             try
             {
+                if (!File.Exists(path))
+                {
+                    return;
+                }
+
                 var fm = new FileMetadata(path);
 
                 this.SongTitle = fm.Title.Value;

@@ -416,7 +416,7 @@ namespace Dopamine.Services.Playback
             }
         }
 
-        public async Task UpdateQueueMetadataAsync(IList<IFileMetadata> fileMetadatas)
+        public async Task UpdateQueueMetadataAsync(IList<FileMetadata> fileMetadatas)
         {
             UpdateQueueMetadataResult result = await this.queueManager.UpdateMetadataAsync(fileMetadatas);
 
@@ -1169,7 +1169,10 @@ namespace Dopamine.Services.Playback
             {
                 try
                 {
-                    if (this.player != null) this.player.Stop();
+                    if (this.player != null)
+                    {
+                        this.player.Stop();
+                    }
                 }
                 catch (Exception)
                 {

@@ -1,6 +1,8 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
+using Dopamine.Core.Extensions;
+using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
@@ -16,39 +18,36 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
+using System.Windows;
 
 namespace Dopamine.Services.Playlist
 {
-    public class PlaylistService : IPlaylistService
+    public class PlaylistService : PlaylistServiceBase, IPlaylistService
     {
         private IFileService fileService;
         private ITrackRepository trackRepository;
         private IContainerProvider container;
-        private string playlistFolder;
-        private FileSystemWatcher watcher = new FileSystemWatcher();
-        private Timer playlistFolderChangedTimer = new Timer();
-     
-        public string PlaylistFolder
+
+        public override string PlaylistFolder { get; }
+
+        public override string DialogFileFilter => $"(*{FileFormats.M3U};*{FileFormats.WPL};*{FileFormats.ZPL})|*{FileFormats.M3U};*{FileFormats.WPL};*{FileFormats.ZPL}";
+
+        public PlaylistService(IFileService fileService, ITrackRepository trackRepository, IContainerProvider container) : base()
         {
-            get { return this.playlistFolder; }
-        }
-     
-        public PlaylistService(IFileService fileService, ITrackRepository trackRepository, IContainerProvider container)
-        {
+            // Dependency injection
             this.fileService = fileService;
             this.trackRepository = trackRepository;
             this.container = container;
 
             // Initialize Playlists folder
             string musicFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-            this.playlistFolder = Path.Combine(musicFolder, ProductInformation.ApplicationName, "Playlists");
+            this.PlaylistFolder = Path.Combine(musicFolder, ProductInformation.ApplicationName, "Playlists");
 
-            if (!Directory.Exists(playlistFolder))
+            if (!Directory.Exists(this.PlaylistFolder))
             {
                 try
                 {
-                    Directory.CreateDirectory(playlistFolder);
+                    Directory.CreateDirectory(this.PlaylistFolder);
                 }
                 catch (Exception ex)
                 {
@@ -56,61 +55,39 @@ namespace Dopamine.Services.Playlist
                 }
             }
 
-            // Set watcher path
-            watcher.Path = playlistFolder;
-
-            // Watch for changes in LastAccess and LastWrite times, and the renaming of files or directories.
-            watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-            
-            // Only watch m3u files
-            watcher.Filter = "*" + FileFormats.M3U;
-
-            // Add event handlers
-            watcher.Changed += new FileSystemEventHandler(OnChanged);
-            watcher.Created += new FileSystemEventHandler(OnChanged);
-            watcher.Deleted += new FileSystemEventHandler(OnChanged);
-            watcher.Renamed += new RenamedEventHandler(OnRenamed);
-
-            // Begin watching
-            watcher.EnableRaisingEvents = true;
-
-            // Configure timer
-            playlistFolderChangedTimer.Interval = 250;
-            playlistFolderChangedTimer.Elapsed += PlaylistsChangedTimer_Elapsed;
-            playlistFolderChangedTimer.Start();
+            // Watcher
+            this.Watcher = new GentleFolderWatcher(this.PlaylistFolder, false);
+            this.Watcher.FolderChanged += Watcher_FolderChanged;
+            this.Watcher.Resume();
         }
-     
-        public event PlaylistAddedHandler PlaylistAdded = delegate { };
-        public event PlaylistDeletedHandler PlaylistDeleted = delegate { };
-        public event PlaylistRenamedHandler PlaylistRenamed = delegate { };
+
+        private void Watcher_FolderChanged(object sender, EventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.OnPlaylistFolderChanged(this);
+            });
+        }
+
         public event TracksAddedHandler TracksAdded = delegate { };
         public event TracksDeletedHandler TracksDeleted = delegate { };
-        public event EventHandler PlaylistFolderChanged = delegate { };
-    
+
         private string CreatePlaylistFilename(string playlist)
         {
-            return Path.Combine(this.playlistFolder, playlist + FileFormats.M3U);
+            return Path.Combine(this.PlaylistFolder, playlist + FileFormats.M3U);
         }
-    
-        public async Task<string> GetUniquePlaylistAsync(string proposedPlaylistName)
+
+        public async Task<string> GetUniquePlaylistNameAsync(string proposedPlaylistName)
         {
-            string uniquePlaylist = proposedPlaylistName;
+            string uniquePlaylistName = proposedPlaylistName;
 
             try
             {
-                string[] filenames = Directory.GetFiles(this.playlistFolder);
-
-                List<string> existingPlaylists = filenames.Select(f => System.IO.Path.GetFileNameWithoutExtension(f)).ToList();
-
                 await Task.Run(() =>
                 {
-                    int number = 1;
-
-                    while (existingPlaylists.Contains(uniquePlaylist))
-                    {
-                        number++;
-                        uniquePlaylist = proposedPlaylistName + " (" + number + ")";
-                    }
+                    string[] filenames = Directory.GetFiles(this.PlaylistFolder);
+                    IList<string> existingPlaylistNames = filenames.Select(f => System.IO.Path.GetFileNameWithoutExtension(f)).ToList();
+                    uniquePlaylistName = proposedPlaylistName.MakeUnique(existingPlaylistNames);
                 });
             }
             catch (Exception ex)
@@ -118,20 +95,27 @@ namespace Dopamine.Services.Playlist
                 LogClient.Error("Could not generate unique playlist name for playlist '{0}'. Exception: {1}", proposedPlaylistName, ex.Message);
             }
 
-            return uniquePlaylist;
+            return uniquePlaylistName;
         }
 
-        public async Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
+        public override async Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
         {
-            if (string.IsNullOrWhiteSpace(playlistName)) return AddPlaylistResult.Blank;
+            if (string.IsNullOrWhiteSpace(playlistName))
+            {
+                return AddPlaylistResult.Blank;
+            }
 
             string sanitizedPlaylistName = FileUtils.SanitizeFilename(playlistName);
             string filename = this.CreatePlaylistFilename(sanitizedPlaylistName);
-            if (System.IO.File.Exists(filename)) return AddPlaylistResult.Duplicate;
+
+            if (System.IO.File.Exists(filename))
+            {
+                return AddPlaylistResult.Duplicate;
+            }
 
             AddPlaylistResult result = AddPlaylistResult.Success;
 
-            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            this.Watcher.Suspend(); // Stop watching the playlist folder
 
             await Task.Run(() =>
             {
@@ -146,142 +130,50 @@ namespace Dopamine.Services.Playlist
                 }
             });
 
-            if (result == AddPlaylistResult.Success) this.PlaylistAdded(sanitizedPlaylistName);
+            if (result == AddPlaylistResult.Success)
+            {
+                this.OnPlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
+            }
 
-            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+            this.Watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
 
-        public async Task<DeletePlaylistsResult> DeletePlaylistAsync(string playlistName)
+        public override async Task<IList<PlaylistViewModel>> GetPlaylistsAsync()
         {
-            if (string.IsNullOrWhiteSpace(playlistName))
-            {
-                LogClient.Error("PlaylistName is empty");
-                return DeletePlaylistsResult.Error;
-            }
-
-            DeletePlaylistsResult result = DeletePlaylistsResult.Success;
-
-            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            IList<PlaylistViewModel> playlists = new List<PlaylistViewModel>();
 
             await Task.Run(() =>
             {
                 try
                 {
-                    string filename = this.CreatePlaylistFilename(playlistName);
-
-                    if (System.IO.File.Exists(filename))
-                    {
-                        System.IO.File.Delete(filename);
-                    }
-                    else
-                    {
-                        result = DeletePlaylistsResult.Error;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Error while deleting playlist '{0}'. Exception: {1}", playlistName, ex.Message);
-                    result = DeletePlaylistsResult.Error;
-                }
-            });
-
-            if (result == DeletePlaylistsResult.Success)
-            {
-                this.PlaylistDeleted(playlistName);
-            }
-
-            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
-
-            return result;
-        }
-
-        public async Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName)
-        {
-            if (string.IsNullOrWhiteSpace(oldPlaylistName))
-            {
-                LogClient.Error("OldPlaylistName is empty");
-                return RenamePlaylistResult.Error;
-            }
-            if (string.IsNullOrWhiteSpace(newPlaylistName))
-            {
-                LogClient.Error("NewPlaylistName is empty");
-                return RenamePlaylistResult.Blank;
-            }
-
-            string oldFilename = this.CreatePlaylistFilename(oldPlaylistName);
-            if (!System.IO.File.Exists(oldFilename))
-            {
-                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", oldPlaylistName);
-                return RenamePlaylistResult.Error;
-            }
-
-            string sanitizedNewPlaylist = FileUtils.SanitizeFilename(newPlaylistName);
-            string newFilename = this.CreatePlaylistFilename(sanitizedNewPlaylist);
-            if (System.IO.File.Exists(newFilename)) return RenamePlaylistResult.Duplicate;
-
-            RenamePlaylistResult result = RenamePlaylistResult.Success;
-
-            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    System.IO.File.Move(oldFilename, newFilename);
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", oldPlaylistName, newPlaylistName, ex.Message);
-                    result = RenamePlaylistResult.Error;
-                }
-            });
-
-            if (result == RenamePlaylistResult.Success)
-            {
-                this.PlaylistRenamed(oldPlaylistName, sanitizedNewPlaylist);
-            }
-
-            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
-
-            return result;
-        }
-
-        public async Task<List<string>> GetPlaylistsAsync()
-        {
-            var playlists = new List<string>();
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    var di = new DirectoryInfo(this.playlistFolder);
-                    var fi = di.GetFiles("*" + FileFormats.M3U, SearchOption.TopDirectoryOnly);
+                    var di = new DirectoryInfo(this.PlaylistFolder);
+                    FileInfo[] fi = di.GetFiles("*" + FileFormats.M3U, SearchOption.TopDirectoryOnly);
 
                     foreach (FileInfo f in fi)
                     {
-                        playlists.Add(Path.GetFileNameWithoutExtension(f.FullName));
+                        playlists.Add(new PlaylistViewModel(Path.GetFileNameWithoutExtension(f.FullName), f.FullName));
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Error while getting playlist. Exception: {0}", ex.Message);
+                    LogClient.Error("Error while getting playlists. Exception: {0}", ex.Message);
                 }
             });
 
             return playlists;
         }
 
-        public async Task<OpenPlaylistResult> OpenPlaylistAsync(string fileName)
+        protected override async Task<ImportPlaylistResult> ImportPlaylistAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
                 LogClient.Error("FileName is empty");
-                return OpenPlaylistResult.Error;
+                return ImportPlaylistResult.Error;
             }
 
-            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            this.Watcher.Suspend(); // Stop watching the playlist folder
 
             string playlistName = String.Empty;
             var paths = new List<String>();
@@ -296,7 +188,7 @@ namespace Dopamine.Services.Playlist
             if (!decodeResult.DecodeResult.Result)
             {
                 LogClient.Error("Error while decoding playlist file. Exception: {0}", decodeResult.DecodeResult.GetMessages());
-                return OpenPlaylistResult.Error;
+                return ImportPlaylistResult.Error;
             }
 
             // Set the paths
@@ -307,18 +199,20 @@ namespace Dopamine.Services.Playlist
             // ----------------------------------
             try
             {
-                playlistName = await this.GetUniquePlaylistAsync(System.IO.Path.GetFileNameWithoutExtension(fileName));
+                playlistName = await this.GetUniquePlaylistNameAsync(System.IO.Path.GetFileNameWithoutExtension(fileName));
             }
             catch (Exception ex)
             {
                 LogClient.Error("Error while getting unique playlist filename. Exception: {0}", ex.Message);
-                return OpenPlaylistResult.Error;
+                return ImportPlaylistResult.Error;
             }
 
             // Create the Playlist in the playlists folder
             // -------------------------------------------
-            string sanitizedPlaylist = FileUtils.SanitizeFilename(playlistName);
-            string filename = this.CreatePlaylistFilename(sanitizedPlaylist);
+            string sanitizedPlaylistName = FileUtils.SanitizeFilename(playlistName);
+            string filename = this.CreatePlaylistFilename(sanitizedPlaylistName);
+
+            ImportPlaylistResult result = ImportPlaylistResult.Success;
 
             try
             {
@@ -343,18 +237,20 @@ namespace Dopamine.Services.Playlist
             catch (Exception ex)
             {
                 LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
-                return OpenPlaylistResult.Error;
+                result = ImportPlaylistResult.Error;
             }
 
-            // If we arrive at this point, OpenPlaylistResult = OpenPlaylistResult.Success, so we can always raise the PlaylistAdded Event.
-            this.PlaylistAdded(playlistName);
+            if (result.Equals(ImportPlaylistResult.Success))
+            {
+                this.OnPlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
+            }
 
-            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+            this.Watcher.Resume(); // Start watching the playlist folder
 
-            return OpenPlaylistResult.Success;
+            return result;
         }
 
-        public async Task<List<TrackViewModel>> GetTracks(string playlistName)
+        public async Task<IList<TrackViewModel>> GetTracks(string playlistName)
         {
             // If no playlist was selected, return no tracks.
             if (string.IsNullOrEmpty(playlistName))
@@ -405,7 +301,7 @@ namespace Dopamine.Services.Playlist
                 return;
             }
 
-            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            this.Watcher.Suspend(); // Stop watching the playlist folder
 
             await Task.Run(() =>
             {
@@ -430,7 +326,7 @@ namespace Dopamine.Services.Playlist
                 }
             });
 
-            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+            this.Watcher.Resume(); // Start watching the playlist folder
         }
 
         public async Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<TrackViewModel> tracks, string playlistName)
@@ -449,7 +345,7 @@ namespace Dopamine.Services.Playlist
 
             AddTracksToPlaylistResult result = AddTracksToPlaylistResult.Success;
 
-            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            this.Watcher.Suspend(); // Stop watching the playlist folder
 
             int numberTracksAdded = 0;
             string filename = this.CreatePlaylistFilename(playlistName);
@@ -486,7 +382,7 @@ namespace Dopamine.Services.Playlist
 
             if (result == AddTracksToPlaylistResult.Success) this.TracksAdded(numberTracksAdded, playlistName);
 
-            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+            this.Watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
@@ -534,10 +430,10 @@ namespace Dopamine.Services.Playlist
 
             DeleteTracksFromPlaylistResult result = DeleteTracksFromPlaylistResult.Success;
 
-            watcher.EnableRaisingEvents = false; // Stop watching the playlist folder
+            this.Watcher.Suspend(); // Stop watching the playlist folder
 
             string filename = this.CreatePlaylistFilename(playlistName);
-           
+
             var builder = new StringBuilder();
 
             string line = null;
@@ -581,27 +477,67 @@ namespace Dopamine.Services.Playlist
                 this.TracksDeleted(playlistName);
             }
 
-            watcher.EnableRaisingEvents = true; // Start watching the playlist folder
+            this.Watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
-   
-        private void PlaylistsChangedTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            playlistFolderChangedTimer.Stop();
-            this.PlaylistFolderChanged(this, new EventArgs());
-        }
 
-        private void OnRenamed(object sender, RenamedEventArgs e)
+        public override async Task<RenamePlaylistResult> RenamePlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
         {
-            playlistFolderChangedTimer.Stop();
-            playlistFolderChangedTimer.Start();
-        }
+            if (playlistToRename == null)
+            {
+                LogClient.Error($"{nameof(playlistToRename)} is null");
+                return RenamePlaylistResult.Error;
+            }
+            if (string.IsNullOrWhiteSpace(newPlaylistName))
+            {
+                LogClient.Error($"{nameof(newPlaylistName)} is empty");
+                return RenamePlaylistResult.Blank;
+            }
 
-        private void OnChanged(object sender, FileSystemEventArgs e)
-        {
-            playlistFolderChangedTimer.Stop();
-            playlistFolderChangedTimer.Start();
+            string oldFilename = playlistToRename.Path;
+
+            if (!System.IO.File.Exists(oldFilename))
+            {
+                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", playlistToRename.Path);
+                return RenamePlaylistResult.Error;
+            }
+
+            string sanitizedNewPlaylistName = FileUtils.SanitizeFilename(newPlaylistName);
+            string newFilename = this.CreatePlaylistFilename(sanitizedNewPlaylistName);
+
+            if (System.IO.File.Exists(newFilename))
+            {
+                return RenamePlaylistResult.Duplicate;
+            }
+
+            RenamePlaylistResult result = RenamePlaylistResult.Success;
+
+            this.Watcher.Suspend(); // Stop watching the playlist folder
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    System.IO.File.Move(oldFilename, newFilename);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", playlistToRename.Name, newPlaylistName, ex.Message);
+                    result = RenamePlaylistResult.Error;
+                }
+            });
+
+            if (result == RenamePlaylistResult.Success)
+            {
+                this.OnPlaylistRenamed(
+                    playlistToRename,
+                    new PlaylistViewModel(sanitizedNewPlaylistName, newFilename));
+            }
+
+            this.Watcher.Resume(); // Start watching the playlist folder
+
+            return result;
         }
     }
 }

@@ -134,7 +134,6 @@
   <Text Key="Not_Available_In_Portable_Version">便携版本不可用</Text>
   <Text Key="Refresh_Now">立即更新</Text>
   <Text Key="New_Playlist">新建播放列表</Text>
-  <Text Key="Open_Playlist">打开播放列表</Text>
   <Text Key="All_Playlists">所有播放列表</Text>
   <Text Key="Enter_Name_For_New_Playlist">为新建的播放列表键入名字</Text>
   <Text Key="Already_Exists">已经存在</Text>
@@ -337,8 +336,8 @@
   <Text Key="No_Lyrics_Found">未找到歌词</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">歌曲列表自动显示正在播放的歌曲</Text>
   <Text Key="Mouse_Scroll_Changes_Volume_By">通过鼠标滚轮调整音量</Text>
-  <Text Key="Song_Cannot_Be_Found_Refresh_Collection">找不到这首歌呢，它可能被移动到别处或者被删除了。你想立即更新音乐库吗？</Text>
-  <Text Key="Songs_Cannot_Be_Found_Refresh_Collection">找不到这几首歌呢，它们可能被移动到别处或者被删除了。你想立即更新音乐库吗？</Text>
+  <Text Key="Song_Cannot_Be_Found">找不到这首歌呢，它可能被移动到别处或者被删除了。</Text>
+  <Text Key="Songs_Cannot_Be_Found">找不到这几首歌呢，它们可能被移动到别处或者被删除了。</Text>
   <Text Key="Automatic_Scrolling">自动滚动</Text>
   <Text Key="Font_Size">字体大小</Text>
   <Text Key="Cancel_Edit">取消编辑</Text>
@@ -433,4 +432,8 @@
   <Text Key="Back">返回</Text>
   <Text Key="Folders">Folders</Text>
   <Text Key="Smart_Playlists">Smart playlists</Text>
+  <Text Key="Import_Playlists">Import playlists</Text>
+  <Text Key="Error_Importing_Playlists">An error occurred while importing playlists. Please consult the log file for more information.</Text>
+  <Text Key="New_Smart_Playlist">New smart playlist</Text>
+  <Text Key="Import_Smart_Playlists">Import smart playlists</Text>
 </Language>

@@ -1,5 +1,7 @@
 ﻿using Digimezzo.Foundation.WPF.Controls;
+using Digimezzo.Utilities.Settings;
 using Dopamine.Controls;
+using Dopamine.Core.Enums;
 using Prism.Regions;
 using System;
 using System.Windows;
@@ -48,11 +50,29 @@ namespace Dopamine.Views.FullPlayer
             this.HeadPhoneIcon.BeginAnimation(MaterialIcon.OpacityProperty, opacityAnimation);
         }
 
+        private void LoadSavedSelectedPage()
+        {
+            int savedSelectedPage = SettingsClient.Get<int>("FullPlayer", "SelectedPage");
+
+            switch (savedSelectedPage)
+            {
+                case (int)FullPlayerPage.Collection:
+                    this.CollectionButton.IsChecked = true;
+                    break;
+                case (int)FullPlayerPage.Playlists:
+                    this.PlaylistsButton.IsChecked = true;
+                    break;
+                default:
+                    this.CollectionButton.IsChecked = true;
+                    break;
+            }
+        }
+
         private void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             RegionManager.SetRegionManager(this.SplitViewContent, this.regionManager);
             RegionManager.UpdateRegions();
-            this.CollectionButton.IsChecked = true;
+            this.LoadSavedSelectedPage();
         }
 
         private void Grid_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)

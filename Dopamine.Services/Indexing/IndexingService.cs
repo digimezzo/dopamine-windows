@@ -31,7 +31,6 @@ namespace Dopamine.Services.Indexing
 
         // Factories
         private ISQLiteConnectionFactory factory;
-        private IFileMetadataFactory fileMetadataFactory;
 
         // Watcher
         private FolderWatcherManager watcherManager;
@@ -63,14 +62,13 @@ namespace Dopamine.Services.Indexing
         }
 
         public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, ITrackRepository trackRepository,
-            IFolderRepository folderRepository, IFileMetadataFactory fileMetadataFactory, IAlbumArtworkRepository albumArtworkRepository)
+            IFolderRepository folderRepository, IAlbumArtworkRepository albumArtworkRepository)
         {
             this.cacheService = cacheService;
             this.trackRepository = trackRepository;
             this.folderRepository = folderRepository;
             this.albumArtworkRepository = albumArtworkRepository;
             this.factory = factory;
-            this.fileMetadataFactory = fileMetadataFactory;
 
             this.watcherManager = new FolderWatcherManager(this.folderRepository);
             this.cache = new IndexerCache(this.factory);
@@ -556,7 +554,7 @@ namespace Dopamine.Services.Indexing
         {
             try
             {
-                MetadataUtils.FillTrack(this.fileMetadataFactory.Create(track.Path), ref track);
+                MetadataUtils.FillTrack(new FileMetadata(track.Path), ref track);
 
                 track.IndexingSuccess = 1;
 
@@ -644,7 +642,7 @@ namespace Dopamine.Services.Indexing
         private async Task<string> GetArtworkFromFile(string albumKey)
         {
             Track track = await this.trackRepository.GetLastModifiedTrackForAlbumKeyAsync(albumKey);
-            return await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(albumKey, this.fileMetadataFactory.Create(track.Path)));
+            return await this.cacheService.CacheArtworkAsync(IndexerUtils.GetArtwork(albumKey, new FileMetadata(track.Path)));
         }
 
         private async Task<string> GetArtworkFromInternet(string albumTitle, IList<string> albumArtists, string trackTitle, IList<string> artists)

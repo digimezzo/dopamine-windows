@@ -1,4 +1,5 @@
-﻿using Dopamine.Core.Base;
+﻿using Digimezzo.Utilities.Settings;
+using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;
 using Dopamine.Services.Indexing;
@@ -41,9 +42,27 @@ namespace Dopamine.ViewModels.FullPlayer
             this.regionManager = regionManager;
             this.indexingService = indexingService;
             this.goBackPage = FullPlayerPage.Collection;
-            this.LoadedCommand = new DelegateCommand(() => this.NagivateToSelectedPage(FullPlayerPage.Collection));
-            this.SetSelectedFullPlayerPageCommand = new DelegateCommand<string>(pageIndex => this.NagivateToSelectedPage((FullPlayerPage) Int32.Parse(pageIndex)));
+            this.LoadedCommand = new DelegateCommand(() => this.LoadSavedSelectedPage());
+            this.SetSelectedFullPlayerPageCommand = new DelegateCommand<string>(pageIndex => this.NagivateToSelectedPage((FullPlayerPage)Int32.Parse(pageIndex)));
             this.BackButtonCommand = new DelegateCommand(() => this.NagivateToSelectedPage(this.goBackPage));
+        }
+
+        private void LoadSavedSelectedPage()
+        {
+            int savedSelectedPage = SettingsClient.Get<int>("FullPlayer", "SelectedPage");
+
+            switch (savedSelectedPage)
+            {
+                case (int)FullPlayerPage.Collection:
+                    this.NagivateToSelectedPage(FullPlayerPage.Collection);
+                    break;
+                case (int)FullPlayerPage.Playlists:
+                    this.NagivateToSelectedPage(FullPlayerPage.Playlists);
+                    break;
+                default:
+                    this.NagivateToSelectedPage(FullPlayerPage.Collection);
+                    break;
+            }
         }
 
         private void NagivateToSelectedPage(FullPlayerPage page)
@@ -58,12 +77,14 @@ namespace Dopamine.ViewModels.FullPlayer
                     this.regionManager.RequestNavigate(RegionNames.FullPlayerMenuRegion, typeof(Views.FullPlayer.Collection.CollectionMenu).FullName);
                     this.ShowBackButton = false;
                     this.goBackPage = FullPlayerPage.Collection;
+                    SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)FullPlayerPage.Collection);
                     break;
                 case FullPlayerPage.Playlists:
                     this.regionManager.RequestNavigate(RegionNames.FullPlayerRegion, typeof(Views.FullPlayer.Playlists.Playlists).FullName);
                     this.regionManager.RequestNavigate(RegionNames.FullPlayerMenuRegion, typeof(Views.FullPlayer.Playlists.PlaylistsMenu).FullName);
                     this.ShowBackButton = false;
                     this.goBackPage = FullPlayerPage.Playlists;
+                    SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)FullPlayerPage.Playlists);
                     break;
                 case FullPlayerPage.Settings:
                     this.regionManager.RequestNavigate(RegionNames.FullPlayerRegion, typeof(Views.FullPlayer.Settings.Settings).FullName);

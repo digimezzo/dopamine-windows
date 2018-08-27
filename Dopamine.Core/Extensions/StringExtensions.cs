@@ -1,9 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Dopamine.Core.Extensions
 {
     public static class StringExtensions
     {
+        public static string[] Split(this string source, string separator)
+        {
+            return source.Split(new string[] { separator }, StringSplitOptions.None);
+        }
+
+        public static string Trim(this string source, string stringToRemove)
+        {
+            return source.Trim(stringToRemove.ToCharArray());
+        }
+
         public static string TrimStart(this string input, string prefixToRemove)
         {
             if (input != null && prefixToRemove != null && input.StartsWith(prefixToRemove))
@@ -32,6 +43,21 @@ namespace Dopamine.Core.Extensions
         public static string ToSafePath(this string path)
         {
             return path != null ? path.ToLower() : path;
+        }
+
+        public static string MakeUnique(this string proposedString, IList<string> existingStrings)
+        {
+            string uniqueString = proposedString;
+
+            int number = 1;
+
+            while (existingStrings.Contains(uniqueString))
+            {
+                number++;
+                uniqueString = proposedString + " (" + number + ")";
+            }
+
+            return uniqueString;
         }
     }
 }
