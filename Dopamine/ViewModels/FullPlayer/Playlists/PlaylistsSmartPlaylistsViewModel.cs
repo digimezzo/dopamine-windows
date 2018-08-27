@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace Dopamine.ViewModels.FullPlayer.Playlists
@@ -27,7 +26,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
         private double leftPaneWidthPercent;
 
         public PlaylistsSmartPlaylistsViewModel(IContainerProvider container, ISmartPlaylistService smartPlaylistService,
-            IDialogService dialogService) : base(container, dialogService)
+            IDialogService dialogService) : base(container, dialogService, smartPlaylistService)
         {
             // Dependency injection
             this.smartPlaylistService = smartPlaylistService;
@@ -36,18 +35,8 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             // Commands
             this.ImportPlaylistsCommand = new DelegateCommand(async () => await this.ImportPlaylistsAsync());
 
-            // Events
-            this.smartPlaylistService.PlaylistFolderChanged += SmartPlaylistService_PlaylistFolderChanged;
-            this.smartPlaylistService.PlaylistAdded += PlaylistAddedHandler;
-            this.smartPlaylistService.PlaylistDeleted += PlaylistDeletedHandler;
-
             // Load settings
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "SmartPlaylistsLeftPaneWidthPercent");
-        }
-
-        private async void SmartPlaylistService_PlaylistFolderChanged(object sender, EventArgs e)
-        {
-            await this.FillListsAsync();
         }
 
         public double LeftPaneWidthPercent
@@ -57,46 +46,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             {
                 SetProperty<double>(ref this.leftPaneWidthPercent, value);
                 SettingsClient.Set<int>("ColumnWidths", "SmartPlaylistsLeftPaneWidthPercent", Convert.ToInt32(value));
-            }
-        }
-
-        private async Task ImportPlaylistsAsync(IList<string> playlistPaths = null)
-        {
-            if (playlistPaths == null)
-            {
-                // Set up the file dialog box
-                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-                dlg.Title = Application.Current.FindResource("Language_Import_Smart_Playlists").ToString();
-                dlg.DefaultExt = FileFormats.M3U; // Default file extension
-                dlg.Multiselect = true;
-
-                // Filter files by extension
-                dlg.Filter = ResourceUtils.GetString("Language_Smart_Playlists") + " (*" + FileFormats.DSPL + ")|*" + FileFormats.DSPL;
-
-                // Show the file dialog box
-                bool? dialogResult = dlg.ShowDialog();
-
-                // Process the file dialog box result
-                if (!(bool)dialogResult)
-                {
-                    return;
-                }
-
-                playlistPaths = dlg.FileNames;
-            }
-
-            ImportPlaylistResult result = await this.smartPlaylistService.ImportPlaylistsAsync(playlistPaths);
-
-            if (result == ImportPlaylistResult.Error)
-            {
-                this.dialogService.ShowNotification(
-                    0xe711,
-                    16,
-                    ResourceUtils.GetString("Language_Error"),
-                    ResourceUtils.GetString("Language_Error_Importing_Playlists"),
-                    ResourceUtils.GetString("Language_Ok"),
-                    true,
-                    ResourceUtils.GetString("Language_Log_File"));
             }
         }
 

@@ -1,4 +1,4 @@
-﻿<baseviews:TracksViewBase x:Class="Dopamine.Views.FullPlayer.Playlists.PlaylistsPlaylists"
+﻿<baseviews:PlaylistsViewBase x:Class="Dopamine.Views.FullPlayer.Playlists.PlaylistsPlaylists"
                             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -139,4 +139,4 @@
             </DockPanel>
         </dc:MultiPanePanel.MiddlePaneContent>
     </dc:MultiPanePanel>
-</baseviews:TracksViewBase>
+</baseviews:PlaylistsViewBase>

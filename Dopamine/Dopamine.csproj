@@ -317,6 +317,7 @@
     </Compile>
     <Compile Include="Views\Common\Base\CommonViewBase.cs" />
     <Compile Include="Views\Common\Base\MiniPlayerViewBase.cs" />
+    <Compile Include="Views\Common\Base\PlaylistsViewBase.cs" />
     <Compile Include="Views\Common\Base\TracksViewBase.cs" />
     <Compile Include="Views\Common\Base\TracksViewBaseWithTrackArt.cs" />
     <Compile Include="Views\Common\CollectionFoldersSettings.xaml.cs">

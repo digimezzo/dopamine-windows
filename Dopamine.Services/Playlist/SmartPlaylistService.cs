@@ -17,6 +17,8 @@ namespace Dopamine.Services.Playlist
     {
         public override string PlaylistFolder { get; }
 
+        public override string DialogFileFilter => $"(*{FileFormats.DSPL})|*{FileFormats.DSPL}";
+
         public SmartPlaylistService()
         {
             // Initialize Playlists folder
@@ -140,6 +142,7 @@ namespace Dopamine.Services.Playlist
 
             string newPlaylistName = string.Empty;
             string newFileNameWithoutExtension = string.Empty;
+            string newPlaylistFileName = string.Empty;
 
             this.Watcher.Suspend(); // Stop watching the playlist folder
 
@@ -159,7 +162,7 @@ namespace Dopamine.Services.Playlist
                     newFileNameWithoutExtension = originalFileNameWithoutExtension.MakeUnique(existingFileNamesWithoutExtension);
 
                     // Generate a new filename for the playlist
-                    string newPlaylistFileName = this.CreatePlaylistFilename(newFileNameWithoutExtension);
+                    newPlaylistFileName = this.CreatePlaylistFilename(newFileNameWithoutExtension);
 
                     // Copy the playlist file to the playlists folder, using the new filename.
                     System.IO.File.Copy(fileName, newPlaylistFileName);
@@ -176,7 +179,7 @@ namespace Dopamine.Services.Playlist
 
             if (result.Equals(ImportPlaylistResult.Success))
             {
-                this.OnPlaylistAdded(new PlaylistViewModel(newPlaylistName, newFileNameWithoutExtension));
+                this.OnPlaylistAdded(new PlaylistViewModel(newPlaylistName, newPlaylistFileName));
             }
 
             this.Watcher.Resume(); // Start watching the playlist folder
