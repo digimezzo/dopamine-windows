@@ -38,8 +38,9 @@ namespace Dopamine.ViewModels.Common.Base
 
             // Events
             this.playlistServiceBase.PlaylistFolderChanged += PlaylistServiceBase_PlaylistFolderChanged; ;
-            this.playlistServiceBase.PlaylistAdded += PlaylistServiceBase_PlaylistAdded; ;
-            this.playlistServiceBase.PlaylistDeleted += PlaylistServiceBase_PlaylistDeleted; ;
+            this.playlistServiceBase.PlaylistAdded += PlaylistServiceBase_PlaylistAdded;
+            this.playlistServiceBase.PlaylistDeleted += PlaylistServiceBase_PlaylistDeleted;
+            this.playlistServiceBase.PlaylistRenamed += PlaylistServiceBase_PlaylistRenamed;
 
             // Commands
             this.DeletePlaylistCommand = new DelegateCommand<PlaylistViewModel>(async (playlist) => await this.ConfirmDeletePlaylistAsync(playlist));
@@ -66,6 +67,18 @@ namespace Dopamine.ViewModels.Common.Base
                     this.EnableLove = (bool)e.SettingValue;
                 }
             };
+        }
+
+        private void PlaylistServiceBase_PlaylistRenamed(PlaylistViewModel oldPlaylist, PlaylistViewModel newPlaylist)
+        {
+            // Remove the old playlist
+            if (this.Playlists.Contains(oldPlaylist))
+            {
+                this.Playlists.Remove(oldPlaylist);
+            }
+
+            // Add the new playlist
+            this.Playlists.Add(newPlaylist);
         }
 
         private void PlaylistServiceBase_PlaylistDeleted(PlaylistViewModel deletedPlaylist)
