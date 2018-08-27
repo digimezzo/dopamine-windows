@@ -23,8 +23,6 @@ namespace Dopamine.Services.Playlist
 
         public DelegateCommand<PlaylistViewModel> DeletePlaylistCommand { get; set; }
 
-        
-
         public void OnPlaylistAdded(PlaylistViewModel addedPlaylist)
         {
             this.PlaylistAdded(addedPlaylist);
@@ -44,8 +42,6 @@ namespace Dopamine.Services.Playlist
         {
             this.PlaylistFolderChanged(sender, new EventArgs());
         }
-
-        protected abstract Task<ImportPlaylistResult> ImportPlaylistAsync(string fileName);
 
         public async Task<ImportPlaylistResult> ImportPlaylistsAsync(IList<string> fileNames)
         {
@@ -108,19 +104,12 @@ namespace Dopamine.Services.Playlist
             return result;
         }
 
-        public Task<IList<PlaylistViewModel>> GetPlaylistsAsync()
-        {
-            throw new NotImplementedException();
-        }
+        protected abstract Task<ImportPlaylistResult> ImportPlaylistAsync(string fileName);
 
-        public Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract Task<AddPlaylistResult> AddPlaylistAsync(string playlistName);
 
-        public Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract Task<RenamePlaylistResult> RenamePlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName);
+       
+        public abstract Task<IList<PlaylistViewModel>> GetPlaylistsAsync();
     }
 }

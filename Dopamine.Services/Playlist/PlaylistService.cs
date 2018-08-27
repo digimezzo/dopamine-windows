@@ -98,7 +98,7 @@ namespace Dopamine.Services.Playlist
             return uniquePlaylistName;
         }
 
-        public async Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
+        public override async Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
         {
             if (string.IsNullOrWhiteSpace(playlistName))
             {
@@ -140,60 +140,7 @@ namespace Dopamine.Services.Playlist
             return result;
         }
 
-        public async Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName)
-        {
-            if (string.IsNullOrWhiteSpace(oldPlaylistName))
-            {
-                LogClient.Error("OldPlaylistName is empty");
-                return RenamePlaylistResult.Error;
-            }
-            if (string.IsNullOrWhiteSpace(newPlaylistName))
-            {
-                LogClient.Error("NewPlaylistName is empty");
-                return RenamePlaylistResult.Blank;
-            }
-
-            string oldFilename = this.CreatePlaylistFilename(oldPlaylistName);
-            if (!System.IO.File.Exists(oldFilename))
-            {
-                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", oldPlaylistName);
-                return RenamePlaylistResult.Error;
-            }
-
-            string sanitizedNewPlaylistName = FileUtils.SanitizeFilename(newPlaylistName);
-            string newFilename = this.CreatePlaylistFilename(sanitizedNewPlaylistName);
-            if (System.IO.File.Exists(newFilename)) return RenamePlaylistResult.Duplicate;
-
-            RenamePlaylistResult result = RenamePlaylistResult.Success;
-
-            this.Watcher.Suspend(); // Stop watching the playlist folder
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    System.IO.File.Move(oldFilename, newFilename);
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", oldPlaylistName, newPlaylistName, ex.Message);
-                    result = RenamePlaylistResult.Error;
-                }
-            });
-
-            if (result == RenamePlaylistResult.Success)
-            {
-                this.OnPlaylistRenamed(
-                    new PlaylistViewModel(oldPlaylistName, oldFilename),
-                    new PlaylistViewModel(sanitizedNewPlaylistName, newFilename));
-            }
-
-            this.Watcher.Resume(); // Start watching the playlist folder
-
-            return result;
-        }
-
-        public async Task<IList<PlaylistViewModel>> GetPlaylistsAsync()
+        public override async Task<IList<PlaylistViewModel>> GetPlaylistsAsync()
         {
             IList<PlaylistViewModel> playlists = new List<PlaylistViewModel>();
 
@@ -528,6 +475,64 @@ namespace Dopamine.Services.Playlist
             if (result == DeleteTracksFromPlaylistResult.Success)
             {
                 this.TracksDeleted(playlistName);
+            }
+
+            this.Watcher.Resume(); // Start watching the playlist folder
+
+            return result;
+        }
+
+        public override async Task<RenamePlaylistResult> RenamePlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
+        {
+            if (playlistToRename == null)
+            {
+                LogClient.Error($"{nameof(playlistToRename)} is null");
+                return RenamePlaylistResult.Error;
+            }
+            if (string.IsNullOrWhiteSpace(newPlaylistName))
+            {
+                LogClient.Error("NewPlaylistName is empty");
+                return RenamePlaylistResult.Blank;
+            }
+
+            string oldFilename = playlistToRename.Path;
+
+            if (!System.IO.File.Exists(oldFilename))
+            {
+                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", playlistToRename.Path);
+                return RenamePlaylistResult.Error;
+            }
+
+            string sanitizedNewPlaylistName = FileUtils.SanitizeFilename(newPlaylistName);
+            string newFilename = this.CreatePlaylistFilename(sanitizedNewPlaylistName);
+
+            if (System.IO.File.Exists(newFilename))
+            {
+                return RenamePlaylistResult.Duplicate;
+            }
+
+            RenamePlaylistResult result = RenamePlaylistResult.Success;
+
+            this.Watcher.Suspend(); // Stop watching the playlist folder
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    System.IO.File.Move(oldFilename, newFilename);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", playlistToRename.Name, newPlaylistName, ex.Message);
+                    result = RenamePlaylistResult.Error;
+                }
+            });
+
+            if (result == RenamePlaylistResult.Success)
+            {
+                this.OnPlaylistRenamed(
+                    new PlaylistViewModel(playlistToRename.Name, oldFilename),
+                    new PlaylistViewModel(sanitizedNewPlaylistName, newFilename));
             }
 
             this.Watcher.Resume(); // Start watching the playlist folder

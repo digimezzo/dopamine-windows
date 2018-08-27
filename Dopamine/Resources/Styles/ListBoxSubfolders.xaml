@@ -74,6 +74,7 @@
     </Style>
 
     <Style x:Key="ListBoxSubfolders" TargetType="{x:Type ListBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxSubfoldersItem}"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />

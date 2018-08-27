@@ -93,18 +93,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
         }
 
-        private void PlaylistService_PlaylistRenamed(PlaylistViewModel oldPlaylist, PlaylistViewModel newPlaylist)
-        {
-            // Remove the old playlist
-            if (this.Playlists.Contains(oldPlaylist))
-            {
-                this.Playlists.Remove(oldPlaylist);
-            }
-
-            // Add the new playlist
-            this.Playlists.Add(newPlaylist);
-        }
-
         private async Task ConfirmAddPlaylistAsync()
         {
             string responseText = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
@@ -214,19 +202,19 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                 return;
             }
 
-            string oldPlaylistName = this.SelectedPlaylistName;
-            string newPlaylistName = oldPlaylistName;
+            PlaylistViewModel oldPlaylist = this.SelectedPlaylist;
+            string newPlaylistName = oldPlaylist.Name;
 
             if (this.dialogService.ShowInputDialog(
                 0xea37,
                 16,
                 ResourceUtils.GetString("Language_Rename_Playlist"),
-                ResourceUtils.GetString("Language_Enter_New_Name_For_Playlist").Replace("{playlistname}", oldPlaylistName),
+                ResourceUtils.GetString("Language_Enter_New_Name_For_Playlist").Replace("{playlistname}", oldPlaylist.Name),
                 ResourceUtils.GetString("Language_Ok"),
                 ResourceUtils.GetString("Language_Cancel"),
                 ref newPlaylistName))
             {
-                RenamePlaylistResult result = await this.playlistService.RenamePlaylistAsync(oldPlaylistName, newPlaylistName);
+                RenamePlaylistResult result = await this.playlistService.RenamePlaylistAsync(this.SelectedPlaylist, newPlaylistName);
 
                 switch (result)
                 {

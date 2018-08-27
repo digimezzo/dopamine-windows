@@ -95,7 +95,7 @@ namespace Dopamine.Services.Playlist
             }
         }
 
-        public async Task<IList<PlaylistViewModel>> GetPlaylistsAsync()
+        public override async Task<IList<PlaylistViewModel>> GetPlaylistsAsync()
         {
             IList<PlaylistViewModel> playlists = new List<PlaylistViewModel>();
 
@@ -187,12 +187,12 @@ namespace Dopamine.Services.Playlist
             return result;
         }
 
-        public Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
+        public override Task<RenamePlaylistResult> RenamePlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
         {
             throw new NotImplementedException();
         }
 
-        public Task<RenamePlaylistResult> RenamePlaylistAsync(string oldPlaylistName, string newPlaylistName)
+        public override Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
         {
             throw new NotImplementedException();
         }
