@@ -25,6 +25,8 @@ namespace Dopamine.ViewModels.Common.Base
 
         public DelegateCommand NewPlaylistCommand { get; set; }
 
+        public DelegateCommand RenameSelectedPlaylistCommand { get; set; }
+
         public DelegateCommand ImportPlaylistsCommand { get; set; }
 
         public DelegateCommand DeleteSelectedPlaylistCommand { get; set; }
@@ -43,6 +45,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.playlistServiceBase.PlaylistRenamed += PlaylistServiceBase_PlaylistRenamed;
 
             // Commands
+            this.RenameSelectedPlaylistCommand = new DelegateCommand(async () => await this.RenameSelectedPlaylistAsync());
             this.DeletePlaylistCommand = new DelegateCommand<PlaylistViewModel>(async (playlist) => await this.ConfirmDeletePlaylistAsync(playlist));
             this.ImportPlaylistsCommand = new DelegateCommand(async () => await this.ImportPlaylistsAsync());
 
@@ -253,6 +256,66 @@ namespace Dopamine.ViewModels.Common.Base
                 ResourceUtils.GetString("Language_No")))
             {
                 await this.DeletePlaylistAsync(playlist);
+            }
+        }
+
+        private async Task RenameSelectedPlaylistAsync()
+        {
+            if (!this.IsPlaylistSelected)
+            {
+                return;
+            }
+
+            PlaylistViewModel oldPlaylist = this.SelectedPlaylist;
+            string newPlaylistName = oldPlaylist.Name;
+
+            if (this.dialogService.ShowInputDialog(
+                0xea37,
+                16,
+                ResourceUtils.GetString("Language_Rename_Playlist"),
+                ResourceUtils.GetString("Language_Enter_New_Name_For_Playlist").Replace("{playlistname}", oldPlaylist.Name),
+                ResourceUtils.GetString("Language_Ok"),
+                ResourceUtils.GetString("Language_Cancel"),
+                ref newPlaylistName))
+            {
+                RenamePlaylistResult result = await this.playlistServiceBase.RenamePlaylistAsync(this.SelectedPlaylist, newPlaylistName);
+
+                switch (result)
+                {
+                    case RenamePlaylistResult.Duplicate:
+                        this.dialogService.ShowNotification(
+                            0xe711,
+                            16,
+                            ResourceUtils.GetString("Language_Already_Exists"),
+                            ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("{playlistname}", newPlaylistName),
+                            ResourceUtils.GetString("Language_Ok"),
+                            false,
+                            string.Empty);
+                        break;
+                    case RenamePlaylistResult.Error:
+                        this.dialogService.ShowNotification(
+                            0xe711,
+                            16,
+                            ResourceUtils.GetString("Language_Error"),
+                            ResourceUtils.GetString("Language_Error_Renaming_Playlist"),
+                            ResourceUtils.GetString("Language_Ok"),
+                            true,
+                            ResourceUtils.GetString("Language_Log_File"));
+                        break;
+                    case RenamePlaylistResult.Blank:
+                        this.dialogService.ShowNotification(
+                            0xe711,
+                            16,
+                            ResourceUtils.GetString("Language_Error"),
+                            ResourceUtils.GetString("Language_Provide_Playlist_Name"),
+                            ResourceUtils.GetString("Language_Ok"),
+                            false,
+                            string.Empty);
+                        break;
+                    default:
+                        // Never happens
+                        break;
+                }
             }
         }
     }
