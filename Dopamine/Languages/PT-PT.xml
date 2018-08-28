@@ -432,8 +432,8 @@
   <Text Key="Back">Recuar</Text>
   <Text Key="Folders">Pastas</Text>
   <Text Key="Smart_Playlists">Listas de reprodução inteligentes</Text>
-  <Text Key="Import_Playlists">Import playlists</Text>
-  <Text Key="Error_Importing_Playlists">An error occurred while importing playlists. Please consult the log file for more information.</Text>
-  <Text Key="New_Smart_Playlist">New smart playlist</Text>
-  <Text Key="Import_Smart_Playlists">Import smart playlists</Text>
+  <Text Key="Import_Playlists">Importar listas de reprodução</Text>
+  <Text Key="Error_Importing_Playlists">Ocorreu um erro ao importar as listas de reprodução. Analise o ficheiro de registo para obter mais informações.</Text>
+  <Text Key="New_Smart_Playlist">Nova lista de reprodução inteligente</Text>
+  <Text Key="Import_Smart_Playlists">Importar listas de reprodução inteligentes</Text>
 </Language>
