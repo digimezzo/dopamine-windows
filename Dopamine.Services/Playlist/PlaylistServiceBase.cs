@@ -111,5 +111,7 @@ namespace Dopamine.Services.Playlist
         public abstract Task<RenamePlaylistResult> RenamePlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName);
        
         public abstract Task<IList<PlaylistViewModel>> GetPlaylistsAsync();
+
+        public abstract Task<IList<TrackViewModel>> GetTracksAsync(string playlistName);
     }
 }

@@ -28,13 +28,8 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
         private IFileService fileService;
         private IPlaylistService playlistService;
         private IDialogService dialogService;
-        private IPlaybackService playbackService;
         private IEventAggregator eventAggregator;
         private double leftPaneWidthPercent;
-
-        public DelegateCommand AddPlaylistToNowPlayingCommand { get; set; }
-
-        public DelegateCommand ShuffleSelectedPlaylistCommand { get; set; }
 
         public double LeftPaneWidthPercent
         {
@@ -48,12 +43,11 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
         public PlaylistsPlaylistsViewModel(IContainerProvider container, IDialogService dialogService,
             IPlaylistService playlistService, IFileService fileService, IPlaybackService playbackService,
-            IEventAggregator eventAggregator) : base(container, dialogService, playlistService)
+            IEventAggregator eventAggregator) : base(container, dialogService, playbackService, playlistService)
         {
             // Dependency injection
             this.fileService = fileService;
             this.playlistService = playlistService;
-            this.playbackService = playbackService;
             this.eventAggregator = eventAggregator;
             this.dialogService = dialogService;
 
@@ -61,8 +55,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
             this.NewPlaylistCommand = new DelegateCommand(async () => await this.ConfirmAddPlaylistAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.DeleteTracksFromPlaylistsAsync());
-            this.AddPlaylistToNowPlayingCommand = new DelegateCommand(async () => await this.AddPlaylistToNowPlayingAsync());
-            this.ShuffleSelectedPlaylistCommand = new DelegateCommand(async () => await this.ShuffleSelectedPlaylistAsync());
 
             // Events
             this.playlistService.TracksAdded += PlaylistService_TracksAdded;
@@ -192,12 +184,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
         }
 
-        protected override async Task GetTracksAsync()
-        {
-            IList<TrackViewModel> tracks = await this.playlistService.GetTracks(this.SelectedPlaylistName);
-            await this.GetTracksCommonAsync(tracks, TrackOrder.None);
-        }
-
         private async Task DeleteTracksFromPlaylistsAsync()
         {
             if (!this.IsPlaylistSelected)
@@ -257,23 +243,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             }
 
             return indexes;
-        }
-
-        private async Task ShuffleSelectedPlaylistAsync()
-        {
-            IList<TrackViewModel> tracks = await this.playlistService.GetTracks(this.SelectedPlaylistName);
-            await this.playbackService.EnqueueAsync(tracks, true, false);
-        }
-
-        private async Task AddPlaylistToNowPlayingAsync()
-        {
-            IList<TrackViewModel> tracks = await this.playlistService.GetTracks(this.SelectedPlaylistName);
-            EnqueueResult result = await this.playbackService.AddToQueueAsync(tracks);
-
-            if (!result.IsSuccess)
-            {
-                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Playlists_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
-            }
         }
 
         private async Task ReorderSelectedPlaylistTracksAsync(IDropInfo dropInfo)

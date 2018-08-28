@@ -21,6 +21,8 @@ namespace Dopamine.Services.Playlist
 
         Task<ImportPlaylistResult> ImportPlaylistsAsync(IList<string> fileNames);
 
+        Task<IList<TrackViewModel>> GetTracksAsync(string playlistName);
+
         event PlaylistAddedHandler PlaylistAdded;
         event PlaylistDeletedHandler PlaylistDeleted;
         event PlaylistRenamedHandler PlaylistRenamed;

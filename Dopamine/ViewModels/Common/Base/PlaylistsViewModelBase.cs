@@ -5,6 +5,7 @@ using Dopamine.Core.Base;
 using Dopamine.Data;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
+using Dopamine.Services.Playback;
 using Dopamine.Services.Playlist;
 using Prism.Commands;
 using Prism.Ioc;
@@ -22,6 +23,11 @@ namespace Dopamine.ViewModels.Common.Base
         private PlaylistViewModel selectedPlaylist;
         private IDialogService dialogService;
         private IPlaylistServiceBase playlistServiceBase;
+        private IPlaybackService playbackService;
+
+        public DelegateCommand AddPlaylistToNowPlayingCommand { get; set; }
+
+        public DelegateCommand ShuffleSelectedPlaylistCommand { get; set; }
 
         public DelegateCommand NewPlaylistCommand { get; set; }
 
@@ -33,10 +39,12 @@ namespace Dopamine.ViewModels.Common.Base
 
         public DelegateCommand<PlaylistViewModel> DeletePlaylistCommand { get; set; }
 
-        public PlaylistsViewModelBase(IContainerProvider container, IDialogService dialogService, IPlaylistServiceBase playlistServiceBase) : base(container)
+        public PlaylistsViewModelBase(IContainerProvider container, IDialogService dialogService,
+            IPlaybackService playbackService, IPlaylistServiceBase playlistServiceBase) : base(container)
         {
             this.dialogService = dialogService;
             this.playlistServiceBase = playlistServiceBase;
+            this.playbackService = playbackService;
 
             // Events
             this.playlistServiceBase.PlaylistFolderChanged += PlaylistServiceBase_PlaylistFolderChanged; ;
@@ -48,6 +56,8 @@ namespace Dopamine.ViewModels.Common.Base
             this.RenameSelectedPlaylistCommand = new DelegateCommand(async () => await this.RenameSelectedPlaylistAsync());
             this.DeletePlaylistCommand = new DelegateCommand<PlaylistViewModel>(async (playlist) => await this.ConfirmDeletePlaylistAsync(playlist));
             this.ImportPlaylistsCommand = new DelegateCommand(async () => await this.ImportPlaylistsAsync());
+            this.AddPlaylistToNowPlayingCommand = new DelegateCommand(async () => await this.AddPlaylistToNowPlayingAsync());
+            this.ShuffleSelectedPlaylistCommand = new DelegateCommand(async () => await this.ShuffleSelectedPlaylistAsync());
 
             this.DeleteSelectedPlaylistCommand = new DelegateCommand(async () =>
             {
@@ -162,7 +172,28 @@ namespace Dopamine.ViewModels.Common.Base
             }
         }
 
-        protected abstract Task GetTracksAsync();
+        private async Task ShuffleSelectedPlaylistAsync()
+        {
+            IList<TrackViewModel> tracks = await this.playlistServiceBase.GetTracksAsync(this.SelectedPlaylistName);
+            await this.playbackService.EnqueueAsync(tracks, true, false);
+        }
+
+        private async Task AddPlaylistToNowPlayingAsync()
+        {
+            IList<TrackViewModel> tracks = await this.playlistServiceBase.GetTracksAsync(this.SelectedPlaylistName);
+            EnqueueResult result = await this.playbackService.AddToQueueAsync(tracks);
+
+            if (!result.IsSuccess)
+            {
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Playlists_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
+            }
+        }
+
+        protected async Task GetTracksAsync()
+        {
+            IList<TrackViewModel> tracks = await this.playlistServiceBase.GetTracksAsync(this.SelectedPlaylistName);
+            await this.GetTracksCommonAsync(tracks, TrackOrder.None);
+        }
 
         protected abstract Task GetPlaylistsAsync();
 
