@@ -250,7 +250,7 @@ namespace Dopamine.Services.Playlist
             return result;
         }
 
-        public async Task<IList<TrackViewModel>> GetTracks(string playlistName)
+        public override async Task<IList<TrackViewModel>> GetTracksAsync(string playlistName)
         {
             // If no playlist was selected, return no tracks.
             if (string.IsNullOrEmpty(playlistName))

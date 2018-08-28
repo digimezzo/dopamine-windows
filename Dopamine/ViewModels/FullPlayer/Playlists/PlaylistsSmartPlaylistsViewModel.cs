@@ -5,6 +5,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
+using Dopamine.Services.Playback;
 using Dopamine.Services.Playlist;
 using Dopamine.ViewModels.Common.Base;
 using GongSolutions.Wpf.DragDrop;
@@ -26,7 +27,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
         private double leftPaneWidthPercent;
 
         public PlaylistsSmartPlaylistsViewModel(IContainerProvider container, ISmartPlaylistService smartPlaylistService,
-            IDialogService dialogService) : base(container, dialogService, smartPlaylistService)
+            IDialogService dialogService, IPlaybackService playbackService) : base(container, dialogService, playbackService, smartPlaylistService)
         {
             // Dependency injection
             this.smartPlaylistService = smartPlaylistService;
@@ -145,11 +146,6 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 
             // Select the firts playlist
             this.TrySelectFirstPlaylist();
-        }
-
-        protected override async Task GetTracksAsync()
-        {
-            // TODO
         }
 
         protected override async Task DeletePlaylistAsync(PlaylistViewModel playlist)

@@ -8,8 +8,6 @@ namespace Dopamine.Services.Playlist
     {
         Task<string> GetUniquePlaylistNameAsync(string proposedPlaylistName);
 
-        Task<IList<TrackViewModel>> GetTracks(string playlistName);
-
         Task SetPlaylistOrderAsync(IList<TrackViewModel> tracks, string playlistName);
 
         Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<TrackViewModel> tracks, string playlistName);
