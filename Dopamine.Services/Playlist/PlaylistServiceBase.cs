@@ -112,6 +112,6 @@ namespace Dopamine.Services.Playlist
        
         public abstract Task<IList<PlaylistViewModel>> GetPlaylistsAsync();
 
-        public abstract Task<IList<TrackViewModel>> GetTracksAsync(string playlistName);
+        public abstract Task<IList<TrackViewModel>> GetTracksAsync(PlaylistViewModel playlist);
     }
 }

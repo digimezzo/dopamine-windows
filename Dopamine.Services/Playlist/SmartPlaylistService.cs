@@ -241,7 +241,7 @@ namespace Dopamine.Services.Playlist
             throw new NotImplementedException();
         }
 
-        public override async Task<IList<TrackViewModel>> GetTracksAsync(string playlistName)
+        public override async Task<IList<TrackViewModel>> GetTracksAsync(PlaylistViewModel playlist)
         {
             return new List<TrackViewModel>();
         }

@@ -174,13 +174,13 @@ namespace Dopamine.ViewModels.Common.Base
 
         private async Task ShuffleSelectedPlaylistAsync()
         {
-            IList<TrackViewModel> tracks = await this.playlistServiceBase.GetTracksAsync(this.SelectedPlaylistName);
+            IList<TrackViewModel> tracks = await this.playlistServiceBase.GetTracksAsync(this.SelectedPlaylist);
             await this.playbackService.EnqueueAsync(tracks, true, false);
         }
 
         private async Task AddPlaylistToNowPlayingAsync()
         {
-            IList<TrackViewModel> tracks = await this.playlistServiceBase.GetTracksAsync(this.SelectedPlaylistName);
+            IList<TrackViewModel> tracks = await this.playlistServiceBase.GetTracksAsync(this.SelectedPlaylist);
             EnqueueResult result = await this.playbackService.AddToQueueAsync(tracks);
 
             if (!result.IsSuccess)
@@ -191,7 +191,7 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async Task GetTracksAsync()
         {
-            IList<TrackViewModel> tracks = await this.playlistServiceBase.GetTracksAsync(this.SelectedPlaylistName);
+            IList<TrackViewModel> tracks = await this.playlistServiceBase.GetTracksAsync(this.SelectedPlaylist);
             await this.GetTracksCommonAsync(tracks, TrackOrder.None);
         }
 
