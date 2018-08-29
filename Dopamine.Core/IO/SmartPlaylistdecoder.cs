@@ -1,6 +1,10 @@
 ﻿using Digimezzo.Utilities.Helpers;
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace Dopamine.Core.IO
 {
@@ -32,12 +36,12 @@ namespace Dopamine.Core.IO
     {
         public DecodeSmartPlaylistResult DecodePlaylist(string fileName)
         {
-            OperationResult decodeResult = new OperationResult { Result = false };
-
             if (!System.IO.Path.GetExtension(fileName.ToLower()).Equals(FileFormats.DSPL))
             {
                 return new DecodeSmartPlaylistResult { DecodeResult = new OperationResult { Result = false } };
             }
+
+            OperationResult decodeResult = new OperationResult { Result = true };
 
             string playlistName = string.Empty;
             string match = string.Empty;
@@ -45,7 +49,43 @@ namespace Dopamine.Core.IO
             string limit = string.Empty;
             IList<Rule> rules = new List<Rule>();
 
-            // TODO
+            try
+            {
+                XDocument xdoc = XDocument.Load(fileName);
+
+                // Name
+                XElement nameElement = (from t in xdoc.Element("smartplaylist").Elements("name")
+                                        select t).FirstOrDefault();
+
+                playlistName = nameElement != null ? nameElement.Value : string.Empty;
+
+                // Match
+                XElement matchElement = (from t in xdoc.Element("smartplaylist").Elements("match")
+                                        select t).FirstOrDefault();
+
+                match = matchElement != null ? matchElement.Value : string.Empty;
+
+                // Order
+                XElement orderElement = (from t in xdoc.Element("smartplaylist").Elements("order")
+                                         select t).FirstOrDefault();
+
+                order = orderElement != null ? orderElement.Value : string.Empty;
+
+                // Limit
+                XElement limitElement = (from t in xdoc.Element("smartplaylist").Elements("limit")
+                                         select t).FirstOrDefault();
+
+                limit = limitElement != null ? limitElement.Value : string.Empty;
+
+                // Rules
+                // TODO
+
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error($"Could not get name for smart playlist '{fileName}'. Exception: {ex.Message}");
+                decodeResult.Result = false;
+            }
 
             return new DecodeSmartPlaylistResult
             {

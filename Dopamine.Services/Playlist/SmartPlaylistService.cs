@@ -9,6 +9,7 @@ using Digimezzo.Utilities.Log;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Helpers;
+using Dopamine.Core.IO;
 using Dopamine.Services.Entities;
 
 namespace Dopamine.Services.Playlist
@@ -53,23 +54,10 @@ namespace Dopamine.Services.Playlist
 
         private string GetPlaylistName(string smartPlaylistPath)
         {
-            string name = string.Empty;
+            var decoder = new SmartPlaylistdecoder();
+            DecodeSmartPlaylistResult result = decoder.DecodePlaylist(smartPlaylistPath);
 
-            try
-            {
-                XDocument xdoc = XDocument.Load(smartPlaylistPath);
-
-                XElement nameElement = (from t in xdoc.Element("smartplaylist").Elements("name")
-                                        select t).FirstOrDefault();
-
-                name = nameElement.Value;
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error($"Could not get name for smart playlist '{smartPlaylistPath}'. Exception: {ex.Message}");
-            }
-
-            return name;
+            return result.DecodeResult.Result ? result.PlaylistName: string.Empty;
         }
 
         private void SetPlaylistNameIfDifferent(string smartPlaylistPath, string newPlaylistName)
