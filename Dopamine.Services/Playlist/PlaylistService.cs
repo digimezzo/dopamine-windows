@@ -250,12 +250,12 @@ namespace Dopamine.Services.Playlist
             return result;
         }
 
-        public override async Task<IList<TrackViewModel>> GetTracksAsync(string playlistName)
+        public override async Task<IList<TrackViewModel>> GetTracksAsync(PlaylistViewModel playlist)
         {
             // If no playlist was selected, return no tracks.
-            if (string.IsNullOrEmpty(playlistName))
+            if (playlist == null)
             {
-                LogClient.Error("PlaylistName is empty. Returning empty list of tracks.");
+                LogClient.Error($"{nameof(playlist)} is null. Returning empty list of tracks.");
                 return new List<TrackViewModel>();
             }
 
@@ -264,9 +264,8 @@ namespace Dopamine.Services.Playlist
 
             await Task.Run(async () =>
             {
-                string filename = this.CreatePlaylistFilename(playlistName);
                 DecodePlaylistResult decodeResult = null;
-                decodeResult = decoder.DecodePlaylist(filename);
+                decodeResult = decoder.DecodePlaylist(playlist.Path);
 
                 if (decodeResult.DecodeResult.Result)
                 {
