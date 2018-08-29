@@ -432,8 +432,8 @@
   <Text Key="Back">Natrag</Text>
   <Text Key="Folders">Mape</Text>
   <Text Key="Smart_Playlists">Pametni popisi</Text>
-  <Text Key="Import_Playlists">Import playlists</Text>
-  <Text Key="Error_Importing_Playlists">An error occurred while importing playlists. Please consult the log file for more information.</Text>
-  <Text Key="New_Smart_Playlist">New smart playlist</Text>
-  <Text Key="Import_Smart_Playlists">Import smart playlists</Text>
+  <Text Key="Import_Playlists">Uvezi popise</Text>
+  <Text Key="Error_Importing_Playlists">Dogodila se greška tijekom uvoza popisa. Molimo pogledajte datoteku izvješća za više informacija.</Text>
+  <Text Key="New_Smart_Playlist">Novi pametni popis</Text>
+  <Text Key="Import_Smart_Playlists">Uvezi pametne popise</Text>
 </Language>
