@@ -11,7 +11,9 @@ namespace Dopamine.Core.IO
     public class DecodePlaylistResult
     {
         public OperationResult DecodeResult { get; set; }
+
         public string PlaylistName { get; set; }
+
         public List<string> Paths { get; set; }
     }
 
