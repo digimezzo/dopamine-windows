@@ -126,6 +126,7 @@
     <Compile Include="IO\FileOperations.cs" />
     <Compile Include="IO\FolderPathInfo.cs" />
     <Compile Include="IO\PlaylistDecoder.cs" />
+    <Compile Include="IO\SmartPlaylistdecoder.cs" />
     <Compile Include="IO\StrongNetNamedPipeBinding.cs" />
     <Compile Include="Prism\ApplicationCommands.cs" />
     <Compile Include="Prism\Events.cs" />

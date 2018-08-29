@@ -5,6 +5,7 @@ namespace Dopamine.Services.Entities
     public class PlaylistViewModel : BindableBase
     {
         public string Name { get; }
+
         public string Path { get; }
 
         public string SortName
