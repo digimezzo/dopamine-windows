@@ -116,6 +116,36 @@ namespace Dopamine.Data.Repositories
             return tracks;
         }
 
+        public async Task<List<Track>> GetTracksAsync(string whereClause)
+        {
+            var tracks = new List<Track>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            string query = $"{this.SelectVisibleTracksQuery()} AND {whereClause};";
+                            tracks = conn.Query<Track>(query);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the Tracks. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return tracks;
+        }
+
         public async Task<List<Track>> GetArtistTracksAsync(IList<string> artistNames)
         {
             var tracks = new List<Track>();
@@ -484,37 +514,37 @@ namespace Dopamine.Data.Repositories
             var albumData = new List<AlbumData>();
 
             await Task.Run(() =>
+            {
+                try
                 {
-                    try
+                    using (var conn = this.factory.GetConnection())
                     {
-                        using (var conn = this.factory.GetConnection())
+                        try
                         {
-                            try
-                            {
-                                string filterQuery = string.Empty;
+                            string filterQuery = string.Empty;
 
-                                if (artists != null)
-                                {
-                                    filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists, Constants.TagDelimiter)} OR {DataUtils.CreateOrLikeClause("AlbumArtists", artists)})";
-                                }
-                                else if (genres != null)
-                                {
-                                    filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", genres, Constants.TagDelimiter)}";
-                                }
-
-                                albumData = conn.Query<AlbumData>(this.SelectVisibleAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey");
-                            }
-                            catch (Exception ex)
+                            if (artists != null)
                             {
-                                LogClient.Error("Could not get all the album values. Exception: {0}", ex.Message);
+                                filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists, Constants.TagDelimiter)} OR {DataUtils.CreateOrLikeClause("AlbumArtists", artists)})";
                             }
+                            else if (genres != null)
+                            {
+                                filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", genres, Constants.TagDelimiter)}";
+                            }
+
+                            albumData = conn.Query<AlbumData>(this.SelectVisibleAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey");
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the album values. Exception: {0}", ex.Message);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                    }
-                });
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
 
             return albumData;
         }

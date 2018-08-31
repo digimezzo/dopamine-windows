@@ -18,18 +18,25 @@ namespace Dopamine.Core.IO
 
         public string Order { get; set; }
 
-        public long Limit { get; set; }
+        public string Limit { get; set; }
 
         public IList<Rule> Rules { get; set; }
     }
 
     public class Rule
     {
-        public string Field { get; set; }
+        public string Field { get; private set; }
 
-        public string Operator { get; set; }
+        public string Operator { get; private set; }
 
-        public string Value { get; set; }
+        public string Value { get; private set; }
+
+        public Rule(string field, string @operator, string value)
+        {
+            this.Field = field;
+            this.Operator = @operator;
+            this.Value = value;
+        }
     }
 
     public class SmartPlaylistdecoder
@@ -61,7 +68,7 @@ namespace Dopamine.Core.IO
 
                 // Match
                 XElement matchElement = (from t in xdoc.Element("smartplaylist").Elements("match")
-                                        select t).FirstOrDefault();
+                                         select t).FirstOrDefault();
 
                 match = matchElement != null ? matchElement.Value : string.Empty;
 
@@ -78,12 +85,22 @@ namespace Dopamine.Core.IO
                 limit = limitElement != null ? limitElement.Value : string.Empty;
 
                 // Rules
-                // TODO
+                IList<XElement> ruleElements = (from t in xdoc.Element("smartplaylist").Elements("rule")
+                                                select t).ToList();
 
+                if (ruleElements == null || ruleElements.Count == 0)
+                {
+                    throw new Exception($"{nameof(ruleElements)} is null or contains no elements");
+                }
+
+                foreach (XElement ruleElement in ruleElements)
+                {
+                    rules.Add(new Rule(ruleElement.Attribute("field").Value, ruleElement.Attribute("operator").Value, ruleElement.Value));
+                }
             }
             catch (Exception ex)
             {
-                LogClient.Error($"Could not get name for smart playlist '{fileName}'. Exception: {ex.Message}");
+                LogClient.Error($"Could not decode smart playlist '{fileName}'. Exception: {ex.Message}");
                 decodeResult.Result = false;
             }
 
@@ -93,6 +110,7 @@ namespace Dopamine.Core.IO
                 PlaylistName = playlistName,
                 Match = match,
                 Order = order,
+                Limit = limit,
                 Rules = rules
             };
         }
