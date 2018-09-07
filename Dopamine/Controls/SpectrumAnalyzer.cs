@@ -265,8 +265,8 @@ namespace Dopamine.Controls
                 case SpectrumAnimationStyle.Gentle: return preData;
                 default: return 0;
             }
-
         }
+
         private void UpdateSpectrumShapes()
         {
             bool allZero = true;
