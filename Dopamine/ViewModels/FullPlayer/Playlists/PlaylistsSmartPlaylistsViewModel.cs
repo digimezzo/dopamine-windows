@@ -8,6 +8,7 @@ using Dopamine.Services.Entities;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Playlist;
 using Dopamine.ViewModels.Common.Base;
+using Dopamine.Views.FullPlayer.Playlists;
 using GongSolutions.Wpf.DragDrop;
 using Prism.Commands;
 using Prism.Ioc;
@@ -22,6 +23,7 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
 {
     public class PlaylistsSmartPlaylistsViewModel : PlaylistsViewModelBase, IDropTarget
     {
+        private IContainerProvider container;
         private ISmartPlaylistService smartPlaylistService;
         private IDialogService dialogService;
         private double leftPaneWidthPercent;
@@ -30,10 +32,12 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
             IDialogService dialogService, IPlaybackService playbackService) : base(container, dialogService, playbackService, smartPlaylistService)
         {
             // Dependency injection
+            this.container = container;
             this.smartPlaylistService = smartPlaylistService;
             this.dialogService = dialogService;
 
             // Commands
+            this.NewPlaylistCommand = new DelegateCommand(this.CreateSmartPlaylist);
             this.ImportPlaylistsCommand = new DelegateCommand(async () => await this.ImportPlaylistsAsync());
 
             // Load settings
@@ -163,6 +167,27 @@ namespace Dopamine.ViewModels.FullPlayer.Playlists
                     true,
                     ResourceUtils.GetString("Language_Log_File"));
             }
+        }
+
+        private void CreateSmartPlaylist()
+        {
+            PlaylistsSmartPlaylistsCreate view = this.container.Resolve<PlaylistsSmartPlaylistsCreate>();
+            view.DataContext = this.container.Resolve<PlaylistsSmartPlaylistsCreateViewModel>();
+
+            this.dialogService.ShowCustomDialog(
+                0xea37,
+                16,
+                ResourceUtils.GetString("Language_New_Smart_Playlist"),
+                view,
+                500,
+                0,
+                false,
+                true,
+                true,
+                true,
+                ResourceUtils.GetString("Language_Ok"),
+                ResourceUtils.GetString("Language_Cancel"),
+                ((PlaylistsSmartPlaylistsCreateViewModel)view.DataContext).SaveSmartPlaylistAsync);
         }
     }
 }
