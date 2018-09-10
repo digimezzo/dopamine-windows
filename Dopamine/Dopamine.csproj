@@ -277,6 +277,7 @@
     <Compile Include="ViewModels\FullPlayer\Information\InformationMenuViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Playlists\PlaylistsMenuViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Playlists\PlaylistsSmartPlaylistsCreateViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Playlists\PlaylistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Playlists\PlaylistsSmartPlaylistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsAppearanceViewModel.cs" />
@@ -490,6 +491,9 @@
     </Compile>
     <Compile Include="Views\FullPlayer\Playlists\PlaylistsSmartPlaylists.xaml.cs">
       <DependentUpon>PlaylistsSmartPlaylists.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Playlists\PlaylistsSmartPlaylistsCreate.xaml.cs">
+      <DependentUpon>PlaylistsSmartPlaylistsCreate.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Settings\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -1330,6 +1334,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullPlayer\Playlists\PlaylistsSmartPlaylists.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Playlists\PlaylistsSmartPlaylistsCreate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
