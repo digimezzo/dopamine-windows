@@ -2,9 +2,8 @@
                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                           xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
-                          xmlns:baseviews="clr-namespace:Dopamine.Views.Common.Base"
                           xmlns:pc="clr-namespace:Dopamine.Controls"
-                          xmlns:corebase="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
+                          xmlns:baseviews="clr-namespace:Dopamine.Views.Common.Base"
                           xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
                           xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                           prismMvvm:ViewModelLocator.AutoWireViewModel="True">

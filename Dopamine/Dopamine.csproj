@@ -262,9 +262,9 @@
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionAlbumsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionArtistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionFoldersViewModel.cs" />
-    <Compile Include="ViewModels\FullPlayer\Collection\CollectionFrequentViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionGenresViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionMenuViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\CollectionPlaylistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Playlists\PlaylistsPlaylistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksColumnsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksViewModel.cs" />
@@ -447,14 +447,14 @@
     <Compile Include="Views\FullPlayer\Collection\CollectionFolders.xaml.cs">
       <DependentUpon>CollectionFolders.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FullPlayer\Collection\CollectionFrequent.xaml.cs">
-      <DependentUpon>CollectionFrequent.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionGenres.xaml.cs">
       <DependentUpon>CollectionGenres.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionMenu.xaml.cs">
       <DependentUpon>CollectionMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Collection\CollectionPlaylists.xaml.cs">
+      <DependentUpon>CollectionPlaylists.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Playlists\PlaylistsPlaylists.xaml.cs">
       <DependentUpon>PlaylistsPlaylists.xaml</DependentUpon>
@@ -1277,15 +1277,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FullPlayer\Collection\CollectionFrequent.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\FullPlayer\Collection\CollectionGenres.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullPlayer\Collection\CollectionMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Collection\CollectionPlaylists.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
