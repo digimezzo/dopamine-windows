@@ -8,6 +8,7 @@
 - [Added] The search field can now be activated by pressing CTRL+F
 - [Added] Added Japanese language
 - [Changed] Removed the "Frequent" page
+- [Changed] Temporarily removed the "Theme" selector. Until Preview 3, only the dark theme will be available.
 - [Changed] Updated the Chinese (Simplified) translation
 - [Changed] Updated the Chinese (Traditional) translation
 - [Changed] Updated the Croatian translation
@@ -16,7 +17,7 @@
 - [Changed] Updated the Korean translation
 - [Changed] Updated the Portuguese (Portugal) translation
 - [Changed] Updated the Ukrainian translation
-- [Fixed] Fixed an issue where a same Artist, but with different casing, was shown as mutiple artists. The same issue was fixed for Genres.
+- [Fixed] Fixed an issue where a same Artist, but with different casing, was shown as multiple artists. The same issue was fixed for Genres.
 
 
 2018-06-14: Dopamine 2.0 Preview 1
