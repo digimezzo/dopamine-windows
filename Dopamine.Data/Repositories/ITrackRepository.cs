@@ -42,8 +42,6 @@ namespace Dopamine.Data.Repositories
 
         Task<IList<AlbumData>> GetAlbumDataToIndexAsync();
 
-        Task<IList<AlbumData>> GetFrequentAlbumDataAsync(int limit);
-
         Task<Track> GetLastModifiedTrackForAlbumKeyAsync(string albumKey);
 
         Task DisableNeedsAlbumArtworkIndexingAsync(string albumKey);

@@ -692,43 +692,6 @@ namespace Dopamine.Data.Repositories
             });
         }
 
-        public async Task<IList<AlbumData>> GetFrequentAlbumDataAsync(int limit)
-        {
-            var albumData = new List<AlbumData>();
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    using (var conn = this.factory.GetConnection())
-                    {
-                        try
-                        {
-                            string query = $@"{this.SelectedAlbumDataQueryPart()},
-                                                                MAX(t.DateLastPlayed) AS maxdatelastplayed, 
-                                                                SUM(t.PlayCount) AS playcountsum FROM Track t
-                                                                WHERE t.PlayCount IS NOT NULL AND t.PlayCount > 0 
-                                                                AND t.AlbumKey IS NOT NULL AND t.AlbumKey <> ''
-                                                                GROUP BY t.AlbumKey
-                                                                ORDER BY playcountsum DESC, maxdatelastplayed DESC LIMIT {limit}";
-
-                            albumData = conn.Query<AlbumData>(query);
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Could not get the frequent Album data. Exception: {0}", ex.Message);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                }
-            });
-
-            return albumData;
-        }
-
         public async Task UpdateRatingAsync(string path, int rating)
         {
             await Task.Run(() =>
