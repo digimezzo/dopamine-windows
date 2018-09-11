@@ -32,7 +32,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private void NagivateToPage(SlideDirection direction, CollectionPage page)
         {
-            this.SlideInFrom = direction == SlideDirection.RightToLeft ? Constants.SlideDistance  : -Constants.SlideDistance;
+            this.SlideInFrom = direction == SlideDirection.RightToLeft ? Constants.SlideDistance : -Constants.SlideDistance;
 
             switch (page)
             {
@@ -48,11 +48,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 case CollectionPage.Songs:
                     this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionTracks).FullName);
                     break;
+                case CollectionPage.Playlists:
+                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionPlaylists).FullName);
+                    break;
                 case CollectionPage.Folders:
                     this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionFolders).FullName);
-                    break;
-                case CollectionPage.Frequent:
-                    this.regionManager.RequestNavigate(RegionNames.CollectionRegion, typeof(CollectionFrequent).FullName);
                     break;
                 default:
                     break;

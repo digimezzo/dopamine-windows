@@ -24,14 +24,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             {
                 SetProperty<CollectionPage>(ref this.selectedPage, value);
                 SettingsClient.Set<int>("FullPlayer", "SelectedCollectionPage", (int)value);
-                RaisePropertyChanged(nameof(this.CanSearch));
                 this.NagivateToSelectedPage();
             }
-        }
-
-        public bool CanSearch
-        {
-            get { return this.selectedPage != CollectionPage.Frequent; }
         }
 
         public CollectionMenuViewModel(IEventAggregator eventAggregator)

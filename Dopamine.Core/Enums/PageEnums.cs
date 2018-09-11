@@ -30,8 +30,8 @@
         Genres = 1,
         Albums = 2,
         Songs = 3,
-        Folders = 4,
-        Frequent = 5
+        Playlists = 4,
+        Folders = 5
     }
 
     public enum PlaylistsPage
