@@ -34,12 +34,6 @@
         Folders = 5
     }
 
-    public enum PlaylistsPage
-    {
-        Playlists = 0,
-        SmartPlaylists = 1
-    }
-
     public enum SettingsPage
     {
         Collection = 0,
