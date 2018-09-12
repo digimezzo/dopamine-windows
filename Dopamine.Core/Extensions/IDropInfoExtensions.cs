@@ -33,7 +33,7 @@ namespace Dopamine.Core.Extensions
             return false;
         }
 
-        public static bool IsDraggingPlaylistFiles(this IDropInfo dropInfo)
+        public static bool IsDraggingStaticPlaylistFiles(this IDropInfo dropInfo)
         {
             DataObject dataObject = dropInfo.Data as DataObject;
             StringCollection filenames = dataObject.GetFileDropList();

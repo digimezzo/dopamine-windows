@@ -45,9 +45,9 @@
                     <DockPanel>
                         <DockPanel.Resources>
                             <CollectionViewSource x:Key="ListBoxPlaylistsViewSource" Source="{Binding Playlists}">
-                                <CollectionViewSource.SortDescriptions>
+                                <!--<CollectionViewSource.SortDescriptions>
                                     <scm:SortDescription PropertyName="SortName" />
-                                </CollectionViewSource.SortDescriptions>
+                                </CollectionViewSource.SortDescriptions>-->
                             </CollectionViewSource>
                         </DockPanel.Resources>
                         <StackPanel DockPanel.Dock="Top" Margin="10,0,10,20">

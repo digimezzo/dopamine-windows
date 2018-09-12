@@ -13,9 +13,6 @@ namespace Dopamine.Services.Playlist
 
         event TracksAddedHandler TracksAdded;
         event TracksDeletedHandler TracksDeleted;
-        event PlaylistAddedHandler PlaylistAdded;
-        event PlaylistDeletedHandler PlaylistDeleted;
-        event PlaylistRenamedHandler PlaylistRenamed;
         event EventHandler PlaylistFolderChanged;
 
         Task<CreateNewPlaylistResult> CreateNewPlaylistAsync(string playlistName, PlaylistType type);
@@ -25,12 +22,12 @@ namespace Dopamine.Services.Playlist
         Task<AddTracksToPlaylistResult> AddArtistsToStaticPlaylistAsync(IList<string> artists, string playlistName);
 
         Task<AddTracksToPlaylistResult> AddGenresToStaticPlaylistAsync(IList<string> genres, string playlistName);
-       
+
         Task<AddTracksToPlaylistResult> AddAlbumsToStaticPlaylistAsync(IList<AlbumViewModel> albumViewModels, string playlistName);
 
         Task<IList<PlaylistViewModel>> GetStaticPlaylistsAsync();
 
-        Task<IList<PlaylistViewModel>> GetSmartPlaylistsAsync();
+        Task<IList<PlaylistViewModel>> GetAllPlaylistsAsync();
 
         Task<IList<TrackViewModel>> GetTracksAsync(PlaylistViewModel playlist);
 

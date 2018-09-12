@@ -87,9 +87,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
             // Events
             this.playlistService.PlaylistFolderChanged += PlaylistService_PlaylistFolderChanged;
-            this.playlistService.PlaylistAdded += PlaylistService_PlaylistAdded;
-            this.playlistService.PlaylistDeleted += PlaylistService_PlaylistDeleted;
-            this.playlistService.PlaylistRenamed += PlaylistService_PlaylistRenamed;
             this.playlistService.TracksAdded += PlaylistService_TracksAdded;
             this.playlistService.TracksDeleted += PlaylistService_TracksDeleted;
 
@@ -127,46 +124,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
             // Load settings
             this.LeftPaneWidthPercent = SettingsClient.Get<int>("ColumnWidths", "PlaylistsLeftPaneWidthPercent");
-        }
-
-        private void PlaylistService_PlaylistRenamed(PlaylistViewModel oldPlaylist, PlaylistViewModel newPlaylist)
-        {
-            // Remove the old playlist
-            if (this.Playlists.Contains(oldPlaylist))
-            {
-                this.Playlists.Remove(oldPlaylist);
-            }
-
-            // Add the new playlist
-            this.Playlists.Add(newPlaylist);
-        }
-
-        private void PlaylistService_PlaylistDeleted(PlaylistViewModel deletedPlaylist)
-        {
-            this.Playlists.Remove(deletedPlaylist);
-
-            // If the selected playlist was deleted, select the first playlist.
-            if (this.SelectedPlaylist == null)
-            {
-                this.TrySelectFirstPlaylist();
-            }
-
-            // Notify that the count has changed
-            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
-        }
-
-        private void PlaylistService_PlaylistAdded(PlaylistViewModel addedPlaylist)
-        {
-            this.Playlists.Add(addedPlaylist);
-
-            // If there is only 1 playlist, automatically select it.
-            if (this.Playlists != null && this.Playlists.Count == 1)
-            {
-                this.TrySelectFirstPlaylist();
-            }
-
-            // Notify that the count has changed
-            this.RaisePropertyChanged(nameof(this.PlaylistsCount));
         }
 
         private async void PlaylistService_PlaylistFolderChanged(object sender, EventArgs e)
@@ -472,12 +429,10 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async Task GetPlaylistsAsync()
         {
-            // TODO: take smart playlists into account
-
             try
             {
                 // Populate an ObservableCollection
-                var playlistViewModels = new ObservableCollection<PlaylistViewModel>(await this.playlistService.GetStaticPlaylistsAsync());
+                var playlistViewModels = new ObservableCollection<PlaylistViewModel>(await this.playlistService.GetAllPlaylistsAsync());
 
                 // Unbind and rebind to improve UI performance
                 this.Playlists = null;
@@ -736,7 +691,9 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
                 if (isDraggingFiles)
                 {
-                    isDraggingValidFiles = dropInfo.IsDraggingMediaFiles() || dropInfo.IsDraggingPlaylistFiles();
+                    isDraggingValidFiles = dropInfo.IsDraggingMediaFiles() || 
+                        dropInfo.IsDraggingStaticPlaylistFiles() ||
+                        dropInfo.IsDraggingSmartPlaylistFiles();
                 }
 
                 if (isDraggingFiles & !isDraggingValidFiles)
