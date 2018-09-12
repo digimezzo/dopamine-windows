@@ -51,9 +51,10 @@ namespace Dopamine.Core.Base
             FileFormats.AIFF
         };
 
-        public static string[] SupportedPlaylistExtensions = {
+        public static string[] SupportedStaticPlaylistExtensions = {
             FileFormats.M3U,
-            FileFormats.ZPL
+            FileFormats.ZPL,
+            FileFormats.WPL
         };
 
         public static string[] SupportedSmartPlaylistExtensions = {
@@ -65,9 +66,9 @@ namespace Dopamine.Core.Base
             return SupportedMediaExtensions.Contains(System.IO.Path.GetExtension(path), StringComparer.OrdinalIgnoreCase);
         }
 
-        public static bool IsSupportedPlaylistFile(string path)
+        public static bool IsSupportedStaticPlaylistFile(string path)
         {
-            return SupportedPlaylistExtensions.Contains(System.IO.Path.GetExtension(path), StringComparer.OrdinalIgnoreCase);
+            return SupportedStaticPlaylistExtensions.Contains(System.IO.Path.GetExtension(path), StringComparer.OrdinalIgnoreCase);
         }
 
         public static bool IsSupportedSmartPlaylistFile(string path)

@@ -37,7 +37,7 @@ namespace Dopamine.Core.Extensions
         {
             DataObject dataObject = dropInfo.Data as DataObject;
             StringCollection filenames = dataObject.GetFileDropList();
-            string[] supportedExtensions = FileFormats.SupportedPlaylistExtensions;
+            string[] supportedExtensions = FileFormats.SupportedStaticPlaylistExtensions;
 
             foreach (string filename in filenames)
             {
