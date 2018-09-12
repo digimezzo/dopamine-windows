@@ -118,7 +118,7 @@ namespace Dopamine.ViewModels.Common.Base
                 this.ContextMenuPlaylists = null;
                 
                 // Populate an ObservableCollection
-                var playlistViewModels = new ObservableCollection<PlaylistViewModel>(await this.playlistService.GetPlaylistsAsync());
+                var playlistViewModels = new ObservableCollection<PlaylistViewModel>(await this.playlistService.GetStaticPlaylistsAsync());
 
                 // Re-bind to update the UI
                 this.ContextMenuPlaylists = playlistViewModels;
@@ -135,7 +135,7 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async Task AddTracksToPlaylistAsync(string playlistName, IList<TrackViewModel> tracks)
         {
-            AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
+            CreateNewPlaylistResult addPlaylistResult = CreateNewPlaylistResult.Success; // Default Success
 
             // If no playlist is provided, first create one.
             if (playlistName == null)
@@ -152,7 +152,7 @@ namespace Dopamine.ViewModels.Common.Base
                     ref responseText))
                 {
                     playlistName = responseText;
-                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
+                    addPlaylistResult = await this.playlistService.CreateNewPlaylistAsync(playlistName, PlaylistType.Static);
                 }
             }
 
@@ -162,17 +162,17 @@ namespace Dopamine.ViewModels.Common.Base
             // Verify if the playlist was added
             switch (addPlaylistResult)
             {
-                case AddPlaylistResult.Success:
-                case AddPlaylistResult.Duplicate:
+                case CreateNewPlaylistResult.Success:
+                case CreateNewPlaylistResult.Duplicate:
                     // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.playlistService.AddTracksToPlaylistAsync(tracks, playlistName);
+                    AddTracksToPlaylistResult result = await this.playlistService.AddTracksToStaticPlaylistAsync(tracks, playlistName);
 
                     if (result == AddTracksToPlaylistResult.Error)
                     {
                         this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Songs_To_Playlist").Replace("{playlistname}", "\"" + playlistName + "\""), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
                     }
                     break;
-                case AddPlaylistResult.Error:
+                case CreateNewPlaylistResult.Error:
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
@@ -182,7 +182,7 @@ namespace Dopamine.ViewModels.Common.Base
                         true,
                         ResourceUtils.GetString("Language_Log_File"));
                     break;
-                case AddPlaylistResult.Blank:
+                case CreateNewPlaylistResult.Blank:
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,

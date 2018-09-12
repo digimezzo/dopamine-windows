@@ -39,7 +39,7 @@ namespace Dopamine.Core.IO
         }
     }
 
-    public class SmartPlaylistdecoder
+    public class SmartPlaylistDecoder
     {
         public DecodeSmartPlaylistResult DecodePlaylist(string fileName)
         {

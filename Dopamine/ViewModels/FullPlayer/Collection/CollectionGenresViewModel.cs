@@ -279,7 +279,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async Task AddGenresToPlaylistAsync(IList<string> genres, string playlistName)
         {
-            AddPlaylistResult addPlaylistResult = AddPlaylistResult.Success; // Default Success
+            CreateNewPlaylistResult createPlaylistResult = CreateNewPlaylistResult.Success; // Default Success
 
             // If no playlist is provided, first create one.
             if (playlistName == null)
@@ -296,27 +296,30 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                     ref responseText))
                 {
                     playlistName = responseText;
-                    addPlaylistResult = await this.playlistService.AddPlaylistAsync(playlistName);
+                    createPlaylistResult = await this.playlistService.CreateNewPlaylistAsync(playlistName, PlaylistType.Static);
                 }
             }
 
             // If playlist name is still null, the user clicked cancel on the previous dialog. Stop here.
-            if (playlistName == null) return;
-
-            // Verify if the playlist was added
-            switch (addPlaylistResult)
+            if (playlistName == null)
             {
-                case AddPlaylistResult.Success:
-                case AddPlaylistResult.Duplicate:
-                    // Add items to playlist
-                    AddTracksToPlaylistResult result = await this.playlistService.AddGenresToPlaylistAsync(genres, playlistName);
+                return;
+            }
 
-                    if (result == AddTracksToPlaylistResult.Error)
+            // Verify if the playlist was created
+            switch (createPlaylistResult)
+            {
+                case CreateNewPlaylistResult.Success:
+                case CreateNewPlaylistResult.Duplicate:
+                    // Add items to playlist
+                    AddTracksToPlaylistResult addTracksResult = await this.playlistService.AddGenresToStaticPlaylistAsync(genres, playlistName);
+
+                    if (addTracksResult == AddTracksToPlaylistResult.Error)
                     {
                         this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Songs_To_Playlist").Replace("{playlistname}", "\"" + playlistName + "\""), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
                     }
                     break;
-                case AddPlaylistResult.Error:
+                case CreateNewPlaylistResult.Error:
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,
@@ -326,7 +329,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                         true,
                         ResourceUtils.GetString("Language_Log_File"));
                     break;
-                case AddPlaylistResult.Blank:
+                case CreateNewPlaylistResult.Blank:
                     this.dialogService.ShowNotification(
                         0xe711,
                         16,

@@ -107,7 +107,7 @@ namespace Dopamine.Services.File
                         // The file is a supported audio format: add it directly.
                         tracks.Add(await this.CreateTrackAsync(path));
                     }
-                    else if (FileFormats.IsSupportedPlaylistFile(path))
+                    else if (FileFormats.IsSupportedStaticPlaylistFile(path))
                     {
                         // The file is a supported playlist format: process the contents of the playlist file.
                         foreach (string audioFilePath in this.ProcessPlaylistFile(path))

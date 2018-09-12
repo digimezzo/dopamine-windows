@@ -19,24 +19,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace Dopamine.Services.Playlist
 {
-    public class PlaylistService : PlaylistServiceBase, IPlaylistService
+    public class PlaylistService : IPlaylistService
     {
-        private IFileService fileService;
         private ITrackRepository trackRepository;
         private IContainerProvider container;
+        private IFileService fileService;
+        private GentleFolderWatcher watcher;
 
-        public override string PlaylistFolder { get; }
-
-        public override string DialogFileFilter => $"(*{FileFormats.M3U};*{FileFormats.WPL};*{FileFormats.ZPL})|*{FileFormats.M3U};*{FileFormats.WPL};*{FileFormats.ZPL}";
-
-        public PlaylistService(IFileService fileService, ITrackRepository trackRepository, IContainerProvider container) : base()
+        public PlaylistService(ITrackRepository trackRepository,
+            IFileService fileService, IContainerProvider container)
         {
             // Dependency injection
-            this.fileService = fileService;
             this.trackRepository = trackRepository;
+            this.fileService = fileService;
             this.container = container;
 
             // Initialize Playlists folder
@@ -56,91 +55,185 @@ namespace Dopamine.Services.Playlist
             }
 
             // Watcher
-            this.Watcher = new GentleFolderWatcher(this.PlaylistFolder, false);
-            this.Watcher.FolderChanged += Watcher_FolderChanged;
-            this.Watcher.Resume();
-        }
-
-        private void Watcher_FolderChanged(object sender, EventArgs e)
-        {
-            Application.Current.Dispatcher.Invoke(() =>
+            this.watcher = new GentleFolderWatcher(this.PlaylistFolder, false);
+            this.watcher.FolderChanged += (_, __) =>
             {
-                this.OnPlaylistFolderChanged(this);
-            });
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    this.PlaylistFolderChanged(this, new EventArgs());
+                });
+            };
+
+            this.watcher.Resume();
         }
 
+        public string PlaylistFolder { get; }
+
+        public string DialogFileFilter => $"(*{FileFormats.M3U};*{FileFormats.WPL};*{FileFormats.ZPL};*{FileFormats.DSPL})|*{FileFormats.M3U};*{FileFormats.WPL};*{FileFormats.ZPL};*{FileFormats.DSPL};*{FileFormats.DSPL}";
+
+        public event PlaylistAddedHandler PlaylistAdded = delegate { };
+        public event PlaylistDeletedHandler PlaylistDeleted = delegate { };
+        public event PlaylistRenamedHandler PlaylistRenamed = delegate { };
+        public event EventHandler PlaylistFolderChanged = delegate { };
         public event TracksAddedHandler TracksAdded = delegate { };
         public event TracksDeletedHandler TracksDeleted = delegate { };
 
-        private string CreatePlaylistFilename(string playlist)
+        private string CreatePlaylistFilePath(string sanitizedPlaylistName, PlaylistType type)
         {
-            return Path.Combine(this.PlaylistFolder, playlist + FileFormats.M3U);
+            string extension = type.Equals(PlaylistType.Smart) ? FileFormats.DSPL : FileFormats.M3U;
+            return Path.Combine(this.PlaylistFolder, sanitizedPlaylistName + extension);
         }
 
-        public async Task<string> GetUniquePlaylistNameAsync(string proposedPlaylistName)
+        private async Task<PlaylistViewModel> CreateNewStaticPlaylistAsync(string playlistName, string filePath)
         {
-            string uniquePlaylistName = proposedPlaylistName;
-
             try
             {
                 await Task.Run(() =>
                 {
-                    string[] filenames = Directory.GetFiles(this.PlaylistFolder);
-                    IList<string> existingPlaylistNames = filenames.Select(f => System.IO.Path.GetFileNameWithoutExtension(f)).ToList();
-                    uniquePlaylistName = proposedPlaylistName.MakeUnique(existingPlaylistNames);
+                    // Close() prevents file in use issues
+                    System.IO.File.Create(filePath).Close();
                 });
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not generate unique playlist name for playlist '{0}'. Exception: {1}", proposedPlaylistName, ex.Message);
+                LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filePath, ex.Message);
+                return null;
             }
 
-            return uniquePlaylistName;
+            return new PlaylistViewModel(playlistName, filePath, PlaylistType.Static);
         }
 
-        public override async Task<AddPlaylistResult> AddPlaylistAsync(string playlistName)
+        private async Task<PlaylistViewModel> CreateNewSmartPlaylistAsync(string playlistName, string filePath)
+        {
+            // TODO
+            return null;
+        }
+
+        public async Task<CreateNewPlaylistResult> CreateNewPlaylistAsync(string playlistName, PlaylistType type)
         {
             if (string.IsNullOrWhiteSpace(playlistName))
             {
-                return AddPlaylistResult.Blank;
+                return CreateNewPlaylistResult.Blank;
             }
 
             string sanitizedPlaylistName = FileUtils.SanitizeFilename(playlistName);
-            string filename = this.CreatePlaylistFilename(sanitizedPlaylistName);
+            string filePath = this.CreatePlaylistFilePath(sanitizedPlaylistName, type);
 
-            if (System.IO.File.Exists(filename))
+            if (System.IO.File.Exists(filePath))
             {
-                return AddPlaylistResult.Duplicate;
+                return CreateNewPlaylistResult.Duplicate;
             }
 
-            AddPlaylistResult result = AddPlaylistResult.Success;
+            this.watcher.Suspend(); // Stop watching the playlist folder
 
-            this.Watcher.Suspend(); // Stop watching the playlist folder
+            PlaylistViewModel playlistViewModel = null;
+
+            if (type.Equals(PlaylistType.Static))
+            {
+                playlistViewModel = await this.CreateNewStaticPlaylistAsync(playlistName, filePath);
+            }
+            else if (type.Equals(PlaylistType.Smart))
+            {
+                playlistViewModel = await this.CreateNewSmartPlaylistAsync(playlistName, filePath);
+            }
+
+            this.watcher.Resume(); // Start watching the playlist folder
+
+            if (playlistViewModel == null)
+            {
+                return CreateNewPlaylistResult.Error;
+            }
+
+            this.PlaylistAdded(playlistViewModel);
+            return CreateNewPlaylistResult.Success;
+        }
+
+        public async Task<AddTracksToPlaylistResult> AddTracksToStaticPlaylistAsync(IList<TrackViewModel> tracks, string playlistName)
+        {
+            if (tracks == null || tracks.Count == 0)
+            {
+                LogClient.Error("Cannot add tracks to playlist. No tracks were provided.");
+                return AddTracksToPlaylistResult.Error;
+            }
+
+            if (string.IsNullOrEmpty(playlistName))
+            {
+                LogClient.Error("Cannot add tracks to playlist. No playlistName was provided.");
+                return AddTracksToPlaylistResult.Error;
+            }
+
+            AddTracksToPlaylistResult result = AddTracksToPlaylistResult.Success;
+
+            this.watcher.Suspend(); // Stop watching the playlist folder
+
+            int numberTracksAdded = 0;
+            string filename = this.CreatePlaylistFilePath(playlistName, PlaylistType.Static);
 
             await Task.Run(() =>
             {
                 try
                 {
-                    System.IO.File.Create(filename).Close(); // Close() prevents file in use issues
+                    using (FileStream fs = System.IO.File.Open(filename, FileMode.Append))
+                    {
+                        using (var writer = new StreamWriter(fs))
+                        {
+                            foreach (TrackViewModel track in tracks)
+                            {
+                                try
+                                {
+                                    writer.WriteLine(track.Path);
+                                    numberTracksAdded++;
+                                }
+                                catch (Exception ex)
+                                {
+                                    LogClient.Error("Could not write path '{0}' to playlist '{1}' with filename '{2}'. Exception: {3}", track.Path, playlistName, filename, ex.Message);
+                                }
+                            }
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
-                    result = AddPlaylistResult.Error;
+                    LogClient.Error("Could not add tracks to playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
+                    result = AddTracksToPlaylistResult.Error;
                 }
             });
 
-            if (result == AddPlaylistResult.Success)
-            {
-                this.OnPlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
-            }
+            if (result == AddTracksToPlaylistResult.Success) this.TracksAdded(numberTracksAdded, playlistName);
 
-            this.Watcher.Resume(); // Start watching the playlist folder
+            this.watcher.Resume(); // Start watching the playlist folder
 
             return result;
         }
 
-        public override async Task<IList<PlaylistViewModel>> GetPlaylistsAsync()
+        public async Task<AddTracksToPlaylistResult> AddArtistsToStaticPlaylistAsync(IList<string> artists, string playlistName)
+        {
+            IList<Track> tracks = await this.trackRepository.GetArtistTracksAsync(artists);
+            List<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(tracks.Select(t => this.container.ResolveTrackViewModel(t)).ToList(), TrackOrder.ByAlbum);
+            AddTracksToPlaylistResult result = await this.AddTracksToStaticPlaylistAsync(orderedTracks, playlistName);
+
+            return result;
+        }
+
+        public async Task<AddTracksToPlaylistResult> AddGenresToStaticPlaylistAsync(IList<string> genres, string playlistName)
+        {
+            IList<Track> tracks = await this.trackRepository.GetGenreTracksAsync(genres);
+            List<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(tracks.Select(t => this.container.ResolveTrackViewModel(t)).ToList(), TrackOrder.ByAlbum);
+            AddTracksToPlaylistResult result = await this.AddTracksToStaticPlaylistAsync(orderedTracks, playlistName);
+
+            return result;
+        }
+
+        public async Task<AddTracksToPlaylistResult> AddAlbumsToStaticPlaylistAsync(IList<AlbumViewModel> albumViewModels, string playlistName)
+        {
+            IList<Track> tracks = await this.trackRepository.GetAlbumTracksAsync(albumViewModels.Select(x => x.AlbumKey).ToList());
+            List<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(tracks.Select(t => this.container.ResolveTrackViewModel(t)).ToList(), TrackOrder.ByAlbum);
+            AddTracksToPlaylistResult result = await this.AddTracksToStaticPlaylistAsync(orderedTracks, playlistName);
+
+            return result;
+        }
+
+        public async Task<IList<PlaylistViewModel>> GetStaticPlaylistsAsync()
         {
             IList<PlaylistViewModel> playlists = new List<PlaylistViewModel>();
 
@@ -153,7 +246,7 @@ namespace Dopamine.Services.Playlist
 
                     foreach (FileInfo f in fi)
                     {
-                        playlists.Add(new PlaylistViewModel(Path.GetFileNameWithoutExtension(f.FullName), f.FullName));
+                        playlists.Add(new PlaylistViewModel(this.GetStaticPlaylistName(f.FullName), f.FullName, PlaylistType.Static));
                     }
                 }
                 catch (Exception ex)
@@ -165,15 +258,776 @@ namespace Dopamine.Services.Playlist
             return playlists;
         }
 
-        protected override async Task<ImportPlaylistResult> ImportPlaylistAsync(string fileName)
+        private string GetStaticPlaylistName(string staticPlaylistPath)
+        {
+            return Path.GetFileNameWithoutExtension(staticPlaylistPath);
+        }
+
+        private string GetSmartPlaylistName(string smartPlaylistPath)
+        {
+            var decoder = new SmartPlaylistDecoder();
+            DecodeSmartPlaylistResult result = decoder.DecodePlaylist(smartPlaylistPath);
+
+            return result.DecodeResult.Result ? result.PlaylistName : string.Empty;
+        }
+
+        public async Task<IList<PlaylistViewModel>> GetSmartPlaylistsAsync()
+        {
+            IList<PlaylistViewModel> playlists = new List<PlaylistViewModel>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    var di = new DirectoryInfo(this.PlaylistFolder);
+                    var fi = di.GetFiles("*" + FileFormats.DSPL, SearchOption.TopDirectoryOnly);
+
+                    foreach (FileInfo f in fi)
+                    {
+                        string name = this.GetSmartPlaylistName(f.FullName);
+
+                        if (!string.IsNullOrEmpty(name))
+                        {
+                            playlists.Add(new PlaylistViewModel(name, f.FullName, PlaylistType.Smart));
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Error while getting smart playlists. Exception: {0}", ex.Message);
+                }
+            });
+
+            return playlists;
+        }
+
+        private async Task<IList<TrackViewModel>> GetStaticPlaylistTracksAsync(PlaylistViewModel playlist)
+        {
+            var tracks = new List<TrackViewModel>();
+            var decoder = new PlaylistDecoder();
+
+            await Task.Run(async () =>
+            {
+                DecodePlaylistResult decodeResult = null;
+                decodeResult = decoder.DecodePlaylist(playlist.Path);
+
+                if (decodeResult.DecodeResult.Result)
+                {
+                    foreach (string path in decodeResult.Paths)
+                    {
+                        try
+                        {
+                            tracks.Add(await this.fileService.CreateTrackAsync(path));
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get track information from file. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+            });
+
+            return tracks;
+        }
+
+        private string GetWhereOperator(string playlistMatch)
+        {
+            string whereOperator = string.Empty;
+
+            switch (playlistMatch)
+            {
+                case "any":
+                    whereOperator = "OR";
+                    break;
+                case "all":
+                default:
+                    whereOperator = "AND";
+                    break;
+            }
+
+            return whereOperator;
+        }
+
+        private string GetLimit(string playlistLimit)
+        {
+            string limit = string.Empty;
+
+            long parsedLong = 0;
+
+            if (long.TryParse(playlistLimit, out parsedLong) && parsedLong > 0)
+            {
+                limit = $"LIMIT {parsedLong}";
+            }
+
+            return limit;
+        }
+
+        private string GetOrder(string playlistOrder)
+        {
+            string sqlOrder = string.Empty;
+
+            switch (playlistOrder)
+            {
+                case "descending":
+                    sqlOrder = "DESC";
+                    break;
+                case "ascending":
+                default:
+                    sqlOrder = "ASC";
+                    break;
+            }
+
+            return sqlOrder;
+        }
+
+        private string GetWhereClausePart(Rule rule)
+        {
+            string whereSubClause = string.Empty;
+
+            // Artist
+            if (rule.Field.Equals("artist", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"Artists LIKE '%{MetadataUtils.DelimitTag(rule.Value)}%'";
+                }
+                else if (rule.Operator.Equals("contains"))
+                {
+                    whereSubClause = $"Artists LIKE '%{rule.Value}%'";
+                }
+            }
+
+            // AlbumArtist
+            if (rule.Field.Equals("albumartist", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"AlbumArtists LIKE '%{MetadataUtils.DelimitTag(rule.Value)}%'";
+                }
+                else if (rule.Operator.Equals("contains"))
+                {
+                    whereSubClause = $"AlbumArtists LIKE '%{rule.Value}%'";
+                }
+            }
+
+            // Genre
+            if (rule.Field.Equals("genre", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"Genres LIKE '%{MetadataUtils.DelimitTag(rule.Value)}%'";
+                }
+                else if (rule.Operator.Equals("contains"))
+                {
+                    whereSubClause = $"Genres LIKE '%{rule.Value}%'";
+                }
+            }
+
+            // Title
+            if (rule.Field.Equals("title", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"TrackTitle = '{rule.Value}'";
+                }
+                else if (rule.Operator.Equals("contains"))
+                {
+                    whereSubClause = $"TrackTitle LIKE '%{rule.Value}%'";
+                }
+            }
+
+            // Title
+            if (rule.Field.Equals("albumtitle", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"AlbumTitle = '{rule.Value}'";
+                }
+                else if (rule.Operator.Equals("contains"))
+                {
+                    whereSubClause = $"AlbumTitle LIKE '%{rule.Value}%'";
+                }
+            }
+
+            // BitRate
+            if (rule.Field.Equals("bitrate", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"BitRate = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("greaterthan"))
+                {
+                    whereSubClause = $"BitRate > {rule.Value}";
+                }
+                else if (rule.Operator.Equals("lessthan"))
+                {
+                    whereSubClause = $"BitRate < {rule.Value}";
+                }
+            }
+
+            // TrackNumber
+            if (rule.Field.Equals("tracknumber", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"TrackNumber = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("greaterthan"))
+                {
+                    whereSubClause = $"TrackNumber > {rule.Value}";
+                }
+                else if (rule.Operator.Equals("lessthan"))
+                {
+                    whereSubClause = $"TrackNumber < {rule.Value}";
+                }
+            }
+
+            // TrackCount
+            if (rule.Field.Equals("trackcount", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"TrackCount = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("greaterthan"))
+                {
+                    whereSubClause = $"TrackCount > {rule.Value}";
+                }
+                else if (rule.Operator.Equals("lessthan"))
+                {
+                    whereSubClause = $"TrackCount < {rule.Value}";
+                }
+            }
+
+            // DiscNumber
+            if (rule.Field.Equals("discnumber", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"DiscNumber = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("greaterthan"))
+                {
+                    whereSubClause = $"DiscNumber > {rule.Value}";
+                }
+                else if (rule.Operator.Equals("lessthan"))
+                {
+                    whereSubClause = $"DiscNumber < {rule.Value}";
+                }
+            }
+
+            // DiscCount
+            if (rule.Field.Equals("disccount", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"DiscCount = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("greaterthan"))
+                {
+                    whereSubClause = $"DiscCount > {rule.Value}";
+                }
+                else if (rule.Operator.Equals("lessthan"))
+                {
+                    whereSubClause = $"DiscCount < {rule.Value}";
+                }
+            }
+
+            // Year
+            if (rule.Field.Equals("year", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"Year = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("greaterthan"))
+                {
+                    whereSubClause = $"Year > {rule.Value}";
+                }
+                else if (rule.Operator.Equals("lessthan"))
+                {
+                    whereSubClause = $"Year < {rule.Value}";
+                }
+            }
+
+            // Rating
+            if (rule.Field.Equals("rating", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"Rating = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("greaterthan"))
+                {
+                    whereSubClause = $"Rating > {rule.Value}";
+                }
+                else if (rule.Operator.Equals("lessthan"))
+                {
+                    whereSubClause = $"Rating < {rule.Value}";
+                }
+            }
+
+            // Love
+            if (rule.Field.Equals("love", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"Love = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("greaterthan"))
+                {
+                    whereSubClause = $"Love > {rule.Value}";
+                }
+                else if (rule.Operator.Equals("lessthan"))
+                {
+                    whereSubClause = $"Love < {rule.Value}";
+                }
+            }
+
+            // PlayCount
+            if (rule.Field.Equals("playcount", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"PlayCount = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("greaterthan"))
+                {
+                    whereSubClause = $"PlayCount > {rule.Value}";
+                }
+                else if (rule.Operator.Equals("lessthan"))
+                {
+                    whereSubClause = $"PlayCount < {rule.Value}";
+                }
+            }
+
+            // SkipCount
+            if (rule.Field.Equals("skipcount", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (rule.Operator.Equals("is"))
+                {
+                    whereSubClause = $"SkipCount = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("greaterthan"))
+                {
+                    whereSubClause = $"SkipCount > {rule.Value}";
+                }
+                else if (rule.Operator.Equals("lessthan"))
+                {
+                    whereSubClause = $"SkipCount < {rule.Value}";
+                }
+            }
+
+            return whereSubClause;
+        }
+
+        private async Task<IList<TrackViewModel>> GetSmartPlaylistTracksAsync(PlaylistViewModel playlist)
+        {
+            string whereClause = string.Empty;
+
+            await Task.Run(() =>
+            {
+                var decoder = new SmartPlaylistDecoder();
+                DecodeSmartPlaylistResult result = decoder.DecodePlaylist(playlist.Path);
+
+                string sqlWhereOperator = this.GetWhereOperator(result.Match);
+                string sqlLimit = this.GetLimit(result.Limit);
+                string sqlOrder = this.GetOrder(result.Order);
+
+                IList<string> whereClauseParts = new List<string>();
+
+                foreach (Rule rule in result.Rules)
+                {
+                    string whereClausePart = this.GetWhereClausePart(rule);
+
+                    if (!string.IsNullOrWhiteSpace(whereClausePart))
+                    {
+                        whereClauseParts.Add(whereClausePart);
+                    }
+                }
+
+                // TODO: orderby
+
+                whereClause = string.Join($" {sqlWhereOperator} ", whereClauseParts.ToArray());
+                whereClause = $"({whereClause}) {sqlLimit}";
+            });
+
+            if (string.IsNullOrWhiteSpace(whereClause))
+            {
+                return new List<TrackViewModel>();
+            }
+
+            var tracks = await this.trackRepository.GetTracksAsync(whereClause);
+            IList<TrackViewModel> trackViewModels = new List<TrackViewModel>();
+
+            try
+            {
+                trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error($"Unable to resolve TrackViewModels. Exception: {ex.Message}");
+                return new List<TrackViewModel>();
+            }
+
+            return trackViewModels;
+        }
+
+        public async Task<IList<TrackViewModel>> GetTracksAsync(PlaylistViewModel playlist)
+        {
+            // If no playlist was selected, return no tracks.
+            if (playlist == null)
+            {
+                LogClient.Error($"{nameof(playlist)} is null. Returning empty list of tracks.");
+                return new List<TrackViewModel>();
+            }
+
+            IList<TrackViewModel> tracks = new List<TrackViewModel>();
+
+            if (playlist.Type.Equals(PlaylistType.Static))
+            {
+                tracks = await this.GetStaticPlaylistTracksAsync(playlist);
+            }
+            else if (playlist.Type.Equals(PlaylistType.Static))
+            {
+                tracks = await this.GetSmartPlaylistTracksAsync(playlist);
+            }
+
+            return tracks;
+        }
+
+        public async Task<DeleteTracksFromPlaylistResult> DeleteTracksFromStaticPlaylistAsync(IList<int> indexes, PlaylistViewModel playlist)
+        {
+            if (indexes == null || indexes.Count == 0)
+            {
+                LogClient.Error("Cannot delete tracks from playlist. No indexes were provided.");
+                return DeleteTracksFromPlaylistResult.Error;
+            }
+
+            if (playlist == null)
+            {
+                LogClient.Error($"Cannot delete tracks from playlist. {nameof(playlist)} is null.");
+                return DeleteTracksFromPlaylistResult.Error;
+            }
+
+            DeleteTracksFromPlaylistResult result = DeleteTracksFromPlaylistResult.Success;
+
+            this.watcher.Suspend(); // Stop watching the playlist folder
+
+            string filename = this.CreatePlaylistFilePath(playlist.Name, PlaylistType.Static);
+
+            var builder = new StringBuilder();
+
+            string line = null;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (StreamReader reader = new StreamReader(filename))
+                    {
+                        int lineIndex = 0;
+
+                        while ((line = reader.ReadLine()) != null)
+                        {
+                            if (!indexes.Contains(lineIndex))
+                            {
+                                builder.AppendLine(line);
+                            }
+
+                            lineIndex++;
+                        }
+                    }
+
+                    using (FileStream fs = System.IO.File.Create(filename))
+                    {
+                        using (var writer = new StreamWriter(fs))
+                        {
+                            writer.Write(builder.ToString());
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not delete tracks from playlist '{0}' with filename '{1}'. Exception: {2}", playlist.Name, filename, ex.Message);
+                    result = DeleteTracksFromPlaylistResult.Error;
+                }
+            });
+
+            if (result == DeleteTracksFromPlaylistResult.Success)
+            {
+                this.TracksDeleted(playlist);
+            }
+
+            this.watcher.Resume(); // Start watching the playlist folder
+
+            return result;
+        }
+
+        public async Task<string> GetUniquePlaylistNameAsync(string proposedPlaylistName)
+        {
+            string uniquePlaylistName = proposedPlaylistName;
+
+            try
+            {
+                IList<PlaylistViewModel> staticPlaylists = await this.GetStaticPlaylistsAsync();
+                IList<PlaylistViewModel> smartPlaylists = await this.GetSmartPlaylistsAsync();
+
+                List<string> existingPlaylistNames = staticPlaylists.Select(x => x.Name).ToList();
+                existingPlaylistNames.AddRange(smartPlaylists.Select(x => x.Name).ToList());
+
+                uniquePlaylistName = proposedPlaylistName.MakeUnique(existingPlaylistNames);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Could not generate unique playlist name for playlist '{0}'. Exception: {1}", proposedPlaylistName, ex.Message);
+            }
+
+            return uniquePlaylistName;
+        }
+
+        private async Task<RenamePlaylistResult> RenameStaticPlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
+        {
+            string oldFilename = playlistToRename.Path;
+
+            if (!System.IO.File.Exists(oldFilename))
+            {
+                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", playlistToRename.Path);
+                return RenamePlaylistResult.Error;
+            }
+
+            string sanitizedNewPlaylistName = FileUtils.SanitizeFilename(newPlaylistName);
+            string newFilename = this.CreatePlaylistFilePath(sanitizedNewPlaylistName, PlaylistType.Static);
+
+            if (System.IO.File.Exists(newFilename))
+            {
+                return RenamePlaylistResult.Duplicate;
+            }
+
+            RenamePlaylistResult result = RenamePlaylistResult.Success;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    System.IO.File.Move(oldFilename, newFilename);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", playlistToRename.Name, newPlaylistName, ex.Message);
+                    result = RenamePlaylistResult.Error;
+                }
+            });
+
+            return result;
+        }
+
+        private void SetSmartPlaylistNameIfDifferent(string smartPlaylistPath, string newPlaylistName)
+        {
+            string name = string.Empty;
+
+            try
+            {
+                XDocument xdoc = XDocument.Load(smartPlaylistPath);
+
+                XElement nameElement = (from t in xdoc.Element("smartplaylist").Elements("name")
+                                        select t).FirstOrDefault();
+
+                if (!nameElement.Value.Equals(newPlaylistName))
+                {
+                    nameElement.Value = newPlaylistName;
+                    xdoc.Save(smartPlaylistPath);
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error($"Could not set name for smart playlist '{smartPlaylistPath}', new playlist name '{newPlaylistName}'. Exception: {ex.Message}");
+            }
+        }
+
+        private async Task<RenamePlaylistResult> RenameSmartPlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
+        {
+            IList<PlaylistViewModel> existingSmartPlaylists = await this.GetSmartPlaylistsAsync();
+
+            if (existingSmartPlaylists.Any(x => x.Name.ToLower().Equals(newPlaylistName.ToLower())))
+            {
+                return RenamePlaylistResult.Duplicate;
+            }
+
+            RenamePlaylistResult result = RenamePlaylistResult.Success;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    this.SetSmartPlaylistNameIfDifferent(playlistToRename.Path, newPlaylistName);
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", playlistToRename.Name, newPlaylistName, ex.Message);
+                    result = RenamePlaylistResult.Error;
+                }
+            });
+
+            return result;
+        }
+
+        public async Task<RenamePlaylistResult> RenamePlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
+        {
+            if (playlistToRename == null)
+            {
+                LogClient.Error($"{nameof(playlistToRename)} is null");
+                return RenamePlaylistResult.Error;
+            }
+            if (string.IsNullOrWhiteSpace(newPlaylistName))
+            {
+                LogClient.Error($"{nameof(newPlaylistName)} is empty");
+                return RenamePlaylistResult.Blank;
+            }
+
+
+            this.watcher.Suspend(); // Stop watching the playlist folder
+
+            RenamePlaylistResult result = RenamePlaylistResult.Error;
+
+            if (playlistToRename.Type.Equals(PlaylistType.Static))
+            {
+                result = await this.RenameStaticPlaylistAsync(playlistToRename, newPlaylistName);
+            }
+            else if (playlistToRename.Type.Equals(PlaylistType.Smart))
+            {
+                result = await this.RenameSmartPlaylistAsync(playlistToRename, newPlaylistName);
+            }
+
+            this.watcher.Resume(); // Start watching the playlist folder
+
+            string savedPlaylistName = string.Empty;
+
+            if (playlistToRename.Type.Equals(PlaylistType.Static))
+            {
+                savedPlaylistName = this.GetStaticPlaylistName(playlistToRename.Path);
+            }
+            else if (playlistToRename.Type.Equals(PlaylistType.Smart))
+            {
+                savedPlaylistName = this.GetSmartPlaylistName(playlistToRename.Path);
+            }
+
+            if (string.IsNullOrEmpty(savedPlaylistName))
+            {
+                LogClient.Error(($"{nameof(savedPlaylistName)} is empty"));
+                result = RenamePlaylistResult.Error;
+            }
+
+            if (result == RenamePlaylistResult.Success)
+            {
+                this.PlaylistRenamed(
+                    playlistToRename,
+                    new PlaylistViewModel(savedPlaylistName, playlistToRename.Path, playlistToRename.Type));
+            }
+
+            return result;
+        }
+
+        public async Task<DeletePlaylistsResult> DeletePlaylistAsync(PlaylistViewModel playlist)
+        {
+            if (playlist == null)
+            {
+                LogClient.Error($"{nameof(playlist)} is null");
+                return DeletePlaylistsResult.Error;
+            }
+
+            DeletePlaylistsResult result = DeletePlaylistsResult.Success;
+
+            this.watcher.Suspend(); // Stop watching the playlist folder
+
+            string filename = string.Empty;
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    if (System.IO.File.Exists(playlist.Path))
+                    {
+                        System.IO.File.Delete(playlist.Path);
+                    }
+                    else
+                    {
+                        result = DeletePlaylistsResult.Error;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Error while deleting playlist '{0}'. Exception: {1}", playlist.Path, ex.Message);
+                    result = DeletePlaylistsResult.Error;
+                }
+            });
+
+            if (result == DeletePlaylistsResult.Success)
+            {
+                this.PlaylistDeleted(playlist);
+            }
+
+            this.watcher.Resume(); // Start watching the playlist folder
+
+            return result;
+        }
+
+        public async Task SetStaticPlaylistOrderAsync(PlaylistViewModel playlist, IList<TrackViewModel> tracks)
+        {
+            if (playlist.Type.Equals(PlaylistType.Static))
+            {
+                LogClient.Error("Cannot set playlist order. This is not a static playlist.");
+                return;
+            }
+
+            if (playlist == null)
+            {
+                LogClient.Error($"Cannot set playlist order. {nameof(playlist)} is null.");
+                return;
+            }
+
+            if (tracks == null || tracks.Count == 0)
+            {
+                LogClient.Error("Cannot set playlist order. No tracks were provided.");
+                return;
+            }
+
+            this.watcher.Suspend(); // Stop watching the playlist folder
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    string filename = this.CreatePlaylistFilePath(playlist.Name, PlaylistType.Static);
+
+                    using (FileStream fs = System.IO.File.Create(filename))
+                    {
+                        using (StreamWriter sw = new StreamWriter(fs))
+                        {
+                            foreach (TrackViewModel track in tracks)
+                            {
+                                sw.WriteLine(track.Path);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not set the playlist order. Exception: {0}", ex.Message);
+                }
+            });
+
+            this.watcher.Resume(); // Start watching the playlist folder
+        }
+
+        private async Task<ImportPlaylistResult> ImportStaticPlaylistAsync(string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
                 LogClient.Error("FileName is empty");
                 return ImportPlaylistResult.Error;
             }
-
-            this.Watcher.Suspend(); // Stop watching the playlist folder
 
             string playlistName = String.Empty;
             var paths = new List<String>();
@@ -210,7 +1064,7 @@ namespace Dopamine.Services.Playlist
             // Create the Playlist in the playlists folder
             // -------------------------------------------
             string sanitizedPlaylistName = FileUtils.SanitizeFilename(playlistName);
-            string filename = this.CreatePlaylistFilename(sanitizedPlaylistName);
+            string filename = this.CreatePlaylistFilePath(sanitizedPlaylistName, PlaylistType.Static);
 
             ImportPlaylistResult result = ImportPlaylistResult.Success;
 
@@ -240,303 +1094,86 @@ namespace Dopamine.Services.Playlist
                 result = ImportPlaylistResult.Error;
             }
 
-            if (result.Equals(ImportPlaylistResult.Success))
-            {
-                this.OnPlaylistAdded(new PlaylistViewModel(sanitizedPlaylistName, filename));
-            }
-
-            this.Watcher.Resume(); // Start watching the playlist folder
-
             return result;
         }
 
-        public override async Task<IList<TrackViewModel>> GetTracksAsync(PlaylistViewModel playlist)
+        private async Task<ImportPlaylistResult> ImportSmartPlaylistAsync(string fileName)
         {
-            // If no playlist was selected, return no tracks.
-            if (playlist == null)
+            if (string.IsNullOrWhiteSpace(fileName))
             {
-                LogClient.Error($"{nameof(playlist)} is null. Returning empty list of tracks.");
-                return new List<TrackViewModel>();
+                LogClient.Error($"{nameof(fileName)} is empty");
+                return ImportPlaylistResult.Error;
             }
 
-            var tracks = new List<TrackViewModel>();
-            var decoder = new PlaylistDecoder();
+            IList<PlaylistViewModel> existingPlaylists = await this.GetSmartPlaylistsAsync();
 
-            await Task.Run(async () =>
-            {
-                DecodePlaylistResult decodeResult = null;
-                decodeResult = decoder.DecodePlaylist(playlist.Path);
-
-                if (decodeResult.DecodeResult.Result)
-                {
-                    foreach (string path in decodeResult.Paths)
-                    {
-                        try
-                        {
-                            tracks.Add(await this.fileService.CreateTrackAsync(path));
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Could not get track information from file. Exception: {0}", ex.Message);
-                        }
-                    }
-                }
-            });
-
-            return tracks;
-        }
-
-        public async Task SetPlaylistOrderAsync(IList<TrackViewModel> tracks, string playlistName)
-        {
-            if (tracks == null || tracks.Count == 0)
-            {
-                LogClient.Error("Cannot set playlist order. No tracks were provided.");
-                return;
-            }
-
-            if (string.IsNullOrEmpty(playlistName))
-            {
-                LogClient.Error("Cannot set playlist order. No playlistName was provided.");
-                return;
-            }
-
-            this.Watcher.Suspend(); // Stop watching the playlist folder
+            string newPlaylistName = string.Empty;
+            string newFileNameWithoutExtension = string.Empty;
+            string newPlaylistFileName = string.Empty;
+            
+            ImportPlaylistResult result = ImportPlaylistResult.Success;
 
             await Task.Run(() =>
             {
                 try
                 {
-                    string filename = this.CreatePlaylistFilename(playlistName);
+                    IList<string> existingPlaylistNames = existingPlaylists.Select(x => x.Name).ToList();
+                    IList<string> existingFileNamesWithoutExtension = existingPlaylists.Select(x => Path.GetFileNameWithoutExtension(x.Path)).ToList();
 
-                    using (FileStream fs = System.IO.File.Create(filename))
-                    {
-                        using (StreamWriter sw = new StreamWriter(fs))
-                        {
-                            foreach (TrackViewModel track in tracks)
-                            {
-                                sw.WriteLine(track.Path);
-                            }
-                        }
-                    }
+                    string originalPlaylistName = this.GetSmartPlaylistName(fileName);
+                    newPlaylistName = originalPlaylistName.MakeUnique(existingPlaylistNames);
+
+                    string originalFileNameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+                    newFileNameWithoutExtension = originalFileNameWithoutExtension.MakeUnique(existingFileNamesWithoutExtension);
+
+                    // Generate a new filename for the playlist
+                    newPlaylistFileName = this.CreatePlaylistFilePath(newFileNameWithoutExtension, PlaylistType.Smart);
+
+                    // Copy the playlist file to the playlists folder, using the new filename.
+                    System.IO.File.Copy(fileName, newPlaylistFileName);
+
+                    // Change the playlist name to the unique name (if changed)
+                    this.SetSmartPlaylistNameIfDifferent(newPlaylistFileName, newPlaylistName);
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Could not set the playlist order. Exception: {0}", ex.Message);
+                    LogClient.Error($"Error while importing smart playlist. Exception: {ex.Message}");
+                    result = ImportPlaylistResult.Error;
                 }
             });
 
-            this.Watcher.Resume(); // Start watching the playlist folder
-        }
-
-        public async Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<TrackViewModel> tracks, string playlistName)
-        {
-            if (tracks == null || tracks.Count == 0)
-            {
-                LogClient.Error("Cannot add tracks to playlist. No tracks were provided.");
-                return AddTracksToPlaylistResult.Error;
-            }
-
-            if (string.IsNullOrEmpty(playlistName))
-            {
-                LogClient.Error("Cannot add tracks to playlist. No playlistName was provided.");
-                return AddTracksToPlaylistResult.Error;
-            }
-
-            AddTracksToPlaylistResult result = AddTracksToPlaylistResult.Success;
-
-            this.Watcher.Suspend(); // Stop watching the playlist folder
-
-            int numberTracksAdded = 0;
-            string filename = this.CreatePlaylistFilename(playlistName);
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    using (FileStream fs = System.IO.File.Open(filename, FileMode.Append))
-                    {
-                        using (var writer = new StreamWriter(fs))
-                        {
-                            foreach (TrackViewModel track in tracks)
-                            {
-                                try
-                                {
-                                    writer.WriteLine(track.Path);
-                                    numberTracksAdded++;
-                                }
-                                catch (Exception ex)
-                                {
-                                    LogClient.Error("Could not write path '{0}' to playlist '{1}' with filename '{2}'. Exception: {3}", track.Path, playlistName, filename, ex.Message);
-                                }
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not add tracks to playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
-                    result = AddTracksToPlaylistResult.Error;
-                }
-            });
-
-            if (result == AddTracksToPlaylistResult.Success) this.TracksAdded(numberTracksAdded, playlistName);
-
-            this.Watcher.Resume(); // Start watching the playlist folder
-
             return result;
         }
 
-        public async Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<string> artists, string playlistName)
+        public async Task<ImportPlaylistResult> ImportPlaylistsAsync(IList<string> fileNames)
         {
-            IList<Track> tracks = await this.trackRepository.GetArtistTracksAsync(artists);
-            List<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(tracks.Select(t => this.container.ResolveTrackViewModel(t)).ToList(), TrackOrder.ByAlbum);
-            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(orderedTracks, playlistName);
+            ImportPlaylistResult finalResult = ImportPlaylistResult.Success;
 
-            return result;
-        }
+            this.watcher.Suspend(); // Stop watching the playlist folder
 
-        public async Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<string> genres, string playlistName)
-        {
-            IList<Track> tracks = await this.trackRepository.GetGenreTracksAsync(genres);
-            List<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(tracks.Select(t => this.container.ResolveTrackViewModel(t)).ToList(), TrackOrder.ByAlbum);
-            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(orderedTracks, playlistName);
+            IList<ImportPlaylistResult> results = new List<ImportPlaylistResult>();
 
-            return result;
-        }
-
-        public async Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<AlbumViewModel> albumViewModels, string playlistName)
-        {
-            IList<Track> tracks = await this.trackRepository.GetAlbumTracksAsync(albumViewModels.Select(x => x.AlbumKey).ToList());
-            List<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(tracks.Select(t => this.container.ResolveTrackViewModel(t)).ToList(), TrackOrder.ByAlbum);
-            AddTracksToPlaylistResult result = await this.AddTracksToPlaylistAsync(orderedTracks, playlistName);
-
-            return result;
-        }
-
-        public async Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<int> indexes, string playlistName)
-        {
-            if (indexes == null || indexes.Count == 0)
+            foreach (string fileName in fileNames)
             {
-                LogClient.Error("Cannot delete tracks from playlist. No indexes were provided.");
-                return DeleteTracksFromPlaylistResult.Error;
-            }
-
-            if (string.IsNullOrEmpty(playlistName))
-            {
-                LogClient.Error("Cannot delete tracks from playlist. No playlistName was provided.");
-                return DeleteTracksFromPlaylistResult.Error;
-            }
-
-            DeleteTracksFromPlaylistResult result = DeleteTracksFromPlaylistResult.Success;
-
-            this.Watcher.Suspend(); // Stop watching the playlist folder
-
-            string filename = this.CreatePlaylistFilename(playlistName);
-
-            var builder = new StringBuilder();
-
-            string line = null;
-
-            await Task.Run(() =>
-            {
-                try
+                if (FileFormats.IsSupportedStaticPlaylistFile(fileName))
                 {
-                    using (StreamReader reader = new StreamReader(filename))
-                    {
-                        int lineIndex = 0;
-
-                        while ((line = reader.ReadLine()) != null)
-                        {
-                            if (!indexes.Contains(lineIndex))
-                            {
-                                builder.AppendLine(line);
-                            }
-
-                            lineIndex++;
-                        }
-                    }
-
-                    using (FileStream fs = System.IO.File.Create(filename))
-                    {
-                        using (var writer = new StreamWriter(fs))
-                        {
-                            writer.Write(builder.ToString());
-                        }
-                    }
+                    results.Add(await this.ImportStaticPlaylistAsync(fileName));
                 }
-                catch (Exception ex)
+                else if (FileFormats.IsSupportedSmartPlaylistFile(fileName))
                 {
-                    LogClient.Error("Could not delete tracks from playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filename, ex.Message);
-                    result = DeleteTracksFromPlaylistResult.Error;
+                    results.Add(await this.ImportSmartPlaylistAsync(fileName));
                 }
-            });
-
-            if (result == DeleteTracksFromPlaylistResult.Success)
-            {
-                this.TracksDeleted(playlistName);
             }
 
-            this.Watcher.Resume(); // Start watching the playlist folder
+            this.watcher.Resume(); // Start watching the playlist folder
 
-            return result;
-        }
 
-        public override async Task<RenamePlaylistResult> RenamePlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
-        {
-            if (playlistToRename == null)
+            if (results.Any(x => x.Equals(ImportPlaylistResult.Success)))
             {
-                LogClient.Error($"{nameof(playlistToRename)} is null");
-                return RenamePlaylistResult.Error;
-            }
-            if (string.IsNullOrWhiteSpace(newPlaylistName))
-            {
-                LogClient.Error($"{nameof(newPlaylistName)} is empty");
-                return RenamePlaylistResult.Blank;
+                this.PlaylistFolderChanged(this, new EventArgs());
             }
 
-            string oldFilename = playlistToRename.Path;
-
-            if (!System.IO.File.Exists(oldFilename))
-            {
-                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", playlistToRename.Path);
-                return RenamePlaylistResult.Error;
-            }
-
-            string sanitizedNewPlaylistName = FileUtils.SanitizeFilename(newPlaylistName);
-            string newFilename = this.CreatePlaylistFilename(sanitizedNewPlaylistName);
-
-            if (System.IO.File.Exists(newFilename))
-            {
-                return RenamePlaylistResult.Duplicate;
-            }
-
-            RenamePlaylistResult result = RenamePlaylistResult.Success;
-
-            this.Watcher.Suspend(); // Stop watching the playlist folder
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    System.IO.File.Move(oldFilename, newFilename);
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", playlistToRename.Name, newPlaylistName, ex.Message);
-                    result = RenamePlaylistResult.Error;
-                }
-            });
-
-            if (result == RenamePlaylistResult.Success)
-            {
-                this.OnPlaylistRenamed(
-                    playlistToRename,
-                    new PlaylistViewModel(sanitizedNewPlaylistName, newFilename));
-            }
-
-            this.Watcher.Resume(); // Start watching the playlist folder
-
-            return result;
+            return finalResult;
         }
     }
 }
