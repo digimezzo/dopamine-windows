@@ -79,13 +79,6 @@ namespace Dopamine.ViewModels.FullPlayer
                     this.goBackPage = FullPlayerPage.Collection;
                     SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)FullPlayerPage.Collection);
                     break;
-                case FullPlayerPage.Playlists:
-                    this.regionManager.RequestNavigate(RegionNames.FullPlayerRegion, typeof(Views.FullPlayer.Playlists.Playlists).FullName);
-                    this.regionManager.RequestNavigate(RegionNames.FullPlayerMenuRegion, typeof(Views.FullPlayer.Playlists.PlaylistsMenu).FullName);
-                    this.ShowBackButton = false;
-                    this.goBackPage = FullPlayerPage.Playlists;
-                    SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)FullPlayerPage.Playlists);
-                    break;
                 case FullPlayerPage.Settings:
                     this.regionManager.RequestNavigate(RegionNames.FullPlayerRegion, typeof(Views.FullPlayer.Settings.Settings).FullName);
                     this.regionManager.RequestNavigate(RegionNames.FullPlayerMenuRegion, typeof(Views.FullPlayer.Settings.SettingsMenu).FullName);

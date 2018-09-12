@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>110</Value>
+      <Value>111</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -39,9 +39,6 @@
       <Value>0</Value>
     </Setting>
     <Setting Name="SelectedCollectionPage">
-      <Value>0</Value>
-    </Setting>
-    <Setting Name="SelectedPlaylistsPage">
       <Value>0</Value>
     </Setting>
     <Setting Name="SelectedNowPlayingSubPage">
@@ -270,9 +267,6 @@
       <Value>65</Value>
     </Setting>
     <Setting Name="PlaylistsLeftPaneWidthPercent">
-      <Value>30</Value>
-    </Setting>
-    <Setting Name="SmartPlaylistsLeftPaneWidthPercent">
       <Value>30</Value>
     </Setting>
     <Setting Name="FoldersLeftPaneWidthPercent">
