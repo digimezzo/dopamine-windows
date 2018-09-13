@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
+using Dopamine.Core.Utils;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using System;
@@ -107,30 +108,6 @@ namespace Dopamine.Data
             valueList.Insert(index, string.Join(separator.ToString(), origParts));
         }
 
-        public static string TrimTag(string str)
-        {
-            if (!string.IsNullOrEmpty(str))
-            {
-                return str.Trim();
-            }
-            else
-            {
-                return string.Empty;
-            }
-        }
-
-        public static string DelimitTag(string str)
-        {
-            if (!string.IsNullOrEmpty(str))
-            {
-                return $"{Constants.TagDelimiter}{str.Trim()}{Constants.TagDelimiter}";
-            }
-            else
-            {
-                return string.Empty;
-            }
-        }
-
         public static long SafeConvertToLong(string str)
         {
             long result = 0;
@@ -147,19 +124,19 @@ namespace Dopamine.Data
             }
 
             IEnumerable<string> patchedEnumeration = MetadataUtils.PatchID3v23Enumeration(value.Values);
-            IEnumerable<string> delimitedTags = patchedEnumeration.Select(x => MetadataUtils.DelimitTag(x));
+            IEnumerable<string> delimitedTags = patchedEnumeration.Select(x => FormatUtils.DelimitValue(x));
 
             return string.Join(string.Empty, delimitedTags.OrderBy(x => x).ToArray());
         }
 
         private static string GetAlbumTitle(FileMetadata fileMetadata)
         {
-            return string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : MetadataUtils.TrimTag(fileMetadata.Album.Value);
+            return string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : FormatUtils.TrimValue(fileMetadata.Album.Value);
         }
 
         public static void FillTrackBase(FileMetadata fileMetadata, ref Track track)
         {
-            track.TrackTitle = TrimTag(fileMetadata.Title.Value);
+            track.TrackTitle = FormatUtils.TrimValue(fileMetadata.Title.Value);
             track.Year = SafeConvertToLong(fileMetadata.Year.Value);
             track.TrackNumber = SafeConvertToLong(fileMetadata.TrackNumber.Value);
             track.TrackCount = SafeConvertToLong(fileMetadata.TrackCount.Value);
@@ -206,10 +183,10 @@ namespace Dopamine.Data
 
             if (!string.IsNullOrWhiteSpace(albumArtists))
             {
-                return string.Join(string.Empty, DelimitTag(albumTitle), albumArtists);
+                return string.Join(string.Empty, FormatUtils.DelimitValue(albumTitle), albumArtists);
             }
 
-            return DelimitTag(albumTitle);
+            return FormatUtils.DelimitValue(albumTitle);
         }
 
         public static async Task<Track> Path2TrackAsync(string path)

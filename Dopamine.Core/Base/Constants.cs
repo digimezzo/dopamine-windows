@@ -7,8 +7,8 @@ namespace Dopamine.Core.Base
     public static class Constants
     {
         // Tags
-        public static string TagDelimiter = ";";
-        public static string DoubleTagDelimiter = $"{TagDelimiter}{TagDelimiter}";
+        public static string ColumnValueDelimiter = ";";
+        public static string DoubleColumnValueDelimiter = $"{ColumnValueDelimiter}{ColumnValueDelimiter}";
 
         // Environment
         public static bool IsWindows10 = EnvironmentUtils.IsWindows10();
