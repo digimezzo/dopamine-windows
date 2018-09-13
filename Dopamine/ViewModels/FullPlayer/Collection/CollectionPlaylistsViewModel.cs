@@ -75,7 +75,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         }
 
         public CollectionPlaylistsViewModel(IContainerProvider container, IDialogService dialogService,
-            IPlaybackService playbackService, IPlaylistService playlistService, 
+            IPlaybackService playbackService, IPlaylistService playlistService,
             IFileService fileService, IEventAggregator eventAggregator) : base(container)
         {
             this.dialogService = dialogService;
@@ -560,9 +560,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             {
                 try
                 {
-                    string hoveredPlaylistName = ((PlaylistViewModel)dropInfo.TargetItem).Name;
+                    PlaylistViewModel hoveredPlaylist = (PlaylistViewModel)dropInfo.TargetItem;
 
-                    if (hoveredPlaylistName.Equals(this.SelectedPlaylistName))
+                    if (hoveredPlaylist.Type.Equals(PlaylistType.Smart))
+                    {
+                        return; // Don't add tracks to a smart playlist
+                    }
+
+                    if (hoveredPlaylist.Equals(this.SelectedPlaylist))
                     {
                         return; // Don't add tracks to the same playlist
                     }
@@ -586,7 +591,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                         }
                     });
 
-                    await this.playlistService.AddTracksToStaticPlaylistAsync(tracks, hoveredPlaylistName);
+                    await this.playlistService.AddTracksToStaticPlaylistAsync(tracks, hoveredPlaylist.Name);
                 }
                 catch (Exception ex)
                 {
@@ -641,6 +646,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 try
                 {
                     PlaylistViewModel hoveredPlaylist = (PlaylistViewModel)dropInfo.TargetItem;
+
+                    // Don't add anything to smart playlists
+                    if (hoveredPlaylist.Type.Equals(PlaylistType.Smart))
+                    {
+                        return;
+                    }
+
                     IList<string> filenames = dropInfo.GetDroppedFilenames();
                     IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
 
@@ -686,53 +698,10 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 }
 
                 // If we're dragging files, we need to be dragging valid files.
-                bool isDraggingFiles = dropInfo.IsDraggingFiles();
-                bool isDraggingValidFiles = false;
-
-                if (isDraggingFiles)
-                {
-                    isDraggingValidFiles = dropInfo.IsDraggingMediaFiles() || 
-                        dropInfo.IsDraggingStaticPlaylistFiles() ||
-                        dropInfo.IsDraggingSmartPlaylistFiles();
-                }
-
-                if (isDraggingFiles & !isDraggingValidFiles)
+                if (dropInfo.IsDraggingFiles() &&
+                    !(dropInfo.IsDraggingMediaFiles() || dropInfo.IsDraggingStaticPlaylistFiles() || dropInfo.IsDraggingSmartPlaylistFiles()))
                 {
                     return;
-                }
-
-                // If we're dragging into the list of tracks, there must be playlists, and a static playlist must be selected.
-                ListBox target = dropInfo.VisualTarget as ListBox;
-
-                if (target.Name.Equals(this.TracksTarget) && 
-                    (this.Playlists == null || this.Playlists.Count == 0 || this.SelectedPlaylist == null || !this.SelectedPlaylist.Type.Equals(PlaylistType.Static)))
-                {
-                    return;
-                }
-
-                // If we're dragging tracks into the list of playlists, we cannot drag to:
-                // - The selected playlist
-                // - Non-static playlists
-                PlaylistViewModel hoveredPlaylist = null;
-
-                if (dropInfo.TargetItem != null && dropInfo.TargetItem is PlaylistViewModel)
-                {
-                    hoveredPlaylist = ((PlaylistViewModel)dropInfo.TargetItem);
-                }
-
-                if (!isDraggingFiles && target.Name.Equals(this.PlaylistsTarget) && hoveredPlaylist != null)
-                {
-                    // We cannot drag to the selected playlist
-                    if(this.IsPlaylistSelected && this.selectedPlaylist.Equals(hoveredPlaylist))
-                    {
-                        return;
-                    }
-
-                    // We cannot drag to non-static playlists
-                    if (!hoveredPlaylist.Type.Equals(PlaylistType.Static))
-                    {
-                        return;
-                    }
                 }
 
                 // In all other cases, allow dragging.
