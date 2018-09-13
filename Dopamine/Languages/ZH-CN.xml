@@ -430,10 +430,10 @@
   <Text Key="Toggle_Track_Order">切换歌曲顺序</Text>
   <Text Key="Activate_Search_Field">激活搜索区域</Text>
   <Text Key="Back">返回</Text>
-  <Text Key="Folders">Folders</Text>
-  <Text Key="Smart_Playlists">Smart playlists</Text>
-  <Text Key="Import_Playlists">Import playlists</Text>
-  <Text Key="Error_Importing_Playlists">An error occurred while importing playlists. Please consult the log file for more information.</Text>
-  <Text Key="New_Smart_Playlist">New smart playlist</Text>
-  <Text Key="Import_Smart_Playlists">Import smart playlists</Text>
+  <Text Key="Folders">文件夹</Text>
+  <Text Key="Smart_Playlists">智能播放列表</Text>
+  <Text Key="Import_Playlists">导入播放列表</Text>
+  <Text Key="Error_Importing_Playlists">导入播放列表时出现了一个错误。请至日志文件以获取更多信息</Text>
+  <Text Key="New_Smart_Playlist">新智能播放列表</Text>
+  <Text Key="Import_Smart_Playlists">导入智能播放列表</Text>
 </Language>
