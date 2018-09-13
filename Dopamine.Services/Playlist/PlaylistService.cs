@@ -701,7 +701,7 @@ namespace Dopamine.Services.Playlist
             {
                 tracks = await this.GetStaticPlaylistTracksAsync(playlist);
             }
-            else if (playlist.Type.Equals(PlaylistType.Static))
+            else if (playlist.Type.Equals(PlaylistType.Smart))
             {
                 tracks = await this.GetSmartPlaylistTracksAsync(playlist);
             }
