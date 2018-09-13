@@ -158,7 +158,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND ({DataUtils.CreateOrLikeClause("t.Artists", artistNames, Constants.TagDelimiter)} OR {DataUtils.CreateOrLikeClause("t.AlbumArtists", artistNames, Constants.TagDelimiter)});");
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND ({DataUtils.CreateOrLikeClause("t.Artists", artistNames, Constants.ColumnValueDelimiter)} OR {DataUtils.CreateOrLikeClause("t.AlbumArtists", artistNames, Constants.ColumnValueDelimiter)});");
                         }
                         catch (Exception ex)
                         {
@@ -187,7 +187,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateOrLikeClause("t.Genres", genreNames, Constants.TagDelimiter)};");
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateOrLikeClause("t.Genres", genreNames, Constants.ColumnValueDelimiter)};");
                         }
                         catch (Exception ex)
                         {
@@ -525,11 +525,11 @@ namespace Dopamine.Data.Repositories
 
                             if (artists != null)
                             {
-                                filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists, Constants.TagDelimiter)} OR {DataUtils.CreateOrLikeClause("AlbumArtists", artists)})";
+                                filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists, Constants.ColumnValueDelimiter)} OR {DataUtils.CreateOrLikeClause("AlbumArtists", artists)})";
                             }
                             else if (genres != null)
                             {
-                                filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", genres, Constants.TagDelimiter)}";
+                                filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", genres, Constants.ColumnValueDelimiter)}";
                             }
 
                             albumData = conn.Query<AlbumData>(this.SelectVisibleAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey");

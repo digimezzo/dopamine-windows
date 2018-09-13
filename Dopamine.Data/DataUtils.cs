@@ -48,12 +48,12 @@ namespace Dopamine.Data
 
         public static IEnumerable<string> SplitColumnMultiValue(string columnMultiValue)
         {
-            return columnMultiValue.Split(Constants.DoubleTagDelimiter);
+            return columnMultiValue.Split(Constants.DoubleColumnValueDelimiter);
         }
 
         public static string TrimColumnValue(string columnValue)
         {
-            return columnValue.Trim(Constants.TagDelimiter);
+            return columnValue.Trim(Constants.ColumnValueDelimiter);
         }
 
         public static IEnumerable<string> SplitAndTrimColumnMultiValue(string columnMultiValue)
@@ -63,7 +63,7 @@ namespace Dopamine.Data
 
         public static string GetCommaSeparatedColumnMultiValue(string columnMultiValue)
         {
-            if (columnMultiValue.Contains(Constants.DoubleTagDelimiter))
+            if (columnMultiValue.Contains(Constants.DoubleColumnValueDelimiter))
             {
                 return string.Join(", ", SplitAndTrimColumnMultiValue(columnMultiValue));
             }
