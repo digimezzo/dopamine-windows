@@ -1,5 +1,4 @@
-﻿using Digimezzo.Utilities.Settings;
-using Dopamine.Core.Base;
+﻿using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;
 using Dopamine.Services.Indexing;
@@ -13,8 +12,7 @@ namespace Dopamine.ViewModels.FullPlayer
     public class FullPlayerViewModel : BindableBase
     {
         private IRegionManager regionManager;
-        private FullPlayerPage previousSelectedPage;
-        private FullPlayerPage goBackPage;
+        private FullPlayerPage previousSelectedFullPlayerPage;
         private IIndexingService indexingService;
         private int slideInFrom;
         private bool showBackButton;
@@ -41,34 +39,15 @@ namespace Dopamine.ViewModels.FullPlayer
         {
             this.regionManager = regionManager;
             this.indexingService = indexingService;
-            this.goBackPage = FullPlayerPage.Collection;
-            this.LoadedCommand = new DelegateCommand(() => this.LoadSavedSelectedPage());
+            this.LoadedCommand = new DelegateCommand(() => this.NagivateToSelectedPage(FullPlayerPage.Collection));
             this.SetSelectedFullPlayerPageCommand = new DelegateCommand<string>(pageIndex => this.NagivateToSelectedPage((FullPlayerPage)Int32.Parse(pageIndex)));
-            this.BackButtonCommand = new DelegateCommand(() => this.NagivateToSelectedPage(this.goBackPage));
-        }
-
-        private void LoadSavedSelectedPage()
-        {
-            int savedSelectedPage = SettingsClient.Get<int>("FullPlayer", "SelectedPage");
-
-            switch (savedSelectedPage)
-            {
-                case (int)FullPlayerPage.Collection:
-                    this.NagivateToSelectedPage(FullPlayerPage.Collection);
-                    break;
-                case (int)FullPlayerPage.Playlists:
-                    this.NagivateToSelectedPage(FullPlayerPage.Playlists);
-                    break;
-                default:
-                    this.NagivateToSelectedPage(FullPlayerPage.Collection);
-                    break;
-            }
+            this.BackButtonCommand = new DelegateCommand(() => this.NagivateToSelectedPage(FullPlayerPage.Collection));
         }
 
         private void NagivateToSelectedPage(FullPlayerPage page)
         {
-            this.SlideInFrom = page <= this.previousSelectedPage ? -Constants.SlideDistance : Constants.SlideDistance;
-            this.previousSelectedPage = page;
+            this.SlideInFrom = page <= this.previousSelectedFullPlayerPage ? -Constants.SlideDistance : Constants.SlideDistance;
+            this.previousSelectedFullPlayerPage = page;
 
             switch (page)
             {
@@ -76,8 +55,6 @@ namespace Dopamine.ViewModels.FullPlayer
                     this.regionManager.RequestNavigate(RegionNames.FullPlayerRegion, typeof(Views.FullPlayer.Collection.Collection).FullName);
                     this.regionManager.RequestNavigate(RegionNames.FullPlayerMenuRegion, typeof(Views.FullPlayer.Collection.CollectionMenu).FullName);
                     this.ShowBackButton = false;
-                    this.goBackPage = FullPlayerPage.Collection;
-                    SettingsClient.Set<int>("FullPlayer", "SelectedPage", (int)FullPlayerPage.Collection);
                     break;
                 case FullPlayerPage.Settings:
                     this.regionManager.RequestNavigate(RegionNames.FullPlayerRegion, typeof(Views.FullPlayer.Settings.Settings).FullName);
