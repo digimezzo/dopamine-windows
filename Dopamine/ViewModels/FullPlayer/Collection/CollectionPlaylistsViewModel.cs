@@ -3,6 +3,7 @@ using Digimezzo.Utilities.Settings;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
+using Dopamine.Data;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
 using Dopamine.Services.File;
@@ -13,29 +14,13 @@ using GongSolutions.Wpf.DragDrop;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Ioc;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Controls;
-using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Settings;
-using Digimezzo.Utilities.Utils;
-using Dopamine.Core.Base;
-using Dopamine.Data;
-using Dopamine.Services.Dialog;
-using Dopamine.Services.Entities;
-using Dopamine.Services.Playback;
-using Dopamine.Services.Playlist;
-using Prism.Commands;
-using Prism.Ioc;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
