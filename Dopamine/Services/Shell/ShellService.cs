@@ -33,7 +33,6 @@ namespace Dopamine.Services.Shell
         public event IsMovableChangedEventHandler IsMovableChanged = delegate { };
         public event ResizeModeChangedEventHandler ResizeModeChanged = delegate { };
         public event TopmostChangedEventHandler TopmostChanged = delegate { };
-        public event ShowWindowControlsChangedEventHandler ShowWindowControlsChanged = delegate { };
         public event MinimumSizeChangedEventHandler MinimumSizeChanged = delegate { };
         public event GeometryChangedEventHandler GeometryChanged = delegate { };
 
@@ -225,8 +224,7 @@ namespace Dopamine.Services.Shell
             this.PlaylistVisibilityChanged(this, new PlaylistVisibilityChangedEventArgs() { IsPlaylistVisible = false });
 
             this.ResizeModeChanged(this, new ResizeModeChangedEventArgs() { ResizeMode = ResizeMode.CanResize });
-            this.ShowWindowControlsChanged(this, new ShowWindowControlsChangedEventArgs() { ShowWindowControls = true });
-
+            
             if (SettingsClient.Get<bool>("FullPlayer", "IsMaximized"))
             {
                 this.WindowStateChanged(this, new WindowStateChangedEventArgs() { WindowState = WindowState.Maximized });
@@ -257,8 +255,7 @@ namespace Dopamine.Services.Shell
 
             this.WindowStateChanged(this, new WindowStateChangedEventArgs() { WindowState = WindowState.Normal });
             this.ResizeModeChanged(this, new ResizeModeChangedEventArgs() { ResizeMode = ResizeMode.CanMinimize });
-            this.ShowWindowControlsChanged(this, new ShowWindowControlsChangedEventArgs() { ShowWindowControls = false });
-
+           
             double width = 0;
             double height = 0;
 

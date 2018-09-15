@@ -336,9 +336,6 @@
     <Compile Include="Views\Common\CoverPlayerControls.xaml.cs">
       <DependentUpon>CoverPlayerControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Common\CoverPlayerWindowControls.xaml.cs">
-      <DependentUpon>CoverPlayerWindowControls.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Common\EditAlbum.xaml.cs">
       <DependentUpon>EditAlbum.xaml</DependentUpon>
     </Compile>
@@ -1116,10 +1113,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Common\CoverPlayerControls.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Common\CoverPlayerWindowControls.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

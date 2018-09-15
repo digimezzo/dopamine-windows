@@ -149,7 +149,6 @@ namespace Dopamine.Views
 
         private void ShowClosingAnimation()
         {
-            this.ShowWindowControls = false;
             Storyboard closingAnimation = this.ClosingBorder.Resources["ClosingAnimation"] as Storyboard;
 
             this.ClosingBorder.Visibility = Visibility.Visible;
@@ -233,8 +232,7 @@ namespace Dopamine.Views
             this.shellService.IsMovableChanged += (_, e) => this.IsMovable = e.IsMovable;
             this.shellService.ResizeModeChanged += (_, e) => this.ResizeMode = e.ResizeMode;
             this.shellService.TopmostChanged += (_, e) => this.Topmost = e.IsTopmost;
-            this.shellService.ShowWindowControlsChanged += (_, e) => this.ShowWindowControls = e.ShowWindowControls;
-
+         
             this.shellService.GeometryChanged += (_, e) => this.SetGeometry(
                 e.Top, e.Left, e.Size.Width, e.Size.Height,
                 Constants.DefaultShellTop,

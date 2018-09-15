@@ -28,7 +28,6 @@
             <dc:PivotItem Header="{DynamicResource Language_Songs}" Style="{StaticResource MenuPivotItem}"/>
             <dc:PivotItem Header="{DynamicResource Language_Playlists}" Style="{StaticResource MenuPivotItem}"/>
             <dc:PivotItem Header="{DynamicResource Language_Folders}" Style="{StaticResource MenuPivotItem}"/>
-            <!--<dc:PivotItem Header="{DynamicResource Language_Frequent}" Style="{StaticResource MenuPivotItem}"/>-->
         </dc:Pivot>
         <commonviews:SearchControl 
             Margin="0,14,20,0" Width="170" VerticalAlignment="Top" HorizontalAlignment="Right"
