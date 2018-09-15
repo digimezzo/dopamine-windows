@@ -21,13 +21,13 @@
     </i:Interaction.Triggers>
     
     <Grid x:Name="SplitViewContent">
-        <Border Panel.ZIndex="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="56"
+        <Border Panel.ZIndex="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="48"
                 Background="{DynamicResource Brush_WindowHeaderBackground}"/>
         <DockPanel Panel.ZIndex="1">
             <DockPanel DockPanel.Dock="Top">
                 <!-- Logo/Back button -->
                 <Grid DockPanel.Dock="Left" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave"
-                      Width="56" Height="56" Background="#00000000">
+                      Width="48" Height="48" Background="#00000000">
                     <!-- Droplet -->
                     <Viewbox Width="34" Height="34" Panel.ZIndex="0"
                              Visibility="{Binding ShowBackButton, Converter={StaticResource InvertingBooleanToCollapsedConverter}}">

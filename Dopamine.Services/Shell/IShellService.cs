@@ -23,7 +23,6 @@ namespace Dopamine.Services.Shell
         event IsMovableChangedEventHandler IsMovableChanged;
         event ResizeModeChangedEventHandler ResizeModeChanged;
         event TopmostChangedEventHandler TopmostChanged;
-        event ShowWindowControlsChangedEventHandler ShowWindowControlsChanged;
         event MinimumSizeChangedEventHandler MinimumSizeChanged;
         event GeometryChangedEventHandler GeometryChanged;
     }
