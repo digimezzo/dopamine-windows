@@ -395,11 +395,6 @@ namespace Dopamine.Services.Shell
                 new PlaylistVisibilityChangedEventArgs() { IsPlaylistVisible = isPlaylistVisible, MiniPlayerType = miniPlayerType });
         }
 
-        public void ForceFullPlayer()
-        {
-            this.SetPlayer(false, MiniPlayerType.CoverPlayer);
-        }
-
         public void SaveWindowState(WindowState state)
         {
             // Only save window state when not in tablet mode. Tablet mode maximizes the screen. 

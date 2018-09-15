@@ -436,4 +436,5 @@
   <Text Key="Error_Importing_Playlists">Dogodila se greška tijekom uvoza popisa. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="New_Smart_Playlist">Novi pametni popis</Text>
   <Text Key="Import_Smart_Playlists">Uvezi pametne popise</Text>
+  <Text Key="Switch_Player">Changer lecteur</Text>
 </Language>

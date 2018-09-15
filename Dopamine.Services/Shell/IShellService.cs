@@ -14,7 +14,6 @@ namespace Dopamine.Services.Shell
     public interface IShellService
     {
         void CheckIfTabletMode(bool isInitializing);
-        void ForceFullPlayer();
         void SaveWindowLocation(double top, double left, WindowState state);
         void SaveWindowState(WindowState state);
         void SaveWindowSize(WindowState state, Size size);

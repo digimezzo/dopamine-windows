@@ -436,4 +436,5 @@
   <Text Key="Error_Importing_Playlists">Er is een fout opgetreden bij het importeren van afspeellijsten. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="New_Smart_Playlist">Nieuw slimme playlist</Text>
   <Text Key="Import_Smart_Playlists">Slimme playlists importeren</Text>
+  <Text Key="Switch_Player">Speler wisselen</Text>
 </Language>
