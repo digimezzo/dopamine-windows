@@ -19,7 +19,7 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <DockPanel Margin="0,0,180,0">
+    <DockPanel Margin="0,0,192,0">
         <dc:Pivot DockPanel.Dock="Left" Style="{DynamicResource MenuPivot}"
                   SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:CollectionPage}}">
             <dc:PivotItem Header="{DynamicResource Language_Artists}" Style="{StaticResource MenuPivotItem}"/>
@@ -30,7 +30,6 @@
             <dc:PivotItem Header="{DynamicResource Language_Folders}" Style="{StaticResource MenuPivotItem}"/>
         </dc:Pivot>
         <commonviews:SearchControl 
-            Margin="0,14,20,0" Width="170" VerticalAlignment="Top" HorizontalAlignment="Right"
-            Visibility="{Binding DataContext.CanSearch, ElementName=This,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            Width="170" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </DockPanel>
 </UserControl>

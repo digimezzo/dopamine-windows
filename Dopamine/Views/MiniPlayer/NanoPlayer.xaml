@@ -77,7 +77,7 @@
                 <DockPanel x:Name="PlaybackInfoControls" Panel.ZIndex="1" Opacity="0" VerticalAlignment="Top">
                     <Grid>
                         <Border Panel.ZIndex="0" Height="44" Width="66" HorizontalAlignment="Right" Background="{DynamicResource Brush_NanoPlayerWindowControlsBackground}"/>
-                        <commonviews:NanoPlayerWindowControls Panel.ZIndex="1" ButtonHeight="22" ButtonWidth="22" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                        <commonviews:WindowControls Panel.ZIndex="1" ButtonHeight="22" ButtonWidth="22" HorizontalAlignment="Right" VerticalAlignment="Top"/>
                     </Grid>
                 </DockPanel>
                 <commonviews:PlaybackInfoControlNano Panel.ZIndex="0" Width="220" Margin="15,0,15,0" HorizontalAlignment="Left"/>

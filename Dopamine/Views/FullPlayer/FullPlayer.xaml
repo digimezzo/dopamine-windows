@@ -20,7 +20,10 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     
-    <Grid x:Name="SplitViewContent">
+    <Grid>
+        <commonviews:WindowControls Panel.ZIndex="99" ButtonHeight="48" ButtonWidth="48" 
+                                    HorizontalAlignment="Right" VerticalAlignment="Top"
+                                    ShowMaximizeRestoreButton="True"/>
         <Border Panel.ZIndex="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="48"
                 Background="{DynamicResource Brush_WindowHeaderBackground}"/>
         <DockPanel Panel.ZIndex="1">

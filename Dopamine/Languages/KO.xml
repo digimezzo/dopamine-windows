@@ -436,4 +436,5 @@
   <Text Key="Error_Importing_Playlists">재생 목록을 가져오는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
   <Text Key="New_Smart_Playlist">새 스마트 재생 목록</Text>
   <Text Key="Import_Smart_Playlists">스마트 재생 목록 가져오기 완료</Text>
+  <Text Key="Switch_Player">Switch player</Text>
 </Language>

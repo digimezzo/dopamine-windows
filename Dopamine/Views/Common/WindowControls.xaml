@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="Dopamine.Views.Common.WindowControls"
+             x:Name="Me"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <StackPanel Orientation="Horizontal">
+        <Button x:Name="PART_TogglePlayer" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" 
+                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                ToolTip="{DynamicResource Language_Switch_Player}" Style="{StaticResource WindowButton}"
+                Command="{x:Static cp:ApplicationCommands.TogglePlayerCommand}">
+            <Path Data="{StaticResource MiniPlayer}"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
+                                HorizontalAlignment="center" 
+                                VerticalAlignment="Center"
+                                UseLayoutRounding="False" 
+                                SnapsToDevicePixels="True"/>
+        </Button>
+        <Button x:Name="PART_Minimize" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" 
+                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                ToolTip="{DynamicResource Language_Minimize}" Style="{StaticResource WindowButton}"
+                Command="{x:Static cp:ApplicationCommands.MinimizeWindowCommand}">
+            <Path Data="{StaticResource Minimize}"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
+                                HorizontalAlignment="center" 
+                                VerticalAlignment="Center"
+                                UseLayoutRounding="False" 
+                                SnapsToDevicePixels="True"/>
+        </Button>
+        <Button x:Name="PART_MaximizeRestore" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" 
+                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" Style="{StaticResource WindowButton}"
+                Command="{x:Static cp:ApplicationCommands.MaximizeRestoreWindowCommand}"
+                Visibility="{Binding ShowMaximizeRestoreButton, ElementName=Me, Converter={StaticResource BooleanToCollapsedConverter}}">
+            <Button.ToolTip>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{DynamicResource Language_Maximize}"/>
+                    <TextBlock Text="/"/>
+                    <TextBlock Text="{DynamicResource Language_Restore}"/>
+                </StackPanel>
+            </Button.ToolTip>
+            <Path Data="{StaticResource Maximize}"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
+                                HorizontalAlignment="center" 
+                                VerticalAlignment="Center"
+                                UseLayoutRounding="False" 
+                                SnapsToDevicePixels="True"/>
+        </Button>
+        <Button x:Name="PART_Close" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" 
+                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                ToolTip="{DynamicResource Language_Close}" Style="{StaticResource WindowButton}"
+                Command="{x:Static cp:ApplicationCommands.CloseWindowCommand}">
+            <Path Data="{StaticResource Close}"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
+                                HorizontalAlignment="center" 
+                                VerticalAlignment="Center"
+                                UseLayoutRounding="False" 
+                                SnapsToDevicePixels="True"/>
+        </Button>
+    </StackPanel>
+</UserControl>

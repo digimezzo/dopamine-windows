@@ -54,8 +54,8 @@
         </ResourceDictionary>
     </dc:BorderlessWindows10Window.Resources>
 
-    <dc:BorderlessWindows10Window.WindowCommands>
-        <!-- Mini Player switch button -->
+    <!--<dc:BorderlessWindows10Window.WindowCommands>
+        --><!-- Mini Player switch button --><!--
         <Button 
                 x:Name="PART_MiniPlayerButton" 
                 Style="{StaticResource WindowButton}" 
@@ -73,7 +73,7 @@
                                 UseLayoutRounding="False" 
                                 SnapsToDevicePixels="True"/>
         </Button>
-    </dc:BorderlessWindows10Window.WindowCommands>
+    </dc:BorderlessWindows10Window.WindowCommands>-->
 
     <!--  TaskbarItemInfo -->
     <dc:BorderlessWindows10Window.TaskbarItemInfo>

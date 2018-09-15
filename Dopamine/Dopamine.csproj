@@ -372,8 +372,8 @@
     <Compile Include="Views\Common\NanoPlayerControls.xaml.cs">
       <DependentUpon>NanoPlayerControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Common\NanoPlayerWindowControls.xaml.cs">
-      <DependentUpon>NanoPlayerWindowControls.xaml</DependentUpon>
+    <Compile Include="Views\Common\WindowControls.xaml.cs">
+      <DependentUpon>WindowControls.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Common\NothingPlayingControl.xaml.cs">
       <DependentUpon>NothingPlayingControl.xaml</DependentUpon>
@@ -1164,7 +1164,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Common\NanoPlayerWindowControls.xaml">
+    <Page Include="Views\Common\WindowControls.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
