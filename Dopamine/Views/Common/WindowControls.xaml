@@ -31,24 +31,30 @@
                                 UseLayoutRounding="False" 
                                 SnapsToDevicePixels="True"/>
         </Button>
-        <Button x:Name="PART_MaximizeRestore" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" 
-                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
-                Command="{x:Static cp:ApplicationCommands.MaximizeRestoreWindowCommand}"
-                Visibility="{Binding ShowMaximizeRestoreButton, ElementName=Me, Converter={StaticResource BooleanToCollapsedConverter}}">
-            <Button.ToolTip>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{DynamicResource Language_Maximize}"/>
-                    <TextBlock Text="/"/>
-                    <TextBlock Text="{DynamicResource Language_Restore}"/>
-                </StackPanel>
-            </Button.ToolTip>
-            <Path Data="{StaticResource Maximize}"
+        <Grid Visibility="{Binding ShowMaximizeRestoreButton, ElementName=Me, Converter={StaticResource BooleanToCollapsedConverter}}">
+            <Button x:Name="PART_Maximize" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" 
+                    BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                    ToolTip="{DynamicResource Language_Maximize}" Visibility="Visible"
+                    Command="{x:Static cp:ApplicationCommands.MaximizeRestoreWindowCommand}">
+                <Path Data="{StaticResource Maximize}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
                                 HorizontalAlignment="center" 
                                 VerticalAlignment="Center"
                                 UseLayoutRounding="False" 
                                 SnapsToDevicePixels="True"/>
-        </Button>
+            </Button>
+            <Button x:Name="PART_Restore" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" 
+                    BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
+                    ToolTip="{DynamicResource Language_Restore}" Visibility="Collapsed"
+                    Command="{x:Static cp:ApplicationCommands.MaximizeRestoreWindowCommand}">
+                <Path Data="{StaticResource Restore}"
+                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
+                                HorizontalAlignment="center" 
+                                VerticalAlignment="Center"
+                                UseLayoutRounding="False" 
+                                SnapsToDevicePixels="True"/>
+            </Button>
+        </Grid>
         <Button x:Name="PART_Close" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" 
                 BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
                 ToolTip="{DynamicResource Language_Close}"

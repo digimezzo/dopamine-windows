@@ -57,6 +57,16 @@ namespace Dopamine.Services.Shell
         public WindowState WindowState { get; }
     }
 
+    public class WindowStateChangedEventArgs : EventArgs
+    {
+        public WindowStateChangedEventArgs(WindowState windowState)
+        {
+            this.WindowState = windowState;
+        }
+
+        public WindowState WindowState { get; }
+    }
+
     public class ShowWindowControlsChangedEventArgs : EventArgs
     {
         public bool ShowWindowControls { get; set; }
