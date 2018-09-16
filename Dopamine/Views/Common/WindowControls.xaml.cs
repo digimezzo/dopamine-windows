@@ -6,6 +6,16 @@ namespace Dopamine.Views.Common
 {
     public partial class WindowControls : UserControl
     {
+        public bool EnableHighContrast
+        {
+            get { return Convert.ToBoolean(GetValue(EnableHighContrastProperty)); }
+
+            set { SetValue(EnableHighContrastProperty, value); }
+        }
+
+        public static readonly DependencyProperty EnableHighContrastProperty =
+            DependencyProperty.Register(nameof(EnableHighContrast), typeof(bool), typeof(WindowControls), new PropertyMetadata(false));
+
         public double ButtonWidth
         {
             get { return Convert.ToDouble(GetValue(ButtonWidthProperty)); }
@@ -39,6 +49,26 @@ namespace Dopamine.Views.Common
         public WindowControls()
         {
             InitializeComponent();
+        }
+
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            if (this.EnableHighContrast)
+            {
+                this.PART_TogglePlayer.SetResourceReference(StyleProperty, "WindowButtonHighContrast");
+                this.PART_Minimize.SetResourceReference(StyleProperty, "WindowButtonHighContrast");
+                this.PART_MaximizeRestore.SetResourceReference(StyleProperty, "WindowButtonHighContrast");
+                this.PART_Close.SetResourceReference(StyleProperty, "WindowButtonHighContrast");
+            }
+            else
+            {
+                this.PART_TogglePlayer.SetResourceReference(StyleProperty, "WindowButton");
+                this.PART_Minimize.SetResourceReference(StyleProperty, "WindowButton");
+                this.PART_MaximizeRestore.SetResourceReference(StyleProperty, "WindowButton");
+                this.PART_Close.SetResourceReference(StyleProperty, "WindowButton");
+            }
         }
     }
 }

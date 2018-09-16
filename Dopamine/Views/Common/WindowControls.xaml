@@ -11,7 +11,7 @@
     <StackPanel Orientation="Horizontal">
         <Button x:Name="PART_TogglePlayer" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" 
                 BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
-                ToolTip="{DynamicResource Language_Switch_Player}" Style="{StaticResource WindowButton}"
+                ToolTip="{DynamicResource Language_Switch_Player}"
                 Command="{x:Static cp:ApplicationCommands.TogglePlayerCommand}">
             <Path Data="{StaticResource MiniPlayer}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
@@ -22,7 +22,7 @@
         </Button>
         <Button x:Name="PART_Minimize" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" 
                 BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
-                ToolTip="{DynamicResource Language_Minimize}" Style="{StaticResource WindowButton}"
+                ToolTip="{DynamicResource Language_Minimize}"
                 Command="{x:Static cp:ApplicationCommands.MinimizeWindowCommand}">
             <Path Data="{StaticResource Minimize}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 
@@ -32,7 +32,7 @@
                                 SnapsToDevicePixels="True"/>
         </Button>
         <Button x:Name="PART_MaximizeRestore" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" 
-                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}" Style="{StaticResource WindowButton}"
+                BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
                 Command="{x:Static cp:ApplicationCommands.MaximizeRestoreWindowCommand}"
                 Visibility="{Binding ShowMaximizeRestoreButton, ElementName=Me, Converter={StaticResource BooleanToCollapsedConverter}}">
             <Button.ToolTip>
@@ -51,7 +51,7 @@
         </Button>
         <Button x:Name="PART_Close" Height="{Binding ButtonHeight,ElementName=Me}" Width="{Binding ButtonWidth,ElementName=Me}" 
                 BorderBrush="{x:Null}" BorderThickness="0" Background="{x:Null}"
-                ToolTip="{DynamicResource Language_Close}" Style="{StaticResource WindowButton}"
+                ToolTip="{DynamicResource Language_Close}"
                 Command="{x:Static cp:ApplicationCommands.CloseWindowCommand}">
             <Path Data="{StaticResource Close}"
                                 Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}" 

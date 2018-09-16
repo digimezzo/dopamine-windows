@@ -57,7 +57,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="WindowButtonCoverPicture" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
+    <Style x:Key="WindowButtonHighContrast" TargetType="{x:Type Button}" BasedOn="{StaticResource WindowButton}">
         <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonCoverPictureText}"/>
     </Style>
 </ResourceDictionary>
