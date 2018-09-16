@@ -220,23 +220,23 @@ namespace Dopamine.Views
                 }
             };
 
-            this.shellService.WindowStateChanged += (_, e) => this.WindowState = e.WindowState;
-            this.shellService.IsMovableChanged += (_, e) => this.IsMovable = e.IsMovable;
-            this.shellService.ResizeModeChanged += (_, e) => this.ResizeMode = e.ResizeMode;
-            this.shellService.TopmostChanged += (_, e) => this.Topmost = e.IsTopmost;
+            this.shellService.WindowStateChangeRequested += (_, e) => this.WindowState = e.WindowState;
+            this.shellService.IsMovableChangeRequested += (_, e) => this.IsMovable = e.IsMovable;
+            this.shellService.ResizeModeChangeRequested += (_, e) => this.ResizeMode = e.ResizeMode;
+            this.shellService.TopmostChangeRequested += (_, e) => this.Topmost = e.IsTopmost;
          
-            this.shellService.GeometryChanged += (_, e) => this.SetGeometry(
+            this.shellService.GeometryChangeRequested += (_, e) => this.SetGeometry(
                 e.Top, e.Left, e.Size.Width, e.Size.Height,
                 Constants.DefaultShellTop,
                 Constants.DefaultShellLeft);
 
-            this.shellService.MinimumSizeChanged += (_, e) =>
+            this.shellService.MinimumSizeChangeRequested += (_, e) =>
             {
                 this.MinWidth = e.MinimumSize.Width;
                 this.MinHeight = e.MinimumSize.Height;
             };
 
-            this.shellService.PlaylistVisibilityChanged += (_, e) =>
+            this.shellService.PlaylistVisibilityChangeRequested += (_, e) =>
             {
                 if (e.IsPlaylistVisible)
                 {
