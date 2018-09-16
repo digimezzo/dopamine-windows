@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommonServiceLocator;
+using Dopamine.Services.Shell;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -6,6 +8,8 @@ namespace Dopamine.Views.Common
 {
     public partial class WindowControls : UserControl
     {
+        private IShellService shellService;
+
         public bool EnableHighContrast
         {
             get { return Convert.ToBoolean(GetValue(EnableHighContrastProperty)); }
@@ -49,6 +53,8 @@ namespace Dopamine.Views.Common
         public WindowControls()
         {
             InitializeComponent();
+
+            this.shellService = ServiceLocator.Current.GetInstance<IShellService>();
         }
 
         public override void OnApplyTemplate()
@@ -59,16 +65,28 @@ namespace Dopamine.Views.Common
             {
                 this.PART_TogglePlayer.SetResourceReference(StyleProperty, "WindowButtonHighContrast");
                 this.PART_Minimize.SetResourceReference(StyleProperty, "WindowButtonHighContrast");
-                this.PART_MaximizeRestore.SetResourceReference(StyleProperty, "WindowButtonHighContrast");
+                this.PART_Maximize.SetResourceReference(StyleProperty, "WindowButtonHighContrast");
+                this.PART_Restore.SetResourceReference(StyleProperty, "WindowButtonHighContrast");
                 this.PART_Close.SetResourceReference(StyleProperty, "WindowButtonHighContrast");
             }
             else
             {
                 this.PART_TogglePlayer.SetResourceReference(StyleProperty, "WindowButton");
                 this.PART_Minimize.SetResourceReference(StyleProperty, "WindowButton");
-                this.PART_MaximizeRestore.SetResourceReference(StyleProperty, "WindowButton");
+                this.PART_Maximize.SetResourceReference(StyleProperty, "WindowButton");
+                this.PART_Restore.SetResourceReference(StyleProperty, "WindowButton");
                 this.PART_Close.SetResourceReference(StyleProperty, "WindowButton");
             }
+
+            this.HandleWindowStateChange(this.shellService.WindowState);
+
+            this.shellService.WindowStateChanged += (_, e) => this.HandleWindowStateChange(e.WindowState);
+        }
+
+        public void HandleWindowStateChange(WindowState state)
+        {
+            this.PART_Maximize.Visibility = state.Equals(WindowState.Maximized) ? Visibility.Collapsed : Visibility.Visible;
+            this.PART_Restore.Visibility = state.Equals(WindowState.Maximized) ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

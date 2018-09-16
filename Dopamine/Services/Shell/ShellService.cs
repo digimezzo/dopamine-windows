@@ -27,6 +27,7 @@ namespace Dopamine.Services.Shell
         private string microplayerPage;
         private string nanoPlayerPage;
 
+        public event WindowStateChangedEventHandler WindowStateChanged = delegate { };
         public event WindowStateChangeRequestedEventHandler WindowStateChangeRequested = delegate { };
         public event PlaylistVisibilityChangeRequestedEventHandler PlaylistVisibilityChangeRequested = delegate { };
         public event IsMovableChangeRequestedEventHandler IsMovableChangeRequested = delegate { };
@@ -52,6 +53,8 @@ namespace Dopamine.Services.Shell
         public DelegateCommand ToggleMiniPlayerPositionLockedCommand { get; set; }
 
         public DelegateCommand ToggleMiniPlayerAlwaysOnTopCommand { get; set; }
+
+        public WindowState WindowState { get; set; }
 
         public ShellService(IRegionManager regionManager, IWindowsIntegrationService windowsIntegrationService, IEventAggregator eventAggregator,
             string nowPlayingPage, string fullPlayerPage, string coverPlayerPage, string microplayerPage, string nanoPlayerPage)
@@ -82,6 +85,9 @@ namespace Dopamine.Services.Shell
             });
 
             ApplicationCommands.ShowFullPlayerCommand.RegisterCommand(this.ShowFullPlayerCommmand);
+
+            // Window state
+            this.WindowState = SettingsClient.Get<bool>("FullPlayer", "IsMaximized") ? WindowState.Maximized : WindowState.Normal;
 
             // Player type
             this.ChangePlayerTypeCommand = new DelegateCommand<string>((miniPlayerType) =>
@@ -405,12 +411,16 @@ namespace Dopamine.Services.Shell
 
         public void SaveWindowState(WindowState state)
         {
+            this.WindowState = state;
+
             // Only save window state when not in tablet mode. Tablet mode maximizes the screen. 
             // We don't want to save that, as we want to be able to restore to the original state when leaving tablet mode.
             if (this.canSaveWindowGeometry & !this.windowsIntegrationService.IsTabletModeEnabled)
             {
                 SettingsClient.Set<bool>("FullPlayer", "IsMaximized", state == WindowState.Maximized ? true : false);
             }
+
+            this.WindowStateChanged(this, new WindowStateChangedEventArgs(state));
         }
 
         public void SaveWindowSize(WindowState state, Size size)

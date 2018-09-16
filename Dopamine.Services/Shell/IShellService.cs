@@ -2,6 +2,7 @@
 
 namespace Dopamine.Services.Shell
 {
+    public delegate void WindowStateChangedEventHandler(object sender, WindowStateChangedEventArgs e);
     public delegate void WindowStateChangeRequestedEventHandler(object sender, WindowStateChangeRequestedEventArgs e);
     public delegate void PlaylistVisibilityChangeRequestedEventHandler(object sender, PlaylistVisibilityChangeRequestedEventArgs e);
     public delegate void IsMovableChangeRequestedEventHandler(object sender, IsMovableChangeRequestedEventArgs e);
@@ -13,6 +14,8 @@ namespace Dopamine.Services.Shell
 
     public interface IShellService
     {
+        WindowState WindowState { get; set; }
+
         void CheckIfTabletMode(bool isInitializing);
 
         void SaveWindowLocation(double top, double left, WindowState state);
@@ -21,6 +24,7 @@ namespace Dopamine.Services.Shell
 
         void SaveWindowSize(WindowState state, Size size);
 
+        event WindowStateChangedEventHandler WindowStateChanged;
         event WindowStateChangeRequestedEventHandler WindowStateChangeRequested;
         event PlaylistVisibilityChangeRequestedEventHandler PlaylistVisibilityChangeRequested;
         event IsMovableChangeRequestedEventHandler IsMovableChangeRequested;
