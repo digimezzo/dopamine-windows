@@ -327,9 +327,6 @@
     <Compile Include="Views\Common\CoverArtControl.xaml.cs">
       <DependentUpon>CoverArtControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Common\CoverPictureWindowControls.xaml.cs">
-      <DependentUpon>CoverPictureWindowControls.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Common\CoverPlaybackInfoControl.xaml.cs">
       <DependentUpon>CoverPlaybackInfoControl.xaml</DependentUpon>
     </Compile>
@@ -1101,10 +1098,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Common\CoverArtControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Common\CoverPictureWindowControls.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
