@@ -12,6 +12,7 @@
                               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                               mc:Ignorable="d"
                               Title="{Binding TaskbarService.Description}" 
+                              TitleBarHeight="48"
                               Width="950" 
                               Height="600" 
                               MinWidth="{x:Static base:Constants.MinShellWidth}"

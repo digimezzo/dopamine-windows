@@ -2,9 +2,8 @@
 using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;
-using Dopamine.Views;
-using Dopamine.Services.Shell;
 using Dopamine.Services.WindowsIntegration;
+using Dopamine.Views;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -28,22 +27,30 @@ namespace Dopamine.Services.Shell
         private string microplayerPage;
         private string nanoPlayerPage;
 
-        public event WindowStateChangedEventHandler WindowStateChanged = delegate { };
-        public event PlaylistVisibilityChangedEventHandler PlaylistVisibilityChanged = delegate { };
-        public event IsMovableChangedEventHandler IsMovableChanged = delegate { };
-        public event ResizeModeChangedEventHandler ResizeModeChanged = delegate { };
-        public event TopmostChangedEventHandler TopmostChanged = delegate { };
-        public event MinimumSizeChangedEventHandler MinimumSizeChanged = delegate { };
-        public event GeometryChangedEventHandler GeometryChanged = delegate { };
+        public event WindowStateChangeRequestedEventHandler WindowStateChangeRequested = delegate { };
+        public event PlaylistVisibilityChangeRequestedEventHandler PlaylistVisibilityChangeRequested = delegate { };
+        public event IsMovableChangeRequestedEventHandler IsMovableChangeRequested = delegate { };
+        public event ResizeModeChangeRequestedEventHandler ResizeModeChangeRequested = delegate { };
+        public event TopmostChangeRequestedEventHandler TopmostChangeRequested = delegate { };
+        public event MinimumSizeChangeRequestedEventHandler MinimumSizeChangeRequested = delegate { };
+        public event GeometryChangeRequestedEventHandler GeometryChangeRequested = delegate { };
 
         public DelegateCommand ShowNowPlayingCommand { get; set; }
+
         public DelegateCommand ShowFullPlayerCommmand { get; set; }
+
         public DelegateCommand TogglePlayerCommand { get; set; }
+
         public DelegateCommand<string> ChangePlayerTypeCommand { get; set; }
+
         public DelegateCommand<bool?> CoverPlayerPlaylistButtonCommand { get; set; }
+
         public DelegateCommand<bool?> MicroPlayerPlaylistButtonCommand { get; set; }
+
         public DelegateCommand<bool?> NanoPlayerPlaylistButtonCommand { get; set; }
+
         public DelegateCommand ToggleMiniPlayerPositionLockedCommand { get; set; }
+
         public DelegateCommand ToggleMiniPlayerAlwaysOnTopCommand { get; set; }
 
         public ShellService(IRegionManager regionManager, IWindowsIntegrationService windowsIntegrationService, IEventAggregator eventAggregator,
@@ -64,6 +71,7 @@ namespace Dopamine.Services.Shell
                 SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", true);
                 this.eventAggregator.GetEvent<IsNowPlayingPageActiveChanged>().Publish(true);
             });
+
             ApplicationCommands.ShowNowPlayingCommand.RegisterCommand(this.ShowNowPlayingCommand);
 
             this.ShowFullPlayerCommmand = new DelegateCommand(() =>
@@ -72,6 +80,7 @@ namespace Dopamine.Services.Shell
                 SettingsClient.Set<bool>("FullPlayer", "IsNowPlayingSelected", false);
                 this.eventAggregator.GetEvent<IsNowPlayingPageActiveChanged>().Publish(false);
             });
+
             ApplicationCommands.ShowFullPlayerCommand.RegisterCommand(this.ShowFullPlayerCommmand);
 
             // Player type
@@ -87,25 +96,29 @@ namespace Dopamine.Services.Shell
                     this.TogglePlayer();
                 }
             });
+
             ApplicationCommands.TogglePlayerCommand.RegisterCommand(this.TogglePlayerCommand);
-            
+
             // Mini Player Playlist
             this.CoverPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>
             {
                 this.ToggleMiniPlayerPlaylist(MiniPlayerType.CoverPlayer, isPlaylistButtonChecked.Value);
             });
+
             ApplicationCommands.CoverPlayerPlaylistButtonCommand.RegisterCommand(this.CoverPlayerPlaylistButtonCommand);
 
             this.MicroPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>
             {
                 this.ToggleMiniPlayerPlaylist(MiniPlayerType.MicroPlayer, isPlaylistButtonChecked.Value);
             });
+
             ApplicationCommands.MicroPlayerPlaylistButtonCommand.RegisterCommand(this.MicroPlayerPlaylistButtonCommand);
 
             this.NanoPlayerPlaylistButtonCommand = new DelegateCommand<bool?>(isPlaylistButtonChecked =>
             {
                 this.ToggleMiniPlayerPlaylist(MiniPlayerType.NanoPlayer, isPlaylistButtonChecked.Value);
             });
+
             ApplicationCommands.NanoPlayerPlaylistButtonCommand.RegisterCommand(this.NanoPlayerPlaylistButtonCommand);
 
             // Mini Player
@@ -115,6 +128,7 @@ namespace Dopamine.Services.Shell
                 SettingsClient.Set<bool>("Behaviour", "MiniPlayerPositionLocked", !isMiniPlayerPositionLocked);
                 this.SetWindowPositionLockedFromSettings();
             });
+
             ApplicationCommands.ToggleMiniPlayerPositionLockedCommand.RegisterCommand(this.ToggleMiniPlayerPositionLockedCommand);
 
             this.ToggleMiniPlayerAlwaysOnTopCommand = new DelegateCommand(() =>
@@ -123,6 +137,7 @@ namespace Dopamine.Services.Shell
                 SettingsClient.Set<bool>("Behaviour", "MiniPlayerOnTop", !topmost);
                 this.SetWindowTopmostFromSettings();
             });
+
             ApplicationCommands.ToggleMiniPlayerAlwaysOnTopCommand.RegisterCommand(this.ToggleMiniPlayerAlwaysOnTopCommand);
         }
 
@@ -221,29 +236,26 @@ namespace Dopamine.Services.Shell
         {
             this.isMiniPlayerActive = false;
 
-            this.PlaylistVisibilityChanged(this, new PlaylistVisibilityChangedEventArgs() { IsPlaylistVisible = false });
+            this.PlaylistVisibilityChangeRequested(this, new PlaylistVisibilityChangeRequestedEventArgs(false, MiniPlayerType.CoverPlayer));
 
-            this.ResizeModeChanged(this, new ResizeModeChangedEventArgs() { ResizeMode = ResizeMode.CanResize });
-            
+            this.ResizeModeChangeRequested(this, new ResizeModeChangeRequestedEventArgs(ResizeMode.CanResize));
+
             if (SettingsClient.Get<bool>("FullPlayer", "IsMaximized"))
             {
-                this.WindowStateChanged(this, new WindowStateChangedEventArgs() { WindowState = WindowState.Maximized });
+                this.WindowStateChangeRequested(this, new WindowStateChangeRequestedEventArgs(WindowState.Maximized));
             }
             else
             {
-                this.WindowStateChanged(this, new WindowStateChangedEventArgs() { WindowState = WindowState.Normal });
-                this.GeometryChanged(this, new GeometryChangedEventArgs() {
-                    Top = SettingsClient.Get<int>("FullPlayer", "Top"),
-                    Left = SettingsClient.Get<int>("FullPlayer", "Left"),
-                    Size= new Size(SettingsClient.Get<int>("FullPlayer", "Width"), SettingsClient.Get<int>("FullPlayer", "Height"))
-                });
+                this.WindowStateChangeRequested(this, new WindowStateChangeRequestedEventArgs(WindowState.Normal));
+
+                this.GeometryChangeRequested(this, new GeometryChangeRequestedEventArgs(
+                    SettingsClient.Get<int>("FullPlayer", "Top"),
+                    SettingsClient.Get<int>("FullPlayer", "Left"),
+                    new Size(SettingsClient.Get<int>("FullPlayer", "Width"), SettingsClient.Get<int>("FullPlayer", "Height"))));
             }
 
             // Set MinWidth and MinHeight AFTER SetGeometry(). This prevents flicker.
-            this.MinimumSizeChanged(this, new MinimumSizeChangedEventArgs()
-            {
-                MinimumSize = new Size(Constants.MinShellWidth, Constants.MinShellHeight)
-            });
+            this.MinimumSizeChangeRequested(this, new MinimumSizeChangeRequestedEventArgs(new Size(Constants.MinShellWidth, Constants.MinShellHeight)));
         }
 
         private void SetMiniPlayer(MiniPlayerType miniPlayerType, bool openPlaylist)
@@ -251,11 +263,11 @@ namespace Dopamine.Services.Shell
             this.isMiniPlayerActive = true;
 
             // Hide the playlist BEFORE changing window dimensions to avoid strange behaviour
-            this.PlaylistVisibilityChanged(this, new PlaylistVisibilityChangedEventArgs() { IsPlaylistVisible = false });
+            this.PlaylistVisibilityChangeRequested(this, new PlaylistVisibilityChangeRequestedEventArgs(false, MiniPlayerType.CoverPlayer));
 
-            this.WindowStateChanged(this, new WindowStateChangedEventArgs() { WindowState = WindowState.Normal });
-            this.ResizeModeChanged(this, new ResizeModeChangedEventArgs() { ResizeMode = ResizeMode.CanMinimize });
-           
+            this.WindowStateChangeRequested(this, new WindowStateChangeRequestedEventArgs(WindowState.Normal));
+            this.ResizeModeChangeRequested(this, new ResizeModeChangeRequestedEventArgs(ResizeMode.CanMinimize));
+
             double width = 0;
             double height = 0;
 
@@ -282,27 +294,24 @@ namespace Dopamine.Services.Shell
             // Set MinWidth and MinHeight BEFORE SetMiniPlayerDimensions(). This prevents flicker.
             Size minimumSize = new Size(width, height);
 
-            if (SettingsClient.Get<bool>("Appearance","ShowWindowBorder"))
+            if (SettingsClient.Get<bool>("Appearance", "ShowWindowBorder"))
             {
                 // Correction to take into account the window border, otherwise the content 
                 // misses 2px horizontally and vertically when displaying the window border
                 minimumSize = new Size(width + 2, height + 2);
             }
 
-            this.MinimumSizeChanged(this, new MinimumSizeChangedEventArgs() { MinimumSize = minimumSize });
+            this.MinimumSizeChangeRequested(this, new MinimumSizeChangeRequestedEventArgs(minimumSize));
 
-            this.GeometryChanged(this, new GeometryChangedEventArgs()
-            {
-                Top = SettingsClient.Get<int>("MiniPlayer", "Top"),
-                Left = SettingsClient.Get<int>("MiniPlayer", "Left"),
-                Size = minimumSize
-            });
+            this.GeometryChangeRequested(this, new GeometryChangeRequestedEventArgs(
+                SettingsClient.Get<int>("MiniPlayer", "Top"),
+                SettingsClient.Get<int>("MiniPlayer", "Left"),
+                minimumSize));
 
-            // Show the playlist AFTER changing window dimensions to avoid strange behaviour
+            // Show the playlist AFTER changing window dimensions to avoid strange behavior
             if (openPlaylist)
             {
-                this.PlaylistVisibilityChanged(this,
-                    new PlaylistVisibilityChangedEventArgs() { IsPlaylistVisible = true, MiniPlayerType = miniPlayerType });
+                this.PlaylistVisibilityChangeRequested(this, new PlaylistVisibilityChangeRequestedEventArgs(true, miniPlayerType));
             }
         }
 
@@ -317,7 +326,7 @@ namespace Dopamine.Services.Shell
             {
                 bool isMiniPlayer = SettingsClient.Get<bool>("General", "IsMiniPlayer");
                 bool isMaximized = SettingsClient.Get<bool>("FullPlayer", "IsMaximized");
-                this.WindowStateChanged(this, new WindowStateChangedEventArgs() { WindowState = isMaximized & !isMiniPlayer ? WindowState.Maximized : WindowState.Normal });
+                this.WindowStateChangeRequested(this, new WindowStateChangeRequestedEventArgs(isMaximized & !isMiniPlayer ? WindowState.Maximized : WindowState.Normal));
 
                 this.SetPlayer(isMiniPlayer, (MiniPlayerType)SettingsClient.Get<int>("General", "MiniPlayerType"), isInitializing);
             }
@@ -344,12 +353,12 @@ namespace Dopamine.Services.Shell
         {
             if (this.isMiniPlayerActive)
             {
-                this.TopmostChanged(this, new TopmostChangedEventArgs() { IsTopmost = SettingsClient.Get<bool>("Behaviour", "MiniPlayerOnTop") });
+                this.TopmostChangeRequested(this, new TopmostChangeRequestedEventArgs(SettingsClient.Get<bool>("Behaviour", "MiniPlayerOnTop")));
             }
             else
             {
                 // Full player is never topmost
-                this.TopmostChanged(this, new TopmostChangedEventArgs() { IsTopmost = false });
+                this.TopmostChangeRequested(this, new TopmostChangeRequestedEventArgs(false));
             }
         }
 
@@ -358,11 +367,11 @@ namespace Dopamine.Services.Shell
             // Only lock position when the mini player is active
             if (this.isMiniPlayerActive)
             {
-                this.IsMovableChanged(this, new IsMovableChangedEventArgs() { IsMovable = !SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked") });
+                this.IsMovableChangeRequested(this, new IsMovableChangeRequestedEventArgs(!SettingsClient.Get<bool>("Behaviour", "MiniPlayerPositionLocked")));
             }
             else
             {
-                this.IsMovableChanged(this, new IsMovableChangedEventArgs() { IsMovable = true });
+                this.IsMovableChangeRequested(this, new IsMovableChangeRequestedEventArgs(true));
             }
         }
 
@@ -391,8 +400,7 @@ namespace Dopamine.Services.Shell
                 this.activeMiniPlayerPlaylist = ActiveMiniPlayerPlaylist.None;
             }
 
-            this.PlaylistVisibilityChanged(this,
-                new PlaylistVisibilityChangedEventArgs() { IsPlaylistVisible = isPlaylistVisible, MiniPlayerType = miniPlayerType });
+            this.PlaylistVisibilityChangeRequested(this, new PlaylistVisibilityChangeRequestedEventArgs(isPlaylistVisible, miniPlayerType));
         }
 
         public void SaveWindowState(WindowState state)
