@@ -419,7 +419,6 @@
   <Text Key="Spectrum_Stripes">Trake</Text>
   <Text Key="Also_Check_For_Prereleases">Provjeri jesu li dostupna i predizdanja</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Nije moguće dodati mapu '{foldername}' jer nije moguće pristupiti sadržaju te mape. Molimo provjerite dopuštenja za tu mapu.</Text>
-  <Text Key="Search_Hint">Traži...</Text>
   <Text Key="Time">Vrijeme</Text>
   <Text Key="Song_Artists">Izvođači pjesme</Text>
   <Text Key="Album_Artists">Izvođači albuma</Text>

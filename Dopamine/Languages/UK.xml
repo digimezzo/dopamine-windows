@@ -419,7 +419,6 @@
   <Text Key="Spectrum_Stripes">Stripes</Text>
   <Text Key="Also_Check_For_Prereleases">Також перевірити попередні релізи</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Папку '{foldername}' не вдалося додати, оскільки його вміст недоступний. Будь ласка, перевірте права доступу для папки.</Text>
-  <Text Key="Search_Hint">Пошук...</Text>
   <Text Key="Time">Час</Text>
   <Text Key="Song_Artists">Виконавці пісні</Text>
   <Text Key="Album_Artists">Виконавці альбому</Text>

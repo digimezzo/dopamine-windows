@@ -419,7 +419,6 @@
   <Text Key="Spectrum_Stripes">Sọc</Text>
   <Text Key="Also_Check_For_Prereleases">Luôn kiểm tra các bản xem trước</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Không thể thêm thư mục '{foldername}' bởi vì không thể đọc. Vui lòng kiểm tra quyền của thư mục.</Text>
-  <Text Key="Search_Hint">Tìm kiếm...</Text>
   <Text Key="Time">Thời gian</Text>
   <Text Key="Song_Artists">Nghệ sĩ</Text>
   <Text Key="Album_Artists">Nghệ sĩ của album</Text>

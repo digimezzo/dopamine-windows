@@ -419,7 +419,6 @@
   <Text Key="Spectrum_Stripes">Franjas</Text>
   <Text Key="Also_Check_For_Prereleases">También revisar los pre-lanzamientos</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' could not be added because its content not accessible. Please check the folder permissions.</Text>
-  <Text Key="Search_Hint">Search...</Text>
   <Text Key="Time">Time</Text>
   <Text Key="Song_Artists">Song artists</Text>
   <Text Key="Album_Artists">Album artists</Text>

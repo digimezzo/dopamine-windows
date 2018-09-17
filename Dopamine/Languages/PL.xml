@@ -419,7 +419,6 @@
   <Text Key="Spectrum_Stripes">Paski</Text>
   <Text Key="Also_Check_For_Prereleases">Sprawdzaj czy jest dostępna wersja przedpremierowa</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Folder '{foldername}' nie mógł zostać dodany gdyż jego zawartość jest niedostępna. Proszę sprawdzić uprawnienia folderu.</Text>
-  <Text Key="Search_Hint">Wyszukaj...</Text>
   <Text Key="Time">Czas</Text>
   <Text Key="Song_Artists">Artyści piosenek</Text>
   <Text Key="Album_Artists">Artyści albumów</Text>
