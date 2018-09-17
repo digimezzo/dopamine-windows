@@ -153,6 +153,7 @@
     <Compile Include="Controls\CombiLabel.cs" />
     <Compile Include="Controls\CrossFadeContentControl.cs" />
     <Compile Include="Controls\DataGridEx.cs" />
+    <Compile Include="Controls\DropDownButton.cs" />
     <Compile Include="Controls\FullLogo.xaml.cs">
       <DependentUpon>FullLogo.xaml</DependentUpon>
     </Compile>

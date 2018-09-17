@@ -436,4 +436,5 @@
   <Text Key="New_Smart_Playlist">New smart playlist</Text>
   <Text Key="Import_Smart_Playlists">Import smart playlists</Text>
   <Text Key="Switch_Player">Switch player</Text>
+  <Text Key="Add_Music">Add music...</Text>
 </Language>
