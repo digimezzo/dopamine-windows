@@ -419,7 +419,6 @@
   <Text Key="Spectrum_Stripes">間條</Text>
   <Text Key="Also_Check_For_Prereleases">同時檢查預覽版本</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">無法新增資料夾「{foldername}」，因為其內容無法被存取。請檢查檔案權限。</Text>
-  <Text Key="Search_Hint">搜尋...</Text>
   <Text Key="Time">時間</Text>
   <Text Key="Song_Artists">參與演出者</Text>
   <Text Key="Album_Artists">專輯演出者</Text>
