@@ -77,7 +77,7 @@
                             <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_Accent}"/>
                             <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonHoveredIcon}"/>
                         </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
+                        <Trigger Property="IsChecked" Value="true">
                             <Setter TargetName="rect" Property="Fill" Value="{DynamicResource Brush_WindowButtonPressedBackground}"/>
                             <Setter Property="Foreground" Value="{DynamicResource Brush_WindowButtonPressedIcon}"/>
                         </Trigger>
