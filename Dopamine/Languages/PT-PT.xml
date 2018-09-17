@@ -435,5 +435,5 @@
   <Text Key="Error_Importing_Playlists">Ocorreu um erro ao importar as listas de reprodução. Analise o ficheiro de registo para obter mais informações.</Text>
   <Text Key="New_Smart_Playlist">Nova lista de reprodução inteligente</Text>
   <Text Key="Import_Smart_Playlists">Importar listas de reprodução inteligentes</Text>
-  <Text Key="Switch_Player">Switch player</Text>
+  <Text Key="Switch_Player">Trocar de reprodutor</Text>
 </Language>
