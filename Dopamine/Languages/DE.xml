@@ -419,7 +419,6 @@
   <Text Key="Spectrum_Stripes">Steifen</Text>
   <Text Key="Also_Check_For_Prereleases">Auch auf Vorabversionen prüfen</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Ordner '{foldername}' konnte wegen mangelnder Berechtigungen nicht hinzugefügt werden. Bitte überprüfe die Ordnerberechtigungen.</Text>
-  <Text Key="Search_Hint">Suche...</Text>
   <Text Key="Time">Zeit</Text>
   <Text Key="Song_Artists">Titel Interpret</Text>
   <Text Key="Album_Artists">Album Interpret</Text>

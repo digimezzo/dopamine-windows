@@ -7,10 +7,7 @@ namespace Dopamine.Controls
 {
     public class SearchBox : TextBox
     {
-        private TextBlock searchHint;
         private Border searchBorder;
-        private ScrollViewer contentHost;
-        private bool hasKeyboardFocus;
 
         public bool HasText
         {
@@ -40,41 +37,12 @@ namespace Dopamine.Controls
         {
             base.OnApplyTemplate();
 
-            this.searchHint = (TextBlock)GetTemplateChild("PART_SearchHint");
             this.searchBorder = (Border)GetTemplateChild("PART_SearchBorder");
-            this.contentHost = (ScrollViewer)GetTemplateChild("PART_ContentHost");
 
             if (this.searchBorder != null)
             {
                 this.searchBorder.MouseLeftButtonUp += SearchButton_MouseLeftButtonUphandler;
             }
-
-            if(this.contentHost != null)
-            {
-                this.contentHost.PreviewMouseLeftButtonUp += ContentHost_MouseLeftButtonUp;
-                this.contentHost.PreviewLostKeyboardFocus += ContentHost_PreviewLostKeyboardFocus;
-                this.contentHost.PreviewGotKeyboardFocus += ContentHost_PreviewGotKeyboardFocus;
-            }
-        }
-
-        private void ContentHost_PreviewGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            this.hasKeyboardFocus = true;
-        }
-
-        private void ContentHost_PreviewLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            this.hasKeyboardFocus = false;
-
-            if (!this.HasText)
-            {
-                this.searchHint.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void ContentHost_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            this.searchHint.Visibility = Visibility.Collapsed;
         }
 
         protected override void OnTextChanged(TextChangedEventArgs e)
@@ -88,24 +56,12 @@ namespace Dopamine.Controls
             if (this.HasText)
             {
                 this.Text = string.Empty;
-
-                if (!this.hasKeyboardFocus)
-                {
-                    this.searchHint.Visibility = Visibility.Visible;
-                }
             }
         }
 
         public void SetKeyboardFocus()
         {
             this.Focus();
-
-            // This function is activated by a keyboard shortcut. So, search boxes which have not yet been initialized 
-            // can try to call this function. If that happens, searchHint is null. We're trying to avoid a crash here.
-            if (this.IsVisible && this.searchHint != null)
-            {
-                this.searchHint.Visibility = Visibility.Collapsed;
-            }
         }
     }
 }

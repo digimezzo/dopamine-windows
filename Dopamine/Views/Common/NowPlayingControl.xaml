@@ -26,7 +26,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="0.01*" />
-                <ColumnDefinition MaxWidth="200" Width="*" />
+                <ColumnDefinition MaxWidth="170" Width="*" />
             </Grid.ColumnDefinitions>
             <DockPanel Grid.Column="0" VerticalAlignment="Center">
                 <TextBlock Text="{Binding TracksCount}" FontSize="13"
@@ -58,22 +58,22 @@
                     TotalSizeInformation="{Binding TotalSizeInformation}"/>
             </DockPanel>
             <dc:MultiSelectListBox x:Name="ListBoxTracks"
-                                    Margin="0,20,0,0"
-                         dd:DragDrop.IsDragSource="True" 
-                         dd:DragDrop.IsDropTarget="True" 
-                         dd:DragDrop.DropHandler="{Binding}"
-                         dd:DragDrop.UseDefaultDragAdorner="True"
-                         dd:DragDrop.DefaultDragAdornerOpacity="0.5"
-                         VirtualizingStackPanel.IsVirtualizing="True"
-                         VirtualizingPanel.IsVirtualizingWhenGrouping="True"
-                         VirtualizingStackPanel.VirtualizationMode="Recycling"  
-                         MouseDoubleClick="ListBoxTracks_MouseDoubleClick"
-                         KeyUp="ListBoxTracks_KeyUp"
-                         PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
-                         Style="{StaticResource ListBoxNowPlayingTracks}"
-                         ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
-                         BorderThickness="0"
-                         SelectionMode="Extended">
+                                   Margin="0,20,0,0"
+                                   dd:DragDrop.IsDragSource="True" 
+                                   dd:DragDrop.IsDropTarget="True" 
+                                   dd:DragDrop.DropHandler="{Binding}"
+                                   dd:DragDrop.UseDefaultDragAdorner="True"
+                                   dd:DragDrop.DefaultDragAdornerOpacity="0.5"
+                                   VirtualizingStackPanel.IsVirtualizing="True"
+                                   VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                                   VirtualizingStackPanel.VirtualizationMode="Recycling"  
+                                   MouseDoubleClick="ListBoxTracks_MouseDoubleClick"
+                                   KeyUp="ListBoxTracks_KeyUp"
+                                   PreviewKeyDown="ListBoxTracks_PreviewKeyDown"
+                                   Style="{StaticResource ListBoxNowPlayingTracks}"
+                                   ItemsSource="{Binding TracksCvs.View,IsAsync=True}"
+                                   BorderThickness="0"
+                                   SelectionMode="Extended">
                 <dc:MultiSelectListBox.InputBindings>
                     <KeyBinding Key="Delete" Command="{Binding RemoveSelectedTracksCommand}" />
                 </dc:MultiSelectListBox.InputBindings>

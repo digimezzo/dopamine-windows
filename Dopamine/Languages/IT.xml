@@ -419,7 +419,6 @@
   <Text Key="Spectrum_Stripes">Strisce</Text>
   <Text Key="Also_Check_For_Prereleases">Controlla anche per le pre-releases</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">La cartella '{foldername}' non può essere aggiunto perché il suo contenuto non è accessibile. Si prega di controllare le autorizzazioni della cartella.</Text>
-  <Text Key="Search_Hint">Cerca...</Text>
   <Text Key="Time">Tempo</Text>
   <Text Key="Song_Artists">Brano artisti</Text>
   <Text Key="Album_Artists">Album artisti</Text>

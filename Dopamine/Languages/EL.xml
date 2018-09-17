@@ -419,7 +419,6 @@
   <Text Key="Spectrum_Stripes">Ρίγες</Text>
   <Text Key="Also_Check_For_Prereleases">Πρόσθετος έλεγχος και για προεκδόσεις</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Ο φάκελος '{foldername}' δεν προστέθηκε γιατί το περιεχόμενό του δεν είναι προσβάσιμο. Ελέγξτε τα δικαιώματα χρήστη.</Text>
-  <Text Key="Search_Hint">Search...</Text>
   <Text Key="Time">Time</Text>
   <Text Key="Song_Artists">Song artists</Text>
   <Text Key="Album_Artists">Album artists</Text>

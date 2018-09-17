@@ -419,7 +419,6 @@
   <Text Key="Spectrum_Stripes">Rayures</Text>
   <Text Key="Also_Check_For_Prereleases">Also check for pre-releases</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Le dossier '{foldername}' n'a pas pu être ajouté car son contenu n'est pas accessible. Veuillez vérifier les permissions du dossier.</Text>
-  <Text Key="Search_Hint">Recherche...</Text>
   <Text Key="Time">Temps</Text>
   <Text Key="Song_Artists">Artistes des morceaux</Text>
   <Text Key="Album_Artists">Artists d'albums</Text>

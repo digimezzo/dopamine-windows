@@ -30,6 +30,6 @@
             <dc:PivotItem Header="{DynamicResource Language_Folders}" Style="{StaticResource MenuPivotItem}"/>
         </dc:Pivot>
         <commonviews:SearchControl 
-            Width="170" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            Width="170" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,10,0"/>
     </DockPanel>
 </UserControl>
