@@ -436,4 +436,5 @@
   <Text Key="New_Smart_Playlist">Novi pametni popis</Text>
   <Text Key="Import_Smart_Playlists">Uvezi pametne popise</Text>
   <Text Key="Switch_Player">Changer lecteur</Text>
+  <Text Key="Add_Music">Add music...</Text>
 </Language>

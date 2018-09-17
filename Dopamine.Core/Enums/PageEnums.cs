@@ -53,9 +53,8 @@
     public enum FullPlayerPage
     {
         Collection = 0,
-        Playlists = 1,
-        Settings = 2,
-        Information = 3
+        Settings = 1,
+        Information = 2
     }
 
     public enum EditTrackPage
