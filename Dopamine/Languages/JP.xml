@@ -187,7 +187,6 @@
   <Text Key="Error_Saving_Playlists">プレイリストを保存できませんでした。詳細はログファイルを参照してください。</Text>
   <Text Key="Error_Saving_Playlist">プレイリストを保存できませんでした。詳細はログファイルを参照してください。</Text>
   <Text Key="Download_Latest_Version">最新バージョンのダウンロード</Text>
-  <Text Key="Track_Number_Short">No</Text>
   <Text Key="By_Album_Artist">アルバムアーティスト名</Text>
   <Text Key="File">ファイル</Text>
   <Text Key="Name">プロバイダ名</Text>
@@ -216,7 +215,6 @@
   <Text Key="Show_Notification_Only_When_Player_Not_Visible">プレイヤーが表示されていない時のみ通知</Text>
   <Text Key="Transparency">透明化</Text>
   <Text Key="Enable_Transparency">いくつかの要素を透明にする</Text>
-  <Text Key="All">全て</Text>
   <Text Key="Close_To_Tray">ウィンドウを閉じた時にタスクトレイに表示</Text>
   <Text Key="Edit">編集</Text>
   <Text Key="Edit_Song">曲を編集</Text>
@@ -421,6 +419,14 @@
   <Text Key="Spectrum_Stripes">ストライプ</Text>
   <Text Key="Also_Check_For_Prereleases">プレリリースの確認</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">フォルダ '{foldername}' にアクセスできなかったため、コンテンツを追加できませんでした。フォルダのアクセス許可を確認してください。</Text>
+  <Text Key="Time">Time</Text>
+  <Text Key="Song_Artists">Song artists</Text>
+  <Text Key="Album_Artists">Album artists</Text>
+  <Text Key="Toggle_Artists">Toggle artists</Text>
+  <Text Key="Select_None">Select none</Text>
+  <Text Key="Open_Menu">Open menu</Text>
+  <Text Key="Toggle_Album_Order">Toggle album order</Text>
+  <Text Key="Toggle_Track_Order">Toggle song order</Text>
   <Text Key="Activate_Search_Field">Activate search field</Text>
   <Text Key="Back">Back</Text>
   <Text Key="Folders">Folders</Text>
