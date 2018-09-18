@@ -33,7 +33,7 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <Border DockPanel.Dock="Top" Height="56" Background="{DynamicResource Brush_WindowHeaderBackground}">
+        <Border DockPanel.Dock="Top" Height="48" Background="{DynamicResource Brush_WindowHeaderBackground}">
             <DockPanel x:Name="MenuPanel">
                 <Grid Width="30" Height="30" Margin="13,0,20,0">
                     <Viewbox Width="30" Height="30" Panel.ZIndex="0">

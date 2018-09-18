@@ -1,8 +1,12 @@
-﻿using Dopamine.Core.Base;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;
+using Dopamine.Services.Dialog;
 using Dopamine.Services.Indexing;
+using Dopamine.Views.FullPlayer;
 using Prism.Commands;
+using Prism.Ioc;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -14,10 +18,14 @@ namespace Dopamine.ViewModels.FullPlayer
         private IRegionManager regionManager;
         private FullPlayerPage previousSelectedFullPlayerPage;
         private IIndexingService indexingService;
+        private IContainerProvider container;
+        private IDialogService dialogService;
         private int slideInFrom;
         private bool showBackButton;
 
         public DelegateCommand LoadedCommand { get; set; }
+
+        public DelegateCommand AddMusicCommand { get; set; }
 
         public DelegateCommand<string> SetSelectedFullPlayerPageCommand { get; set; }
 
@@ -35,13 +43,17 @@ namespace Dopamine.ViewModels.FullPlayer
             set { SetProperty<bool>(ref this.showBackButton, value); }
         }
 
-        public FullPlayerViewModel(IIndexingService indexingService, IRegionManager regionManager)
+        public FullPlayerViewModel(IIndexingService indexingService, IRegionManager regionManager,
+            IContainerProvider container, IDialogService dialogService)
         {
             this.regionManager = regionManager;
             this.indexingService = indexingService;
+            this.container = container;
+            this.dialogService = dialogService;
             this.LoadedCommand = new DelegateCommand(() => this.NagivateToSelectedPage(FullPlayerPage.Collection));
             this.SetSelectedFullPlayerPageCommand = new DelegateCommand<string>(pageIndex => this.NagivateToSelectedPage((FullPlayerPage)Int32.Parse(pageIndex)));
             this.BackButtonCommand = new DelegateCommand(() => this.NagivateToSelectedPage(FullPlayerPage.Collection));
+            this.AddMusicCommand = new DelegateCommand(() => this.AddMusic());
         }
 
         private void NagivateToSelectedPage(FullPlayerPage page)
@@ -74,6 +86,27 @@ namespace Dopamine.ViewModels.FullPlayer
             {
                 this.indexingService.RefreshCollectionIfFoldersChangedAsync();
             }
+        }
+
+        private void AddMusic()
+        {
+            FullPlayerAddMusic view = this.container.Resolve<FullPlayerAddMusic>();
+            view.DataContext = this.container.Resolve<FullPlayerAddMusicViewModel>();
+
+            this.dialogService.ShowCustomDialog(
+                0xE8D6,
+                16,
+                ResourceUtils.GetString("Language_Add_Music"),
+                view,
+                400,
+                0,
+                false,
+                true,
+                false,
+                true,
+                ResourceUtils.GetString("Language_Ok"),
+                ResourceUtils.GetString("Language_Cancel"),
+                null);
         }
     }
 }

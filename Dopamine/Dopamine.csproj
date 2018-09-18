@@ -270,6 +270,7 @@
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\Utils.cs" />
+    <Compile Include="ViewModels\FullPlayer\FullPlayerAddMusicViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\FullPlayerViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationAboutLicenseViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationAboutViewModel.cs" />
@@ -456,6 +457,9 @@
     </Compile>
     <Compile Include="Views\FullPlayer\FullPlayer.xaml.cs">
       <DependentUpon>FullPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\FullPlayerAddMusic.xaml.cs">
+      <DependentUpon>FullPlayerAddMusic.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Information\Information.xaml.cs">
       <DependentUpon>Information.xaml</DependentUpon>
@@ -1273,6 +1277,10 @@
     <Page Include="Views\FullPlayer\FullPlayer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FullPlayer\FullPlayerAddMusic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullPlayer\Information\Information.xaml">
       <SubType>Designer</SubType>
