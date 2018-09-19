@@ -21,16 +21,16 @@
     </i:Interaction.Triggers>
 
     <Grid>
-        <Border Panel.ZIndex="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="48"
+        <Border Panel.ZIndex="0" VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="50"
                 Background="{DynamicResource Brush_WindowHeaderBackground}"/>
         <DockPanel Panel.ZIndex="1">
             <DockPanel DockPanel.Dock="Top">
                 <!-- Window controls -->
-                <commonviews:WindowControls DockPanel.Dock="Right" ButtonHeight="48" ButtonWidth="48" ShowMaximizeRestoreButton="True"/>
+                <commonviews:WindowControls DockPanel.Dock="Right" ButtonHeight="50" ButtonWidth="50" ShowMaximizeRestoreButton="True"/>
                 <!-- Sub menu button -->
                 <controls:DropDownButton DockPanel.Dock="Right" Style="{StaticResource WindowDropDownButton}" 
-                                 Width="48" Height="48" ToolTip="{DynamicResource Language_Open_Menu}">
-                    <fwc:SegoeIcon Text="&#xE712;" FontSize="16"
+                                 Width="48" Height="50" ToolTip="{DynamicResource Language_Open_Menu}">
+                    <fwc:SegoeIcon Text="&#xE700;" FontSize="16"
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <controls:DropDownButton.Menu>
                         <ContextMenu>
@@ -43,13 +43,13 @@
                 </controls:DropDownButton>
                 <!-- Logo/Back button -->
                 <Grid DockPanel.Dock="Left" MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave"
-                      Width="48" Height="48" Background="#00000000">
+                      Width="50" Height="50" Background="#00000000">
                     <!-- Droplet -->
-                    <Viewbox Width="34" Height="34" Panel.ZIndex="0">
+                    <Viewbox Width="30" Height="30" Panel.ZIndex="0">
                         <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                     </Viewbox>
                     <!-- Headphone -->
-                    <Viewbox x:Name="HeadPhoneIcon" Panel.ZIndex="1" Width="24" Height="24" Opacity="1"
+                    <Viewbox x:Name="HeadPhoneIcon" Panel.ZIndex="1" Width="20" Height="20" Opacity="1"
                              Visibility="{Binding ShowBackButton, Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
                         <Path x:Name="HeadPhone" Data="{StaticResource HeadPhone}" Fill="{DynamicResource Brush_WindowIcon}" 
                                           HorizontalAlignment="Center" VerticalAlignment="Center"/>

@@ -11,9 +11,9 @@
 
     <Border Background="{DynamicResource Brush_MainWindowBackground}" Margin="-2">
         <DockPanel Margin="2">
-            <Border DockPanel.Dock="Top" Height="56" Background="{DynamicResource Brush_WindowHeaderBackground}">
-                <StackPanel Orientation="Horizontal" Margin="13,0,20,0">
-                    <Grid>
+            <Border DockPanel.Dock="Top" Height="50" Background="{DynamicResource Brush_WindowHeaderBackground}">
+                <StackPanel Orientation="Horizontal">
+                    <Grid Margin="10">
                         <Viewbox Width="30" Height="30" Panel.ZIndex="0">
                             <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                         </Viewbox>
@@ -25,7 +25,7 @@
                           VerticalAlignment="Center" 
                           Foreground="{DynamicResource Brush_WindowIcon}" />
                     </Grid>
-                    <TextBlock x:Name="TextBlockTitle" Margin="20,-2,0,0" FontSize="15" 
+                    <TextBlock x:Name="TextBlockTitle" FontSize="15" 
                                Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center" />
                 </StackPanel>
             </Border>

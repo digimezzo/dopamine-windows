@@ -106,7 +106,7 @@ namespace Dopamine.ViewModels.Common
 
                 lock (this.Folders)
                 {
-                    this.foldersService.MarkFolderAsync(this.Folders.Where((f) => f.Folder.FolderID == folderId).FirstOrDefault());
+                    this.foldersService.ToggleFolderAsync(this.Folders.Where((f) => f.Folder.FolderID == folderId).FirstOrDefault());
                 }
             });
 
@@ -264,7 +264,7 @@ namespace Dopamine.ViewModels.Common
                     foreach (FolderViewModel folder in this.Folders)
                     {
                         folder.ShowInCollection = true;
-                        this.foldersService.MarkFolderAsync(folder);
+                        this.foldersService.ToggleFolderAsync(folder);
                     }
                 }
             });
