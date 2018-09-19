@@ -10,7 +10,9 @@ namespace Dopamine.Services.Folders
     {
         event EventHandler FoldersChanged;
 
-        Task MarkFolderAsync(FolderViewModel folder);
+        Task ToggleFolderAsync(FolderViewModel folder);
+
+        Task SaveToggledFoldersAsync();
 
         Task<IList<FolderViewModel>> GetFoldersAsync();
 

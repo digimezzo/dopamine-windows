@@ -33,9 +33,9 @@
     </UserControl.Resources>
 
     <DockPanel>
-        <Border DockPanel.Dock="Top" Height="48" Background="{DynamicResource Brush_WindowHeaderBackground}">
+        <Border DockPanel.Dock="Top" Height="50" Background="{DynamicResource Brush_WindowHeaderBackground}">
             <DockPanel x:Name="MenuPanel">
-                <Grid Width="30" Height="30" Margin="13,0,20,0">
+                <Grid Width="30" Height="30" Margin="10">
                     <Viewbox Width="30" Height="30" Panel.ZIndex="0">
                         <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                     </Viewbox>

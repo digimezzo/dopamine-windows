@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Border Panel.ZIndex="0" VerticalAlignment="Top" Height="48" Background="{DynamicResource Brush_WindowHeaderBackground}"/>
+        <Border Panel.ZIndex="0" VerticalAlignment="Top" Height="50" Background="{DynamicResource Brush_WindowHeaderBackground}"/>
         <Grid Panel.ZIndex="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="30" Margin="10">
             <Viewbox Width="30" Height="30" Panel.ZIndex="0">
                 <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
@@ -25,12 +25,31 @@
         </Grid>
         <dc:Pivot Panel.ZIndex="1" Style="{DynamicResource MenuPivot}" HeaderMargin="50,0,0,0">
             <dc:PivotItem Header="{DynamicResource Language_Music}" Style="{StaticResource MenuPivotItem}">
-                <StackPanel Margin="15">
-                    <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Add_Folders_With_Your_Music}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                <DockPanel Margin="20">
+                    <TextBlock DockPanel.Dock="Top" Margin="0,5,0,0" Text="{DynamicResource Language_Add_Folders_With_Your_Music}" Foreground="{DynamicResource Brush_PrimaryText}"/>
                     <commonviews:CollectionFoldersSettings Margin="0,15,0,0" ShowControls="True"/>
+                </DockPanel>
+            </dc:PivotItem>
+            <dc:PivotItem Header="{DynamicResource Language_Refresh}" Style="{StaticResource MenuPivotItem}">
+                <StackPanel Margin="20">
+                    <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Refresh_Collection_Automatically}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxRefreshCollectionAutomatically" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxRefreshCollectionAutomaticallyChecked}"/>
+                    <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Ignore_Previously_Removed_Files}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxIgnoreRemovedFiles" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxIgnoreRemovedFilesChecked}"/>
+                    <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Refresh_Collection_Now}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <Button Style="{StaticResource RegularButton}" Margin="0,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Refresh_Now}" Command="{Binding RefreshNowCommand}"/>
                 </StackPanel>
             </dc:PivotItem>
-            <dc:PivotItem Header="{DynamicResource Language_Advanced}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Album_Covers}" Style="{StaticResource MenuPivotItem}">
+                <StackPanel Margin="20">
+                    <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Download_Missing_Album_Covers}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <dc:Windows10ToggleSwitch x:Name="CheckBoxDownloadMissingAlbumCovers" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxDownloadMissingAlbumCoversChecked}"/>
+                    <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Reload_All_Covers_Description}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <Button Style="{StaticResource RegularButton}" Margin="0,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Reload_All_Covers}" Command="{Binding ReloadAllCoversCommand}"/>
+                    <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Reload_Missing_Covers_Description}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <Button Style="{StaticResource RegularButton}" Margin="0,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Reload_Missing_Covers}" Command="{Binding ReloadMissingCoversCommand}"/>
+                </StackPanel>
+            </dc:PivotItem>
         </dc:Pivot>
     </Grid>
 </UserControl>

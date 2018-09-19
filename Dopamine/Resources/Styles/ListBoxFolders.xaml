@@ -19,7 +19,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border Height="46">
+                    <Border Height="24">
                         <DockPanel Background="{TemplateBinding Background}"
                             Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
                             <controls:ListCheckBox
@@ -37,11 +37,11 @@
                                 DockPanel.Dock="Left"
                                 Text="&#xF12B;"
                                 Style="{StaticResource SegoeAssets}"
-                                Margin="10,0,10,0"
+                                Margin="10,0,5,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Foreground="{DynamicResource Brush_Accent}" 
-                                FontSize="26"/>
+                                FontSize="16"/>
                             <Button 
                                 x:Name="DeleteFolderButton"
                                 Style="{DynamicResource TransparentButton}"
@@ -58,12 +58,10 @@
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Foreground="{DynamicResource Brush_PrimaryText}" 
-                                    FontSize="18"/>
+                                    FontSize="16"/>
                             </Button>
-                            <StackPanel Margin="5,0,0,0" Height="36">
-                                <TextBlock Height="18" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding Directory}"/>
-                                <TextBlock Height="18" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Brush_SecondaryText}" Text="{Binding Path}"/>
-                            </StackPanel>
+                            <TextBlock Margin="5,0,0,0" Height="18" TextTrimming="CharacterEllipsis" 
+                                       Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding Path}"/>
                         </DockPanel>
                         <Border.Background>
                             <SolidColorBrush Color="{DynamicResource Color_ItemHovered}" Opacity="0"/>
@@ -107,6 +105,6 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
     </Style>
 </ResourceDictionary>

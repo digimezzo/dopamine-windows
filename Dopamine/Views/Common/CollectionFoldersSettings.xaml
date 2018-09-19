@@ -23,8 +23,9 @@
             </Storyboard>
         </Storyboard>
     </UserControl.Resources>
-    <StackPanel DockPanel.Dock="Top">
+    <DockPanel>
         <pc:IconTextButton 
+             DockPanel.Dock="Top"
             Glyph="&#xE710;" 
             GlyphSize="13" 
             Margin="0,0,0,20" 
@@ -63,6 +64,6 @@
                 <TextBlock Margin="15,0,0,0" Text="{DynamicResource Language_Refreshing_Collection}" FontSize="18" FontWeight="Light" Foreground="{DynamicResource Brush_PrimaryText}"/>
             </DockPanel>
         </Grid>
-    </StackPanel>
+    </DockPanel>
 </UserControl>
 

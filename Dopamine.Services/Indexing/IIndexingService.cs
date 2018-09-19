@@ -13,7 +13,7 @@ namespace Dopamine.Services.Indexing
 
         Task RefreshCollectionAsync();
 
-        Task RefreshCollectionIfFoldersChangedAsync();
+        void RefreshCollectionIfFoldersChangedAsync();
 
         Task RefreshCollectionImmediatelyAsync();
 

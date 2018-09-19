@@ -114,7 +114,7 @@ namespace Dopamine.Services.Indexing
             await this.CheckCollectionAsync(false);
         }
 
-        public async Task RefreshCollectionIfFoldersChangedAsync()
+        public async void RefreshCollectionIfFoldersChangedAsync()
         {
             if (!this.isFoldersChanged)
             {
