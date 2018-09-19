@@ -3,12 +3,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls" 
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Border Panel.ZIndex="0" VerticalAlignment="Top" Height="48" Background="{DynamicResource Brush_WindowHeaderBackground}"/>
-        <Grid Panel.ZIndex="1" HorizontalAlignment="Left" Width="30" Height="30" Margin="10,0,10,0">
+        <Grid Panel.ZIndex="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="30" Margin="10">
             <Viewbox Width="30" Height="30" Panel.ZIndex="0">
                 <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
             </Viewbox>
@@ -23,9 +24,13 @@
                       Foreground="{DynamicResource Brush_WindowIcon}" />
         </Grid>
         <dc:Pivot Panel.ZIndex="1" Style="{DynamicResource MenuPivot}" HeaderMargin="50,0,0,0">
-            <dc:PivotItem Header="{DynamicResource Language_Folders}" Style="{StaticResource MenuPivotItem}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Refresh}" Style="{StaticResource MenuPivotItem}"/>
-            <dc:PivotItem Header="{DynamicResource Language_Album_Covers}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Music}" Style="{StaticResource MenuPivotItem}">
+                <StackPanel Margin="15">
+                    <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Add_Folders_With_Your_Music}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                    <commonviews:CollectionFoldersSettings Margin="0,15,0,0" ShowControls="True"/>
+                </StackPanel>
+            </dc:PivotItem>
+            <dc:PivotItem Header="{DynamicResource Language_Advanced}" Style="{StaticResource MenuPivotItem}"/>
         </dc:Pivot>
     </Grid>
 </UserControl>

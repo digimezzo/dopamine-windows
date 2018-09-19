@@ -34,8 +34,8 @@
             Command="{Binding Path=AddFolderCommand}"
             IsHitTestVisible="{Binding IsBusy,Converter={StaticResource InvertingBooleanConverter}}"/>
         <Grid>
-            <StackPanel Panel.ZIndex="0" IsHitTestVisible="{Binding IsBusy,Converter={StaticResource InvertingBooleanConverter}}">
-                <StackPanel.Style>
+            <DockPanel Panel.ZIndex="0" IsHitTestVisible="{Binding IsBusy,Converter={StaticResource InvertingBooleanConverter}}">
+                <DockPanel.Style>
                     <Style>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsBusy}" Value="True">
@@ -48,10 +48,13 @@
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
-                </StackPanel.Style>
-                <CheckBox IsChecked="{Binding ShowAllFoldersInCollection}" Visibility="{Binding ShowControls,Converter={StaticResource BooleanToCollapsedConverter},ElementName=Me}" DockPanel.Dock="Top" Style="{StaticResource MetroCheckBox}" Margin="11,0,0,20" Padding="12,0,0,0" Content="{DynamicResource Language_Show_All_Folders_In_Collection}"/>
+                </DockPanel.Style>
+                <CheckBox DockPanel.Dock="Top" IsChecked="{Binding ShowAllFoldersInCollection}" 
+                          Visibility="{Binding ShowControls,Converter={StaticResource BooleanToCollapsedConverter},ElementName=Me}" 
+                          Style="{StaticResource MetroCheckBox}" Margin="11,0,0,20" Padding="12,0,0,0" 
+                          Content="{DynamicResource Language_Show_All_Folders_In_Collection}"/>
                 <ListBox x:Name="ListBoxFolders" Style="{StaticResource ListBoxFolders}" ItemsSource="{Binding Folders}"/>
-            </StackPanel>
+            </DockPanel>
             <Viewbox Panel.ZIndex="1" Width="48" Height="48" Visibility="{Binding IsLoadingFolders,Converter={StaticResource BooleanToCollapsedConverter}}" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <dc:ProgressRing Foreground="{DynamicResource Brush_Accent}" HorizontalAlignment="Center" IsActive="{Binding IsLoadingFolders}"/>
             </Viewbox>

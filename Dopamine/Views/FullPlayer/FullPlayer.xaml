@@ -34,7 +34,7 @@
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <controls:DropDownButton.Menu>
                         <ContextMenu>
-                            <MenuItem Header="Add music..." Command="{Binding AddMusicCommand}"/>
+                            <MenuItem Header="{DynamicResource Language_Add_Music}" Command="{Binding AddMusicCommand}"/>
                             <Separator/>
                             <MenuItem Header="{DynamicResource Language_Settings}" Command="{Binding SetSelectedFullPlayerPageCommand}" CommandParameter="1"/>
                             <MenuItem Header="{DynamicResource Language_Information}" Command="{Binding SetSelectedFullPlayerPageCommand}" CommandParameter="2"/>
