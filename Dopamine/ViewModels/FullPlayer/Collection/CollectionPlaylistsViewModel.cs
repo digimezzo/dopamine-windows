@@ -10,6 +10,7 @@ using Dopamine.Services.File;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Playlist;
 using Dopamine.ViewModels.Common.Base;
+using Dopamine.Views.FullPlayer.Collection;
 using GongSolutions.Wpf.DragDrop;
 using Prism.Commands;
 using Prism.Events;
@@ -33,6 +34,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private IPlaybackService playbackService;
         private IFileService fileService;
         private IEventAggregator eventAggregator;
+        private IContainerProvider container;
         private double leftPaneWidthPercent;
 
         public DelegateCommand AddPlaylistToNowPlayingCommand { get; set; }
@@ -69,6 +71,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.fileService = fileService;
             this.eventAggregator = eventAggregator;
             this.dialogService = dialogService;
+            this.container = container;
 
             // Events
             this.playlistService.PlaylistFolderChanged += PlaylistService_PlaylistFolderChanged;
@@ -355,19 +358,37 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async Task ConfirmCreateNewPlaylistAsync()
         {
-            string responseText = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
+            string proposedPlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
 
-            if (this.dialogService.ShowInputDialog(
+            //if (this.dialogService.ShowInputDialog(
+            //    0xea37,
+            //    16,
+            //    ResourceUtils.GetString("Language_New_Playlist"),
+            //    ResourceUtils.GetString("Language_Enter_Name_For_New_Playlist"),
+            //    ResourceUtils.GetString("Language_Ok"),
+            //    ResourceUtils.GetString("Language_Cancel"),
+            //    ref proposedPlaylistName))
+            //{
+            //    await this.CreateNewPlaylistAsync(proposedPlaylistName);
+            //}
+
+            CollectionPlaylistsCreator view = this.container.Resolve<CollectionPlaylistsCreator>();
+            view.DataContext = this.container.Resolve<CollectionPlaylistsCreatorViewModel>();
+
+            this.dialogService.ShowCustomDialog(
                 0xea37,
                 16,
                 ResourceUtils.GetString("Language_New_Playlist"),
-                ResourceUtils.GetString("Language_Enter_Name_For_New_Playlist"),
+                view,
+                500,
+                400,
+                false,
+                false,
+                false,
+                true,
                 ResourceUtils.GetString("Language_Ok"),
                 ResourceUtils.GetString("Language_Cancel"),
-                ref responseText))
-            {
-                await this.CreateNewPlaylistAsync(responseText);
-            }
+                null);
         }
 
         private async Task CreateNewPlaylistAsync(string playlistName)

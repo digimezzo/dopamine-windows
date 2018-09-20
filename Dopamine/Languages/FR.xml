@@ -430,12 +430,10 @@
   <Text Key="Activate_Search_Field">Activer le champ de recherche</Text>
   <Text Key="Back">Retour</Text>
   <Text Key="Folders">Dossiers</Text>
-  <Text Key="Smart_Playlists">Playlists intelligentes</Text>
   <Text Key="Import_Playlists">Importer playlists</Text>
   <Text Key="Error_Importing_Playlists">Une erreur s'est produite durant l'import de playlists. Consultez le fichier log pour plus de détails.</Text>
-  <Text Key="New_Smart_Playlist">Nouvelle playlist intelligente</Text>
-  <Text Key="Import_Smart_Playlists">Importer playlists intelligentes</Text>
   <Text Key="Switch_Player">Switch player</Text>
   <Text Key="Add_Music">Ajouter musique</Text>
   <Text Key="Music">Musique</Text>
+  <Text Key="Smart_Playlist">Playlist intelligente</Text>
 </Language>

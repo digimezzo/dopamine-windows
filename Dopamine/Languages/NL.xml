@@ -430,12 +430,10 @@
   <Text Key="Activate_Search_Field">Zoek veld activeren</Text>
   <Text Key="Back">Terug</Text>
   <Text Key="Folders">Mappen</Text>
-  <Text Key="Smart_Playlists">Slimme playlists</Text>
   <Text Key="Import_Playlists">Playlists importeren</Text>
   <Text Key="Error_Importing_Playlists">Er is een fout opgetreden bij het importeren van afspeellijsten. Raadpleeg het log bestand voor meer informatie.</Text>
-  <Text Key="New_Smart_Playlist">Nieuw slimme playlist</Text>
-  <Text Key="Import_Smart_Playlists">Slimme playlists importeren</Text>
   <Text Key="Switch_Player">Speler wisselen</Text>
   <Text Key="Add_Music">Muziek toevoegen</Text>
   <Text Key="Music">Muziek</Text>
+  <Text Key="Smart_Playlist">Slimme playlist</Text>
 </Language>
