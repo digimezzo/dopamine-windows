@@ -430,12 +430,10 @@
   <Text Key="Activate_Search_Field">激活搜索区域</Text>
   <Text Key="Back">返回</Text>
   <Text Key="Folders">文件夹</Text>
-  <Text Key="Smart_Playlists">智能播放列表</Text>
   <Text Key="Import_Playlists">导入播放列表</Text>
   <Text Key="Error_Importing_Playlists">导入播放列表时出现了一个错误。请至日志文件以获取更多信息</Text>
-  <Text Key="New_Smart_Playlist">新智能播放列表</Text>
-  <Text Key="Import_Smart_Playlists">导入智能播放列表</Text>
   <Text Key="Switch_Player">Switch player</Text>
   <Text Key="Add_Music">Add music</Text>
   <Text Key="Music">Music</Text>
+  <Text Key="Smart_Playlist">Smart playlist</Text>
 </Language>

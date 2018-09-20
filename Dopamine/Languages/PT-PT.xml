@@ -430,12 +430,10 @@
   <Text Key="Activate_Search_Field">Ativar campo de pesquisa</Text>
   <Text Key="Back">Recuar</Text>
   <Text Key="Folders">Pastas</Text>
-  <Text Key="Smart_Playlists">Listas de reprodução inteligentes</Text>
   <Text Key="Import_Playlists">Importar listas de reprodução</Text>
   <Text Key="Error_Importing_Playlists">Ocorreu um erro ao importar as listas de reprodução. Analise o ficheiro de registo para obter mais informações.</Text>
-  <Text Key="New_Smart_Playlist">Nova lista de reprodução inteligente</Text>
-  <Text Key="Import_Smart_Playlists">Importar listas de reprodução inteligentes</Text>
   <Text Key="Switch_Player">Trocar de reprodutor</Text>
   <Text Key="Add_Music">Adicionar músicas</Text>
   <Text Key="Music">Músicas</Text>
+  <Text Key="Smart_Playlist">Smart playlist</Text>
 </Language>

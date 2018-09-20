@@ -430,12 +430,10 @@
   <Text Key="Activate_Search_Field">Aktiviraj polje za pretraživanje</Text>
   <Text Key="Back">Natrag</Text>
   <Text Key="Folders">Mape</Text>
-  <Text Key="Smart_Playlists">Pametni popisi</Text>
   <Text Key="Import_Playlists">Uvezi popise</Text>
   <Text Key="Error_Importing_Playlists">Dogodila se greška tijekom uvoza popisa. Molimo pogledajte datoteku izvješća za više informacija.</Text>
-  <Text Key="New_Smart_Playlist">Novi pametni popis</Text>
-  <Text Key="Import_Smart_Playlists">Uvezi pametne popise</Text>
   <Text Key="Switch_Player">Changer lecteur</Text>
   <Text Key="Add_Music">Add music</Text>
   <Text Key="Music">Music</Text>
+  <Text Key="Smart_Playlist">Smart playlist</Text>
 </Language>
