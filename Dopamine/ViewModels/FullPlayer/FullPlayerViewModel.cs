@@ -101,9 +101,9 @@ namespace Dopamine.ViewModels.FullPlayer
                 false,
                 false,
                 false,
-                true,
+                false,
                 ResourceUtils.GetString("Language_Ok"),
-                ResourceUtils.GetString("Language_Cancel"),
+                string.Empty,
                 null);
 
             await this.foldersService.SaveToggledFoldersAsync();
