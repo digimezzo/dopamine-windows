@@ -432,8 +432,8 @@
   <Text Key="Folders">폴더</Text>
   <Text Key="Import_Playlists">재생 목록 가져오기</Text>
   <Text Key="Error_Importing_Playlists">재생 목록을 가져오는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
-  <Text Key="Switch_Player">Switch player</Text>
-  <Text Key="Add_Music">Add music</Text>
-  <Text Key="Music">Music</Text>
-  <Text Key="Smart_Playlist">Smart playlist</Text>
+  <Text Key="Switch_Player">플레이어 전환</Text>
+  <Text Key="Add_Music">음악 추가</Text>
+  <Text Key="Music">음악</Text>
+  <Text Key="Smart_Playlist">스마트 재생 목록</Text>
 </Language>
