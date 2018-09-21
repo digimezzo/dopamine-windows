@@ -436,4 +436,5 @@
   <Text Key="Add_Music">添加音乐</Text>
   <Text Key="Music">音乐</Text>
   <Text Key="Smart_Playlist">智能播放列表</Text>
+  <Text Key="Playlist_Name">Playlist name</Text>
 </Language>
