@@ -358,7 +358,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async Task ConfirmCreateNewPlaylistAsync()
         {
-            string proposedPlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
+            // string proposedPlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
 
             //if (this.dialogService.ShowInputDialog(
             //    0xea37,

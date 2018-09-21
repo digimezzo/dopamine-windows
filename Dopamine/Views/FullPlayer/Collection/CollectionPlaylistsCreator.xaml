@@ -4,8 +4,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:playlistenums="clr-namespace:Dopamine.Services.Playlist;assembly=Dopamine.Services"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Grid>
         <Border Panel.ZIndex="0" VerticalAlignment="Top" Height="50" Background="{DynamicResource Brush_WindowHeaderBackground}"/>
@@ -23,12 +31,13 @@
                       Text="&#xea37;"
                       Foreground="{DynamicResource Brush_WindowIcon}" />
         </Grid>
-        <dc:Pivot Panel.ZIndex="1" Style="{DynamicResource MenuPivot}" HeaderMargin="50,0,0,0">
+        <dc:Pivot Panel.ZIndex="1" Style="{DynamicResource MenuPivot}" HeaderMargin="50,0,0,0" SelectedIndex="{Binding PlaylistType,Converter={StaticResource EnumConverter},ConverterParameter={x:Type playlistenums:PlaylistType}}">
             <dc:PivotItem Header="{DynamicResource Language_Playlist}" Style="{StaticResource MenuPivotItem}">
                 <DockPanel Margin="20">
                     <TextBlock DockPanel.Dock="Top" Text="{DynamicResource Language_Enter_Name_For_New_Playlist}" 
                                    Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center"/>
-                    <TextBox DockPanel.Dock="Top" Style="{DynamicResource MetroTextBox}" Margin="0,20,0,0" />
+                    <TextBox DockPanel.Dock="Top" Style="{DynamicResource MetroTextBox}" Margin="0,20,0,0" 
+                             Text="{Binding PlaylistName}"/>
                     <Border Height="10"/>
                 </DockPanel>
             </dc:PivotItem>
@@ -36,7 +45,8 @@
                 <DockPanel Margin="20">
                     <TextBlock DockPanel.Dock="Top" Text="{DynamicResource Language_Enter_Name_For_New_Playlist}" 
                                    Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center"/>
-                    <TextBox DockPanel.Dock="Top" Style="{DynamicResource MetroTextBox}" Margin="0,20,0,0" />
+                    <TextBox DockPanel.Dock="Top" Style="{DynamicResource MetroTextBox}" Margin="0,20,0,0"
+                             Text="{Binding PlaylistName}"/>
                     <Border Height="10"/>
                 </DockPanel>
             </dc:PivotItem>
