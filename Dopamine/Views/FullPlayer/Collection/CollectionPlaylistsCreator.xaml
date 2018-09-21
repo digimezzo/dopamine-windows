@@ -40,7 +40,6 @@
                     <Border Height="10"/>
                 </DockPanel>
             </dc:PivotItem>
-            </dc:PivotItem>
         </dc:Pivot>
     </Grid>
 </UserControl>
