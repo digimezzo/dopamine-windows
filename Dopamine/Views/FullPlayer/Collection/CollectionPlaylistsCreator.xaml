@@ -26,7 +26,6 @@
         <dc:Pivot Panel.ZIndex="1" Style="{DynamicResource MenuPivot}" HeaderMargin="50,0,0,0">
             <dc:PivotItem Header="{DynamicResource Language_Playlist}" Style="{StaticResource MenuPivotItem}">
                 <DockPanel Margin="20">
-
                     <TextBlock DockPanel.Dock="Top" Text="{DynamicResource Language_Enter_Name_For_New_Playlist}" 
                                    Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center"/>
                     <TextBox DockPanel.Dock="Top" Style="{DynamicResource MetroTextBox}" Margin="0,20,0,0" />
@@ -35,13 +34,12 @@
             </dc:PivotItem>
             <dc:PivotItem Header="{DynamicResource Language_Smart_Playlist}" Style="{StaticResource MenuPivotItem}">
                 <DockPanel Margin="20">
-                    <DockPanel DockPanel.Dock="Top">
-                        <TextBlock DockPanel.Dock="Left" Margin="0,0,10,0" Text="{DynamicResource Language_Playlist_Name}" 
+                    <TextBlock DockPanel.Dock="Top" Text="{DynamicResource Language_Enter_Name_For_New_Playlist}" 
                                    Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center"/>
-                        <TextBox Style="{DynamicResource MetroTextBox}"/>
-                    </DockPanel>
-                    <Border Height="30"/>
+                    <TextBox DockPanel.Dock="Top" Style="{DynamicResource MetroTextBox}" Margin="0,20,0,0" />
+                    <Border Height="10"/>
                 </DockPanel>
+            </dc:PivotItem>
             </dc:PivotItem>
         </dc:Pivot>
     </Grid>
