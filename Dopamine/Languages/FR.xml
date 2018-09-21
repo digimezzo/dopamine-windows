@@ -436,4 +436,5 @@
   <Text Key="Add_Music">Ajouter musique</Text>
   <Text Key="Music">Musique</Text>
   <Text Key="Smart_Playlist">Playlist intelligente</Text>
+  <Text Key="Playlist_Name">Nom de la playlist</Text>
 </Language>
