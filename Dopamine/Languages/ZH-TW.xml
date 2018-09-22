@@ -71,7 +71,7 @@
   <Text Key="Add_Folders_With_Your_Music">新增音樂資料夾到您的媒體庫。</Text>
   <Text Key="Remove_This_Folder">刪除這個資料夾</Text>
   <Text Key="Remove_Folder">刪除資料夾</Text>
-  <Text Key="Confirm_Remove_Folder">您確定想從媒體庫中移除此文件夾？</Text>
+  <Text Key="Confirm_Remove_Folder">您確定想從媒體庫中移除此資料夾？</Text>
   <Text Key="Error">錯誤</Text>
   <Text Key="Error_Adding_Folder">無法新增這個資料夾到您的媒體庫。請參閱記錄檔以獲取更多信息。</Text>
   <Text Key="Error_Removing_Folder">無法從您的媒體庫移除這個資料夾。請參閱記錄檔以獲取更多信息。</Text>
@@ -427,13 +427,13 @@
   <Text Key="Open_Menu">開啟選單</Text>
   <Text Key="Toggle_Album_Order">切換專輯排序</Text>
   <Text Key="Toggle_Track_Order">切換音樂排序</Text>
-  <Text Key="Activate_Search_Field">Activate search field</Text>
-  <Text Key="Back">Back</Text>
-  <Text Key="Folders">Folders</Text>
-  <Text Key="Import_Playlists">Import playlists</Text>
-  <Text Key="Error_Importing_Playlists">An error occurred while importing playlists. Please consult the log file for more information.</Text>
-  <Text Key="Switch_Player">Switch player</Text>
-  <Text Key="Add_Music">Add music</Text>
-  <Text Key="Music">Music</Text>
-  <Text Key="Smart_Playlist">Smart playlist</Text>
+  <Text Key="Activate_Search_Field">啟動蒐索區域</Text>
+  <Text Key="Back">返回</Text>
+  <Text Key="Folders">資料夾</Text>
+  <Text Key="Import_Playlists">導入播放清單</Text>
+  <Text Key="Error_Importing_Playlists">導入播放清單時出現了一個錯誤。請至日誌檔以獲取更多資訊。</Text>
+  <Text Key="Switch_Player">切換播放機</Text>
+  <Text Key="Add_Music">添加音樂</Text>
+  <Text Key="Music">音樂</Text>
+  <Text Key="Smart_Playlist">智慧播放清單</Text>
 </Language>
