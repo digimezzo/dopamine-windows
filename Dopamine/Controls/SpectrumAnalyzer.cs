@@ -18,6 +18,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 // DEALINGS IN THE SOFTWARE. 
 
+using Digimezzo.Utilities.Log;
 using Dopamine.Core.Audio;
 using System;
 using System.Collections.Generic;
@@ -257,13 +258,15 @@ namespace Dopamine.Controls
         }
         private double GetCurrentBarHeight(int barIndex, out bool isZero)
         {
+            int i = 0;
+
             try
             {
-                int i = barIndexMax[barIndex];
+                i = this.barIndexMax[barIndex];
                 double controlHeight = this.RenderSize.Height;
                 double barHeight = 0d;
 
-                if (this.soundPlayer.IsPlaying)
+                if (this.soundPlayer.IsPlaying && i < channelData.Length)
                 {
                     switch (this.AnimationStyle)
                     {
@@ -310,12 +313,9 @@ namespace Dopamine.Controls
                         return 0;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // HACK: this block sporadically causes a System.IndexOutOfRangeException.
-                // The exception was reported by 2 users. For 1 user, it fixed itself by
-                // re-presenting his Bose Bluetooth speaker. I wasn't able to reproduce, 
-                // nor debug this, so exceptions in the whole block are now suppressed.
+                LogClient.Error($"Could not determine GetCurrentBarHeight. barIndex={barIndex}, barIndexMax.Length={this.barIndexMax.Length}, preBarHeight.Length={this.preBarHeight.Length},i={i}, channelData.Length={this.channelData.Length}. Exception: {ex.Message}");
                 isZero = true;
                 return 0;
             }
