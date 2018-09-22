@@ -222,7 +222,7 @@ namespace Dopamine.Core.IO
                 }
             }
 
-            // Title
+            // AlbumTitle
             if (rule.Field.Equals("albumtitle", StringComparison.InvariantCultureIgnoreCase))
             {
                 if (rule.Operator.Equals("is"))
