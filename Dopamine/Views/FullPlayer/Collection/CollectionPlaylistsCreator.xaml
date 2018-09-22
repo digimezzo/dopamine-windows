@@ -42,13 +42,14 @@
                 </DockPanel>
             </dc:PivotItem>
             <dc:PivotItem Header="{DynamicResource Language_Smart_Playlist}" Style="{StaticResource MenuPivotItem}">
-                <DockPanel Margin="20">
-                    <TextBlock DockPanel.Dock="Top" Text="{DynamicResource Language_Enter_Name_For_New_Playlist}" 
+                <StackPanel Margin="20">
+                    <TextBlock Text="{DynamicResource Language_Enter_Name_For_New_Playlist}" 
                                    Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center"/>
-                    <TextBox DockPanel.Dock="Top" Style="{DynamicResource MetroTextBox}" Margin="0,20,0,0"
+                    <TextBox Style="{DynamicResource MetroTextBox}" Margin="0,20,0,0"
                              Text="{Binding PlaylistName}"/>
-                    <Border Height="10"/>
-                </DockPanel>
+                    <TextBlock Foreground="{DynamicResource Brush_PrimaryText}" 
+                               Text="{DynamicResource Language_Create_Smart_Playlist_Where}" Margin="0,20,0,0"/>
+                </StackPanel>
             </dc:PivotItem>
         </dc:Pivot>
     </Grid>

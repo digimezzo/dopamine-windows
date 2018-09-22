@@ -436,4 +436,5 @@
   <Text Key="Add_Music">음악 추가</Text>
   <Text Key="Music">음악</Text>
   <Text Key="Smart_Playlist">스마트 재생 목록</Text>
+  <Text Key="Create_Smart_Playlist_Where">Create smart playlist where</Text>
 </Language>
