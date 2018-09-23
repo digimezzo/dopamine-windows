@@ -350,27 +350,8 @@ namespace Dopamine.Services.Playlist
             {
                 var decoder = new SmartPlaylistDecoder();
                 DecodeSmartPlaylistResult result = decoder.DecodePlaylist(playlist.Path);
-
-                string sqlWhereOperator = decoder.GetWhereOperator(result.Match);
-                string sqlLimit = decoder.GetLimit(result.Limit);
-                string sqlOrder = decoder.GetOrder(result.Order);
-
-                IList<string> whereClauseParts = new List<string>();
-
-                foreach (Rule rule in result.Rules)
-                {
-                    string whereClausePart = decoder.GetWhereClausePart(rule);
-
-                    if (!string.IsNullOrWhiteSpace(whereClausePart))
-                    {
-                        whereClauseParts.Add(whereClausePart);
-                    }
-                }
-
-                // TODO: orderby
-
-                whereClause = string.Join($" {sqlWhereOperator} ", whereClauseParts.ToArray());
-                whereClause = $"({whereClause}) {sqlLimit}";
+                var builder = new SmartPlaylistWhereClauseBuilder(result);
+                whereClause = builder.GetWhereClause();
             });
 
             if (string.IsNullOrWhiteSpace(whereClause))

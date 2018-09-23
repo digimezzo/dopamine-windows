@@ -48,7 +48,31 @@
                     <TextBox Style="{DynamicResource MetroTextBox}" Margin="0,20,0,0"
                              Text="{Binding PlaylistName}"/>
                     <TextBlock Foreground="{DynamicResource Brush_PrimaryText}" 
-                               Text="{DynamicResource Language_Create_Smart_Playlist_Where}" Margin="0,20,0,0"/>
+                               Text="{DynamicResource Language_Create_Smart_Playlist_Where}" Margin="0,20,0,5"/>
+                    <ListBox
+                        Style="{StaticResource ListBoxSmartPlaylistRules}"
+                        ItemsSource="{Binding Rules}"/>
+                    <DockPanel>
+                        <Button Style="{StaticResource RegularButtonTiny}" DockPanel.Dock="Right" Command="{Binding AddRuleCommand}">
+                            <TextBlock
+                                Style="{StaticResource SegoeAssets}"
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center" 
+                                FontSize="12"
+                                Text="&#xe710;"
+                                Foreground="{DynamicResource Brush_PrimaryText}" />
+                        </Button>
+                        <ContentControl/>
+                    </DockPanel>
+                    <CheckBox Content="{DynamicResource Language_Add_If_Any_Rule_Is_Matched}" 
+                              Style="{StaticResource MetroCheckBox}" Margin="0,5,0,0"/>
+                    <DockPanel Margin="0,5,0,0">
+                        <CheckBox Content="{DynamicResource Language_Limit_To}" 
+                                  Style="{StaticResource MetroCheckBox}"/>
+                        <TextBox Style="{StaticResource MetroTextBox}" Margin="5,0,5,0" Width="75"/>
+                        <ComboBox Style="{StaticResource MetroComboBox}"/>
+                        <ContentControl/>
+                    </DockPanel>
                 </StackPanel>
             </dc:PivotItem>
         </dc:Pivot>

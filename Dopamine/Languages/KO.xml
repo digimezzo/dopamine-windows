@@ -437,4 +437,6 @@
   <Text Key="Music">음악</Text>
   <Text Key="Smart_Playlist">스마트 재생 목록</Text>
   <Text Key="Create_Smart_Playlist_Where">Create smart playlist where</Text>
+  <Text Key="Add_If_Any_Rule_Is_Matched">Add if any rule is matched</Text>
+  <Text Key="Limit_To">Limit to</Text>
 </Language>
