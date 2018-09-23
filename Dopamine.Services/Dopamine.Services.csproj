@@ -129,6 +129,7 @@
     <Compile Include="Entities\GenreViewModel.cs" />
     <Compile Include="Entities\PlaylistViewModel.cs" />
     <Compile Include="Entities\SemanticZoomSelectorViewModel.cs" />
+    <Compile Include="Entities\SmartPlaylistRuleViewModel.cs" />
     <Compile Include="Entities\SubfolderBreadCrumbViewModel.cs" />
     <Compile Include="Entities\SubfolderViewModel.cs" />
     <Compile Include="Entities\TrackViewModel.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="Playlist\IPlaylistService.cs" />
     <Compile Include="Playlist\PlaylistEventHandlers.cs" />
     <Compile Include="Playlist\PlaylistService.cs" />
+    <Compile Include="Playlist\SmartPlaylistWhereClauseBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
