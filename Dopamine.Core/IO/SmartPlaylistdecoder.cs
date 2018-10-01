@@ -18,7 +18,7 @@ namespace Dopamine.Core.IO
 
         public string Order { get; set; }
 
-        public string Limit { get; set; }
+        public SmartPlaylistLimit Limit { get; set; }
 
         public IList<SmartPlaylistRule> Rules { get; set; }
     }
@@ -39,6 +39,19 @@ namespace Dopamine.Core.IO
         }
     }
 
+    public class SmartPlaylistLimit
+    {
+        public string Type { get; private set; }
+
+        public int Value { get; private set; }
+
+        public SmartPlaylistLimit(string type, int value)
+        {
+            this.Type = type;
+            this.Value = value;
+        }
+    }
+
     public class SmartPlaylistDecoder
     {
         public DecodeSmartPlaylistResult DecodePlaylist(string fileName)
@@ -53,7 +66,7 @@ namespace Dopamine.Core.IO
             string playlistName = string.Empty;
             string match = string.Empty;
             string order = string.Empty;
-            string limit = string.Empty;
+            SmartPlaylistLimit limit = new SmartPlaylistLimit("songs", 0);
             IList<SmartPlaylistRule> rules = new List<SmartPlaylistRule>();
 
             try
@@ -82,7 +95,15 @@ namespace Dopamine.Core.IO
                 XElement limitElement = (from t in xdoc.Element("smartplaylist").Elements("limit")
                                          select t).FirstOrDefault();
 
-                limit = limitElement != null ? limitElement.Value : string.Empty;
+                if(limitElement != null && !string.IsNullOrEmpty(limitElement.Attribute("type").Value))
+                {
+                    int limitValue = 0;
+
+                    if(limitElement.Attribute("type") != null && int.TryParse(limitElement.Attribute("type").Value, out limitValue))
+                    {
+                        limit = new SmartPlaylistLimit(limitElement.Attribute("type").Value, limitValue);
+                    }
+                }
 
                 // Rules
                 IList<XElement> ruleElements = (from t in xdoc.Element("smartplaylist").Elements("rule")
