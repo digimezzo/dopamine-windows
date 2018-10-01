@@ -18,8 +18,6 @@ namespace Dopamine.Services.Playlist
         public string GetWhereClause()
         {
             string sqlWhereOperator = this.GetWhereOperator(result.Match);
-            string sqlLimit = this.GetLimit(result.Limit);
-            string sqlOrder = this.GetOrder(result.Order);
 
             IList<string> whereClauseParts = new List<string>();
 
@@ -33,10 +31,8 @@ namespace Dopamine.Services.Playlist
                 }
             }
 
-            // TODO: orderby
-
             string whereClause = string.Join($" {sqlWhereOperator} ", whereClauseParts.ToArray());
-            whereClause = $"({whereClause}) {sqlLimit}";
+            whereClause = $"({whereClause})";
 
             return whereClause;
         }
@@ -57,38 +53,6 @@ namespace Dopamine.Services.Playlist
             }
 
             return whereOperator;
-        }
-
-        private string GetLimit(string playlistLimit)
-        {
-            string limit = string.Empty;
-
-            long parsedLong = 0;
-
-            if (long.TryParse(playlistLimit, out parsedLong) && parsedLong > 0)
-            {
-                limit = $"LIMIT {parsedLong}";
-            }
-
-            return limit;
-        }
-
-        private string GetOrder(string playlistOrder)
-        {
-            string sqlOrder = string.Empty;
-
-            switch (playlistOrder)
-            {
-                case "descending":
-                    sqlOrder = "DESC";
-                    break;
-                case "ascending":
-                default:
-                    sqlOrder = "ASC";
-                    break;
-            }
-
-            return sqlOrder;
         }
 
         private string GetWhereClausePart(SmartPlaylistRule rule)

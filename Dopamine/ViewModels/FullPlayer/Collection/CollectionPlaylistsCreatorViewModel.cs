@@ -1,4 +1,5 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Helpers;
+using Digimezzo.Utilities.Utils;
 using Dopamine.Services.Entities;
 using Dopamine.Services.Playlist;
 using Prism.Commands;
@@ -13,18 +14,18 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private IPlaylistService playlistService;
         private string playlistName;
         private ObservableCollection<SmartPlaylistRuleViewModel> rules;
+        private int limit;
+        private bool limitEnabled;
+        private ObservableCollection<NameValue> limitTypes;
 
         public CollectionPlaylistsCreatorViewModel(IPlaylistService playlistService)
         {
             this.playlistService = playlistService;
 
-            this.LoadedCommand = new DelegateCommand(() => this.LoadedAsync());
             this.AddRuleCommand = new DelegateCommand(() => this.AddRule());
             this.RemoveRuleCommand = new DelegateCommand<SmartPlaylistRuleViewModel>((rule) => this.RemoveRule(rule));
-            this.AddFirstRule();
+            this.InitializeAsync();
         }
-
-        public DelegateCommand LoadedCommand { get; set; }
 
         public DelegateCommand AddRuleCommand { get; set; }
 
@@ -36,9 +37,16 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<ObservableCollection<SmartPlaylistRuleViewModel>>(ref this.rules, value); }
         }
 
-        private async void LoadedAsync()
+        public int Limit
         {
-            this.PlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
+            get { return this.limit; }
+            set { SetProperty<int>(ref this.limit, value); }
+        }
+
+        public bool LimitEnabled
+        {
+            get { return this.limitEnabled; }
+            set { SetProperty<bool>(ref this.limitEnabled, value); }
         }
 
         public PlaylistType PlaylistType
@@ -53,10 +61,18 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<string>(ref this.playlistName, value); }
         }
 
-        private void AddFirstRule()
+        public ObservableCollection<NameValue> LimitTypes
+        {
+            get { return this.limitTypes; }
+            set { SetProperty<ObservableCollection<NameValue>>(ref this.limitTypes, value); }
+        }
+
+        private async void InitializeAsync()
         {
             this.Rules = new ObservableCollection<SmartPlaylistRuleViewModel>();
             this.Rules.Add(new SmartPlaylistRuleViewModel());
+            this.Limit = 1;
+            this.PlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
         }
 
         private void AddRule()

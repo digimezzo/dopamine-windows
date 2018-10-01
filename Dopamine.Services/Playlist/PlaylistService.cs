@@ -345,11 +345,13 @@ namespace Dopamine.Services.Playlist
         private async Task<IList<TrackViewModel>> GetSmartPlaylistTracksAsync(PlaylistViewModel playlist)
         {
             string whereClause = string.Empty;
+            SmartPlaylistLimit limit = null;
 
             await Task.Run(() =>
             {
                 var decoder = new SmartPlaylistDecoder();
                 DecodeSmartPlaylistResult result = decoder.DecodePlaylist(playlist.Path);
+                limit = result.Limit;
                 var builder = new SmartPlaylistWhereClauseBuilder(result);
                 whereClause = builder.GetWhereClause();
             });
@@ -359,12 +361,42 @@ namespace Dopamine.Services.Playlist
                 return new List<TrackViewModel>();
             }
 
-            var tracks = await this.trackRepository.GetTracksAsync(whereClause);
+            IList<Track> tracks = await this.trackRepository.GetTracksAsync(whereClause);
             IList<TrackViewModel> trackViewModels = new List<TrackViewModel>();
 
             try
             {
-                trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks);
+                // TODO: order by
+
+                // No limit specified: add all tracks.
+                if (limit.Value == 0)
+                {
+                    trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks);
+                }
+                else
+                {
+                    long sum = 0;
+
+                    // Add a subset of the tracks, depending on the limit type.
+                    switch (limit.Type)
+                    {
+                        case "songs":
+                            trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks.Take(limit.Value).ToList());
+                            break;
+                        case "GB":
+                            trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks.TakeWhile(x => { long temp = sum; sum += x.FileSize.HasValue ? x.FileSize.Value : 0; return temp <= limit.Value * 1024 * 1024 * 1024; }).ToList());
+                            break;
+                        case "MB":
+                            trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks.TakeWhile(x => { long temp = sum; sum += x.FileSize.HasValue ? x.FileSize.Value : 0; return temp <= limit.Value * 1024 * 1024; }).ToList());
+                            break;
+                        case "minutes":
+                            trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks.TakeWhile(x => { long temp = sum; sum += x.Duration.HasValue ? x.Duration.Value : 0; return temp <= TimeSpan.FromMinutes(limit.Value).Ticks; }).ToList());
+                            break;
+                        default:
+                            trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks);
+                            break;
+                    }
+                }
             }
             catch (Exception ex)
             {
