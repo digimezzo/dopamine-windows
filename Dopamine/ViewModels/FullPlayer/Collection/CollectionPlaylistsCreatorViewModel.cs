@@ -5,6 +5,7 @@ using Dopamine.Services.Playlist;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
@@ -81,10 +82,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.Limit = 1;
             this.PlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
 
-            this.LimitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.Songs, ResourceUtils.GetString("Language_Songs")));
-            this.LimitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.GigaBytes, ResourceUtils.GetString("Language_Gigabytes_Short")));
-            this.LimitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.MegaBytes, ResourceUtils.GetString("Language_Megabytes_Short")));
-            this.LimitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.Minutes, ResourceUtils.GetString("Language_Minutes")));
+            this.limitTypes = new ObservableCollection<SmartPlaylistLimit>();
+            this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.Songs, ResourceUtils.GetString("Language_Songs").ToLower()));
+            this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.GigaBytes, ResourceUtils.GetString("Language_Gigabytes_Short")));
+            this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.MegaBytes, ResourceUtils.GetString("Language_Megabytes_Short")));
+            this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.Minutes, ResourceUtils.GetString("Language_Minutes").ToLower()));
+            RaisePropertyChanged(nameof(this.LimitTypes));
+            this.SelectedLimitType = this.LimitTypes.First();
         }
 
         private void AddRule()
