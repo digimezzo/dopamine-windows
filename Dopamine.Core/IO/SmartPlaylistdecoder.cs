@@ -39,16 +39,73 @@ namespace Dopamine.Core.IO
         }
     }
 
+    public enum SmartPlaylistLimitType
+    {
+        Songs = 1,
+        GigaBytes = 2,
+        MegaBytes = 3,
+        Minutes = 4
+    }
+
     public class SmartPlaylistLimit
     {
-        public string Type { get; private set; }
+        public SmartPlaylistLimitType Type { get; private set; }
+
+        public string DisplayName { get; private set; }
 
         public int Value { get; private set; }
 
-        public SmartPlaylistLimit(string type, int value)
+        public SmartPlaylistLimit(SmartPlaylistLimitType type, int value)
         {
             this.Type = type;
+            this.DisplayName = TypeToString(type);
             this.Value = value;
+        }
+
+        public SmartPlaylistLimit(SmartPlaylistLimitType type, string displayName)
+        {
+            this.Type = type;
+            this.DisplayName = displayName;
+            this.Value = 0;
+        }
+
+        public override string ToString()
+        {
+            return this.DisplayName;
+        }
+
+        public static string TypeToString(SmartPlaylistLimitType type)
+        {
+            switch (type)
+            {
+                case SmartPlaylistLimitType.Songs:
+                    return "songs";
+                case SmartPlaylistLimitType.GigaBytes:
+                    return "GB";
+                case SmartPlaylistLimitType.MegaBytes:
+                    return "MB";
+                case SmartPlaylistLimitType.Minutes:
+                    return "minutes";
+                default:
+                    return "songs";
+            }
+        }
+
+        public static SmartPlaylistLimitType StringToType(string typeString)
+        {
+            switch (typeString)
+            {
+                case "songs":
+                    return SmartPlaylistLimitType.Songs;
+                case "GB":
+                    return SmartPlaylistLimitType.GigaBytes;
+                case "MB":
+                    return SmartPlaylistLimitType.MegaBytes;
+                case "minutes":
+                    return SmartPlaylistLimitType.Minutes;
+                default:
+                    return SmartPlaylistLimitType.Songs;
+            }
         }
     }
 
@@ -66,7 +123,7 @@ namespace Dopamine.Core.IO
             string playlistName = string.Empty;
             string match = string.Empty;
             string order = string.Empty;
-            SmartPlaylistLimit limit = new SmartPlaylistLimit("songs", 0);
+            SmartPlaylistLimit limit = new SmartPlaylistLimit(SmartPlaylistLimitType.Songs, 0);
             IList<SmartPlaylistRule> rules = new List<SmartPlaylistRule>();
 
             try
@@ -101,7 +158,7 @@ namespace Dopamine.Core.IO
 
                     if(limitElement.Attribute("type") != null && int.TryParse(limitElement.Attribute("type").Value, out limitValue))
                     {
-                        limit = new SmartPlaylistLimit(limitElement.Attribute("type").Value, limitValue);
+                        limit = new SmartPlaylistLimit(SmartPlaylistLimit.StringToType(limitElement.Attribute("type").Value), limitValue);
                     }
                 }
 
