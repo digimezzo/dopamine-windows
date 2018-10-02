@@ -1,5 +1,5 @@
-﻿using Digimezzo.Foundation.Core.Helpers;
-using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Core.IO;
 using Dopamine.Services.Entities;
 using Dopamine.Services.Playlist;
 using Prism.Commands;
@@ -16,7 +16,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private ObservableCollection<SmartPlaylistRuleViewModel> rules;
         private int limit;
         private bool limitEnabled;
-        private ObservableCollection<NameValue> limitTypes;
+        private ObservableCollection<SmartPlaylistLimit> limitTypes;
+        private SmartPlaylistLimit selectedLimitType;
 
         public CollectionPlaylistsCreatorViewModel(IPlaylistService playlistService)
         {
@@ -61,10 +62,16 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<string>(ref this.playlistName, value); }
         }
 
-        public ObservableCollection<NameValue> LimitTypes
+        public ObservableCollection<SmartPlaylistLimit> LimitTypes
         {
             get { return this.limitTypes; }
-            set { SetProperty<ObservableCollection<NameValue>>(ref this.limitTypes, value); }
+            set { SetProperty<ObservableCollection<SmartPlaylistLimit>>(ref this.limitTypes, value); }
+        }
+
+        public SmartPlaylistLimit SelectedLimitType
+        {
+            get { return this.selectedLimitType; }
+            set { SetProperty<SmartPlaylistLimit>(ref this.selectedLimitType, value); }
         }
 
         private async void InitializeAsync()
@@ -73,6 +80,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.Rules.Add(new SmartPlaylistRuleViewModel());
             this.Limit = 1;
             this.PlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
+
+            this.LimitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.Songs, ResourceUtils.GetString("Language_Songs")));
+            this.LimitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.GigaBytes, ResourceUtils.GetString("Language_Gigabytes_Short")));
+            this.LimitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.MegaBytes, ResourceUtils.GetString("Language_Megabytes_Short")));
+            this.LimitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.Minutes, ResourceUtils.GetString("Language_Minutes")));
         }
 
         private void AddRule()

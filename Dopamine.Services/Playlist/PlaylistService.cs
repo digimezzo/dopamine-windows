@@ -380,16 +380,16 @@ namespace Dopamine.Services.Playlist
                     // Add a subset of the tracks, depending on the limit type.
                     switch (limit.Type)
                     {
-                        case "songs":
+                        case SmartPlaylistLimitType.Songs:
                             trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks.Take(limit.Value).ToList());
                             break;
-                        case "GB":
+                        case SmartPlaylistLimitType.GigaBytes:
                             trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks.TakeWhile(x => { long temp = sum; sum += x.FileSize.HasValue ? x.FileSize.Value : 0; return temp <= limit.Value * 1024 * 1024 * 1024; }).ToList());
                             break;
-                        case "MB":
+                        case SmartPlaylistLimitType.MegaBytes:
                             trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks.TakeWhile(x => { long temp = sum; sum += x.FileSize.HasValue ? x.FileSize.Value : 0; return temp <= limit.Value * 1024 * 1024; }).ToList());
                             break;
-                        case "minutes":
+                        case SmartPlaylistLimitType.Minutes:
                             trackViewModels = await this.container.ResolveTrackViewModelsAsync(tracks.TakeWhile(x => { long temp = sum; sum += x.Duration.HasValue ? x.Duration.Value : 0; return temp <= TimeSpan.FromMinutes(limit.Value).Ticks; }).ToList());
                             break;
                         default:

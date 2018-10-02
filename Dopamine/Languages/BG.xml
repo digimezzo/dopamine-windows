@@ -184,8 +184,8 @@
   <Text Key="Close_Notification_Automatically_After">Затвори известието автоматично след</Text>
   <Text Key="If_You_Like_Dopamine_Please_Donate">If you like Dopamine, please consider donating. You can donate right now, or later in the 'About' screen. Thank you!</Text>
   <Text Key="Save">Save</Text>
-  <Text Key="Error_Saving_Playlists">An error occured while saving the playlists. Please consult the log file for more information.</Text>
-  <Text Key="Error_Saving_Playlist">An error occured while saving the playlist. Please consult the log file for more information.</Text>
+  <Text Key="Error_Saving_Playlists">An error occurred while saving the playlists. Please consult the log file for more information.</Text>
+  <Text Key="Error_Saving_Playlist">An error occurred while saving the playlist. Please consult the log file for more information.</Text>
   <Text Key="Download_Latest_Version">Download the latest version</Text>
   <Text Key="By_Album_Artist">По изпълнител</Text>
   <Text Key="File">File</Text>
@@ -206,7 +206,7 @@
   <Text Key="Added_Track_To_Playlist">Added {numberoftracks} song to '{playlistname}'</Text>
   <Text Key="Added_Tracks_To_Playlist">Added {numberoftracks} songs to '{playlistname}'</Text>
   <Text Key="All_Genres">All genres</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">An error occured while adding genres to the playlist {playlistname}. Please consult the log file for more information.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">An error occurred while adding genres to the playlist {playlistname}. Please consult the log file for more information.</Text>
   <Text Key="Border">Рамка</Text>
   <Text Key="Show_Window_Border">Покажи граница на 1 пиксела около прозореца</Text>
   <Text Key="System_Tray">Област за известия</Text>
