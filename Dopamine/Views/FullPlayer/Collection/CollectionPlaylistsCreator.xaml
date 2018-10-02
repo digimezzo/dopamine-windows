@@ -63,7 +63,8 @@
                         <CheckBox Content="{DynamicResource Language_Limit_To}" 
                                   Style="{StaticResource MetroCheckBox}" IsChecked="{Binding LimitEnabled}"/>
                         <TextBox Style="{StaticResource MetroTextBox}" Margin="5,0,5,0" Width="50" Text="{Binding Limit}"/>
-                        <ComboBox Style="{StaticResource MetroComboBox}" ItemsSource="{Binding LimitTypes}" SelectedItem="{Binding SelectedLimitType}"/>
+                        <ComboBox Style="{StaticResource MetroComboBox}" MinWidth="75" 
+                                  ItemsSource="{Binding LimitTypes}" SelectedItem="{Binding SelectedLimitType}"/>
                         <ContentControl/>
                     </DockPanel>
                 </StackPanel>
