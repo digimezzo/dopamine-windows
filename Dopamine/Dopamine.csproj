@@ -264,7 +264,7 @@
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionFoldersViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionGenresViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionMenuViewModel.cs" />
-    <Compile Include="ViewModels\FullPlayer\Collection\CollectionPlaylistsCreatorViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\CollectionPlaylistsEditorViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionPlaylistsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksColumnsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksViewModel.cs" />
@@ -445,8 +445,8 @@
     <Compile Include="Views\FullPlayer\Collection\CollectionPlaylists.xaml.cs">
       <DependentUpon>CollectionPlaylists.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FullPlayer\Collection\CollectionPlaylistsCreator.xaml.cs">
-      <DependentUpon>CollectionPlaylistsCreator.xaml</DependentUpon>
+    <Compile Include="Views\FullPlayer\Collection\CollectionPlaylistsEditor.xaml.cs">
+      <DependentUpon>CollectionPlaylistsEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionTracks.xaml.cs">
       <DependentUpon>CollectionTracks.xaml</DependentUpon>
@@ -1262,7 +1262,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FullPlayer\Collection\CollectionPlaylistsCreator.xaml">
+    <Page Include="Views\FullPlayer\Collection\CollectionPlaylistsEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

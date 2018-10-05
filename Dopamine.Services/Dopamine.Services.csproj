@@ -130,8 +130,9 @@
     <Compile Include="Entities\PlaylistViewModel.cs" />
     <Compile Include="Entities\SemanticZoomSelectorViewModel.cs" />
     <Compile Include="Entities\SmartPlaylistLimitViewModel.cs" />
+    <Compile Include="Entities\SmartPlaylistRuleFieldViewModel.cs" />
     <Compile Include="Entities\SmartPlaylistRuleViewModel.cs" />
-    <Compile Include="Entities\SmartPlaylistViewModel.cs" />
+    <Compile Include="Entities\EditablePlaylistViewModel.cs" />
     <Compile Include="Entities\SubfolderBreadCrumbViewModel.cs" />
     <Compile Include="Entities\SubfolderViewModel.cs" />
     <Compile Include="Entities\TrackViewModel.cs" />

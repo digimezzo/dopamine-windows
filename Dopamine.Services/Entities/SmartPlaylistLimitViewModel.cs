@@ -8,8 +8,17 @@ namespace Dopamine.Services.Entities
         private SmartPlaylistLimitType type;
         private string displayName;
         private int value;
+        private bool isEnabled;
 
-        public SmartPlaylistLimitType MyProperty
+        public SmartPlaylistLimitViewModel(string displayName, SmartPlaylistLimitType type, int value)
+        {
+            this.displayName = displayName.ToLower();
+            this.type = type;
+            this.value = value;
+            this.isEnabled = false;
+        }
+
+        public SmartPlaylistLimitType Type
         {
             get { return this.type; }
             set { SetProperty<SmartPlaylistLimitType>(ref this.type, value); }
@@ -25,6 +34,12 @@ namespace Dopamine.Services.Entities
         {
             get { return this.value; }
             set { SetProperty<int>(ref this.value, value); }
+        }
+
+        public bool IsEnabled
+        {
+            get { return this.isEnabled; }
+            set { SetProperty<bool>(ref this.isEnabled, value); }
         }
     }
 }
