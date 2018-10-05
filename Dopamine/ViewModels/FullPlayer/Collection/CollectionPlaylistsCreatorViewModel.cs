@@ -13,12 +13,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
     {
         private PlaylistType playlistType;
         private IPlaylistService playlistService;
+        private ObservableCollection<SmartPlaylistLimit> limitTypes;
+        private SmartPlaylistLimit selectedLimitType;
+
         private string playlistName;
         private ObservableCollection<SmartPlaylistRuleViewModel> rules;
         private int limit;
         private bool limitEnabled;
-        private ObservableCollection<SmartPlaylistLimit> limitTypes;
-        private SmartPlaylistLimit selectedLimitType;
+        private bool anyEnabled;
 
         public CollectionPlaylistsCreatorViewModel(IPlaylistService playlistService)
         {
@@ -51,6 +53,12 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<bool>(ref this.limitEnabled, value); }
         }
 
+        public bool AnyEnabled
+        {
+            get { return this.anyEnabled; }
+            set { SetProperty<bool>(ref this.anyEnabled, value); }
+        }
+
         public PlaylistType PlaylistType
         {
             get { return this.playlistType; }
@@ -79,7 +87,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             this.Rules = new ObservableCollection<SmartPlaylistRuleViewModel>();
             this.Rules.Add(new SmartPlaylistRuleViewModel());
-            this.Limit = 1;
+            this.Limit = 25;
             this.PlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
 
             this.limitTypes = new ObservableCollection<SmartPlaylistLimit>();
