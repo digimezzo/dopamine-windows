@@ -58,11 +58,11 @@
                         <ContentControl/>
                     </DockPanel>
                     <CheckBox Content="{DynamicResource Language_Add_If_Any_Rule_Is_Matched}" 
-                              Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0"/>
+                              Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" IsChecked="{Binding AnyEnabled}"/>
                     <DockPanel Margin="0,10,0,0">
                         <CheckBox Content="{DynamicResource Language_Limit_To}" 
                                   Style="{StaticResource MetroCheckBox}" IsChecked="{Binding LimitEnabled}"/>
-                        <TextBox Style="{StaticResource MetroTextBox}" Margin="5,0,5,0" Width="50" Text="{Binding Limit}"/>
+                        <TextBox Style="{StaticResource MetroTextBox}" Margin="10,0,10,0" Width="50" Text="{Binding Limit}"/>
                         <ComboBox Style="{StaticResource MetroComboBox}" MinWidth="75" 
                                   ItemsSource="{Binding LimitTypes}" SelectedItem="{Binding SelectedLimitType}"/>
                         <ContentControl/>
