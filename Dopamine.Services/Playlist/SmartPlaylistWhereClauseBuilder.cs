@@ -250,14 +250,6 @@ namespace Dopamine.Services.Playlist
                 {
                     whereSubClause = $"Love = {rule.Value}";
                 }
-                else if (rule.Operator.Equals("greaterthan"))
-                {
-                    whereSubClause = $"Love > {rule.Value}";
-                }
-                else if (rule.Operator.Equals("lessthan"))
-                {
-                    whereSubClause = $"Love < {rule.Value}";
-                }
             }
 
             // PlayCount

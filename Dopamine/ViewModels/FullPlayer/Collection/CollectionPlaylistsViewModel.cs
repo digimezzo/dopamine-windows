@@ -372,8 +372,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             //    await this.CreateNewPlaylistAsync(proposedPlaylistName);
             //}
 
-            CollectionPlaylistsCreator view = this.container.Resolve<CollectionPlaylistsCreator>();
-            view.DataContext = this.container.Resolve<CollectionPlaylistsCreatorViewModel>();
+            CollectionPlaylistsEditor view = this.container.Resolve<CollectionPlaylistsEditor>();
+            view.DataContext = this.container.Resolve<CollectionPlaylistsEditorViewModel>();
 
             this.dialogService.ShowCustomDialog(
                 0xea37,

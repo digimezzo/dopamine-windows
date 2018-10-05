@@ -18,7 +18,8 @@
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border Height="24">
                         <DockPanel>
-                            <ComboBox DockPanel.Dock="Left" Width="150" Style="{StaticResource MetroComboBox}"/>
+                            <ComboBox DockPanel.Dock="Left" Width="150" Style="{StaticResource MetroComboBox}"
+                                      ItemsSource="{Binding Fields}" SelectedItem="{Binding SelectedField}"/>
                             <ComboBox DockPanel.Dock="Left" Width="100" Style="{StaticResource MetroComboBox}" Margin="5,0,0,0"/>
                             <Button DockPanel.Dock="Right" Style="{StaticResource RegularButtonTiny}" Margin="5,0,0,0"
                                     Command="{Binding DataContext.RemoveRuleCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}">
