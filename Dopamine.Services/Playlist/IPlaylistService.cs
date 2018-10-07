@@ -15,7 +15,7 @@ namespace Dopamine.Services.Playlist
         event TracksDeletedHandler TracksDeleted;
         event EventHandler PlaylistFolderChanged;
 
-        Task<CreateNewPlaylistResult> CreateNewPlaylistAsync(string playlistName, PlaylistType type);
+        Task<CreateNewPlaylistResult> CreateNewPlaylistAsync(EditablePlaylistViewModel editablePlaylist);
 
         Task<AddTracksToPlaylistResult> AddTracksToStaticPlaylistAsync(IList<TrackViewModel> tracks, string playlistName);
 

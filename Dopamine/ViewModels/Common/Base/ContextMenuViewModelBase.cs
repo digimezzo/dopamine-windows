@@ -150,7 +150,7 @@ namespace Dopamine.ViewModels.Common.Base
                     ref responseText))
                 {
                     playlistName = responseText;
-                    addPlaylistResult = await this.playlistService.CreateNewPlaylistAsync(playlistName, PlaylistType.Static);
+                    addPlaylistResult = await this.playlistService.CreateNewPlaylistAsync(new EditablePlaylistViewModel(playlistName, PlaylistType.Static));
                 }
             }
 
