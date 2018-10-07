@@ -66,6 +66,10 @@ namespace Dopamine.Services.Playlist
                 {
                     whereSubClause = $"Artists LIKE '%{FormatUtils.DelimitValue(rule.Value)}%'";
                 }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"Artists NOT LIKE '%{FormatUtils.DelimitValue(rule.Value)}%'";
+                }
                 else if (rule.Operator.Equals("contains"))
                 {
                     whereSubClause = $"Artists LIKE '%{rule.Value}%'";
@@ -78,6 +82,10 @@ namespace Dopamine.Services.Playlist
                 if (rule.Operator.Equals("is"))
                 {
                     whereSubClause = $"AlbumArtists LIKE '%{FormatUtils.DelimitValue(rule.Value)}%'";
+                }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"AlbumArtists NOT LIKE '%{FormatUtils.DelimitValue(rule.Value)}%'";
                 }
                 else if (rule.Operator.Equals("contains"))
                 {
@@ -92,6 +100,10 @@ namespace Dopamine.Services.Playlist
                 {
                     whereSubClause = $"Genres LIKE '%{FormatUtils.DelimitValue(rule.Value)}%'";
                 }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"Genres NOT LIKE '%{FormatUtils.DelimitValue(rule.Value)}%'";
+                }
                 else if (rule.Operator.Equals("contains"))
                 {
                     whereSubClause = $"Genres LIKE '%{rule.Value}%'";
@@ -104,6 +116,10 @@ namespace Dopamine.Services.Playlist
                 if (rule.Operator.Equals("is"))
                 {
                     whereSubClause = $"TrackTitle = '{rule.Value}'";
+                }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"TrackTitle <> '{rule.Value}'";
                 }
                 else if (rule.Operator.Equals("contains"))
                 {
@@ -118,6 +134,10 @@ namespace Dopamine.Services.Playlist
                 {
                     whereSubClause = $"AlbumTitle = '{rule.Value}'";
                 }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"AlbumTitle <> '{rule.Value}'";
+                }
                 else if (rule.Operator.Equals("contains"))
                 {
                     whereSubClause = $"AlbumTitle LIKE '%{rule.Value}%'";
@@ -130,6 +150,10 @@ namespace Dopamine.Services.Playlist
                 if (rule.Operator.Equals("is"))
                 {
                     whereSubClause = $"BitRate = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"BitRate <> {rule.Value}";
                 }
                 else if (rule.Operator.Equals("greaterthan"))
                 {
@@ -148,6 +172,10 @@ namespace Dopamine.Services.Playlist
                 {
                     whereSubClause = $"TrackNumber = {rule.Value}";
                 }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"TrackNumber <> {rule.Value}";
+                }
                 else if (rule.Operator.Equals("greaterthan"))
                 {
                     whereSubClause = $"TrackNumber > {rule.Value}";
@@ -164,6 +192,10 @@ namespace Dopamine.Services.Playlist
                 if (rule.Operator.Equals("is"))
                 {
                     whereSubClause = $"TrackCount = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"TrackCount <> {rule.Value}";
                 }
                 else if (rule.Operator.Equals("greaterthan"))
                 {
@@ -182,6 +214,10 @@ namespace Dopamine.Services.Playlist
                 {
                     whereSubClause = $"DiscNumber = {rule.Value}";
                 }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"DiscNumber <> {rule.Value}";
+                }
                 else if (rule.Operator.Equals("greaterthan"))
                 {
                     whereSubClause = $"DiscNumber > {rule.Value}";
@@ -198,6 +234,10 @@ namespace Dopamine.Services.Playlist
                 if (rule.Operator.Equals("is"))
                 {
                     whereSubClause = $"DiscCount = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"DiscCount <> {rule.Value}";
                 }
                 else if (rule.Operator.Equals("greaterthan"))
                 {
@@ -216,6 +256,10 @@ namespace Dopamine.Services.Playlist
                 {
                     whereSubClause = $"Year = {rule.Value}";
                 }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"Year <> {rule.Value}";
+                }
                 else if (rule.Operator.Equals("greaterthan"))
                 {
                     whereSubClause = $"Year > {rule.Value}";
@@ -232,6 +276,10 @@ namespace Dopamine.Services.Playlist
                 if (rule.Operator.Equals("is"))
                 {
                     whereSubClause = $"Rating = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"Rating <> {rule.Value}";
                 }
                 else if (rule.Operator.Equals("greaterthan"))
                 {
@@ -250,6 +298,10 @@ namespace Dopamine.Services.Playlist
                 {
                     whereSubClause = $"Love = {rule.Value}";
                 }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"Love <> {rule.Value}";
+                }
             }
 
             // PlayCount
@@ -258,6 +310,10 @@ namespace Dopamine.Services.Playlist
                 if (rule.Operator.Equals("is"))
                 {
                     whereSubClause = $"PlayCount = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"PlayCount <> {rule.Value}";
                 }
                 else if (rule.Operator.Equals("greaterthan"))
                 {
@@ -275,6 +331,10 @@ namespace Dopamine.Services.Playlist
                 if (rule.Operator.Equals("is"))
                 {
                     whereSubClause = $"SkipCount = {rule.Value}";
+                }
+                else if (rule.Operator.Equals("isnot"))
+                {
+                    whereSubClause = $"SkipCount <> {rule.Value}";
                 }
                 else if (rule.Operator.Equals("greaterthan"))
                 {

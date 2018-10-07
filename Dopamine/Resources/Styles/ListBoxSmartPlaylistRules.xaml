@@ -20,9 +20,11 @@
                         <DockPanel>
                             <ComboBox DockPanel.Dock="Left" Width="150" Style="{StaticResource MetroComboBox}"
                                       ItemsSource="{Binding Fields}" SelectedItem="{Binding SelectedField}"/>
-                            <ComboBox DockPanel.Dock="Left" Width="100" Style="{StaticResource MetroComboBox}" Margin="5,0,0,0"/>
+                            <ComboBox DockPanel.Dock="Left" Width="100" Style="{StaticResource MetroComboBox}" Margin="5,0,0,0"
+                                      ItemsSource="{Binding Operators}" SelectedItem="{Binding SelectedOperator}"/>
                             <Button DockPanel.Dock="Right" Style="{StaticResource RegularButtonTiny}" Margin="5,0,0,0"
-                                    Command="{Binding DataContext.RemoveRuleCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}">
+                                    Command="{Binding DataContext.RemoveRuleCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}" 
+                                    CommandParameter="{Binding}">
                                 <TextBlock
                                     Style="{StaticResource SegoeAssets}"
                                     HorizontalAlignment="Center" 
@@ -31,7 +33,8 @@
                                     Text="&#xe738;"
                                     Foreground="{DynamicResource Brush_PrimaryText}" />
                             </Button>
-                            <TextBox Style="{StaticResource MetroTextBox}" Margin="5,0,0,0"/>
+                            <TextBox Style="{StaticResource MetroTextBox}" Margin="5,0,0,0" 
+                                     Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"/>
                         </DockPanel>
                     </Border>
                 </ControlTemplate>

@@ -2,24 +2,15 @@
 
 namespace Dopamine.Services.Entities
 {
-    public enum SmartPlaylistRuleFieldDataType
-    {
-        Text = 0,
-        Numeric = 1,
-        Boolean = 2
-    }
-
-    public class SmartPlaylistRuleFieldViewModel : BindableBase
+    public class SmartPlaylistRuleOperatorViewModel : BindableBase
     {
         private string displayName;
         private string name;
-        private SmartPlaylistRuleFieldDataType dataType;
 
-        public SmartPlaylistRuleFieldViewModel(string displayName, string name, SmartPlaylistRuleFieldDataType dataType)
+        public SmartPlaylistRuleOperatorViewModel(string displayName, string name)
         {
             this.displayName = displayName;
             this.name = name;
-            this.dataType = dataType;
         }
 
         public string DisplayName
@@ -32,12 +23,6 @@ namespace Dopamine.Services.Entities
         {
             get { return this.name; }
             set { SetProperty<string>(ref this.name, value); }
-        }
-
-        public SmartPlaylistRuleFieldDataType DataType
-        {
-            get { return this.dataType; }
-            set { SetProperty<SmartPlaylistRuleFieldDataType>(ref this.dataType, value); }
         }
 
         public override string ToString()
