@@ -358,24 +358,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async Task ConfirmCreateNewPlaylistAsync()
         {
-            // string proposedPlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
-
-            //if (this.dialogService.ShowInputDialog(
-            //    0xea37,
-            //    16,
-            //    ResourceUtils.GetString("Language_New_Playlist"),
-            //    ResourceUtils.GetString("Language_Enter_Name_For_New_Playlist"),
-            //    ResourceUtils.GetString("Language_Ok"),
-            //    ResourceUtils.GetString("Language_Cancel"),
-            //    ref proposedPlaylistName))
-            //{
-            //    await this.CreateNewPlaylistAsync(proposedPlaylistName);
-            //}
-
             CollectionPlaylistsEditor view = this.container.Resolve<CollectionPlaylistsEditor>();
-            view.DataContext = this.container.Resolve<CollectionPlaylistsEditorViewModel>();
+            var viewModel = this.container.Resolve<CollectionPlaylistsEditorViewModel>();
+            view.DataContext = viewModel;
 
-            this.dialogService.ShowCustomDialog(
+            if (this.dialogService.ShowCustomDialog(
                 0xea37,
                 16,
                 ResourceUtils.GetString("Language_New_Playlist"),
@@ -388,12 +375,15 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 true,
                 ResourceUtils.GetString("Language_Ok"),
                 ResourceUtils.GetString("Language_Cancel"),
-                null);
+                null))
+            {
+                await this.CreateNewPlaylistAsync(viewModel.EditablePlaylist);
+            }
         }
 
-        private async Task CreateNewPlaylistAsync(string playlistName)
+        private async Task CreateNewPlaylistAsync(EditablePlaylistViewModel editablePlaylist)
         {
-            CreateNewPlaylistResult result = await this.playlistService.CreateNewPlaylistAsync(playlistName, PlaylistType.Static);
+            CreateNewPlaylistResult result = await this.playlistService.CreateNewPlaylistAsync(editablePlaylist);
 
             switch (result)
             {
@@ -402,7 +392,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                         0xe711,
                         16,
                         ResourceUtils.GetString("Language_Already_Exists"),
-                        ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("{playlistname}", playlistName),
+                        ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("{playlistname}", editablePlaylist.PlaylistName),
                         ResourceUtils.GetString("Language_Ok"),
                         false,
                         string.Empty);
@@ -684,7 +674,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
                 if (audiofileTracks != null && audiofileTracks.Count > 0)
                 {
-                    await this.playlistService.CreateNewPlaylistAsync(uniquePlaylistName, PlaylistType.Static);
+                    await this.playlistService.CreateNewPlaylistAsync(new EditablePlaylistViewModel(uniquePlaylistName, PlaylistType.Static));
                     await this.playlistService.AddTracksToStaticPlaylistAsync(audiofileTracks, uniquePlaylistName);
                 }
 

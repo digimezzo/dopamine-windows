@@ -81,7 +81,7 @@ namespace Dopamine.Services.Playlist
             return Path.Combine(this.PlaylistFolder, sanitizedPlaylistName + extension);
         }
 
-        private async Task<PlaylistViewModel> CreateNewStaticPlaylistAsync(string playlistName, string filePath)
+        private async Task<PlaylistViewModel> CreateNewStaticPlaylistAsync(EditablePlaylistViewModel editablePlaylist, string filePath)
         {
             try
             {
@@ -93,28 +93,28 @@ namespace Dopamine.Services.Playlist
             }
             catch (Exception ex)
             {
-                LogClient.Error("Could not create playlist '{0}' with filename '{1}'. Exception: {2}", playlistName, filePath, ex.Message);
+                LogClient.Error($"Could not create playlist '{editablePlaylist.PlaylistName}' with filename '{filePath}'. Exception: {ex.Message}");
                 return null;
             }
 
-            return new PlaylistViewModel(playlistName, filePath, PlaylistType.Static);
+            return new PlaylistViewModel(editablePlaylist.PlaylistName, filePath, PlaylistType.Static);
         }
 
-        private async Task<PlaylistViewModel> CreateNewSmartPlaylistAsync(string playlistName, string filePath)
+        private async Task<PlaylistViewModel> CreateNewSmartPlaylistAsync(EditablePlaylistViewModel editablePlaylist, string filePath)
         {
             // TODO
             return null;
         }
 
-        public async Task<CreateNewPlaylistResult> CreateNewPlaylistAsync(string playlistName, PlaylistType type)
+        public async Task<CreateNewPlaylistResult> CreateNewPlaylistAsync(EditablePlaylistViewModel editablePlaylist)
         {
-            if (string.IsNullOrWhiteSpace(playlistName))
+            if (string.IsNullOrWhiteSpace(editablePlaylist.PlaylistName))
             {
                 return CreateNewPlaylistResult.Blank;
             }
 
-            string sanitizedPlaylistName = FileUtils.SanitizeFilename(playlistName);
-            string filePath = this.CreatePlaylistFilePath(sanitizedPlaylistName, type);
+            string sanitizedPlaylistName = FileUtils.SanitizeFilename(editablePlaylist.PlaylistName);
+            string filePath = this.CreatePlaylistFilePath(sanitizedPlaylistName, editablePlaylist.Type);
 
             if (System.IO.File.Exists(filePath))
             {
@@ -125,13 +125,13 @@ namespace Dopamine.Services.Playlist
 
             PlaylistViewModel playlistViewModel = null;
 
-            if (type.Equals(PlaylistType.Static))
+            if (editablePlaylist.Type.Equals(PlaylistType.Static))
             {
-                playlistViewModel = await this.CreateNewStaticPlaylistAsync(playlistName, filePath);
+                playlistViewModel = await this.CreateNewStaticPlaylistAsync(editablePlaylist, filePath);
             }
-            else if (type.Equals(PlaylistType.Smart))
+            else if (editablePlaylist.Type.Equals(PlaylistType.Smart))
             {
-                playlistViewModel = await this.CreateNewSmartPlaylistAsync(playlistName, filePath);
+                playlistViewModel = await this.CreateNewSmartPlaylistAsync(editablePlaylist, filePath);
             }
 
             this.watcher.Resume(); // Start watching the playlist folder

@@ -296,7 +296,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                     ref responseText))
                 {
                     playlistName = responseText;
-                    createPlaylistResult = await this.playlistService.CreateNewPlaylistAsync(playlistName, PlaylistType.Static);
+                    createPlaylistResult = await this.playlistService.CreateNewPlaylistAsync(new EditablePlaylistViewModel(playlistName, PlaylistType.Static));
                 }
             }
 
