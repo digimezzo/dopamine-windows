@@ -22,12 +22,12 @@ namespace Dopamine.Services.Entities
             this.playlistName = playlistName;
             this.type = type;
             this.rules.Add(new SmartPlaylistRuleViewModel());
-            this.limit = new SmartPlaylistLimitViewModel(ResourceUtils.GetString("Language_Songs"), SmartPlaylistLimitType.Songs, 25);
+            this.limit = new SmartPlaylistLimitViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Songs"), SmartPlaylistLimitType.Songs, 25);
 
-            this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.Songs, ResourceUtils.GetString("Language_Songs").ToLower()));
+            this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.Songs, ResourceUtils.GetString("Language_Smart_Playlist_Songs")));
             this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.GigaBytes, ResourceUtils.GetString("Language_Gigabytes_Short")));
             this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.MegaBytes, ResourceUtils.GetString("Language_Megabytes_Short")));
-            this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.Minutes, ResourceUtils.GetString("Language_Minutes").ToLower()));
+            this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.Minutes, ResourceUtils.GetString("Language_Smart_Playlist_Minutes")));
             this.selectedLimitType = this.limitTypes.First();
         }
 

@@ -439,4 +439,11 @@
   <Text Key="Create_Smart_Playlist_Where">Create smart playlist where</Text>
   <Text Key="Add_If_Any_Rule_Is_Matched">Add if any rule is matched</Text>
   <Text Key="Limit_To">Limit to</Text>
+  <Text Key="Smart_Playlist_Songs">songs</Text>
+  <Text Key="Smart_Playlist_Minutes">minutes</Text>
+  <Text Key="Smart_Playlist_Is">is</Text>
+  <Text Key="Smart_Playlist_Is_Not">is not</Text>
+  <Text Key="Smart_Playlist_Contains">contains</Text>
+  <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
+  <Text Key="Smart_Playlist_Less_Than">less than</Text>
 </Language>
