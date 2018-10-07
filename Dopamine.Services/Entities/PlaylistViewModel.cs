@@ -12,10 +12,9 @@ namespace Dopamine.Services.Entities
 
         public PlaylistType Type { get; }
 
-        public string SortName
-        {
-           get { return Name.ToLowerInvariant(); }
-        }
+        public bool IsSmartPlaylist => this.Type.Equals(PlaylistType.Smart);
+
+        public string SortName => Name.ToLowerInvariant();
 
         public PlaylistViewModel(string name, string path, PlaylistType type)
         {
