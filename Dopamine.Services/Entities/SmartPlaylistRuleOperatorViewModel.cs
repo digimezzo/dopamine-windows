@@ -29,5 +29,22 @@ namespace Dopamine.Services.Entities
         {
             return this.displayName;
         }
+
+        public override bool Equals(object obj)
+        {
+            var item = obj as SmartPlaylistRuleOperatorViewModel;
+
+            if(item == null)
+            {
+                return false;
+            }
+
+            return this.name.Equals(((SmartPlaylistRuleOperatorViewModel)obj).name);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.name.GetHashCode();
+        }
     }
 }

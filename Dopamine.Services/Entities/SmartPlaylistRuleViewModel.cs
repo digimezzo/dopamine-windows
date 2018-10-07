@@ -13,6 +13,9 @@ namespace Dopamine.Services.Entities
         private SmartPlaylistRuleOperatorViewModel selectedOperator;
         private string @operator;
         private string value;
+        private bool isTextInputSelected;
+        private bool isLoveSelected;
+        private bool isRatingSelected;
 
         public SmartPlaylistRuleViewModel()
         {
@@ -33,6 +36,7 @@ namespace Dopamine.Services.Entities
             this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Skips"), "skipcount", SmartPlaylistRuleFieldDataType.Numeric));
             this.selectedField = this.fields.First();
             this.GetOperators();
+            this.GetField();
         }
 
         public ObservableCollection<SmartPlaylistRuleFieldViewModel> Fields
@@ -48,6 +52,7 @@ namespace Dopamine.Services.Entities
             {
                 SetProperty<SmartPlaylistRuleFieldViewModel>(ref this.selectedField, value);
                 this.GetOperators();
+                this.GetField();
             }
         }
 
@@ -73,6 +78,44 @@ namespace Dopamine.Services.Entities
         {
             get { return this.value; }
             set { SetProperty<string>(ref this.value, value); }
+        }
+
+        public bool IsTextInputSelected
+        {
+            get { return this.isTextInputSelected; }
+            set { SetProperty<bool>(ref this.isTextInputSelected, value); }
+        }
+
+        public bool IsLoveSelected
+        {
+            get { return this.isLoveSelected; }
+            set { SetProperty<bool>(ref this.isLoveSelected, value); }
+        }
+
+        public bool IsRatingSelected
+        {
+            get { return this.isRatingSelected; }
+            set { SetProperty<bool>(ref this.isRatingSelected, value); }
+        }
+
+        private void GetField()
+        {
+            // Some defaults
+            this.isTextInputSelected = true;
+            this.isLoveSelected = false;
+            this.isRatingSelected = false;
+
+            if (this.selectedField != null)
+            {
+                this.isLoveSelected = this.selectedField.Name.Equals("love");
+                this.isRatingSelected = this.selectedField.Name.Equals("rating");
+                this.isTextInputSelected = !this.isLoveSelected & !this.isRatingSelected;
+            }
+
+            // Notify the UI of the changes
+            RaisePropertyChanged(nameof(this.IsTextInputSelected));
+            RaisePropertyChanged(nameof(this.IsLoveSelected));
+            RaisePropertyChanged(nameof(this.IsRatingSelected));
         }
 
         private void GetOperators()
@@ -101,6 +144,23 @@ namespace Dopamine.Services.Entities
                 }
             }
 
+            if(this.operators.Count > 0)
+            {
+                if (this.selectedOperator == null || !this.operators.Contains(this.selectedOperator))
+                {
+                    this.selectedOperator = this.operators.First();
+                }
+                else
+                {
+                    // this.selectedOperator remains the same
+                }
+            }
+            else
+            {
+                this.selectedOperator = null;
+            }
+
+            RaisePropertyChanged(nameof(this.SelectedOperator));
             RaisePropertyChanged(nameof(this.Operators));
         }
     }
