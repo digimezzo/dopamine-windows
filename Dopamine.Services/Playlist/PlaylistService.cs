@@ -107,7 +107,11 @@ namespace Dopamine.Services.Playlist
                 await Task.Run(() =>
                 {
                     var decoder = new SmartPlaylistDecoder();
-                    XDocument smartPlaylistDocument = decoder.EncodeSmartPlaylist(editablePlaylist.PlaylistName, editablePlaylist.MatchAnyRule, editablePlaylist.Limit.limit, new List<SmartPlaylistRule>());
+                    XDocument smartPlaylistDocument = decoder.EncodeSmartPlaylist(
+                        editablePlaylist.PlaylistName, 
+                        editablePlaylist.MatchAnyRule, 
+                        editablePlaylist.Limit.ToSmartPlaylistLimit(),
+                        editablePlaylist.Rules.Select(x => x.ToSmartPlaylistRule()).ToList());
                     smartPlaylistDocument.Save(filePath);
                 });
             }

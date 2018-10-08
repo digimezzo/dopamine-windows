@@ -164,5 +164,10 @@ namespace Dopamine.Services.Entities
             RaisePropertyChanged(nameof(this.SelectedOperator));
             RaisePropertyChanged(nameof(this.Operators));
         }
+
+        public SmartPlaylistRule ToSmartPlaylistRule()
+        {
+            return new SmartPlaylistRule(this.selectedField.Name, this.selectedOperator.Name, this.value);
+        }
     }
 }
