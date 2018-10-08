@@ -49,17 +49,14 @@ namespace Dopamine.Core.IO
 
     public class SmartPlaylistLimit
     {
-        public SmartPlaylistLimitType Type { get; set; }
+        public SmartPlaylistLimitType Type { get; private set; }
 
-        public int Value { get; set; }
-
-        public bool IsEnabled { get; set; }
+        public int Value { get; private set; }
 
         public SmartPlaylistLimit(SmartPlaylistLimitType type, int value)
         {
             this.Type = type;
             this.Value = value;
-            this.IsEnabled = value > 0;
         }
 
         public static string TypeToString(SmartPlaylistLimitType type)
