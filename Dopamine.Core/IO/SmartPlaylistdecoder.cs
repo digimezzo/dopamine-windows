@@ -139,24 +139,20 @@ namespace Dopamine.Core.IO
 
         public XDocument EncodeSmartPlaylist(string name, bool matchAnyRule, SmartPlaylistLimit limit, IList<SmartPlaylistRule> rules)
         {
-            // TODO: implement
+            XDocument doc =
+              new XDocument(
+                new XElement(XmlElementSmartPlaylist,
+                  new XElement(XmlElementName) { Value = name },
+                  new XElement(XmlElementMatch) { Value = matchAnyRule ? MatchAny : MatchAll },
+                  new XElement(XmlElementLimit, new XAttribute(XmlAttributeType, SmartPlaylistLimit.TypeToString(limit.Type))) { Value = limit.Value.ToString() },
+                    rules.Select(x => new XElement(XmlElementRule,
+                    new XAttribute(XmlAttributeField, x.Field),
+                    new XAttribute(XmlAttributeOperator, x.Operator))
+                    { Value = x.Value })
+                )
+              );
 
-            //List<string> list = new List<string>() { "Data1", "Data2", "Data3" };
-
-            //XDocument doc =
-            //  new XDocument(
-            //    new XElement("smartplaylist",
-            //      new XElement("name", new XAttribute("filename", "sample")),
-            //      new XElement("match", new XAttribute("modified", DateTime.Now)),
-            //      new XElement("order", new XAttribute("modified", DateTime.Now)),
-            //      new XElement("limit", new XAttribute("modified", DateTime.Now)),
-            //      new XElement("info",
-            //        list.Select(x => new XElement("data", new XAttribute("value", x)))
-            //      )
-            //    )
-            //  );
-
-            return new XDocument();
+            return doc;
         }
 
         public DecodeSmartPlaylistResult DecodePlaylist(string fileName)
@@ -200,11 +196,11 @@ namespace Dopamine.Core.IO
                 XElement limitElement = (from t in xdoc.Element(XmlElementSmartPlaylist).Elements(XmlElementLimit)
                                          select t).FirstOrDefault();
 
-                if(limitElement != null && !string.IsNullOrEmpty(limitElement.Attribute(XmlAttributeType).Value))
+                if (limitElement != null && !string.IsNullOrEmpty(limitElement.Attribute(XmlAttributeType).Value))
                 {
                     int limitValue = 0;
 
-                    if(limitElement.Attribute(XmlAttributeType) != null && int.TryParse(limitElement.Attribute(XmlAttributeType).Value, out limitValue))
+                    if (limitElement.Attribute(XmlAttributeType) != null && int.TryParse(limitElement.Attribute(XmlAttributeType).Value, out limitValue))
                     {
                         limit = new SmartPlaylistLimit(SmartPlaylistLimit.StringToType(limitElement.Attribute(XmlAttributeType).Value), limitValue);
                     }
