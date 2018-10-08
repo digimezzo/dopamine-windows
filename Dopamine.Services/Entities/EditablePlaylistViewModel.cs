@@ -13,8 +13,8 @@ namespace Dopamine.Services.Entities
         private PlaylistType type;
         private bool matchAnyRule;
         private SmartPlaylistLimitViewModel limit;
-        private ObservableCollection<SmartPlaylistLimit> limitTypes = new ObservableCollection<SmartPlaylistLimit>();
-        private SmartPlaylistLimit selectedLimitType;
+        private ObservableCollection<SmartPlaylistTypeViewModel> limitTypes = new ObservableCollection<SmartPlaylistTypeViewModel>();
+        private SmartPlaylistTypeViewModel selectedLimitType;
         private ObservableCollection<SmartPlaylistRuleViewModel> rules = new ObservableCollection<SmartPlaylistRuleViewModel>();
 
         public EditablePlaylistViewModel(string playlistName, PlaylistType type)
@@ -22,12 +22,12 @@ namespace Dopamine.Services.Entities
             this.playlistName = playlistName;
             this.type = type;
             this.rules.Add(new SmartPlaylistRuleViewModel());
-            this.limit = new SmartPlaylistLimitViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Songs"), SmartPlaylistLimitType.Songs, 25);
+            this.limit = new SmartPlaylistLimitViewModel(SmartPlaylistLimitType.Songs, 25);
 
-            this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.Songs, ResourceUtils.GetString("Language_Smart_Playlist_Songs")));
-            this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.GigaBytes, ResourceUtils.GetString("Language_Gigabytes_Short")));
-            this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.MegaBytes, ResourceUtils.GetString("Language_Megabytes_Short")));
-            this.limitTypes.Add(new SmartPlaylistLimit(SmartPlaylistLimitType.Minutes, ResourceUtils.GetString("Language_Smart_Playlist_Minutes")));
+            this.limitTypes.Add(new SmartPlaylistTypeViewModel(SmartPlaylistLimitType.Songs, ResourceUtils.GetString("Language_Smart_Playlist_Songs")));
+            this.limitTypes.Add(new SmartPlaylistTypeViewModel(SmartPlaylistLimitType.GigaBytes, ResourceUtils.GetString("Language_Gigabytes_Short")));
+            this.limitTypes.Add(new SmartPlaylistTypeViewModel(SmartPlaylistLimitType.MegaBytes, ResourceUtils.GetString("Language_Megabytes_Short")));
+            this.limitTypes.Add(new SmartPlaylistTypeViewModel(SmartPlaylistLimitType.Minutes, ResourceUtils.GetString("Language_Smart_Playlist_Minutes")));
             this.selectedLimitType = this.limitTypes.First();
         }
 
@@ -55,10 +55,10 @@ namespace Dopamine.Services.Entities
             set { SetProperty<SmartPlaylistLimitViewModel>(ref this.limit, value); }
         }
 
-        public ObservableCollection<SmartPlaylistLimit> LimitTypes
+        public ObservableCollection<SmartPlaylistTypeViewModel> LimitTypes
         {
             get { return this.limitTypes; }
-            set { SetProperty<ObservableCollection<SmartPlaylistLimit>>(ref this.limitTypes, value); }
+            set { SetProperty<ObservableCollection<SmartPlaylistTypeViewModel>>(ref this.limitTypes, value); }
         }
 
         public ObservableCollection<SmartPlaylistRuleViewModel> Rules
@@ -67,11 +67,11 @@ namespace Dopamine.Services.Entities
             set { SetProperty<ObservableCollection<SmartPlaylistRuleViewModel>>(ref this.rules, value); }
         }
 
-        public SmartPlaylistLimit SelectedLimitType
+        public SmartPlaylistTypeViewModel SelectedLimitType
         {
             get { return this.selectedLimitType; }
             set {
-                SetProperty<SmartPlaylistLimit>(ref this.selectedLimitType, value);
+                SetProperty<SmartPlaylistTypeViewModel>(ref this.selectedLimitType, value);
                 
                 if(this.limit != null)
                 {
