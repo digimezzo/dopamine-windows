@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Utilities.Utils;
+using Dopamine.Core.IO;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,21 +20,21 @@ namespace Dopamine.Services.Entities
 
         public SmartPlaylistRuleViewModel()
         {
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Artist"), "artist", SmartPlaylistRuleFieldDataType.Text));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Album_Artist"), "albumartist", SmartPlaylistRuleFieldDataType.Text));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Genre"), "genre", SmartPlaylistRuleFieldDataType.Text));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Title"), "title", SmartPlaylistRuleFieldDataType.Text));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Album"), "albumtitle", SmartPlaylistRuleFieldDataType.Text));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Bitrate"), "bitrate", SmartPlaylistRuleFieldDataType.Numeric));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Track_Number"), "tracknumber", SmartPlaylistRuleFieldDataType.Numeric));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Track_Count"), "trackcount", SmartPlaylistRuleFieldDataType.Numeric));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Disc_Number"), "discnumber", SmartPlaylistRuleFieldDataType.Numeric));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Disc_Count"), "disccount", SmartPlaylistRuleFieldDataType.Numeric));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Year"), "year", SmartPlaylistRuleFieldDataType.Numeric));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Rating"), "rating", SmartPlaylistRuleFieldDataType.Numeric));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Love"), "love", SmartPlaylistRuleFieldDataType.Boolean));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Plays"), "playcount", SmartPlaylistRuleFieldDataType.Numeric));
-            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Skips"), "skipcount", SmartPlaylistRuleFieldDataType.Numeric));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Artist"), SmartPlaylistDecoder.FieldArtist, SmartPlaylistRuleFieldDataType.Text));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Album_Artist"), SmartPlaylistDecoder.FieldAlbumArtist, SmartPlaylistRuleFieldDataType.Text));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Genre"), SmartPlaylistDecoder.FieldGenre, SmartPlaylistRuleFieldDataType.Text));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Title"), SmartPlaylistDecoder.FieldTitle, SmartPlaylistRuleFieldDataType.Text));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Album"), SmartPlaylistDecoder.FieldAlbumTitle, SmartPlaylistRuleFieldDataType.Text));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Bitrate"), SmartPlaylistDecoder.FieldBitrate, SmartPlaylistRuleFieldDataType.Numeric));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Track_Number"), SmartPlaylistDecoder.FieldTrackNumber, SmartPlaylistRuleFieldDataType.Numeric));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Track_Count"), SmartPlaylistDecoder.FieldTrackCount, SmartPlaylistRuleFieldDataType.Numeric));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Disc_Number"), SmartPlaylistDecoder.FieldDiscNumber, SmartPlaylistRuleFieldDataType.Numeric));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Disc_Count"), SmartPlaylistDecoder.FieldDiscCount, SmartPlaylistRuleFieldDataType.Numeric));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Year"), SmartPlaylistDecoder.FieldYear, SmartPlaylistRuleFieldDataType.Numeric));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Rating"), SmartPlaylistDecoder.FieldRating, SmartPlaylistRuleFieldDataType.Numeric));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Love"), SmartPlaylistDecoder.FieldLove, SmartPlaylistRuleFieldDataType.Boolean));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Plays"), SmartPlaylistDecoder.FieldPlayCount, SmartPlaylistRuleFieldDataType.Numeric));
+            this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Skips"), SmartPlaylistDecoder.FieldSkipCount, SmartPlaylistRuleFieldDataType.Numeric));
             this.selectedField = this.fields.First();
             this.GetOperators();
             this.GetField();
@@ -107,8 +108,8 @@ namespace Dopamine.Services.Entities
 
             if (this.selectedField != null)
             {
-                this.isLoveSelected = this.selectedField.Name.Equals("love");
-                this.isRatingSelected = this.selectedField.Name.Equals("rating");
+                this.isLoveSelected = this.selectedField.Name.Equals(SmartPlaylistDecoder.FieldLove);
+                this.isRatingSelected = this.selectedField.Name.Equals(SmartPlaylistDecoder.FieldRating);
                 this.isTextInputSelected = !this.isLoveSelected & !this.isRatingSelected;
             }
 
@@ -126,21 +127,21 @@ namespace Dopamine.Services.Entities
             {
                 if (this.SelectedField.DataType.Equals(SmartPlaylistRuleFieldDataType.Boolean))
                 {
-                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is"), "is"));
-                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is_Not"), "isnot"));
+                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is"), SmartPlaylistDecoder.OperatorIs));
+                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is_Not"), SmartPlaylistDecoder.OperatorIsNot));
                 }
                 else if (this.SelectedField.DataType.Equals(SmartPlaylistRuleFieldDataType.Numeric))
                 {
-                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is"), "is"));
-                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is_Not"), "isnot"));
-                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Greater_Than"), "greaterthan"));
-                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Less_Than"), "lessthan"));
+                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is"), SmartPlaylistDecoder.OperatorIs));
+                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is_Not"), SmartPlaylistDecoder.OperatorIsNot));
+                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Greater_Than"), SmartPlaylistDecoder.OperatorGreaterThan));
+                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Less_Than"), SmartPlaylistDecoder.OperatorLessThan));
                 }
                 else if (this.SelectedField.DataType.Equals(SmartPlaylistRuleFieldDataType.Text))
                 {
-                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is"), "is"));
-                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is_Not"), "isnot"));
-                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Contains"), "contains"));
+                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is"), SmartPlaylistDecoder.OperatorIs));
+                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is_Not"), SmartPlaylistDecoder.OperatorIsNot));
+                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Contains"), SmartPlaylistDecoder.OperatorContains));
                 }
             }
 

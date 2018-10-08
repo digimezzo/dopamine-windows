@@ -102,8 +102,22 @@ namespace Dopamine.Services.Playlist
 
         private async Task<PlaylistViewModel> CreateNewSmartPlaylistAsync(EditablePlaylistViewModel editablePlaylist, string filePath)
         {
-            // TODO
-            return null;
+            try
+            {
+                await Task.Run(() =>
+                {
+                    var decoder = new SmartPlaylistDecoder();
+                    XDocument smartPlaylistDocument = decoder.EncodeSmartPlaylist(editablePlaylist.PlaylistName, editablePlaylist.MatchAnyRule, 25, new List<SmartPlaylistRule>());
+                    smartPlaylistDocument.Save(filePath);
+                });
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error($"Could not create playlist '{editablePlaylist.PlaylistName}' with filename '{filePath}'. Exception: {ex.Message}");
+                return null;
+            }
+
+            return new PlaylistViewModel(editablePlaylist.PlaylistName, filePath, PlaylistType.Smart);
         }
 
         public async Task<CreateNewPlaylistResult> CreateNewPlaylistAsync(EditablePlaylistViewModel editablePlaylist)

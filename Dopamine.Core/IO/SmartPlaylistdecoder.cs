@@ -16,7 +16,7 @@ namespace Dopamine.Core.IO
 
         public string Match { get; set; }
 
-        public string Order { get; set; }
+        // public string Order { get; set; } // TODO: order by
 
         public SmartPlaylistLimit Limit { get; set; }
 
@@ -79,15 +79,15 @@ namespace Dopamine.Core.IO
             switch (type)
             {
                 case SmartPlaylistLimitType.Songs:
-                    return "songs";
+                    return SmartPlaylistDecoder.XmlLimitTypeSongs;
                 case SmartPlaylistLimitType.GigaBytes:
-                    return "GB";
+                    return SmartPlaylistDecoder.XmlLimitTypeGigaBytes;
                 case SmartPlaylistLimitType.MegaBytes:
-                    return "MB";
+                    return SmartPlaylistDecoder.XmlLimitTypeMegaBytes;
                 case SmartPlaylistLimitType.Minutes:
-                    return "minutes";
+                    return SmartPlaylistDecoder.XmlLimitTypeMinutes;
                 default:
-                    return "songs";
+                    return SmartPlaylistDecoder.XmlLimitTypeSongs;
             }
         }
 
@@ -95,13 +95,13 @@ namespace Dopamine.Core.IO
         {
             switch (typeString)
             {
-                case "songs":
+                case SmartPlaylistDecoder.XmlLimitTypeSongs:
                     return SmartPlaylistLimitType.Songs;
-                case "GB":
+                case SmartPlaylistDecoder.XmlLimitTypeGigaBytes:
                     return SmartPlaylistLimitType.GigaBytes;
-                case "MB":
+                case SmartPlaylistDecoder.XmlLimitTypeMegaBytes:
                     return SmartPlaylistLimitType.MegaBytes;
-                case "minutes":
+                case SmartPlaylistDecoder.XmlLimitTypeMinutes:
                     return SmartPlaylistLimitType.Minutes;
                 default:
                     return SmartPlaylistLimitType.Songs;
@@ -111,6 +111,69 @@ namespace Dopamine.Core.IO
 
     public class SmartPlaylistDecoder
     {
+        public const string FieldArtist = "artist";
+        public const string FieldAlbumArtist = "albumartist";
+        public const string FieldGenre = "genre";
+        public const string FieldTitle = "title";
+        public const string FieldAlbumTitle = "albumtitle";
+        public const string FieldBitrate = "bitrate";
+        public const string FieldTrackNumber = "tracknumber";
+        public const string FieldTrackCount = "trackcount";
+        public const string FieldDiscNumber = "discnumber";
+        public const string FieldDiscCount = "disccount";
+        public const string FieldYear = "year";
+        public const string FieldRating = "rating";
+        public const string FieldLove = "love";
+        public const string FieldPlayCount = "playcount";
+        public const string FieldSkipCount = "skipcount";
+
+        public const string OperatorIs = "is";
+        public const string OperatorIsNot = "isnot";
+        public const string OperatorContains = "contains";
+        public const string OperatorGreaterThan = "greaterthan";
+        public const string OperatorLessThan = "lessthan";
+
+        public const string MatchAny = "any";
+        public const string MatchAll = "all";
+
+        public const string XmlElementSmartPlaylist = "smartplaylist";
+        public const string XmlElementName = "name";
+        public const string XmlElementMatch = "match";
+        public const string XmlElementOrder = "order";
+        public const string XmlElementLimit = "limit";
+        public const string XmlElementRule = "rule";
+
+        public const string XmlAttributeField = "field";
+        public const string XmlAttributeOperator = "operator";
+        public const string XmlAttributeType = "type";
+
+        public const string XmlLimitTypeSongs = "songs";
+        public const string XmlLimitTypeGigaBytes = "GB";
+        public const string XmlLimitTypeMegaBytes = "MB";
+        public const string XmlLimitTypeMinutes = "Minutes";
+
+        public XDocument EncodeSmartPlaylist(string name, bool matchAnyRule, int limit, IList<SmartPlaylistRule> rules)
+        {
+            // TODO: implement
+
+            //List<string> list = new List<string>() { "Data1", "Data2", "Data3" };
+
+            //XDocument doc =
+            //  new XDocument(
+            //    new XElement("smartplaylist",
+            //      new XElement("name", new XAttribute("filename", "sample")),
+            //      new XElement("match", new XAttribute("modified", DateTime.Now)),
+            //      new XElement("order", new XAttribute("modified", DateTime.Now)),
+            //      new XElement("limit", new XAttribute("modified", DateTime.Now)),
+            //      new XElement("info",
+            //        list.Select(x => new XElement("data", new XAttribute("value", x)))
+            //      )
+            //    )
+            //  );
+
+            return new XDocument();
+        }
+
         public DecodeSmartPlaylistResult DecodePlaylist(string fileName)
         {
             if (!System.IO.Path.GetExtension(fileName.ToLower()).Equals(FileFormats.DSPL))
@@ -122,7 +185,7 @@ namespace Dopamine.Core.IO
 
             string playlistName = string.Empty;
             string match = string.Empty;
-            string order = string.Empty;
+            // string order = string.Empty; // TODO: order by
             SmartPlaylistLimit limit = new SmartPlaylistLimit(SmartPlaylistLimitType.Songs, 0);
             IList<SmartPlaylistRule> rules = new List<SmartPlaylistRule>();
 
@@ -131,39 +194,39 @@ namespace Dopamine.Core.IO
                 XDocument xdoc = XDocument.Load(fileName);
 
                 // Name
-                XElement nameElement = (from t in xdoc.Element("smartplaylist").Elements("name")
+                XElement nameElement = (from t in xdoc.Element(XmlElementSmartPlaylist).Elements(XmlElementName)
                                         select t).FirstOrDefault();
 
                 playlistName = nameElement != null ? nameElement.Value : string.Empty;
 
                 // Match
-                XElement matchElement = (from t in xdoc.Element("smartplaylist").Elements("match")
+                XElement matchElement = (from t in xdoc.Element(XmlElementSmartPlaylist).Elements(XmlElementMatch)
                                          select t).FirstOrDefault();
 
                 match = matchElement != null ? matchElement.Value : string.Empty;
 
                 // Order
-                XElement orderElement = (from t in xdoc.Element("smartplaylist").Elements("order")
-                                         select t).FirstOrDefault();
+                //XElement orderElement = (from t in xdoc.Element(XmlElementSmartPlaylist).Elements(XmlElementOrder)
+                //                         select t).FirstOrDefault();
 
-                order = orderElement != null ? orderElement.Value : string.Empty;
+                // order = orderElement != null ? orderElement.Value : string.Empty;
 
                 // Limit
-                XElement limitElement = (from t in xdoc.Element("smartplaylist").Elements("limit")
+                XElement limitElement = (from t in xdoc.Element(XmlElementSmartPlaylist).Elements(XmlElementLimit)
                                          select t).FirstOrDefault();
 
-                if(limitElement != null && !string.IsNullOrEmpty(limitElement.Attribute("type").Value))
+                if(limitElement != null && !string.IsNullOrEmpty(limitElement.Attribute(XmlAttributeType).Value))
                 {
                     int limitValue = 0;
 
-                    if(limitElement.Attribute("type") != null && int.TryParse(limitElement.Attribute("type").Value, out limitValue))
+                    if(limitElement.Attribute(XmlAttributeType) != null && int.TryParse(limitElement.Attribute(XmlAttributeType).Value, out limitValue))
                     {
-                        limit = new SmartPlaylistLimit(SmartPlaylistLimit.StringToType(limitElement.Attribute("type").Value), limitValue);
+                        limit = new SmartPlaylistLimit(SmartPlaylistLimit.StringToType(limitElement.Attribute(XmlAttributeType).Value), limitValue);
                     }
                 }
 
                 // Rules
-                IList<XElement> ruleElements = (from t in xdoc.Element("smartplaylist").Elements("rule")
+                IList<XElement> ruleElements = (from t in xdoc.Element(XmlElementSmartPlaylist).Elements(XmlElementRule)
                                                 select t).ToList();
 
                 if (ruleElements == null || ruleElements.Count == 0)
@@ -173,7 +236,7 @@ namespace Dopamine.Core.IO
 
                 foreach (XElement ruleElement in ruleElements)
                 {
-                    rules.Add(new SmartPlaylistRule(ruleElement.Attribute("field").Value, ruleElement.Attribute("operator").Value, ruleElement.Value));
+                    rules.Add(new SmartPlaylistRule(ruleElement.Attribute(XmlAttributeField).Value, ruleElement.Attribute(XmlAttributeOperator).Value, ruleElement.Value));
                 }
             }
             catch (Exception ex)
@@ -187,7 +250,6 @@ namespace Dopamine.Core.IO
                 DecodeResult = decodeResult,
                 PlaylistName = playlistName,
                 Match = match,
-                Order = order,
                 Limit = limit,
                 Rules = rules
             };
