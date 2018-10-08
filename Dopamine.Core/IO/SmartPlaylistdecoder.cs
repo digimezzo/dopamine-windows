@@ -49,29 +49,17 @@ namespace Dopamine.Core.IO
 
     public class SmartPlaylistLimit
     {
-        public SmartPlaylistLimitType Type { get; private set; }
+        public SmartPlaylistLimitType Type { get; set; }
 
-        public string DisplayName { get; private set; }
+        public int Value { get; set; }
 
-        public int Value { get; private set; }
+        public bool IsEnabled { get; set; }
 
         public SmartPlaylistLimit(SmartPlaylistLimitType type, int value)
         {
             this.Type = type;
-            this.DisplayName = TypeToString(type);
             this.Value = value;
-        }
-
-        public SmartPlaylistLimit(SmartPlaylistLimitType type, string displayName)
-        {
-            this.Type = type;
-            this.DisplayName = displayName;
-            this.Value = 0;
-        }
-
-        public override string ToString()
-        {
-            return this.DisplayName;
+            this.IsEnabled = value > 0;
         }
 
         public static string TypeToString(SmartPlaylistLimitType type)
@@ -152,7 +140,7 @@ namespace Dopamine.Core.IO
         public const string XmlLimitTypeMegaBytes = "MB";
         public const string XmlLimitTypeMinutes = "Minutes";
 
-        public XDocument EncodeSmartPlaylist(string name, bool matchAnyRule, int limit, IList<SmartPlaylistRule> rules)
+        public XDocument EncodeSmartPlaylist(string name, bool matchAnyRule, SmartPlaylistLimit limit, IList<SmartPlaylistRule> rules)
         {
             // TODO: implement
 

@@ -5,41 +5,42 @@ namespace Dopamine.Services.Entities
 {
     public class SmartPlaylistLimitViewModel : BindableBase
     {
-        private SmartPlaylistLimitType type;
-        private string displayName;
-        private int value;
-        private bool isEnabled;
+        public SmartPlaylistLimit limit { get; }
 
-        public SmartPlaylistLimitViewModel(string displayName, SmartPlaylistLimitType type, int value)
+        public SmartPlaylistLimitViewModel(SmartPlaylistLimitType type, int value)
         {
-            this.displayName = displayName.ToLower();
-            this.type = type;
-            this.value = value;
-            this.isEnabled = false;
+            this.limit = new SmartPlaylistLimit(type, value);
+            this.IsEnabled = false; // Explicitly disable limit for starters (it is enabled in the constructor)
         }
 
         public SmartPlaylistLimitType Type
         {
-            get { return this.type; }
-            set { SetProperty<SmartPlaylistLimitType>(ref this.type, value); }
-        }
-
-        public string DisplayName
-        {
-            get { return this.displayName; }
-            set { SetProperty<string>(ref this.displayName, value); }
+            get { return this.limit.Type; }
+            set
+            {
+                this.limit.Type = value;
+                this.RaisePropertyChanged(nameof(this.Type));
+            }
         }
 
         public int Value
         {
-            get { return this.value; }
-            set { SetProperty<int>(ref this.value, value); }
+            get { return this.limit.Value; }
+            set
+            {
+                this.limit.Value = value;
+                this.RaisePropertyChanged(nameof(this.Value));
+            }
         }
 
         public bool IsEnabled
         {
-            get { return this.isEnabled; }
-            set { SetProperty<bool>(ref this.isEnabled, value); }
+            get { return this.limit.IsEnabled; }
+            set
+            {
+                this.limit.IsEnabled = value;
+                this.RaisePropertyChanged(nameof(this.IsEnabled));
+            }
         }
     }
 }
