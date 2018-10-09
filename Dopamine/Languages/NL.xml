@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">Afspeellijsten verwijderen</Text>
   <Text Key="Delete">Verwijderen</Text>
   <Text Key="Rename">Hernoemen</Text>
-  <Text Key="Rename_Playlist">Afspeellijst hernoemen</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Ben je zeker dat je de afspeellijst '{playlistname}' wilt verwijderen?</Text>
   <Text Key="Error_Deleting_Playlist">De afspeellijst '{playlistname}' kon niet worden verwijderd. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">bevat</Text>
   <Text Key="Smart_Playlist_Greater_Than">groter dan</Text>
   <Text Key="Smart_Playlist_Less_Than">kleiner dan</Text>
+  <Text Key="Edit_Playlist">Playlist editeren</Text>
 </Language>

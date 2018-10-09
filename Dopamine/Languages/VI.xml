@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">Xóa các playlist</Text>
   <Text Key="Delete">Xóa</Text>
   <Text Key="Rename">Đổi tên</Text>
-  <Text Key="Rename_Playlist">Đổi tên playlist</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Bạn có chắc chắn muốn xóa playlist '{playlistname}'?</Text>
   <Text Key="Error_Deleting_Playlist">Không thể xóa playlist '{playlistname}'. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>

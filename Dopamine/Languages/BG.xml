@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">Изтриване на плейлисти</Text>
   <Text Key="Delete">Изтриване</Text>
   <Text Key="Rename">Преименуване</Text>
-  <Text Key="Rename_Playlist">Преименувай плейлиста</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Сигурни ли сте, че искате да изтриете плейлиста {playlistname}?</Text>
   <Text Key="Error_Deleting_Playlist">Плейлистът {playlistname} не може да бъде изтрит.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>

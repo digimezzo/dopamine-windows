@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">Eliminar listas de reproducción</Text>
   <Text Key="Delete">Eliminar</Text>
   <Text Key="Rename">Renombrar</Text>
-  <Text Key="Rename_Playlist">Renombrar lista de reproducción</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">¿Estás seguro de querer eliminar la lista de reproducción '{playlistname}'?</Text>
   <Text Key="Error_Deleting_Playlist">No se ha podido eliminar la lista de reproducción '{playlistname}'. Consulta el archivo 'log' para más información por favor.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>

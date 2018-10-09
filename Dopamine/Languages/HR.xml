@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">Izbriši popise</Text>
   <Text Key="Delete">Izbriši</Text>
   <Text Key="Rename">Preimenuj</Text>
-  <Text Key="Rename_Playlist">Preimenuj popis</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Jeste li sigurni da želite izbrisati popis '{playlistname}'?</Text>
   <Text Key="Error_Deleting_Playlist">Popis '{playlistname}' nije moguće izbrisati. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>

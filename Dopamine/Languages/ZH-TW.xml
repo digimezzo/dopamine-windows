@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">刪除播放清單</Text>
   <Text Key="Delete">刪除</Text>
   <Text Key="Rename">重新命名</Text>
-  <Text Key="Rename_Playlist">重新命名播放清單</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">您確定要刪除播放清單'{playlistname}'？</Text>
   <Text Key="Error_Deleting_Playlist">無法刪除播放清單'{playlistname}'。請參閱記錄檔以獲取更多信息。</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>

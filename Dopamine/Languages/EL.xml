@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">Διαγραφή λιστών</Text>
   <Text Key="Delete">Διαγραφή</Text>
   <Text Key="Rename">Μετονομασία</Text>
-  <Text Key="Rename_Playlist">Μετονομασία λίστας</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Να διαγραφεί η λίστα '{playlistname}';</Text>
   <Text Key="Error_Deleting_Playlist">Δεν ήταν δυνατή η διαγραφή της λίστας '{playlistname}'. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>
