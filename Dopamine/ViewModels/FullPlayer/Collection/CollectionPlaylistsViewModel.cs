@@ -7,6 +7,7 @@ using Dopamine.Data;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Entities;
 using Dopamine.Services.File;
+using Dopamine.Services.Metadata;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Playlist;
 using Dopamine.ViewModels.Common.Base;
@@ -32,6 +33,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private IDialogService dialogService;
         private IPlaylistService playlistService;
         private IPlaybackService playbackService;
+        private IMetadataService metadataService;
         private IFileService fileService;
         private IEventAggregator eventAggregator;
         private IContainerProvider container;
@@ -62,7 +64,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         }
 
         public CollectionPlaylistsViewModel(IContainerProvider container, IDialogService dialogService,
-            IPlaybackService playbackService, IPlaylistService playlistService,
+            IPlaybackService playbackService, IPlaylistService playlistService, IMetadataService metadataService,
             IFileService fileService, IEventAggregator eventAggregator) : base(container)
         {
             this.dialogService = dialogService;
@@ -71,12 +73,18 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.fileService = fileService;
             this.eventAggregator = eventAggregator;
             this.dialogService = dialogService;
+            this.metadataService = metadataService;
             this.container = container;
 
             // Events
             this.playlistService.PlaylistFolderChanged += PlaylistService_PlaylistFolderChanged;
             this.playlistService.TracksAdded += PlaylistService_TracksAdded;
             this.playlistService.TracksDeleted += PlaylistService_TracksDeleted;
+
+            this.metadataService.LoveChanged += async(_) => await this.GetTracksIfSmartPlaylistSelectedAsync();
+            this.metadataService.RatingChanged += async (_) => await this.GetTracksIfSmartPlaylistSelectedAsync();
+            this.metadataService.MetadataChanged += async (_) => await this.GetTracksIfSmartPlaylistSelectedAsync();
+            this.playbackService.PlaybackCountersChanged += async (_) => await this.GetTracksIfSmartPlaylistSelectedAsync();
 
             // Commands
             this.RenameSelectedPlaylistCommand = new DelegateCommand(async () => await this.RenameSelectedPlaylistAsync());
@@ -178,6 +186,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             if (!result.IsSuccess)
             {
                 this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_Playlists_To_Now_Playing"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
+            }
+        }
+
+        private async Task GetTracksIfSmartPlaylistSelectedAsync()
+        {
+            if (this.selectedPlaylist != null && this.selectedPlaylist.Type.Equals(PlaylistType.Smart))
+            {
+                await this.GetTracksAsync();
             }
         }
 
