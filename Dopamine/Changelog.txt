@@ -1,4 +1,4 @@
-2018-09-22: Dopamine 2.0 Preview 2
+2018-10-09: Dopamine 2.0 Preview 2
 ----------------------------------
 
 - [Added] Added folder view
