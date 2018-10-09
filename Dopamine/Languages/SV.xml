@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">Radera spellistor</Text>
   <Text Key="Delete">Radera</Text>
   <Text Key="Rename">Byt namn</Text>
-  <Text Key="Rename_Playlist">Byt namn på spellistan</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Vill du säkert radera spellistan '{playlistname}'?</Text>
   <Text Key="Error_Deleting_Playlist">Spellistan '{playlistname}' kunde inte raderas. Läs loggfilen för mer information.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>

@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">プレイリストの削除</Text>
   <Text Key="Delete">削除</Text>
   <Text Key="Rename">名前の変更</Text>
-  <Text Key="Rename_Playlist">プレイリスト名の変更</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">プレイリスト '{playlistname}' を削除しますか？</Text>
   <Text Key="Error_Deleting_Playlist">プレイリスト '{playlistname}' を削除できませんでした。詳細はログファイルを参照してください。</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>

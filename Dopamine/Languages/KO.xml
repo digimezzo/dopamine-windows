@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">재생 목록 삭제</Text>
   <Text Key="Delete">삭제</Text>
   <Text Key="Rename">이름 바꾸기</Text>
-  <Text Key="Rename_Playlist">재생 목록 이름 바꾸기</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">정말로 &apos;{playlistname}&apos; 재생 목록을 삭제할까요?</Text>
   <Text Key="Error_Deleting_Playlist">&apos;{playlistname}&apos; 재생 목록을 삭제할 수 없습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>

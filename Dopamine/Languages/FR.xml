@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">Supprimer playlists</Text>
   <Text Key="Delete">Supprimer</Text>
   <Text Key="Rename">Renommer</Text>
-  <Text Key="Rename_Playlist">Renommer playlist</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Voulez-vous vraiment supprimer la playlist '{playlistname}' ?</Text>
   <Text Key="Error_Deleting_Playlist">La playlist '{playlistname}' n'a pas pu être supprimée. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contient</Text>
   <Text Key="Smart_Playlist_Greater_Than">plus que</Text>
   <Text Key="Smart_Playlist_Less_Than">moins que</Text>
+  <Text Key="Edit_Playlist">Editer playlist</Text>
 </Language>

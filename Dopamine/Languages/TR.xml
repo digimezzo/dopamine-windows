@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">Çalma listelerini sil</Text>
   <Text Key="Delete">Sil</Text>
   <Text Key="Rename">Yeniden adlandır</Text>
-  <Text Key="Rename_Playlist">Çalma listesini yeniden adlandır</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">'{playlistname}' listesini silmek istediğine emin misin?</Text>
   <Text Key="Error_Deleting_Playlist">'{playlistname}' listesi silinemedi. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>

@@ -307,7 +307,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             if (this.dialogService.ShowInputDialog(
                 0xea37,
                 16,
-                ResourceUtils.GetString("Language_Rename_Playlist"),
+                ResourceUtils.GetString("Language_Edit_Playlist"),
                 ResourceUtils.GetString("Language_Enter_New_Name_For_Playlist").Replace("{playlistname}", oldPlaylist.Name),
                 ResourceUtils.GetString("Language_Ok"),
                 ResourceUtils.GetString("Language_Cancel"),

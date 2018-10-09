@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">Smazat seznamy</Text>
   <Text Key="Delete">Smazat</Text>
   <Text Key="Rename">Přejmenovat</Text>
-  <Text Key="Rename_Playlist">Přejmenovat seznam</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Opravdu chcete smazat seznam '{playlistname}'?</Text>
   <Text Key="Error_Deleting_Playlist">Seznam '{playlistname}' nelze smazat. Prosím konzultujte chybový výpis pro více informací.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>

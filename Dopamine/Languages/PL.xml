@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">Usuń listy odtwarzania</Text>
   <Text Key="Delete">Usuń</Text>
   <Text Key="Rename">Zmień nazwę</Text>
-  <Text Key="Rename_Playlist">Zmień nazwę listy odtwarzania</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Na pewno chcesz usunąc listę odtwarzania '{playlistname}'?</Text>
   <Text Key="Error_Deleting_Playlist">Playlista '{playlistname}' nie mogła być usunięta. Otwórz plik dziennika aby uzyskać więcej informacji.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>

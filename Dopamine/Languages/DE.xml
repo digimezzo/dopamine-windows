@@ -145,7 +145,6 @@
   <Text Key="Delete_Playlists">Wiedergabelisten löschen</Text>
   <Text Key="Delete">Löschen</Text>
   <Text Key="Rename">Umbenennen</Text>
-  <Text Key="Rename_Playlist">Wiedergabeliste umbenennen</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">>Bist du dir sicher, dass du die Wiedergabeliste '{playlistname}' wirklich löschen möchtest?</Text>
   <Text Key="Error_Deleting_Playlist">Die Wiedergabeliste '{playlistname}' konnte nicht gelöscht werden. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Key_F2">F2</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
 </Language>
