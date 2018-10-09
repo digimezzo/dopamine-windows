@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">Recarregar agora</Text>
   <Text Key="New_Playlist">Nova lista de reprodução</Text>
   <Text Key="All_Playlists">Todas as listas de reprodução</Text>
-  <Text Key="Enter_Name_For_New_Playlist">Digite o nome para a sua nova lista de reprodução:</Text>
   <Text Key="Already_Exists">Já existe</Text>
   <Text Key="Already_Playlist_With_That_Name">Já existe uma lista de reprodução com o nome '{playlistname}'.</Text>
   <Text Key="Error_Adding_Playlist">Não foi possível adicionar a lista de reprodução. Consulte o registo para obter mais infromações.</Text>
@@ -145,17 +144,16 @@
   <Text Key="Delete_Playlists">Apagar listas de reprodução</Text>
   <Text Key="Delete">Apagar</Text>
   <Text Key="Rename">Renomear</Text>
-  <Text Key="Rename_Playlist">Renomear lista de reprodução</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Tem a certeza de que deseja apagar a lista de reprodução '{playlistname}'?</Text>
   <Text Key="Error_Deleting_Playlist">Não foi possível apagar a lista de reprodução	'{playlistname}'. Consulte o registo para obter mais informações.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Não foi possível renomear a lista de reprodução. Consulte o registo para obter mais informações.</Text>
-  <Text Key="Enter_New_Name_For_Playlist">Digite o novo nome para a lista de reprodução {playlistname}</Text>
+  <Text Key="Enter_New_Name_For_Playlist">Digite o novo nome para a lista de reprodução '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Adicionar à lista de reprodução</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">Ocorreu um erro ao adicionar as faixas à lista de reprodução {playlistname}. Consulte o registo para obter mais informações.</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">Ocorreu um erro ao adicionar os álbuns à lista de reprodução {playlistname}. Consulte o registo para obter mais informações.</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">Ocorreu um erro ao adicionar os artistas à lista de reprodução {playlistname}. Consulte o registo para obter mais informações.</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">Ocorreu um erro ao adicionar as faixas à lista de reprodução '{playlistname}'. Consulte o registo para obter mais informações.</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">Ocorreu um erro ao adicionar os álbuns à lista de reprodução '{playlistname}'. Consulte o registo para obter mais informações.</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">Ocorreu um erro ao adicionar os artistas à lista de reprodução '{playlistname}'. Consulte o registo para obter mais informações.</Text>
   <Text Key="Remove_From_Playlist">Remover da lista de reprodução</Text>
   <Text Key="Error_Removing_From_Playlist">Ocorreu um erro ao remover as faixas da lista de reprodução. Consulte o registo para obter mais informações.</Text>
   <Text Key="Ignore_Previously_Removed_Files">Ignorar ficheiros que tenham sido removidos da coleção</Text>
@@ -206,7 +204,7 @@
   <Text Key="AddedTrackToPlaylist">{numberoftracks} faixa adicionada a '{playlistname}'</Text>
   <Text Key="AddedTracksToPlaylist">{numberoftracks} faixas adicionadas a '{playlistname}'</Text>
   <Text Key="All_Genres">Todos os géneros</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">Ocorreu um erro ao adicionar os géneros à lista de reprodução {playlistname}. Consulte o registo para obter mais informações.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">Ocorreu um erro ao adicionar os géneros à lista de reprodução '{playlistname}'. Consulte o registo para obter mais informações.</Text>
   <Text Key="Border">Contorno</Text>
   <Text Key="Show_Window_Border">Mostrar contorno com 1 pixel</Text>
   <Text Key="System_Tray">Área de notificação</Text>
@@ -446,4 +444,6 @@
   <Text Key="Smart_Playlist_Contains">contém</Text>
   <Text Key="Smart_Playlist_Greater_Than">maior que</Text>
   <Text Key="Smart_Playlist_Less_Than">menor que</Text>
+  <Text Key="Edit_Playlist">Editar lista de reprodução</Text>
+  <Text Key="Enter_Name_For_Playlist">Digite o nome para a lista de reprodução</Text>
 </Language>

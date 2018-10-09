@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">지금 새로 고침</Text>
   <Text Key="New_Playlist">새 재생 목록</Text>
   <Text Key="All_Playlists">모든 재생 목록</Text>
-  <Text Key="Enter_Name_For_New_Playlist">새 재생 목록의 이름을 입력하세요</Text>
   <Text Key="Already_Exists">이미 존재합니다</Text>
   <Text Key="Already_Playlist_With_That_Name">이미 &apos;{playlistname}&apos; 재생목록이 존재합니다.</Text>
   <Text Key="Error_Adding_Playlist">이 재생 목록을 추가할 수 없습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
@@ -145,17 +144,16 @@
   <Text Key="Delete_Playlists">재생 목록 삭제</Text>
   <Text Key="Delete">삭제</Text>
   <Text Key="Rename">이름 바꾸기</Text>
-  <Text Key="Rename_Playlist">재생 목록 이름 바꾸기</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">정말로 &apos;{playlistname}&apos; 재생 목록을 삭제할까요?</Text>
   <Text Key="Error_Deleting_Playlist">&apos;{playlistname}&apos; 재생 목록을 삭제할 수 없습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">이 재생 목록의 이름을 바꿀 수 없습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
-  <Text Key="Enter_New_Name_For_Playlist">{playlistname} 재생 목록의 새 이름을 입력하세요</Text>
+  <Text Key="Enter_New_Name_For_Playlist">&apos;{playlistname}&apos; 재생 목록의 새 이름을 입력하세요</Text>
   <Text Key="Add_To_Playlist">재생 목록에 추가</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">{playlistname} 재생 목록에 노래를 추가하는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">{playlistname} 재생 목록에 앨범을 추가하는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">{playlistname} 재생 목록에 아티스트를 추가하는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">&apos;{playlistname}&apos; 재생 목록에 노래를 추가하는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">&apos;{playlistname}&apos; 재생 목록에 앨범을 추가하는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">&apos;{playlistname}&apos; 재생 목록에 아티스트를 추가하는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
   <Text Key="Remove_From_Playlist">재생 목록에서 제거</Text>
   <Text Key="Error_Removing_From_Playlist">재생 목록에서 노래를 제거하는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
   <Text Key="Ignore_Previously_Removed_Files">이전에 컬렉션에서 제거됐던 파일은 무시하기</Text>
@@ -206,7 +204,7 @@
   <Text Key="Added_Track_To_Playlist">{numberoftracks}곡을 &apos;{playlistname}&apos;에 추가했습니다</Text>
   <Text Key="Added_Tracks_To_Playlist">{numberoftracks}곡을 &apos;{playlistname}&apos;에 추가했습니다</Text>
   <Text Key="All_Genres">모든 장르</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">{playlistname} 재생 목록에 장르를 추가하는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">&apos;{playlistname}&apos; 재생 목록에 장르를 추가하는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
   <Text Key="Border">테두리</Text>
   <Text Key="Show_Window_Border">창 주변에 1픽셀 테두리 보이기</Text>
   <Text Key="System_Tray">알림 영역</Text>
@@ -446,4 +444,6 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>

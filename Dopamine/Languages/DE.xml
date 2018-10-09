@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">Jetzt aktualisieren</Text>
   <Text Key="New_Playlist">Neue Wiedergabeliste</Text>
   <Text Key="All_Playlists">Alle Wiedergabelisten</Text>
-  <Text Key="Enter_Name_For_New_Playlist">Gibt deiner neuen Wiedergabeliste einen Namen</Text>
   <Text Key="Already_Exists">Existiert bereits</Text>
   <Text Key="Already_Playlist_With_That_Name">Du hast bereits eine Wiedergabeliste mit dem Namen '{playlistname}'.</Text>
   <Text Key="Error_Adding_Playlist">Die Wiedergabeliste konnte nicht hinzugefügt werden. Weitere Informationen findest du in der Protokolldatei.</Text>
@@ -145,17 +144,16 @@
   <Text Key="Delete_Playlists">Wiedergabelisten löschen</Text>
   <Text Key="Delete">Löschen</Text>
   <Text Key="Rename">Umbenennen</Text>
-  <Text Key="Rename_Playlist">Wiedergabeliste umbenennen</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">>Bist du dir sicher, dass du die Wiedergabeliste '{playlistname}' wirklich löschen möchtest?</Text>
   <Text Key="Error_Deleting_Playlist">Die Wiedergabeliste '{playlistname}' konnte nicht gelöscht werden. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Entf</Text>
   <Text Key="Error_Renaming_Playlist">Die Wiedergabeliste konnte nicht umbenannt werden. Weitere Informationen findest du in der Protokolldatei.</Text>
-  <Text Key="Enter_New_Name_For_Playlist">Gibt der Wiedergabeliste {playlistname} einen neuen Namen</Text>
+  <Text Key="Enter_New_Name_For_Playlist">Gibt der Wiedergabeliste '{playlistname}' einen neuen Namen</Text>
   <Text Key="Add_To_Playlist">Zu Wiedergabeliste hinzufügen</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">Während des Hinzufügens der Titel zu der Wiedergabeliste {playlistname} ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">Während des Hinzufügens der Alben zu der Wiedergabeliste {playlistname} ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">Während des Hinzufügens der Interpret zu der Wiedergabeliste {playlistname} ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">Während des Hinzufügens der Titel zu der Wiedergabeliste '{playlistname}' ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">Während des Hinzufügens der Alben zu der Wiedergabeliste '{playlistname}' ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">Während des Hinzufügens der Interpret zu der Wiedergabeliste '{playlistname}' ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Remove_From_Playlist">Von Wiedergabeliste entfernen</Text>
   <Text Key="Error_Removing_From_Playlist">Während des Entfernens der Titel von der Wiedergabeliste ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Ignore_Previously_Removed_Files">Dateien ignorieren, die erst kürzlich aus der Sammlung entfernt wurden</Text>
@@ -203,10 +201,10 @@
   <Text Key="Kilobytes_Short">KB</Text>
   <Text Key="Megabytes_Short">MB</Text>
   <Text Key="Gigabytes_Short">GB</Text>
-  <Text Key="Added_Track_To_Playlist">{numberoftracks} Titel zu {playlistname}' hinzugefügt</Text>
+  <Text Key="Added_Track_To_Playlist">{numberoftracks} Titel zu '{playlistname}' hinzugefügt</Text>
   <Text Key="Added_Tracks_To_Playlist">{numberoftracks} Titel zu '{playlistname}' hinzugefügt</Text>
   <Text Key="All_Genres">Alle Genres</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">Beim Hinzufügen von Genres zur Wiedergabeliste {playlistname} ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">Beim Hinzufügen von Genres zur Wiedergabeliste '{playlistname}' ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Border">Rand</Text>
   <Text Key="Show_Window_Border">Zeige einen ein Pixel breiten Rand um das Hauptfenster</Text>
   <Text Key="System_Tray">Benachrichtigungsbereich</Text>
@@ -446,4 +444,6 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>
