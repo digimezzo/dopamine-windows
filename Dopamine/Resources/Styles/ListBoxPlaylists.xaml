@@ -70,7 +70,6 @@
                                                 VerticalAlignment="Center" 
                                                 FontSize="16"
                                                 Visibility="{Binding IsSmartPlaylist, Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
-                                            <!-- Smart playlists: E1CA or E117 -->
                                             <TextBlock
                                                 DockPanel.Dock="Left"
                                                 Margin="0,0,10,0"
