@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">Opdater nu</Text>
   <Text Key="New_Playlist">Ny spilleliste</Text>
   <Text Key="All_Playlists">Alle spillelister</Text>
-  <Text Key="Enter_Name_For_New_Playlist">Indtast et navn til din spilleliste</Text>
   <Text Key="Already_Exists">Eksisterer allerede</Text>
   <Text Key="Already_Playlist_With_That_Name">Du har allerede en spilleliste med navnet '{playlistname}'.</Text>
   <Text Key="Error_Adding_Playlist">Spillelisten kan ikke oprettes. Konsulter venligst logfilen for yderligere information.</Text>
@@ -150,11 +149,11 @@
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Spillelisten kunne ikke omdøbes. Se venligst logfilen for yderligere information.</Text>
-  <Text Key="Enter_New_Name_For_Playlist">Indtast et nyt navn for spillelisten {playlistname}</Text>
+  <Text Key="Enter_New_Name_For_Playlist">Indtast et nyt navn for spillelisten '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Føj til spilleliste</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">Der opstod en fejl ved tilføjning af sange til spillelisten {playlistname}. Se venligst logfilen for yderligere information.</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">Der opstod en fejl ved tilføjning af album {playlistname}. Se venligst logfilen for yderligere information.</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">Der opstod en fejl ved tilføjning af kunstnere {playlistname}. Se venligst logfilen for yderligere information.</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">Der opstod en fejl ved tilføjning af sange til spillelisten '{playlistname}'. Se venligst logfilen for yderligere information.</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">Der opstod en fejl ved tilføjning af album '{playlistname}'. Se venligst logfilen for yderligere information.</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">Der opstod en fejl ved tilføjning af kunstnere '{playlistname}'. Se venligst logfilen for yderligere information.</Text>
   <Text Key="Remove_From_Playlist">Fjern fra spilleliste</Text>
   <Text Key="Error_Removing_From_Playlist">Der opstod en fejl ved fjernelse af sange fra spillelister. Se venligst logfilen for yderligere information.</Text>
   <Text Key="Ignore_Previously_Removed_Files">Ignorer filer som tidligere er fjernet fra samlingen</Text>
@@ -205,7 +204,7 @@
   <Text Key="Added_Track_To_Playlist">Tilføjede {numberoftracks} sang til '{playlistname}'</Text>
   <Text Key="Added_Tracks_To_Playlist">Tilføjede {numberoftracks} sange til '{playlistname}'</Text>
   <Text Key="All_Genres">Alle genrer</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">Der opstod en fejl ved tilføjelse af genrer til spillelisten {playlistname}. Se venligst logfilen for yderligere information.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">Der opstod en fejl ved tilføjelse af genrer til spillelisten '{playlistname}'. Se venligst logfilen for yderligere information.</Text>
   <Text Key="Border">Kant</Text>
   <Text Key="Show_Window_Border">Vis en kant på 1 px rundt om vinduet</Text>
   <Text Key="System_Tray">Meddelelsesområde</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>

@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">Обновить сейчас</Text>
   <Text Key="New_Playlist">Новый плейлист</Text>
   <Text Key="All_Playlists">Все плейлисты</Text>
-  <Text Key="Enter_Name_For_New_Playlist">Введите название Вашего нового плейлиста</Text>
   <Text Key="Already_Exists">Уже существует</Text>
   <Text Key="Already_Playlist_With_That_Name">У Вас уже есть плейлист с именем '{playlistname}'.</Text>
   <Text Key="Error_Adding_Playlist">Не удалось добавить плейлист. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
@@ -150,11 +149,11 @@
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Не удалось переименовать плейлист. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
-  <Text Key="Enter_New_Name_For_Playlist">Введите новое название для плейлиста {playlistname}</Text>
+  <Text Key="Enter_New_Name_For_Playlist">Введите новое название для плейлиста '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Добавить в плейлист</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">Возникла ошибка при добавлении песен в плейлист {playlistname}. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">Возникла ошибка при добавлении альбомов в плейлист {playlistname}. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">Возникла ошибка при добавлении исполнителей в плейлист {playlistname}. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">Возникла ошибка при добавлении песен в плейлист '{playlistname}'. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">Возникла ошибка при добавлении альбомов в плейлист '{playlistname}'. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">Возникла ошибка при добавлении исполнителей в плейлист '{playlistname}'. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
   <Text Key="Remove_From_Playlist">Удалить из плейлиста</Text>
   <Text Key="Error_Removing_From_Playlist">Возникла ошибка при удалении песен из плейлистов. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
   <Text Key="Ignore_Previously_Removed_Files">Игнорировать файлы, которые ранее были удалены из коллекции</Text>
@@ -205,7 +204,7 @@
   <Text Key="Added_Track_To_Playlist">{numberoftracks} песня добавлена в '{playlistname}'</Text>
   <Text Key="Added_Tracks_To_Playlist">{numberoftracks} песен добавлено в '{playlistname}'</Text>
   <Text Key="All_Genres">Все жанры</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">Возникла ошибка при добавлении жанров в плейлист {playlistname}. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">Возникла ошибка при добавлении жанров в плейлист '{playlistname}'. Пожалуйста, просмотрите лог для получения дополнительной информации.</Text>
   <Text Key="Border">Рамка</Text>
   <Text Key="Show_Window_Border">Показывать вокруг окна рамку размером в 1 пикс.</Text>
   <Text Key="System_Tray">Область уведомлений</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>

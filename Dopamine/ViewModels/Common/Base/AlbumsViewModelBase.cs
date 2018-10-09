@@ -364,7 +364,7 @@ namespace Dopamine.ViewModels.Common.Base
                     0xea37,
                     16,
                     ResourceUtils.GetString("Language_New_Playlist"),
-                    ResourceUtils.GetString("Language_Enter_Name_For_New_Playlist"),
+                    ResourceUtils.GetString("Language_Enter_Name_For_Playlist"),
                     ResourceUtils.GetString("Language_Ok"),
                     ResourceUtils.GetString("Language_Cancel"),
                     ref responseText))

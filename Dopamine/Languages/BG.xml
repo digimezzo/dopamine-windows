@@ -135,9 +135,8 @@
   <Text Key="Refresh_Now">Обнови сега</Text>
   <Text Key="New_Playlist">Нов плейлист</Text>
   <Text Key="All_Playlists">Всички плейлисти</Text>
-  <Text Key="Enter_Name_For_New_Playlist">Въведете име на плейлиста</Text>
   <Text Key="Already_Exists">Вече съществува</Text>
-  <Text Key="Already_Playlist_With_That_Name">Вече съществуват песни с името {playlistname}.</Text>
+  <Text Key="Already_Playlist_With_That_Name">Вече съществуват песни с името '{playlistname}'.</Text>
   <Text Key="Error_Adding_Playlist">Не може да се добави плейлиста.</Text>
   <Text Key="Provide_Playlist_Name">Трябва да въведете име за плейлиста.</Text>
   <Text Key="Delete_This_Playlist">Изтрий този плейлист</Text>
@@ -145,16 +144,16 @@
   <Text Key="Delete_Playlists">Изтриване на плейлисти</Text>
   <Text Key="Delete">Изтриване</Text>
   <Text Key="Rename">Преименуване</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">Сигурни ли сте, че искате да изтриете плейлиста {playlistname}?</Text>
-  <Text Key="Error_Deleting_Playlist">Плейлистът {playlistname} не може да бъде изтрит.</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">Сигурни ли сте, че искате да изтриете плейлиста '{playlistname}'?</Text>
+  <Text Key="Error_Deleting_Playlist">Плейлистът '{playlistname}' не може да бъде изтрит.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Списъкът за изпълнение не може да бъде преименуван.</Text>
-  <Text Key="Enter_New_Name_For_Playlist">Въведете ново име за плейлиста {playlistname}</Text>
+  <Text Key="Enter_New_Name_For_Playlist">Въведете ново име за плейлиста '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Добави в плейлист</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">Възникна грешка при добавяне на песните към списъка за изпълнение {playlistname}.</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">Възникна грешка при добавяне на албума към списъка за изпълнение {playlistname}.</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">Възникна грешка при добавяне на изпълнителите към списъка за изпълнение {playlistname}.</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">Възникна грешка при добавяне на песните към списъка за изпълнение '{playlistname}'.</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">Възникна грешка при добавяне на албума към списъка за изпълнение '{playlistname}'.</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">Възникна грешка при добавяне на изпълнителите към списъка за изпълнение '{playlistname}'.</Text>
   <Text Key="Remove_From_Playlist">Премахни от плейлиста</Text>
   <Text Key="Error_Removing_From_Playlist">Възникна грешка при премахване на песни от плейлисти.</Text>
   <Text Key="Ignore_Previously_Removed_Files">Игнориране на файлове, които са били отстранени от колекцията</Text>
@@ -205,7 +204,7 @@
   <Text Key="Added_Track_To_Playlist">Added {numberoftracks} song to '{playlistname}'</Text>
   <Text Key="Added_Tracks_To_Playlist">Added {numberoftracks} songs to '{playlistname}'</Text>
   <Text Key="All_Genres">All genres</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">An error occurred while adding genres to the playlist {playlistname}. Please consult the log file for more information.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">An error occurred while adding genres to the playlist '{playlistname}'. Please consult the log file for more information.</Text>
   <Text Key="Border">Рамка</Text>
   <Text Key="Show_Window_Border">Покажи граница на 1 пиксела около прозореца</Text>
   <Text Key="System_Tray">Област за известия</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>

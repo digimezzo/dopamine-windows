@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">Làm mới bây giờ</Text>
   <Text Key="New_Playlist">Playlist mới</Text>
   <Text Key="All_Playlists">Tất cả playlist</Text>
-  <Text Key="Enter_Name_For_New_Playlist">Nhập tên cho playlist mới của bạn</Text>
   <Text Key="Already_Exists">Đã tồn tại</Text>
   <Text Key="Already_Playlist_With_That_Name">Bạn đã có một playlist với tên '{playlistname}'.</Text>
   <Text Key="Error_Adding_Playlist">Không thể tạo playlist. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
@@ -150,11 +149,11 @@
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Không thể đổi tên playlist. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
-  <Text Key="Enter_New_Name_For_Playlist">Nhập tên mới cho playlist {playlistname}</Text>
+  <Text Key="Enter_New_Name_For_Playlist">Nhập tên mới cho playlist '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Thêm vào playlist</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">Đã xảy ra lỗi khi thêm bài hát vào playlist {playlistname}. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">Đã xảy ra lỗi khi thêm album vào playlist {playlistname}. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">Đã xảy ra lỗi khi thêm nghệ sĩ vào playlist {playlistname}. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">Đã xảy ra lỗi khi thêm bài hát vào playlist '{playlistname}'. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">Đã xảy ra lỗi khi thêm album vào playlist '{playlistname}'. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">Đã xảy ra lỗi khi thêm nghệ sĩ vào playlist '{playlistname}'. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
   <Text Key="Remove_From_Playlist">Xóa khỏi playlist</Text>
   <Text Key="Error_Removing_From_Playlist">Đã xảy ra lỗi khi xóa bài hát khỏi playlist. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
   <Text Key="Ignore_Previously_Removed_Files">Bỏ qua các tệp đã bị xóa khỏi thư viện nhạc</Text>
@@ -205,7 +204,7 @@
   <Text Key="Added_Track_To_Playlist">Đã thêm {numberoftracks} bài hát vào '{playlistname}'</Text>
   <Text Key="Added_Tracks_To_Playlist">Đã thêm {numberoftracks} bài hát vào '{playlistname}'</Text>
   <Text Key="All_Genres">Tất cả các thể loại</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">Đã xảy ra lỗi khi thêm thể loại vào playlist {playlistname}. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">Đã xảy ra lỗi khi thêm thể loại vào playlist '{playlistname}'. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
   <Text Key="Border">Viền</Text>
   <Text Key="Show_Window_Border">Hiển thị đường viền 1px quanh cửa sổ</Text>
   <Text Key="System_Tray">Khay hệ thống</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>
