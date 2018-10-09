@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">Ανανέωση τώρα</Text>
   <Text Key="New_Playlist">Νέα λίστα</Text>
   <Text Key="All_Playlists">Όλες οι λίστες</Text>
-  <Text Key="Enter_Name_For_New_Playlist">Ονομάστε τη νέα σας λίστα</Text>
   <Text Key="Already_Exists">Υπάρχει ήδη</Text>
   <Text Key="Already_Playlist_With_That_Name">Υπάρχει ήδη λίστα με όνομα '{playlistname}'.</Text>
   <Text Key="Error_Adding_Playlist">Δεν είναι δυνατή η προσθήκη της λίστας. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
@@ -145,17 +144,16 @@
   <Text Key="Delete_Playlists">Διαγραφή λιστών</Text>
   <Text Key="Delete">Διαγραφή</Text>
   <Text Key="Rename">Μετονομασία</Text>
-  <Text Key="Rename_Playlist">Μετονομασία λίστας</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Να διαγραφεί η λίστα '{playlistname}';</Text>
   <Text Key="Error_Deleting_Playlist">Δεν ήταν δυνατή η διαγραφή της λίστας '{playlistname}'. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Δεν ήταν δυνατή η μετονομασία της λίστας. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
-  <Text Key="Enter_New_Name_For_Playlist">Νέο όνομα της λίστας {playlistname}</Text>
+  <Text Key="Enter_New_Name_For_Playlist">Νέο όνομα της λίστας '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Προσθήκη σε λίστα αναπαραγωγής</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">Προέκυψε σφάλμα κατά την προσθήκη τραγουδιών στη λίστα {playlistname}. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">Προέκυψε σφάλμα κατά την προσθήκη άλμπουμ στη λίστα {playlistname}. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">Προέκυψε σφάλμα κατά την προσθήκη καλλιτεχνών στη λίστα {playlistname}. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">Προέκυψε σφάλμα κατά την προσθήκη τραγουδιών στη λίστα '{playlistname}'. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">Προέκυψε σφάλμα κατά την προσθήκη άλμπουμ στη λίστα '{playlistname}'. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">Προέκυψε σφάλμα κατά την προσθήκη καλλιτεχνών στη λίστα '{playlistname}'. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Remove_From_Playlist">Αφαίρεση από τη λίστα</Text>
   <Text Key="Error_Removing_From_Playlist">Προέκυψε σφάλμα κατά την αφαίρεση τραγουδιών από λίστες. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Ignore_Previously_Removed_Files">Αγνόηση αρχείων που αφαιρέθηκαν παλιότερα απο τη συλλογή</Text>
@@ -206,7 +204,7 @@
   <Text Key="Added_Track_To_Playlist">Προστέθηκε {numberoftracks} τραγούδι στη λίστα '{playlistname}'</Text>
   <Text Key="Added_Tracks_To_Playlist">Προστέθηκαν {numberoftracks} τραγούδια στη λίστα '{playlistname}'</Text>
   <Text Key="All_Genres">Όλα τα είδη</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">Προέκυψε σφάλμα κατά την προσθήκη ειδών στη λίστα {playlistname}. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">Προέκυψε σφάλμα κατά την προσθήκη ειδών στη λίστα '{playlistname}'. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Border">Όριο</Text>
   <Text Key="Show_Window_Border">Προβολή ορίου πάχους 1 px γύρω από το παράθυρο</Text>
   <Text Key="System_Tray">Περιοχή ειδοποιήσεων</Text>
@@ -446,4 +444,6 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>

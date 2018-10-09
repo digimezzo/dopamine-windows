@@ -13,7 +13,7 @@
     <ContextMenu x:Key="ListBoxPlaylistsContextMenu" x:Shared="False">
         <MenuItem Header="{DynamicResource Language_View_In_Explorer}" InputGestureText="{DynamicResource Language_Ctrl_E}" Command="{Binding ViewPlaylistInExplorerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
         <Separator/>
-        <MenuItem Header="{DynamicResource Language_Rename}" InputGestureText="{DynamicResource Language_Key_F2}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.RenameSelectedPlaylistCommand}"/>
+        <MenuItem Header="{DynamicResource Language_Edit}" InputGestureText="{DynamicResource Language_Key_F2}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.RenameSelectedPlaylistCommand}"/>
         <MenuItem Header="{DynamicResource Language_Delete}" InputGestureText="{DynamicResource Language_Key_Del}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.DeleteSelectedPlaylistCommand}"/>
         <Separator/>
         <MenuItem Header="{DynamicResource Language_Add_To_Now_Playing}" Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.AddPlaylistToNowPlayingCommand}"/>
@@ -70,7 +70,6 @@
                                                 VerticalAlignment="Center" 
                                                 FontSize="16"
                                                 Visibility="{Binding IsSmartPlaylist, Converter={StaticResource InvertingBooleanToVisibilityConverter}}"/>
-                                            <!-- Smart playlists: E1CA or E117 -->
                                             <TextBlock
                                                 DockPanel.Dock="Left"
                                                 Margin="0,0,10,0"

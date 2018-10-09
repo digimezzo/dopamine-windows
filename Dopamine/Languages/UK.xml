@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">Оновити зараз</Text>
   <Text Key="New_Playlist">Новий список відтворення</Text>
   <Text Key="All_Playlists">Усі списки відтворення</Text>
-  <Text Key="Enter_Name_For_New_Playlist">Вкажіть назву ноого списку відтворення</Text>
   <Text Key="Already_Exists">Вже існує</Text>
   <Text Key="Already_Playlist_With_That_Name">Ви вже маєте список відтворення з назвою '{playlistname}'.</Text>
   <Text Key="Error_Adding_Playlist">Не вдалося додати список відтворення. Зверніться до логу программи за подробицями.</Text>
@@ -145,17 +144,16 @@
   <Text Key="Delete_Playlists">Видалити списки відтворення</Text>
   <Text Key="Delete">Видалити</Text>
   <Text Key="Rename">Перейменувати</Text>
-  <Text Key="Rename_Playlist">Перейменувати список відтворення</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Ви впевнені, що хочете видалити список відтворення '{playlistname}'?</Text>
   <Text Key="Error_Deleting_Playlist">Список відтворення '{playlistname}' не може бути видалений. Зверніться до логу программи за подробицями.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Список відтворення не може бути перейменований. Зверніться до логу программи за подробицями.</Text>
-  <Text Key="Enter_New_Name_For_Playlist">Вкажіть нову назву для {playlistname}</Text>
+  <Text Key="Enter_New_Name_For_Playlist">Вкажіть нову назву для '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Додати до списку відтворення</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">Виникла помилка при додаванні треків до списку відтворення {playlistname}. Зверніться до логу программи за подробицями.</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">Виникла помилка при додаванні альбомів до списку відтворення {playlistname}. Зверніться до логу программи за подробицями.</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">Виникла помилка при додаванні виконавців до списку відтворення {playlistname}. Зверніться до логу программи за подробицями.</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">Виникла помилка при додаванні треків до списку відтворення '{playlistname}'. Зверніться до логу программи за подробицями.</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">Виникла помилка при додаванні альбомів до списку відтворення '{playlistname}'. Зверніться до логу программи за подробицями.</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">Виникла помилка при додаванні виконавців до списку відтворення '{playlistname}'. Зверніться до логу программи за подробицями.</Text>
   <Text Key="Remove_From_Playlist">Вилучити зі списку відтворення</Text>
   <Text Key="Error_Removing_From_Playlist">Виникла помилк при вилученні зі списку відтворення. Зверніться до логу программи за подробицями.</Text>
   <Text Key="Ignore_Previously_Removed_Files">Ігнорувати файли, які були раніше вилучені з колекції.</Text>
@@ -206,7 +204,7 @@
   <Text Key="Added_Track_To_Playlist">Додано {numberoftracks} трек у '{playlistname}'</Text>
   <Text Key="Added_Tracks_To_Playlist">Додано {numberoftracks} треків у '{playlistname}'</Text>
   <Text Key="All_Genres">Усі жанри</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">Виникла помилка при додаванні жанрів до {playlistname}. Зверніться до логу программи за подробицями.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">Виникла помилка при додаванні жанрів до '{playlistname}'. Зверніться до логу программи за подробицями.</Text>
   <Text Key="Border">Рамка</Text>
   <Text Key="Show_Window_Border">Показувати рамку шириною 1px навколо вікна</Text>
   <Text Key="System_Tray">Область сповіщень</Text>
@@ -446,4 +444,6 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>

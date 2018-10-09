@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">クリーンアップする</Text>
   <Text Key="New_Playlist">新規プレイリスト</Text>
   <Text Key="All_Playlists">全てのプレイリスト</Text>
-  <Text Key="Enter_Name_For_New_Playlist">新規プレイリスト名を入力してください</Text>
   <Text Key="Already_Exists">既に存在しています</Text>
   <Text Key="Already_Playlist_With_That_Name">既に '{playlistname}' と同じプレイリストが存在します。</Text>
   <Text Key="Error_Adding_Playlist">プレイリストを作成できませんでした。詳細はログファイルを参照してください。</Text>
@@ -145,19 +144,18 @@
   <Text Key="Delete_Playlists">プレイリストの削除</Text>
   <Text Key="Delete">削除</Text>
   <Text Key="Rename">名前の変更</Text>
-  <Text Key="Rename_Playlist">プレイリスト名の変更</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">プレイリスト '{playlistname}' を削除しますか？</Text>
   <Text Key="Error_Deleting_Playlist">プレイリスト '{playlistname}' を削除できませんでした。詳細はログファイルを参照してください。</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">プレイリスト名を変更できませんでした。詳細はログファイルを参照してください。</Text>
-  <Text Key="Enter_New_Name_For_Playlist">プレイリスト {playlistname} の名前を入力してください</Text>
+  <Text Key="Enter_New_Name_For_Playlist">プレイリスト '{playlistname}' の名前を入力してください</Text>
   <Text Key="Add_To_Playlist">プレイリストに追加</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">プレイリスト {playlistname} に曲を追加できませんでした。詳細はログファイルを参照してください。</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">プレイリスト {playlistname} にアルバムを追加できませんでした。詳細はログファイルを参照してください。</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">プレイリスト {playlistname} にアーティストを追加できませんでした。詳細はログファイルを参照してください。</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">プレイリスト '{playlistname}' に曲を追加できませんでした。詳細はログファイルを参照してください。</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">プレイリスト '{playlistname}' にアルバムを追加できませんでした。詳細はログファイルを参照してください。</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">プレイリスト '{playlistname}' にアーティストを追加できませんでした。詳細はログファイルを参照してください。</Text>
   <Text Key="Remove_From_Playlist">プレイリストから削除</Text>
-  <Text Key="Error_Removing_From_Playlist">プレイリスト {playlistname} から曲を削除できませんでした。詳細はログファイルを参照してください。</Text>
+  <Text Key="Error_Removing_From_Playlist">プレイリスト '{playlistname}' から曲を削除できませんでした。詳細はログファイルを参照してください。</Text>
   <Text Key="Ignore_Previously_Removed_Files">以前にコレクションから削除されたファイルを無視</Text>
   <Text Key="Refresh">クリーンアップ</Text>
   <Text Key="Remove">削除</Text>
@@ -206,7 +204,7 @@
   <Text Key="Added_Track_To_Playlist">{numberoftracks} 曲を '{playlistname}' に追加しました</Text>
   <Text Key="Added_Tracks_To_Playlist">{numberoftracks} 曲を '{playlistname}' に追加しました</Text>
   <Text Key="All_Genres">全てのジャンル</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">プレイリスト {playlistname} にジャンルを追加できませんでした。詳細はログファイルを参照してください。</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">プレイリスト '{playlistname}' にジャンルを追加できませんでした。詳細はログファイルを参照してください。</Text>
   <Text Key="Border">枠線</Text>
   <Text Key="Show_Window_Border">1px の枠線をウィンドウの周りに表示</Text>
   <Text Key="System_Tray">タスクトレイ</Text>
@@ -446,4 +444,6 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>

@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">Osvježi sada</Text>
   <Text Key="New_Playlist">Novi popis za izvođenje</Text>
   <Text Key="All_Playlists">Svi popisi za izvođenje</Text>
-  <Text Key="Enter_Name_For_New_Playlist">Unesite ime za Vaš popis za izvođenje</Text>
   <Text Key="Already_Exists">Već postoji</Text>
   <Text Key="Already_Playlist_With_That_Name">Već imate popis nazvan '{playlistname}'.</Text>
   <Text Key="Error_Adding_Playlist">Nije moguće dodati popis za izvođenje. Molimo pogledajte datoteku izvješća za više informacija.</Text>
@@ -145,17 +144,16 @@
   <Text Key="Delete_Playlists">Izbriši popise</Text>
   <Text Key="Delete">Izbriši</Text>
   <Text Key="Rename">Preimenuj</Text>
-  <Text Key="Rename_Playlist">Preimenuj popis</Text>
   <Text Key="Are_You_Sure_To_Delete_Playlist">Jeste li sigurni da želite izbrisati popis '{playlistname}'?</Text>
   <Text Key="Error_Deleting_Playlist">Popis '{playlistname}' nije moguće izbrisati. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Popis nije moguće preimenovati. Molimo pogledajte datoteku izvješća za više informacija.</Text>
-  <Text Key="Enter_New_Name_For_Playlist">Unesite novo ime za popis {playlistname}</Text>
+  <Text Key="Enter_New_Name_For_Playlist">Unesite novo ime za popis '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Dodaj na popis za izvođenje</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">Dogodila se greška tijekom dodavanja pjesama na popis {playlistname}. Molimo pogledajte datoteku izvješća za više informacija.</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">Dogodila se greška tijekom dodavanja albuma na popis {playlistname}. Molimo pogledajte datoteku izvješća za više informacija.</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">Dogodila se greška tijekom dodavanja izvođača na popis {playlistname}. Molimo pogledajte datoteku izvješća za više informacija.</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">Dogodila se greška tijekom dodavanja pjesama na popis '{playlistname}'. Molimo pogledajte datoteku izvješća za više informacija.</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">Dogodila se greška tijekom dodavanja albuma na popis '{playlistname}'. Molimo pogledajte datoteku izvješća za više informacija.</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">Dogodila se greška tijekom dodavanja izvođača na popis '{playlistname}'. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="Remove_From_Playlist">Ukloni s popisa</Text>
   <Text Key="Error_Removing_From_Playlist">Dogodila se greška tijekom uklanjanja s popisa. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="Ignore_Previously_Removed_Files">Ignoriraj datoteke koje su već uklonjene iz kolekcije</Text>
@@ -206,7 +204,7 @@
   <Text Key="Added_Track_To_Playlist">Dodana {numberoftracks} pjesma u '{playlistname}'</Text>
   <Text Key="Added_Tracks_To_Playlist">Dodano {numberoftracks} pjesama u '{playlistname}'</Text>
   <Text Key="All_Genres">Svi žanrovi</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">Dogodila se greška tijekom dodavanja žanrova u {playlistname}. Molimo pogledajte datoteku izvješća za više informacija.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">Dogodila se greška tijekom dodavanja žanrova u '{playlistname}'. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="Border">Rub</Text>
   <Text Key="Show_Window_Border">Prikaži rub veličine 1 px oko prozora</Text>
   <Text Key="System_Tray">Područje obavijesti</Text>
@@ -446,4 +444,6 @@
   <Text Key="Smart_Playlist_Contains">contains</Text>
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
+  <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>
