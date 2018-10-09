@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">立即更新</Text>
   <Text Key="New_Playlist">新建播放列表</Text>
   <Text Key="All_Playlists">所有播放列表</Text>
-  <Text Key="Enter_Name_For_New_Playlist">为新建的播放列表键入名字</Text>
   <Text Key="Already_Exists">已经存在</Text>
   <Text Key="Already_Playlist_With_That_Name">已存在播放列表 '{playlistname}'</Text>
   <Text Key="Error_Adding_Playlist">不能添加播放列表，请查看日志文件获取更多信息</Text>
@@ -150,13 +149,13 @@
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">不能重命名播放列表，请查看日志文件获取更多信息</Text>
-  <Text Key="Enter_New_Name_For_Playlist">为播放列表 {playlistname} 键入新的名字</Text>
+  <Text Key="Enter_New_Name_For_Playlist">为播放列表 '{playlistname}' 键入新的名字</Text>
   <Text Key="Add_To_Playlist">添加到播放列表</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">在添加歌曲到播放列表 {playlistname} 时发生了一个错误，请查看日志文件获取更多信息</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">在添加专辑到播放列表 {playlistname} 时发生了一个错误，请查看日志文件获取更多信息</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">在添加艺术家到播放列表 {playlistname} 时发生了一个错误，请查看日志文件获取更多信息</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">在添加歌曲到播放列表 '{playlistname}' 时发生了一个错误，请查看日志文件获取更多信息</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">在添加专辑到播放列表 '{playlistname}' 时发生了一个错误，请查看日志文件获取更多信息</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">在添加艺术家到播放列表 '{playlistname}' 时发生了一个错误，请查看日志文件获取更多信息</Text>
   <Text Key="Remove_From_Playlist">从播放列表移除</Text>
-  <Text Key="Error_Removing_From_Playlist">在从播放列表 {playlistname} 移除歌曲时发生了一个错误，请查看日志文件获取更多信息</Text>
+  <Text Key="Error_Removing_From_Playlist">在从播放列表 '{playlistname}' 移除歌曲时发生了一个错误，请查看日志文件获取更多信息</Text>
   <Text Key="Ignore_Previously_Removed_Files">忽略之前从音乐库中移除的歌曲</Text>
   <Text Key="Refresh">更新音乐库</Text>
   <Text Key="Remove">删除</Text>
@@ -205,7 +204,7 @@
   <Text Key="Added_Track_To_Playlist">添加 {numberoftracks} 歌曲到 '{playlistname}'</Text>
   <Text Key="Added_Tracks_To_Playlist">添加 {numberoftracks} 歌曲到 '{playlistname}'</Text>
   <Text Key="All_Genres">所有风格</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">在添加风格到播放列表 {playlistname}时发生了一个错误，请查看日志文件获取更多信息</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">在添加风格到播放列表 '{playlistname}'时发生了一个错误，请查看日志文件获取更多信息</Text>
   <Text Key="Border">边框</Text>
   <Text Key="Show_Window_Border">在窗口周围显示 1px 的边框</Text>
   <Text Key="System_Tray">系统托盘</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>

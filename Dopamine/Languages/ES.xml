@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">Actualizar ahora</Text>
   <Text Key="New_Playlist">Nueva lista de reproducción</Text>
   <Text Key="All_Playlists">Todas las listas de reproducción</Text>
-  <Text Key="Enter_Name_For_New_Playlist">Introduce un nombre para tu nueva lista de reproducción</Text>
   <Text Key="Already_Exists">Ya existe</Text>
   <Text Key="Already_Playlist_With_That_Name">Ya tienes una lista de reproducción con el nombre '{playlistname}'.</Text>
   <Text Key="Error_Adding_Playlist">No se ha podido añadir la lista de reproducción. Consulta el archivo 'log' para más información por favor.</Text>
@@ -150,11 +149,11 @@
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Supr</Text>
   <Text Key="Error_Renaming_Playlist">No se ha podido renombrar la lista de reproducción. Consulta el archivo 'log' para más información por favor.</Text>
-  <Text Key="Enter_New_Name_For_Playlist">Introduce un nombre nuevo para la lista de reproducción {playlistname}</Text>
+  <Text Key="Enter_New_Name_For_Playlist">Introduce un nombre nuevo para la lista de reproducción '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Añadir a la lista de reproducción</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">Se ha producido un error mientras se añadían canciones a la lista de reproducción {playlistname}. Consulta el archivo 'log' para más información por favor.</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">Se ha producido un error mientras se añadían álbumes a la lista de reproducción {playlistname}. Consulta el archivo 'log' para más información por favor.</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">Se ha producido un error mientras se añadían artistas a la lista de reproducción {playlistname}. Consulta el archivo 'log' para más información por favor.</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">Se ha producido un error mientras se añadían canciones a la lista de reproducción '{playlistname}'. Consulta el archivo 'log' para más información por favor.</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">Se ha producido un error mientras se añadían álbumes a la lista de reproducción '{playlistname}'. Consulta el archivo 'log' para más información por favor.</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">Se ha producido un error mientras se añadían artistas a la lista de reproducción '{playlistname}'. Consulta el archivo 'log' para más información por favor.</Text>
   <Text Key="Remove_From_Playlist">Eliminar de la lista de reproducción</Text>
   <Text Key="Error_Removing_From_Playlist">Se ha producido un error mientras se borraban canciones de las listas de reproducción. Consulta el archivo 'log' para más información por favor.</Text>
   <Text Key="Ignore_Previously_Removed_Files">Ignorar archivos que hayan sido previamente eliminados de la colección</Text>
@@ -205,7 +204,7 @@
   <Text Key="Added_Track_To_Playlist">Añadida {numberoftracks} canción a '{playlistname}'</Text>
   <Text Key="Added_Tracks_To_Playlist">Añadidas {numberoftracks} canciones a '{playlistname}'</Text>
   <Text Key="All_Genres">Todos los géneros</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">Se ha producido un error mientras se añadían géneros a la lista de reproducción {playlistname}. Consulta el archivo 'log' para más información por favor.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">Se ha producido un error mientras se añadían géneros a la lista de reproducción '{playlistname}'. Consulta el archivo 'log' para más información por favor.</Text>
   <Text Key="Border">Borde</Text>
   <Text Key="Show_Window_Border">Mostrar borde de 1 píxel alrededor de la ventana</Text>
   <Text Key="System_Tray">Área de notificación</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>

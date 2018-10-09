@@ -135,7 +135,6 @@
   <Text Key="Refresh_Now">Aggiorna adesso</Text>
   <Text Key="New_Playlist">Nuova playlist</Text>
   <Text Key="All_Playlists">Tutte le playlists</Text>
-  <Text Key="Enter_Name_For_New_Playlist">Inserisci un nome per la tua nuova playlist</Text>
   <Text Key="Already_Exists">Già esistente</Text>
   <Text Key="Already_Playlist_With_That_Name">Hai già una playlist intitolata '{playlistname}'.</Text>
   <Text Key="Error_Adding_Playlist">Non è stato possibile aggiungere la playlist. Per favore, consulta il file di log per maggiori informazioni.</Text>
@@ -150,11 +149,11 @@
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
   <Text Key="Error_Renaming_Playlist">Non è stato possibile rinominare la playlist. Per favore, consulta il file di log per maggiori informazioni.</Text>
-  <Text Key="Enter_New_Name_For_Playlist">Inserisci un nuovo nome per la playlist {playlistname}</Text>
+  <Text Key="Enter_New_Name_For_Playlist">Inserisci un nuovo nome per la playlist '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Aggiungi alla playlist</Text>
-  <Text Key="Error_Adding_Songs_To_Playlist">Si è verificato un errore durante l'aggiunta dei brani alla playlist {playlistname}. Per favore, consulta il file di log per maggiori informazioni.</Text>
-  <Text Key="Error_Adding_Albums_To_Playlist">Si è verificato un errore durante l'aggiunta degli album alla playlist {playlistname}. Per favore, consulta il file di log per maggiori informazioni.</Text>
-  <Text Key="Error_Adding_Artists_To_Playlist">Si è verificato un errore durante l'aggiunta degli artisti alla playlist {playlistname}. Per favore, consulta il file di log per maggiori informazioni.</Text>
+  <Text Key="Error_Adding_Songs_To_Playlist">Si è verificato un errore durante l'aggiunta dei brani alla playlist '{playlistname}'. Per favore, consulta il file di log per maggiori informazioni.</Text>
+  <Text Key="Error_Adding_Albums_To_Playlist">Si è verificato un errore durante l'aggiunta degli album alla playlist '{playlistname}'. Per favore, consulta il file di log per maggiori informazioni.</Text>
+  <Text Key="Error_Adding_Artists_To_Playlist">Si è verificato un errore durante l'aggiunta degli artisti alla playlist '{playlistname}'. Per favore, consulta il file di log per maggiori informazioni.</Text>
   <Text Key="Remove_From_Playlist">Rimuovi dalla playlist</Text>
   <Text Key="Error_Removing_From_Playlist">Si è verificato un errore durante la rimozione dei brani dalla playlists. Per favore, consulta il file di log per maggiori informazioni.</Text>
   <Text Key="Ignore_Previously_Removed_Files">Ignora i file precedentemente rimossi dalla collezione</Text>
@@ -205,7 +204,7 @@
   <Text Key="Added_Track_To_Playlist">Aggiunto {numberoftracks} brano a '{playlistname}'</Text>
   <Text Key="Added_Tracks_To_Playlist">Aggiunti {numberoftracks} brani a '{playlistname}'</Text>
   <Text Key="All_Genres">Tutti i generi</Text>
-  <Text Key="Error_Adding_Genres_To_Playlist">Si è verificato un errore durante l'aggiunta di generi alla playlist {playlistname}. Per favore, consulta il file di log per maggiori informazioni.</Text>
+  <Text Key="Error_Adding_Genres_To_Playlist">Si è verificato un errore durante l'aggiunta di generi alla playlist '{playlistname}'. Per favore, consulta il file di log per maggiori informazioni.</Text>
   <Text Key="Border">Bordo</Text>
   <Text Key="Show_Window_Border">Mostra un bordo di 1px intorno alla finestra</Text>
   <Text Key="System_Tray">Area di notifica</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
+  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
 </Language>
