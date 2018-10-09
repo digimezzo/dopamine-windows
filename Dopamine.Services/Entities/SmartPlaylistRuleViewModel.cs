@@ -37,7 +37,7 @@ namespace Dopamine.Services.Entities
             this.fields.Add(new SmartPlaylistRuleFieldViewModel(ResourceUtils.GetString("Language_Skips"), SmartPlaylistDecoder.FieldSkipCount, SmartPlaylistRuleFieldDataType.Numeric));
             this.selectedField = this.fields.First();
             this.GetOperators();
-            this.GetField();
+            this.GetValueSelector();
         }
 
         public ObservableCollection<SmartPlaylistRuleFieldViewModel> Fields
@@ -53,7 +53,7 @@ namespace Dopamine.Services.Entities
             {
                 SetProperty<SmartPlaylistRuleFieldViewModel>(ref this.selectedField, value);
                 this.GetOperators();
-                this.GetField();
+                this.GetValueSelector();
             }
         }
 
@@ -99,24 +99,35 @@ namespace Dopamine.Services.Entities
             set { SetProperty<bool>(ref this.isRatingSelected, value); }
         }
 
-        private void GetField()
+        private void GetValueSelector()
         {
             // Some defaults
             this.isTextInputSelected = true;
             this.isLoveSelected = false;
             this.isRatingSelected = false;
+            this.value = null;
 
             if (this.selectedField != null)
             {
                 this.isLoveSelected = this.selectedField.Name.Equals(SmartPlaylistDecoder.FieldLove);
                 this.isRatingSelected = this.selectedField.Name.Equals(SmartPlaylistDecoder.FieldRating);
                 this.isTextInputSelected = !this.isLoveSelected & !this.isRatingSelected;
+
+                if (this.isLoveSelected)
+                {
+                    this.value = "1";
+                }
+                else if (this.isRatingSelected)
+                {
+                    this.value = "3";
+                }
             }
 
             // Notify the UI of the changes
             RaisePropertyChanged(nameof(this.IsTextInputSelected));
             RaisePropertyChanged(nameof(this.IsLoveSelected));
             RaisePropertyChanged(nameof(this.IsRatingSelected));
+            RaisePropertyChanged(nameof(this.Value));
         }
 
         private void GetOperators()
@@ -145,7 +156,7 @@ namespace Dopamine.Services.Entities
                 }
             }
 
-            if(this.operators.Count > 0)
+            if (this.operators.Count > 0)
             {
                 if (this.selectedOperator == null || !this.operators.Contains(this.selectedOperator))
                 {
