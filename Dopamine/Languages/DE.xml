@@ -148,7 +148,6 @@
   <Text Key="Error_Deleting_Playlist">Die Wiedergabeliste '{playlistname}' konnte nicht gelöscht werden. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Entf</Text>
-  <Text Key="Error_Renaming_Playlist">Die Wiedergabeliste konnte nicht umbenannt werden. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Enter_New_Name_For_Playlist">Gibt der Wiedergabeliste '{playlistname}' einen neuen Namen</Text>
   <Text Key="Add_To_Playlist">Zu Wiedergabeliste hinzufügen</Text>
   <Text Key="Error_Adding_Songs_To_Playlist">Während des Hinzufügens der Titel zu der Wiedergabeliste '{playlistname}' ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
   <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
+  <Text Key="Error_Editing_Playlist">The playlist could not be edited. Please consult the log file for more information.</Text>
 </Language>

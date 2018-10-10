@@ -148,7 +148,6 @@
   <Text Key="Error_Deleting_Playlist">Não foi possível apagar a lista de reprodução	'{playlistname}'. Consulte o registo para obter mais informações.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
-  <Text Key="Error_Renaming_Playlist">Não foi possível renomear a lista de reprodução. Consulte o registo para obter mais informações.</Text>
   <Text Key="Enter_New_Name_For_Playlist">Digite o novo nome para a lista de reprodução '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Adicionar à lista de reprodução</Text>
   <Text Key="Error_Adding_Songs_To_Playlist">Ocorreu um erro ao adicionar as faixas à lista de reprodução '{playlistname}'. Consulte o registo para obter mais informações.</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Less_Than">menor que</Text>
   <Text Key="Edit_Playlist">Editar lista de reprodução</Text>
   <Text Key="Enter_Name_For_Playlist">Digite o nome para a lista de reprodução</Text>
+  <Text Key="Error_Editing_Playlist">The playlist could not be edited. Please consult the log file for more information.</Text>
 </Language>

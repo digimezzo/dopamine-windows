@@ -148,7 +148,6 @@
   <Text Key="Error_Deleting_Playlist">プレイリスト '{playlistname}' を削除できませんでした。詳細はログファイルを参照してください。</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
-  <Text Key="Error_Renaming_Playlist">プレイリスト名を変更できませんでした。詳細はログファイルを参照してください。</Text>
   <Text Key="Enter_New_Name_For_Playlist">プレイリスト '{playlistname}' の名前を入力してください</Text>
   <Text Key="Add_To_Playlist">プレイリストに追加</Text>
   <Text Key="Error_Adding_Songs_To_Playlist">プレイリスト '{playlistname}' に曲を追加できませんでした。詳細はログファイルを参照してください。</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
   <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
+  <Text Key="Error_Editing_Playlist">The playlist could not be edited. Please consult the log file for more information.</Text>
 </Language>

@@ -20,7 +20,7 @@
         Success = 1
     }
 
-    public enum RenamePlaylistResult
+    public enum EditPlaylistResult
     {
         Error = 0,
         Success = 1,

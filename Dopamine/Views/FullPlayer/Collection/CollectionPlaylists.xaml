@@ -72,7 +72,7 @@
                                  SelectedItem="{Binding SelectedPlaylist}"
                                  SelectionMode="Single">
                             <dc:MultiSelectListBox.InputBindings>
-                                <KeyBinding Key="F2" Command="{Binding RenameSelectedPlaylistCommand}" />
+                                <KeyBinding Key="F2" Command="{Binding EditSelectedPlaylistCommand}" />
                                 <KeyBinding Key="Delete" Command="{Binding DeleteSelectedPlaylistCommand}" />
                             </dc:MultiSelectListBox.InputBindings>
                         </dc:MultiSelectListBox>

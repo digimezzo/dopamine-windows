@@ -538,14 +538,14 @@ namespace Dopamine.Services.Playlist
             return uniquePlaylistName;
         }
 
-        private async Task<RenamePlaylistResult> RenameStaticPlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
+        private async Task<EditPlaylistResult> RenameStaticPlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
         {
             string oldFilename = playlistToRename.Path;
 
             if (!System.IO.File.Exists(oldFilename))
             {
                 LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", playlistToRename.Path);
-                return RenamePlaylistResult.Error;
+                return EditPlaylistResult.Error;
             }
 
             string sanitizedNewPlaylistName = FileUtils.SanitizeFilename(newPlaylistName);
@@ -553,10 +553,10 @@ namespace Dopamine.Services.Playlist
 
             if (System.IO.File.Exists(newFilename))
             {
-                return RenamePlaylistResult.Duplicate;
+                return EditPlaylistResult.Duplicate;
             }
 
-            RenamePlaylistResult result = RenamePlaylistResult.Success;
+            EditPlaylistResult result = EditPlaylistResult.Success;
 
             await Task.Run(() =>
             {
@@ -567,7 +567,7 @@ namespace Dopamine.Services.Playlist
                 catch (Exception ex)
                 {
                     LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", playlistToRename.Name, newPlaylistName, ex.Message);
-                    result = RenamePlaylistResult.Error;
+                    result = EditPlaylistResult.Error;
                 }
             });
 
@@ -597,16 +597,16 @@ namespace Dopamine.Services.Playlist
             }
         }
 
-        private async Task<RenamePlaylistResult> RenameSmartPlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
+        private async Task<EditPlaylistResult> RenameSmartPlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
         {
             IList<PlaylistViewModel> existingSmartPlaylists = await this.GetSmartPlaylistsAsync();
 
             if (existingSmartPlaylists.Any(x => x.Name.ToLower().Equals(newPlaylistName.ToLower())))
             {
-                return RenamePlaylistResult.Duplicate;
+                return EditPlaylistResult.Duplicate;
             }
 
-            RenamePlaylistResult result = RenamePlaylistResult.Success;
+            EditPlaylistResult result = EditPlaylistResult.Success;
 
             await Task.Run(() =>
             {
@@ -617,30 +617,30 @@ namespace Dopamine.Services.Playlist
                 catch (Exception ex)
                 {
                     LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", playlistToRename.Name, newPlaylistName, ex.Message);
-                    result = RenamePlaylistResult.Error;
+                    result = EditPlaylistResult.Error;
                 }
             });
 
             return result;
         }
 
-        public async Task<RenamePlaylistResult> RenamePlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
+        public async Task<EditPlaylistResult> EditPlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
         {
             if (playlistToRename == null)
             {
                 LogClient.Error($"{nameof(playlistToRename)} is null");
-                return RenamePlaylistResult.Error;
+                return EditPlaylistResult.Error;
             }
             if (string.IsNullOrWhiteSpace(newPlaylistName))
             {
                 LogClient.Error($"{nameof(newPlaylistName)} is empty");
-                return RenamePlaylistResult.Blank;
+                return EditPlaylistResult.Blank;
             }
 
 
             this.watcher.Suspend(); // Stop watching the playlist folder
 
-            RenamePlaylistResult result = RenamePlaylistResult.Error;
+            EditPlaylistResult result = EditPlaylistResult.Error;
 
             if (playlistToRename.Type.Equals(PlaylistType.Static))
             {
@@ -653,7 +653,7 @@ namespace Dopamine.Services.Playlist
 
             this.watcher.Resume(); // Start watching the playlist folder
 
-            if (result == RenamePlaylistResult.Success)
+            if (result == EditPlaylistResult.Success)
             {
                 this.PlaylistFolderChanged(this, new EventArgs());
             }

@@ -148,7 +148,6 @@
   <Text Key="Error_Deleting_Playlist">A playlist '{playlistname}' não pôde ser excluída. Por favor, consulte o arquivo de 'log' para obter maiores informações.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Delete</Text>
-  <Text Key="Error_Renaming_Playlist">A playlist não pôde ser renomeada. Por favor, consulte o arquivo de 'log' para obter maiores informações.</Text>
   <Text Key="Enter_New_Name_For_Playlist">Digite um novo nome para a playlist '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Adicionar à playlist</Text>
   <Text Key="Error_Adding_Songs_To_Playlist">Ocorreu um erro ao adicionar músicas à playlist '{playlistname}'. Por favor, consulte o arquivo de 'log' para obter maiores informações.</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
   <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
+  <Text Key="Error_Editing_Playlist">The playlist could not be edited. Please consult the log file for more information.</Text>
 </Language>

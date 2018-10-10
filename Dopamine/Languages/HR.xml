@@ -148,7 +148,6 @@
   <Text Key="Error_Deleting_Playlist">Popis '{playlistname}' nije moguće izbrisati. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
-  <Text Key="Error_Renaming_Playlist">Popis nije moguće preimenovati. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="Enter_New_Name_For_Playlist">Unesite novo ime za popis '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Dodaj na popis za izvođenje</Text>
   <Text Key="Error_Adding_Songs_To_Playlist">Dogodila se greška tijekom dodavanja pjesama na popis '{playlistname}'. Molimo pogledajte datoteku izvješća za više informacija.</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
   <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
+  <Text Key="Error_Editing_Playlist">The playlist could not be edited. Please consult the log file for more information.</Text>
 </Language>
