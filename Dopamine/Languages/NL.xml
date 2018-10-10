@@ -148,7 +148,6 @@
   <Text Key="Error_Deleting_Playlist">De afspeellijst '{playlistname}' kon niet worden verwijderd. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
-  <Text Key="Error_Renaming_Playlist">De afspeellijst kon niet worden hernoemd. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Enter_New_Name_For_Playlist">Geef een nieuwe naam voor de afspeelijst '{playlistname}'</Text>
   <Text Key="Add_To_Playlist">Voeg toe aan afspeellijst</Text>
   <Text Key="Error_Adding_Songs_To_Playlist">Er is een fout opgetreden bij het toevoegen van nummers aan de afspeellijst '{playlistname}'. Raadpleeg het log bestand voor meer informatie.</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Less_Than">kleiner dan</Text>
   <Text Key="Edit_Playlist">Playlist editeren</Text>
   <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
+  <Text Key="Error_Editing_Playlist">De afspeellijst kon niet worden geëditeerd. Raadpleeg het log bestand voor meer informatie.</Text>
 </Language>

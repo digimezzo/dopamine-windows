@@ -45,7 +45,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         public DelegateCommand NewPlaylistCommand { get; set; }
 
-        public DelegateCommand RenameSelectedPlaylistCommand { get; set; }
+        public DelegateCommand EditSelectedPlaylistCommand { get; set; }
 
         public DelegateCommand ImportPlaylistsCommand { get; set; }
 
@@ -87,7 +87,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.playbackService.PlaybackCountersChanged += async (_) => await this.GetTracksIfSmartPlaylistSelectedAsync();
 
             // Commands
-            this.RenameSelectedPlaylistCommand = new DelegateCommand(async () => await this.RenameSelectedPlaylistAsync());
+            this.EditSelectedPlaylistCommand = new DelegateCommand(async () => await this.EditSelectedPlaylistAsync());
             this.DeletePlaylistCommand = new DelegateCommand<PlaylistViewModel>(async (playlist) => await this.ConfirmDeletePlaylistAsync(playlist));
             this.ImportPlaylistsCommand = new DelegateCommand(async () => await this.ImportPlaylistsAsync());
             this.AddPlaylistToNowPlayingCommand = new DelegateCommand(async () => await this.AddPlaylistToNowPlayingAsync());
@@ -294,7 +294,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        private async Task RenameSelectedPlaylistAsync()
+        private async Task EditSelectedPlaylistAsync()
         {
             if (!this.IsPlaylistSelected)
             {
@@ -313,11 +313,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 ResourceUtils.GetString("Language_Cancel"),
                 ref newPlaylistName))
             {
-                RenamePlaylistResult result = await this.playlistService.RenamePlaylistAsync(this.SelectedPlaylist, newPlaylistName);
+                EditPlaylistResult result = await this.playlistService.EditPlaylistAsync(this.SelectedPlaylist, newPlaylistName);
 
                 switch (result)
                 {
-                    case RenamePlaylistResult.Duplicate:
+                    case EditPlaylistResult.Duplicate:
                         this.dialogService.ShowNotification(
                             0xe711,
                             16,
@@ -327,17 +327,17 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                             false,
                             string.Empty);
                         break;
-                    case RenamePlaylistResult.Error:
+                    case EditPlaylistResult.Error:
                         this.dialogService.ShowNotification(
                             0xe711,
                             16,
                             ResourceUtils.GetString("Language_Error"),
-                            ResourceUtils.GetString("Language_Error_Renaming_Playlist"),
+                            ResourceUtils.GetString("Language_Error_Editing_Playlist"),
                             ResourceUtils.GetString("Language_Ok"),
                             true,
                             ResourceUtils.GetString("Language_Log_File"));
                         break;
-                    case RenamePlaylistResult.Blank:
+                    case EditPlaylistResult.Blank:
                         this.dialogService.ShowNotification(
                             0xe711,
                             16,

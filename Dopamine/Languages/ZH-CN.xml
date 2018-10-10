@@ -148,7 +148,6 @@
   <Text Key="Error_Deleting_Playlist">不能删除播放列表 '{playlistname}'，请查看日志文件获取更多信息</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
-  <Text Key="Error_Renaming_Playlist">不能重命名播放列表，请查看日志文件获取更多信息</Text>
   <Text Key="Enter_New_Name_For_Playlist">为播放列表 '{playlistname}' 键入新的名字</Text>
   <Text Key="Add_To_Playlist">添加到播放列表</Text>
   <Text Key="Error_Adding_Songs_To_Playlist">在添加歌曲到播放列表 '{playlistname}' 时发生了一个错误，请查看日志文件获取更多信息</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
   <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
+  <Text Key="Error_Editing_Playlist">The playlist could not be edited. Please consult the log file for more information.</Text>
 </Language>

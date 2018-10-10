@@ -148,7 +148,6 @@
   <Text Key="Error_Deleting_Playlist">&apos;{playlistname}&apos; 재생 목록을 삭제할 수 없습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
-  <Text Key="Error_Renaming_Playlist">이 재생 목록의 이름을 바꿀 수 없습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
   <Text Key="Enter_New_Name_For_Playlist">&apos;{playlistname}&apos; 재생 목록의 새 이름을 입력하세요</Text>
   <Text Key="Add_To_Playlist">재생 목록에 추가</Text>
   <Text Key="Error_Adding_Songs_To_Playlist">&apos;{playlistname}&apos; 재생 목록에 노래를 추가하는 중 오류가 발생했습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
   <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
+  <Text Key="Error_Editing_Playlist">The playlist could not be edited. Please consult the log file for more information.</Text>
 </Language>

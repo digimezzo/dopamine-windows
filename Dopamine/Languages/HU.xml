@@ -148,7 +148,6 @@
   <Text Key="Error_Deleting_Playlist">A '{playlistname}' lejátszási listát nem lehetett törölni. További információért nézd meg a Naplózó fájlt.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Del</Text>
-  <Text Key="Error_Renaming_Playlist">Lejátszási listát nem lehet átnevezni. További információért nézd meg a Naplózó fájlt.</Text>
   <Text Key="Enter_New_Name_For_Playlist">Add meg a '{playlistname}' lejátszási lista új nevét</Text>
   <Text Key="Add_To_Playlist">Add hozzá a lejátszási listához</Text>
   <Text Key="Error_Adding_Songs_To_Playlist">Hiba történt a zeneszámok '{playlistname}' lejátszási listához való hozzáadása során. További információért nézd meg a Naplózó fájlt.</Text>
@@ -446,4 +445,5 @@
   <Text Key="Smart_Playlist_Less_Than">less than</Text>
   <Text Key="Edit_Playlist">Edit playlist</Text>
   <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
+  <Text Key="Error_Editing_Playlist">The playlist could not be edited. Please consult the log file for more information.</Text>
 </Language>
