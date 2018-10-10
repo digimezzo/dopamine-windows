@@ -437,13 +437,13 @@
   <Text Key="Create_Smart_Playlist_Where">Criar lista de reprodução em</Text>
   <Text Key="Add_If_Any_Rule_Is_Matched">Adicionar se coincidente com qualquer regra</Text>
   <Text Key="Limit_To">Limitar a</Text>
-  <Text Key="Smart_Playlist_Songs">songs</Text>
-  <Text Key="Smart_Playlist_Minutes">minutes</Text>
-  <Text Key="Smart_Playlist_Is">is</Text>
-  <Text Key="Smart_Playlist_Is_Not">is not</Text>
-  <Text Key="Smart_Playlist_Contains">contains</Text>
-  <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
-  <Text Key="Smart_Playlist_Less_Than">less than</Text>
-  <Text Key="Edit_Playlist">Edit playlist</Text>
-  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
+  <Text Key="Smart_Playlist_Songs">faixas</Text>
+  <Text Key="Smart_Playlist_Minutes">minutos</Text>
+  <Text Key="Smart_Playlist_Is">é</Text>
+  <Text Key="Smart_Playlist_Is_Not">não é</Text>
+  <Text Key="Smart_Playlist_Contains">contém</Text>
+  <Text Key="Smart_Playlist_Greater_Than">maior que</Text>
+  <Text Key="Smart_Playlist_Less_Than">menor que</Text>
+  <Text Key="Edit_Playlist">Editar lista de reprodução</Text>
+  <Text Key="Enter_Name_For_Playlist">Digite o nome para a lista de reprodução</Text>
 </Language>
