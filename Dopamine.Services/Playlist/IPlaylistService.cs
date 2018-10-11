@@ -42,5 +42,7 @@ namespace Dopamine.Services.Playlist
         Task SetStaticPlaylistOrderAsync(PlaylistViewModel playlist, IList<TrackViewModel> tracks);
 
         Task<ImportPlaylistResult> ImportPlaylistsAsync(IList<string> fileNames);
+
+        Task<EditablePlaylistViewModel> GetEditablePlaylistAsync(PlaylistViewModel playlistViewModel);
     }
 }

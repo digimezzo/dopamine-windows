@@ -200,7 +200,7 @@ namespace Dopamine.Core.IO
                 {
                     int limitValue = 0;
 
-                    if (limitElement.Attribute(XmlAttributeType) != null && int.TryParse(limitElement.Attribute(XmlAttributeType).Value, out limitValue))
+                    if (limitElement.Attribute(XmlAttributeType) != null && int.TryParse(limitElement.Value, out limitValue))
                     {
                         limit = new SmartPlaylistLimit(SmartPlaylistLimit.StringToType(limitElement.Attribute(XmlAttributeType).Value), limitValue);
                     }
