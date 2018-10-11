@@ -539,17 +539,17 @@ namespace Dopamine.Services.Playlist
             return uniquePlaylistName;
         }
 
-        private async Task<EditPlaylistResult> RenameStaticPlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
+        private async Task<EditPlaylistResult> EditStaticPlaylistAsync(EditablePlaylistViewModel editablePlaylistViewModel)
         {
-            string oldFilename = playlistToRename.Path;
+            string oldFilename = editablePlaylistViewModel.Path;
 
             if (!System.IO.File.Exists(oldFilename))
             {
-                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", playlistToRename.Path);
+                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", editablePlaylistViewModel.Path);
                 return EditPlaylistResult.Error;
             }
 
-            string sanitizedNewPlaylistName = FileUtils.SanitizeFilename(newPlaylistName);
+            string sanitizedNewPlaylistName = FileUtils.SanitizeFilename(editablePlaylistViewModel.PlaylistName);
             string newFilename = this.CreatePlaylistFilePath(sanitizedNewPlaylistName, PlaylistType.Static);
 
             if (System.IO.File.Exists(newFilename))
@@ -567,7 +567,7 @@ namespace Dopamine.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", playlistToRename.Name, newPlaylistName, ex.Message);
+                    LogClient.Error($"Error while renaming playlist '{editablePlaylistViewModel.Path}' to '{editablePlaylistViewModel.PlaylistName}'. Exception: {ex.Message}");
                     result = EditPlaylistResult.Error;
                 }
             });
@@ -625,31 +625,37 @@ namespace Dopamine.Services.Playlist
             return result;
         }
 
-        public async Task<EditPlaylistResult> EditPlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
+        public async Task<EditPlaylistResult> EditPlaylistAsync(EditablePlaylistViewModel editablePlaylistViewModel)
         {
-            if (playlistToRename == null)
+            if (editablePlaylistViewModel == null)
             {
-                LogClient.Error($"{nameof(playlistToRename)} is null");
+                LogClient.Error($"{nameof(editablePlaylistViewModel)} is null");
                 return EditPlaylistResult.Error;
             }
-            if (string.IsNullOrWhiteSpace(newPlaylistName))
+
+            if (string.IsNullOrWhiteSpace(editablePlaylistViewModel.Path))
             {
-                LogClient.Error($"{nameof(newPlaylistName)} is empty");
-                return EditPlaylistResult.Blank;
+                LogClient.Error($"{nameof(editablePlaylistViewModel.Path)} is null or empty");
+                return EditPlaylistResult.Error;
             }
 
+            if (string.IsNullOrWhiteSpace(editablePlaylistViewModel.PlaylistName))
+            {
+                LogClient.Error($"{nameof(editablePlaylistViewModel.PlaylistName)} is empty");
+                return EditPlaylistResult.Blank;
+            }
 
             this.watcher.Suspend(); // Stop watching the playlist folder
 
             EditPlaylistResult result = EditPlaylistResult.Error;
 
-            if (playlistToRename.Type.Equals(PlaylistType.Static))
+            if (editablePlaylistViewModel.Type.Equals(PlaylistType.Static))
             {
-                result = await this.RenameStaticPlaylistAsync(playlistToRename, newPlaylistName);
+                result = await this.EditStaticPlaylistAsync(editablePlaylistViewModel);
             }
-            else if (playlistToRename.Type.Equals(PlaylistType.Smart))
+            else if (editablePlaylistViewModel.Type.Equals(PlaylistType.Smart))
             {
-                result = await this.RenameSmartPlaylistAsync(playlistToRename, newPlaylistName);
+                // result = await this.RenameSmartPlaylistAsync(playlistToRename, newPlaylistName);
             }
 
             this.watcher.Resume(); // Start watching the playlist folder
@@ -920,6 +926,7 @@ namespace Dopamine.Services.Playlist
             // Not a new playlist
             if (playlistViewModel != null)
             {
+                editablePlaylist.Path = playlistViewModel.Path;
                 editablePlaylist.PlaylistName = playlistViewModel.Name;
                 editablePlaylist.Type = playlistViewModel.Type;
 
