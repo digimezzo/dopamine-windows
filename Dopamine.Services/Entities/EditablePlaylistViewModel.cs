@@ -16,6 +16,7 @@ namespace Dopamine.Services.Entities
         private ObservableCollection<SmartPlaylistTypeViewModel> limitTypes = new ObservableCollection<SmartPlaylistTypeViewModel>();
         private SmartPlaylistTypeViewModel selectedLimitType;
         private ObservableCollection<SmartPlaylistRuleViewModel> rules = new ObservableCollection<SmartPlaylistRuleViewModel>();
+        private string path;
 
         public EditablePlaylistViewModel(string playlistName, PlaylistType type)
         {
@@ -29,6 +30,12 @@ namespace Dopamine.Services.Entities
             this.limitTypes.Add(new SmartPlaylistTypeViewModel(SmartPlaylistLimitType.MegaBytes, ResourceUtils.GetString("Language_Megabytes_Short")));
             this.limitTypes.Add(new SmartPlaylistTypeViewModel(SmartPlaylistLimitType.Minutes, ResourceUtils.GetString("Language_Smart_Playlist_Minutes")));
             this.selectedLimitType = this.limitTypes.First();
+        }
+
+        public string Path
+        {
+            get { return this.path; }
+            set { SetProperty<string>(ref this.path, value); }
         }
 
         public string PlaylistName
