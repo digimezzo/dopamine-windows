@@ -14,6 +14,7 @@ using Dopamine.Services.Utils;
 using Prism.Ioc;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -934,6 +935,15 @@ namespace Dopamine.Services.Playlist
                         editablePlaylist.SelectedLimitType = editablePlaylist.LimitTypes.Where(x => x.Type.Equals(result.Limit.Type)).FirstOrDefault();
                         editablePlaylist.MatchAnyRule = result.Match.Equals(SmartPlaylistDecoder.MatchAny) ? true : false;
 
+                        var ruleViewModels = new ObservableCollection<SmartPlaylistRuleViewModel>();
+
+                        foreach (SmartPlaylistRule rule in result.Rules)
+                        {
+                            var ruleViewModel = new SmartPlaylistRuleViewModel();
+                            ruleViewModels.Add(ruleViewModel);
+                        }
+
+                        editablePlaylist.Rules = ruleViewModels;
                         // TODO
                         // editablePlaylist.Rules = ... 
                     });
