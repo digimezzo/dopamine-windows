@@ -359,60 +359,60 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 ResourceUtils.GetString("Language_Cancel"),
                 null))
             {
-                // await this.CreateNewPlaylistAsync(viewModel.EditablePlaylist);
+                //PlaylistViewModel oldPlaylist = this.SelectedPlaylist;
+                //string newPlaylistName = oldPlaylist.Name;
+
+                // EditPlaylistResult result = await this.playlistService.EditPlaylistAsync(this.SelectedPlaylist, newPlaylistName);
+
+                //if (this.dialogService.ShowInputDialog(
+                //    0xea37,
+                //    16,
+                //    ResourceUtils.GetString("Language_Edit_Playlist"),
+                //    ResourceUtils.GetString("Language_Enter_New_Name_For_Playlist").Replace("{playlistname}", oldPlaylist.Name),
+                //    ResourceUtils.GetString("Language_Ok"),
+                //    ResourceUtils.GetString("Language_Cancel"),
+                //    ref newPlaylistName))
+                //{
+                //    EditPlaylistResult result = await this.playlistService.EditPlaylistAsync(this.SelectedPlaylist, newPlaylistName);
+
+                //    switch (result)
+                //    {
+                //        case EditPlaylistResult.Duplicate:
+                //            this.dialogService.ShowNotification(
+                //                0xe711,
+                //                16,
+                //                ResourceUtils.GetString("Language_Already_Exists"),
+                //                ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("{playlistname}", newPlaylistName),
+                //                ResourceUtils.GetString("Language_Ok"),
+                //                false,
+                //                string.Empty);
+                //            break;
+                //        case EditPlaylistResult.Error:
+                //            this.dialogService.ShowNotification(
+                //                0xe711,
+                //                16,
+                //                ResourceUtils.GetString("Language_Error"),
+                //                ResourceUtils.GetString("Language_Error_Editing_Playlist"),
+                //                ResourceUtils.GetString("Language_Ok"),
+                //                true,
+                //                ResourceUtils.GetString("Language_Log_File"));
+                //            break;
+                //        case EditPlaylistResult.Blank:
+                //            this.dialogService.ShowNotification(
+                //                0xe711,
+                //                16,
+                //                ResourceUtils.GetString("Language_Error"),
+                //                ResourceUtils.GetString("Language_Provide_Playlist_Name"),
+                //                ResourceUtils.GetString("Language_Ok"),
+                //                false,
+                //                string.Empty);
+                //            break;
+                //        default:
+                //            // Never happens
+                //            break;
+                //    }
+                //}
             }
-
-            //PlaylistViewModel oldPlaylist = this.SelectedPlaylist;
-            //string newPlaylistName = oldPlaylist.Name;
-
-            //if (this.dialogService.ShowInputDialog(
-            //    0xea37,
-            //    16,
-            //    ResourceUtils.GetString("Language_Edit_Playlist"),
-            //    ResourceUtils.GetString("Language_Enter_New_Name_For_Playlist").Replace("{playlistname}", oldPlaylist.Name),
-            //    ResourceUtils.GetString("Language_Ok"),
-            //    ResourceUtils.GetString("Language_Cancel"),
-            //    ref newPlaylistName))
-            //{
-            //    EditPlaylistResult result = await this.playlistService.EditPlaylistAsync(this.SelectedPlaylist, newPlaylistName);
-
-            //    switch (result)
-            //    {
-            //        case EditPlaylistResult.Duplicate:
-            //            this.dialogService.ShowNotification(
-            //                0xe711,
-            //                16,
-            //                ResourceUtils.GetString("Language_Already_Exists"),
-            //                ResourceUtils.GetString("Language_Already_Playlist_With_That_Name").Replace("{playlistname}", newPlaylistName),
-            //                ResourceUtils.GetString("Language_Ok"),
-            //                false,
-            //                string.Empty);
-            //            break;
-            //        case EditPlaylistResult.Error:
-            //            this.dialogService.ShowNotification(
-            //                0xe711,
-            //                16,
-            //                ResourceUtils.GetString("Language_Error"),
-            //                ResourceUtils.GetString("Language_Error_Editing_Playlist"),
-            //                ResourceUtils.GetString("Language_Ok"),
-            //                true,
-            //                ResourceUtils.GetString("Language_Log_File"));
-            //            break;
-            //        case EditPlaylistResult.Blank:
-            //            this.dialogService.ShowNotification(
-            //                0xe711,
-            //                16,
-            //                ResourceUtils.GetString("Language_Error"),
-            //                ResourceUtils.GetString("Language_Provide_Playlist_Name"),
-            //                ResourceUtils.GetString("Language_Ok"),
-            //                false,
-            //                string.Empty);
-            //            break;
-            //        default:
-            //            // Never happens
-            //            break;
-            //    }
-            //}
         }
 
         private async void PlaylistService_TracksDeleted(PlaylistViewModel playlist)
