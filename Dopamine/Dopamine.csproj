@@ -451,6 +451,9 @@
     <Compile Include="Views\FullPlayer\Collection\CollectionSmartPlaylistEditor.xaml.cs">
       <DependentUpon>CollectionSmartPlaylistEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FullPlayer\Collection\CollectionStaticPlaylistEditor.xaml.cs">
+      <DependentUpon>CollectionStaticPlaylistEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\FullPlayer\Collection\CollectionTracks.xaml.cs">
       <DependentUpon>CollectionTracks.xaml</DependentUpon>
     </Compile>
@@ -1270,6 +1273,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullPlayer\Collection\CollectionSmartPlaylistEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Collection\CollectionStaticPlaylistEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

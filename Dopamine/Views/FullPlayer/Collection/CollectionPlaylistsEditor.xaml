@@ -26,17 +26,12 @@
         </Grid>
         <dc:Pivot Panel.ZIndex="1" Style="{DynamicResource MenuPivot}" HeaderMargin="50,0,0,0" SelectedIndex="{Binding SelectedIndex}">
             <dc:PivotItem Header="{DynamicResource Language_Playlist}" Style="{StaticResource MenuPivotItem}">
-                <DockPanel Margin="20">
-                    <TextBlock DockPanel.Dock="Top" Text="{DynamicResource Language_Enter_Name_For_Playlist}" 
-                                   Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center"/>
-                    <TextBox DockPanel.Dock="Top" Style="{DynamicResource MetroTextBox}" Margin="0,20,0,0" 
-                             Text="{Binding EditablePlaylist.PlaylistName, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Border Height="10"/>
-                </DockPanel>
+                <!-- DataContext is inherited from parent control automatically -->
+                <local:CollectionStaticPlaylistEditor Margin="20"/>
             </dc:PivotItem>
             <dc:PivotItem Header="{DynamicResource Language_Smart_Playlist}" Style="{StaticResource MenuPivotItem}">
                 <!-- DataContext is inherited from parent control automatically -->
-                <local:CollectionSmartPlaylistEditor/>
+                <local:CollectionSmartPlaylistEditor Margin="20"/>
             </dc:PivotItem>
         </dc:Pivot>
     </Grid>
