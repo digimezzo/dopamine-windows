@@ -76,6 +76,11 @@ namespace Dopamine.Services.Playlist
         public event TracksAddedHandler TracksAdded = delegate { };
         public event TracksDeletedHandler TracksDeleted = delegate { };
 
+        private string SanitizePlaylistFilename(string playlistName)
+        {
+            return FileUtils.SanitizeFilename(playlistName);
+        }
+
         private string CreatePlaylistFilePath(string sanitizedPlaylistName, PlaylistType type)
         {
             string extension = type.Equals(PlaylistType.Smart) ? FileFormats.DSPL : FileFormats.M3U;
@@ -132,7 +137,7 @@ namespace Dopamine.Services.Playlist
                 return CreateNewPlaylistResult.Blank;
             }
 
-            string sanitizedPlaylistName = FileUtils.SanitizeFilename(editablePlaylist.PlaylistName);
+            string sanitizedPlaylistName = this.SanitizePlaylistFilename(editablePlaylist.PlaylistName);
             string filePath = this.CreatePlaylistFilePath(sanitizedPlaylistName, editablePlaylist.Type);
 
             if (System.IO.File.Exists(filePath))
@@ -539,42 +544,6 @@ namespace Dopamine.Services.Playlist
             return uniquePlaylistName;
         }
 
-        private async Task<EditPlaylistResult> EditStaticPlaylistAsync(EditablePlaylistViewModel editablePlaylistViewModel)
-        {
-            string oldFilename = editablePlaylistViewModel.Path;
-
-            if (!System.IO.File.Exists(oldFilename))
-            {
-                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", editablePlaylistViewModel.Path);
-                return EditPlaylistResult.Error;
-            }
-
-            string sanitizedNewPlaylistName = FileUtils.SanitizeFilename(editablePlaylistViewModel.PlaylistName);
-            string newFilename = this.CreatePlaylistFilePath(sanitizedNewPlaylistName, PlaylistType.Static);
-
-            if (System.IO.File.Exists(newFilename))
-            {
-                return EditPlaylistResult.Duplicate;
-            }
-
-            EditPlaylistResult result = EditPlaylistResult.Success;
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    System.IO.File.Move(oldFilename, newFilename);
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error($"Error while renaming playlist '{editablePlaylistViewModel.Path}' to '{editablePlaylistViewModel.PlaylistName}'. Exception: {ex.Message}");
-                    result = EditPlaylistResult.Error;
-                }
-            });
-
-            return result;
-        }
-
         private void SetSmartPlaylistNameIfDifferent(string smartPlaylistPath, string newPlaylistName)
         {
             string name = string.Empty;
@@ -598,11 +567,18 @@ namespace Dopamine.Services.Playlist
             }
         }
 
-        private async Task<EditPlaylistResult> RenameSmartPlaylistAsync(PlaylistViewModel playlistToRename, string newPlaylistName)
+        private async Task<EditPlaylistResult> EditStaticPlaylistAsync(EditablePlaylistViewModel editablePlaylistViewModel)
         {
-            IList<PlaylistViewModel> existingSmartPlaylists = await this.GetSmartPlaylistsAsync();
+            if (!System.IO.File.Exists(editablePlaylistViewModel.Path))
+            {
+                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", editablePlaylistViewModel.Path);
+                return EditPlaylistResult.Error;
+            }
 
-            if (existingSmartPlaylists.Any(x => x.Name.ToLower().Equals(newPlaylistName.ToLower())))
+            string sanitizedNewPlaylistName = this.SanitizePlaylistFilename(editablePlaylistViewModel.PlaylistName);
+            string newFilename = this.CreatePlaylistFilePath(sanitizedNewPlaylistName, PlaylistType.Static);
+
+            if (System.IO.File.Exists(newFilename))
             {
                 return EditPlaylistResult.Duplicate;
             }
@@ -613,13 +589,48 @@ namespace Dopamine.Services.Playlist
             {
                 try
                 {
-                    this.SetSmartPlaylistNameIfDifferent(playlistToRename.Path, newPlaylistName);
+                    System.IO.File.Move(editablePlaylistViewModel.Path, newFilename);
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", playlistToRename.Name, newPlaylistName, ex.Message);
+                    LogClient.Error($"Error while renaming playlist '{editablePlaylistViewModel.Path}' to '{editablePlaylistViewModel.PlaylistName}'. Exception: {ex.Message}");
                     result = EditPlaylistResult.Error;
                 }
+            });
+
+            return result;
+        }
+
+        private async Task<EditPlaylistResult> EditSmartPlaylistAsync(EditablePlaylistViewModel editablePlaylistViewModel)
+        {
+            if (!System.IO.File.Exists(editablePlaylistViewModel.Path))
+            {
+                LogClient.Error("Error while renaming playlist. The playlist '{0}' could not be found", editablePlaylistViewModel.Path);
+                return EditPlaylistResult.Error;
+            }
+
+            IList<PlaylistViewModel> existingSmartPlaylists = await this.GetSmartPlaylistsAsync();
+
+            // TODO: for smart playlists, when we are editing the playlist with the same name, that's ok.
+            // So compare the new name with the name of the playlist at that file location.
+            if (existingSmartPlaylists.Any(x => x.Name.ToLower().Equals(editablePlaylistViewModel.PlaylistName.ToLower())))
+            {
+                return EditPlaylistResult.Duplicate;
+            }
+
+            EditPlaylistResult result = EditPlaylistResult.Success;
+
+            await Task.Run(() =>
+            {
+                //try
+                //{
+                //    this.SetSmartPlaylistNameIfDifferent(playlistToRename.Path, newPlaylistName);
+                //}
+                //catch (Exception ex)
+                //{
+                //    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", playlistToRename.Name, newPlaylistName, ex.Message);
+                //    result = EditPlaylistResult.Error;
+                //}
             });
 
             return result;
@@ -655,7 +666,7 @@ namespace Dopamine.Services.Playlist
             }
             else if (editablePlaylistViewModel.Type.Equals(PlaylistType.Smart))
             {
-                // result = await this.RenameSmartPlaylistAsync(playlistToRename, newPlaylistName);
+                result = await this.EditSmartPlaylistAsync(editablePlaylistViewModel);
             }
 
             this.watcher.Resume(); // Start watching the playlist folder
@@ -802,7 +813,7 @@ namespace Dopamine.Services.Playlist
 
             // Create the Playlist in the playlists folder
             // -------------------------------------------
-            string sanitizedPlaylistName = FileUtils.SanitizeFilename(playlistName);
+            string sanitizedPlaylistName = this.SanitizePlaylistFilename(playlistName);
             string filename = this.CreatePlaylistFilePath(sanitizedPlaylistName, PlaylistType.Static);
 
             ImportPlaylistResult result = ImportPlaylistResult.Success;
