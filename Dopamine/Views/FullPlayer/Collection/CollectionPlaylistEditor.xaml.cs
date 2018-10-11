@@ -2,9 +2,9 @@
 
 namespace Dopamine.Views.FullPlayer.Collection
 {
-    public partial class CollectionPlaylistsEditor : UserControl
+    public partial class CollectionPlaylistEditor : UserControl
     {
-        public CollectionPlaylistsEditor()
+        public CollectionPlaylistEditor()
         {
             InitializeComponent();
         }
