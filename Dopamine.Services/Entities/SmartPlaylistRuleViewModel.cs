@@ -180,5 +180,14 @@ namespace Dopamine.Services.Entities
         {
             return new SmartPlaylistRule(this.selectedField.Name, this.selectedOperator.Name, this.value);
         }
+
+        public SmartPlaylistRuleViewModel FromSmartPlaylistRule(SmartPlaylistRule rule)
+        {
+            var viewModel = new SmartPlaylistRuleViewModel();
+
+            // TODO
+            // viewModel.SelectedField = new SmartPlaylistRuleFieldViewModel("","", rule.Field)
+            return viewModel;
+        }
     }
 }

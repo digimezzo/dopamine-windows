@@ -56,18 +56,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async void InitializeAsync(PlaylistViewModel playlistViewModel)
         {
-            if (playlistViewModel == null)
-            {
-                // No playlistViewModel was given: assume we're creating a new playlist. Default to Static playlist. 
-                this.EditablePlaylist = new EditablePlaylistViewModel(
-                await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist")),
-                PlaylistType.Static
-                );
-            }
-            else
-            {
-                // TODO
-            }
+            this.EditablePlaylist = await this.playlistService.GetEditablePlaylistAsync(playlistViewModel);
         }
 
         private void AddRule()

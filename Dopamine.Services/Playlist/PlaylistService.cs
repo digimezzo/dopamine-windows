@@ -108,8 +108,8 @@ namespace Dopamine.Services.Playlist
                 {
                     var decoder = new SmartPlaylistDecoder();
                     XDocument smartPlaylistDocument = decoder.EncodeSmartPlaylist(
-                        editablePlaylist.PlaylistName, 
-                        editablePlaylist.MatchAnyRule, 
+                        editablePlaylist.PlaylistName,
+                        editablePlaylist.MatchAnyRule,
                         editablePlaylist.Limit.ToSmartPlaylistLimit(),
                         editablePlaylist.Rules.Select(x => x.ToSmartPlaylistRule()).ToList());
                     smartPlaylistDocument.Save(filePath);
@@ -906,6 +906,41 @@ namespace Dopamine.Services.Playlist
             }
 
             return finalResult;
+        }
+
+        public async Task<EditablePlaylistViewModel> GetEditablePlaylistAsync(PlaylistViewModel playlistViewModel)
+        {
+            // Assume new playlist
+            var editablePlaylist = new EditablePlaylistViewModel(
+                await this.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist")),
+                PlaylistType.Static
+                );
+
+            // Not a new playlist
+            if (playlistViewModel != null)
+            {
+                editablePlaylist.PlaylistName = playlistViewModel.Name;
+                editablePlaylist.Type = playlistViewModel.Type;
+
+                if (playlistViewModel.Type.Equals(PlaylistType.Smart))
+                {
+                    await Task.Run(() =>
+                    {
+                        var decoder = new SmartPlaylistDecoder();
+                        DecodeSmartPlaylistResult result = decoder.DecodePlaylist(playlistViewModel.Path);
+
+                        editablePlaylist.Limit = new SmartPlaylistLimitViewModel(result.Limit.Type, result.Limit.Value);
+                        editablePlaylist.Limit.IsEnabled = result.Limit.Value > 0;
+                        editablePlaylist.SelectedLimitType = editablePlaylist.LimitTypes.Where(x => x.Type.Equals(result.Limit.Type)).FirstOrDefault();
+                        editablePlaylist.MatchAnyRule = result.Match.Equals(SmartPlaylistDecoder.MatchAny) ? true : false;
+
+                        // TODO
+                        // editablePlaylist.Rules = ... 
+                    });
+                }
+            }
+
+            return editablePlaylist;
         }
     }
 }
