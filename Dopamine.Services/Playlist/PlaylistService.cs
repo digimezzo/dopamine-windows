@@ -940,12 +940,28 @@ namespace Dopamine.Services.Playlist
                         foreach (SmartPlaylistRule rule in result.Rules)
                         {
                             var ruleViewModel = new SmartPlaylistRuleViewModel();
+                            ruleViewModel.SelectedField = ruleViewModel.Fields.Where(x => x.Name.Equals(rule.Field)).FirstOrDefault();
+
+                            // If a invalid field was provided in the xml file, just take the first field.
+                            if (ruleViewModel.SelectedField == null)
+                            {
+                                ruleViewModel.SelectedField = ruleViewModel.Fields.First();
+                            }
+
+                            ruleViewModel.SelectedOperator = ruleViewModel.Operators.Where(x => x.Name.Equals(rule.Operator)).FirstOrDefault();
+
+                            // If a invalid operator was provided in the xml file, just take the first operator.
+                            if (ruleViewModel.SelectedOperator == null)
+                            {
+                                ruleViewModel.SelectedOperator = ruleViewModel.Operators.First();
+                            }
+
+                            ruleViewModel.Value = rule.Value;
+
                             ruleViewModels.Add(ruleViewModel);
                         }
 
                         editablePlaylist.Rules = ruleViewModels;
-                        // TODO
-                        // editablePlaylist.Rules = ... 
                     });
                 }
             }
