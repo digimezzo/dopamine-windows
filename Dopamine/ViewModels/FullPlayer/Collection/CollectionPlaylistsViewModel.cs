@@ -302,22 +302,44 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
 
             UserControl view = null;
+            CollectionPlaylistEditorViewModel viewModel = null;
 
-            var getCollectionPlaylistEditorViewModel = this.container.Resolve<Func<PlaylistViewModel, CollectionPlaylistEditorViewModel>>();
-            CollectionPlaylistEditorViewModel viewModel = getCollectionPlaylistEditorViewModel(this.selectedPlaylist);
-
-            if (this.selectedPlaylist.Type.Equals(PlaylistType.Static))
+            try
             {
-                view = this.container.Resolve<CollectionStaticPlaylistEditor>();
+                var getCollectionPlaylistEditorViewModel = this.container.Resolve<Func<PlaylistViewModel, CollectionPlaylistEditorViewModel>>();
+                viewModel = getCollectionPlaylistEditorViewModel(this.selectedPlaylist);
+
+                if (this.selectedPlaylist.Type.Equals(PlaylistType.Static))
+                {
+                    view = this.container.Resolve<CollectionStaticPlaylistEditor>();
+                }
+                else if (this.selectedPlaylist.Type.Equals(PlaylistType.Smart))
+                {
+                    view = this.container.Resolve<CollectionSmartPlaylistEditor>();
+                }
+
+                if (viewModel == null)
+                {
+                    throw new Exception($"{nameof(viewModel)} is null");
+                }
+
+                if (view == null)
+                {
+                    throw new Exception($"{nameof(view)} is null");
+                }
             }
-            else if (this.selectedPlaylist.Type.Equals(PlaylistType.Smart))
+            catch (Exception ex)
             {
-                view = this.container.Resolve<CollectionSmartPlaylistEditor>();
-            }
+                LogClient.Error($"Error while constructing Smart playlist editor View or ViewModel. Exception: {ex.Message}");
 
-            if(view == null)
-            {
-                return;
+                this.dialogService.ShowNotification(
+                            0xe711,
+                            16,
+                            ResourceUtils.GetString("Language_Error"),
+                            ResourceUtils.GetString("Language_Error_Editing_Playlist"),
+                            ResourceUtils.GetString("Language_Ok"),
+                            true,
+                            ResourceUtils.GetString("Language_Log_File"));
             }
 
             view.DataContext = viewModel;
