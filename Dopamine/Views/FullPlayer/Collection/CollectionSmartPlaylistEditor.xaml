@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <StackPanel Margin="20">
+    <StackPanel>
         <TextBlock Text="{DynamicResource Language_Enter_Name_For_Playlist}" 
                                    Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center"/>
         <TextBox Style="{DynamicResource MetroTextBox}" Margin="0,20,0,0"
