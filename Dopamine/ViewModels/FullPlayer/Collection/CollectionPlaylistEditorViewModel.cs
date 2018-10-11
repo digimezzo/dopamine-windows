@@ -6,20 +6,20 @@ using Prism.Mvvm;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
-    public class CollectionPlaylistsEditorViewModel : BindableBase
+    public class CollectionPlaylistEditorViewModel : BindableBase
     {
         private PlaylistType playlistType;
         private IPlaylistService playlistService;
         private int selectedIndex;
         private EditablePlaylistViewModel editablePlaylist;
 
-        public CollectionPlaylistsEditorViewModel(IPlaylistService playlistService)
+        public CollectionPlaylistEditorViewModel(IPlaylistService playlistService, PlaylistViewModel playlistViewModel)
         {
             this.playlistService = playlistService;
 
             this.AddRuleCommand = new DelegateCommand(() => this.AddRule());
             this.RemoveRuleCommand = new DelegateCommand<SmartPlaylistRuleViewModel>((rule) => this.RemoveRule(rule));
-            this.InitializeAsync();
+            this.InitializeAsync(playlistViewModel);
         }
 
         public DelegateCommand AddRuleCommand { get; set; }
@@ -35,7 +35,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         public int SelectedIndex
         {
             get { return this.selectedIndex; }
-            set {
+            set
+            {
                 SetProperty<int>(ref this.selectedIndex, value);
 
                 // Direct binding of the pivot page selection to editablePlaylist.Type
@@ -53,12 +54,20 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<PlaylistType>(ref this.playlistType, value); }
         }
 
-        private async void InitializeAsync()
+        private async void InitializeAsync(PlaylistViewModel playlistViewModel)
         {
-            this.EditablePlaylist = new EditablePlaylistViewModel(
+            if (playlistViewModel == null)
+            {
+                // No playlistViewModel was given: assume we're creating a new playlist. Default to Static playlist. 
+                this.EditablePlaylist = new EditablePlaylistViewModel(
                 await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist")),
                 PlaylistType.Static
                 );
+            }
+            else
+            {
+                // TODO
+            }
         }
 
         private void AddRule()

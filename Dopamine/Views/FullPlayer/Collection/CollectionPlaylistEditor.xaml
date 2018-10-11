@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Dopamine.Views.FullPlayer.Collection.CollectionPlaylistsEditor"
+﻿<UserControl x:Class="Dopamine.Views.FullPlayer.Collection.CollectionPlaylistEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -27,11 +27,11 @@
         <dc:Pivot Panel.ZIndex="1" Style="{DynamicResource MenuPivot}" HeaderMargin="50,0,0,0" SelectedIndex="{Binding SelectedIndex}">
             <dc:PivotItem Header="{DynamicResource Language_Playlist}" Style="{StaticResource MenuPivotItem}">
                 <!-- DataContext is inherited from parent control automatically -->
-                <local:CollectionStaticPlaylistEditor Margin="20"/>
+                <local:CollectionStaticPlaylistEditor/>
             </dc:PivotItem>
             <dc:PivotItem Header="{DynamicResource Language_Smart_Playlist}" Style="{StaticResource MenuPivotItem}">
                 <!-- DataContext is inherited from parent control automatically -->
-                <local:CollectionSmartPlaylistEditor Margin="20"/>
+                <local:CollectionSmartPlaylistEditor/>
             </dc:PivotItem>
         </dc:Pivot>
     </Grid>

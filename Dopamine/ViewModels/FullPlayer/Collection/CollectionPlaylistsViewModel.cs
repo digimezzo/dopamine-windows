@@ -301,13 +301,43 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 return;
             }
 
+            UserControl view = null;
+
+            var getCollectionPlaylistEditorViewModel = this.container.Resolve<Func<PlaylistViewModel, CollectionPlaylistEditorViewModel>>();
+            CollectionPlaylistEditorViewModel viewModel = getCollectionPlaylistEditorViewModel(this.selectedPlaylist);
+
             if (this.selectedPlaylist.Type.Equals(PlaylistType.Static))
             {
-
+                view = this.container.Resolve<CollectionStaticPlaylistEditor>();
             }
-            else if (this.selectedPlaylist.Type.Equals(PlaylistType.Static))
+            else if (this.selectedPlaylist.Type.Equals(PlaylistType.Smart))
             {
+                view = this.container.Resolve<CollectionSmartPlaylistEditor>();
+            }
 
+            if(view == null)
+            {
+                return;
+            }
+
+            view.DataContext = viewModel;
+
+            if (this.dialogService.ShowCustomDialog(
+                0xea37,
+                16,
+                ResourceUtils.GetString("Language_Edit_Playlist"),
+                view,
+                500,
+                0,
+                false,
+                true,
+                true,
+                true,
+                ResourceUtils.GetString("Language_Ok"),
+                ResourceUtils.GetString("Language_Cancel"),
+                null))
+            {
+                // await this.CreateNewPlaylistAsync(viewModel.EditablePlaylist);
             }
 
             //PlaylistViewModel oldPlaylist = this.SelectedPlaylist;
@@ -383,8 +413,9 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private async Task ConfirmCreateNewPlaylistAsync()
         {
-            CollectionPlaylistsEditor view = this.container.Resolve<CollectionPlaylistsEditor>();
-            var viewModel = this.container.Resolve<CollectionPlaylistsEditorViewModel>();
+            CollectionPlaylistEditor view = this.container.Resolve<CollectionPlaylistEditor>();
+            var getCollectionPlaylistEditorViewModel = this.container.Resolve<Func<PlaylistViewModel, CollectionPlaylistEditorViewModel>>();
+            CollectionPlaylistEditorViewModel viewModel = getCollectionPlaylistEditorViewModel(null);
             view.DataContext = viewModel;
 
             if (this.dialogService.ShowCustomDialog(
