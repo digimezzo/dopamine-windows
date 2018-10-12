@@ -89,10 +89,7 @@ namespace Dopamine.Services.Entities
 
         public string GroupHeader => this.Track.DiscCount.HasValueLargerThan(1) && this.Track.DiscNumber.HasValueLargerThan(0) ? $"{this.Track.AlbumTitle} ({this.Track.DiscNumber})" : this.Track.AlbumTitle;
 
-        public string GroupSubHeader
-        {
-            get { return DataUtils.GetCommaSeparatedColumnMultiValue(this.Track.AlbumArtists); }
-        }
+        public string GroupSubHeader => this.AlbumArtist;
 
         public bool ShowTrackArt
         {
