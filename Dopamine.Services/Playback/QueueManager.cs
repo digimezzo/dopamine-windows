@@ -527,8 +527,11 @@ namespace Dopamine.Services.Playback
                         foreach (TrackViewModel trackViewModel in this.queue)
                         {
                             trackViewModel.Refresh();
-                        }
+                        } 
+                    }
 
+                    if (this.currentTrack != null)
+                    {
                         this.currentTrack.Refresh();
                     }
                 }
