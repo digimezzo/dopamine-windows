@@ -1,14 +1,14 @@
-2018-10-09: Dopamine 2.0 Preview 2
+2018-10-12: Dopamine 2.0 Preview 2
 ----------------------------------
 
 - [Added] Added folder view
-- [Added] Smart playlists
+- [Added] Added smart playlists
 - [Added] Added support for the AIFF format
 - [Added] It is now possible to sort songs by album, even when no album is selected.
 - [Added] The search field can now be activated by pressing CTRL+F
 - [Added] Added Japanese language
-- [Changed] Removed the "Frequent" page
-- [Changed] Temporarily removed the "Theme" selector. Until Preview 3, only the dark theme will be available.
+- [Changed] Removed the "Frequent" page. It's usefulness was limited.
+- [Changed] Temporarily removed the "Theme" selector. Until a next preview, only the dark theme will be available.
 - [Changed] Updated the Chinese (Simplified) translation
 - [Changed] Updated the Chinese (Traditional) translation
 - [Changed] Updated the Croatian translation

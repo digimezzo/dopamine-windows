@@ -87,27 +87,51 @@ namespace Dopamine.Services.Playlist
             return Path.Combine(this.PlaylistFolder, sanitizedPlaylistName + extension);
         }
 
-        private async Task<PlaylistViewModel> CreateNewStaticPlaylistAsync(EditablePlaylistViewModel editablePlaylist, string filePath)
+        private async Task<PlaylistViewModel> CreateNewStaticPlaylistAsync(EditablePlaylistViewModel editablePlaylist)
         {
+            if (editablePlaylist == null)
+            {
+                LogClient.Error($"{nameof(editablePlaylist)} is null");
+                return null;
+            }
+
+            if (string.IsNullOrEmpty(editablePlaylist.Path))
+            {
+                LogClient.Error($"{nameof(editablePlaylist.Path)} is null or empty");
+                return null;
+            }
+
             try
             {
                 await Task.Run(() =>
                 {
                     // Close() prevents file in use issues
-                    System.IO.File.Create(filePath).Close();
+                    System.IO.File.Create(editablePlaylist.Path).Close();
                 });
             }
             catch (Exception ex)
             {
-                LogClient.Error($"Could not create playlist '{editablePlaylist.PlaylistName}' with filename '{filePath}'. Exception: {ex.Message}");
+                LogClient.Error($"Could not create playlist '{editablePlaylist.PlaylistName}' with filename '{editablePlaylist.Path}'. Exception: {ex.Message}");
                 return null;
             }
 
-            return new PlaylistViewModel(editablePlaylist.PlaylistName, filePath, PlaylistType.Static);
+            return new PlaylistViewModel(editablePlaylist.PlaylistName, editablePlaylist.Path, PlaylistType.Static);
         }
 
-        private async Task<PlaylistViewModel> CreateNewSmartPlaylistAsync(EditablePlaylistViewModel editablePlaylist, string filePath)
+        private async Task<PlaylistViewModel> CreateNewSmartPlaylistAsync(EditablePlaylistViewModel editablePlaylist)
         {
+            if (editablePlaylist == null)
+            {
+                LogClient.Error($"{nameof(editablePlaylist)} is null");
+                return null;
+            }
+
+            if (string.IsNullOrEmpty(editablePlaylist.Path))
+            {
+                LogClient.Error($"{nameof(editablePlaylist.Path)} is null or empty");
+                return null;
+            }
+
             try
             {
                 await Task.Run(() =>
@@ -118,16 +142,47 @@ namespace Dopamine.Services.Playlist
                         editablePlaylist.MatchAnyRule,
                         editablePlaylist.Limit.ToSmartPlaylistLimit(),
                         editablePlaylist.Rules.Select(x => x.ToSmartPlaylistRule()).ToList());
-                    smartPlaylistDocument.Save(filePath);
+                    smartPlaylistDocument.Save(editablePlaylist.Path);
                 });
             }
             catch (Exception ex)
             {
-                LogClient.Error($"Could not create playlist '{editablePlaylist.PlaylistName}' with filename '{filePath}'. Exception: {ex.Message}");
+                LogClient.Error($"Could not create playlist '{editablePlaylist.PlaylistName}' with filename '{editablePlaylist.Path}'. Exception: {ex.Message}");
                 return null;
             }
 
-            return new PlaylistViewModel(editablePlaylist.PlaylistName, filePath, PlaylistType.Smart);
+            return new PlaylistViewModel(editablePlaylist.PlaylistName, editablePlaylist.Path, PlaylistType.Smart);
+        }
+
+        private async Task<PlaylistViewModel> UpdateSmartPlaylistAsync(EditablePlaylistViewModel editablePlaylist)
+        {
+            if (editablePlaylist == null)
+            {
+                LogClient.Error($"{nameof(editablePlaylist)} is null");
+                return null;
+            }
+
+            if (string.IsNullOrEmpty(editablePlaylist.Path))
+            {
+                LogClient.Error($"{nameof(editablePlaylist.Path)} is null or empty");
+                return null;
+            }
+
+            // Delete the old smart playlsit file
+            await Task.Run(() =>
+            {
+                if (System.IO.File.Exists(editablePlaylist.Path))
+                {
+                    System.IO.File.Delete(editablePlaylist.Path);
+                }
+            });
+
+            // Update the path of the smart playlist to create
+            string sanitizedPlaylistName = this.SanitizePlaylistFilename(editablePlaylist.PlaylistName);
+            editablePlaylist.Path = this.CreatePlaylistFilePath(sanitizedPlaylistName, editablePlaylist.Type);
+
+            // Create a new smart playlist file
+            return await this.CreateNewSmartPlaylistAsync(editablePlaylist);
         }
 
         public async Task<CreateNewPlaylistResult> CreateNewPlaylistAsync(EditablePlaylistViewModel editablePlaylist)
@@ -138,9 +193,9 @@ namespace Dopamine.Services.Playlist
             }
 
             string sanitizedPlaylistName = this.SanitizePlaylistFilename(editablePlaylist.PlaylistName);
-            string filePath = this.CreatePlaylistFilePath(sanitizedPlaylistName, editablePlaylist.Type);
+            editablePlaylist.Path = this.CreatePlaylistFilePath(sanitizedPlaylistName, editablePlaylist.Type);
 
-            if (System.IO.File.Exists(filePath))
+            if (System.IO.File.Exists(editablePlaylist.Path))
             {
                 return CreateNewPlaylistResult.Duplicate;
             }
@@ -151,11 +206,11 @@ namespace Dopamine.Services.Playlist
 
             if (editablePlaylist.Type.Equals(PlaylistType.Static))
             {
-                playlistViewModel = await this.CreateNewStaticPlaylistAsync(editablePlaylist, filePath);
+                playlistViewModel = await this.CreateNewStaticPlaylistAsync(editablePlaylist);
             }
             else if (editablePlaylist.Type.Equals(PlaylistType.Smart))
             {
-                playlistViewModel = await this.CreateNewSmartPlaylistAsync(editablePlaylist, filePath);
+                playlistViewModel = await this.CreateNewSmartPlaylistAsync(editablePlaylist);
             }
 
             this.watcher.Resume(); // Start watching the playlist folder
@@ -593,7 +648,7 @@ namespace Dopamine.Services.Playlist
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error($"Error while renaming playlist '{editablePlaylistViewModel.Path}' to '{editablePlaylistViewModel.PlaylistName}'. Exception: {ex.Message}");
+                    LogClient.Error($"Error while editing static playlist '{editablePlaylistViewModel.Path}'. Exception: {ex.Message}");
                     result = EditPlaylistResult.Error;
                 }
             });
@@ -610,28 +665,33 @@ namespace Dopamine.Services.Playlist
             }
 
             IList<PlaylistViewModel> existingSmartPlaylists = await this.GetSmartPlaylistsAsync();
+            string oldSmartPlaylistName = this.GetSmartPlaylistName(editablePlaylistViewModel.Path);
 
-            // TODO: for smart playlists, when we are editing the playlist with the same name, that's ok.
-            // So compare the new name with the name of the playlist at that file location.
-            if (existingSmartPlaylists.Any(x => x.Name.ToLower().Equals(editablePlaylistViewModel.PlaylistName.ToLower())))
+            bool isEditingSamePlaylist = oldSmartPlaylistName.ToLower().Equals(editablePlaylistViewModel.PlaylistName.ToLower());
+            bool playlistNameIsAlreadyUsed = existingSmartPlaylists.Any(x => x.Name.ToLower().Equals(editablePlaylistViewModel.PlaylistName.ToLower()));
+
+            if (!isEditingSamePlaylist & playlistNameIsAlreadyUsed)
             {
                 return EditPlaylistResult.Duplicate;
             }
 
             EditPlaylistResult result = EditPlaylistResult.Success;
 
-            await Task.Run(() =>
+            try
             {
-                //try
-                //{
-                //    this.SetSmartPlaylistNameIfDifferent(playlistToRename.Path, newPlaylistName);
-                //}
-                //catch (Exception ex)
-                //{
-                //    LogClient.Error("Error while renaming playlist '{0}' to '{1}'. Exception: {2}", playlistToRename.Name, newPlaylistName, ex.Message);
-                //    result = EditPlaylistResult.Error;
-                //}
-            });
+                PlaylistViewModel playlistViewModel = await this.UpdateSmartPlaylistAsync(editablePlaylistViewModel);
+
+                if (playlistViewModel == null)
+                {
+                    LogClient.Error($"Error while editing smart playlist '{editablePlaylistViewModel.Path}'. {nameof(playlistViewModel)} is null");
+                    result = EditPlaylistResult.Error;
+                }
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error($"Error while editing smart playlist '{editablePlaylistViewModel.Path}'. Exception: {ex.Message}");
+                result = EditPlaylistResult.Error;
+            }
 
             return result;
         }
