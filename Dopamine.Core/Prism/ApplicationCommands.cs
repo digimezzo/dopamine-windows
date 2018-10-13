@@ -7,7 +7,6 @@ namespace Dopamine.Core.Prism
         public static CompositeCommand ShowNowPlayingCommand = new CompositeCommand();
         public static CompositeCommand ShowFullPlayerCommand = new CompositeCommand();
         public static CompositeCommand TogglePlayerCommand = new CompositeCommand();
-        public static CompositeCommand RestoreWindowCommand = new CompositeCommand();
         public static CompositeCommand MinimizeWindowCommand = new CompositeCommand();
         public static CompositeCommand MaximizeRestoreWindowCommand = new CompositeCommand();
         public static CompositeCommand CloseWindowCommand = new CompositeCommand();

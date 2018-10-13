@@ -36,6 +36,8 @@
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="FontSize" Value="12" />
+        <Setter Property="HorizontalOffset" Value="-10" />
+        <Setter Property="VerticalOffset" Value="-10" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ContextMenu}">
@@ -156,7 +158,8 @@
                         FontSize="13" />
                 <Popup Name="Popup"
                        Placement="Right"
-                       HorizontalOffset="-3"
+                       HorizontalOffset="-10"
+                       VerticalOffset="-10"
                        IsOpen="{TemplateBinding IsSubmenuOpen}"
                        AllowsTransparency="True"
                        Focusable="False"

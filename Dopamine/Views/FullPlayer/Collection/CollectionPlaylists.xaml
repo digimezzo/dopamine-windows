@@ -1,4 +1,4 @@
-﻿<baseviews:PlaylistsViewBase x:Class="Dopamine.Views.FullPlayer.Playlists.PlaylistsSmartPlaylists"
+﻿<baseviews:TracksViewBase x:Class="Dopamine.Views.FullPlayer.Collection.CollectionPlaylists"
                           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -34,7 +34,7 @@
                                        Foreground="{DynamicResource Brush_Accent}" DockPanel.Dock="Left"/>
                         <Button 
                                 x:Name="PlaylistsButton"
-                                Content="{DynamicResource Language_Smart_Playlists}" 
+                                Content="{DynamicResource Language_Playlists}" 
                                 Style="{StaticResource TransparentButton}"
                                 FontSize="13" 
                                 Margin="10,0,0,0"
@@ -45,14 +45,14 @@
                     <DockPanel>
                         <DockPanel.Resources>
                             <CollectionViewSource x:Key="ListBoxPlaylistsViewSource" Source="{Binding Playlists}">
-                                <CollectionViewSource.SortDescriptions>
+                                <!--<CollectionViewSource.SortDescriptions>
                                     <scm:SortDescription PropertyName="SortName" />
-                                </CollectionViewSource.SortDescriptions>
+                                </CollectionViewSource.SortDescriptions>-->
                             </CollectionViewSource>
                         </DockPanel.Resources>
                         <StackPanel DockPanel.Dock="Top" Margin="10,0,10,20">
-                            <pc:IconTextButton Glyph="&#xE710;" GlyphSize="13" Margin="0,0,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_New_Smart_Playlist}" Foreground="{DynamicResource Brush_Accent}" Command="{Binding Path=NewPlaylistCommand}"/>
-                            <pc:IconTextButton Glyph="&#xE896;" GlyphSize="13" Margin="0,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Import_Smart_Playlists}" Foreground="{DynamicResource Brush_Accent}" Command="{Binding Path=ImportPlaylistsCommand}" IsHitTestVisible="{Binding IsIndexing,Converter={StaticResource InvertingBooleanConverter}}"/>
+                            <pc:IconTextButton Glyph="&#xE710;" GlyphSize="13" Margin="0,0,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_New_Playlist}" Foreground="{DynamicResource Brush_Accent}" Command="{Binding Path=NewPlaylistCommand}"/>
+                            <pc:IconTextButton Glyph="&#xE896;" GlyphSize="13" Margin="0,10,0,0" HorizontalAlignment="Left" Content="{DynamicResource Language_Import_Playlists}" Foreground="{DynamicResource Brush_Accent}" Command="{Binding Path=ImportPlaylistsCommand}" IsHitTestVisible="{Binding IsIndexing,Converter={StaticResource InvertingBooleanConverter}}"/>
                         </StackPanel>
                         <dc:MultiSelectListBox x:Name="ListBoxPlaylists"
                                  dd:DragDrop.IsDragSource="True" 
@@ -72,7 +72,7 @@
                                  SelectedItem="{Binding SelectedPlaylist}"
                                  SelectionMode="Single">
                             <dc:MultiSelectListBox.InputBindings>
-                                <KeyBinding Key="F2" Command="{Binding RenameSelectedPlaylistCommand}" />
+                                <KeyBinding Key="F2" Command="{Binding EditSelectedPlaylistCommand}" />
                                 <KeyBinding Key="Delete" Command="{Binding DeleteSelectedPlaylistCommand}" />
                             </dc:MultiSelectListBox.InputBindings>
                         </dc:MultiSelectListBox>
@@ -138,5 +138,4 @@
             </DockPanel>
         </dc:MultiPanePanel.MiddlePaneContent>
     </dc:MultiPanePanel>
-</baseviews:PlaylistsViewBase>
-
+</baseviews:TracksViewBase>

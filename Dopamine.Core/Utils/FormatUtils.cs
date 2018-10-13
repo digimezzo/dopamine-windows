@@ -129,5 +129,29 @@ namespace Dopamine.Core.Utils
 
             return returnString;
         }
+
+        public static string TrimValue(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                return value.Trim();
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
+        public static string DelimitValue(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                return $"{Constants.ColumnValueDelimiter}{value.Trim()}{Constants.ColumnValueDelimiter}";
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
     }
 }

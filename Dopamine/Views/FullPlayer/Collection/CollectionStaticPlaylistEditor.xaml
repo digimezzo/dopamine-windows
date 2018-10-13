@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="Dopamine.Views.FullPlayer.Collection.CollectionStaticPlaylistEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <DockPanel Margin="20">
+        <TextBlock DockPanel.Dock="Top" Text="{DynamicResource Language_Enter_Name_For_Playlist}" 
+                                   Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center"/>
+        <TextBox DockPanel.Dock="Top" Style="{DynamicResource MetroTextBox}" Margin="0,20,0,0" 
+                             Text="{Binding EditablePlaylist.PlaylistName, UpdateSourceTrigger=PropertyChanged}"/>
+        <Border Height="10"/>
+    </DockPanel>
+</UserControl>

@@ -1,31 +1,44 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Data.Repositories;
-using Dopamine.Services.Collection;
 using Dopamine.Services.Indexing;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Threading.Tasks;
 
-namespace Dopamine.ViewModels.FullPlayer.Settings
+namespace Dopamine.ViewModels.FullPlayer
 {
-    public class SettingsCollectionViewModel : BindableBase
+    public class FullPlayerAddMusicViewModel : BindableBase
     {
-        private bool isActive;
-        private bool checkBoxIgnoreRemovedFilesChecked;
         private bool checkBoxRefreshCollectionAutomaticallyChecked;
+        private bool checkBoxIgnoreRemovedFilesChecked;
         private bool checkBoxDownloadMissingAlbumCoversChecked;
-        private IIndexingService indexingService;
-        private ICollectionService collectionService;
         private ITrackRepository trackRepository;
+        private IIndexingService indexingService;
+
+        public FullPlayerAddMusicViewModel(ITrackRepository trackRepository, IIndexingService indexingService)
+        {
+            this.trackRepository = trackRepository;
+            this.indexingService = indexingService;
+            this.RefreshNowCommand = new DelegateCommand(() => this.indexingService.RefreshCollectionImmediatelyAsync());
+            this.ReloadAllCoversCommand = new DelegateCommand(() => this.indexingService.ReScanAlbumArtworkAsync(false));
+            this.ReloadMissingCoversCommand = new DelegateCommand(() => this.indexingService.ReScanAlbumArtworkAsync(true));
+            this.GetCheckBoxesAsync();
+        }
 
         public DelegateCommand RefreshNowCommand { get; set; }
+
         public DelegateCommand ReloadAllCoversCommand { get; set; }
+
         public DelegateCommand ReloadMissingCoversCommand { get; set; }
 
-        public bool IsActive
+        public bool CheckBoxRefreshCollectionAutomaticallyChecked
         {
-            get { return this.isActive; }
-            set { SetProperty<bool>(ref this.isActive, value); }
+            get { return this.checkBoxRefreshCollectionAutomaticallyChecked; }
+            set
+            {
+                SettingsClient.Set<bool>("Indexing", "RefreshCollectionAutomatically", value, true);
+                SetProperty<bool>(ref this.checkBoxRefreshCollectionAutomaticallyChecked, value);
+            }
         }
 
         public bool CheckBoxIgnoreRemovedFilesChecked
@@ -38,7 +51,8 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
                 if (!value)
                 {
-                    this.trackRepository.ClearRemovedTrackAsync(); // Fire and forget
+                    // Fire and forget
+                    this.trackRepository.ClearRemovedTrackAsync(); 
                 }
             }
         }
@@ -58,30 +72,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             }
         }
 
-        public bool CheckBoxRefreshCollectionAutomaticallyChecked
-        {
-            get { return this.checkBoxRefreshCollectionAutomaticallyChecked; }
-            set
-            {
-                SettingsClient.Set<bool>("Indexing", "RefreshCollectionAutomatically", value, true);
-                SetProperty<bool>(ref this.checkBoxRefreshCollectionAutomaticallyChecked, value);
-            }
-        }
-
-        public SettingsCollectionViewModel(IIndexingService indexingService, ICollectionService collectionService,
-            ITrackRepository trackRepository)
-        {
-            this.indexingService = indexingService;
-            this.collectionService = collectionService;
-            this.trackRepository = trackRepository;
-
-            this.RefreshNowCommand = new DelegateCommand(this.RefreshNow);
-            this.ReloadAllCoversCommand = new DelegateCommand(() => this.indexingService.ReScanAlbumArtworkAsync(false));
-            this.ReloadMissingCoversCommand = new DelegateCommand(() => this.indexingService.ReScanAlbumArtworkAsync(true));
-
-            this.GetCheckBoxesAsync();
-        }
-
         private async void GetCheckBoxesAsync()
         {
             await Task.Run(() =>
@@ -90,11 +80,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 this.checkBoxIgnoreRemovedFilesChecked = SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles");
                 this.checkBoxDownloadMissingAlbumCoversChecked = SettingsClient.Get<bool>("Covers", "DownloadMissingAlbumCovers");
             });
-        }
-
-        private void RefreshNow()
-        {
-            this.indexingService.RefreshCollectionImmediatelyAsync();
         }
     }
 }

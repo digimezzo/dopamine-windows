@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="Dopamine.Views.FullPlayer.Collection.CollectionPlaylistEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:local="clr-namespace:Dopamine.Views.FullPlayer.Collection"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid>
+        <Border Panel.ZIndex="0" VerticalAlignment="Top" Height="50" Background="{DynamicResource Brush_WindowHeaderBackground}"/>
+        <Grid Panel.ZIndex="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Height="30" Margin="10">
+            <Viewbox Width="30" Height="30" Panel.ZIndex="0">
+                <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
+            </Viewbox>
+            <TextBlock
+                      x:Name="Icon"
+                      Panel.ZIndex="1"
+                      Style="{StaticResource SegoeAssets}"
+                      HorizontalAlignment="Center" 
+                      VerticalAlignment="Center" 
+                      FontSize="16"
+                      Text="&#xea37;"
+                      Foreground="{DynamicResource Brush_WindowIcon}" />
+        </Grid>
+        <dc:Pivot Panel.ZIndex="1" Style="{DynamicResource MenuPivot}" HeaderMargin="50,0,0,0" SelectedIndex="{Binding SelectedIndex}">
+            <dc:PivotItem Header="{DynamicResource Language_Playlist}" Style="{StaticResource MenuPivotItem}">
+                <!-- DataContext is inherited from parent control automatically -->
+                <local:CollectionStaticPlaylistEditor/>
+            </dc:PivotItem>
+            <dc:PivotItem Header="{DynamicResource Language_Smart_Playlist}" Style="{StaticResource MenuPivotItem}">
+                <!-- DataContext is inherited from parent control automatically -->
+                <local:CollectionSmartPlaylistEditor/>
+            </dc:PivotItem>
+        </dc:Pivot>
+    </Grid>
+</UserControl>
