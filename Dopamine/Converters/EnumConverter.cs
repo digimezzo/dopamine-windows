@@ -21,6 +21,7 @@ namespace Dopamine.Converters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Enum enumValue = default(Enum);
+
             if (parameter is Type)
             {
                 enumValue = (Enum)Enum.Parse((Type)parameter, value.ToString());

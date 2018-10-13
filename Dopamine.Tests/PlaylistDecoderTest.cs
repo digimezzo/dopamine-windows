@@ -88,7 +88,7 @@ namespace Dopamine.Tests
         public void GenerateFullPath()
         {
             // Arrange
-            var decoder = new PlaylistDecoderTest();
+            var decoder = new PlaylistDecoder();
             PrivateObject obj = new PrivateObject(decoder);
 
             string expectedPath1 = @"C:\Music\Folder\File.mp3";

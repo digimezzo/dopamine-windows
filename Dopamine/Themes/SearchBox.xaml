@@ -68,40 +68,35 @@
                                     Foreground="{DynamicResource Brush_PrimaryText}"
                                     FontSize="1"
                                     Opacity="0">
-                                <fwc:SegoeIcon.Style>
-                                    <Style>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding HasText, RelativeSource={RelativeSource TemplatedParent}}" Value="true">
-                                                <DataTrigger.EnterActions>
-                                                    <BeginStoryboard>
-                                                        <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetProperty="FontSize" To="12" Duration="0:0:0.25"/>
-                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
-                                                        </Storyboard>
-                                                    </BeginStoryboard>
-                                                </DataTrigger.EnterActions>
-                                                <DataTrigger.ExitActions>
-                                                    <BeginStoryboard>
-                                                        <Storyboard>
-                                                            <DoubleAnimation Storyboard.TargetProperty="FontSize" To="1" Duration="0:0:0.25"/>
-                                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
-                                                        </Storyboard>
-                                                    </BeginStoryboard>
-                                                </DataTrigger.ExitActions>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </fwc:SegoeIcon.Style>
+                                    <fwc:SegoeIcon.Style>
+                                        <Style>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HasText, RelativeSource={RelativeSource TemplatedParent}}" Value="true">
+                                                    <DataTrigger.EnterActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="FontSize" To="12" Duration="0:0:0.25"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.25"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.EnterActions>
+                                                    <DataTrigger.ExitActions>
+                                                        <BeginStoryboard>
+                                                            <Storyboard>
+                                                                <DoubleAnimation Storyboard.TargetProperty="FontSize" To="1" Duration="0:0:0.25"/>
+                                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.25"/>
+                                                            </Storyboard>
+                                                        </BeginStoryboard>
+                                                    </DataTrigger.ExitActions>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </fwc:SegoeIcon.Style>
                                 </fwc:SegoeIcon>
                             </Grid>
                         </Border>
-                        <Grid Margin="5,0,5,0">
-                            <ScrollViewer x:Name="PART_ContentHost" Panel.ZIndex="1" VerticalAlignment="Center" 
-                                          Foreground="{Binding Foreground,RelativeSource={RelativeSource TemplatedParent}}"/>
-                            <TextBlock x:Name="PART_SearchHint" Panel.ZIndex="0" VerticalAlignment="Center" 
-                                       Text="{DynamicResource Language_Search_Hint}" 
-                                       Foreground="{DynamicResource Brush_SecondaryText}"/>
-                        </Grid>
+                        <ScrollViewer x:Name="PART_ContentHost" Panel.ZIndex="1" VerticalAlignment="Center" Margin="5,0,5,0"
+                                      Foreground="{Binding Foreground,RelativeSource={RelativeSource TemplatedParent}}"/>
                     </DockPanel>
                 </ControlTemplate>
             </Setter.Value>

@@ -26,7 +26,7 @@
     <Border x:Name="WindowBorder" BorderBrush="{DynamicResource Brush_Accent}">
         <Grid>
             <Border x:Name="PlaylistBackground" Background="{DynamicResource Brush_MainWindowBackground}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <dc:Pivot Margin="20"
+            <dc:Pivot Margin="10,20,10,20"
                       Panel.ZIndex="1" 
                       SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:NowPlayingPage}}" HeaderVisibility="Collapsed" FeatheringRadius="24" AnimationType="SlideHorizontal" SlideFadeIn="True">
                 <dc:PivotItem>

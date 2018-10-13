@@ -1,28 +1,48 @@
 ﻿using Dopamine.Services.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Dopamine.Services.Playlist
 {
-    public interface IPlaylistService : IPlaylistServiceBase
+    public interface IPlaylistService
     {
-        Task<string> GetUniquePlaylistNameAsync(string proposedPlaylistName);
+        string PlaylistFolder { get; }
 
-        Task<IList<TrackViewModel>> GetTracks(string playlistName);
-
-        Task SetPlaylistOrderAsync(IList<TrackViewModel> tracks, string playlistName);
-
-        Task<AddTracksToPlaylistResult> AddTracksToPlaylistAsync(IList<TrackViewModel> tracks, string playlistName);
-
-        Task<AddTracksToPlaylistResult> AddArtistsToPlaylistAsync(IList<string> artists, string playlistName);
-
-        Task<AddTracksToPlaylistResult> AddGenresToPlaylistAsync(IList<string> genres, string playlistName);
-
-        Task<AddTracksToPlaylistResult> AddAlbumsToPlaylistAsync(IList<AlbumViewModel> albumViewModels, string playlistName);
-
-        Task<DeleteTracksFromPlaylistResult> DeleteTracksFromPlaylistAsync(IList<int> indexes, string playlistName);
+        string DialogFileFilter { get; }
 
         event TracksAddedHandler TracksAdded;
         event TracksDeletedHandler TracksDeleted;
+        event EventHandler PlaylistFolderChanged;
+
+        Task<CreateNewPlaylistResult> CreateNewPlaylistAsync(EditablePlaylistViewModel editablePlaylist);
+
+        Task<AddTracksToPlaylistResult> AddTracksToStaticPlaylistAsync(IList<TrackViewModel> tracks, string playlistName);
+
+        Task<AddTracksToPlaylistResult> AddArtistsToStaticPlaylistAsync(IList<string> artists, string playlistName);
+
+        Task<AddTracksToPlaylistResult> AddGenresToStaticPlaylistAsync(IList<string> genres, string playlistName);
+
+        Task<AddTracksToPlaylistResult> AddAlbumsToStaticPlaylistAsync(IList<AlbumViewModel> albumViewModels, string playlistName);
+
+        Task<IList<PlaylistViewModel>> GetStaticPlaylistsAsync();
+
+        Task<IList<PlaylistViewModel>> GetAllPlaylistsAsync();
+
+        Task<IList<TrackViewModel>> GetTracksAsync(PlaylistViewModel playlist);
+
+        Task<DeleteTracksFromPlaylistResult> DeleteTracksFromStaticPlaylistAsync(IList<int> indexes, PlaylistViewModel playlist);
+
+        Task<string> GetUniquePlaylistNameAsync(string proposedPlaylistName);
+
+        Task<EditPlaylistResult> EditPlaylistAsync(EditablePlaylistViewModel editablePlaylistViewModel);
+
+        Task<DeletePlaylistsResult> DeletePlaylistAsync(PlaylistViewModel playlist);
+
+        Task SetStaticPlaylistOrderAsync(PlaylistViewModel playlist, IList<TrackViewModel> tracks);
+
+        Task<ImportPlaylistResult> ImportPlaylistsAsync(IList<string> fileNames);
+
+        Task<EditablePlaylistViewModel> GetEditablePlaylistAsync(PlaylistViewModel playlistViewModel);
     }
 }

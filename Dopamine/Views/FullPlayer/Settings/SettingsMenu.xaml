@@ -20,7 +20,6 @@
     <Grid Margin="0,0,180,0">
         <dc:Pivot Style="{DynamicResource MenuPivot}"
                   SelectedIndex="{Binding SelectedPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:SettingsPage}}">
-            <dc:PivotItem Header="{DynamicResource Language_Collection}" Style="{StaticResource MenuPivotItem}"/>
             <dc:PivotItem Header="{DynamicResource Language_Appearance}" Style="{StaticResource MenuPivotItem}"/>
             <dc:PivotItem Header="{DynamicResource Language_Behaviour}" Style="{StaticResource MenuPivotItem}"/>
             <dc:PivotItem Header="{DynamicResource Language_Playback}" Style="{StaticResource MenuPivotItem}"/>

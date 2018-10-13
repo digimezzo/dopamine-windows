@@ -8,7 +8,6 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Helpers;
 using Dopamine.Core.IO;
 using Dopamine.Data;
-using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Appearance;
 using Dopamine.Services.Cache;
@@ -42,7 +41,6 @@ using Dopamine.Views.Common;
 using Dopamine.Views.FullPlayer;
 using Dopamine.Views.FullPlayer.Collection;
 using Dopamine.Views.FullPlayer.Information;
-using Dopamine.Views.FullPlayer.Playlists;
 using Dopamine.Views.FullPlayer.Settings;
 using Dopamine.Views.MiniPlayer;
 using Dopamine.Views.NowPlaying;
@@ -245,7 +243,6 @@ namespace Dopamine
                 containerRegistry.RegisterSingleton<IProviderService, ProviderService>();
                 containerRegistry.RegisterSingleton<IScrobblingService, LastFmScrobblingService>();
                 containerRegistry.RegisterSingleton<IPlaylistService, PlaylistService>();
-                containerRegistry.RegisterSingleton<ISmartPlaylistService, SmartPlaylistService>();
                 containerRegistry.RegisterSingleton<IExternalControlService, ExternalControlService>();
                 containerRegistry.RegisterSingleton<IWindowsIntegrationService, WindowsIntegrationService>();
                 containerRegistry.RegisterSingleton<ILyricsService, LyricsService>();
@@ -290,7 +287,8 @@ namespace Dopamine
             {
                 // Making sure resources are set before we need them
                 Container.Resolve<II18nService>().ApplyLanguageAsync(SettingsClient.Get<string>("Appearance", "Language"));
-                Container.Resolve<IAppearanceService>().ApplyTheme(SettingsClient.Get<bool>("Appearance", "EnableLightTheme"));
+                // Container.Resolve<IAppearanceService>().ApplyTheme(SettingsClient.Get<bool>("Appearance", "EnableLightTheme"));
+                Container.Resolve<IAppearanceService>().ApplyTheme(false);
                 Container.Resolve<IAppearanceService>().ApplyColorSchemeAsync(
                     SettingsClient.Get<string>("Appearance", "ColorScheme"),
                     SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"),
@@ -311,29 +309,23 @@ namespace Dopamine
                 containerRegistry.Register<object, MicroPlayer>(typeof(MicroPlayer).FullName);
                 containerRegistry.Register<object, NanoPlayer>(typeof(NanoPlayer).FullName);
                 containerRegistry.Register<object, NowPlaying>(typeof(NowPlaying).FullName);
+                containerRegistry.Register<object, WindowControls>(typeof(WindowControls).FullName);
 
                 // Collection
                 containerRegistry.Register<object, CollectionMenu>(typeof(CollectionMenu).FullName);
                 containerRegistry.Register<object, Collection>(typeof(Collection).FullName);
                 containerRegistry.Register<object, CollectionAlbums>(typeof(CollectionAlbums).FullName);
                 containerRegistry.Register<object, CollectionArtists>(typeof(CollectionArtists).FullName);
+                containerRegistry.Register<object, CollectionPlaylists>(typeof(CollectionPlaylists).FullName);
                 containerRegistry.Register<object, CollectionFolders>(typeof(CollectionFolders).FullName);
-                containerRegistry.Register<object, CollectionFrequent>(typeof(CollectionFrequent).FullName);
                 containerRegistry.Register<object, CollectionGenres>(typeof(CollectionGenres).FullName);
                 containerRegistry.Register<object, CollectionTracks>(typeof(CollectionTracks).FullName);
-
-                // Playlists
-                containerRegistry.Register<object, PlaylistsMenu>(typeof(PlaylistsMenu).FullName);
-                containerRegistry.Register<object, Playlists>(typeof(Playlists).FullName);
-                containerRegistry.Register<object, PlaylistsSmartPlaylists>(typeof(PlaylistsSmartPlaylists).FullName);
-                containerRegistry.Register<object, PlaylistsPlaylists>(typeof(PlaylistsPlaylists).FullName);
 
                 // Settings
                 containerRegistry.Register<object, SettingsMenu>(typeof(SettingsMenu).FullName);
                 containerRegistry.Register<object, Settings>(typeof(Settings).FullName);
                 containerRegistry.Register<object, SettingsAppearance>(typeof(SettingsAppearance).FullName);
                 containerRegistry.Register<object, SettingsBehaviour>(typeof(SettingsBehaviour).FullName);
-                containerRegistry.Register<object, SettingsCollection>(typeof(SettingsCollection).FullName);
                 containerRegistry.Register<object, SettingsOnline>(typeof(SettingsOnline).FullName);
                 containerRegistry.Register<object, SettingsPlayback>(typeof(SettingsPlayback).FullName);
                 containerRegistry.Register<object, SettingsStartup>(typeof(SettingsStartup).FullName);

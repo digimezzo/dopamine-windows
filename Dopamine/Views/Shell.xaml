@@ -12,6 +12,7 @@
                               xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                               mc:Ignorable="d"
                               Title="{Binding TaskbarService.Description}" 
+                              TitleBarHeight="48"
                               Width="950" 
                               Height="600" 
                               MinWidth="{x:Static base:Constants.MinShellWidth}"
@@ -19,10 +20,6 @@
                               OverlayBackground="{DynamicResource Brush_DimBackground}"
                               IsOverlayVisible="{Binding Path=IsOverlayVisible}"
                               Background="Transparent"
-                              CloseToolTip="{DynamicResource Language_Close}"
-                              MinimizeToolTip="{DynamicResource Language_Minimize}"
-                              MaximizeToolTip="{DynamicResource Language_Maximize}"
-                              RestoreToolTip="{DynamicResource Language_Restore}"
                               prismMvvm:ViewModelLocator.AutoWireViewModel="True"
                               Closing="Window_Closing"
                               Deactivated="Window_Deactivated"
@@ -37,18 +34,7 @@
                               KeyDown="Window_KeyDown"
                               PreviewKeyDown="Window_PreviewKeyDown"
                               ApplyDefaultButtonColors="False"
-                              MinMaxForeground="{DynamicResource Brush_SecondaryText}"
-                              MinMaxHoveredForeground="{DynamicResource Brush_WindowButtonHoveredIcon}"
-                              MinMaxPressedForeground="{DynamicResource Brush_WindowButtonPressedIcon}"
-                              MinMaxBackground="Transparent"
-                              MinMaxHoveredBackground="{DynamicResource Brush_Accent}"
-                              MinMaxPressedBackground="{DynamicResource Brush_WindowButtonPressedBackground}"
-                              CloseForeground="{DynamicResource Brush_SecondaryText}"
-                              CloseHoveredForeground="{DynamicResource Brush_WindowButtonHoveredIcon}"
-                              ClosePressedForeground="{DynamicResource Brush_WindowButtonPressedIcon}"
-                              CloseBackground="Transparent"
-                              CloseHoveredBackground="{DynamicResource Brush_Accent}"
-                              ClosePressedBackground="{DynamicResource Brush_WindowButtonPressedBackground}"
+                              ShowWindowControls="False"
                               MouseDown="Window_MouseDown">
 
     <i:Interaction.Triggers>
@@ -69,8 +55,8 @@
         </ResourceDictionary>
     </dc:BorderlessWindows10Window.Resources>
 
-    <dc:BorderlessWindows10Window.WindowCommands>
-        <!-- Mini Player switch button -->
+    <!--<dc:BorderlessWindows10Window.WindowCommands>
+        --><!-- Mini Player switch button --><!--
         <Button 
                 x:Name="PART_MiniPlayerButton" 
                 Style="{StaticResource WindowButton}" 
@@ -88,7 +74,7 @@
                                 UseLayoutRounding="False" 
                                 SnapsToDevicePixels="True"/>
         </Button>
-    </dc:BorderlessWindows10Window.WindowCommands>
+    </dc:BorderlessWindows10Window.WindowCommands>-->
 
     <!--  TaskbarItemInfo -->
     <dc:BorderlessWindows10Window.TaskbarItemInfo>

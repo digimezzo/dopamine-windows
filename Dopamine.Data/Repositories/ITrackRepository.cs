@@ -10,6 +10,8 @@ namespace Dopamine.Data.Repositories
 
         Task<List<Track>> GetTracksAsync();
 
+        Task<List<Track>> GetTracksAsync(string whereClause);
+
         Task<List<Track>> GetArtistTracksAsync(IList<string> artistNames);
 
         Task<List<Track>> GetGenreTracksAsync(IList<string> genreNames);
@@ -39,8 +41,6 @@ namespace Dopamine.Data.Repositories
         Task<AlbumData> GetAlbumDataAsync(string albumKey);
 
         Task<IList<AlbumData>> GetAlbumDataToIndexAsync();
-
-        Task<IList<AlbumData>> GetFrequentAlbumDataAsync(int limit);
 
         Task<Track> GetLastModifiedTrackForAlbumKeyAsync(string albumKey);
 

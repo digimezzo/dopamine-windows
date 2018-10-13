@@ -1,21 +1,26 @@
-﻿using Prism.Mvvm;
+﻿using Dopamine.Services.Playlist;
+using Prism.Mvvm;
+using System;
 
 namespace Dopamine.Services.Entities
 {
     public class PlaylistViewModel : BindableBase
     {
         public string Name { get; }
+
         public string Path { get; }
 
-        public string SortName
-        {
-           get { return Name.ToLowerInvariant(); }
-        }
+        public PlaylistType Type { get; }
 
-        public PlaylistViewModel(string name, string path)
+        public bool IsSmartPlaylist => this.Type.Equals(PlaylistType.Smart);
+
+        public string SortName => Name.ToLowerInvariant();
+
+        public PlaylistViewModel(string name, string path, PlaylistType type)
         {
             this.Name = name;
             this.Path = path;
+            this.Type = type;
         }
 
         public override string ToString()
@@ -30,12 +35,12 @@ namespace Dopamine.Services.Entities
                 return false;
             }
 
-            return this.Name.Equals(((PlaylistViewModel)obj).Name);
+            return this.Name.Equals(((PlaylistViewModel)obj).Name, StringComparison.OrdinalIgnoreCase) & this.Type.Equals(((PlaylistViewModel)obj).Type);
         }
 
         public override int GetHashCode()
         {
-            return this.Name.GetHashCode();
+            return this.Path.GetHashCode();
         }
     }
 }

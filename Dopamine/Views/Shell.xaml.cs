@@ -52,7 +52,6 @@ namespace Dopamine.Views
         private bool isShuttingDown = false;
         private Storyboard backgroundAnimation;
 
-        public DelegateCommand RestoreWindowCommand { get; set; }
         public DelegateCommand MinimizeWindowCommand { get; set; }
         public DelegateCommand MaximizeRestoreWindowCommand { get; set; }
         public DelegateCommand CloseWindowCommand { get; set; }
@@ -149,7 +148,6 @@ namespace Dopamine.Views
 
         private void ShowClosingAnimation()
         {
-            this.ShowWindowControls = false;
             Storyboard closingAnimation = this.ClosingBorder.Resources["ClosingAnimation"] as Storyboard;
 
             this.ClosingBorder.Visibility = Visibility.Visible;
@@ -208,8 +206,6 @@ namespace Dopamine.Views
             // NotificationService needs to know about the application windows
             this.notificationService.SetApplicationWindows(this, this.miniPlayerPlaylist, this.trayControls);
 
-            PART_MiniPlayerButton.ToolTip = SettingsClient.Get<bool>("General", "IsMiniPlayer") ? ResourceUtils.GetString("Language_Restore") : ResourceUtils.GetString("Language_Mini_Player");
-
             // Settings changed
             SettingsClient.SettingChanged += (_, e) =>
             {
@@ -222,31 +218,25 @@ namespace Dopamine.Views
                 {
                     this.trayIcon.Visible = (bool)e.SettingValue;
                 }
-
-                if (SettingsClient.IsSettingChanged(e, "General", "IsMiniPlayer"))
-                {
-                    PART_MiniPlayerButton.ToolTip = (bool)e.SettingValue ? ResourceUtils.GetString("Language_Restore") : ResourceUtils.GetString("Language_Mini_Player");
-                }
             };
 
-            this.shellService.WindowStateChanged += (_, e) => this.WindowState = e.WindowState;
-            this.shellService.IsMovableChanged += (_, e) => this.IsMovable = e.IsMovable;
-            this.shellService.ResizeModeChanged += (_, e) => this.ResizeMode = e.ResizeMode;
-            this.shellService.TopmostChanged += (_, e) => this.Topmost = e.IsTopmost;
-            this.shellService.ShowWindowControlsChanged += (_, e) => this.ShowWindowControls = e.ShowWindowControls;
-
-            this.shellService.GeometryChanged += (_, e) => this.SetGeometry(
+            this.shellService.WindowStateChangeRequested += (_, e) => this.WindowState = e.WindowState;
+            this.shellService.IsMovableChangeRequested += (_, e) => this.IsMovable = e.IsMovable;
+            this.shellService.ResizeModeChangeRequested += (_, e) => this.ResizeMode = e.ResizeMode;
+            this.shellService.TopmostChangeRequested += (_, e) => this.Topmost = e.IsTopmost;
+         
+            this.shellService.GeometryChangeRequested += (_, e) => this.SetGeometry(
                 e.Top, e.Left, e.Size.Width, e.Size.Height,
                 Constants.DefaultShellTop,
                 Constants.DefaultShellLeft);
 
-            this.shellService.MinimumSizeChanged += (_, e) =>
+            this.shellService.MinimumSizeChangeRequested += (_, e) =>
             {
                 this.MinWidth = e.MinimumSize.Width;
                 this.MinHeight = e.MinimumSize.Height;
             };
 
-            this.shellService.PlaylistVisibilityChanged += (_, e) =>
+            this.shellService.PlaylistVisibilityChangeRequested += (_, e) =>
             {
                 if (e.IsPlaylistVisible)
                 {
@@ -273,9 +263,6 @@ namespace Dopamine.Views
             this.MinimizeWindowCommand = new DelegateCommand(() => this.WindowState = WindowState.Minimized);
             Core.Prism.ApplicationCommands.MinimizeWindowCommand.RegisterCommand(this.MinimizeWindowCommand);
 
-            this.RestoreWindowCommand = new DelegateCommand(() => this.shellService.ForceFullPlayer());
-            Core.Prism.ApplicationCommands.RestoreWindowCommand.RegisterCommand(this.RestoreWindowCommand);
-
             this.MaximizeRestoreWindowCommand = new DelegateCommand(() => this.WindowState = this.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized);
             Core.Prism.ApplicationCommands.MaximizeRestoreWindowCommand.RegisterCommand(this.MaximizeRestoreWindowCommand);
 
@@ -288,18 +275,6 @@ namespace Dopamine.Views
 
         private void InitializeServices()
         {
-            // I18nService
-            this.i18nService.LanguageChanged += (_, __) =>
-            {
-                // HACK: the DynamicResource binding doesn't update the PART_MiniPlayerButton ToolTip on language change.
-                // This is a workaround to make sure the PART_MiniPlayerButton ToolTip also gets updated on a language change.
-                // Is there a better way to do this.
-                if (this.PART_MiniPlayerButton != null)
-                {
-                    this.PART_MiniPlayerButton.ToolTip = ResourceUtils.GetString("Language_Mini_Player");
-                }
-            };
-
             // IWin32InputService
             this.win32InputService.SetKeyboardHook(new WindowInteropHelper(this).EnsureHandle()); // Listen to media keys
 

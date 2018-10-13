@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
 
 namespace Dopamine.Services.Folders
@@ -20,28 +19,33 @@ namespace Dopamine.Services.Folders
     {
         private IFolderRepository folderRepository;
         private IPlaybackService playbackService;
-        private IList<FolderViewModel> markedFolders = new List<FolderViewModel>();
-        private Timer saveMarkedFoldersTimer = new Timer(2000);
+        private IList<FolderViewModel> toggledFolders = new List<FolderViewModel>();
+        private object toggledFoldersLock = new object();
 
         public FoldersService(IFolderRepository folderRepository, IPlaybackService playbackService)
         {
             this.folderRepository = folderRepository;
             this.playbackService = playbackService;
-
-            this.saveMarkedFoldersTimer.Elapsed += SaveMarkedFoldersTimer_Elapsed;
         }
 
         public event EventHandler FoldersChanged = delegate { };
 
-        private async Task SaveMarkedFoldersAsync()
+        public async Task SaveToggledFoldersAsync()
         {
             bool isCollectionChanged = false;
 
             try
             {
-                isCollectionChanged = this.markedFolders.Count > 0;
-                await this.folderRepository.UpdateFoldersAsync(this.markedFolders.Select(x => x.Folder).ToList());
-                this.markedFolders.Clear();
+                IList<Folder> folders = new List<Folder>();
+
+                lock (this.toggledFoldersLock)
+                {
+                    isCollectionChanged = this.toggledFolders.Count > 0;
+                    folders = this.toggledFolders.Select(x => x.Folder).ToList();
+                    this.toggledFolders.Clear();
+                }
+
+                await this.folderRepository.UpdateFoldersAsync(folders);
             }
             catch (Exception ex)
             {
@@ -55,36 +59,27 @@ namespace Dopamine.Services.Folders
             }
         }
 
-        private async void SaveMarkedFoldersTimer_Elapsed(object sender, ElapsedEventArgs e)
+        public async Task ToggleFolderAsync(FolderViewModel folderViewModel)
         {
-            await this.SaveMarkedFoldersAsync();
-        }
-
-        public async Task MarkFolderAsync(FolderViewModel folderViewModel)
-        {
-            this.saveMarkedFoldersTimer.Stop();
-
             await Task.Run(() =>
             {
                 try
                 {
-                    lock (this.markedFolders)
+                    lock (this.toggledFoldersLock)
                     {
-                        if (this.markedFolders.Contains(folderViewModel))
+                        if (this.toggledFolders.Contains(folderViewModel))
                         {
-                            this.markedFolders[this.markedFolders.IndexOf(folderViewModel)].ShowInCollection = folderViewModel.ShowInCollection;
+                            this.toggledFolders[this.toggledFolders.IndexOf(folderViewModel)].ShowInCollection = folderViewModel.ShowInCollection;
                         }
                         else
                         {
-                            this.markedFolders.Add(folderViewModel);
+                            this.toggledFolders.Add(folderViewModel);
                         }
                     }
-
-                    this.saveMarkedFoldersTimer.Start();
                 }
                 catch (Exception ex)
                 {
-                    LogClient.Error("Error marking folder with path='{0}'. Exception: {1}", folderViewModel.Path, ex.Message);
+                    LogClient.Error("Error toggling folder with path='{0}'. Exception: {1}", folderViewModel.Path, ex.Message);
                 }
             });
         }
@@ -118,17 +113,13 @@ namespace Dopamine.Services.Folders
         {
             AddFolderResult result = await this.folderRepository.AddFolderAsync(path);
 
-            this.FoldersChanged(this, new EventArgs());
-
             return result;
         }
 
         public async Task<RemoveFolderResult> RemoveFolderAsync(long folderId)
         {
             RemoveFolderResult result = await this.folderRepository.RemoveFolderAsync(folderId);
-
-            this.FoldersChanged(this, new EventArgs());
-
+            
             return result;
         }
 

@@ -553,10 +553,10 @@ namespace Dopamine.Services.Playback
 
             this.isSavingPLaybackCounters = false;
 
-            // If, in the meantime, new track statistics are available, reset the timer.
+            // If, in the meantime, new playback counters are available, reset the timer.
             if (this.playbackCounters.Count > 0)
             {
-                this.ResetSaveTrackStatisticsTimer();
+                this.ResetSavePlaybackCountersTimer();
             }
         }
 
@@ -958,10 +958,10 @@ namespace Dopamine.Services.Playback
 
             if (!this.playbackCounters.ContainsKey(path))
             {
-                // Try to find existing statistic
+                // Try to find an existing counter
                 PlaybackCounter counters = await this.trackRepository.GetPlaybackCountersAsync(path);
 
-                // If no existing statistic was found, create a new one.
+                // If no existing counter was found, create a new one.
                 if (counters == null)
                 {
                     counters = new PlaybackCounter();
@@ -1012,7 +1012,7 @@ namespace Dopamine.Services.Playback
                 }
             });
 
-            this.ResetSaveTrackStatisticsTimer();
+            this.ResetSavePlaybackCountersTimer();
         }
 
         private async Task PauseAsync(bool isSilent = false)
@@ -1419,7 +1419,7 @@ namespace Dopamine.Services.Playback
             this.saveQueuedTracksTimer.Start();
         }
 
-        private void ResetSaveTrackStatisticsTimer()
+        private void ResetSavePlaybackCountersTimer()
         {
             this.savePlaybackCountersTimer.Stop();
             this.savePlaybackCountersTimer.Start();

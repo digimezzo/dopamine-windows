@@ -115,15 +115,13 @@
                             <commonviews:AppearanceTheme Margin="0,15,0,0" ShowFollowAlbumCoverColor="False"/>
                         </StackPanel>
                     </dc:PivotItem>
-                    <!-- Collection -->
+                    <!-- Music -->
                     <dc:PivotItem>
-                        <ScrollViewer  Margin="30,0,30,0" VerticalScrollBarVisibility="Auto">
-                            <StackPanel Background="#00000000">
-                                <Label Padding="0" Content="{DynamicResource Language_Collection}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource Brush_Accent}"/>
-                                <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Lets_Set_Up_Your_Collection}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource Brush_PrimaryText}" TextWrapping="Wrap"/>
-                                <commonviews:CollectionFoldersSettings Margin="0,15,0,0" ShowControls="False"/>
-                            </StackPanel>
-                        </ScrollViewer>
+                        <DockPanel Margin="30,0,30,0">
+                            <Label DockPanel.Dock="Top" Padding="0" Content="{DynamicResource Language_Music}" FontSize="{Binding Source={x:Static base:Constants.OobeTitleFontSize}}" FontWeight="Light" Foreground="{DynamicResource Brush_Accent}"/>
+                            <TextBlock DockPanel.Dock="Top" Margin="0,5,0,0" Text="{DynamicResource Language_Lets_Set_Up_Your_Collection}" FontWeight="Light" FontSize="{Binding Source={x:Static base:Constants.OobeTextFontSize}}" Foreground="{DynamicResource Brush_PrimaryText}" TextWrapping="Wrap"/>
+                            <commonviews:CollectionFoldersSettings Margin="0,15,0,15" ShowControls="False"/>
+                        </DockPanel>
                     </dc:PivotItem>
                     <!-- Donate -->
                     <dc:PivotItem>
