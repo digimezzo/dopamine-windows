@@ -444,6 +444,6 @@
   <Text Key="Smart_Playlist_Greater_Than">više od</Text>
   <Text Key="Smart_Playlist_Less_Than">manje od</Text>
   <Text Key="Edit_Playlist">Uredi popis za izvođenje</Text>
-  <Text Key="Enter_Name_For_Playlist">Unesite ime Vašeg popis</Text>
+  <Text Key="Enter_Name_For_Playlist">Unesite ime Vašeg popisa</Text>
   <Text Key="Error_Editing_Playlist">Nije moguće urediti popis za reprodukciju. Molimo pogledajte datoteku izvješća za više informacija.</Text>
 </Language>
