@@ -185,7 +185,7 @@ namespace Dopamine.Core.Audio
 
         public float GetVolume()
         {
-            return this.soundOut.Volume;
+            return (float) Math.Pow((double) this.soundOut.Volume, 1/2);
         }
 
         public void Pause()
@@ -323,7 +323,7 @@ namespace Dopamine.Core.Audio
 
                 if (this.soundOut != null)
                 {
-                    this.soundOut.Volume = volume;
+                    this.soundOut.Volume = (float) Math.Pow((double) volume, 2);
                 }
             }
             catch (Exception)
@@ -406,7 +406,7 @@ namespace Dopamine.Core.Audio
             }
 
             this.soundOut.Stopped += this.SoundOutStoppedHandler;
-            this.soundOut.Volume = this.volume;
+            this.soundOut.Volume = (float) Math.Pow((double) this.volume, 2);
         }
 
         private void NotifyPropertyChanged(string info)
