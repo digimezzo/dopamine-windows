@@ -342,8 +342,8 @@
   <Text Key="Sign_In_To_Enable_Lastfm">Inicie sessão para ativar as opções 'Scrobble' e 'Gosto' da Last.fm</Text>
   <Text Key="Create_A_Lastfm_Account">Criar uma conta Last.fm</Text>
   <Text Key="Love">Gosto</Text>
-  <Text Key="Show_Love_Button">Mostrar o botão 'Gosto'</Text>
-  <Text Key="Show_Rating_Button">Mostrar o botão 'Classificação'</Text>
+  <Text Key="Show_Love_Button">Mostrar botão 'Gosto'</Text>
+  <Text Key="Show_Rating_Button">Mostrar botão 'Classificação'</Text>
   <Text Key="Show_Notification_When_Pausing_Song">Mostrar notificação ao colocar em pausa</Text>
   <Text Key="Show_Notification_When_Resuming_Song">Mostrar notificação ao retomar a reprodução</Text>
   <Text Key="Add_Lyrics">Adicionar letra</Text>
@@ -367,14 +367,14 @@
   <Text Key="About_Donated_People">Às pessoas que fizeram donativos.</Text>
   <Text Key="About_Translators">Às pessoas que traduziram.</Text>
   <Text Key="About_Components_Developers">Aos programadores que criaram os componentes acima mencionados.</Text>
-  <Text Key="About_Neowin_Head">À</Text>
-  <Text Key="About_Neowin_End">comunidade pelas suas ideias, testes e relatórios de erros.</Text>
+  <Text Key="About_Neowin_Head">À comunidade </Text>
+  <Text Key="About_Neowin_End">pelas suas ideias, testes e relatórios de erros.</Text>
   <Text Key="Frequent">Frequentes</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Tem a certeza de que deseja remover esta faixa da lista de reprodução '{playlistname}'?</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Tem a certeza de que deseja remover estas faixas da lista de reprodução '{playlistname}'?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
-  <Text Key="Spectrum_Style">Estilo do espetro</Text>
+  <Text Key="Spectrum_Style">Estilo</Text>
   <Text Key="Follow_Album_Cover_Color">Seguir cor da imagem do álbum</Text>
   <Text Key="Lyrics_File">Ficheiro de letras</Text>
   <Text Key="Long_Jump_Backward">Recuar 15 segundos</Text>
@@ -408,7 +408,7 @@
   <Text Key="Reload_Missing_Covers_Description">Recarrega apenas as imagens para os álbuns que ainda não a tenham</Text>
   <Text Key="Added_Songs">Adicionadas {number} faixas ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Descarregar imagens automaticamente através da Internet</Text>
-  <Text Key="Use_All_Available_Speakers">Usar todos os altifalantes disponíveis</Text>
+  <Text Key="Use_All_Available_Speakers">Utilizar todos os altifalantes disponíveis</Text>
   <Text Key="Center_Lyrics">Centrar letra da música</Text>
   <Text Key="Spectrum_Flames">Chamas</Text>
   <Text Key="Spectrum_Lines">Linhas</Text>
@@ -433,7 +433,7 @@
   <Text Key="Add_Music">Adicionar músicas</Text>
   <Text Key="Music">Músicas</Text>
   <Text Key="Smart_Playlist">Lista de reprodução inteligente</Text>
-  <Text Key="Create_Smart_Playlist_Where">Criar lista de reprodução em</Text>
+  <Text Key="Create_Smart_Playlist_Where">Criar lista de reprodução com</Text>
   <Text Key="Add_If_Any_Rule_Is_Matched">Adicionar se coincidente com qualquer regra</Text>
   <Text Key="Limit_To">Limitar a</Text>
   <Text Key="Smart_Playlist_Songs">faixas</Text>
