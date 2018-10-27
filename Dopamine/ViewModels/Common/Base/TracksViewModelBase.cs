@@ -185,20 +185,24 @@ namespace Dopamine.ViewModels.Common.Base
         {
             IList<Track> tracks = null;
 
-            if (!artists.IsNullOrEmpty())
+            if (albumViewModels != null && albumViewModels.Count > 0)
             {
+                // First, check Albums. They topmost have priority.
+                tracks = await this.trackRepository.GetAlbumTracksAsync(albumViewModels.Select(x => x.AlbumKey).ToList());
+            }
+            else if (!artists.IsNullOrEmpty())
+            {
+                // Artists and Genres have the same priority
                 tracks = await this.trackRepository.GetArtistTracksAsync(artists);
             }
             else if (!genres.IsNullOrEmpty())
             {
+                // Artists and Genres have the same priority
                 tracks = await this.trackRepository.GetGenreTracksAsync(genres);
-            }
-            else if (albumViewModels != null && albumViewModels.Count > 0)
-            {
-                tracks = await this.trackRepository.GetAlbumTracksAsync(albumViewModels.Select(x => x.AlbumKey).ToList());
             }
             else
             {
+                // Tracks have lowest priority
                 tracks = await this.trackRepository.GetTracksAsync();
             }
 
