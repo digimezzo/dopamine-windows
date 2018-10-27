@@ -1,3 +1,13 @@
+2018-10-27: Dopamine 2.0 Preview 3
+----------------------------------
+
+- [Changed] Updated the Chinese (Simplified) translation
+- [Changed] Updated the Croatian translation
+- [Changed] Updated the Japanese translation
+- [Changed] Updated the Portuguese (Portugal) translation
+- [Fixed] Fixed Tracks list not updating when selecting an ablum, after an artist or genre is selected.
+
+
 2018-10-12: Dopamine 2.0 Preview 2
 ----------------------------------
 
