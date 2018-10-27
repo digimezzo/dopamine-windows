@@ -436,14 +436,14 @@
   <Text Key="Create_Smart_Playlist_Where">建立智能播放列表于</Text>
   <Text Key="Add_If_Any_Rule_Is_Matched">在符合规则时添加</Text>
   <Text Key="Limit_To">限制到</Text>
-  <Text Key="Smart_Playlist_Songs">songs</Text>
-  <Text Key="Smart_Playlist_Minutes">minutes</Text>
-  <Text Key="Smart_Playlist_Is">is</Text>
-  <Text Key="Smart_Playlist_Is_Not">is not</Text>
-  <Text Key="Smart_Playlist_Contains">contains</Text>
-  <Text Key="Smart_Playlist_Greater_Than">greater than</Text>
-  <Text Key="Smart_Playlist_Less_Than">less than</Text>
-  <Text Key="Edit_Playlist">Edit playlist</Text>
-  <Text Key="Enter_Name_For_Playlist">Enter a name for your playlist</Text>
-  <Text Key="Error_Editing_Playlist">The playlist could not be edited. Please consult the log file for more information.</Text>
+  <Text Key="Smart_Playlist_Songs">歌曲</Text>
+  <Text Key="Smart_Playlist_Minutes">分钟</Text>
+  <Text Key="Smart_Playlist_Is">是</Text>
+  <Text Key="Smart_Playlist_Is_Not">不是</Text>
+  <Text Key="Smart_Playlist_Contains">包含</Text>
+  <Text Key="Smart_Playlist_Greater_Than">多于</Text>
+  <Text Key="Smart_Playlist_Less_Than">少于</Text>
+  <Text Key="Edit_Playlist">编辑播放列表</Text>
+  <Text Key="Enter_Name_For_Playlist">输入播放列表名称</Text>
+  <Text Key="Error_Editing_Playlist">此播放列表无法被编辑。请至日志文件以获取更多信息。</Text>
 </Language>
