@@ -213,15 +213,12 @@ namespace Dopamine.ViewModels.Common.Base
         {
             try
             {
-                // Create new ObservableCollection
-                var trackViewModels = new ObservableCollection<TrackViewModel>(tracks);
-
                 // Do we need to show the TrackNumber?
                 bool showTracknumber = this.TrackOrder == TrackOrder.ByAlbum;
 
                 await Task.Run(() =>
                 {
-                    foreach (TrackViewModel vm in trackViewModels)
+                    foreach (TrackViewModel vm in tracks)
                     {
                         vm.ShowTrackNumber = showTracknumber;
                         // vm.ShowTrackArt = this.showTrackArt;
@@ -229,7 +226,7 @@ namespace Dopamine.ViewModels.Common.Base
                 });
 
                 // Order the Tracks
-                List<TrackViewModel> orderedTracks = await EntityUtils.OrderTracksAsync(trackViewModels, trackOrder);
+                List<TrackViewModel> orderedTrackViewModels = await EntityUtils.OrderTracksAsync(tracks, trackOrder);
 
                 // Unbind to improve UI performance
                 Application.Current.Dispatcher.Invoke(() =>
@@ -245,7 +242,7 @@ namespace Dopamine.ViewModels.Common.Base
                 this.Tracks = null;
 
                 // Populate ObservableCollection
-                this.Tracks = trackViewModels;
+                this.Tracks = new ObservableCollection<TrackViewModel>(orderedTrackViewModels);
             }
             catch (Exception ex)
             {
