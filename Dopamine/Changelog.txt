@@ -5,7 +5,7 @@
 - [Changed] Updated the Croatian translation
 - [Changed] Updated the Japanese translation
 - [Changed] Updated the Portuguese (Portugal) translation
-- [Fixed] Fixed Tracks list not updating when selecting an ablum, after an artist or genre is selected.
+- [Fixed] Fixed Tracks list not updating when selecting an album, after an artist or genre is selected.
 - [Fixed] Tracks ordered incorrectly when selecting "By album"
 
 
