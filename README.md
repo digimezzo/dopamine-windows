@@ -22,7 +22,7 @@ The Dopamine source code also has a dependency to file **C:\Program Files (x86)\
 
 If both dependencies are met, Dopamine should compile without issues on Windows 7, 8, 8.1 and 10.
 
-**If you are still unable to find assembly Windows after following these steps, please check issue #836 for more help finding it.**
+If you are still unable to find assembly **Windows** after following these steps, please check issue <a href="https://github.com/digimezzo/Dopamine/issues/836">#836</a> for more help finding it.
 
 ## Helping out with translations ##
 
