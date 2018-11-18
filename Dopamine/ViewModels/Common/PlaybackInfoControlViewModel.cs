@@ -114,8 +114,8 @@ namespace Dopamine.ViewModels.Common
             {
                 if (this.track != null && e.SafePath.Equals(this.track.SafePath))
                 {
-                    this.track.Rating = e.Rating;
-                    this.RaisePropertyChanged(nameof(Rating));
+                    this.track.UpdateVisibleRating(e.Rating);
+                    this.RaisePropertyChanged(nameof(this.Rating));
                 }
             };
 
@@ -123,8 +123,8 @@ namespace Dopamine.ViewModels.Common
             {
                 if (this.track != null && e.SafePath.Equals(this.track.SafePath))
                 {
-                    this.track.Love = e.Love;
-                    this.RaisePropertyChanged(nameof(Love));
+                    this.track.UpdateVisibleLove(e.Love);
+                    this.RaisePropertyChanged(nameof(this.Love));
                 }
             };
 
