@@ -1,3 +1,9 @@
+2018-11-18: Dopamine 2.0 Preview 4
+----------------------------------
+
+- [Fixed] Fixed unresponsive UI when rating songs
+
+
 2018-10-28: Dopamine 2.0 Preview 3
 ----------------------------------
 
