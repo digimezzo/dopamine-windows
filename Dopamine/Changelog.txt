@@ -1,6 +1,7 @@
 2018-11-18: Dopamine 2.0 Preview 4
 ----------------------------------
 
+- [Changed] Updated the Chinese (Simplified) translation
 - [Fixed] Fixed unresponsive UI when rating songs
 
 
