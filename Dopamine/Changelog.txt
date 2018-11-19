@@ -1,9 +1,10 @@
-2018-11-18: Dopamine 2.0 Preview 4
+2018-11-19: Dopamine 2.0 Preview 4
 ----------------------------------
 
 - [Changed] Updated the Bulgarian translation
 - [Changed] Updated the Chinese (Simplified) translation
 - [Fixed] Fixed unresponsive UI when rating songs
+- [Fixed] Fixed a nasty mempory leak which occurs when the player is minimized
 
 
 2018-10-28: Dopamine 2.0 Preview 3
