@@ -28,12 +28,6 @@ namespace Dopamine.ViewModels.Common
         private Brush spectrumBarBackground;
         private SpectrumStyle spectrumStyle;
       
-        public bool ShowSpectrumAnalyzer
-        {
-            get { return this.showSpectrumAnalyzer; }
-            set { SetProperty<bool>(ref this.showSpectrumAnalyzer, value); }
-        }
-
         public bool IsPlaying
         {
             get { return this.isPlaying; }
@@ -115,8 +109,6 @@ namespace Dopamine.ViewModels.Common
             this.eventAggregator = eventAggregator;
             this.appearanceService = appearanceService;
 
-            this.playbackService.SpectrumVisibilityChanged += isSpectrumVisible => this.ShowSpectrumAnalyzer = isSpectrumVisible;
-
             this.appearanceService.ColorSchemeChanged += (_, __) =>
             Application.Current.Dispatcher.Invoke(() => this.SetSpectrumStyle((SpectrumStyle)SettingsClient.Get<int>("Playback", "SpectrumStyle")));
 
@@ -133,10 +125,6 @@ namespace Dopamine.ViewModels.Common
                     this.SetSpectrumStyle((SpectrumStyle)e.SettingValue);
                 }
             };
-
-            // Spectrum analyzer performance is only acceptable with Windows Media Foundation
-            this.ShowSpectrumAnalyzer = this.playbackService.SupportsWindowsMediaFoundation && 
-                SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
 
             // Initial value
             if (!this.playbackService.IsStopped & this.playbackService.IsPlaying)

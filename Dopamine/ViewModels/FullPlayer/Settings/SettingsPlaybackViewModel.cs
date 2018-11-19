@@ -65,9 +65,8 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             get { return this.checkBoxShowSpectrumAnalyzerChecked; }
             set
             {
-                SettingsClient.Set<bool>("Playback", "ShowSpectrumAnalyzer", value);
+                SettingsClient.Set<bool>("Playback", "ShowSpectrumAnalyzer", value, true);
                 SetProperty<bool>(ref this.checkBoxShowSpectrumAnalyzerChecked, value);
-                this.playbackService.IsSpectrumVisible = value;
             }
         }
 
