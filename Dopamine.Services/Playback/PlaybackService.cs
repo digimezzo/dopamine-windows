@@ -198,7 +198,6 @@ namespace Dopamine.Services.Playback
 
         public bool ExclusiveMode { get; set; }
 
-
         public bool IsSpectrumVisible
         {
             get { return this.isSpectrumVisible; }
@@ -937,6 +936,9 @@ namespace Dopamine.Services.Playback
 
             // Player (default for now, can be changed later when playing a file)
             this.player = this.playerFactory.Create(this.supportsWindowsMediaFoundation);
+
+            // Spectrum
+            this.isSpectrumVisible = SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
 
             // Audio device
             await this.SetAudioDeviceAsync();
