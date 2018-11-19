@@ -5,6 +5,7 @@
 - [Changed] Updated the Chinese (Simplified) translation
 - [Fixed] Fixed unresponsive UI when rating songs
 - [Fixed] Fixed a nasty mempory leak which occurs when the player is minimized
+- [Fixed] Fixed Last.fm scrobbling not working anymore since Preview 2
 
 
 2018-10-28: Dopamine 2.0 Preview 3
