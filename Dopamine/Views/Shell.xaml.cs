@@ -395,6 +395,9 @@ namespace Dopamine.Views
         {
             if (this.WindowState == WindowState.Minimized)
             {
+                // Prevents a memory leak when minimized
+                this.playbackService.IsSpectrumVisible = false;
+
                 if (SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon") &
                     SettingsClient.Get<bool>("Behaviour", "MinimizeToTray"))
                 {
@@ -413,6 +416,8 @@ namespace Dopamine.Views
             }
             else
             {
+                this.playbackService.IsSpectrumVisible = true;
+
                 if (this.WindowState == WindowState.Maximized)
                 {
                     try

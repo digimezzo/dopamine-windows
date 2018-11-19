@@ -231,10 +231,23 @@ namespace Dopamine.Controls
 
         public void RegisterSoundPlayer(ISpectrumPlayer soundPlayer)
         {
+            this.UnregisterSoundPlayer();
+
             this.soundPlayer = soundPlayer;
             this.soundPlayer.PropertyChanged += soundPlayer_PropertyChanged;
             this.UpdateBarLayout();
             this.Running = true;
+        }
+
+        public void UnregisterSoundPlayer()
+        {
+            if(soundPlayer != null)
+            {
+                this.soundPlayer.PropertyChanged -= soundPlayer_PropertyChanged;
+                this.soundPlayer = null;
+            }
+
+            this.Running = false;
         }
 
         private void UpdateSpectrum(object sender, EventArgs e)
