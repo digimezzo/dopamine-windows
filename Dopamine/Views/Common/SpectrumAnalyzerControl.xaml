@@ -22,7 +22,7 @@
         </Storyboard>
     </UserControl.Resources>
 
-    <Grid ClipToBounds="True" Visibility="{Binding ShowSpectrumAnalyzer,Converter={StaticResource BooleanToCollapsedConverter}}">
+    <Grid ClipToBounds="True" x:Name="SpectrumContainer" Visibility="Visible">
         <StackPanel Opacity="{Binding SpectrumOpacity}" Panel.ZIndex="1" Width="{Binding SpectrumPanelWidth}" Height="{Binding SpectrumPanelHeight}" Margin="0,0,0,-1" VerticalAlignment="Stretch" HorizontalAlignment="Center" Orientation="Horizontal">
             <StackPanel.Effect>
                 <BlurEffect Radius="{Binding BlurRadius}"/>

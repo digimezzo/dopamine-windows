@@ -36,7 +36,6 @@ namespace Dopamine.Services.Playback
         private bool shuffle;
         private bool mute;
         private bool isPlayingPreviousTrack;
-        private bool isSpectrumVisible;
         private IPlayer player;
 
         private bool isLoadingSettings;
@@ -198,16 +197,6 @@ namespace Dopamine.Services.Playback
 
         public bool ExclusiveMode { get; set; }
 
-        public bool IsSpectrumVisible
-        {
-            get { return this.isSpectrumVisible; }
-            set
-            {
-                this.isSpectrumVisible = value;
-                this.SpectrumVisibilityChanged(value);
-            }
-        }
-
         public TimeSpan GetCurrentTime
         {
             get
@@ -333,7 +322,6 @@ namespace Dopamine.Services.Playback
         public event EventHandler PlaybackMuteChanged = delegate { };
         public event EventHandler PlaybackLoopChanged = delegate { };
         public event EventHandler PlaybackShuffleChanged = delegate { };
-        public event Action<bool> SpectrumVisibilityChanged = delegate { };
         public event Action<int> AddedTracksToQueue = delegate { };
         public event PlaybackCountersChangedEventHandler PlaybackCountersChanged = delegate { };
         public event Action<bool> LoadingTrack = delegate { };
@@ -936,9 +924,6 @@ namespace Dopamine.Services.Playback
 
             // Player (default for now, can be changed later when playing a file)
             this.player = this.playerFactory.Create(this.supportsWindowsMediaFoundation);
-
-            // Spectrum
-            this.isSpectrumVisible = SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer");
 
             // Audio device
             await this.SetAudioDeviceAsync();

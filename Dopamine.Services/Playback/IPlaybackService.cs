@@ -59,8 +59,6 @@ namespace Dopamine.Services.Playback
 
         bool ExclusiveMode { get; set; }
 
-        bool IsSpectrumVisible { get; set; }
-
         void Stop();
 
         void SkipProgress(double progress);
@@ -138,7 +136,6 @@ namespace Dopamine.Services.Playback
         event EventHandler PlaybackMuteChanged;
         event EventHandler PlaybackLoopChanged;
         event EventHandler PlaybackShuffleChanged;
-        event Action<bool> SpectrumVisibilityChanged;
         event Action<int> AddedTracksToQueue;
         event PlaybackCountersChangedEventHandler PlaybackCountersChanged;
         event Action<bool> LoadingTrack;
