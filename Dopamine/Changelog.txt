@@ -2,6 +2,7 @@
 ----------------------------------
 
 - [Changed] Updated the Bulgarian translation
+- [Changed] Updated the Hungarian translation
 - [Changed] Updated the Chinese (Simplified) translation
 - [Fixed] Fixed unresponsive UI when rating songs
 - [Fixed] Fixed a nasty memory leak which occurs when the player is minimized
