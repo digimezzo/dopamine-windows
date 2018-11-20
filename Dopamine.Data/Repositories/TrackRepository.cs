@@ -426,7 +426,7 @@ namespace Dopamine.Data.Repositories
                         try
                         {
                             genreNames = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
-                                                           .Select((t) => t.Genres).Where(g => !string.IsNullOrEmpty(g))
+                                                           .Select((t) => t.Genres)
                                                            .SelectMany(g => DataUtils.SplitColumnMultiValue(g))
                                                            .Distinct().ToList();
                         }
@@ -458,7 +458,7 @@ namespace Dopamine.Data.Repositories
                         try
                         {
                             artistNames = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
-                                                            .Select((t) => t.Artists).Where(a => !string.IsNullOrEmpty(a))
+                                                            .Select((t) => t.Artists)
                                                             .SelectMany(a => DataUtils.SplitColumnMultiValue(a))
                                                             .Distinct().ToList();
                         }
@@ -490,7 +490,7 @@ namespace Dopamine.Data.Repositories
                         try
                         {
                             albumArtists = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
-                                                             .Select((t) => t.AlbumArtists).Where(a => !string.IsNullOrEmpty(a))
+                                                             .Select((t) => t.AlbumArtists)
                                                              .SelectMany(a => DataUtils.SplitColumnMultiValue(a))
                                                              .Distinct().ToList();
                         }
