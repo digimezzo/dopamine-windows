@@ -92,21 +92,33 @@ namespace Dopamine.Services.Collection
 
             await Task.Run(() =>
             {
+                bool hasUnknownArtists = false;
+
                 foreach (string artist in artists)
                 {
-                    var newArtist = new ArtistViewModel(artist);
-
-                    if (!uniqueArtists.Contains(newArtist))
+                    if (!string.IsNullOrEmpty(artist))
                     {
-                        uniqueArtists.Add(newArtist);
+                        var newArtist = new ArtistViewModel(artist);
+
+                        if (!uniqueArtists.Contains(newArtist))
+                        {
+                            uniqueArtists.Add(newArtist);
+                        }
+                    }
+                    else
+                    {
+                        hasUnknownArtists = true;
                     }
                 }
 
-                var unknownArtist = new ArtistViewModel(ResourceUtils.GetString("Language_Unknown_Artist"));
-
-                if (!uniqueArtists.Contains(unknownArtist))
+                if (hasUnknownArtists)
                 {
-                    uniqueArtists.Add(unknownArtist);
+                    var unknownArtist = new ArtistViewModel(ResourceUtils.GetString("Language_Unknown_Artist"));
+
+                    if (!uniqueArtists.Contains(unknownArtist))
+                    {
+                        uniqueArtists.Add(unknownArtist);
+                    }
                 }
             });
 
@@ -119,21 +131,33 @@ namespace Dopamine.Services.Collection
 
             await Task.Run(() =>
             {
+                bool hasUnknownGenres = false;
+
                 foreach (string genre in genres)
                 {
-                    var newGenre = new GenreViewModel(genre);
-
-                    if (!uniqueGenres.Contains(newGenre))
+                    if (!string.IsNullOrEmpty(genre))
                     {
-                        uniqueGenres.Add(newGenre);
+                        var newGenre = new GenreViewModel(genre);
+
+                        if (!uniqueGenres.Contains(newGenre))
+                        {
+                            uniqueGenres.Add(newGenre);
+                        }
+                    }
+                    else
+                    {
+                        hasUnknownGenres = true;
                     }
                 }
 
-                var unknownGenre = new GenreViewModel(ResourceUtils.GetString("Language_Unknown_Genre"));
-
-                if (!uniqueGenres.Contains(unknownGenre))
+                if (hasUnknownGenres)
                 {
-                    uniqueGenres.Add(unknownGenre);
+                    var unknownGenre = new GenreViewModel(ResourceUtils.GetString("Language_Unknown_Genre"));
+
+                    if (!uniqueGenres.Contains(unknownGenre))
+                    {
+                        uniqueGenres.Add(unknownGenre);
+                    }
                 }
             });
 
