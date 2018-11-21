@@ -103,6 +103,10 @@
             </Grid>
         </Border>
         <ControlTemplate.Triggers>
+            <!-- Workaround to get the sub menu items to have a correct foreground -->
+            <Trigger Property="IsEnabled" Value="true">
+                <Setter Property="Foreground" Value="{DynamicResource Brush_ContextMenuText}" />
+            </Trigger>
             <Trigger Property="Icon" Value="{x:Null}">
                 <Setter TargetName="Icon" Property="Visibility" Value="Hidden" />
             </Trigger>
