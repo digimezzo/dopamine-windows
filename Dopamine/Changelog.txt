@@ -1,6 +1,7 @@
 2018-11-21: Dopamine 2.0 Preview 5
 ----------------------------------
 
+- [Changed] Updated the Swedish translation
 - [Fixed] Fixed incorrect sorting for Artists and Genres because prefix "The" wasn't ignored anymore since preview 2 
 - [Fixed] Fixed invisible text on some context menus
 
