@@ -188,7 +188,7 @@ namespace Dopamine.Services.Collection
         public async Task<IList<GenreViewModel>> GetAllGenresAsync()
         {
             IList<string> genres = await this.trackRepository.GetGenresAsync();
-            IList<GenreViewModel> orderedGenres = (await this.GetUniqueGenresAsync(genres)).OrderBy(g => g.GenreName).ToList();
+            IList<GenreViewModel> orderedGenres = (await this.GetUniqueGenresAsync(genres)).OrderBy(g => FormatUtils.GetSortableString(g.GenreName, true)).ToList();
 
             // Workaround to make sure the "#" GroupHeader is shown at the top of the list
             List<GenreViewModel> tempGenreViewModels = new List<GenreViewModel>();
@@ -221,7 +221,7 @@ namespace Dopamine.Services.Collection
                     break;
             }
 
-            IList<ArtistViewModel> orderedArtists = (await this.GetUniqueArtistsAsync(artists)).OrderBy(a => a.ArtistName).ToList();
+            IList<ArtistViewModel> orderedArtists = (await this.GetUniqueArtistsAsync(artists)).OrderBy(a => FormatUtils.GetSortableString(a.ArtistName, true)).ToList();
 
             // Workaround to make sure the "#" GroupHeader is shown at the top of the list
             List<ArtistViewModel> tempArtistViewModels = new List<ArtistViewModel>();
