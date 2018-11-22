@@ -8,6 +8,17 @@ using System.Xml.Linq;
 
 namespace Dopamine.Core.IO
 {
+    public class PlaylistPathPair
+    {
+        public PlaylistPathPair(string originalPath, string fullPath)
+        {
+            this.OriginalPath = originalPath;
+            this.FullPath = fullPath;
+        }
+
+        public string OriginalPath { get; private set; }
+        public string FullPath { get; private set; }
+    }
     public class DecodePlaylistResult
     {
         public OperationResult DecodeResult { get; set; }
