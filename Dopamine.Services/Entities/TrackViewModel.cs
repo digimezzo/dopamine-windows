@@ -19,8 +19,6 @@ namespace Dopamine.Services.Entities
         private bool isPlaying;
         private bool isPaused;
         private bool showTrackNumber;
-        private bool showTrackArt;
-        private byte[] trackArt;
 
         public TrackViewModel(IMetadataService metadataService, IScrobblingService scrobblingService, Track track)
         {
@@ -94,51 +92,6 @@ namespace Dopamine.Services.Entities
         public string GroupHeader => this.Track.DiscCount.HasValueLargerThan(1) && this.Track.DiscNumber.HasValueLargerThan(0) ? $"{this.Track.AlbumTitle} ({this.Track.DiscNumber})" : this.Track.AlbumTitle;
 
         public string GroupSubHeader => this.AlbumArtist;
-
-        public bool ShowTrackArt
-        {
-            get { return this.showTrackArt; }
-            set
-            {
-                SetProperty(ref this.showTrackArt, value);
-
-                if (value)
-                {
-                    if(this.trackArt == null || this.trackArt.Length == 0)
-                    {
-                        this.GetTrackArt();
-                    }
-                }
-                else
-                {
-                    this.TrackArt = null;
-                }
-            }
-        }
-
-        public byte[] TrackArt
-        {
-            get
-            {
-                return this.trackArt;
-            }
-            private set
-            {
-                SetProperty(ref this.trackArt, value);
-            }
-        }
-
-        private async void GetTrackArt()
-        {
-            try
-            {
-                this.TrackArt = await this.metadataService.GetArtworkAsync(this.Track.Path, scaledTrackCoverSize);
-            }
-            catch (Exception)
-            {
-                // Intended suppression
-            }
-        }
 
         public string Duration
         {

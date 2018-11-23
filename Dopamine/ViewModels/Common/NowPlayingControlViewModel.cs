@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace Dopamine.ViewModels.Common
 {
-    public class NowPlayingControlViewModel : TracksViewModelBaseWithTrackArt, IDropTarget
+    public class NowPlayingControlViewModel : TracksViewModelBase, IDropTarget
     {
         private IPlaybackService playbackService;
         private IDialogService dialogService;
