@@ -7,6 +7,7 @@
 - [Fixed] Fixed incorrect sorting for Artists and Genres because prefix "The" wasn't ignored anymore since preview 2 
 - [Fixed] Fixed invisible text on some context menus
 - [Fixed] Fixed issue deleting entries from playlists, when files have been removed from or renamed on disk
+- [Fixed] Playback order is alphabetical when enqueueing from File Explorer (This would not have been a problem if humans and computers used the same sort order. One hour of my life I'll never get back)
 
 
 2018-11-20: Dopamine 2.0 Preview 4
