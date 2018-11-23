@@ -31,7 +31,7 @@ namespace Dopamine.Services.Playlist
 
         Task<IList<TrackViewModel>> GetTracksAsync(PlaylistViewModel playlist);
 
-        Task<DeleteTracksFromPlaylistResult> DeleteTracksFromStaticPlaylistAsync(IList<int> indexes, PlaylistViewModel playlist);
+        Task<DeleteTracksFromPlaylistResult> DeleteTracksFromStaticPlaylistAsync(IList<string> playlistEntries, PlaylistViewModel playlist);
 
         Task<string> GetUniquePlaylistNameAsync(string proposedPlaylistName);
 

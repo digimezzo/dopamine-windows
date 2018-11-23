@@ -536,6 +536,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 return;
             }
 
+            if(this.SelectedTracks == null || this.SelectedTracks.Count == 0)
+            {
+                return;
+            }
+
             string question = ResourceUtils.GetString("Language_Are_You_Sure_To_Remove_Songs_From_Playlist").Replace("{playlistname}", this.SelectedPlaylistName);
 
             if (this.SelectedTracks.Count == 1)
@@ -551,8 +556,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             ResourceUtils.GetString("Language_Yes"),
             ResourceUtils.GetString("Language_No")))
             {
-                IList<int> selectedIndexes = await this.GetSelectedIndexesAsync();
-                DeleteTracksFromPlaylistResult result = await this.playlistService.DeleteTracksFromStaticPlaylistAsync(selectedIndexes, this.SelectedPlaylist);
+                DeleteTracksFromPlaylistResult result = await this.playlistService.DeleteTracksFromStaticPlaylistAsync(this.SelectedTracks.Select(x => x.PlaylistEntry).ToList(), this.SelectedPlaylist);
 
                 if (result == DeleteTracksFromPlaylistResult.Error)
                 {
@@ -566,28 +570,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                         ResourceUtils.GetString("Language_Log_File"));
                 }
             }
-        }
-
-        private async Task<IList<int>> GetSelectedIndexesAsync()
-        {
-            IList<int> indexes = new List<int>();
-
-            try
-            {
-                await Task.Run(() =>
-                {
-                    foreach (TrackViewModel selectedTrack in this.SelectedTracks)
-                    {
-                        indexes.Add(this.Tracks.IndexOf(selectedTrack));
-                    }
-                });
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not get the selected indexes. Exception: {0}", ex.Message);
-            }
-
-            return indexes;
         }
 
         private async Task ReorderSelectedPlaylistTracksAsync(IDropInfo dropInfo)

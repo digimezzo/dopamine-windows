@@ -168,7 +168,7 @@ namespace Dopamine.Services.Playlist
                 return null;
             }
 
-            // Delete the old smart playlsit file
+            // Delete the old smart playlist file
             await Task.Run(() =>
             {
                 if (System.IO.File.Exists(editablePlaylist.Path))
@@ -404,11 +404,13 @@ namespace Dopamine.Services.Playlist
 
                 if (decodeResult.DecodeResult.Result)
                 {
-                    foreach (string path in decodeResult.Paths)
+                    foreach (PlaylistEntry entry in decodeResult.PlaylistEntries)
                     {
                         try
                         {
-                            tracks.Add(await this.fileService.CreateTrackAsync(path));
+                            TrackViewModel track = await this.fileService.CreateTrackAsync(entry.DecodedPath);
+                            track.PlaylistEntry = entry.ReferencePath; // This will allow deleting the correct entry in a playlist file
+                            tracks.Add(track);
                         }
                         catch (Exception ex)
                         {
@@ -509,11 +511,11 @@ namespace Dopamine.Services.Playlist
             return tracks;
         }
 
-        public async Task<DeleteTracksFromPlaylistResult> DeleteTracksFromStaticPlaylistAsync(IList<int> indexes, PlaylistViewModel playlist)
+        public async Task<DeleteTracksFromPlaylistResult> DeleteTracksFromStaticPlaylistAsync(IList<string> playlistEntries, PlaylistViewModel playlist)
         {
-            if (indexes == null || indexes.Count == 0)
+            if (playlistEntries == null || playlistEntries.Count == 0)
             {
-                LogClient.Error("Cannot delete tracks from playlist. No indexes were provided.");
+                LogClient.Error("Cannot delete tracks from playlist. No playlist entries were provided.");
                 return DeleteTracksFromPlaylistResult.Error;
             }
 
@@ -543,7 +545,7 @@ namespace Dopamine.Services.Playlist
 
                         while ((line = reader.ReadLine()) != null)
                         {
-                            if (!indexes.Contains(lineIndex))
+                            if (!playlistEntries.Contains(line))
                             {
                                 builder.AppendLine(line);
                             }
@@ -840,7 +842,7 @@ namespace Dopamine.Services.Playlist
             }
 
             string playlistName = String.Empty;
-            var paths = new List<String>();
+            IList<string> paths = new List<string>();
 
             // Decode the playlist file
             // ------------------------
