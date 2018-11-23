@@ -3,13 +3,12 @@
                     xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls">
 
     <Style x:Key="MenuPivot" TargetType="{x:Type dc:Pivot}">
-        <Setter Property="Margin" Value="0,14,0,0"/>
         <Setter Property="IndicatorHeight" Value="2"/>
         <Setter Property="IndicatorBackground" Value="{DynamicResource Brush_Accent}"/>
     </Style>
     
     <Style x:Key="MenuPivotItem" TargetType="{x:Type dc:PivotItem}">
-        <Setter Property="Padding" Value="10,0,10,14"/>
+        <Setter Property="Padding" Value="10,14,10,14"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="HeaderFontSize" Value="15"/>
         <Setter Property="HeaderForeground" Value="{DynamicResource Brush_SecondaryText}"/>
