@@ -77,7 +77,8 @@
                     <Grid>
                         <Border x:Name="MouseHoverHelper" Background="{DynamicResource Brush_ItemHovered}" Opacity="0"/>
                         <Border Background="{TemplateBinding Background}">
-                            <StackPanel Margin="{x:Static base:Constants.AlbumTilePadding}">
+                            <!--<StackPanel Margin="{x:Static base:Constants.AlbumTilePadding}">-->
+                            <StackPanel>
                                 <Grid>
                                     <!-- Tile -->
                                     <pc:Tile Panel.ZIndex="0"
@@ -132,12 +133,14 @@
                                         </ToolTip>
                                     </StackPanel.ToolTip>
                                 </StackPanel>
+                                <Border x:Name="SelectionBorder" HorizontalAlignment="Stretch" Height="{x:Static base:Constants.AlbumSelectionBorderSize}"/>
                             </StackPanel>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>
+                            <!--<Setter Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>-->
+                            <Setter Property="Background" TargetName="SelectionBorder" Value="{DynamicResource Brush_Accent}"/>
                         </Trigger>
                         <EventTrigger RoutedEvent="MouseEnter">
                             <BeginStoryboard>

@@ -105,7 +105,8 @@ namespace Dopamine.Core.Base
 
         // ListBoxAlbums
         public static readonly double AlbumTileAlbumInfoHeight = 44;
-        public static readonly Thickness AlbumTilePadding = new Thickness(4);
+        public static readonly double AlbumSelectionBorderSize = 2;
+        // public static readonly Thickness AlbumTilePadding = new Thickness(4);
         public static readonly Thickness AlbumTileMargin = new Thickness(6);
 
         // Animation
