@@ -80,31 +80,14 @@
                                 </ToolTip>
                             </Border.ToolTip>
                             <DockPanel Margin="10,0,10,0">
-                                <Grid DockPanel.Dock="Left">
-                                    <Grid Panel.ZIndex="0"
-                                      Visibility="{Binding ShowTrackArt,Converter={StaticResource BooleanToCollapsedConverter}}">
-                                        <pc:Tile Width="40" Height="40"
-                                             Panel.ZIndex="0"
-                                             IconSizePercent="{x:Static base:Constants.HeadPhoneLargeSize}"
-                                             Background="{DynamicResource Brush_CoverTileBackground}">
-                                            <pc:Tile.Content>
-                                                <Viewbox>
-                                                    <Path Data="{DynamicResource HeadPhone}" Fill="{DynamicResource Brush_CoverTileIcon}"/>
-                                                </Viewbox>
-                                            </pc:Tile.Content>
-                                        </pc:Tile>
-                                        <Image Panel.ZIndex="1" Width="40" Height="40" Source="{Binding TrackArt}" RenderOptions.BitmapScalingMode="HighQuality"/>
-                                    </Grid>
-                                    <Border Panel.ZIndex="1" MinWidth="20" Height="40" 
-                                        Visibility="{Binding ShowTrackArt,Converter={StaticResource InvertingBooleanToCollapsedConverter}}">
-                                        <TextBlock 
+                                <Border DockPanel.Dock="Left" MinWidth="20" Height="40">
+                                    <TextBlock 
                                         Text="{Binding FormattedTrackNumber}" 
                                         HorizontalAlignment="Center" 
                                         VerticalAlignment="Center"
                                         Foreground="{DynamicResource Brush_SecondaryText}"
                                         FontSize="13"/>
-                                    </Border>
-                                </Grid>
+                                </Border>
                                 <StackPanel VerticalAlignment="Center" Height="40">
                                     <DockPanel Height="20">
                                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">

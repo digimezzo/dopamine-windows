@@ -205,10 +205,10 @@ namespace Dopamine.Services.Collection
             switch (artistType)
             {
                 case ArtistType.All:
-                    IList<string> trackArtiss = await this.trackRepository.GetTrackArtistsAsync();
+                    IList<string> trackArtists = await this.trackRepository.GetTrackArtistsAsync();
                     IList<string> albumArtists = await this.trackRepository.GetAlbumArtistsAsync();
-                    ((List<string>)trackArtiss).AddRange(albumArtists);
-                    artists = trackArtiss;
+                    ((List<string>)trackArtists).AddRange(albumArtists);
+                    artists = trackArtists;
                     break;
                 case ArtistType.Track:
                     artists = await this.trackRepository.GetTrackArtistsAsync();

@@ -26,7 +26,7 @@ using System.Windows.Controls;
 
 namespace Dopamine.ViewModels.FullPlayer.Collection
 {
-    public class CollectionPlaylistsViewModel : TracksViewModelBaseWithTrackArt, IDropTarget
+    public class CollectionPlaylistsViewModel : TracksViewModelBase, IDropTarget
     {
         private ObservableCollection<PlaylistViewModel> playlists;
         private PlaylistViewModel selectedPlaylist;

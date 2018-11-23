@@ -49,8 +49,6 @@ namespace Dopamine.ViewModels.Common.Base
         private CollectionViewSource tracksCvs;
         private IList<TrackViewModel> selectedTracks;
 
-        public DelegateCommand<bool?> UpdateShowTrackArtCommand { get; set; }
-
         public TrackViewModel PreviousPlayingTrack { get; set; }
 
         public bool ShowRemoveFromDisk => SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
@@ -98,11 +96,6 @@ namespace Dopamine.ViewModels.Common.Base
             this.PlayNextCommand = new DelegateCommand(async () => await this.PlayNextAsync());
             this.AddTracksToNowPlayingCommand = new DelegateCommand(async () => await this.AddTracksToNowPlayingAsync());
             this.RemoveSelectedTracksFromDiskCommand = new DelegateCommand(async () => await this.RemoveTracksFromDiskAsync(this.SelectedTracks), () => !this.IsIndexing);
-
-            this.UpdateShowTrackArtCommand = new DelegateCommand<bool?>((showTrackArt) =>
-            {
-                SettingsClient.Set<bool>("Appearance", "ShowTrackArtOnPlaylists", showTrackArt.Value, true);
-            });
 
             // Settings changed
             SettingsClient.SettingChanged += (_, e) =>
@@ -221,7 +214,6 @@ namespace Dopamine.ViewModels.Common.Base
                     foreach (TrackViewModel vm in tracks)
                     {
                         vm.ShowTrackNumber = showTracknumber;
-                        // vm.ShowTrackArt = this.showTrackArt;
                     }
                 });
 

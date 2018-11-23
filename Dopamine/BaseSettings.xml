@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>111</Value>
+      <Value>112</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -88,9 +88,6 @@
     </Setting>
     <Setting Name="EnableTransparency">
       <Value>True</Value>
-    </Setting>
-    <Setting Name="ShowTrackArtOnPlaylists">
-      <Value>False</Value>
     </Setting>
   </Namespace>
   <Namespace Name="Behaviour">
