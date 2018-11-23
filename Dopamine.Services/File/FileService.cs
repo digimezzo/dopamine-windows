@@ -1,10 +1,10 @@
 ﻿using Digimezzo.Utilities.Log;
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Base;
+using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
-using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Entities;
@@ -223,11 +223,10 @@ namespace Dopamine.Services.File
                 {
                     lock (this.lockObject)
                     {
-                        tempFiles = this.files.Select(item => (string)item.Clone()).ToList();
+                        // Sort the files in a natural way and clone the list
+                        tempFiles = this.files.OrderByAlphaNumeric(item => item).Select(item => (string)item.Clone()).ToList();
                         this.files.Clear(); // Clear the list
                     }
-
-                    tempFiles.Sort(); // Sort the files alphabetically
                 });
 
                 IList<TrackViewModel> tracks = await this.ProcessFilesAsync(tempFiles);
@@ -273,8 +272,8 @@ namespace Dopamine.Services.File
                 LogClient.Error("Error while recursively getting files/folders for directory={0}. Exception: {1}", directoryPath, ex.Message);
             }
 
-            // Ordering by path is required. Samba shares provide the files in the wrong order.
-            return folderPaths != null && folderPaths.Count > 0 ? folderPaths.OrderBy(f => f.Path).Select(f => f.Path).ToList() : new List<string>();
+            // Sort the files in a natural way
+            return folderPaths != null && folderPaths.Count > 0 ? folderPaths.OrderByAlphaNumeric(f => f.Path).Select(f => f.Path).ToList() : new List<string>();
         }
 
         private async Task DeleteFileArtworkFromCacheAsync(string exclude)
