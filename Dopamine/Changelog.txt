@@ -1,8 +1,9 @@
-2018-11-21: Dopamine 2.0 Preview 5
+2018-11-23: Dopamine 2.0 Preview 5
 ----------------------------------
 
 - [Changed] Updated the German translation
 - [Changed] Updated the Swedish translation
+- [Changed] Removed song covers in playlists. Loading so many images in memory causes huge memory footprint.
 - [Fixed] Fixed incorrect sorting for Artists and Genres because prefix "The" wasn't ignored anymore since preview 2 
 - [Fixed] Fixed invisible text on some context menus
 - [Fixed] Fixed issue deleting entries from playlists, when files have been removed from or renamed on disk
