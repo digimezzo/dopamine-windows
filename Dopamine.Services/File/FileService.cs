@@ -247,7 +247,7 @@ namespace Dopamine.Services.File
             }
         }
 
-        private List<string> ProcessPlaylistFile(string playlistPath)
+        private IList<string> ProcessPlaylistFile(string playlistPath)
         {
             var decoder = new PlaylistDecoder();
             DecodePlaylistResult decodeResult = decoder.DecodePlaylist(playlistPath);

@@ -29,6 +29,10 @@ namespace Dopamine.Services.Entities
             this.Track = track;
         }
 
+        public string PlaylistEntry { get; set; }
+
+        public bool IsPlaylistEntry => !string.IsNullOrEmpty(this.PlaylistEntry);
+
         public Track Track { get; private set; }
 
         // SortDuration is used to correctly sort by Length, otherwise sorting goes like this: 1:00, 10:00, 2:00, 20:00.

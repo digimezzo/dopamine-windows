@@ -8,24 +8,33 @@ using System.Xml.Linq;
 
 namespace Dopamine.Core.IO
 {
-    public class PlaylistPathPair
+    public class PlaylistEntry
     {
-        public PlaylistPathPair(string originalPath, string fullPath)
+        public PlaylistEntry(string referencePath, string decodedPath)
         {
-            this.OriginalPath = originalPath;
-            this.FullPath = fullPath;
+            this.ReferencePath = referencePath;
+            this.DecodedPath = decodedPath;
         }
 
-        public string OriginalPath { get; private set; }
-        public string FullPath { get; private set; }
+        public string ReferencePath { get; private set; }
+        public string DecodedPath { get; private set; }
     }
     public class DecodePlaylistResult
     {
-        public OperationResult DecodeResult { get; set; }
+        public DecodePlaylistResult(OperationResult decodeResult, string playlistName, IList<PlaylistEntry> playlistEntries)
+        {
+            this.DecodeResult = decodeResult;
+            this.PlaylistName = playlistName;
+            this.PlaylistEntries = playlistEntries;
+        }
 
-        public string PlaylistName { get; set; }
+        public OperationResult DecodeResult { get; }
 
-        public List<string> Paths { get; set; }
+        public string PlaylistName { get; }
+
+        public IList<PlaylistEntry> PlaylistEntries { get; }
+
+        public IList<string> Paths => this.PlaylistEntries != null && this.PlaylistEntries.Count > 0 ? this.PlaylistEntries.Select(x => x.DecodedPath).ToList() : new List<string>();
     }
 
     public class PlaylistDecoder
@@ -35,25 +44,20 @@ namespace Dopamine.Core.IO
             OperationResult decodeResult = new OperationResult { Result = false };
 
             string playlistName = string.Empty;
-            List<string> paths = new List<string>();
+            IList<PlaylistEntry> playlistEntries = new List<PlaylistEntry>();
 
             if (System.IO.Path.GetExtension(fileName.ToLower()) == FileFormats.M3U)
             {
-                decodeResult = this.DecodeM3uPlaylist(fileName, ref playlistName, ref paths);
+                decodeResult = this.DecodeM3uPlaylist(fileName, ref playlistName, ref playlistEntries);
             }
             else if (System.IO.Path.GetExtension(fileName.ToLower()) == FileFormats.WPL | System.IO.Path.GetExtension(fileName.ToLower()) == FileFormats.ZPL)
             {
-                decodeResult = this.DecodeZplPlaylist(fileName, ref playlistName, ref paths);
+                decodeResult = this.DecodeZplPlaylist(fileName, ref playlistName, ref playlistEntries);
             }
 
-            return new DecodePlaylistResult
-            {
-                DecodeResult = decodeResult,
-                PlaylistName = playlistName,
-                Paths = paths
-            };
+            return new DecodePlaylistResult(decodeResult, playlistName, playlistEntries);
         }
-    
+
         private string GenerateFullTrackPath(string playlistPath, string trackPath)
         {
             var fullPath = string.Empty;
@@ -92,7 +96,7 @@ namespace Dopamine.Core.IO
             return fullPath;
         }
 
-        private OperationResult DecodeM3uPlaylist(string playlistPath, ref string playlistName, ref List<string> filePaths)
+        private OperationResult DecodeM3uPlaylist(string playlistPath, ref string playlistName, ref IList<PlaylistEntry> playlistEntries)
         {
             var op = new OperationResult();
 
@@ -113,7 +117,7 @@ namespace Dopamine.Core.IO
 
                             if (!string.IsNullOrEmpty(fullTrackPath))
                             {
-                                filePaths.Add(fullTrackPath);
+                                playlistEntries.Add(new PlaylistEntry(line, fullTrackPath));
                             }
                         }
 
@@ -132,7 +136,7 @@ namespace Dopamine.Core.IO
             return op;
         }
 
-        private OperationResult DecodeZplPlaylist(string playlistPath, ref string playlistName, ref List<string> filePaths)
+        private OperationResult DecodeZplPlaylist(string playlistPath, ref string playlistName, ref IList<PlaylistEntry> playlistEntries)
         {
             OperationResult op = new OperationResult();
 
@@ -173,7 +177,7 @@ namespace Dopamine.Core.IO
 
                         if (!string.IsNullOrEmpty(fullTrackPath))
                         {
-                            filePaths.Add(fullTrackPath);
+                            playlistEntries.Add(new PlaylistEntry(mediaElement.Attribute("src").Value, fullTrackPath));
                         }
                     }
                 }
