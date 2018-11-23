@@ -492,8 +492,9 @@ namespace Dopamine.ViewModels.Common.Base
                         break;
                 }
 
-                this.AlbumWidth = this.CoverSize + Constants.AlbumTilePadding.Left + Constants.AlbumTilePadding.Right + Constants.AlbumTileMargin.Left + Constants.AlbumTileMargin.Right;
-                this.AlbumHeight = this.AlbumWidth + Constants.AlbumTileAlbumInfoHeight;
+                // this.AlbumWidth = this.CoverSize + Constants.AlbumTilePadding.Left + Constants.AlbumTilePadding.Right + Constants.AlbumTileMargin.Left + Constants.AlbumTileMargin.Right;
+                this.AlbumWidth = this.CoverSize + Constants.AlbumTileMargin.Left + Constants.AlbumTileMargin.Right;
+                this.AlbumHeight = this.AlbumWidth + Constants.AlbumTileAlbumInfoHeight + Constants.AlbumSelectionBorderSize;
 
                 RaisePropertyChanged(nameof(this.CoverSize));
                 RaisePropertyChanged(nameof(this.AlbumWidth));
