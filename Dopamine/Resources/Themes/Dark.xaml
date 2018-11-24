@@ -52,6 +52,8 @@
     <SolidColorBrush x:Key="Brush_HotKeyBackground" Color="{DynamicResource Color_DarkGrey5}"/>
     <SolidColorBrush x:Key="Brush_ListHeaderComboBoxMenuBackground" Color="{DynamicResource Color_DarkGrey5}"/>
     <SolidColorBrush x:Key="Brush_SearchBoxbackground" Color="{DynamicResource Color_DarkGrey9}" Opacity="0.1"/>
+    <SolidColorBrush x:Key="Brush_RegularButtonText" Color="{DynamicResource Color_White}"/>
+    <SolidColorBrush x:Key="Brush_ComboBoxText" Color="{DynamicResource Color_White}"/>
     
     <!-- Gradient Brushes -->
     <RadialGradientBrush x:Key="Brush_SpectrumEllipse" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.8" RadiusY="0.8" Opacity="0.8">

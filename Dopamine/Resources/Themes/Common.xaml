@@ -34,9 +34,7 @@
     <Color x:Key="Color_Grey">#CCCCCC</Color>
     
     <!-- Brushes -->
-    <SolidColorBrush x:Key="Brush_ComboBoxText" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_WindowButtonCoverPictureText" Color="{DynamicResource Color_White}"/>
-    <SolidColorBrush x:Key="Brush_RegularButtonText" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_ColorSchemeSelectorIcon" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_ImageOverlayText" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_SemanticZoomText" Color="{DynamicResource Color_White}"/>
@@ -54,7 +52,8 @@
     <SolidColorBrush x:Key="Brush_Accent" Color="{DynamicResource Color_Accent}"/>
     <SolidColorBrush x:Key="Brush_ToolTipText" Color="{DynamicResource Color_White}"/>
     <SolidColorBrush x:Key="Brush_ListHeaderComboBoxItemSelected" Color="{DynamicResource Color_White}"/>
-
+    <SolidColorBrush x:Key="Brush_RegularButtonAccentText" Color="{DynamicResource Color_White}"/>
+    
     <!-- Gradient Brushes -->
     <LinearGradientBrush x:Key="Brush_TopBlackBottomTransparent" StartPoint="0,0" EndPoint="0,1" Opacity="0.8">
         <GradientStop Color="{DynamicResource Color_Black}" Offset="0.0" />
