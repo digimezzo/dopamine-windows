@@ -125,8 +125,10 @@
                 FontSize="30"/>
                 </Viewbox>
             </Border>
-            <pc:TransitioningContentControl Panel.ZIndex="0" x:Name="PlayerTypeRegion" FadeIn="True" FadeInTimeout="0.5" 
+            <Border Panel.ZIndex="0" Background="{DynamicResource Brush_MainWindowBackground}">
+                <pc:TransitioningContentControl Panel.ZIndex="0" x:Name="PlayerTypeRegion" FadeIn="True" FadeInTimeout="0.5" 
                                             prism:RegionManager.RegionName="{x:Static cp:RegionNames.PlayerTypeRegion}"/>
+            </Border>
         </Grid>
     </Border>
 </dc:BorderlessWindows10Window>
