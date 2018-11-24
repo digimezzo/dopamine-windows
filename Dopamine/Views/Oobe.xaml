@@ -44,16 +44,7 @@
     </dc:BorderlessWindows10Window.Triggers>
 
     <!-- Background -->
-    <Border x:Name="WindowBorder" Opacity="0" BorderThickness="0">
-        <Border.Background>
-            <SolidColorBrush x:Name="WindowBorderBackground" Color="{DynamicResource Color_DarkGrey3}"/>
-        </Border.Background>
-        <Border.Resources>
-            <Storyboard x:Key="BackgroundAnimation">
-                <ColorAnimation Storyboard.TargetName="WindowBorderBackground" Storyboard.TargetProperty="Color" 
-                                To="{DynamicResource Color_DarkGrey3}" Duration="0:0:0.2" />
-            </Storyboard>
-        </Border.Resources>
+    <Border x:Name="WindowBorder" Opacity="0" BorderThickness="0" Background="{DynamicResource Brush_MainWindowBackground}">
         <!-- Content -->
         <DockPanel>
             <controls:FullLogo DockPanel.Dock="Top" Margin="30,30,30,0" Foreground="{DynamicResource Brush_PrimaryText}" 

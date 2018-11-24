@@ -33,10 +33,10 @@
                 <StackPanel Orientation="Horizontal">
                     <fwc:SegoeIcon Text="&#xEB52;"
                                    VerticalAlignment="Center" 
-                                   Foreground="{DynamicResource Brush_RegularButtonText}"
+                                   Foreground="{DynamicResource Brush_RegularButtonAccentText}"
                                    FontSize="16"/>
                     <TextBlock Margin="10,0,0,0" Text="{DynamicResource Language_Donate}" 
-                               Foreground="{DynamicResource Brush_RegularButtonText}"/>
+                               Foreground="{DynamicResource Brush_RegularButtonAccentText}"/>
                 </StackPanel>
             </Button>
             <Separator Height="20" Background="Transparent" />
