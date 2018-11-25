@@ -1,6 +1,6 @@
 ![Dopamine](Dopamine.full.png)
 
-# Dopamine (for Windows)
+# Dopamine
 
 Dopamine is an audio player which tries to make organizing and listening to music as simple and pretty as possible. It is written in C# and is powered by the [CSCore sound library](https://github.com/filoe/cscore).
 
