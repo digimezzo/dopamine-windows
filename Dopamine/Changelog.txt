@@ -1,3 +1,9 @@
+2018-12-16: Dopamine 2.0 Preview 6
+----------------------------------
+
+- [Fixed] Top border is missing when 1px border is enabled
+
+
 2018-11-24: Dopamine 2.0 Preview 5
 ----------------------------------
 
