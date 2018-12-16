@@ -22,7 +22,9 @@
                                     HorizontalAlignment="Right" VerticalAlignment="Top"
                                     ShowMaximizeRestoreButton="True"/>
         <!-- Background -->
-        <commonviews:BackgroundCoverArtControl x:Name="BackgroundCoverArtControl" Panel.ZIndex="0"/>
+        <Border Panel.ZIndex="0" ClipToBounds="True">
+            <commonviews:BackgroundCoverArtControl x:Name="BackgroundCoverArtControl" />
+        </Border>
         <Border Panel.ZIndex="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                 Background="{DynamicResource Brush_NowPlayingBackground}"/>
         <DockPanel Panel.ZIndex="2">
