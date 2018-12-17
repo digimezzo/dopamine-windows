@@ -50,11 +50,11 @@ namespace Dopamine.Views.Common
                 return;
             }
 
-            if (this.shellService.WindowState == WindowState.Minimized)
-            {
-                // The window state doesn't allow showing the spectrum analyzer
-                return;
-            }
+            //if (this.shellService.WindowState == WindowState.Minimized)
+            //{
+            //    // The window state doesn't allow showing the spectrum analyzer
+            //    return;
+            //}
 
             this.SpectrumContainer.Visibility = Visibility.Visible;
 
@@ -71,8 +71,8 @@ namespace Dopamine.Views.Common
 
             if (this.playbackService.Player != null)
             {
-                Application.Current.Dispatcher.Invoke(() => this.LeftSpectrumAnalyzer.UnregisterSoundPlayer());
-                Application.Current.Dispatcher.Invoke(() => this.RightSpectrumAnalyzer.UnregisterSoundPlayer());
+                //Application.Current.Dispatcher.Invoke(() => this.LeftSpectrumAnalyzer.UnregisterSoundPlayer());
+                //Application.Current.Dispatcher.Invoke(() => this.RightSpectrumAnalyzer.UnregisterSoundPlayer());
             }
         }
     }
