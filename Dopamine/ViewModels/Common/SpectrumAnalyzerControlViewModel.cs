@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Utilities.Settings;
 using Dopamine.Controls;
+using Dopamine.Core.Audio;
 using Dopamine.Core.Enums;
 using Dopamine.Services.Appearance;
 using Dopamine.Services.Playback;
