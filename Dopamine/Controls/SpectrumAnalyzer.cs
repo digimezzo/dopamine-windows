@@ -291,16 +291,37 @@ namespace Dopamine.Controls
 
         public void RegisterSoundPlayer(ISpectrumPlayer soundPlayer)
         {
+            this.UnregisterSoundPlayer();
+
             this.soundPlayer = soundPlayer;
             this.soundPlayer.PropertyChanged += soundPlayer_PropertyChanged;
             this.UpdateBarLayout();
             this.animationTimer.Start();
         }
 
+        public void UnregisterSoundPlayer()
+        {
+            this.animationTimer.Stop();
+
+            if (soundPlayer != null)
+            {
+                this.soundPlayer.PropertyChanged -= soundPlayer_PropertyChanged;
+                this.soundPlayer = null;
+            }
+        }
+
         private void UpdateSpectrum()
         {
-            if (this.soundPlayer == null || this.spectrumCanvas == null || this.spectrumCanvas.RenderSize.Width < 1 || this.spectrumCanvas.RenderSize.Height < 1) return;
-            if (this.soundPlayer.IsPlaying && !this.soundPlayer.GetFFTData(ref this.channelData)) return;
+            if (this.soundPlayer == null || this.spectrumCanvas == null || this.spectrumCanvas.RenderSize.Width < 1 || this.spectrumCanvas.RenderSize.Height < 1)
+            {
+                return;
+            }
+
+            if (this.soundPlayer.IsPlaying && !this.soundPlayer.GetFFTData(ref this.channelData))
+            {
+                return;
+            }
+
             this.UpdateSpectrumShapes();
         }
 
