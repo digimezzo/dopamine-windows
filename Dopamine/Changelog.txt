@@ -5,6 +5,7 @@
 - [Fixed] Top border is missing when 1px border is enabled
 - [Fixed] Fixed more potential memory leaks
 - [Fixed] Artists and Genres selectors are cut off when the left pane is too narrow
+- [Fixed] Added an extra button to access Now Playing
 
 
 2018-11-24: Dopamine 2.0 Preview 5
