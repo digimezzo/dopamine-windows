@@ -8,7 +8,7 @@ namespace Dopamine.Data
 {
     public sealed class DataUtils
     {
-        public static string EscapeQuotes(string source)
+        private static string EscapeQuotes(string source)
         {
             return source.Replace("'", "''");
         }

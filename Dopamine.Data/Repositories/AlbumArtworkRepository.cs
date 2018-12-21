@@ -27,7 +27,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            conn.Execute($"DELETE FROM AlbumArtwork WHERE AlbumKey=?;", DataUtils.EscapeQuotes(albumKey));
+                            conn.Execute($"DELETE FROM AlbumArtwork WHERE AlbumKey=?;", albumKey);
                         }
                         catch (Exception ex)
                         {
@@ -198,8 +198,8 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            conn.Execute($"DELETE FROM AlbumArtwork WHERE AlbumKey=?;", DataUtils.EscapeQuotes(albumKey));
-                            conn.Execute($"INSERT INTO AlbumArtwork(AlbumKey, ArtworkID) VALUES(?, ?);", DataUtils.EscapeQuotes(albumKey), artworkId);
+                            conn.Execute($"DELETE FROM AlbumArtwork WHERE AlbumKey=?;", albumKey);
+                            conn.Execute($"INSERT INTO AlbumArtwork(AlbumKey, ArtworkID) VALUES(?, ?);", albumKey, artworkId);
                         }
                         catch (Exception ex)
                         {
