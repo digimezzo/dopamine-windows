@@ -6,6 +6,7 @@
 - [Fixed] Fixed more potential memory leaks
 - [Fixed] Artists and Genres selectors are cut off when the left pane is too narrow
 - [Fixed] Added an extra button to access Now Playing
+- [Fixed] Fixed a bug where it wasn't possible to change the album cover for albums where the album title contains accents
 
 
 2018-11-24: Dopamine 2.0 Preview 5
