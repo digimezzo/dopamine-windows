@@ -620,7 +620,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            conn.Execute($"UPDATE Track SET NeedsAlbumArtworkIndexing=0 WHERE AlbumKey=?;", DataUtils.EscapeQuotes(albumKey));
+                            conn.Execute($"UPDATE Track SET NeedsAlbumArtworkIndexing=0 WHERE AlbumKey=?;", albumKey);
                         }
                         catch (Exception ex)
                         {
