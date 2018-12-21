@@ -158,27 +158,47 @@ namespace Dopamine.Services.Folders
 
                 if (selectedSubfolder == null)
                 {
-                    // If no subfolder is selected, return the subfolders of the root folder.
-                    directories = Directory.GetDirectories(selectedRootFolder.Path);
+                    try
+                    {
+                        // If no subfolder is selected, return the subfolders of the root folder.
+                        if (Directory.Exists(selectedRootFolder.Path))
+                        {
+                            directories = Directory.GetDirectories(selectedRootFolder.Path);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error($"Could not get directories for root folder. Exception: {ex.Message}");
+                    }
                 }
                 else
                 {
-                    string subfolderPathToBrowse = selectedSubfolder.Path;
-
-                    // If the ".." subfolder is selected, go to the parent folder.
-                    if (selectedSubfolder.IsGoToParent)
+                    if (Directory.Exists(selectedSubfolder.Path))
                     {
-                        subfolderPathToBrowse = Directory.GetParent(selectedSubfolder.Path).FullName;
-                    }
+                        try
+                        {
+                            string subfolderPathToBrowse = selectedSubfolder.Path;
 
-                    // If we're not browing the root folder, show a folder to go up 1 level.
-                    if (!subfolderPathToBrowse.ToSafePath().Equals(selectedRootFolder.SafePath))
-                    {
-                        subFolders.Add(new SubfolderViewModel(subfolderPathToBrowse, true));
-                    }
+                            // If the ".." subfolder is selected, go to the parent folder.
+                            if (selectedSubfolder.IsGoToParent)
+                            {
+                                subfolderPathToBrowse = Directory.GetParent(selectedSubfolder.Path).FullName;
+                            }
 
-                    // Return the subfolders of the selected subfolder
-                    directories = Directory.GetDirectories(subfolderPathToBrowse);
+                            // If we're not browing the root folder, show a folder to go up 1 level.
+                            if (!subfolderPathToBrowse.ToSafePath().Equals(selectedRootFolder.SafePath))
+                            {
+                                subFolders.Add(new SubfolderViewModel(subfolderPathToBrowse, true));
+                            }
+
+                            // Return the subfolders of the selected subfolder
+                            directories = Directory.GetDirectories(subfolderPathToBrowse);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error($"Could not get directories for sub folder. Exception: {ex.Message}");
+                        }
+                    }
                 }
 
                 if (directories != null)

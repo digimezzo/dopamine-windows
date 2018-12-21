@@ -1,6 +1,7 @@
-2018-12-17: Dopamine 2.0 Preview 6
+2018-12-21: Dopamine 2.0 Preview 6
 ----------------------------------
 
+- [Fixed] Fixed a crash which occurs when the "Folders" screen tries to access an inexisting directory
 - [Fixed] Top border is missing when 1px border is enabled
 - [Fixed] Fixed more potential memory leaks
 
