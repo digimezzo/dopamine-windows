@@ -88,6 +88,13 @@
                         <commonviews:EqualizerIcon/>
                     </ToggleButton.Content>
                 </ToggleButton>
+                <!-- Now Playing button -->
+                <Button  x:Name="NowPlayingButton"  Margin="10,0,0,0" DockPanel.Dock="Right" Style="{StaticResource TransparentButton}" 
+                         Width="30" Height="30" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                         VerticalAlignment="Center" ToolTip="{DynamicResource Language_Now_Playing}" Command="{x:Static cp:ApplicationCommands.ShowNowPlayingCommand}">
+                    <TextBlock Text="&#xE90B;" Style="{StaticResource SegoeAssets}"
+                               Foreground="{DynamicResource Brush_PrimaryText}" FontSize="16"/>
+                </Button>
                 <!-- Time -->
                 <commonviews:TimeControl Margin="0,0,10,0"/>
             </DockPanel>
