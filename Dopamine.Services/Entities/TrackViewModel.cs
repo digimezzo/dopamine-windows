@@ -57,7 +57,7 @@ namespace Dopamine.Services.Entities
 
         public string Bitrate => this.Track.BitRate != null ? this.Track.BitRate + " kbps" : "";
 
-        public string AlbumTitle => string.IsNullOrEmpty(this.Track.AlbumTitle) ? ResourceUtils.GetString("Language_Unknown_Album") : this.Track.AlbumTitle;
+        public string AlbumTitle => !string.IsNullOrEmpty(this.Track.AlbumTitle) ? this.Track.AlbumTitle : ResourceUtils.GetString("Language_Unknown_Album");
 
         public string PlayCount => this.Track.PlayCount.HasValueLargerThan(0) ? this.Track.PlayCount.Value.ToString() : string.Empty;
 
@@ -75,11 +75,11 @@ namespace Dopamine.Services.Entities
 
         public string SafePath => this.Track.SafePath;
 
-        public string ArtistName => string.IsNullOrEmpty(this.Track.Artists) ? ResourceUtils.GetString("Language_Unknown_Artist") : DataUtils.GetCommaSeparatedColumnMultiValue(this.Track.Artists);
+        public string ArtistName => !string.IsNullOrEmpty(this.Track.Artists) ? DataUtils.GetCommaSeparatedColumnMultiValue(this.Track.Artists) : ResourceUtils.GetString("Language_Unknown_Artist");
 
-        public string AlbumArtist => string.IsNullOrEmpty(this.Track.AlbumArtists) ? ResourceUtils.GetString("Language_Unknown_Artist") : DataUtils.GetCommaSeparatedColumnMultiValue(this.Track.AlbumArtists);
+        public string AlbumArtist => this.GetAlbumArtist();
 
-        public string Genre => string.IsNullOrEmpty(this.Track.Genres) ? ResourceUtils.GetString("Language_Unknown_Genres") : DataUtils.GetCommaSeparatedColumnMultiValue(this.Track.Genres);
+        public string Genre => !string.IsNullOrEmpty(this.Track.Genres) ? DataUtils.GetCommaSeparatedColumnMultiValue(this.Track.Genres) : ResourceUtils.GetString("Language_Unknown_Genres");
 
         public string FormattedTrackNumber => this.Track.TrackNumber.HasValueLargerThan(0) ? Track.TrackNumber.Value.ToString("00") : "--";
 
@@ -92,6 +92,20 @@ namespace Dopamine.Services.Entities
         public string GroupHeader => this.Track.DiscCount.HasValueLargerThan(1) && this.Track.DiscNumber.HasValueLargerThan(0) ? $"{this.Track.AlbumTitle} ({this.Track.DiscNumber})" : this.Track.AlbumTitle;
 
         public string GroupSubHeader => this.AlbumArtist;
+
+        public string GetAlbumArtist()
+        {
+            if (!string.IsNullOrEmpty(this.Track.AlbumArtists))
+            {
+                return DataUtils.GetCommaSeparatedColumnMultiValue(this.Track.AlbumArtists);
+            }
+            else if (!string.IsNullOrEmpty(this.Track.Artists))
+            {
+                return DataUtils.GetCommaSeparatedColumnMultiValue(this.Track.Artists);
+            }
+
+            return ResourceUtils.GetString("Language_Unknown_Artist");
+        }
 
         public string Duration
         {
