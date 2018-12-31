@@ -2,20 +2,15 @@
 using Digimezzo.Utilities.Utils;
 using Dopamine.Core.Utils;
 using Dopamine.Data;
-using Dopamine.Data.Entities;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Entities;
-using Dopamine.Services.Extensions;
 using Dopamine.Services.Playback;
-using Dopamine.Services.Utils;
 using Prism.Ioc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Timers;
-using System.Windows;
 
 namespace Dopamine.Services.Collection
 {
@@ -172,7 +167,7 @@ namespace Dopamine.Services.Collection
             {
                 foreach (AlbumData album in albums)
                 {
-                    var newAlbum = new AlbumViewModel(album, true);
+                    var newAlbum = new AlbumViewModel(album);
 
                     if (!uniqueAlbums.Contains(newAlbum))
                     {
@@ -198,28 +193,9 @@ namespace Dopamine.Services.Collection
             return tempGenreViewModels;
         }
 
-        public async Task<IList<ArtistViewModel>> GetAllArtistsAsync(ArtistType artistType)
+        public async Task<IList<ArtistViewModel>> GetAllArtistsAsync()
         {
-            IList<string> artists = null;
-
-            switch (artistType)
-            {
-                case ArtistType.All:
-                    IList<string> trackArtists = await this.trackRepository.GetTrackArtistsAsync();
-                    IList<string> albumArtists = await this.trackRepository.GetAlbumArtistsAsync();
-                    ((List<string>)trackArtists).AddRange(albumArtists);
-                    artists = trackArtists;
-                    break;
-                case ArtistType.Track:
-                    artists = await this.trackRepository.GetTrackArtistsAsync();
-                    break;
-                case ArtistType.Album:
-                    artists = await this.trackRepository.GetAlbumArtistsAsync();
-                    break;
-                default:
-                    // Can't happen
-                    break;
-            }
+            IList<string> artists = await this.trackRepository.GetArtistsAsync();
 
             IList<ArtistViewModel> orderedArtists = (await this.GetUniqueArtistsAsync(artists)).OrderBy(a => FormatUtils.GetSortableString(a.ArtistName, true)).ToList();
 

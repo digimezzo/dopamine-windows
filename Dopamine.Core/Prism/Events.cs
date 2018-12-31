@@ -45,10 +45,6 @@ namespace Dopamine.Core.Prism
     {
     }
 
-    public class ToggleArtistOrderCommand : PubSubEvent<object>
-    {
-    }
-
     public class FocusSearchBox : PubSubEvent<object>
     {
     }

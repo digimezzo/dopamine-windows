@@ -19,16 +19,30 @@ namespace Dopamine.Services.Entities
         private long? dateFileCreated;
         private long sortYear;
 
-        public AlbumViewModel(AlbumData albumData, bool setUnknownStrings)
+        public AlbumViewModel(AlbumData albumData)
         {
-            this.albumTitle = !string.IsNullOrEmpty(albumData.AlbumTitle) || !setUnknownStrings ? albumData.AlbumTitle : ResourceUtils.GetString("Language_Unknown_Album");
-            this.albumArtist = !string.IsNullOrEmpty(albumData.AlbumArtists) || !setUnknownStrings ? DataUtils.GetCommaSeparatedColumnMultiValue(albumData.AlbumArtists) : ResourceUtils.GetString("Language_Unknown_Artist");
-            this.albumArtists = !string.IsNullOrEmpty(albumData.AlbumArtists) || !setUnknownStrings ? DataUtils.SplitAndTrimColumnMultiValue(albumData.AlbumArtists).ToList() : new List<string>() { ResourceUtils.GetString("Language_Unknown_Artist") };
+            this.albumArtist = this.GetAlbumArtist(albumData);
+            this.albumTitle = !string.IsNullOrEmpty(albumData.AlbumTitle) ? albumData.AlbumTitle : ResourceUtils.GetString("Language_Unknown_Album");
+            this.albumArtists = !string.IsNullOrEmpty(albumData.AlbumArtists) ? DataUtils.SplitAndTrimColumnMultiValue(albumData.AlbumArtists).ToList() : new List<string>();
             this.year = albumData.Year.HasValue && albumData.Year.Value > 0 ? albumData.Year.Value.ToString() : string.Empty;
             this.SortYear = albumData.Year.HasValue ? albumData.Year.Value : 0;
             this.AlbumKey = albumData.AlbumKey;
             this.DateAdded = albumData.DateAdded;
             this.DateFileCreated = albumData.DateFileCreated;
+        }
+
+        public string GetAlbumArtist(AlbumData albumData)
+        {
+            if (!string.IsNullOrEmpty(albumData.AlbumArtists))
+            {
+                return DataUtils.GetCommaSeparatedColumnMultiValue(albumData.AlbumArtists);
+            }
+            else if (!string.IsNullOrEmpty(albumData.Artists))
+            {
+                return DataUtils.GetCommaSeparatedColumnMultiValue(albumData.Artists);
+            }
+
+            return ResourceUtils.GetString("Language_Unknown_Artist");
         }
 
         public string AlbumKey { get; set; }

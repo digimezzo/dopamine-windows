@@ -22,7 +22,8 @@ namespace Dopamine.Views.FullPlayer.Collection
             // PubSub Events
             this.eventAggregator.GetEvent<ScrollToPlayingTrack>().Subscribe(async (_) => await this.ScrollToPlayingTrackAsync(this.ListBoxTracks));
 
-            this.eventAggregator.GetEvent<PerformSemanticJump>().Subscribe(async (data) => {
+            this.eventAggregator.GetEvent<PerformSemanticJump>().Subscribe(async (data) =>
+            {
                 try
                 {
                     if (data.Item1.Equals("Artists"))
@@ -83,14 +84,7 @@ namespace Dopamine.Views.FullPlayer.Collection
 
         private void ArtistsButton_Click(object sender, RoutedEventArgs e)
         {
-            if(this.ListBoxArtists.SelectedItem == null)
-            {
-                this.eventAggregator.GetEvent<ToggleArtistOrderCommand>().Publish(null);
-            }
-            else
-            {
-                this.ListBoxArtists.SelectedItem = null;
-            }
+            this.ListBoxArtists.SelectedItem = null;
         }
 
         private void AlbumsButton_Click(object sender, RoutedEventArgs e)

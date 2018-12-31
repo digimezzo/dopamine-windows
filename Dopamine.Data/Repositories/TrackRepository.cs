@@ -158,7 +158,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND ({DataUtils.CreateOrLikeClause("t.Artists", artistNames, Constants.ColumnValueDelimiter)} OR {DataUtils.CreateOrLikeClause("t.AlbumArtists", artistNames, Constants.ColumnValueDelimiter)});");
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND ({DataUtils.CreateOrLikeClause("t.Artists", "t.AlbumArtists", artistNames, Constants.ColumnValueDelimiter)});");
                         }
                         catch (Exception ex)
                         {
@@ -187,7 +187,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateOrLikeClause("t.Genres", genreNames, Constants.ColumnValueDelimiter)};");
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateOrLikeClause("t.Genres", string.Empty, genreNames, Constants.ColumnValueDelimiter)};");
                         }
                         catch (Exception ex)
                         {
@@ -445,7 +445,7 @@ namespace Dopamine.Data.Repositories
             return genreNames;
         }
 
-        public async Task<IList<string>> GetTrackArtistsAsync()
+        public async Task<IList<string>> GetArtistsAsync()
         {
             var artistNames = new List<string>();
 
@@ -457,8 +457,10 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
+                            // t.Artists + t.AlbumArtists is a workaround to get artists AND album artists.
+                            // They will be split correctly by SplitColumnMultiValue.
                             artistNames = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
-                                                            .Select((t) => t.Artists)
+                                                            .Select((t) => t.Artists + t.AlbumArtists)
                                                             .SelectMany(a => DataUtils.SplitColumnMultiValue(a))
                                                             .Distinct().ToList();
                         }
@@ -477,38 +479,6 @@ namespace Dopamine.Data.Repositories
             return artistNames;
         }
 
-        public async Task<IList<string>> GetAlbumArtistsAsync()
-        {
-            var albumArtists = new List<string>();
-
-            await Task.Run(() =>
-            {
-                try
-                {
-                    using (var conn = this.factory.GetConnection())
-                    {
-                        try
-                        {
-                            albumArtists = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
-                                                             .Select((t) => t.AlbumArtists)
-                                                             .SelectMany(a => DataUtils.SplitColumnMultiValue(a))
-                                                             .Distinct().ToList();
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Could not get all the album artists. Exception: {0}", ex.Message);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                }
-            });
-
-            return albumArtists;
-        }
-
         public async Task<IList<AlbumData>> GetAlbumDataAsync(IList<string> artists, IList<string> genres)
         {
             var albumData = new List<AlbumData>();
@@ -525,11 +495,11 @@ namespace Dopamine.Data.Repositories
 
                             if (artists != null)
                             {
-                                filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists, Constants.ColumnValueDelimiter)} OR {DataUtils.CreateOrLikeClause("AlbumArtists", artists, Constants.ColumnValueDelimiter)})";
+                                filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", "AlbumArtists", artists, Constants.ColumnValueDelimiter)})";
                             }
                             else if (genres != null)
                             {
-                                filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", genres, Constants.ColumnValueDelimiter)}";
+                                filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", string.Empty, genres, Constants.ColumnValueDelimiter)}";
                             }
 
                             albumData = conn.Query<AlbumData>(this.SelectVisibleAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey");

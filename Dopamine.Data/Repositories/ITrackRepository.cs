@@ -30,11 +30,9 @@ namespace Dopamine.Data.Repositories
 
         Task ClearRemovedTrackAsync();
 
+        Task<IList<string>> GetArtistsAsync();
+
         Task<IList<string>> GetGenresAsync();
-
-        Task<IList<string>> GetTrackArtistsAsync();
-
-        Task<IList<string>> GetAlbumArtistsAsync();
 
         Task<IList<AlbumData>> GetAlbumDataAsync(IList<string> artists, IList<string> genres);
 
