@@ -3,6 +3,7 @@
 
 - [Changed] Updated the Spanish translation
 - [Fixed] Albums which don't have a "Album artist" now show the song artist instead of "Unknown Artist"
+- [Fixed] Is it now possible to create smart playlists of songs which haven't been played yet
 
 
 2018-12-21: Dopamine 2.0 Preview 6
