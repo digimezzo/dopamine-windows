@@ -1,5 +1,4 @@
 ﻿using Digimezzo.Utilities.Log;
-using Dopamine.Core.Base;
 using System;
 using System.IO;
 using System.Reflection;
@@ -26,7 +25,7 @@ namespace Dopamine.Data
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 25;
+        protected const int CURRENT_VERSION = 26;
         private ISQLiteConnectionFactory factory;
         private int userDatabaseVersion;
 
@@ -1059,6 +1058,21 @@ namespace Dopamine.Data
                              "AlbumKey	        TEXT," +
                              "ArtworkID	        TEXT," +
                              "PRIMARY KEY(AlbumArtworkID));");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+
+        [DatabaseVersion(26)]
+        private void Migrate26()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("UPDATE Track SET PlayCount=0 WHERE PlayCount IS NULL;");
+                conn.Execute("UPDATE Track SET SkipCount=0 WHERE SkipCount IS NULL;");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");
