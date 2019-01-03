@@ -54,7 +54,7 @@
   <Text Key="Choose_Language">Избор на език</Text>
   <Text Key="Pick_Your_Language">Изберете своя език</Text>
   <Text Key="Language">Език</Text>
-  <Text Key="Updates">Ъпдейти</Text>
+  <Text Key="Updates">Актуализации</Text>
   <Text Key="New_Version_available">Налична е нова версия</Text>
   <Text Key="Add_More_Colors">Добавете още цветове</Text>
   <Text Key="Show_Dopamine">Покажи Dopamine</Text>
@@ -128,7 +128,7 @@
   <Text Key="All_Artists">Всички изпълнители</Text>
   <Text Key="All_Albums">Всички албуми</Text>
   <Text Key="All_Genres">Всички жанрове</Text>
-  <Text Key="Volume">Усилване</Text>
+  <Text Key="Volume">Сила на звука</Text>
   <Text Key="Playlist">Плейлист</Text>
   <Text Key="Automatically_Download_Updates">Автоматично изтегляне на ъпдейти</Text>
   <Text Key="Not_Available_In_Portable_Version">Не е налично в портативната версия</Text>
@@ -176,7 +176,7 @@
   <Text Key="Show_Glow_Under_Main_Window">Покажи светлина под главния прозорец</Text>
   <Text Key="Enter_Leave_Fullscreen">Потвърдете или оставете на цял екран</Text>
   <Text Key="File_Type_Not_Supported">Тези типове файлове не се поддържат.</Text>
-  <Text Key="Unknown_Artist">Неизвестен артист</Text>
+  <Text Key="Unknown_Artist">Неизвестен изпълнител</Text>
   <Text Key="Unknown_Title">Неизвестна песен</Text>
   <Text Key="Close_Notification_Automatically_After">Затвори известието автоматично след</Text>
   <Text Key="If_You_Like_Dopamine_Please_Donate">Ако ви харесва Dopamine, моля, подкрепете ни с дарение. Можете да дарите точно сега или по-късно в раздела "Относно". Благодарим ти!</Text>
@@ -253,7 +253,7 @@
   <Text Key="Start_At_Last_Selected_Page">Отвори последния избраната страница при стартиране</Text>
   <Text Key="Rating">Оценка</Text>
   <Text Key="Save_Rating_In_Audio_Files">Запазване на рейтинга в аудио файловете (Само за MP3 )</Text>
-  <Text Key="By_Rating">By rating</Text>
+  <Text Key="By_Rating">По оценка</Text>
   <Text Key="Day">ден</Text>
   <Text Key="Days">дни</Text>
   <Text Key="Hour">час</Text>
@@ -409,7 +409,7 @@
   <Text Key="Added_Songs">Добавени са {number} песни ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">Свали липсващи обложки от интернет</Text>
   <Text Key="Use_All_Available_Speakers">Използвайте всички налични високоговорители</Text>
-  <Text Key="Center_Lyrics">Center Lyrics</Text>
+  <Text Key="Center_Lyrics">Центрирай текста</Text>
   <Text Key="Spectrum_Flames">Flames</Text>
   <Text Key="Spectrum_Lines">Lines</Text>
   <Text Key="Spectrum_Bars">Bars</Text>
