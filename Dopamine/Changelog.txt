@@ -1,6 +1,7 @@
-2018-12-31: Dopamine 2.0 Preview 7
+2019-01-03: Dopamine 2.0 Preview 7
 ----------------------------------
 
+- [Changed] Updated the Bulgarian translation
 - [Changed] Updated the Spanish translation
 - [Fixed] Albums which don't have a "Album artist" now show the song artist instead of "Unknown Artist"
 - [Fixed] Is it now possible to create smart playlists of songs which haven't been played yet
