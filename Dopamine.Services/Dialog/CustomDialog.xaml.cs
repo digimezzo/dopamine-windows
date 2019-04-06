@@ -73,8 +73,8 @@ namespace Dopamine.Services.Dialog
         public CustomDialog(int iconCharCode, int iconSize, string title, UserControl content, int width, int height, bool canResize, bool autoSize, bool showTitle, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback)
             : this(title, content, width, height, canResize, autoSize,showTitle, showCancelButton, okText, cancelText, callback)
         {
-            this.Icon.Text = char.ConvertFromUtf32(iconCharCode);
-            this.Icon.FontSize = iconSize;
+            this.DialogIcon.Text = char.ConvertFromUtf32(iconCharCode);
+            this.DialogIcon.FontSize = iconSize;
         }
 
         public CustomDialog(UserControl icon, string title, UserControl content, int width, int height, bool canResize, bool autoSize, bool showTitle, bool showCancelButton, string okText, string cancelText, Func<Task<bool>> callback)

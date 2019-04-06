@@ -10,8 +10,8 @@ namespace Dopamine.Services.Dialog
 {
             InitializeComponent();
 
-            this.Icon.Text = char.ConvertFromUtf32(iconCharCode);
-            this.Icon.FontSize = iconSize;
+            this.DialogIcon.Text = char.ConvertFromUtf32(iconCharCode);
+            this.DialogIcon.FontSize = iconSize;
             this.Title = title;
             this.TextBlockTitle.Text = title;
             this.TextBlockContent.Text = content;

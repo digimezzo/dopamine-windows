@@ -19,7 +19,7 @@
                             <Path x:Name="Droplet" Data="{StaticResource Droplet}" Fill="{DynamicResource Brush_Accent}"/>
                         </Viewbox>
                         <TextBlock
-                          x:Name="Icon"
+                          x:Name="DialogIcon"
                           Panel.ZIndex="1"
                           Style="{StaticResource SegoeAssets}"
                           HorizontalAlignment="Center" 
@@ -30,7 +30,7 @@
                            Foreground="{DynamicResource Brush_PrimaryText}" VerticalAlignment="Center"/>
                 </StackPanel>
             </Border>
-            <StackPanel x:Name="Content" Margin="20">
+            <StackPanel x:Name="DialogContent" Margin="20">
                 <TextBlock x:Name="TextBlockContent" TextWrapping="Wrap" Foreground="{DynamicResource Brush_PrimaryText}" />
                 <TextBox x:Name="TextBoxResponse" Style="{StaticResource MetroTextBox}" Margin="0,20,0,0"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,30,0,0">

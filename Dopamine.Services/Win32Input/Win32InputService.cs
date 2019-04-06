@@ -27,7 +27,9 @@ namespace Dopamine.Services.Win32Input
             // Set keyboard hook only when not debugging, because it slows down jumping through code using the keyboard.
             return;
 #endif
+#pragma warning disable CS0162 // Unreachable code detected
             if (this.lowLevelManager == null)
+#pragma warning restore CS0162 // Unreachable code detected
             {
                 this.lowLevelManager = new LowLevelKeyboardHookManager();
             }
@@ -84,7 +86,9 @@ namespace Dopamine.Services.Win32Input
             // Set keyboard hook only when not debugging, because it slows down jumping through code using the keyboard.
             return;
 #endif
+#pragma warning disable CS0162 // Unreachable code detected
             this.lowLevelManager.MediaKeyPlayPressed -= MediaKeyPlayPressedHandler;
+#pragma warning restore CS0162 // Unreachable code detected
             this.lowLevelManager.MediaKeyPreviousPressed -= MediaKeyPreviousPressedHandler;
             this.lowLevelManager.MediaKeyNextPressed -= MediaKeyNextPressedHandler;
             this.appCommandManager.MediaKeyPlayPressed -= MediaKeyPlayPressedHandler;
