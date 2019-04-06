@@ -135,7 +135,9 @@ namespace Dopamine.Services.Appearance
                 return;
             }
 
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             this.ApplyColorSchemeAsync(string.Empty, this.followWindowsColor, this.followAlbumCoverColor);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         private void GetBuiltInColorSchemes()
@@ -167,12 +169,15 @@ namespace Dopamine.Services.Appearance
 
         [DebuggerHidden]
         private IntPtr WndProc(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+
         {
             if (!this.followWindowsColor) return IntPtr.Zero;
 
             if (msg == WM_DWMCOLORIZATIONCOLORCHANGED)
             {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 this.ApplyColorSchemeAsync(string.Empty, this.followWindowsColor, this.followAlbumCoverColor);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
 
             return IntPtr.Zero;

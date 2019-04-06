@@ -47,7 +47,9 @@ namespace Dopamine.Services.File
             this.addFilesTimer = new Timer();
             this.addFilesTimer.Interval = this.addFilesMilliseconds;
             this.addFilesTimer.Elapsed += AddFilesTimerElapsedHandler;
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             this.DeleteFileArtworkFromCacheAsync(this.instanceGuid);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         public event TracksImportedHandler TracksImported = delegate { };
@@ -135,7 +137,9 @@ namespace Dopamine.Services.File
 
         public void ProcessArguments(string[] args)
         {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             this.ImportTracks(args);
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
         public async Task<TrackViewModel> CreateTrackAsync(string path)

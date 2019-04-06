@@ -21,7 +21,7 @@ namespace Dopamine.Services.ExternalControl
     {
         private const int FftDataLength = 256 * 4;
 
-        private CSCorePlayer player;
+        //private CSCorePlayer player;
         //private readonly FftProvider fftProvider = new FftProvider(2, FftSize.Fft256);
         //private readonly DispatcherTimer fftProviderDataTimer;
         //private bool haveAddedInputStream;
@@ -239,7 +239,7 @@ namespace Dopamine.Services.ExternalControl
                     {
                         methodInfo.Invoke(client.Value, null);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         deadClients.Push(client.Key);
                     }
