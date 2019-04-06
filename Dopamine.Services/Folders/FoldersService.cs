@@ -254,7 +254,7 @@ namespace Dopamine.Services.Folders
             }
         }
 
-        public async Task<IList<SubfolderBreadCrumbViewModel>> GetSubfolderBreadCrumbsAsync(FolderViewModel selectedRootFolder, string selectedSubfolderPath)
+        public IList<SubfolderBreadCrumbViewModel> GetSubfolderBreadCrumbs(FolderViewModel selectedRootFolder, string selectedSubfolderPath)
         {
             string parentDirectoryPath = selectedSubfolderPath;
             IList<SubfolderBreadCrumbViewModel> subfolderBreadCrumbs = new List<SubfolderBreadCrumbViewModel>();

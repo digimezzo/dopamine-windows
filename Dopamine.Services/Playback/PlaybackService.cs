@@ -341,7 +341,7 @@ namespace Dopamine.Services.Playback
             IList<AudioDevice> audioDevices = await this.GetAllAudioDevicesAsync();
             AudioDevice savedDevice = audioDevices.Where(x => x.DeviceId.Equals(savedAudioDeviceId)).FirstOrDefault();
 
-            if(savedDevice == null)
+            if (savedDevice == null)
             {
                 LogClient.Warning($"Audio device with deviceId={savedAudioDeviceId} could not be found. Using default device instead.");
                 savedDevice = this.CreateDefaultAudioDevice();
@@ -969,27 +969,12 @@ namespace Dopamine.Services.Playback
                     {
                         if (incrementPlayCount)
                         {
-                            if (this.playbackCounters[path].PlayCount != null)
-                            {
-                                this.playbackCounters[path].PlayCount += 1;
-                            }
-                            else
-                            {
-                                this.playbackCounters[path].PlayCount = 1;
-                            }
-
+                            this.playbackCounters[path].PlayCount += 1;
                             this.playbackCounters[path].DateLastPlayed = DateTime.Now.Ticks;
                         }
                         if (incrementSkipCount)
                         {
-                            if (this.playbackCounters[path].SkipCount != null)
-                            {
-                                this.playbackCounters[path].SkipCount += 1;
-                            }
-                            else
-                            {
-                                this.playbackCounters[path].SkipCount = 1;
-                            }
+                            this.playbackCounters[path].SkipCount += 1;
                         }
                     }
                     catch (Exception ex)
