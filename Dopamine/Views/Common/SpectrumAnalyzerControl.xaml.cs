@@ -56,7 +56,7 @@ namespace Dopamine.Views.Common
                 return;
             }
 
-            this.SpectrumContainer.Visibility = Visibility.Visible;
+            Application.Current.Dispatcher.Invoke(() => this.SpectrumContainer.Visibility = Visibility.Visible);
 
             if (this.playbackService.Player != null)
             {
@@ -67,7 +67,7 @@ namespace Dopamine.Views.Common
 
         private void UnregisterSpectrumPlayers()
         {
-            this.SpectrumContainer.Visibility = Visibility.Collapsed;
+            Application.Current.Dispatcher.Invoke(() => this.SpectrumContainer.Visibility = Visibility.Collapsed);
 
             if (this.playbackService.Player != null)
             {
