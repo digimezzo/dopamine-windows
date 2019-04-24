@@ -8,13 +8,21 @@
              d:DesignHeight="300" d:DesignWidth="300"
              xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
+             xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Text="{DynamicResource Language_Nothing_Is_Playing}" FontSize="24" FontWeight="Light" Foreground="{DynamicResource Brush_PrimaryText}"/>
-        <StackPanel HorizontalAlignment="Center" Margin="30">
-            <commonviews:PlayAllControl Margin="5" HorizontalAlignment="Left"/>
-            <commonviews:ShuffleAllControl Margin="5" HorizontalAlignment="Left"/>
-        </StackPanel>
-    </DockPanel>
+    <Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="#00000000"
+            dd:DragDrop.IsDragSource="True" 
+            dd:DragDrop.IsDropTarget="True" 
+            dd:DragDrop.DropHandler="{Binding}"
+            dd:DragDrop.UseDefaultDragAdorner="True"
+            dd:DragDrop.DefaultDragAdornerOpacity="0.5">
+        <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock DockPanel.Dock="Top" HorizontalAlignment="Center" Text="{DynamicResource Language_Nothing_Is_Playing}" FontSize="24" FontWeight="Light" Foreground="{DynamicResource Brush_PrimaryText}"/>
+            <StackPanel HorizontalAlignment="Center" Margin="30">
+                <commonviews:PlayAllControl Margin="5" HorizontalAlignment="Left"/>
+                <commonviews:ShuffleAllControl Margin="5" HorizontalAlignment="Left"/>
+            </StackPanel>
+        </DockPanel>
+    </Border>
 </UserControl>
