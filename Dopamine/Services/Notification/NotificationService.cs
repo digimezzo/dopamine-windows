@@ -94,7 +94,8 @@ namespace Dopamine.Services.Notification
             musicProperties.AlbumTitle = track.AlbumTitle;
             musicProperties.Artist = track.ArtistName;
             musicProperties.Title = track.TrackTitle;
-            musicProperties.TrackNumber = Convert.ToUInt32(track.TrackNumber);
+            uint.TryParse(track.TrackNumber, out var trackNumber);
+            musicProperties.TrackNumber = trackNumber;
             await SetArtworkThumbnailAsync(await this.MetadataService.GetArtworkAsync(track.Path));
             displayUpdater.Update();
         }
