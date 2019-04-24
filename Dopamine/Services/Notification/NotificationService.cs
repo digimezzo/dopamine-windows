@@ -10,7 +10,6 @@ using System.Windows;
 using Windows.Media;
 using Windows.Media.Playback;
 using Windows.Storage.Streams;
-using Digimezzo.Foundation.Core.Logging;
 
 namespace Dopamine.Services.Notification
 {
