@@ -10,6 +10,7 @@ using System.Windows;
 using Windows.Media;
 using Windows.Media.Playback;
 using Windows.Storage.Streams;
+using Digimezzo.Foundation.Core.Logging;
 
 namespace Dopamine.Services.Notification
 {
@@ -94,7 +95,8 @@ namespace Dopamine.Services.Notification
             musicProperties.AlbumTitle = track.AlbumTitle;
             musicProperties.Artist = track.ArtistName;
             musicProperties.Title = track.TrackTitle;
-            musicProperties.TrackNumber = Convert.ToUInt32(track.TrackNumber);
+            uint.TryParse(track.TrackNumber, out var trackNumber);
+            musicProperties.TrackNumber = trackNumber;
             await SetArtworkThumbnailAsync(await this.MetadataService.GetArtworkAsync(track.Path));
             displayUpdater.Update();
         }
