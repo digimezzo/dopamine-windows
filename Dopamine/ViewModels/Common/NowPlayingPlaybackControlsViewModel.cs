@@ -41,6 +41,7 @@ namespace Dopamine.ViewModels.Common
             this.eventAggregator = eventAggregator;
 
             this.PlaybackService.PlaybackSuccess += (_, __) => RaisePropertyChanged(nameof(this.HasPlaybackQueue));
+            this.PlaybackService.QueueChanged += (_, __) => RaisePropertyChanged(nameof(this.HasPlaybackQueue));
             this.PlaybackService.PlaybackStopped += (_, __) => this.Reset();
 
             this.LoadedCommand = new DelegateCommand(() =>
