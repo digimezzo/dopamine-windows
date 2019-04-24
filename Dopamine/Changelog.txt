@@ -1,9 +1,10 @@
-2019-04-06: Dopamine 2.0 Preview 7
+2019-04-24: Dopamine 2.0 Preview 7
 ----------------------------------
 
 - [Changed] Updated the Bulgarian translation
 - [Changed] Updated the Russian translation
 - [Changed] Updated the Spanish translation
+- [Fixed] Fixed glitches occurring when pressing media keys when the spectrum analyzer is enabled
 - [Fixed] Albums which don't have a "Album artist" now show the song artist instead of "Unknown Artist"
 - [Fixed] Is it now possible to create smart playlists of songs which haven't been played yet
 
