@@ -144,14 +144,14 @@
                 </Grid>
                 <!-- Content -->
                 <dc:Pivot Panel.ZIndex="1" HeaderVisibility="Collapsed" SelectedIndex="{Binding SelectedNowPlayingPage,Converter={StaticResource EnumConverter},ConverterParameter={x:Type enums:NowPlayingPage}}" 
-                          FeatheringRadius="24" Margin="100,90,100,120" AnimationType="SlideHorizontal" SlideFadeIn="True">
+                          FeatheringRadius="24" Margin="0,0,0,80" AnimationType="SlideHorizontal" SlideFadeIn="True">
                     <dc:PivotItem>
                         <!-- Displayed when no tracks are queued -->
                         <commonviews:NothingPlayingControl/>
                     </dc:PivotItem>
                     <dc:PivotItem>
                         <!-- Displayed when tracks are queued -->
-                        <dc:SlidingContentControl x:Name="NowPlayingSubPageRegion" FeatheringRadius="24" 
+                        <dc:SlidingContentControl x:Name="NowPlayingSubPageRegion" FeatheringRadius="24" Margin="100,90,100,40"
                                                   HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                                   SlideDirection="{Binding Direction}" SlideFadeIn="True" 
                                                   prism:RegionManager.RegionName="{x:Static cp:RegionNames.NowPlayingSubPageRegion}"/>
