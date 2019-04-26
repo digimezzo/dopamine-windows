@@ -23,7 +23,7 @@ namespace Dopamine.Services.Entities
         {
             this.albumArtist = this.GetAlbumArtist(albumData);
             this.albumTitle = !string.IsNullOrEmpty(albumData.AlbumTitle) ? albumData.AlbumTitle : ResourceUtils.GetString("Language_Unknown_Album");
-            this.albumArtists = !string.IsNullOrEmpty(albumData.AlbumArtists) ? DataUtils.SplitAndTrimColumnMultiValue(albumData.AlbumArtists).ToList() : new List<string>();
+            this.albumArtists = this.GetAlbumArtists(albumData);
             this.year = albumData.Year.HasValue && albumData.Year.Value > 0 ? albumData.Year.Value.ToString() : string.Empty;
             this.SortYear = albumData.Year.HasValue ? albumData.Year.Value : 0;
             this.AlbumKey = albumData.AlbumKey;
@@ -43,6 +43,20 @@ namespace Dopamine.Services.Entities
             }
 
             return ResourceUtils.GetString("Language_Unknown_Artist");
+        }
+
+        public List<string> GetAlbumArtists(AlbumData albumData)
+        {
+            if (!string.IsNullOrEmpty(albumData.AlbumArtists))
+            {
+                return DataUtils.SplitAndTrimColumnMultiValue(albumData.AlbumArtists).ToList();
+            }
+            else if (!string.IsNullOrEmpty(albumData.Artists))
+            {
+                return DataUtils.SplitAndTrimColumnMultiValue(albumData.Artists).ToList();
+            }
+
+            return new List<string>();
         }
 
         public string AlbumKey { get; set; }
