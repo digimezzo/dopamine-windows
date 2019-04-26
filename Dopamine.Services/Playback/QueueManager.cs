@@ -296,7 +296,16 @@ namespace Dopamine.Services.Playback
                         }
 
                         this.queue.InsertRange(queueIndex + 1, tracksToAdd);
-                        this.playbackOrder.InsertRange(playbackOrderIndex + 1, Enumerable.Range(0, tracksToAdd.Count).Select(x => x + playbackOrderCount));
+
+                        for (int i = 0; i < this.playbackOrder.Count; i++)
+                        {
+                            if (this.playbackOrder[i] > queueIndex)
+                            {
+                                this.playbackOrder[i] += tracksToAdd.Count;
+                            }
+                        }
+
+                        this.playbackOrder.InsertRange(playbackOrderIndex + 1, Enumerable.Range(queueIndex + 1, tracksToAdd.Count));
 
                         result.EnqueuedTracks = tracks;
                     }
