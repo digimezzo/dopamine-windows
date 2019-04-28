@@ -31,6 +31,7 @@ using Dopamine.Services.Provider;
 using Dopamine.Services.Scrobbling;
 using Dopamine.Services.Search;
 using Dopamine.Services.Shell;
+using Dopamine.Services.Statistics;
 using Dopamine.Services.Taskbar;
 using Dopamine.Services.Update;
 using Dopamine.Services.Win32Input;
@@ -229,6 +230,7 @@ namespace Dopamine
                 containerRegistry.RegisterSingleton<II18nService, I18nService>();
                 containerRegistry.RegisterSingleton<IDialogService, DialogService>();
                 containerRegistry.RegisterSingleton<IIndexingService, IndexingService>();
+                containerRegistry.RegisterSingleton<IStatisticsService, StatisticsService>();
                 containerRegistry.RegisterSingleton<IPlaybackService, PlaybackService>();
                 containerRegistry.RegisterSingleton<IWin32InputService, Win32InputService>();
                 containerRegistry.RegisterSingleton<ISearchService, SearchService>();
@@ -288,7 +290,7 @@ namespace Dopamine
                 // Making sure resources are set before we need them
                 Container.Resolve<II18nService>().ApplyLanguageAsync(SettingsClient.Get<string>("Appearance", "Language"));
                 Container.Resolve<IAppearanceService>().ApplyTheme(SettingsClient.Get<bool>("Appearance", "EnableLightTheme"));
-                
+
                 Container.Resolve<IAppearanceService>().ApplyColorSchemeAsync(
                     SettingsClient.Get<string>("Appearance", "ColorScheme"),
                     SettingsClient.Get<bool>("Appearance", "FollowWindowsColor"),
@@ -512,7 +514,7 @@ namespace Dopamine
                 {
                     LogClient.Warning($"Ignored Unhandled Exception: {ex.Message}");
                 }
-                
+
                 return;
             }
 
