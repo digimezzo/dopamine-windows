@@ -446,4 +446,6 @@
   <Text Key="Edit_Playlist">Redigera spellista</Text>
   <Text Key="Enter_Name_For_Playlist">Namnge din spellista</Text>
   <Text Key="Error_Editing_Playlist">Spellistan kunde inte redigeras. Läs loggfilen för mer information.</Text>
+  <Text Key="Date_Added">Date added</Text>
+  <Text Key="Date_Created">Date created</Text>
 </Language>

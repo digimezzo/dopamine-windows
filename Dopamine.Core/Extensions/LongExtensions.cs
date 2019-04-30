@@ -2,6 +2,16 @@
 {
     public static class LongExtensions
     {
+        public static bool HasValueLargerThan(this long sourceLong, long value)
+        {
+            if (sourceLong > value)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public static bool HasValueLargerThan(this long? sourceLong, long value)
         {
             if (sourceLong.HasValue && sourceLong.Value > value)

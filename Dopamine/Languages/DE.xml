@@ -446,4 +446,6 @@
   <Text Key="Edit_Playlist">Wiedergabeliste bearbeiten</Text>
   <Text Key="Enter_Name_For_Playlist">Gib deiner Wiedergabeliste einen neuen Namen</Text>
   <Text Key="Error_Editing_Playlist">Diese Wiedergabeliste konnte nicht bearbeitet werden. Weitere Informationen findest du in der Protokolldatei.</Text>
+  <Text Key="Date_Added">Date added</Text>
+  <Text Key="Date_Created">Date created</Text>
 </Language>

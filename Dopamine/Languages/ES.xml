@@ -446,4 +446,6 @@
   <Text Key="Edit_Playlist">Editar lista de reproducción</Text>
   <Text Key="Enter_Name_For_Playlist">Introducir un nombre para su lista de reproducción</Text>
   <Text Key="Error_Editing_Playlist">No fue posible editar la lista de reproducción. Consulte el archivo 'log' para más información por favor.</Text>
+  <Text Key="Date_Added">Date added</Text>
+  <Text Key="Date_Created">Date created</Text>
 </Language>

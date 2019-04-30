@@ -152,6 +152,18 @@
                         <TextBlock Text="{DynamicResource Language_Last_Played}"/>
                     </DataGridTextColumn.Header>
                 </DataGridTextColumn>
+
+                <DataGridTextColumn Width="2*" SortMemberPath="SortDateAdded" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding DateAdded}" Visibility="{Binding (FrameworkElement.DataContext).DateAddedVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{DynamicResource Language_Date_Added}"/>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="2*" SortMemberPath="SortDateFileCreated" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding DateFileCreated}" Visibility="{Binding (FrameworkElement.DataContext).DateCreatedVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
+                    <DataGridTextColumn.Header>
+                        <TextBlock Text="{DynamicResource Language_Date_Created}"/>
+                    </DataGridTextColumn.Header>
+                </DataGridTextColumn>
+
                 <DataGridTextColumn Width="2*" SortMemberPath="SortAlbumArtist" CellStyle="{StaticResource DataGridCellPrimaryWithEllipsis}" IsReadOnly="True" Binding="{Binding AlbumArtist}" Visibility="{Binding (FrameworkElement.DataContext).AlbumArtistVisible,RelativeSource={x:Static RelativeSource.Self},Converter={StaticResource BooleanToCollapsedConverter}}">
                     <DataGridTextColumn.Header>
                         <TextBlock Text="{DynamicResource Language_Album_Artist}"/>

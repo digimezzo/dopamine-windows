@@ -26,6 +26,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private bool playCountVisible;
         private bool skipCountVisible;
         private bool dateLastPlayedVisible;
+        private bool dateAddedVisible;
+        private bool dateCreatedVisible;
         private bool albumArtistVisible;
         private bool trackNumberVisible;
         private bool yearVisible;
@@ -89,6 +91,18 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             get { return this.dateLastPlayedVisible; }
             set { SetProperty<bool>(ref this.dateLastPlayedVisible, value); }
+        }
+
+        public bool DateAddedVisible
+        {
+            get { return this.dateAddedVisible; }
+            set { SetProperty<bool>(ref this.dateAddedVisible, value); }
+        }
+
+        public bool DateCreatedVisible
+        {
+            get { return this.dateCreatedVisible; }
+            set { SetProperty<bool>(ref this.dateCreatedVisible, value); }
         }
 
         public bool AlbumArtistVisible
@@ -188,6 +202,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 ref this.playCountVisible,
                 ref this.skipCountVisible,
                 ref this.dateLastPlayedVisible,
+                ref this.dateAddedVisible,
+                ref this.dateCreatedVisible,
                 ref this.albumArtistVisible,
                 ref this.trackNumberVisible,
                 ref this.yearVisible,
@@ -201,6 +217,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             RaisePropertyChanged(nameof(this.PlayCountVisible));
             RaisePropertyChanged(nameof(this.SkipCountVisible));
             RaisePropertyChanged(nameof(this.DateLastPlayedVisible));
+            RaisePropertyChanged(nameof(this.DateAddedVisible));
+            RaisePropertyChanged(nameof(this.DateCreatedVisible));
             RaisePropertyChanged(nameof(this.AlbumArtistVisible));
             RaisePropertyChanged(nameof(this.TrackNumberVisible));
             RaisePropertyChanged(nameof(this.YearVisible));

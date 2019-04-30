@@ -6,7 +6,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 {
     public sealed class Utils
     {
-        public static void GetVisibleSongsColumns(ref bool ratingVisible, ref bool loveVisible, ref bool lyricsVisible, ref bool artistVisible, ref bool albumVisible, ref bool genreVisible, ref bool lengthVisible, ref bool playCountVisible, ref bool skipCountVisible, ref bool dateLastPlayedVisible, ref bool albumArtistVisible, ref bool trackNumberVisible, ref bool yearVisible, ref bool bitrateVisible)
+        public static void GetVisibleSongsColumns(ref bool ratingVisible, ref bool loveVisible, ref bool lyricsVisible, ref bool artistVisible, ref bool albumVisible, ref bool genreVisible, ref bool lengthVisible, ref bool playCountVisible, ref bool skipCountVisible, ref bool dateLastPlayedVisible, ref bool dateAddedVisible, ref bool dateCreatedVisible, ref bool albumArtistVisible, ref bool trackNumberVisible, ref bool yearVisible, ref bool bitrateVisible)
         {
             ratingVisible = false;
             loveVisible = false;
@@ -18,6 +18,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             playCountVisible = false;
             skipCountVisible = false;
             dateLastPlayedVisible = false;
+            dateAddedVisible = false;
+            dateCreatedVisible = false;
             albumArtistVisible = false;
             trackNumberVisible = false;
             yearVisible = false;
@@ -75,6 +77,12 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                         case "datelastplayed":
                             dateLastPlayedVisible = true;
                             break;
+                        case "dateadded":
+                            dateAddedVisible = true;
+                            break;
+                        case "datecreated":
+                            dateCreatedVisible = true;
+                            break;
                         case "albumartist":
                             albumArtistVisible = true;
                             break;
@@ -92,7 +100,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
-        public static void SetVisibleSongsColumns(bool ratingVisible, bool loveVisible, bool lyricsVisible, bool artistVisible, bool albumVisible, bool genreVisible, bool lengthVisible, bool playCountVisible, bool skipCountVisible, bool dateLastPlayedVisible, bool albumArtistVisible, bool trackNumberVisible, bool yearVisible, bool bitrateVisible)
+        public static void SetVisibleSongsColumns(bool ratingVisible, bool loveVisible, bool lyricsVisible, bool artistVisible, bool albumVisible, bool genreVisible, bool lengthVisible, bool playCountVisible, bool skipCountVisible, bool dateLastPlayedVisible, bool dateAddedVisible, bool dateCreatedVisible, bool albumArtistVisible, bool trackNumberVisible, bool yearVisible, bool bitrateVisible)
         {
             List<string> visibleColumns = new List<string>();
 
@@ -116,6 +124,10 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 visibleColumns.Add("skipcount");
             if (dateLastPlayedVisible)
                 visibleColumns.Add("datelastplayed");
+            if (dateAddedVisible)
+                visibleColumns.Add("dateadded");
+            if (dateCreatedVisible)
+                visibleColumns.Add("datecreated");
             if (albumArtistVisible)
                 visibleColumns.Add("albumartist");
             if (trackNumberVisible)

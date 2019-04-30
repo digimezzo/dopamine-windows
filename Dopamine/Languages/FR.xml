@@ -446,4 +446,6 @@
   <Text Key="Edit_Playlist">Modifier la liste de lecture</Text>
   <Text Key="Enter_Name_For_Playlist">Entrez un nom pour la liste de lecture</Text>
   <Text Key="Error_Editing_Playlist">La liste de lecture n'a pas pu être modifiée. Consultez le fichier log pour plus de détails.</Text>
+  <Text Key="Date_Added">Date d'ajout</Text>
+  <Text Key="Date_Created">Date de creation</Text>
 </Language>

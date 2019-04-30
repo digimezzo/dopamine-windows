@@ -53,6 +53,14 @@ namespace Dopamine.Services.Entities
 
         public long SortTrackNumber => this.Track.TrackNumber.HasValue ? this.Track.TrackNumber.Value : 0;
 
+        public long SortDateAdded => this.Track.DateAdded;
+
+        public long SortDateFileCreated => this.Track.DateFileCreated;
+
+        public string DateAdded => this.Track.DateAdded.HasValueLargerThan(0) ? new DateTime(this.Track.DateAdded).ToString("d") : string.Empty;
+
+        public string DateFileCreated => this.Track.DateFileCreated.HasValueLargerThan(0) ? new DateTime(this.Track.DateFileCreated).ToString("d") : string.Empty;
+
         public bool HasLyrics => this.Track.HasLyrics == 1 ? true : false;
 
         public string Bitrate => this.Track.BitRate != null ? this.Track.BitRate + " kbps" : "";
