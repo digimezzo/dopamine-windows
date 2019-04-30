@@ -446,4 +446,6 @@
   <Text Key="Edit_Playlist">Lejátszási lista szerkesztése</Text>
   <Text Key="Enter_Name_For_Playlist">Adj egy nevet a lejátszási listának</Text>
   <Text Key="Error_Editing_Playlist">Nem lehet szerkeszteni a lejátszási listát. További információért tekintsd meg a naplófájlt.</Text>
+  <Text Key="Date_Added">Date added</Text>
+  <Text Key="Date_Created">Date created</Text>
 </Language>

@@ -446,4 +446,6 @@
   <Text Key="Edit_Playlist">プレイリストの編集</Text>
   <Text Key="Enter_Name_For_Playlist">プレイリスト名の入力</Text>
   <Text Key="Error_Editing_Playlist">プレイリストを編集できませんでした。詳細はログファイルを参照してください。</Text>
+  <Text Key="Date_Added">Date added</Text>
+  <Text Key="Date_Created">Date created</Text>
 </Language>

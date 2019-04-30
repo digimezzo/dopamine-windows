@@ -19,6 +19,8 @@
         <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Plays}" IsChecked="{Binding CheckBoxPlayCountChecked}"/>
         <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Skips}" IsChecked="{Binding CheckBoxSkipCountChecked}"/>
         <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Last_Played}" IsChecked="{Binding CheckBoxDateLastPlayedChecked}"/>
+        <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Date_Added}" IsChecked="{Binding CheckBoxDateAddedChecked}"/>
+        <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Date_Created}" IsChecked="{Binding CheckBoxDateCreatedChecked}"/>
         <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Album_Artist}" IsChecked="{Binding CheckBoxAlbumArtistChecked}"/>
         <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Track_Number}" IsChecked="{Binding CheckBoxTrackNumberChecked}"/>
         <CheckBox Style="{StaticResource MetroCheckBox}" Margin="0,10,0,0" Content="{DynamicResource Language_Year}" IsChecked="{Binding CheckBoxYearChecked}"/>

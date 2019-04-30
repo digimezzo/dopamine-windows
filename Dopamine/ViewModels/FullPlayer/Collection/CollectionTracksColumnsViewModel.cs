@@ -19,6 +19,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         private bool checkBoxPlayCountChecked;
         private bool checkBoxSkipCountChecked;
         private bool checkBoxDateLastPlayedChecked;
+        private bool checkBoxDateAddedChecked;
+        private bool checkBoxDateCreatedChecked;
         private bool checkBoxAlbumArtistChecked;
         private bool checkBoxTrackNumberChecked;
         private bool checkBoxYearChecked;
@@ -96,6 +98,18 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             set { SetProperty<bool>(ref this.checkBoxDateLastPlayedChecked, value); }
         }
 
+        public bool CheckBoxDateAddedChecked
+        {
+            get { return checkBoxDateAddedChecked; }
+            set { SetProperty<bool>(ref this.checkBoxDateAddedChecked, value); }
+        }
+
+        public bool CheckBoxDateCreatedChecked
+        {
+            get { return checkBoxDateCreatedChecked; }
+            set { SetProperty<bool>(ref this.checkBoxDateCreatedChecked, value); }
+        }
+
         public bool CheckBoxAlbumArtistChecked
         {
             get { return checkBoxAlbumArtistChecked; }
@@ -144,6 +158,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 ref this.checkBoxPlayCountChecked,
                 ref this.checkBoxSkipCountChecked,
                 ref this.checkBoxDateLastPlayedChecked,
+                ref this.checkBoxDateAddedChecked,
+                ref this.checkBoxDateCreatedChecked,
                 ref this.checkBoxAlbumArtistChecked,
                 ref this.checkBoxTrackNumberChecked,
                 ref this.checkBoxYearChecked,
@@ -159,6 +175,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             RaisePropertyChanged(nameof(this.CheckBoxPlayCountChecked));
             RaisePropertyChanged(nameof(this.CheckBoxSkipCountChecked));
             RaisePropertyChanged(nameof(this.CheckBoxDateLastPlayedChecked));
+            RaisePropertyChanged(nameof(this.CheckBoxDateAddedChecked));
+            RaisePropertyChanged(nameof(this.CheckBoxDateCreatedChecked));
             RaisePropertyChanged(nameof(this.CheckBoxAlbumArtistChecked));
             RaisePropertyChanged(nameof(this.CheckBoxTrackNumberChecked));
             RaisePropertyChanged(nameof(this.CheckBoxYearChecked));
@@ -180,6 +198,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                     this.CheckBoxPlayCountChecked,
                     this.CheckBoxSkipCountChecked,
                     this.CheckBoxDateLastPlayedChecked,
+                    this.CheckBoxDateAddedChecked,
+                    this.CheckBoxDateCreatedChecked,
                     this.CheckBoxAlbumArtistChecked,
                     this.CheckBoxTrackNumberChecked,
                     this.CheckBoxYearChecked,

@@ -446,4 +446,6 @@
   <Text Key="Edit_Playlist">Редактиране на плейлиста</Text>
   <Text Key="Enter_Name_For_Playlist">Въведи име</Text>
   <Text Key="Error_Editing_Playlist">Плейлистът не можа да бъде редактиран. Моля, проверете  регистрационния файл за повече информация.</Text>
+  <Text Key="Date_Added">Date added</Text>
+  <Text Key="Date_Created">Date created</Text>
 </Language>
