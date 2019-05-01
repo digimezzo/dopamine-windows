@@ -4,6 +4,7 @@
 - [Added] It is now possible to drop files on now playing, when no songs are playing.
 - [Added] Added sort by date added and date created in the song screen
 - [Changed] Updated the Bulgarian translation
+- [Changed] Updated the Portuguese (Portugal) translation
 - [Changed] Updated the Russian translation
 - [Changed] Updated the Spanish translation
 - [Fixed] Crash when playing a song which has a malformed track number when using system notifications
