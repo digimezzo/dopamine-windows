@@ -36,13 +36,7 @@ namespace Dopamine.ViewModels.FullPlayer.Information
 
         public string WebsiteLink => ContactInformation.WebsiteLink;
 
-        public string WebsiteContactLink => ContactInformation.WebsiteContactLink;
-
-        public string FacebookLink => ContactInformation.FacebookLink;
-
         public string TwitterLink => ContactInformation.TwitterLink;
-
-        public string InstagramLink => ContactInformation.InstagramLink;
 
         public InformationAboutViewModel(IContainerProvider container, IDialogService dialogService)
         {
