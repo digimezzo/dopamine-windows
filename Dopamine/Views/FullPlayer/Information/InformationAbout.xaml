@@ -47,17 +47,8 @@
                 <Button Content="{Binding WebsiteLink}" Style="{StaticResource LinkButton}" ToolTip="{Binding WebsiteLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding WebsiteLink}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Email}" Foreground="{DynamicResource Brush_PrimaryText}"/>
-                <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource Brush_PrimaryText}"/>
-                <Button Content="{Binding WebsiteContactLink}" Style="{StaticResource LinkButton}" ToolTip="{Binding WebsiteContactLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding WebsiteContactLink}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="0,0,0,0" Text="{DynamicResource Language_Social_Networks}" Foreground="{DynamicResource Brush_PrimaryText}"/>
                 <TextBlock Margin="0,0,5,0" Text=":" Foreground="{DynamicResource Brush_PrimaryText}"/>
-                <Button Content="Facebook" Style="{StaticResource LinkButton}" ToolTip="{Binding FacebookLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding FacebookLink}"/>
-                <TextBlock Margin="0,0,5,0" Text="," Foreground="{DynamicResource Brush_PrimaryText}"/>
-                <Button Content="Instagram" Style="{StaticResource LinkButton}" ToolTip="{Binding InstagramLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding InstagramLink}"/>
-                <TextBlock Margin="0,0,5,0" Text="," Foreground="{DynamicResource Brush_PrimaryText}"/>
                 <Button Content="Twitter" Style="{StaticResource LinkButton}" ToolTip="{Binding TwitterLink}" Command="{Binding OpenLinkCommand}" CommandParameter="{Binding TwitterLink}"/>
             </StackPanel>
             <Separator Height="20" Background="Transparent" />
