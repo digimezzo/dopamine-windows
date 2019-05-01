@@ -209,6 +209,10 @@ namespace Dopamine.Services.Indexing
             // ------
             bool isTracksChanged = await this.IndexTracksAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles")) > 0 ? true : false;
 
+            // Track statistics (for upgrade from 1.x to 2.x)
+            // ----------------------------------------------
+            await this.MigrateTrackStatisticsIfExistsAsync();
+
             // Artwork cleanup
             // ---------------
             bool isArtworkCleanedUp = await this.CleanupArtworkAsync();
@@ -232,6 +236,34 @@ namespace Dopamine.Services.Indexing
             {
                 await this.watcherManager.StartWatchingAsync();
             }
+        }
+
+        private async Task MigrateTrackStatisticsIfExistsAsync()
+        {
+            await Task.Run(() =>
+            {
+                using (var conn = this.factory.GetConnection())
+                {
+                    int count = conn.ExecuteScalar<int>("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='TrackStatistic'");
+
+                    if (count > 0)
+                    {
+                        List<TrackStatistic> trackStatistics = conn.Query<TrackStatistic>("SELECT * FROM TrackStatistic WHERE (Rating IS NOT NULL AND Rating <> 0) " +
+                            "OR (Love IS NOT NULL AND Love <> 0) " +
+                            "OR (PlayCount IS NOT NULL AND PlayCount <> 0)" +
+                            "OR (SkipCount IS NOT NULL AND SkipCount <> 0)" +
+                            "OR (DateLastPlayed IS NOT NULL AND DateLastPlayed <> 0)");
+
+                        foreach (TrackStatistic trackStatistic in trackStatistics)
+                        {
+                            conn.Execute("UPDATE Track SET Rating=?, Love=?, PlayCount=?, SkipCount=?, DateLastPlayed=? WHERE Safepath=?;", 
+                                trackStatistic.Rating, trackStatistic.Love, trackStatistic.PlayCount, trackStatistic.SkipCount, trackStatistic.DateLastPlayed, trackStatistic.SafePath);
+                        }
+
+                        conn.Execute("DROP TABLE TrackStatistic;");
+                    }
+                }
+            });
         }
 
         private async Task<long> IndexTracksAsync(bool ignoreRemovedFiles)
@@ -563,8 +595,8 @@ namespace Dopamine.Services.Indexing
             }
             catch (Exception ex)
             {
-                // When updating tracks: for tracks that were indexed successfully in the past and had IndexingSuccess = 1
                 track.IndexingSuccess = 0;
+                track.NeedsIndexing = 0; // Let's not keep trying to indexing this track
                 track.IndexingFailureReason = ex.Message;
 
                 LogClient.Error("Error while retrieving tag information for file {0}. Exception: {1}", track.Path, ex.Message);
@@ -582,7 +614,7 @@ namespace Dopamine.Services.Indexing
         {
             long numberDeleted = 0;
 
-            await Task.Run(async() =>
+            await Task.Run(async () =>
             {
                 string[] artworkFiles = Directory.GetFiles(this.cacheService.CoverArtCacheFolderPath, "album-*.jpg");
 

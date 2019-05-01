@@ -92,6 +92,7 @@
     <Compile Include="Entities\QueuedTrack.cs" />
     <Compile Include="Entities\RemovedTrack.cs" />
     <Compile Include="Entities\Track.cs" />
+    <Compile Include="Entities\TrackStatistic.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="ISQLiteConnectionFactory.cs" />
     <Compile Include="MetaDataUtils.cs" />
