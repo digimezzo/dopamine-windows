@@ -1,7 +1,8 @@
-2019-05-01: Dopamine 2.0 Preview 7
+2019-05-03: Dopamine 2.0 Preview 7
 ----------------------------------
 
 - [Added] It is now possible to drop files on now playing, when no songs are playing.
+- [Added] It is now possible to drop folders on the playlists screen.
 - [Added] Added sort by date added and date created in the song screen
 - [Changed] Updated the Bulgarian translation
 - [Changed] Updated the Portuguese (Portugal) translation
