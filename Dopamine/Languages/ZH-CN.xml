@@ -446,6 +446,6 @@
   <Text Key="Edit_Playlist">编辑播放列表</Text>
   <Text Key="Enter_Name_For_Playlist">输入播放列表名称</Text>
   <Text Key="Error_Editing_Playlist">此播放列表无法被编辑。请至日志文件以获取更多信息。</Text>
-  <Text Key="Date_Added">Date added</Text>
-  <Text Key="Date_Created">Date created</Text>
+  <Text Key="Date_Added">已添加日期</Text>
+  <Text Key="Date_Created">已创建日期</Text>
 </Language>
