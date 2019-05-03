@@ -16,7 +16,7 @@ namespace Dopamine.Services.File
 
         Task<IList<TrackViewModel>> ProcessFilesInDirectoryAsync(string directoryPath);
 
-        Task<IList<TrackViewModel>> ProcessFilesAsync(IList<string> filenames);
+        Task<IList<TrackViewModel>> ProcessFilesAsync(IList<string> filenames, bool processPlaylistFiles);
 
         Task<TrackViewModel> CreateTrackAsync(string path);
 

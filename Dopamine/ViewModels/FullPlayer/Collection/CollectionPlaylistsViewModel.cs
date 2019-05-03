@@ -646,7 +646,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             try
             {
                 IList<string> filenames = dropInfo.GetDroppedFilenames();
-                IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
+                IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames, true);
                 await this.playlistService.AddTracksToStaticPlaylistAsync(tracks, this.SelectedPlaylistName);
             }
             catch (Exception ex)
@@ -664,7 +664,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             {
                 hoveredPlaylist = (PlaylistViewModel)dropInfo.TargetItem;
                 IList<string> filenames = dropInfo.GetDroppedFilenames();
-                tracks = await this.fileService.ProcessFilesAsync(filenames);
+                tracks = await this.fileService.ProcessFilesAsync(filenames, true);
 
                 if (hoveredPlaylist != null && tracks != null)
                 {
@@ -695,7 +695,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                     }
 
                     IList<string> filenames = dropInfo.GetDroppedFilenames();
-                    IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
+                    IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames, true);
 
                     if (hoveredPlaylist != null && tracks != null)
                     {
@@ -709,21 +709,19 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
             else if (dropInfo.TargetItem == null)
             {
-                string uniquePlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
-                IList<string> allFilenames = dropInfo.GetDroppedFilenames();
-                IList<string> audioFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedAudioFile(f)).ToList();
-                IList<string> playlistFileNames = allFilenames.Select(f => f).Where(f => FileFormats.IsSupportedStaticPlaylistFile(f)).ToList();
-
                 // 2. Drop audio files in empty part of list: add these files to a new unique playlist
-                IList<TrackViewModel> audiofileTracks = await this.fileService.ProcessFilesAsync(audioFileNames);
+                IList<string> filenames = dropInfo.GetDroppedFilenames();
+                IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames, false);
 
-                if (audiofileTracks != null && audiofileTracks.Count > 0)
+                if (tracks != null && tracks.Count > 0)
                 {
+                    string uniquePlaylistName = await this.playlistService.GetUniquePlaylistNameAsync(ResourceUtils.GetString("Language_New_Playlist"));
                     await this.playlistService.CreateNewPlaylistAsync(new EditablePlaylistViewModel(uniquePlaylistName, PlaylistType.Static));
-                    await this.playlistService.AddTracksToStaticPlaylistAsync(audiofileTracks, uniquePlaylistName);
+                    await this.playlistService.AddTracksToStaticPlaylistAsync(tracks, uniquePlaylistName);
                 }
 
                 // 3. Drop playlist files in empty part of list: add the playlist with a unique name
+                IList<string> playlistFileNames = filenames.Select(f => f).Where(f => FileFormats.IsSupportedStaticPlaylistFile(f)).ToList();
                 await this.ImportPlaylistsAsync(playlistFileNames);
             }
         }
@@ -739,8 +737,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 }
 
                 // If we're dragging files, we need to be dragging valid files.
-                if (dropInfo.IsDraggingFiles() &&
-                    !(dropInfo.IsDraggingMediaFiles() || dropInfo.IsDraggingStaticPlaylistFiles() || dropInfo.IsDraggingSmartPlaylistFiles()))
+                if (dropInfo.IsDraggingFilesOrDirectories() &&
+                    !(dropInfo.IsDraggingDirectories() || dropInfo.IsDraggingMediaFiles() || dropInfo.IsDraggingStaticPlaylistFiles() || dropInfo.IsDraggingSmartPlaylistFiles()))
                 {
                     return;
                 }
@@ -765,7 +763,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 if (target.Name.Equals(this.PlaylistsTarget))
                 {
                     // Dragging to the Playlists listbox
-                    if (dropInfo.IsDraggingFiles())
+                    if (dropInfo.IsDraggingFilesOrDirectories())
                     {
                         await this.AddDroppedFilesToPlaylists(dropInfo);
                     }
@@ -777,7 +775,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 else if (target.Name.Equals(this.TracksTarget))
                 {
                     // Dragging to the Tracks listbox
-                    if (dropInfo.IsDraggingFiles())
+                    if (dropInfo.IsDraggingFilesOrDirectories())
                     {
                         await this.AddDroppedFilesToSelectedPlaylist(dropInfo);
                     }
