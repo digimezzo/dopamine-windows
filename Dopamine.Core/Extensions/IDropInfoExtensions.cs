@@ -9,11 +9,27 @@ namespace Dopamine.Core.Extensions
 {
     public static class IDropInfoExtensions
     {
-        public static bool IsDraggingFiles(this IDropInfo dropInfo)
+        public static bool IsDraggingFilesOrDirectories(this IDropInfo dropInfo)
         {
             DataObject dataObject = dropInfo.Data as DataObject;
 
             return dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop);
+        }
+
+        public static bool IsDraggingDirectories(this IDropInfo dropInfo)
+        {
+            DataObject dataObject = dropInfo.Data as DataObject;
+            StringCollection directoryNames = dataObject.GetFileDropList();
+            
+            foreach (string directoryName in directoryNames)
+            {
+                if (System.IO.Directory.Exists(directoryName))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public static bool IsDraggingMediaFiles(this IDropInfo dropInfo)

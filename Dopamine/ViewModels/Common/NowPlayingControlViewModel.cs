@@ -81,7 +81,7 @@ namespace Dopamine.ViewModels.Common
                 if (dropInfo.Data is PlaylistViewModel) return;
 
                 // If we're dragging files, we need to be dragging valid files.
-                bool isDraggingFiles = dropInfo.IsDraggingFiles();
+                bool isDraggingFiles = dropInfo.IsDraggingFilesOrDirectories();
                 bool isDraggingValidFiles = false;
                 if (isDraggingFiles) isDraggingValidFiles = dropInfo.IsDraggingMediaFiles();
                 if (isDraggingFiles & !isDraggingValidFiles) return;
@@ -118,7 +118,7 @@ namespace Dopamine.ViewModels.Common
         {
             try
             {
-                if (dropInfo.IsDraggingFiles())
+                if (dropInfo.IsDraggingFilesOrDirectories())
                 {
                     if (dropInfo.IsDraggingMediaFiles())
                     {
@@ -142,7 +142,7 @@ namespace Dopamine.ViewModels.Common
             try
             {
                 IList<string> filenames = dropInfo.GetDroppedFilenames();
-                IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames);
+                IList<TrackViewModel> tracks = await this.fileService.ProcessFilesAsync(filenames, true);
                 await this.playbackService.AddToQueueAsync(tracks);
             }
             catch (Exception ex)

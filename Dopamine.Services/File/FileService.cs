@@ -90,7 +90,7 @@ namespace Dopamine.Services.File
             return tracks;
         }
 
-        public async Task<IList<TrackViewModel>> ProcessFilesAsync(IList<string> paths)
+        public async Task<IList<TrackViewModel>> ProcessFilesAsync(IList<string> paths, bool processPlaylistFiles)
         {
             var tracks = new List<TrackViewModel>();
 
@@ -109,7 +109,7 @@ namespace Dopamine.Services.File
                         // The file is a supported audio format: add it directly.
                         tracks.Add(await this.CreateTrackAsync(path));
                     }
-                    else if (FileFormats.IsSupportedStaticPlaylistFile(path))
+                    else if (processPlaylistFiles && FileFormats.IsSupportedStaticPlaylistFile(path))
                     {
                         // The file is a supported playlist format: process the contents of the playlist file.
                         foreach (string audioFilePath in this.ProcessPlaylistFile(path))
@@ -233,7 +233,7 @@ namespace Dopamine.Services.File
                     }
                 });
 
-                IList<TrackViewModel> tracks = await this.ProcessFilesAsync(tempFiles);
+                IList<TrackViewModel> tracks = await this.ProcessFilesAsync(tempFiles, true);
                 TrackViewModel selectedTrack = tracks.First();
 
                 LogClient.Info("Number of tracks to play = {0}", tracks.Count.ToString());
