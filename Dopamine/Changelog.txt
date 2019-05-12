@@ -1,4 +1,4 @@
-2019-05-03: Dopamine 2.0 Preview 7
+2019-05-12: Dopamine 2.0 Preview 7
 ----------------------------------
 
 - [Added] It is now possible to drop files on now playing, when no songs are playing.
