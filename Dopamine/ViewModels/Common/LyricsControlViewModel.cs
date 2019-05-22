@@ -1,5 +1,5 @@
-﻿using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Foundation.Core.Logging;
+using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Core.Api.Lyrics;
 using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
@@ -101,7 +101,7 @@ namespace Dopamine.ViewModels.Common
             {
                 if (SettingsClient.IsSettingChanged(e, "Lyrics", "DownloadLyrics"))
                 {
-                    if ((bool)e.SettingValue)
+                    if ((bool)e.Entry.Value)
                     {
                         this.RestartRefreshTimer();
                     }

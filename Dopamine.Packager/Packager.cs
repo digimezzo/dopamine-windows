@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Packaging;
+﻿using Digimezzo.Foundation.Core.Packaging;
 using Dopamine.Core.Base;
 using System;
 using System.Reflection;

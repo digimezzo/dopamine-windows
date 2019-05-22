@@ -1,6 +1,6 @@
-﻿using Digimezzo.Utilities.Helpers;
-using Digimezzo.Utilities.Settings;
-using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Helpers;
+using Digimezzo.Foundation.Core.Settings;
+using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Services.Dialog;

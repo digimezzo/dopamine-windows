@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Foundation.Core.Settings;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Threading.Tasks;

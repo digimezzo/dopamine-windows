@@ -1,5 +1,5 @@
-﻿using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Foundation.Core.Logging;
+using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
@@ -83,7 +83,7 @@ namespace Dopamine.Services.Indexing
         {
             if (SettingsClient.IsSettingChanged(e, "Indexing", "RefreshCollectionAutomatically"))
             {
-                if ((bool)e.SettingValue)
+                if ((bool)e.Entry.Value)
                 {
                     await this.watcherManager.StartWatchingAsync();
                 }

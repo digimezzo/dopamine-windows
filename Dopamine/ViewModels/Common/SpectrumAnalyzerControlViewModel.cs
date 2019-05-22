@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Controls;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Enums;
@@ -123,7 +123,7 @@ namespace Dopamine.ViewModels.Common
             {
                 if (SettingsClient.IsSettingChanged(e, "Playback", "SpectrumStyle"))
                 {
-                    this.SetSpectrumStyle((SpectrumStyle)e.SettingValue);
+                    this.SetSpectrumStyle((SpectrumStyle)e.Entry.Value);
                 }
             };
 

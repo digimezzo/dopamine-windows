@@ -1,5 +1,5 @@
 ﻿using CommonServiceLocator;
-using Digimezzo.Utilities.Settings;
+using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Core.Enums;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Shell;

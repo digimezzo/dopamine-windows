@@ -48,8 +48,8 @@
     <AssemblyOriginatorKeyFile>..\Dopamine\Dopamine.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Digimezzo.Utilities">
-      <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
+    <Reference Include="Digimezzo.Foundation.Core">
+      <HintPath>..\Dopamine\Libraries\Digimezzo.Foundation.Core.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\Dopamine\Libraries\Ionic.Zip.dll</HintPath>

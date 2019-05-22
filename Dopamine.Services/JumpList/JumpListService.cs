@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Services.JumpList;
 using System.IO;

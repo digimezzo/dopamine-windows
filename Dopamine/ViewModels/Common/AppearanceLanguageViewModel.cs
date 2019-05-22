@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Services.I18n;
 using Prism.Mvvm;
 using System.Collections.Generic;

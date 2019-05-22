@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Core.Utils;
 using Dopamine.ViewModels;
 using Dopamine.Services.Dialog;

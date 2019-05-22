@@ -1,5 +1,5 @@
-﻿using Digimezzo.Utilities.Helpers;
-using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Utils;
+using Digimezzo.Foundation.Core.Helpers;
 using Dopamine.Core.Base;
 using System;
 using System.Collections.Generic;

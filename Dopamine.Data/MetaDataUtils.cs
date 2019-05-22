@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.Utils;
@@ -157,7 +157,7 @@ namespace Dopamine.Data
 
             track.Path = path;
             track.SafePath = path.ToSafePath();
-            track.FileName = FileUtils.NameWithoutExtension(path);
+            track.FileName = FileUtils.FileNameWithoutExtension(path);
             track.Duration = Convert.ToInt64(fileMetadata.Duration.TotalMilliseconds);
             track.MimeType = fileMetadata.MimeType;
             track.BitRate = fileMetadata.BitRate;

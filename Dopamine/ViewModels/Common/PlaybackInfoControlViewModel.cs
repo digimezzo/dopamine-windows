@@ -1,5 +1,5 @@
-﻿using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Foundation.Core.Logging;
+using Digimezzo.Foundation.Core.Settings;
 using Digimezzo.WPFControls.Enums;
 using Dopamine.Core.Utils;
 using Dopamine.Services.Entities;
@@ -133,13 +133,13 @@ namespace Dopamine.ViewModels.Common
             {
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
                 {
-                    this.EnableRating = (bool)e.SettingValue;
+                    this.EnableRating = (bool)e.Entry.Value;
 
                 }
 
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
                 {
-                    this.EnableLove = (bool)e.SettingValue;
+                    this.EnableLove = (bool)e.Entry.Value;
                 }
             };
 

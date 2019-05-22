@@ -1,5 +1,5 @@
-﻿using Digimezzo.Utilities.IO;
-using Digimezzo.Utilities.Log;
+﻿using Digimezzo.Foundation.Core.IO;
+using Digimezzo.Foundation.Core.Logging;
 using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
 using Dopamine.Services.Entities;

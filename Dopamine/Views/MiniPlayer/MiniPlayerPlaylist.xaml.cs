@@ -1,5 +1,5 @@
-﻿using Digimezzo.Utilities.Settings;
-using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Settings;
+using Digimezzo.Foundation.Core.Utils;
 using Digimezzo.WPFControls;
 using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
@@ -38,7 +38,7 @@ namespace Dopamine.Views.MiniPlayer
             {
                 if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowWindowBorder"))
                 {
-                    this.WindowBorder.BorderThickness = new Thickness((bool)e.SettingValue ? 1 : 0);
+                    this.WindowBorder.BorderThickness = new Thickness((bool)e.Entry.Value ? 1 : 0);
                 }
             };
 

@@ -1,7 +1,7 @@
-﻿using Digimezzo.Utilities.IO;
-using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Settings;
-using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.IO;
+using Digimezzo.Foundation.Core.Logging;
+using Digimezzo.Foundation.Core.Settings;
+using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.IO;
@@ -347,7 +347,7 @@ namespace Dopamine.ViewModels.Common
             dlg.FileName = string.Empty;
             dlg.DefaultExt = FileFormats.DEQ;
             dlg.Filter = string.Concat(ResourceUtils.GetString("Language_Equalizer_Presets"), " (", FileFormats.DEQ, ")|*", FileFormats.DEQ);
-            dlg.InitialDirectory = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder);
+            dlg.InitialDirectory = System.IO.Path.Combine(WindowsPaths.AppData(), ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder);
 
             while (showSaveDialog)
             {
@@ -416,7 +416,7 @@ namespace Dopamine.ViewModels.Common
                 try
                 {
                     await Task.Run(() => {
-                        string presetPath = System.IO.Path.Combine(LegacyPaths.AppData(), ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder, this.SelectedPreset.Name + FileFormats.DEQ);
+                        string presetPath = System.IO.Path.Combine(WindowsPaths.AppData(), ProductInformation.ApplicationName, ApplicationPaths.EqualizerFolder, this.SelectedPreset.Name + FileFormats.DEQ);
                         System.IO.File.Delete(presetPath);
                     });
 

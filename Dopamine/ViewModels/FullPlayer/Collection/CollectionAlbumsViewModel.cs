@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Data;
 using Dopamine.Services.Collection;
@@ -41,14 +41,14 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             {
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
                 {
-                    this.EnableRating = (bool)e.SettingValue;
+                    this.EnableRating = (bool)e.Entry.Value;
                     this.SetTrackOrder("AlbumsTrackOrder");
                     await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
                 }
 
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
                 {
-                    this.EnableLove = (bool)e.SettingValue;
+                    this.EnableLove = (bool)e.Entry.Value;
                     this.SetTrackOrder("AlbumsTrackOrder");
                     await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
                 }

@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Indexing;
 using Prism.Commands;

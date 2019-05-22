@@ -39,7 +39,6 @@
         <File>CSCore.dll</File>
         <File>CSCore.Ffmpeg.dll</File>
         <File>Ionic.Zip.dll</File>
-        <File>Digimezzo.Utilities.dll</File>
         <File>Digimezzo.WPFControls.dll</File>
         <File>SQLite-net.dll</File>
         <File>SQLitePCLRaw.batteries_green.dll</File>
