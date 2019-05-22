@@ -1,5 +1,5 @@
-﻿using Digimezzo.Utilities.IO;
-using Digimezzo.Utilities.Log;
+﻿using Digimezzo.Foundation.Core.IO;
+using Digimezzo.Foundation.Core.Logging;
 using Dopamine.Core.Enums;
 using Dopamine.Services.Dialog;
 using Prism.Commands;

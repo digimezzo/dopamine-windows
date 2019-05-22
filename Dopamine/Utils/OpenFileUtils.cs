@@ -1,6 +1,6 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Core.Base;
-using Digimezzo.Utilities.Log;
+using Digimezzo.Foundation.Core.Logging;
 using System;
 using System.Threading.Tasks;
 

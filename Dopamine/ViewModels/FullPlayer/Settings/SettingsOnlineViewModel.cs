@@ -1,8 +1,8 @@
-﻿using Digimezzo.Utilities.Helpers;
-using Digimezzo.Utilities.IO;
-using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Settings;
-using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Helpers;
+using Digimezzo.Foundation.Core.IO;
+using Digimezzo.Foundation.Core.Logging;
+using Digimezzo.Foundation.Core.Settings;
+using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Provider;

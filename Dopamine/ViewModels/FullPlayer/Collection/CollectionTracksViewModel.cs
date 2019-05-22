@@ -1,5 +1,5 @@
-﻿using Digimezzo.Utilities.Settings;
-using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Settings;
+using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Data;
 using Dopamine.Services.Dialog;
 using Dopamine.ViewModels.Common.Base;
@@ -143,13 +143,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             {
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
                 {
-                    this.EnableRating = (bool)e.SettingValue;
+                    this.EnableRating = (bool)e.Entry.Value;
                     this.GetVisibleColumns();
                 }
 
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableLove"))
                 {
-                    this.EnableLove = (bool)e.SettingValue;
+                    this.EnableLove = (bool)e.Entry.Value;
                     this.GetVisibleColumns();
                 }
             };

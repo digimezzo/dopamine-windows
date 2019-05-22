@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Services.Dialog;
 using Dopamine.Services.Provider;
 using Prism.Mvvm;

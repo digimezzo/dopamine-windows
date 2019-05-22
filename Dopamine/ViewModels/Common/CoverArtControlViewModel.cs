@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Log;
+﻿using Digimezzo.Foundation.Core.Logging;
 using Digimezzo.WPFControls.Enums;
 using Dopamine.Data.Entities;
 using Dopamine.ViewModels;

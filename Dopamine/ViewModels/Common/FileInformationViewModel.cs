@@ -1,5 +1,5 @@
-﻿using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Logging;
+using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Core.Utils;
 using Dopamine.Data.Metadata;
 using Dopamine.Services.Metadata;
@@ -166,8 +166,8 @@ namespace Dopamine.ViewModels.Common
         {
             try
             {
-                this.FileName = FileUtils.Name(path);
-                this.FileFolder = FileUtils.Folder(path);
+                this.FileName = FileUtils.FileName(path);
+                this.FileFolder = FileUtils.DirectoryName(path);
                 this.FilePath = path;
                 this.FileSize = FormatUtils.FormatFileSize(FileUtils.SizeInBytes(path));
                 this.FileLastModified = FileUtils.DateModified(path).ToString("D", new CultureInfo(ResourceUtils.GetString("Language_ISO639-1")));

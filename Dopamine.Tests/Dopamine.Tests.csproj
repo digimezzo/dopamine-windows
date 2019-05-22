@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Digimezzo.Foundation.Core">
+      <HintPath>..\Dopamine\Libraries\Digimezzo.Foundation.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Digimezzo.Utilities">
       <HintPath>..\Dopamine\Libraries\Digimezzo.Utilities.dll</HintPath>
     </Reference>

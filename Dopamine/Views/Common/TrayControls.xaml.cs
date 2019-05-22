@@ -1,7 +1,8 @@
-﻿using Digimezzo.Utilities.Log;
-using Digimezzo.Utilities.Settings;
-using Digimezzo.Utilities.Utils;
-using Digimezzo.Utilities.Win32;
+﻿using Digimezzo.Foundation.Core.Logging;
+using Digimezzo.Foundation.Core.Settings;
+using Digimezzo.Foundation.Core.Utils;
+using Digimezzo.Foundation.Core.Win32;
+using Digimezzo.Foundation.Core.Helpers;
 using Dopamine.Core.Base;
 using Dopamine.Services.Notification;
 using System;

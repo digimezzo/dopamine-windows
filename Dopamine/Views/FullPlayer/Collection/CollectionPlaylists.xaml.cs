@@ -1,6 +1,6 @@
 ﻿using CommonServiceLocator;
-using Digimezzo.Utilities.IO;
-using Digimezzo.Utilities.Log;
+using Digimezzo.Foundation.Core.IO;
+using Digimezzo.Foundation.Core.Logging;
 using Dopamine.Core.Prism;
 using Dopamine.Services.Entities;
 using Dopamine.Services.Playlist;

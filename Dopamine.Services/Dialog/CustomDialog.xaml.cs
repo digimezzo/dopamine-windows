@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Utils;
+﻿using Digimezzo.Foundation.Core.Utils;
 using Digimezzo.WPFControls;
 using System;
 using System.Threading.Tasks;

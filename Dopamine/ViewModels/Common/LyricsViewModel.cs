@@ -1,4 +1,4 @@
-﻿using Digimezzo.Utilities.Settings;
+﻿using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Core.Api.Lyrics;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System;
-using Digimezzo.Utilities.Log;
+using Digimezzo.Foundation.Core.Logging;
 using System.Windows.Controls;
 using Digimezzo.WPFControls;
 using System.Windows.Media;
