@@ -80,9 +80,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Digimezzo.Foundation.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="Digimezzo.WPFControls">
-      <HintPath>..\..\..\Program Files (x86)\Dopamine\Digimezzo.WPFControls.dll</HintPath>
-    </Reference>
     <Reference Include="DryIoc, Version=2.12.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DryIoc.dll.2.12.8\lib\net45\DryIoc.dll</HintPath>
     </Reference>
