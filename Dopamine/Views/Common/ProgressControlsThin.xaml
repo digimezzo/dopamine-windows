@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+             xmlns:dc="clr-namespace:Digimezzo.Foundation.WPF.Controls;assembly=Digimezzo.Foundation.WPF"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
-    <dc:HorizontalUWPBottomSlider x:Name="ProgressSliderThin" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_WindowHeaderBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" Value="{Binding ProgressValue,Mode=TwoWay}" Maximum="1" IsHitTestVisible="{Binding CanReportProgress}"/>
+    <dc:UWPSliderHorizontalBottom x:Name="ProgressSliderThin" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_WindowHeaderBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" Value="{Binding ProgressValue,Mode=TwoWay}" Maximum="1" IsHitTestVisible="{Binding CanReportProgress}"/>
 </UserControl>

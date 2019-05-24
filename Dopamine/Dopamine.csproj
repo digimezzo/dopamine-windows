@@ -80,9 +80,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Digimezzo.Foundation.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="Digimezzo.WPFControls, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\Digimezzo.WPFControls.dll</HintPath>
+    <Reference Include="Digimezzo.WPFControls">
+      <HintPath>..\..\..\Program Files (x86)\Dopamine\Digimezzo.WPFControls.dll</HintPath>
     </Reference>
     <Reference Include="DryIoc, Version=2.12.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DryIoc.dll.2.12.8\lib\net45\DryIoc.dll</HintPath>
@@ -822,7 +821,6 @@
     <Content Include="Libraries\CSCore.Ffmpeg.dll" />
     <Content Include="Libraries\Digimezzo.Foundation.Core.dll" />
     <Content Include="Libraries\Digimezzo.Foundation.WPF.dll" />
-    <Content Include="Libraries\Digimezzo.WPFControls.dll" />
     <Content Include="Libraries\GongSolutions.WPF.DragDrop.dll" />
     <Content Include="Libraries\Ionic.Zip.dll" />
     <Content Include="Libraries\System.Windows.Interactivity.dll" />

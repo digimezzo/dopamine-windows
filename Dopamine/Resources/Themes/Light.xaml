@@ -54,6 +54,7 @@
     <SolidColorBrush x:Key="Brush_SearchBoxbackground" Color="{DynamicResource Color_LightGrey9}" Opacity="0.1"/>
     <SolidColorBrush x:Key="Brush_RegularButtonText" Color="{DynamicResource Color_Black}"/>
     <SolidColorBrush x:Key="Brush_ComboBoxText" Color="{DynamicResource Color_Black}"/>
+    <SolidColorBrush x:Key="Brush_MiniPlayerPlaylistBackground" Color="{DynamicResource Color_LightGrey2}"/>
     
     <!-- Gradient Brushes -->
     <RadialGradientBrush x:Key="Brush_SpectrumEllipse" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.8" RadiusY="0.8" Opacity="0.8">

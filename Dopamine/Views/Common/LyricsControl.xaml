@@ -6,7 +6,7 @@
   xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
   xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-  xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+  xmlns:dc="clr-namespace:Digimezzo.Foundation.WPF.Controls;assembly=Digimezzo.Foundation.WPF"
   xmlns:lyrics="clr-namespace:Dopamine.Core.Api.Lyrics;assembly=Dopamine.Core"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"

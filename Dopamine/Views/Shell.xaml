@@ -1,10 +1,10 @@
-﻿<dc:BorderlessWindows10Window x:Class="Dopamine.Views.Shell"
+﻿<dc:Windows10BorderlessWindow x:Class="Dopamine.Views.Shell"
                               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                               xmlns:prism="http://www.codeplex.com/prism"
-                              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+                              xmlns:dc="clr-namespace:Digimezzo.Foundation.WPF.Controls;assembly=Digimezzo.Foundation.WPF"
                               xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
                               xmlns:pc="clr-namespace:Dopamine.Controls"
                               xmlns:cp="clr-namespace:Dopamine.Core.Prism;assembly=Dopamine.Core"
@@ -44,7 +44,7 @@
     </i:Interaction.Triggers>
 
     <!-- Resources -->
-    <dc:BorderlessWindows10Window.Resources>
+    <dc:Windows10BorderlessWindow.Resources>
         <ResourceDictionary>
             <!-- Tray icon context menu -->
             <ContextMenu x:Key="TrayIconContextMenu" Placement="MousePoint">
@@ -53,9 +53,9 @@
                 <MenuItem x:Name="TrayIconContextMenuExit" Header="{DynamicResource Language_Exit}" Click="TrayIconContextMenuExit_Click"/>
             </ContextMenu>
         </ResourceDictionary>
-    </dc:BorderlessWindows10Window.Resources>
+    </dc:Windows10BorderlessWindow.Resources>
 
-    <!--<dc:BorderlessWindows10Window.WindowCommands>
+    <!--<dc:Windows10BorderlessWindow.WindowCommands>
         --><!-- Mini Player switch button --><!--
         <Button 
                 x:Name="PART_MiniPlayerButton" 
@@ -74,10 +74,10 @@
                                 UseLayoutRounding="False" 
                                 SnapsToDevicePixels="True"/>
         </Button>
-    </dc:BorderlessWindows10Window.WindowCommands>-->
+    </dc:Windows10BorderlessWindow.WindowCommands>-->
 
     <!--  TaskbarItemInfo -->
-    <dc:BorderlessWindows10Window.TaskbarItemInfo>
+    <dc:Windows10BorderlessWindow.TaskbarItemInfo>
         <TaskbarItemInfo x:Name="TaskBarItemInfo" 
                          ThumbnailClipMargin="0 0 0 0" 
                          Description="{Binding TaskbarService.Description}" 
@@ -103,7 +103,7 @@
                 </ThumbButtonInfoCollection>
             </TaskbarItemInfo.ThumbButtonInfos>
         </TaskbarItemInfo>
-    </dc:BorderlessWindows10Window.TaskbarItemInfo>
+    </dc:Windows10BorderlessWindow.TaskbarItemInfo>
 
     <Border x:Name="WindowBorder" BorderBrush="{DynamicResource Brush_Accent}">
         <Grid>
@@ -131,5 +131,5 @@
             </Border>
         </Grid>
     </Border>
-</dc:BorderlessWindows10Window>
+</dc:Windows10BorderlessWindow>
 

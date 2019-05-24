@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Foundation.Core.Logging;
 using Digimezzo.Foundation.Core.Settings;
-using Digimezzo.WPFControls;
+using Digimezzo.Foundation.WPF.Controls;
 using Dopamine.Core.Base;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Metadata;
@@ -18,8 +18,8 @@ namespace Dopamine.Services.Notification
         private IPlaybackService playbackService;
         private ICacheService cacheService;
         private IMetadataService metadataService;
-        private BorderlessWindows10Window mainWindow;
-        private BorderlessWindows10Window playlistWindow;
+        private Windows10BorderlessWindow mainWindow;
+        private Windows10BorderlessWindow playlistWindow;
         private Window trayControlsWindow;
         private bool showNotificationWhenPlaying;
         private bool showNotificationWhenPausing;
@@ -218,7 +218,7 @@ namespace Dopamine.Services.Notification
                 this.notification.Disable();
         }
 
-        public void SetApplicationWindows(BorderlessWindows10Window mainWindow, BorderlessWindows10Window playlistWindow, Window trayControlsWindow)
+        public void SetApplicationWindows(Windows10BorderlessWindow mainWindow, Windows10BorderlessWindow playlistWindow, Window trayControlsWindow)
         {
             if (mainWindow != null)
             {

@@ -1,4 +1,4 @@
-﻿using Digimezzo.WPFControls;
+﻿using Digimezzo.Foundation.WPF.Controls;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -15,6 +15,6 @@ namespace Dopamine.Services.Notification
 
         Task ShowNotificationAsync();
         void HideNotification();
-        void SetApplicationWindows(BorderlessWindows10Window mainWindow, BorderlessWindows10Window playlistWindow, Window trayControlsWindow);
+        void SetApplicationWindows(Windows10BorderlessWindow mainWindow, Windows10BorderlessWindow playlistWindow, Window trayControlsWindow);
     }
 }

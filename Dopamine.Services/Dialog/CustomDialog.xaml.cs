@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Foundation.Core.Utils;
-using Digimezzo.WPFControls;
+using Digimezzo.Foundation.WPF.Controls;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace Dopamine.Services.Dialog
 {
-    public partial class CustomDialog : BorderlessWindows10Window
+    public partial class CustomDialog : Windows10BorderlessWindow
     {
         private Func<Task<bool>> callback;
        

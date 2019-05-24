@@ -1,4 +1,4 @@
-﻿using Digimezzo.WPFControls;
+﻿using Digimezzo.Foundation.WPF.Controls;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,16 +9,16 @@ namespace Dopamine.Services.Dialog
 {
     public class DialogService : IDialogService
     {
-        private List<BorderlessWindows10Window> openDialogs;
+        private List<Windows10BorderlessWindow> openDialogs;
      
         public DialogService()
         {
-            this.openDialogs = new List<BorderlessWindows10Window>();
+            this.openDialogs = new List<Windows10BorderlessWindow>();
         }
  
-        private void ShowDialog(BorderlessWindows10Window win)
+        private void ShowDialog(Windows10BorderlessWindow win)
         {
-            foreach (BorderlessWindows10Window dlg in this.openDialogs)
+            foreach (Windows10BorderlessWindow dlg in this.openDialogs)
             {
                 dlg.IsOverlayVisible = true;
             }
@@ -30,7 +30,7 @@ namespace Dopamine.Services.Dialog
             this.openDialogs.Remove(win);
             this.DialogVisibleChanged(this.openDialogs.Count > 0);
 
-            foreach (BorderlessWindows10Window dlg in this.openDialogs)
+            foreach (Windows10BorderlessWindow dlg in this.openDialogs)
             {
                 dlg.IsOverlayVisible = false;
             }
