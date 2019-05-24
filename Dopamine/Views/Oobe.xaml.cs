@@ -1,12 +1,12 @@
 ﻿using Digimezzo.Foundation.Core.Settings;
-using Digimezzo.WPFControls;
+using Digimezzo.Foundation.WPF.Controls;
 using Dopamine.Services.Indexing;
 using System.ComponentModel;
 using System.Windows;
 
 namespace Dopamine.Views
 {
-    public partial class Oobe : BorderlessWindows10Window
+    public partial class Oobe : Windows10BorderlessWindow
     {
         private IIndexingService indexingService;
 

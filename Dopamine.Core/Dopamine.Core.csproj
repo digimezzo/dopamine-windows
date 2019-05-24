@@ -47,8 +47,8 @@
     <Reference Include="Digimezzo.Foundation.Core">
       <HintPath>..\Dopamine\Libraries\Digimezzo.Foundation.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Digimezzo.WPFControls">
-      <HintPath>..\Dopamine\Libraries\Digimezzo.WPFControls.dll</HintPath>
+    <Reference Include="Digimezzo.Foundation.WPF">
+      <HintPath>..\Dopamine\Libraries\Digimezzo.Foundation.WPF.dll</HintPath>
     </Reference>
     <Reference Include="GongSolutions.WPF.DragDrop">
       <HintPath>..\Dopamine\Libraries\GongSolutions.WPF.DragDrop.dll</HintPath>

@@ -2,7 +2,7 @@
 using Digimezzo.Foundation.Core.Logging;
 using Digimezzo.Foundation.Core.Settings;
 using Digimezzo.Foundation.Core.Utils;
-using Digimezzo.WPFControls.Enums;
+using Digimezzo.Foundation.WPF.Controls;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Services.Entities;
 using Dopamine.Services.I18n;

@@ -2,7 +2,7 @@
 using Digimezzo.Foundation.Core.Logging;
 using Digimezzo.Foundation.Core.Settings;
 using Digimezzo.Foundation.Core.Utils;
-using Digimezzo.WPFControls;
+using Digimezzo.Foundation.WPF.Controls;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
@@ -32,7 +32,7 @@ using Dopamine.Services.Lifetime;
 
 namespace Dopamine.Views
 {
-    public partial class Shell : BorderlessWindows10Window
+    public partial class Shell : Windows10BorderlessWindow
     {
         private IContainerProvider container;
         private IWindowsIntegrationService windowsIntegrationService;
@@ -187,7 +187,7 @@ namespace Dopamine.Views
             this.trayControls = this.container.Resolve<TrayControls>();
 
             // Create the Mini Player playlist
-            this.miniPlayerPlaylist = this.container.Resolve<Func<BorderlessWindows10Window, MiniPlayerPlaylist>>()(this);
+            this.miniPlayerPlaylist = this.container.Resolve<Func<Windows10BorderlessWindow, MiniPlayerPlaylist>>()(this);
 
             // NotificationService needs to know about the application windows
             this.notificationService.SetApplicationWindows(this, this.miniPlayerPlaylist, this.trayControls);

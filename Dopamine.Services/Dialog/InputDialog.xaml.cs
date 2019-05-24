@@ -1,10 +1,10 @@
 ﻿using Digimezzo.Foundation.Core.Utils;
-using Digimezzo.WPFControls;
+using Digimezzo.Foundation.WPF.Controls;
 using System.Windows;
 
 namespace Dopamine.Services.Dialog
 {
-    public partial class InputDialog : BorderlessWindows10Window
+    public partial class InputDialog : Windows10BorderlessWindow
     {
         private string responseText;
       

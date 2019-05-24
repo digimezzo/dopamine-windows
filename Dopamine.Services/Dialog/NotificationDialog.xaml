@@ -1,7 +1,7 @@
-﻿<dc:BorderlessWindows10Window x:Class="Dopamine.Services.Dialog.NotificationDialog"
+﻿<dc:Windows10BorderlessWindow x:Class="Dopamine.Services.Dialog.NotificationDialog"
                               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                              xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+                              xmlns:dc="clr-namespace:Digimezzo.Foundation.WPF.Controls;assembly=Digimezzo.Foundation.WPF"
                               SizeToContent="Height"
                               Width="420"
                               ResizeMode="NoResize"
@@ -38,4 +38,4 @@
             </StackPanel>
         </DockPanel>
     </Border>
-</dc:BorderlessWindows10Window>
+</dc:Windows10BorderlessWindow>

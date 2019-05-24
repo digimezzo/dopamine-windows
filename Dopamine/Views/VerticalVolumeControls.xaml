@@ -3,7 +3,7 @@
                                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                                 xmlns:dc="clr-namespace:Digimezzo.WPFControls;assembly=Digimezzo.WPFControls"
+                                 xmlns:dc="clr-namespace:Digimezzo.Foundation.WPF.Controls;assembly=Digimezzo.Foundation.WPF"
                                  xmlns:baseviews="clr-namespace:Dopamine.Views.Base"
                                  xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core"
                                  xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
@@ -11,7 +11,7 @@
                                  prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <StackPanel VerticalAlignment="Center" Background="#00000000" HorizontalAlignment="Center" Width="30" PreviewMouseWheel="StackPanel_PreviewMouseWheel">
-        <dc:VerticalUWPSlider Height="50" Value="{Binding VolumeValue,Mode=TwoWay}" Maximum="1" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_WindowHeaderBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
+        <dc:UWPSliderVertical Height="50" Value="{Binding VolumeValue,Mode=TwoWay}" Maximum="1" TrackBackground="{DynamicResource Brush_SliderBackground}" ButtonInnerBackground="{DynamicResource Brush_WindowHeaderBackground}" ButtonBackground="{DynamicResource Brush_PrimaryText}" BarBackground="{DynamicResource Brush_Accent}" ChangeValueWhileDragging="True"/>
         <Label Padding="0" Content="{Binding VolumeValuePercent}" Margin="0,10,0,0" FontSize="{x:Static base:Constants.GlobalFontSize}" HorizontalContentAlignment="Center" Foreground="{DynamicResource Brush_PrimaryText}"/>
     </StackPanel>
 </baseviews:VolumeControlViewBase>

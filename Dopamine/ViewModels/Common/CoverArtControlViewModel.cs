@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Foundation.Core.Logging;
-using Digimezzo.WPFControls.Enums;
+using Digimezzo.Foundation.WPF.Controls;
 using Dopamine.Data.Entities;
 using Dopamine.ViewModels;
 using Dopamine.Services.Cache;

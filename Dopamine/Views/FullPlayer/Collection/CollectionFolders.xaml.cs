@@ -4,7 +4,7 @@ using System.Windows.Input;
 using System;
 using Digimezzo.Foundation.Core.Logging;
 using System.Windows.Controls;
-using Digimezzo.WPFControls;
+using Digimezzo.Foundation.WPF.Controls;
 using System.Windows.Media;
 using Dopamine.Services.Entities;
 using Dopamine.Core.Prism;

@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Foundation.Core.Settings;
-using Digimezzo.WPFControls.Enums;
+using Digimezzo.Foundation.WPF.Controls;
 using Dopamine.ViewModels.Common.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;

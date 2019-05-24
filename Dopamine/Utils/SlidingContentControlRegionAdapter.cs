@@ -1,4 +1,4 @@
-﻿using Digimezzo.WPFControls;
+﻿using Digimezzo.Foundation.WPF.Controls;
 using Prism.Regions;
 using System;
 using System.Collections.Specialized;
