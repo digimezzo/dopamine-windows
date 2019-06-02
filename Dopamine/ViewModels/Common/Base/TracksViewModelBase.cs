@@ -186,12 +186,12 @@ namespace Dopamine.ViewModels.Common.Base
             else if (!artists.IsNullOrEmpty())
             {
                 // Artists and Genres have the same priority
-                tracks = await this.trackRepository.GetArtistTracksAsync(artists);
+                tracks = await this.trackRepository.GetArtistTracksAsync(artists.Select(x => x.Replace(ResourceUtils.GetString("Language_Unknown_Artist"), string.Empty)).ToList());
             }
             else if (!genres.IsNullOrEmpty())
             {
                 // Artists and Genres have the same priority
-                tracks = await this.trackRepository.GetGenreTracksAsync(genres);
+                tracks = await this.trackRepository.GetGenreTracksAsync(genres.Select(x => x.Replace(ResourceUtils.GetString("Language_Unknown_Genre"), string.Empty)).ToList());
             }
             else
             {
