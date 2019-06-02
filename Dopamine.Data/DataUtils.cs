@@ -39,7 +39,7 @@ namespace Dopamine.Data
                         column2Clause = $@" AND ({columnName2} IS NULL OR {columnName2}='')";
                     }
 
-                    orClauses.Add($@"({columnName1} IS NULL OR {columnName1}='')");
+                    orClauses.Add($@"({columnName1} IS NULL OR {columnName1}=''){column2Clause}");
                 }
                 else
                 {
@@ -48,7 +48,7 @@ namespace Dopamine.Data
                         column2Clause = $@" OR (LOWER({columnName2}) LIKE '%{delimiter}{clauseItem.Replace("'", "''").ToLower()}{delimiter}%')";
                     }
 
-                    orClauses.Add($@"(LOWER({columnName1}) LIKE '%{delimiter}{clauseItem.Replace("'", "''").ToLower()}{delimiter}%')");
+                    orClauses.Add($@"(LOWER({columnName1}) LIKE '%{delimiter}{clauseItem.Replace("'", "''").ToLower()}{delimiter}%'){column2Clause}");
                 }
             }
 

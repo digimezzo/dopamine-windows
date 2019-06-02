@@ -1,3 +1,9 @@
+2019-06-02: Dopamine 2.0 Preview 8
+----------------------------------
+
+- [Fixed] Album are not fetched based on Album Artist when choosing a artist in the Artists screen
+
+
 2019-05-12: Dopamine 2.0 Preview 7
 ----------------------------------
 
