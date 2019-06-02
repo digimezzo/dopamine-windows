@@ -146,7 +146,7 @@ namespace Dopamine.Data.Repositories
             return tracks;
         }
 
-        public async Task<List<Track>> GetArtistTracksAsync(IList<string> artistNames)
+        public async Task<List<Track>> GetArtistTracksAsync(IList<string> artists)
         {
             var tracks = new List<Track>();
 
@@ -158,7 +158,9 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND ({DataUtils.CreateOrLikeClause("t.Artists", "t.AlbumArtists", artistNames, Constants.ColumnValueDelimiter)});");
+                            string query = $"{this.SelectVisibleTracksQuery()} AND ({DataUtils.CreateOrLikeClause("t.Artists", artists, Constants.ColumnValueDelimiter)} OR {DataUtils.CreateOrLikeClause("t.AlbumArtists", artists, Constants.ColumnValueDelimiter)});";
+
+                            tracks = conn.Query<Track>(query);
                         }
                         catch (Exception ex)
                         {
@@ -187,7 +189,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateOrLikeClause("t.Genres", string.Empty, genreNames, Constants.ColumnValueDelimiter)};");
+                            tracks = conn.Query<Track>($"{this.SelectVisibleTracksQuery()} AND {DataUtils.CreateOrLikeClause("t.Genres", genreNames, Constants.ColumnValueDelimiter)};");
                         }
                         catch (Exception ex)
                         {
@@ -494,12 +496,13 @@ namespace Dopamine.Data.Repositories
                             string filterQuery = string.Empty;
 
                             if (artists != null)
-                            {
-                                filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", "AlbumArtists", artists, Constants.ColumnValueDelimiter)})";
+                            {  
+                                filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists, Constants.ColumnValueDelimiter)} OR {DataUtils.CreateOrLikeClause("AlbumArtists", artists, Constants.ColumnValueDelimiter)})";
+
                             }
                             else if (genres != null)
                             {
-                                filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", string.Empty, genres, Constants.ColumnValueDelimiter)}";
+                                filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", genres, Constants.ColumnValueDelimiter)}";
                             }
 
                             string query = this.SelectVisibleAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey";

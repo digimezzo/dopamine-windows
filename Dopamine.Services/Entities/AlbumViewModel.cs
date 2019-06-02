@@ -31,15 +31,18 @@ namespace Dopamine.Services.Entities
             this.DateFileCreated = albumData.DateFileCreated;
         }
 
-        public string GetAlbumArtist(AlbumData albumData)
+        private string GetAlbumArtist(AlbumData albumData)
         {
-            if (!string.IsNullOrEmpty(albumData.AlbumArtists))
+            if (!string.IsNullOrEmpty(albumData.AlbumTitle))
             {
-                return DataUtils.GetCommaSeparatedColumnMultiValue(albumData.AlbumArtists);
-            }
-            else if (!string.IsNullOrEmpty(albumData.Artists))
-            {
-                return DataUtils.GetCommaSeparatedColumnMultiValue(albumData.Artists);
+                if (!string.IsNullOrEmpty(albumData.AlbumArtists))
+                {
+                    return DataUtils.GetCommaSeparatedColumnMultiValue(albumData.AlbumArtists);
+                }
+                else if (!string.IsNullOrEmpty(albumData.Artists))
+                {
+                    return DataUtils.GetCommaSeparatedColumnMultiValue(albumData.Artists);
+                }
             }
 
             return ResourceUtils.GetString("Language_Unknown_Artist");

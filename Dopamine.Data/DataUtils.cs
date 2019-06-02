@@ -20,7 +20,7 @@ namespace Dopamine.Data
             return $"{columnName} IN ({commaSeparatedItems})";
         }
 
-        public static string CreateOrLikeClause(string columnName1, string columnName2, IList<string> clauseItems, string delimiter = "")
+        public static string CreateOrLikeClause(string columnName, IList<string> clauseItems, string delimiter = "")
         {
             var sb = new StringBuilder();
 
@@ -30,25 +30,13 @@ namespace Dopamine.Data
 
             foreach (string clauseItem in clauseItems)
             {
-                string column2Clause = string.Empty;
-
                 if (string.IsNullOrEmpty(clauseItem))
                 {
-                    if (!string.IsNullOrEmpty(columnName2))
-                    {
-                        column2Clause = $@" AND ({columnName2} IS NULL OR {columnName2}='')";
-                    }
-
-                    orClauses.Add($@"({columnName1} IS NULL OR {columnName1}=''){column2Clause}");
+                    orClauses.Add($@"({columnName} IS NULL OR {columnName}='')");
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(columnName2))
-                    {
-                        column2Clause = $@" OR (LOWER({columnName2}) LIKE '%{delimiter}{clauseItem.Replace("'", "''").ToLower()}{delimiter}%')";
-                    }
-
-                    orClauses.Add($@"(LOWER({columnName1}) LIKE '%{delimiter}{clauseItem.Replace("'", "''").ToLower()}{delimiter}%'){column2Clause}");
+                    orClauses.Add($@"(LOWER({columnName}) LIKE '%{delimiter}{clauseItem.Replace("'", "''").ToLower()}{delimiter}%')");
                 }
             }
 
