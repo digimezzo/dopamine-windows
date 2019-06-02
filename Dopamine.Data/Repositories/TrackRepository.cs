@@ -502,7 +502,9 @@ namespace Dopamine.Data.Repositories
                                 filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", string.Empty, genres, Constants.ColumnValueDelimiter)}";
                             }
 
-                            albumData = conn.Query<AlbumData>(this.SelectVisibleAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey");
+                            string query = this.SelectVisibleAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey";
+
+                            albumData = conn.Query<AlbumData>(query);
                         }
                         catch (Exception ex)
                         {
