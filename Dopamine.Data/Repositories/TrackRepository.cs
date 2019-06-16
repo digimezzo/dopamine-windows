@@ -447,7 +447,7 @@ namespace Dopamine.Data.Repositories
             return genreNames;
         }
 
-        public async Task<IList<string>> GetArtistsAsync()
+        public async Task<IList<string>> GetTrackArtistsAsync()
         {
             var artistNames = new List<string>();
 
@@ -459,16 +459,46 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            // t.Artists + t.AlbumArtists is a workaround to get artists AND album artists.
-                            // They will be split correctly by SplitColumnMultiValue.
                             artistNames = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
-                                                            .Select((t) => t.Artists + t.AlbumArtists)
+                                                            .Select((t) => t.Artists)
                                                             .SelectMany(a => DataUtils.SplitColumnMultiValue(a))
                                                             .Distinct().ToList();
                         }
                         catch (Exception ex)
                         {
                             LogClient.Error("Could not get all the track artists. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return artistNames;
+        }
+
+        public async Task<IList<string>> GetAlbumArtistsAsync()
+        {
+            var artistNames = new List<string>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            artistNames = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
+                                                            .Select((t) => t.AlbumArtists)
+                                                            .SelectMany(a => DataUtils.SplitColumnMultiValue(a))
+                                                            .Distinct().ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the album artists. Exception: {0}", ex.Message);
                         }
                     }
                 }

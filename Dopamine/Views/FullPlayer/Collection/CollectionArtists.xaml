@@ -54,12 +54,18 @@
                                        Foreground="{DynamicResource Brush_SecondaryText}" />
                         </Button>
                         <Button x:Name="ArtistsButton"
-                                Content="{DynamicResource Language_Artists}" 
+                                Content="{Binding ArtistTypeText}" 
                                 Style="{StaticResource TransparentButton}"
                                 FontSize="13" 
                                 Margin="10,0,0,0"
                                 Foreground="{DynamicResource Brush_PrimaryText}"
-                                Click="ArtistsButton_Click" ToolTip="{DynamicResource Language_Select_None}">
+                                Click="ArtistsButton_Click">
+                            <Button.ToolTip>
+                                <Grid>
+                                    <TextBlock Text="{DynamicResource Language_Select_None}" Visibility="{Binding HasSelectedArtists, Converter={StaticResource BooleanToCollapsedConverter}}"/>
+                                    <TextBlock Text="{DynamicResource Language_Toggle_Artists}" Visibility="{Binding HasSelectedArtists, Converter={StaticResource InvertingBooleanToCollapsedConverter}}"/>
+                                </Grid>
+                            </Button.ToolTip>
                         </Button>
                     </DockPanel>
                     <Grid>

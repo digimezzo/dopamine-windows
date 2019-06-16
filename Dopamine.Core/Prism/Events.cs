@@ -52,4 +52,8 @@ namespace Dopamine.Core.Prism
     public class ActiveSubfolderChanged : PubSubEvent<object>
     {
     }
+
+    public class ToggleArtistOrderCommand : PubSubEvent<object>
+    {
+    }
 }
