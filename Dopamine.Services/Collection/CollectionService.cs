@@ -193,9 +193,28 @@ namespace Dopamine.Services.Collection
             return tempGenreViewModels;
         }
 
-        public async Task<IList<ArtistViewModel>> GetAllArtistsAsync()
+        public async Task<IList<ArtistViewModel>> GetAllArtistsAsync(ArtistType artistType)
         {
-            IList<string> artists = await this.trackRepository.GetArtistsAsync();
+            IList<string> artists = null;
+
+            switch (artistType)
+            {
+                case ArtistType.All:
+                    IList<string> trackArtists = await this.trackRepository.GetTrackArtistsAsync();
+                    IList<string> albumArtists = await this.trackRepository.GetAlbumArtistsAsync();
+                    ((List<string>)trackArtists).AddRange(albumArtists);
+                    artists = trackArtists;
+                    break;
+                case ArtistType.Track:
+                    artists = await this.trackRepository.GetTrackArtistsAsync();
+                    break;
+                case ArtistType.Album:
+                    artists = await this.trackRepository.GetAlbumArtistsAsync();
+                    break;
+                default:
+                    // Can't happen	
+                    break;
+            }
 
             IList<ArtistViewModel> orderedArtists = (await this.GetUniqueArtistsAsync(artists)).OrderBy(a => FormatUtils.GetSortableString(a.ArtistName, true)).ToList();
 
