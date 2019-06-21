@@ -1,8 +1,9 @@
-2019-06-16: Dopamine 2.0 Preview 8
+2019-06-21: Dopamine 2.0 Preview 8
 ----------------------------------
 
 - [Fixed] Album are not fetched based on Album Artist when choosing a artist in the Artists screen
 - [Fixed] Option to toggle artists is missing since last preview
+- [Fixed] Spectrum analyzer stutters on Now Playing screen
 
 
 2019-05-12: Dopamine 2.0 Preview 7

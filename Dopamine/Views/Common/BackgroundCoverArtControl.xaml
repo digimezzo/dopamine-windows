@@ -19,8 +19,5 @@
 
     <Border x:Name="CoverImage">
         <pc:CrossFadeContentControl Content="{Binding CoverArtViewModel}" Duration="1.0" />
-        <Border.Effect>
-            <BlurEffect Radius="20" KernelType="Gaussian"/>
-        </Border.Effect>
     </Border>
 </UserControl>
