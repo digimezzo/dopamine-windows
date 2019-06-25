@@ -183,7 +183,7 @@ namespace Dopamine.Data
 
             if (!string.IsNullOrWhiteSpace(albumArtists))
             {
-                return string.Join(string.Empty, FormatUtils.DelimitValue(albumTitle), albumArtists);
+                return string.Join(string.Empty, FormatUtils.DelimitValue(albumTitle), albumArtists.ToLower());
             }
 
             return FormatUtils.DelimitValue(albumTitle);

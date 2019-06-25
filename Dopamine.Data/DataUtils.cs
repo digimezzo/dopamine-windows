@@ -36,7 +36,7 @@ namespace Dopamine.Data
                 }
                 else
                 {
-                    orClauses.Add($@"(LOWER({columnName}) LIKE '%{delimiter}{clauseItem.Replace("'", "''").ToLower()}{delimiter}%')");
+                    orClauses.Add($@"(LOWER({columnName}) LIKE LOWER('%{delimiter}{clauseItem.Replace("'", "''")}{delimiter}%'))");
                 }
             }
 
