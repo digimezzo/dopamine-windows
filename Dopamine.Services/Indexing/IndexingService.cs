@@ -679,8 +679,8 @@ namespace Dopamine.Services.Indexing
 
         private async Task<string> GetArtworkFromInternet(string albumTitle, IList<string> albumArtists, string trackTitle, IList<string> artists)
         {
-            Uri artworkUri = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(albumTitle, albumArtists, trackTitle, artists);
-            return await this.cacheService.CacheArtworkAsync(artworkUri);
+            string artworkUriString = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(albumTitle, albumArtists, trackTitle, artists);
+            return await this.cacheService.CacheArtworkAsync(artworkUriString);
         }
 
         private async void AddArtworkInBackgroundAsync()

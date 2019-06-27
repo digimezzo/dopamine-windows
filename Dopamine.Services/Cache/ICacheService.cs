@@ -11,11 +11,11 @@ namespace Dopamine.Services.Cache
 
         Task<string> CacheArtworkAsync(byte[] artwork);
 
-        Task<string> CacheArtworkAsync(Uri uri);
+        Task<string> CacheArtworkAsync(string uriString);
 
         string GetCachedArtworkPath(string artworkID);
 
-        Task<string> DownloadFileToTemporaryCacheAsync(Uri uri);
+        Task<string> DownloadFileToTemporaryCacheAsync(string uriString);
 
     }
 }

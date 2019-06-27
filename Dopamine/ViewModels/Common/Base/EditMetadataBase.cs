@@ -116,11 +116,11 @@ namespace Dopamine.ViewModels.Common.Base
 
             try
             {
-                Uri artworkUri = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(title, artists, alternateTitle, alternateArtists);
+                string artworkUriString = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(title, artists, alternateTitle, alternateArtists);
 
-                if(artworkUri != null)
+                if(!string.IsNullOrEmpty(artworkUriString))
                 {
-                    string temporaryFile = await this.cacheService.DownloadFileToTemporaryCacheAsync(artworkUri);
+                    string temporaryFile = await this.cacheService.DownloadFileToTemporaryCacheAsync(artworkUriString);
                     this.UpdateArtwork(ImageUtils.Image2ByteArray(temporaryFile, 0, 0));
                 }
             }

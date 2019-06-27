@@ -1,5 +1,7 @@
 ﻿using Digimezzo.Foundation.Core.IO;
 using Digimezzo.Foundation.Core.Logging;
+using Digimezzo.Foundation.Core.Utils;
+using Dopamine.Core.Api.Fanart;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Services.Cache;
 using Prism.Commands;
@@ -19,7 +21,7 @@ namespace Dopamine.ViewModels
         private string image;
 
         public DelegateCommand<string> OpenLinkCommand { get; set; }
-       
+
         public bool HasBiography
         {
             get
@@ -44,7 +46,7 @@ namespace Dopamine.ViewModels
             set { SetProperty<ObservableCollection<SimilarArtistViewModel>>(ref this.similarArtists, value); }
         }
 
-        public async Task SetLastFmArtistAsync(Artist lfmArtist)
+        public async Task SetArtistInformation(Artist lfmArtist, string artistImageUrl)
         {
             this.lfmArtist = lfmArtist;
 
@@ -56,7 +58,7 @@ namespace Dopamine.ViewModels
             RaisePropertyChanged(nameof(this.UrlText));
 
             await this.FillSimilarArtistsAsync();
-            await this.FillImageAsync();
+            await this.FillImageAsync(artistImageUrl);
         }
 
         public string Image
@@ -150,13 +152,26 @@ namespace Dopamine.ViewModels
         {
             if (this.lfmArtist != null && this.lfmArtist.SimilarArtists != null && this.lfmArtist.SimilarArtists.Count > 0)
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     var localSimilarArtists = new ObservableCollection<SimilarArtistViewModel>();
 
                     foreach (Artist similarArtist in this.lfmArtist.SimilarArtists)
                     {
-                        localSimilarArtists.Add(new SimilarArtistViewModel { Name = similarArtist.Name, Url = similarArtist.Url, ImageUrl = similarArtist.LargestImage() });
+                        string artistImageUrl = string.Empty;
+
+                        try
+                        {
+                            // Last.fm was so nice to break their artist image API. So we need to get images from elsewhere.  
+                            Artist lfmArtist = await LastfmApi.ArtistGetInfo(similarArtist.Name, true, ResourceUtils.GetString("Language_ISO639-1"));
+                            artistImageUrl = await FanartApi.GetArtistThumbnailAsync(lfmArtist.MusicBrainzId);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Warning($"Could not get artist image from Fanart for artist {similarArtist.Name}. Exception: {ex}");
+                        }
+
+                        localSimilarArtists.Add(new SimilarArtistViewModel { Name = similarArtist.Name, Url = similarArtist.Url, ImageUrl = artistImageUrl });
                     }
 
                     this.SimilarArtists = localSimilarArtists;
@@ -167,11 +182,9 @@ namespace Dopamine.ViewModels
             RaisePropertyChanged(nameof(this.HasSimilarArtists));
         }
 
-        private async Task FillImageAsync()
+        private async Task FillImageAsync(string artistImageUrl)
         {
-            if (this.lfmArtist == null || string.IsNullOrEmpty(this.lfmArtist.LargestImage())) return;
-
-            this.image = await this.cacheService.DownloadFileToTemporaryCacheAsync(new Uri(this.lfmArtist.LargestImage()));
+            this.image = await this.cacheService.DownloadFileToTemporaryCacheAsync(artistImageUrl);
 
             RaisePropertyChanged(nameof(this.Image));
             RaisePropertyChanged(nameof(this.HasImage));

@@ -260,6 +260,10 @@ namespace Dopamine.Core.Api.Lastfm
                 lfmArtist.Name = (from t in resultXml.Element("lfm").Element("artist").Elements("name")
                                   select t.Value).FirstOrDefault();
 
+                // MusicBrainzId
+                lfmArtist.MusicBrainzId = (from t in resultXml.Element("lfm").Element("artist").Elements("mbid")
+                                 select t.Value).FirstOrDefault();
+
                 // Url
                 lfmArtist.Url = (from t in resultXml.Element("lfm").Element("artist").Elements("url")
                                  select t.Value).FirstOrDefault();

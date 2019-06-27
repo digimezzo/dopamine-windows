@@ -7,7 +7,7 @@ namespace Dopamine.Core.Utils
 {
     public static class ArtworkUtils
     {
-        public static async Task<Uri> GetAlbumArtworkFromInternetAsync(string albumTitle, IList<string> albumArtists, string trackTitle = "", IList<string> trackArtists = null)
+        public static async Task<string> GetAlbumArtworkFromInternetAsync(string albumTitle, IList<string> albumArtists, string trackTitle = "", IList<string> trackArtists = null)
         {
             string title = string.Empty;
             List<string> artists = new List<string>();
@@ -44,7 +44,7 @@ namespace Dopamine.Core.Utils
 
                 if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
                 {
-                    return new Uri(lfmAlbum.LargestImage());
+                    return lfmAlbum.LargestImage();
                 }
             }
 

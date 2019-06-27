@@ -6,6 +6,7 @@ namespace Dopamine.Core.Api.Lastfm
     {
         public string Name { get; set; }
         public string Url { get; set; }
+        public string MusicBrainzId { get; set; }
         public string ImageSmall { get; set; }
         public string ImageMedium { get; set; }
         public string ImageLarge { get; set; }
