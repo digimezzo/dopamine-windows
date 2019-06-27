@@ -3,6 +3,7 @@ using Digimezzo.Foundation.Core.Logging;
 using Digimezzo.Foundation.Core.Settings;
 using Digimezzo.Foundation.Core.Utils;
 using Digimezzo.Foundation.WPF.Controls;
+using Dopamine.Core.Api.Fanart;
 using Dopamine.Core.Api.Lastfm;
 using Dopamine.Services.Entities;
 using Dopamine.Services.I18n;
@@ -96,7 +97,7 @@ namespace Dopamine.ViewModels.Common
             if (string.IsNullOrEmpty(track.ArtistName))
             {
                 ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                await localArtistInfoViewModel.SetLastFmArtistAsync(new Artist { Name = string.Empty });
+                await localArtistInfoViewModel.SetArtistInformation(new Artist { Name = string.Empty }, string.Empty);
                 this.ArtistInfoViewModel = localArtistInfoViewModel;
                 this.artistName = string.Empty;
                 return;
@@ -129,9 +130,23 @@ namespace Dopamine.ViewModels.Common
 
                     if (lfmArtist != null)
                     {
+                        string artistImageUrl = string.Empty;
+
+                        try
+                        {
+                            // Last.fm was so nice to break their artist image API. So we need to get images from elsewhere.  
+                            artistImageUrl = await FanartApi.GetArtistThumbnailAsync(lfmArtist.MusicBrainzId);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Warning($"Could not get artist image from Fanart for artist {track.ArtistName}. Exception: {ex}");
+                        }
+
                         ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                        await localArtistInfoViewModel.SetLastFmArtistAsync(lfmArtist);
+                        await localArtistInfoViewModel.SetArtistInformation(lfmArtist, artistImageUrl);
                         this.ArtistInfoViewModel = localArtistInfoViewModel;
+
+                       
                     }
                     else
                     {

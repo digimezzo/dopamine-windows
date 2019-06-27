@@ -80,6 +80,7 @@
     <Compile Include="..\Dopamine\SharedAssemblyInfo.cs">
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Api\Fanart\FanartApi.cs" />
     <Compile Include="Api\Lastfm\Album.cs" />
     <Compile Include="Api\Lastfm\Artist.cs" />
     <Compile Include="Api\Lastfm\Biography.cs" />

@@ -99,16 +99,16 @@ namespace Dopamine.Services.Cache
             return artworkID;
         }
 
-        public async Task<string> CacheArtworkAsync(Uri uri)
+        public async Task<string> CacheArtworkAsync(string uriString)
         {
-            if (uri == null)
+            if (string.IsNullOrEmpty(uriString))
             {
                 return string.Empty;
             }
 
             string artworkID = this.GetAlbumCacheArtworkId();
 
-            string temporaryFilePath = await this.DownloadFileToTemporaryCacheAsync(uri);
+            string temporaryFilePath = await this.DownloadFileToTemporaryCacheAsync(uriString);
 
             if (!string.IsNullOrEmpty(temporaryFilePath))
             {
@@ -138,15 +138,17 @@ namespace Dopamine.Services.Cache
             }
         }
 
-        public async Task<string> DownloadFileToTemporaryCacheAsync(Uri uri)
+        public async Task<string> DownloadFileToTemporaryCacheAsync(string uriString)
         {
-            if(uri == null)
+            if (string.IsNullOrEmpty(uriString))
             {
                 return string.Empty;
             }
 
             try
             {
+                var uri = new Uri(uriString);
+
                 string cachedFilePath = Path.Combine(this.temporaryCacheFolderPath, Guid.NewGuid().ToString());
 
                 using (var client = new WebClient())
