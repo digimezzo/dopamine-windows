@@ -9,6 +9,7 @@ using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
+using Dopamine.Services.InfoDownload;
 using Dopamine.Services.Utils;
 using SQLite;
 using System;
@@ -23,6 +24,7 @@ namespace Dopamine.Services.Indexing
     {
         // Services
         private ICacheService cacheService;
+        private IInfoDownloadService infoDownloadService;
 
         // Repositories
         private ITrackRepository trackRepository;
@@ -61,10 +63,11 @@ namespace Dopamine.Services.Indexing
             get { return this.isIndexing; }
         }
 
-        public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, ITrackRepository trackRepository,
-            IFolderRepository folderRepository, IAlbumArtworkRepository albumArtworkRepository)
+        public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, IInfoDownloadService infoDownloadService,
+            ITrackRepository trackRepository, IFolderRepository folderRepository, IAlbumArtworkRepository albumArtworkRepository)
         {
             this.cacheService = cacheService;
+            this.infoDownloadService = infoDownloadService;
             this.trackRepository = trackRepository;
             this.folderRepository = folderRepository;
             this.albumArtworkRepository = albumArtworkRepository;
@@ -679,7 +682,7 @@ namespace Dopamine.Services.Indexing
 
         private async Task<string> GetArtworkFromInternet(string albumTitle, IList<string> albumArtists, string trackTitle, IList<string> artists)
         {
-            string artworkUriString = await ArtworkUtils.GetAlbumArtworkFromInternetAsync(albumTitle, albumArtists, trackTitle, artists);
+            string artworkUriString = await this.infoDownloadService.GetAlbumImageAsync(albumTitle, albumArtists, trackTitle, artists);
             return await this.cacheService.CacheArtworkAsync(artworkUriString);
         }
 

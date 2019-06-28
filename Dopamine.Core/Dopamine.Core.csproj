@@ -81,9 +81,9 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Api\Fanart\FanartApi.cs" />
-    <Compile Include="Api\Lastfm\Album.cs" />
-    <Compile Include="Api\Lastfm\Artist.cs" />
-    <Compile Include="Api\Lastfm\Biography.cs" />
+    <Compile Include="Api\Lastfm\LastFmAlbum.cs" />
+    <Compile Include="Api\Lastfm\LastFmArtist.cs" />
+    <Compile Include="Api\Lastfm\LastFmBiography.cs" />
     <Compile Include="Api\Lastfm\LastfmApi.cs" />
     <Compile Include="Api\Lyrics\ChartLyricsApi.cs" />
     <Compile Include="Api\Lyrics\ILyricsApi.cs" />
@@ -147,7 +147,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Utils\ArrayUtils.cs" />
-    <Compile Include="Utils\ArtworkUtils.cs" />
     <Compile Include="Utils\ColorUtils.cs" />
     <Compile Include="Utils\FormatUtils.cs" />
     <Compile Include="Utils\NumberUtils.cs" />

@@ -97,7 +97,7 @@ namespace Dopamine.ViewModels.Common
             if (string.IsNullOrEmpty(track.ArtistName))
             {
                 ArtistInfoViewModel localArtistInfoViewModel = this.container.Resolve<ArtistInfoViewModel>();
-                await localArtistInfoViewModel.SetArtistInformation(new Artist { Name = string.Empty }, string.Empty);
+                await localArtistInfoViewModel.SetArtistInformation(new LastFmArtist { Name = string.Empty }, string.Empty);
                 this.ArtistInfoViewModel = localArtistInfoViewModel;
                 this.artistName = string.Empty;
                 return;
@@ -118,7 +118,7 @@ namespace Dopamine.ViewModels.Common
 
             try
             {
-                Artist lfmArtist = await LastfmApi.ArtistGetInfo(track.ArtistName, true, ResourceUtils.GetString("Language_ISO639-1"));
+                LastFmArtist lfmArtist = await LastfmApi.ArtistGetInfo(track.ArtistName, true, ResourceUtils.GetString("Language_ISO639-1"));
 
                 if (lfmArtist != null)
                 {

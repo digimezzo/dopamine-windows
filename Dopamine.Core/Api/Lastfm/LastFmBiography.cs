@@ -1,6 +1,6 @@
 ﻿namespace Dopamine.Core.Api.Lastfm
 {
-    public class Biography
+    public class LastFmBiography
     {
         public string Published { get; set; }
         public string Summary { get; set; }
