@@ -20,6 +20,7 @@ using Dopamine.Services.File;
 using Dopamine.Services.Folders;
 using Dopamine.Services.I18n;
 using Dopamine.Services.Indexing;
+using Dopamine.Services.InfoDownload;
 using Dopamine.Services.JumpList;
 using Dopamine.Services.Lifetime;
 using Dopamine.Services.Lyrics;
@@ -250,6 +251,7 @@ namespace Dopamine
                 containerRegistry.RegisterSingleton<ILyricsService, LyricsService>();
                 containerRegistry.RegisterSingleton<IShellService, ShellService>();
                 containerRegistry.RegisterSingleton<ILifetimeService, LifetimeService>();
+                containerRegistry.RegisterSingleton<IInfoDownloadService, InfoDownloadService>();
 
                 INotificationService notificationService;
 

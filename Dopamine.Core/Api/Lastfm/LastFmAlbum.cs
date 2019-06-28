@@ -1,19 +1,15 @@
-﻿using System.Collections.Generic;
-
-namespace Dopamine.Core.Api.Lastfm
+﻿namespace Dopamine.Core.Api.Lastfm
 {
-    public class Artist
+    public class LastFmAlbum
     {
         public string Name { get; set; }
+        public string Artist { get; set; }
         public string Url { get; set; }
-        public string MusicBrainzId { get; set; }
         public string ImageSmall { get; set; }
         public string ImageMedium { get; set; }
         public string ImageLarge { get; set; }
         public string ImageExtraLarge { get; set; }
         public string ImageMega { get; set; }
-        public List<Artist> SimilarArtists { get; set; }
-        public Biography Biography { get; set; }
 
         public string LargestImage()
         {

@@ -15,7 +15,7 @@ namespace Dopamine.ViewModels
 {
     public class ArtistInfoViewModel : BindableBase
     {
-        private Artist lfmArtist;
+        private LastFmArtist lfmArtist;
         private ObservableCollection<SimilarArtistViewModel> similarArtists;
         private ICacheService cacheService;
         private string image;
@@ -46,7 +46,7 @@ namespace Dopamine.ViewModels
             set { SetProperty<ObservableCollection<SimilarArtistViewModel>>(ref this.similarArtists, value); }
         }
 
-        public async Task SetArtistInformation(Artist lfmArtist, string artistImageUrl)
+        public async Task SetArtistInformation(LastFmArtist lfmArtist, string artistImageUrl)
         {
             this.lfmArtist = lfmArtist;
 
@@ -109,7 +109,7 @@ namespace Dopamine.ViewModels
             }
         }
 
-        public Biography Biography
+        public LastFmBiography Biography
         {
             get
             {
@@ -156,14 +156,14 @@ namespace Dopamine.ViewModels
                 {
                     var localSimilarArtists = new ObservableCollection<SimilarArtistViewModel>();
 
-                    foreach (Artist similarArtist in this.lfmArtist.SimilarArtists)
+                    foreach (LastFmArtist similarArtist in this.lfmArtist.SimilarArtists)
                     {
                         string artistImageUrl = string.Empty;
 
                         try
                         {
                             // Last.fm was so nice to break their artist image API. So we need to get images from elsewhere.  
-                            Artist lfmArtist = await LastfmApi.ArtistGetInfo(similarArtist.Name, true, ResourceUtils.GetString("Language_ISO639-1"));
+                            LastFmArtist lfmArtist = await LastfmApi.ArtistGetInfo(similarArtist.Name, true, ResourceUtils.GetString("Language_ISO639-1"));
                             artistImageUrl = await FanartApi.GetArtistThumbnailAsync(lfmArtist.MusicBrainzId);
                         }
                         catch (Exception ex)

@@ -5,6 +5,7 @@ using Dopamine.Core.Enums;
 using Dopamine.Data.Metadata;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Dialog;
+using Dopamine.Services.InfoDownload;
 using Dopamine.Services.Metadata;
 using Dopamine.Utils;
 using Dopamine.ViewModels.Common.Base;
@@ -23,6 +24,7 @@ namespace Dopamine.ViewModels.Common
         private IList<string> paths;
         private IMetadataService metadataService;
         private IDialogService dialogService;
+        private IInfoDownloadService infoDownloadService;
 
         private string multipleValuesText;
         private bool hasMultipleArtwork;
@@ -196,12 +198,13 @@ namespace Dopamine.ViewModels.Common
         }
 
         public EditTrackViewModel(IList<string> paths, IMetadataService metadataService,
-            IDialogService dialogService, ICacheService cacheService) : base(cacheService)
+            IDialogService dialogService, ICacheService cacheService, IInfoDownloadService infoDownloadService) : base(cacheService, infoDownloadService)
         {
             this.multipleValuesText = "<" + ResourceUtils.GetString("Language_Multiple_Values") + ">";
 
             this.metadataService = metadataService;
             this.dialogService = dialogService;
+            this.infoDownloadService = infoDownloadService;
 
             this.paths = paths;
 

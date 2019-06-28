@@ -166,6 +166,8 @@
     <Compile Include="Entities\ISemanticZoomable.cs" />
     <Compile Include="Entities\ISemanticZoomSelector.cs" />
     <Compile Include="Entities\ISemanticZoomViewModel.cs" />
+    <Compile Include="InfoDownload\IInfoDownloadService.cs" />
+    <Compile Include="InfoDownload\InfoDownloadService.cs" />
     <Compile Include="JumpList\IJumpListService.cs" />
     <Compile Include="JumpList\JumpListService.cs" />
     <Compile Include="Lifetime\ILifetimeService.cs" />

@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Dopamine.Core.Api.Lastfm;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Dopamine.Core.Utils
+namespace Dopamine.Services.InfoDownload
 {
-    public static class ArtworkUtils
+    public class InfoDownloadService : IInfoDownloadService
     {
-        public static async Task<string> GetAlbumArtworkFromInternetAsync(string albumTitle, IList<string> albumArtists, string trackTitle = "", IList<string> trackArtists = null)
+        public async Task<string> GetAlbumImageAsync(string albumTitle, IList<string> albumArtists, string trackTitle = "", IList<string> trackArtists = null)
         {
             string title = string.Empty;
             List<string> artists = new List<string>();
@@ -40,7 +40,7 @@ namespace Dopamine.Core.Utils
 
             foreach (string artist in artists)
             {
-                Api.Lastfm.Album lfmAlbum = await Api.Lastfm.LastfmApi.AlbumGetInfo(artist, title, false, "EN");
+                LastFmAlbum lfmAlbum = await LastfmApi.AlbumGetInfo(artist, title, false, "EN");
 
                 if (!string.IsNullOrEmpty(lfmAlbum.LargestImage()))
                 {

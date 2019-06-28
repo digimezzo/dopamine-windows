@@ -12,13 +12,13 @@ namespace Dopamine.Core.Api.Fanart
 
         public async static Task<string> GetArtistThumbnailAsync(string musicBrainzId)
         {
-            string jsonResult = await GetArtistImagesAsync(musicBrainzId);
+            string jsonResult = await GetArtistImages(musicBrainzId);
             dynamic dynamicObject = JsonConvert.DeserializeObject(jsonResult);
 
             return dynamicObject.artistthumb[0].url;
         }
 
-        private async static Task<string> GetArtistImagesAsync(string musicBrainzId)
+        private async static Task<string> GetArtistImages(string musicBrainzId)
         {
             string result = string.Empty;
 

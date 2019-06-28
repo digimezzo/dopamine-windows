@@ -24,7 +24,7 @@ namespace Dopamine.Core.Api.Lastfm
         {
             string protocol = isSecure ? "https" : "http";
             string result = string.Empty;
-            Uri uri = new Uri (string.Format(apiRootFormat, protocol, method));
+            Uri uri = new Uri(string.Format(apiRootFormat, protocol, method));
 
             using (var client = new HttpClient())
             {
@@ -235,7 +235,7 @@ namespace Dopamine.Core.Api.Lastfm
         /// </summary>
         /// <param name="artist"></param>
         /// <returns></returns>
-        public static async Task<Artist> ArtistGetInfo(string artist, bool autoCorrect, string languageCode)
+        public static async Task<LastFmArtist> ArtistGetInfo(string artist, bool autoCorrect, string languageCode)
         {
             string method = "artist.getInfo";
 
@@ -249,7 +249,7 @@ namespace Dopamine.Core.Api.Lastfm
 
             string result = await PerformGetRequestAsync(method, parameters, false);
 
-            var lfmArtist = new Artist();
+            var lfmArtist = new LastFmArtist();
 
             if (!string.IsNullOrEmpty(result))
             {
@@ -262,7 +262,7 @@ namespace Dopamine.Core.Api.Lastfm
 
                 // MusicBrainzId
                 lfmArtist.MusicBrainzId = (from t in resultXml.Element("lfm").Element("artist").Elements("mbid")
-                                 select t.Value).FirstOrDefault();
+                                           select t.Value).FirstOrDefault();
 
                 // Url
                 lfmArtist.Url = (from t in resultXml.Element("lfm").Element("artist").Elements("url")
@@ -295,7 +295,7 @@ namespace Dopamine.Core.Api.Lastfm
 
                 // SimilarArtists
                 lfmArtist.SimilarArtists = (from t in resultXml.Element("lfm").Element("artist").Element("similar").Elements("artist")
-                                            select new Artist
+                                            select new LastFmArtist
                                             {
                                                 Name = t.Descendants("name").FirstOrDefault().Value,
                                                 Url = t.Descendants("url").FirstOrDefault().Value,
@@ -308,7 +308,7 @@ namespace Dopamine.Core.Api.Lastfm
 
                 // Biography
                 lfmArtist.Biography = (from t in resultXml.Element("lfm").Element("artist").Elements("bio")
-                                       select new Biography
+                                       select new LastFmBiography
                                        {
                                            Published = t.Descendants("published").FirstOrDefault().Value,
                                            Summary = t.Descendants("summary").FirstOrDefault().Value,
@@ -326,7 +326,7 @@ namespace Dopamine.Core.Api.Lastfm
         /// <param name="album"></param>
         /// <param name="languageCode"></param>
         /// <returns></returns>
-        public static async Task<Album> AlbumGetInfo(string artist, string album, bool autoCorrect, string languageCode)
+        public static async Task<LastFmAlbum> AlbumGetInfo(string artist, string album, bool autoCorrect, string languageCode)
         {
             string method = "album.getInfo";
 
@@ -341,7 +341,7 @@ namespace Dopamine.Core.Api.Lastfm
 
             string result = await PerformGetRequestAsync(method, parameters, false);
 
-            var lfmAlbum = new Album();
+            var lfmAlbum = new LastFmAlbum();
 
             if (!string.IsNullOrEmpty(result))
             {
