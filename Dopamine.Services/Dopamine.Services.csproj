@@ -217,7 +217,7 @@
     <Compile Include="Provider\SearchProvider.cs" />
     <Compile Include="Scrobbling\Enums.cs" />
     <Compile Include="Scrobbling\IScrobblingService.cs" />
-    <Compile Include="Scrobbling\LastfmScrobblingService.cs" />
+    <Compile Include="Scrobbling\ScrobblingService.cs" />
     <Compile Include="Search\ISearchService.cs" />
     <Compile Include="Search\SearchService.cs" />
     <Compile Include="Shell\EventArgs.cs" />

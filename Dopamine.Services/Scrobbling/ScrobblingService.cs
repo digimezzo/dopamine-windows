@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Services.Scrobbling
 {
-    public class LastFmScrobblingService : IScrobblingService
+    public class ScrobblingService : IScrobblingService
     {
         private SignInState signInState;
         private string username;
@@ -60,7 +60,7 @@ namespace Dopamine.Services.Scrobbling
             }
         }
 
-        public LastFmScrobblingService(IPlaybackService playbackService)
+        public ScrobblingService(IPlaybackService playbackService)
         {
             this.playbackService = playbackService;
 
