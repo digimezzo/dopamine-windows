@@ -1,8 +1,7 @@
 ﻿using CSCore;
+using CSCore.Codecs;
 using CSCore.CoreAudioAPI;
 using CSCore.DSP;
-using CSCore.Ffmpeg;
-using CSCore.MediaFoundation;
 using CSCore.SoundOut;
 using CSCore.Streams;
 using CSCore.Streams.Effects;
@@ -267,36 +266,8 @@ namespace Dopamine.Core.Audio
 
         private IWaveSource GetCodec(string filename)
         {
-            IWaveSource waveSource = null;
-            bool useFfmpegDecoder = true;
-
-            // FfmpegDecoder doesn't support WMA lossless. If Windows Media Foundation is available,
-            // we can use MediaFoundationDecoder for WMA files, which supports WMA lossless.
-            if (this.supportsWindowsMediaFoundation && Path.GetExtension(filename).ToLower().Equals(FileFormats.WMA))
-            {
-                try
-                {
-                    waveSource = new MediaFoundationDecoder(filename);
-                    useFfmpegDecoder = false;
-                }
-                catch (Exception)
-                {
-                }
-            }
-
-            if (useFfmpegDecoder)
-            {
-                // waveSource = new FfmpegDecoder(this.filename);
-
-                // On some systems, files with special characters (e.g. "æ", "ø") can't be opened by FfmpegDecoder.
-                // This exception is thrown: avformat_open_input returned 0xfffffffe: No such file or directory. 
-                // StackTrace: at CSCore.Ffmpeg.FfmpegCalls.AvformatOpenInput(AVFormatContext** formatContext, String url)
-                // This issue can't be reproduced for now, so we're using a stream as it works in all cases.
-                // See: https://github.com/digimezzo/Dopamine/issues/746
-                // And: https://github.com/filoe/cscore/issues/344
-                this.audioStream = File.OpenRead(filename);
-                waveSource = new FfmpegDecoder(this.audioStream);
-            }
+            //Use the CSCore CodecFactory to determine proper codec and load the file as a WaveSource
+            IWaveSource waveSource = CodecFactory.Instance.GetCodec(filename);
 
             // If the SampleRate < 32000, make it 32000. The Equalizer's maximum frequency is 16000Hz.
             // The sample rate has to be bigger than 2 * frequency.
