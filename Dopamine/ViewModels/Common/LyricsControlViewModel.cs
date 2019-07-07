@@ -187,7 +187,6 @@ namespace Dopamine.ViewModels.Common
         {
             if (!this.isNowPlayingPageActive || !this.isNowPlayingLyricsPageActive) return;
             if (track == null) return;
-            if (this.previousTrack != null && this.previousTrack.Equals(track)) return;
 
             this.previousTrack = track;
 

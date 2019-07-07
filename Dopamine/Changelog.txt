@@ -1,6 +1,7 @@
 2019-07-07: Dopamine 2.0 Preview 10
 -----------------------------------
 
+- [Fixed] Lyrics "Search again" doesn't work
 
 
 2019-07-06: Dopamine 2.0 Preview 9
