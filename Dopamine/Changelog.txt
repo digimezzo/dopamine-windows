@@ -1,3 +1,14 @@
+2019-07-07: Dopamine 2.0 Preview 10
+-----------------------------------
+
+
+
+2019-07-06: Dopamine 2.0 Preview 9
+----------------------------------
+
+Preview 9 was a non-public release. It attempted to fix a bug, but failed.
+
+
 2019-06-27: Dopamine 2.0 Preview 8
 ----------------------------------
 
