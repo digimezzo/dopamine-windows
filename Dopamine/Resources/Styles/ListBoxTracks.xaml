@@ -164,7 +164,7 @@
                                            Foreground="{DynamicResource Brush_SecondaryText}"/>
                                 <DockPanel>
                                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
-                                        <Label Style="{DynamicResource SpectrumAnimation}"
+                                        <Label Style="{DynamicResource PlaybackIndicator}"
                                                 Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToCollapsedConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                                 IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                                 Foreground="{DynamicResource Brush_Accent}" 

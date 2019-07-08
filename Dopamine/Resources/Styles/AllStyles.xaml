@@ -37,7 +37,7 @@
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/Tooltip.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/WindowButton.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/ScrollBar.xaml" />
-        <ResourceDictionary Source="/Dopamine;component/Resources/Styles/SpectrumAnimation.xaml" />
+        <ResourceDictionary Source="/Dopamine;component/Resources/Styles/PlaybackIndicator.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/StackPanelConditionEnabled.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
