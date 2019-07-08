@@ -74,9 +74,8 @@
                                 <StackPanel VerticalAlignment="Center" Height="40">
                                     <DockPanel Height="20">
                                         <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                                            <Label Style="{DynamicResource SpectrumAnimation}"
-                                                   Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToVisibilityConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                                                   IsHitTestVisible="{Binding IsPaused, Converter={StaticResource InvertingBooleanConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                            <Label Style="{DynamicResource PlaybackIndicator}"
+                                                   Visibility="{Binding IsPlaying, Converter={StaticResource BooleanToCollapsedConverter}, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                                                    Foreground="{DynamicResource Brush_Accent}" 
                                                    Margin="0,0,10,0" 
                                                    VerticalAlignment="Center"/>
