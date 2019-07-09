@@ -300,6 +300,21 @@ namespace Dopamine.ViewModels.Common.Base
             await this.GetAlbumsCommonAsync(await this.collectionService.GetAllAlbumsAsync(), albumOrder);
         }
 
+        protected void ClearAlbums()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (this.AlbumsCvs != null)
+                {
+                    this.AlbumsCvs.Filter -= new FilterEventHandler(AlbumsCvs_Filter);
+                }
+
+                this.AlbumsCvs = null;
+            });
+
+            this.Albums = null;
+        }
+
         protected async Task GetAlbumsCommonAsync(IList<AlbumViewModel> albums, AlbumOrder albumOrder)
         {
             try
@@ -311,17 +326,7 @@ namespace Dopamine.ViewModels.Common.Base
                 var albumViewModels = new ObservableCollection<AlbumViewModel>(orderedAlbums);
 
                 // Unbind to improve UI performance
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    if (this.AlbumsCvs != null)
-                    {
-                        this.AlbumsCvs.Filter -= new FilterEventHandler(AlbumsCvs_Filter);
-                    }
-
-                    this.AlbumsCvs = null;
-                });
-
-                this.Albums = null;
+                this.ClearAlbums();
 
                 // Populate ObservableCollection
                 this.Albums = albumViewModels;

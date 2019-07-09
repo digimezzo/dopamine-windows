@@ -250,6 +250,21 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.ArtistType = (ArtistType)SettingsClient.Get<int>("Ordering", settingName);
         }
 
+        private void ClearArtists()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (this.ArtistsCvs != null)
+                {
+                    this.ArtistsCvs.Filter -= new FilterEventHandler(ArtistsCvs_Filter);
+                }
+
+                this.ArtistsCvs = null;
+            });
+
+            this.Artists = null;
+        }
+
         private async Task GetArtistsAsync(ArtistType artistType)
         {
             try
@@ -258,17 +273,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 var artistViewModels = new ObservableCollection<ArtistViewModel>(await this.collectionService.GetAllArtistsAsync(artistType));
 
                 // Unbind to improve UI performance
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    if (this.ArtistsCvs != null)
-                    {
-                        this.ArtistsCvs.Filter -= new FilterEventHandler(ArtistsCvs_Filter);
-                    }
-
-                    this.ArtistsCvs = null;
-                });
-
-                this.Artists = null;
+                this.ClearArtists();
 
                 // Populate ObservableCollection
                 this.Artists = new ObservableCollection<ISemanticZoomable>(artistViewModels);
@@ -471,6 +476,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             await this.GetArtistsAsync(this.ArtistType);
             await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
             await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
+        }
+
+        protected async override Task EmptyListsAsync()
+        {
+            this.ClearArtists();
+            this.ClearAlbums();
+            this.ClearTracks();
         }
 
         protected override void FilterLists()

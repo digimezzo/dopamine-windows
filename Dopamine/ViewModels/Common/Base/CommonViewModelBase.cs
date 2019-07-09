@@ -37,7 +37,6 @@ namespace Dopamine.ViewModels.Common.Base
         private IEventAggregator eventAggregator;
         private bool enableRating;
         private bool enableLove;
-        private bool isFirstLoad = true;
         private bool isIndexing;
         private long tracksCount;
         private long totalDuration;
@@ -58,6 +57,7 @@ namespace Dopamine.ViewModels.Common.Base
         public DelegateCommand AddTracksToNowPlayingCommand { get; set; }
         public DelegateCommand ShuffleAllCommand { get; set; }
         public DelegateCommand LoadedCommand { get; set; }
+        public DelegateCommand UnloadedCommand { get; set; }
 
         public string TotalSizeInformation => this.totalSize > 0 ? FormatUtils.FormatFileSize(this.totalSize, false) : string.Empty;
         public string TotalDurationInformation => this.totalDuration > 0 ? FormatUtils.FormatDuration(this.totalDuration) : string.Empty;
@@ -117,6 +117,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.SelectedTracksCommand = new DelegateCommand<object>((parameter) => this.SelectedTracksHandler(parameter));
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
             this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
+            this.UnloadedCommand = new DelegateCommand(async () => await this.UnloadedCommandAsync());
             this.ShuffleAllCommand = new DelegateCommand(() => this.playbackService.EnqueueAsync(true, false));
 
             // Events
@@ -142,14 +143,6 @@ namespace Dopamine.ViewModels.Common.Base
             // created after the Indexer is started, and thus after triggering the 
             // IndexingService.IndexerStarted event.
             this.SetEditCommands();
-        }
-
-        protected bool IsFirstLoad()
-        {
-            bool originalIsFirstLoad = this.isFirstLoad;
-            if (this.isFirstLoad) this.isFirstLoad = false;
-
-            return originalIsFirstLoad;
         }
 
         protected void SetSizeInformation(long totalDuration, long totalSize)
@@ -274,12 +267,14 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected abstract Task ShowPlayingTrackAsync();
         protected abstract Task FillListsAsync();
+        protected abstract Task EmptyListsAsync();
         protected abstract void FilterLists();
         protected abstract void ConditionalScrollToPlayingTrack();
         protected abstract void MetadataService_RatingChangedAsync(RatingChangedEventArgs e);
         protected abstract void MetadataService_LoveChangedAsync(LoveChangedEventArgs e);
         protected abstract void ShowSelectedTrackInformation();
         protected abstract Task LoadedCommandAsync();
+        protected abstract Task UnloadedCommandAsync();
         protected abstract void EditSelectedTracks();
         protected abstract void SelectedTracksHandler(object parameter);
     }

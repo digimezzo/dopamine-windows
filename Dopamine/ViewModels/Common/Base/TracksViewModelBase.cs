@@ -202,6 +202,21 @@ namespace Dopamine.ViewModels.Common.Base
             await this.GetTracksCommonAsync(await this.container.ResolveTrackViewModelsAsync(tracks), trackOrder);
         }
 
+        protected void ClearTracks()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (this.TracksCvs != null)
+                {
+                    this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
+                }
+
+                this.TracksCvs = null;
+            });
+
+            this.Tracks = null;
+        }
+
         protected virtual async Task GetTracksCommonAsync(IList<TrackViewModel> tracks, TrackOrder trackOrder)
         {
             try
@@ -221,17 +236,7 @@ namespace Dopamine.ViewModels.Common.Base
                 List<TrackViewModel> orderedTrackViewModels = await EntityUtils.OrderTracksAsync(tracks, trackOrder);
 
                 // Unbind to improve UI performance
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    if (this.TracksCvs != null)
-                    {
-                        this.TracksCvs.Filter -= new FilterEventHandler(TracksCvs_Filter);
-                    }
-
-                    this.TracksCvs = null;
-                });
-
-                this.Tracks = null;
+                this.ClearTracks();
 
                 // Populate ObservableCollection
                 this.Tracks = new ObservableCollection<TrackViewModel>(orderedTrackViewModels);
@@ -514,13 +519,13 @@ namespace Dopamine.ViewModels.Common.Base
 
         protected async override Task LoadedCommandAsync()
         {
-            if (!this.IsFirstLoad())
-            {
-                return;
-            }
-
             await Task.Delay(Constants.CommonListLoadDelay);  // Wait for the UI to slide in
             await this.FillListsAsync(); // Fill all the lists
+        }
+
+        protected async override Task UnloadedCommandAsync()
+        {
+            this.EmptyListsAsync(); // Empty all the lists
         }
 
         protected override void EditSelectedTracks()

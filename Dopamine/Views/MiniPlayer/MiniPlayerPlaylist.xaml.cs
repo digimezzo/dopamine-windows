@@ -5,6 +5,7 @@ using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;
 using Dopamine.Services.Playback;
+using Dopamine.Views.Common;
 using Prism.Events;
 using Prism.Regions;
 using System;
@@ -189,6 +190,20 @@ namespace Dopamine.Views.MiniPlayer
             });
 
             return new Tuple<double, double>(top, left);
+        }
+
+        private void Windows10BorderlessWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            // This makes sure NowPlayingControl is unloaded when the window is hidden.
+            // When unloaded, thee list is clear and memory is saved. Everybody happy :) 
+            if (this.Visibility == Visibility.Visible)
+            {
+                this.NowPlayingControlParent.Children.Add(new NowPlayingControl());
+            }
+            else
+            {
+                this.NowPlayingControlParent.Children.Clear();
+            }
         }
     }
 }

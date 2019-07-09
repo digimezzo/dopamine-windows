@@ -100,6 +100,12 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             await this.GetTracksAsync(null, null, this.SelectedAlbums, this.TrackOrder);
         }
 
+        protected async override Task EmptyListsAsync()
+        {
+            this.ClearAlbums();
+            this.ClearTracks();
+        }
+
         protected async override Task SelectedAlbumsHandlerAsync(object parameter)
         {
             await base.SelectedAlbumsHandlerAsync(parameter);

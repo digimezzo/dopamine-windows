@@ -14,6 +14,7 @@
                               ShowWindowControls="False"
                               ShowInTaskbar="False"
                               ResizeMode="NoResize"
+                              IsVisibleChanged="Windows10BorderlessWindow_IsVisibleChanged"
                               prismMvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <i:Interaction.Triggers>
@@ -34,8 +35,7 @@
                     <commonviews:NothingPlayingControl/>
                 </dc:PivotItem>
                 <dc:PivotItem>
-                    <!-- Displayed when tracks are queued -->
-                    <commonviews:NowPlayingControl/>
+                    <Grid x:Name="NowPlayingControlParent" />
                 </dc:PivotItem>
             </dc:Pivot>
         </Grid>
