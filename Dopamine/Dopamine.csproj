@@ -207,7 +207,6 @@
     <Compile Include="Converters\PercentSizeConverter.cs" />
     <Compile Include="Converters\RatingConverter.cs" />
     <Compile Include="Converters\SolidColorBrushToColorConverter.cs" />
-    <Compile Include="Converters\SpectrumStyleEllipseConverter.cs" />
     <Compile Include="Converters\StringEmptyToInvisibleConverter.cs" />
     <Compile Include="Converters\StringEmptyToVisibleConverter.cs" />
     <Compile Include="Converters\StringToLowerConverter.cs" />

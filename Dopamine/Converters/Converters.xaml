@@ -16,9 +16,8 @@
   <local:StringEmptyToVisibleConverter x:Key="StringEmptyToVisibleConverter" />
   <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter" />
   <local:PercentSizeConverter x:Key="PercentSizeConverter" />
-  <local:AddEllipsisConverter x:Key="AddEllipsisConverter" />
-  <local:SpectrumStyleEllipseConverter x:Key="SpectrumStyleEllipseConverter" />
-  <local:LyricSourceVisibilityConverter x:Key="LyricSourceVisibilityConverter" />
+    <local:AddEllipsisConverter x:Key="AddEllipsisConverter" />
+    <local:LyricSourceVisibilityConverter x:Key="LyricSourceVisibilityConverter" />
   <local:EnumConverter x:Key="EnumConverter" />
   <local:BooleanToCenterTextAlignmentConverter x:Key="BooleanToCenterTextAlignmentConverter" />
   <local:BooleanToCenterHorizontalAlignmentConverter x:Key="BooleanToCenterHorizontalAlignmentConverter" />

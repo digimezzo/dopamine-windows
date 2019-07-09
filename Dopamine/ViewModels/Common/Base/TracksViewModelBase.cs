@@ -526,6 +526,7 @@ namespace Dopamine.ViewModels.Common.Base
         protected async override Task UnloadedCommandAsync()
         {
             this.EmptyListsAsync(); // Empty all the lists
+            GC.Collect(); // For the memory maniacs
         }
 
         protected override void EditSelectedTracks()
