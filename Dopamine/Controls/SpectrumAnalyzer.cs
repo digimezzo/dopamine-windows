@@ -328,72 +328,81 @@ namespace Dopamine.Controls
         private void UpdateSpectrumShapes()
         {
             bool allZero = true;
+            double fftBucketHeight = 0f;
+            double barHeight = 0f;
+            double lastPeakHeight = 0f;
+            double peakYPos = 0f;
             double height = spectrumCanvas.RenderSize.Height;
-            double dbValue = 0d;
-            double barHeight = 0d;
-            double xCoord = 0d;
-            float tPeek = 0f;
-            double barWidth = this.BarWidth;
-            double barSpacing = this.BarSpacing;
+            int barIndex = 0;
 
-            for (var barIndex = 0; barIndex < barIndexMax.Length; barIndex++)
+            for (int i = this.minimumFrequencyIndex; i <= this.maximumFrequencyIndex; i++)
             {
-                var i = barIndexMax[barIndex];
-                barHeight = 0d;
-
                 // If we're paused, keep drawing, but set the current height to 0 so the peaks fall.
-                if (this.soundPlayer.IsPlaying)
-                // Draw the maximum value for the bar's band
+                if (!this.soundPlayer.IsPlaying)
+                {
+                    barHeight = 0f;
+                }
+                else // Draw the maximum value for the bar's band
                 {
                     switch (this.AnimationStyle)
                     {
+                        case SpectrumAnimationStyle.Nervous:
+                            // Do nothing
+                            break;
                         case SpectrumAnimationStyle.Gentle:
                             this.channelData[i] -= 0.003f;
                             break;
-                        // Do nothing
                         default:
                             break;
                     }
 
-                    dbValue = 20 * Math.Log10(this.channelData[i]);
+                    double dbValue = 20 * Math.Log10((double)this.channelData[i]);
 
-                    var fftBucketHeight = ((dbValue - minDBValue) / dbScale) * height;
+                    fftBucketHeight = ((dbValue - minDBValue) / dbScale) * height;
 
                     if (barHeight < fftBucketHeight) barHeight = fftBucketHeight;
                     if (barHeight < 0f) barHeight = 0f;
                 }
 
-                // Peaks can't surpass the height of the control.
-                if (barHeight > height) barHeight = height;
-
-                tPeek = this.channelPeakData[barIndex];
-                if (tPeek < barHeight)
+                // If this is the last FFT bucket in the bar's group, draw the bar.
+                if (i == this.barIndexMax[barIndex])
                 {
-                    tPeek = (float)barHeight;
-                }
-                else
-                {
-                    tPeek = (float)(barHeight + (this.peakFallDelay * tPeek)) / ((float)(this.peakFallDelay + 1));
-                }
+                    // Peaks can't surpass the height of the control.
+                    if (barHeight > height) barHeight = height;
 
-                xCoord = barSpacing + (barWidth * barIndex) + (barSpacing * barIndex) + 1;
+                    peakYPos = barHeight;
 
-                switch (this.AnimationStyle)
-                {
-                    case SpectrumAnimationStyle.Nervous:
-                        this.barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
-                        this.barShapes[barIndex].Height = barHeight;
-                        break;
-                    case SpectrumAnimationStyle.Gentle:
-                        this.barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - tPeek, 0, 0);
-                        this.barShapes[barIndex].Height = tPeek;
-                        break;
-                    default:
-                        break;
+                    if (this.channelPeakData[barIndex] < peakYPos)
+                    {
+                        this.channelPeakData[barIndex] = (float)peakYPos;
+                    }
+                    else
+                    {
+                        this.channelPeakData[barIndex] = (float)(peakYPos + (this.peakFallDelay * this.channelPeakData[barIndex])) / ((float)(this.peakFallDelay + 1));
+                    }
+
+                    double xCoord = this.BarSpacing + (this.BarWidth * barIndex) + (this.BarSpacing * barIndex) + 1;
+
+                    switch (this.AnimationStyle)
+                    {
+                        case SpectrumAnimationStyle.Nervous:
+                            this.barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
+                            this.barShapes[barIndex].Height = barHeight;
+                            break;
+                        case SpectrumAnimationStyle.Gentle:
+                            this.barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - this.channelPeakData[barIndex], 0, 0);
+                            this.barShapes[barIndex].Height = this.channelPeakData[barIndex];
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (this.channelPeakData[barIndex] > 0.05) allZero = false;
+
+                    lastPeakHeight = barHeight;
+                    barHeight = 0f;
+                    barIndex++;
                 }
-
-                if (tPeek > 0.05) allZero = false;
-                this.channelPeakData[barIndex] = tPeek;
             }
 
             if (!allZero || this.soundPlayer.IsPlaying)
