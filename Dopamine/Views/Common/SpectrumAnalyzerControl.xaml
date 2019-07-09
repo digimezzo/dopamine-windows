@@ -30,10 +30,11 @@
             <controls:SpectrumAnalyzer 
                 x:Name="LeftSpectrumAnalyzer" 
                 Style="{StaticResource SpectrumAnalyzer}"
-                BarBackground="{Binding SpectrumBarBackground}"
+                BarBackground="{DynamicResource Brush_Accent}"
                 Width="{Binding SpectrumWidth}" 
                 BarSpacing="{Binding SpectrumBarSpacing}" 
                 BarWidth="{Binding SpectrumBarWidth}" 
+                RefreshInterval="{Binding RefreshInterval}"
                 AnimationStyle="{Binding AnimationStyle}"
                 Margin="2,0,0,0" 
                 BarCount="{Binding SpectrumBarCount}"
@@ -45,15 +46,16 @@
             <controls:SpectrumAnalyzer 
                 x:Name="RightSpectrumAnalyzer" 
                 Style="{StaticResource SpectrumAnalyzer}" 
-                BarBackground="{Binding SpectrumBarBackground}"
+                BarBackground="{DynamicResource Brush_Accent}"
                 Width="{Binding SpectrumWidth}" 
                 BarSpacing="{Binding SpectrumBarSpacing}" 
                 BarWidth="{Binding SpectrumBarWidth}" 
+                RefreshInterval="{Binding RefreshInterval}"
                 AnimationStyle="{Binding AnimationStyle}"
                 Margin="-4,0,0,0" 
                 BarCount="{Binding SpectrumBarCount}" />
         </StackPanel>
-        <Ellipse Panel.ZIndex="0" Opacity="0" Width="{Binding SpectrumPanelWidth}" Height="40" Margin="0,0,0,-20" Fill="{DynamicResource Brush_SpectrumEllipse}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Visibility="{Binding SpectrumStyle, Converter={StaticResource SpectrumStyleEllipseConverter}}">
+        <Ellipse Panel.ZIndex="0" Opacity="1" Width="{Binding SpectrumEllipseWidth}" Height="50" Margin="0,0,0,-25" Fill="{DynamicResource Brush_SpectrumEllipse}" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Ellipse.Style>
                 <Style>
                     <Style.Triggers>

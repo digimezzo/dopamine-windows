@@ -64,13 +64,4 @@
         <GradientStop Color="{DynamicResource Color_BlackInvisible}" Offset="0.0" />
         <GradientStop Color="{DynamicResource Color_Black}" Offset="1.0" />
     </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="Brush_AccentStriped" MappingMode="Absolute" StartPoint="0,0" EndPoint="0,3" SpreadMethod="Repeat">
-        <GradientStop Offset="0" Color="Transparent"/>
-        <GradientStop Offset="0.25" Color="Transparent"/>
-        <GradientStop Offset="0.25" Color="{DynamicResource Color_Accent}"/>
-        <GradientStop Offset="0.5" Color="{DynamicResource Color_Accent}"/>
-        <GradientStop Offset="0.75" Color="Transparent"/>
-        <GradientStop Offset="1" Color="Transparent"/>
-    </LinearGradientBrush>
 </ResourceDictionary>

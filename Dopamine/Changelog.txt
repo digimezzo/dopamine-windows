@@ -2,7 +2,7 @@
 -----------------------------------
 
 - [Fixed] Lyrics "Search again" doesn't work
-- [Changed] Decreased CPU and memory usage
+- [Fixed] High CPU and memory usage
 
 
 2019-07-06: Dopamine 2.0 Preview 9

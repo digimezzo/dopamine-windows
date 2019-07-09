@@ -11,7 +11,6 @@
     {
         Flames = 1,
         Lines = 2,
-        Bars = 3,
-        Stripes = 4
+        Bars = 3
     }
 }

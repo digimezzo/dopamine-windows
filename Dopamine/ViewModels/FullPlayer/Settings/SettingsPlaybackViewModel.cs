@@ -458,13 +458,20 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 localSpectrumStyles.Add(new NameValue { Name = ResourceUtils.GetString("Language_Spectrum_Flames"), Value = 1 });
                 localSpectrumStyles.Add(new NameValue { Name = ResourceUtils.GetString("Language_Spectrum_Lines"), Value = 2 });
                 localSpectrumStyles.Add(new NameValue { Name = ResourceUtils.GetString("Language_Spectrum_Bars"), Value = 3 });
-                localSpectrumStyles.Add(new NameValue { Name = ResourceUtils.GetString("Language_Spectrum_Stripes"), Value = 4 });
             });
 
             this.SpectrumStyles = localSpectrumStyles;
 
             NameValue localSelectedSpectrumStyle = null;
-            await Task.Run(() => localSelectedSpectrumStyle = this.SpectrumStyles.Where((s) => s.Value == SettingsClient.Get<int>("Playback", "SpectrumStyle")).Select((s) => s).First());
+            await Task.Run(() =>
+            {
+                localSelectedSpectrumStyle = this.SpectrumStyles.Where((s) => s.Value == SettingsClient.Get<int>("Playback", "SpectrumStyle")).Select((s) => s).FirstOrDefault();
+
+                if (localSelectedSpectrumStyle == null)
+                {
+                    localSelectedSpectrumStyle = this.SpectrumStyles.First();
+                }
+            });
 
             this.selectedSpectrumStyle = null;
             RaisePropertyChanged(nameof(this.SelectedSpectrumStyle));

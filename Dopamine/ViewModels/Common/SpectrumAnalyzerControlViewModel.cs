@@ -20,15 +20,17 @@ namespace Dopamine.ViewModels.Common
         private bool isPlaying;
         private double blurRadius;
         private int spectrumBarCount;
+        private double spectrumEllipseWidth;
         private double spectrumWidth;
         private double spectrumBarWidth;
         private double spectrumBarSpacing;
         private double spectrumPanelHeight;
         private double spectrumOpacity;
+        private int refreshInterval;
         private SpectrumAnimationStyle animationStyle;
         private Brush spectrumBarBackground;
         private SpectrumStyle spectrumStyle;
-      
+
         public bool IsPlaying
         {
             get { return this.isPlaying; }
@@ -45,6 +47,16 @@ namespace Dopamine.ViewModels.Common
         {
             get { return this.spectrumBarCount; }
             set { SetProperty<int>(ref this.spectrumBarCount, value); }
+        }
+
+        public double SpectrumEllipseWidth
+        {
+            get { return this.spectrumEllipseWidth; }
+            set
+            {
+                SetProperty<double>(ref this.spectrumEllipseWidth, value);
+                RaisePropertyChanged(nameof(this.SpectrumPanelWidth));
+            }
         }
 
         public double SpectrumWidth
@@ -71,7 +83,10 @@ namespace Dopamine.ViewModels.Common
 
         public double SpectrumPanelWidth
         {
-            get { return this.SpectrumWidth * 2; }
+            get
+            {
+                return this.SpectrumWidth * 2;
+            }
         }
 
         public double SpectrumPanelHeight
@@ -86,16 +101,19 @@ namespace Dopamine.ViewModels.Common
             set { SetProperty<double>(ref this.spectrumOpacity, value); }
         }
 
+        public int RefreshInterval
+        {
+            get { return this.refreshInterval; }
+            set
+            {
+                SetProperty<int>(ref this.refreshInterval, value);
+            }
+        }
+
         public SpectrumAnimationStyle AnimationStyle
         {
             get { return this.animationStyle; }
             set { SetProperty<SpectrumAnimationStyle>(ref this.animationStyle, value); }
-        }
-
-        public Brush SpectrumBarBackground
-        {
-            get { return this.spectrumBarBackground; }
-            set { SetProperty<Brush>(ref this.spectrumBarBackground, value); }
         }
 
         public SpectrumStyle SpectrumStyle
@@ -103,7 +121,7 @@ namespace Dopamine.ViewModels.Common
             get { return this.spectrumStyle; }
             set { SetProperty<SpectrumStyle>(ref this.spectrumStyle, value); }
         }
-      
+
         public SpectrumAnalyzerControlViewModel(IPlaybackService playbackService, IAppearanceService appearanceService, IEventAggregator eventAggregator)
         {
             this.playbackService = playbackService;
@@ -117,7 +135,7 @@ namespace Dopamine.ViewModels.Common
             this.playbackService.PlaybackStopped += (_, __) => this.IsPlaying = false;
             this.playbackService.PlaybackPaused += (_, __) => this.IsPlaying = false;
             this.playbackService.PlaybackResumed += (_, __) => this.IsPlaying = true;
-            this.playbackService.PlaybackSuccess += (_,__) => this.IsPlaying = true;
+            this.playbackService.PlaybackSuccess += (_, __) => this.IsPlaying = true;
 
             SettingsClient.SettingChanged += (_, e) =>
             {
@@ -140,69 +158,67 @@ namespace Dopamine.ViewModels.Common
             // Default spectrum
             this.SetSpectrumStyle((SpectrumStyle)SettingsClient.Get<int>("Playback", "SpectrumStyle"));
         }
-     
+
+        private void SpectrumStyleFlames()
+        {
+            this.SpectrumStyle = SpectrumStyle.Flames;
+            this.BlurRadius = 20;
+            this.SpectrumBarCount = 40;
+            this.SpectrumEllipseWidth = 324;
+            this.SpectrumWidth = 162;
+            this.SpectrumBarWidth = 4;
+            this.SpectrumBarSpacing = 0;
+            this.SpectrumPanelHeight = 60;
+            this.SpectrumOpacity = 0.65;
+            this.RefreshInterval = 50;
+            this.AnimationStyle = SpectrumAnimationStyle.Gentle;
+        }
+
+        private void SpectrumStyleLines()
+        {
+            this.SpectrumStyle = SpectrumStyle.Lines;
+            this.BlurRadius = 0;
+            this.SpectrumBarCount = 40;
+            this.SpectrumEllipseWidth = 0;
+            this.SpectrumWidth = 162;
+            this.SpectrumBarWidth = 2;
+            this.SpectrumBarSpacing = 2;
+            this.SpectrumPanelHeight = 30;
+            this.SpectrumOpacity = 1.0;
+            this.RefreshInterval = 25;
+            this.AnimationStyle = SpectrumAnimationStyle.Nervous;
+        }
+
+        private void SpectrumStyleBars()
+        {
+            this.SpectrumStyle = SpectrumStyle.Bars;
+            this.BlurRadius = 0;
+            this.SpectrumBarCount = 16;
+            this.SpectrumEllipseWidth = 0;
+            this.SpectrumWidth = 162;
+            this.SpectrumBarWidth = 8;
+            this.SpectrumBarSpacing = 2;
+            this.SpectrumPanelHeight = 30;
+            this.SpectrumOpacity = 1.0;
+            this.RefreshInterval = 25;
+            this.AnimationStyle = SpectrumAnimationStyle.Nervous;
+        }
+
         private void SetSpectrumStyle(SpectrumStyle style)
         {
             switch (style)
             {
                 case SpectrumStyle.Flames:
-                    this.SpectrumStyle = SpectrumStyle.Flames;
-                    this.BlurRadius = 20;
-                    this.SpectrumBarCount = 65;
-                    this.SpectrumWidth = 270;
-                    this.SpectrumBarWidth = 4;
-                    this.SpectrumBarSpacing = 0;
-                    this.SpectrumPanelHeight = 60;
-                    this.SpectrumOpacity = 0.65;
-                    this.AnimationStyle = SpectrumAnimationStyle.Gentle;
-                    //var accentColor = (Color)Application.Current.TryFindResource("Color_Accent");
-                    //var gradientColor = HSLColor.GetFromRgb(accentColor).MoveNext(40).ToRgb();
-                    //this.SpectrumBarBackground = new LinearGradientBrush(new GradientStopCollection()
-                    //{
-                    //    new GradientStop(accentColor, 0),
-                    //    new GradientStop(accentColor, 0.45),
-                    //    new GradientStop(gradientColor, 1),
-                    //}, new Point(0.5, 1), new Point(0.5, 0));
-                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("Brush_Accent");
+                    this.SpectrumStyleFlames();
                     break;
                 case SpectrumStyle.Lines:
-                    this.SpectrumStyle = SpectrumStyle.Lines;
-                    this.BlurRadius = 0;
-                    this.SpectrumBarCount = 50;
-                    this.SpectrumWidth = 162;
-                    this.SpectrumBarWidth = 1;
-                    this.SpectrumBarSpacing = 2;
-                    this.SpectrumPanelHeight = 30;
-                    this.SpectrumOpacity = 1.0;
-                    this.AnimationStyle = SpectrumAnimationStyle.Nervous;
-                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("Brush_Accent");
+                    this.SpectrumStyleLines();
                     break;
                 case SpectrumStyle.Bars:
-                    this.SpectrumStyle = SpectrumStyle.Bars;
-                    this.BlurRadius = 0;
-                    this.SpectrumBarCount = 20;
-                    this.SpectrumWidth = 162;
-                    this.SpectrumBarWidth = 6;
-                    this.SpectrumBarSpacing = 2;
-                    this.SpectrumPanelHeight = 30;
-                    this.SpectrumOpacity = 1.0;
-                    this.AnimationStyle = SpectrumAnimationStyle.Nervous;
-                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("Brush_Accent");
-                    break;
-                case SpectrumStyle.Stripes:
-                    this.SpectrumStyle = SpectrumStyle.Stripes;
-                    this.BlurRadius = 0;
-                    this.SpectrumBarCount = 13;
-                    this.SpectrumWidth = 162;
-                    this.SpectrumBarWidth = 10;
-                    this.SpectrumBarSpacing = 2;
-                    this.SpectrumPanelHeight = 30;
-                    this.SpectrumOpacity = 1.0;
-                    this.AnimationStyle = SpectrumAnimationStyle.Nervous;
-                    this.SpectrumBarBackground = (Brush)Application.Current.TryFindResource("Brush_AccentStriped");
+                    this.SpectrumStyleBars();
                     break;
                 default:
-                    // Shouldn't happen
+                    this.SpectrumStyleFlames();
                     break;
             }
 
