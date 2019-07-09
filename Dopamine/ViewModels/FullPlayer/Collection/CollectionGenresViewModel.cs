@@ -215,6 +215,21 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
+        private void ClearGenres()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (this.GenresCvs != null)
+                {
+                    this.GenresCvs.Filter -= new FilterEventHandler(GenresCvs_Filter);
+                }
+
+                this.GenresCvs = null;
+            });
+
+            this.Genres = null;
+        }
+
         private async Task GetGenresAsync()
         {
             try
@@ -223,17 +238,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 var genreViewModels = new ObservableCollection<GenreViewModel>(await this.collectionService.GetAllGenresAsync());
 
                 // Unbind to improve UI performance
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    if (this.GenresCvs != null)
-                    {
-                        this.GenresCvs.Filter -= new FilterEventHandler(GenresCvs_Filter);
-                    }
-
-                    this.GenresCvs = null;
-                });
-
-                this.Genres = null;
+                this.ClearGenres();
 
                 // Populate ObservableCollection
                 this.Genres = new ObservableCollection<ISemanticZoomable>(genreViewModels);
@@ -389,6 +394,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             await this.GetGenresAsync();
             await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
             await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbums, this.TrackOrder);
+        }
+
+        protected async override Task EmptyListsAsync()
+        {
+            this.ClearGenres();
+            this.ClearAlbums();
+            this.ClearTracks();
         }
 
         protected override void FilterLists()

@@ -234,6 +234,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             await this.GetTracksAsync(null, null, null, TrackOrder.ByAlbum);
         }
 
+        protected async override Task EmptyListsAsync()
+        {
+            this.ClearTracks();
+        }
+
         protected override void RefreshLanguage()
         {
             base.RefreshLanguage();

@@ -16,12 +16,6 @@
         <CollectionViewSource x:Key="PlaylistsDataSource" Source="{Binding ContextMenuPlaylists}"/>
     </UserControl.Resources>
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <DockPanel x:Name="PlaylistPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <!-- Cover -->
         <StackPanel  DockPanel.Dock="Left" VerticalAlignment="Top" Width="290">

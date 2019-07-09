@@ -104,6 +104,13 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             await this.FillListsAsync();
         }
 
+        private void ClearFolders()
+        {
+            this.folders = null;
+            this.Subfolders = null;
+            this.SubfolderBreadCrumbs = null;
+        }
+
         private async Task GetFoldersAsync()
         {
             this.Folders = new ObservableCollection<FolderViewModel>(await this.foldersService.GetFoldersAsync());
@@ -138,6 +145,12 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             await this.GetFoldersAsync();
             await this.GetSubfoldersAsync(null);
+        }
+
+        protected async override Task EmptyListsAsync()
+        {
+            this.ClearFolders();
+            this.ClearTracks();
         }
     }
 }

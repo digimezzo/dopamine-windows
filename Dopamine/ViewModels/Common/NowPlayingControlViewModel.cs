@@ -42,16 +42,16 @@ namespace Dopamine.ViewModels.Common
 
         protected override async Task FillListsAsync()
         {
-            // Not implemented here.
+            // Not implemented here. We use our own LoadedCommandAsync here, because we need our own delay and tracks source.
+        }
+
+        protected async override Task EmptyListsAsync()
+        {
+            this.ClearTracks();
         }
 
         protected async override Task LoadedCommandAsync()
         {
-            if (!this.IsFirstLoad())
-            {
-                return;
-            }
-
             // Wait for the UI to slide in
             await Task.Delay(Constants.NowPlayingListLoadDelay);  
 

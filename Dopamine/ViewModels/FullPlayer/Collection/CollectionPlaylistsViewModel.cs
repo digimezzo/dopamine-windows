@@ -92,7 +92,6 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.ImportPlaylistsCommand = new DelegateCommand(async () => await this.ImportPlaylistsAsync());
             this.AddPlaylistToNowPlayingCommand = new DelegateCommand(async () => await this.AddPlaylistToNowPlayingAsync());
             this.ShuffleSelectedPlaylistCommand = new DelegateCommand(async () => await this.ShuffleSelectedPlaylistAsync());
-            this.LoadedCommand = new DelegateCommand(async () => await this.LoadedCommandAsync());
             this.NewPlaylistCommand = new DelegateCommand(async () => await this.ConfirmCreateNewPlaylistAsync());
             this.RemoveSelectedTracksCommand = new DelegateCommand(async () => await this.DeleteTracksFromPlaylistsAsync());
 
@@ -269,15 +268,10 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             await this.GetTracksAsync();
         }
 
-        protected override async Task LoadedCommandAsync()
+        protected async override Task EmptyListsAsync()
         {
-            if (!this.IsFirstLoad())
-            {
-                return;
-            }
-
-            await Task.Delay(Constants.CommonListLoadDelay); // Wait for the UI to slide in
-            await this.FillListsAsync(); // Fill all the lists
+            this.ClearPlaylists();
+            this.ClearTracks();
         }
 
         private async Task ConfirmDeletePlaylistAsync(PlaylistViewModel playlist)
@@ -486,6 +480,11 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             }
         }
 
+        private void ClearPlaylists()
+        {
+            this.Playlists = null;
+        }
+
         private async Task GetPlaylistsAsync()
         {
             try
@@ -494,7 +493,8 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 var playlistViewModels = new ObservableCollection<PlaylistViewModel>(await this.playlistService.GetAllPlaylistsAsync());
 
                 // Unbind and rebind to improve UI performance
-                this.Playlists = null;
+                this.ClearPlaylists();
+
                 this.Playlists = playlistViewModels;
             }
             catch (Exception ex)
