@@ -718,19 +718,19 @@ namespace Dopamine.Services.Playback
             // Shuffle
             if (shuffle)
             {
-                await this.EnqueueIfDifferent(tracks, true);
+                await this.EnqueueIfDifferentAsync(tracks, true);
             }
 
             // Unshuffle
             if (unshuffle)
             {
-                await this.EnqueueIfDifferent(tracks, false);
+                await this.EnqueueIfDifferentAsync(tracks, false);
             }
 
             // Use the current shuffle mode
             if (!shuffle && !unshuffle)
             {
-                await this.EnqueueIfDifferent(tracks, this.shuffle);
+                await this.EnqueueIfDifferentAsync(tracks, this.shuffle);
             }
 
             // Start playing
@@ -756,7 +756,7 @@ namespace Dopamine.Services.Playback
                 return;
             }
 
-            await this.EnqueueIfDifferent(tracks, this.shuffle);
+            await this.EnqueueIfDifferentAsync(tracks, this.shuffle);
             await this.PlaySelectedAsync(track);
         }
 
@@ -1261,7 +1261,7 @@ namespace Dopamine.Services.Playback
                 IList<Track> existingTracks = await this.trackRepository.GetTracksAsync(savedQueuedTracks.Where(x => System.IO.File.Exists(x.Path)).Select(x => x.Path).ToList());
                 IList<TrackViewModel> existingTrackViewModels = await this.container.ResolveTrackViewModelsAsync(existingTracks);
 
-                await this.EnqueueAsync(existingTrackViewModels, this.shuffle, false);
+                await this.EnqueueAlwaysAsync(existingTrackViewModels);
 
                 if (!SettingsClient.Get<bool>("Startup", "RememberLastPlayedTrack"))
                 {
@@ -1339,7 +1339,7 @@ namespace Dopamine.Services.Playback
             PlaybackProgressChanged(this, new EventArgs());
         }
 
-        private async Task EnqueueAlways(List<TrackViewModel> tracks)
+        private async Task EnqueueAlwaysAsync(IList<TrackViewModel> tracks)
         {
             if (await this.queueManager.ClearQueueAsync())
             {
@@ -1350,7 +1350,7 @@ namespace Dopamine.Services.Playback
             }
         }
 
-        private async Task EnqueueIfDifferent(IList<TrackViewModel> tracks, bool shuffle)
+        private async Task EnqueueIfDifferentAsync(IList<TrackViewModel> tracks, bool shuffle)
         {
             if (await this.queueManager.IsQueueDifferentAsync(tracks) || shuffle != this.shuffle)
             {
@@ -1370,7 +1370,7 @@ namespace Dopamine.Services.Playback
             }
         }
 
-        private async Task EnqueueIfDifferent(IList<TrackViewModel> tracks)
+        private async Task EnqueueIfDifferentAsync(IList<TrackViewModel> tracks)
         {
             if (await this.queueManager.IsQueueDifferentAsync(tracks))
             {
