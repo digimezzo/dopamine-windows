@@ -329,7 +329,8 @@ namespace Dopamine.Data.Metadata
             {
                 if (this.artworkData == null)
                 {
-                    this.artworkData = new MetadataArtworkValue(this.file.Tag.Pictures.Length >= 1 ? (byte[])this.file.Tag.Pictures[0].Data.Data : null);
+                    // TODO: there can be more than 1 picture in a file. Should we loop and get the first non-zero picture?
+                    this.artworkData = new MetadataArtworkValue(this.file.Tag.Pictures.Length > 0 && this.file.Tag.Pictures[0].Data != null && this.file.Tag.Pictures[0].Data.Data != null && this.file.Tag.Pictures[0].Data.Data.Length > 0 ? (byte[])this.file.Tag.Pictures[0].Data.Data : null);
                 }
 
                 return this.artworkData;
