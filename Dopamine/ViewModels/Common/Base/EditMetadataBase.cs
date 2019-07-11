@@ -85,7 +85,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.ArtworkThumbnail = ImageUtils.ByteToBitmapImage(imageData, 0, 0, Convert.ToInt32(Constants.CoverLargeSize));
 
             // Size of the artwork
-            if (imageData != null)
+            if (imageData != null && this.ArtworkThumbnail != null)
             {
                 // Use PixelWidth and PixelHeight instead of Width and Height:
                 // Width and Height take DPI into account. We don't want that here.
