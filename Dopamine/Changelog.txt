@@ -1,7 +1,8 @@
-2019-07-10: Dopamine 2.0 Preview 11
+2019-07-11: Dopamine 2.0 Preview 11
 -----------------------------------
 
 - [Fixed] Short sound after starting up
+- [Fixed] Zero-sized images which are embedded in audio files, are mistakenly treated as valid images.
 
 
 2019-07-09: Dopamine 2.0 Preview 10
