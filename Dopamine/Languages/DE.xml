@@ -118,8 +118,8 @@
   <Text Key="By_Album">Nach Album</Text>
   <Text Key="Taskbar">Taskleiste</Text>
   <Text Key="Show_Audio_Progress_In_Taskbar">Wiedergabefortschritt in Taskleiste anzeigen</Text>
-  <Text Key="Spectrum_Analyzer">Spektrum Analysator</Text>
-  <Text Key="Show_Spectrum_Analyzer">Spektrum Analysator anzeigen</Text>
+  <Text Key="Spectrum_Analyzer">Spektrumanalysator</Text>
+  <Text Key="Show_Spectrum_Analyzer">Spektrumanalysator anzeigen</Text>
   <Text Key="Columns">Spalten</Text>
   <Text Key="Length">Länge</Text>
   <Text Key="Album_Artist">Albuminterpret</Text>
@@ -374,7 +374,7 @@
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Bist du sicher, dass du die Titel von der Playlist '{playlistname}' entfernen möchtest?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
-  <Text Key="Spectrum_Style">Darstellung des Spektrum Analysators</Text>
+  <Text Key="Spectrum_Style">Darstellung des Spektrumanalysators</Text>
   <Text Key="Follow_Album_Cover_Color">Farbe des Album-Covers verwenden</Text>
   <Text Key="Lyrics_File">Liedtext Datei</Text>
   <Text Key="Long_Jump_Backward">15 Sekunden zurückspringen</Text>
