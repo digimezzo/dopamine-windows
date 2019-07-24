@@ -1245,6 +1245,23 @@ namespace Dopamine.Services.Playback
             await this.SaveQueuedTracksAsync();
         }
 
+        private async Task<IList<Track>> ConvertQueuedTracksToTracks(IList<QueuedTrack> queuedTracks)
+        {
+            IList<Track> tracks = new List<Track>();
+
+            await Task.Run(async () => {
+                foreach (QueuedTrack queuedTrack in queuedTracks)
+                {
+                    if (System.IO.File.Exists(queuedTrack.Path))
+                    {
+                        tracks.Add(await MetadataUtils.Path2TrackAsync(queuedTrack.Path));
+                    }
+                }
+            });
+
+            return tracks;
+        }
+
         private async void GetSavedQueuedTracks()
         {
             if (!this.canGetSavedQueuedTracks)
@@ -1258,7 +1275,7 @@ namespace Dopamine.Services.Playback
                 LogClient.Info("Getting saved queued tracks");
                 IList<QueuedTrack> savedQueuedTracks = await this.queuedTrackRepository.GetSavedQueuedTracksAsync();
                 QueuedTrack playingSavedQueuedTrack = savedQueuedTracks.Where(x => x.IsPlaying == 1).FirstOrDefault();
-                IList<Track> existingTracks = await this.trackRepository.GetTracksAsync(savedQueuedTracks.Where(x => System.IO.File.Exists(x.Path)).Select(x => x.Path).ToList());
+                IList<Track> existingTracks = await this.ConvertQueuedTracksToTracks(savedQueuedTracks);
                 IList<TrackViewModel> existingTrackViewModels = await this.container.ResolveTrackViewModelsAsync(existingTracks);
 
                 await this.EnqueueAlwaysAsync(existingTrackViewModels);
