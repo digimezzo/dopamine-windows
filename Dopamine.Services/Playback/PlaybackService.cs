@@ -1247,19 +1247,39 @@ namespace Dopamine.Services.Playback
 
         private async Task<IList<Track>> ConvertQueuedTracksToTracks(IList<QueuedTrack> queuedTracks)
         {
-            IList<Track> tracks = new List<Track>();
+            IList<Track> databaseTracks = await this.trackRepository.GetTracksAsync(queuedTracks.Where(x => System.IO.File.Exists(x.Path)).Select(x => x.Path).ToList());
 
-            await Task.Run(async () => {
+            // All queued tracks were found as tracks in the database: there is no need to get metadata from the files
+            // (Getting metadata from files is an expensive operation, so we want to do this as little as possible.)
+            if (queuedTracks.Count.Equals(databaseTracks.Count))
+            {
+                return databaseTracks;
+            }
+
+            // Not all queued tracks exist as tracks in the database. We process them 1 by 1 and get metadata from files, if necessary.
+            IList<Track> oneByOneTracks = new List<Track>();
+
+            await Task.Run(async () =>
+            {
                 foreach (QueuedTrack queuedTrack in queuedTracks)
                 {
-                    if (System.IO.File.Exists(queuedTrack.Path))
+                    Track foundDatabaseTrack = databaseTracks.Where(x => x.SafePath.Equals(queuedTrack.SafePath)).FirstOrDefault();
+
+                    if (foundDatabaseTrack != null)
                     {
-                        tracks.Add(await MetadataUtils.Path2TrackAsync(queuedTrack.Path));
+                        // Queued track was found as track in database
+                        oneByOneTracks.Add(foundDatabaseTrack);
+
+                    }
+                    else if (System.IO.File.Exists(queuedTrack.Path))
+                    {
+                        // Queued track was not found as track in database: get metadata from file.
+                        oneByOneTracks.Add(await MetadataUtils.Path2TrackAsync(queuedTrack.Path));
                     }
                 }
             });
 
-            return tracks;
+            return oneByOneTracks;
         }
 
         private async void GetSavedQueuedTracks()
