@@ -159,7 +159,7 @@ namespace Dopamine.ViewModels.Common
             this.EditCommand = new DelegateCommand(() => { this.IsEditing = true; });
             this.CancelEditCommand = new DelegateCommand(() =>
             {
-                this.lyrics = this.uneditedLyrics;
+                this.lyrics = this.uneditedLyrics.Clone();
                 this.IsEditing = false;
             });
 
@@ -171,8 +171,8 @@ namespace Dopamine.ViewModels.Common
 
         public void SetLyrics(Lyrics lyrics)
         {
-            this.Lyrics = lyrics;
-            this.uneditedLyrics = lyrics;
+            this.Lyrics = lyrics.Clone();
+            this.uneditedLyrics = lyrics.Clone();
             this.ParseLyrics(lyrics);
         }
 
