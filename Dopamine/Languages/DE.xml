@@ -220,14 +220,14 @@
   <Text Key="Multiple_Values">Mehrere Werte</Text>
   <Text Key="Multiple_Images">Mehrere Bilder</Text>
   <Text Key="Size">Größe</Text>
-  <Text Key="Click_To_View_Full_Size">Klicken zur Vollbildansicht</Text>
+  <Text Key="Click_To_View_Full_Size">Klicken für Vollbildansicht</Text>
   <Text Key="Album_Artists">Albuminterpret</Text>
   <Text Key="Track_Count">Titel-Anzahl</Text>
   <Text Key="Disc_Number">CD-Nummer</Text>
   <Text Key="Disc_Count">CD-Anzahl</Text>
   <Text Key="Grouping">Anordnung</Text>
   <Text Key="Comment">Kommentar</Text>
-  <Text Key="Only_Positive_Numbers_Allowed">Es sind nur positive Nummern erlaubt</Text>
+  <Text Key="Only_Positive_Numbers_Allowed">Es sind nur positive Zahlen erlaubt</Text>
   <Text Key="Export">Export</Text>
   <Text Key="Export_The_Image">Das Bild exportieren</Text>
   <Text Key="Change">Ändern</Text>
@@ -276,7 +276,7 @@
   <Text Key="Error_Adding_Genres_To_Now_Playing">Beim Hinzufügen von Genres zur aktuellen Wiedergabe ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei..</Text>
   <Text Key="Error_Adding_Playlists_To_Now_Playing">Beim Hinzufügen von Wiedergabelisten zur aktuellen Wiedergabe ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Play_All">Alle wiedergeben</Text>
-  <Text Key="Shuffle_All">Alle mischen</Text>
+  <Text Key="Shuffle_All">Zufallswiedergabe</Text>
   <Text Key="See_You_Later">Bis später!</Text>
   <Text Key="Website">Webseite</Text>
   <Text Key="Social_Networks">Soziale Netzwerke</Text>
@@ -313,7 +313,7 @@
   <Text Key="Add">Hinzufügen</Text>
   <Text Key="Confirm_Remove_Online_Search_Provider">Möchtest du den Online-Suchanbieter '{provider}' wirklich entfernen?</Text>
   <Text Key="Error_Removing_Online_Search_Provider">Der Online-Suchanbieter '{provider}' konnte nicht entfernt werden. Weitere Informationen findest du in der Protokolldatei.</Text>
-  <Text Key="Url">Url</Text>
+  <Text Key="Url">URL</Text>
   <Text Key="Separator">Platzhalter</Text>
   <Text Key="Error_Adding_Online_Search_Provider">Der Online-Suchanbieter konnte nicht hinzugefügt werden. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Error_Adding_Online_Search_Provider_Missing_Fields">Der Online-Suchanbieter konnte nicht hinzugefügt werden. Die Felder 'Name' und 'Url' sind erforderlich, 'Platzhalter' ist optional.</Text>
@@ -332,7 +332,7 @@
   <Text Key="Lyrics">Texte</Text>
   <Text Key="No_Lyrics_Found">Es wurden keine Texte gefunden</Text>
   <Text Key="Automatically_Scroll_To_The_Playing_Song">Automatisch zum aktuellen Titel scrollen</Text>
-  <Text Key="Mouse_Scroll_Changes_Volume_By">Das Mausrad ändert die Lautstärke um</Text>
+  <Text Key="Mouse_Scroll_Changes_Volume_By">Scrollen des Mausrads ändert die Lautstärke um…</Text>
   <Text Key="Song_Cannot_Be_Found">Dieser Titel wurde nicht gefunden. Er wurde vermutlich verschoben oder gelöscht.</Text>
   <Text Key="Songs_Cannot_Be_Found">Ein oder mehrere Titel können nicht gefunden werden. Sie wurden vermutlich verschoben oder gelöscht.</Text>
   <Text Key="Automatic_Scrolling">Automatisches Scrollen</Text>
@@ -413,7 +413,7 @@
   <Text Key="Spectrum_Flames">Flammen</Text>
   <Text Key="Spectrum_Lines">Linien</Text>
   <Text Key="Spectrum_Bars">Balken</Text>
-  <Text Key="Spectrum_Stripes">Steifen</Text>
+  <Text Key="Spectrum_Stripes">Streifen</Text>
   <Text Key="Also_Check_For_Prereleases">Auch auf Vorabversionen prüfen</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Ordner '{foldername}' konnte wegen mangelnder Berechtigungen nicht hinzugefügt werden. Bitte überprüfe die Ordnerberechtigungen.</Text>
   <Text Key="Time">Zeit</Text>
@@ -427,7 +427,7 @@
   <Text Key="Activate_Search_Field">Suchfeld aktivieren</Text>
   <Text Key="Back">Zurück</Text>
   <Text Key="Folders">Ordner</Text>
-  <Text Key="Import_Playlists">Import playlists</Text>
+  <Text Key="Import_Playlists">Playlists importieren</Text>
   <Text Key="Error_Importing_Playlists">Beim Importieren der Wiedergabelisten ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Switch_Player">Player wechseln</Text>
   <Text Key="Music">Musik</Text>
@@ -445,7 +445,7 @@
   <Text Key="Edit_Playlist">Wiedergabeliste bearbeiten</Text>
   <Text Key="Enter_Name_For_Playlist">Gib deiner Wiedergabeliste einen neuen Namen</Text>
   <Text Key="Error_Editing_Playlist">Diese Wiedergabeliste konnte nicht bearbeitet werden. Weitere Informationen findest du in der Protokolldatei.</Text>
-  <Text Key="Date_Added">Date added</Text>
-  <Text Key="Date_Created">Date created</Text>
-  <Text Key="Manage_Collection">Manage collection</Text>
+  <Text Key="Date_Added">Hinzugefügt am</Text>
+  <Text Key="Date_Created">Erstellt am</Text>
+  <Text Key="Manage_Collection">Sammlung verwalten</Text>
 </Language>
