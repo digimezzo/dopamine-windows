@@ -159,7 +159,7 @@ namespace Dopamine.ViewModels.Common
             this.EditCommand = new DelegateCommand(() => { this.IsEditing = true; });
             this.CancelEditCommand = new DelegateCommand(() =>
             {
-                this.lyrics = this.uneditedLyrics.Clone();
+                this.Lyrics = this.uneditedLyrics.Clone();
                 this.IsEditing = false;
             });
 
