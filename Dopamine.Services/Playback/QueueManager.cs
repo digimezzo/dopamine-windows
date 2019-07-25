@@ -451,9 +451,10 @@ namespace Dopamine.Services.Playback
             return dequeueResult;
         }
 
-        public void SetCurrentTrack(string path)
+        public void SetCurrentTrack(TrackViewModel track)
         {
-            this.currentTrack = this.queue.Where(x=> x.SafePath.Equals(path.ToSafePath())).FirstOrDefault();
+            // Track is set by reference. It references a track from the queue.
+            this.currentTrack = track;
         }
 
         public async Task<bool> UpdateQueueOrderAsync(IList<TrackViewModel> tracks, bool isShuffled)
