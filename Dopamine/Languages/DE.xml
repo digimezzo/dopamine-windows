@@ -49,7 +49,7 @@
   <Text Key="Appearance">Aussehen</Text>
   <Text Key="Theme">Design</Text>
   <Text Key="Choose_Theme">Helles Design benutzen</Text>
-  <Text Key="Follow_Windows_Color">Verwende die Windows Farben</Text>
+  <Text Key="Follow_Windows_Color">Verwende die Windows-Farben</Text>
   <Text Key="Choose_A_Color">Wähle eine Farbe</Text>
   <Text Key="Choose_Language">Wähle eine Sprache</Text>
   <Text Key="Pick_Your_Language">Wähle deine Sprache</Text>
@@ -118,8 +118,8 @@
   <Text Key="By_Album">Nach Album</Text>
   <Text Key="Taskbar">Taskleiste</Text>
   <Text Key="Show_Audio_Progress_In_Taskbar">Wiedergabefortschritt in Taskleiste anzeigen</Text>
-  <Text Key="Spectrum_Analyzer">Spektrum Analysator</Text>
-  <Text Key="Show_Spectrum_Analyzer">Spektrum Analysator anzeigen</Text>
+  <Text Key="Spectrum_Analyzer">Spektrumanalysator</Text>
+  <Text Key="Show_Spectrum_Analyzer">Spektrumanalysator anzeigen</Text>
   <Text Key="Columns">Spalten</Text>
   <Text Key="Length">Länge</Text>
   <Text Key="Album_Artist">Albuminterpret</Text>
@@ -374,7 +374,7 @@
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Bist du sicher, dass du die Titel von der Playlist '{playlistname}' entfernen möchtest?</Text>
   <Text Key="XiamiLyrics">XiamiLyrics</Text>
   <Text Key="NeteaseLyrics">NeteaseLyrics</Text>
-  <Text Key="Spectrum_Style">Darstellung des Spektrum Analysators</Text>
+  <Text Key="Spectrum_Style">Darstellung des Spektrumanalysators</Text>
   <Text Key="Follow_Album_Cover_Color">Farbe des Album-Covers verwenden</Text>
   <Text Key="Lyrics_File">Liedtext Datei</Text>
   <Text Key="Long_Jump_Backward">15 Sekunden zurückspringen</Text>
@@ -391,7 +391,7 @@
   <Text Key="Error_Playing_Selected_Songs">Beim Abspielen der ausgewählten Titel ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="External_Control">Externe Steuerung</Text>
   <Text Key="Enable_External_Control">Externe Steuerung aktivieren</Text>
-  <Text Key="Enable_System_Notification">System Benachrichtigungen aktivieren</Text>
+  <Text Key="Enable_System_Notification">System-Benachrichtigungen aktivieren</Text>
   <Text Key="Unknown_Album">Unbekanntes Album</Text>
   <Text Key="Unknown_Genre">Unbekanntes Genre</Text>
   <Text Key="Refresh_Collection_Automatically">Aktualisiere die Sammlung automatisch</Text>
@@ -417,13 +417,13 @@
   <Text Key="Also_Check_For_Prereleases">Auch auf Vorabversionen prüfen</Text>
   <Text Key="Folder_Could_Not_Be_Added_Check_Permissions">Ordner '{foldername}' konnte wegen mangelnder Berechtigungen nicht hinzugefügt werden. Bitte überprüfe die Ordnerberechtigungen.</Text>
   <Text Key="Time">Zeit</Text>
-  <Text Key="Song_Artists">Titel Interpret</Text>
-  <Text Key="Album_Artists">Album Interpret</Text>
-  <Text Key="Toggle_Artists">Interpret umschalten</Text>
+  <Text Key="Song_Artists">Titelinterpreten</Text>
+  <Text Key="Album_Artists">Albuminterpreten</Text>
+  <Text Key="Toggle_Artists">Interpreten umschalten</Text>
   <Text Key="Select_None">Nichts auswählen</Text>
   <Text Key="Open_Menu">Menü öffnen</Text>
-  <Text Key="Toggle_Album_Order">Album Reihenfolge umschalten</Text>
-  <Text Key="Toggle_Track_Order">Titel Reihenfolge umschalten</Text>
+  <Text Key="Toggle_Album_Order">Album-Reihenfolge umschalten</Text>
+  <Text Key="Toggle_Track_Order">Titel-Reihenfolge umschalten</Text>
   <Text Key="Activate_Search_Field">Suchfeld aktivieren</Text>
   <Text Key="Back">Zurück</Text>
   <Text Key="Folders">Ordner</Text>
