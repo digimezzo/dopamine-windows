@@ -430,7 +430,6 @@
   <Text Key="Import_Playlists">Importar listas de reproducción</Text>
   <Text Key="Error_Importing_Playlists">Se ha producido un error mientras se importaban las listas de reproducción. Consulte el archivo 'log' para más información por favor.</Text>
   <Text Key="Switch_Player">Cambiar de reproductor</Text>
-  <Text Key="Add_Music">Añadir música</Text>
   <Text Key="Music">Música</Text>
   <Text Key="Smart_Playlist">Listas de reproducción inteligentes</Text>
   <Text Key="Create_Smart_Playlist_Where">Crear lista de reproducción inteligente donde</Text>
@@ -448,4 +447,5 @@
   <Text Key="Error_Editing_Playlist">No fue posible editar la lista de reproducción. Consulte el archivo 'log' para más información por favor.</Text>
   <Text Key="Date_Added">Date added</Text>
   <Text Key="Date_Created">Date created</Text>
+  <Text Key="Manage_Collection">Manage collection</Text>
 </Language>

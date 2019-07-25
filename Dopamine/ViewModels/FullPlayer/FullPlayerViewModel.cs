@@ -27,7 +27,7 @@ namespace Dopamine.ViewModels.FullPlayer
 
         public DelegateCommand LoadedCommand { get; set; }
 
-        public DelegateCommand AddMusicCommand { get; set; }
+        public DelegateCommand ManageCollectionCommand { get; set; }
 
         public DelegateCommand<string> SetSelectedFullPlayerPageCommand { get; set; }
 
@@ -56,7 +56,7 @@ namespace Dopamine.ViewModels.FullPlayer
             this.LoadedCommand = new DelegateCommand(() => this.NagivateToSelectedPage(FullPlayerPage.Collection));
             this.SetSelectedFullPlayerPageCommand = new DelegateCommand<string>(pageIndex => this.NagivateToSelectedPage((FullPlayerPage)Int32.Parse(pageIndex)));
             this.BackButtonCommand = new DelegateCommand(() => this.NagivateToSelectedPage(FullPlayerPage.Collection));
-            this.AddMusicCommand = new DelegateCommand(() => this.AddMusicAsync());
+            this.ManageCollectionCommand = new DelegateCommand(() => this.ManageCollectionAsync());
         }
 
         private void NagivateToSelectedPage(FullPlayerPage page)
@@ -86,7 +86,7 @@ namespace Dopamine.ViewModels.FullPlayer
             }
         }
 
-        private async void AddMusicAsync()
+        private async void ManageCollectionAsync()
         {
             FullPlayerAddMusic view = this.container.Resolve<FullPlayerAddMusic>();
             view.DataContext = this.container.Resolve<FullPlayerAddMusicViewModel>();
@@ -94,7 +94,7 @@ namespace Dopamine.ViewModels.FullPlayer
             this.dialogService.ShowCustomDialog(
                 0xE8D6,
                 16,
-                ResourceUtils.GetString("Language_Add_Music"),
+                ResourceUtils.GetString("Language_Manage_Collection"),
                 view,
                 500,
                 400,

@@ -430,7 +430,6 @@
   <Text Key="Import_Playlists">Playlists importeren</Text>
   <Text Key="Error_Importing_Playlists">Er is een fout opgetreden bij het importeren van afspeellijsten. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Switch_Player">Speler wisselen</Text>
-  <Text Key="Add_Music">Muziek toevoegen</Text>
   <Text Key="Music">Muziek</Text>
   <Text Key="Smart_Playlist">Slimme playlist</Text>
   <Text Key="Create_Smart_Playlist_Where">Maak een slimme playlist waarbij</Text>
@@ -448,4 +447,5 @@
   <Text Key="Error_Editing_Playlist">De afspeellijst kon niet worden geëditeerd. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Date_Added">Toevoegdatum</Text>
   <Text Key="Date_Created">Aanmaakdatum</Text>
+  <Text Key="Manage_Collection">Collectie beheren</Text>
 </Language>

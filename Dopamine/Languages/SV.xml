@@ -430,7 +430,6 @@
   <Text Key="Import_Playlists">Importera spellistor</Text>
   <Text Key="Error_Importing_Playlists">Ett fel uppstod vid import av spellistor. Läs loggfilen för mer information.</Text>
   <Text Key="Switch_Player">Byt spelare</Text>
-  <Text Key="Add_Music">Lägg till musik</Text>
   <Text Key="Music">Musik</Text>
   <Text Key="Smart_Playlist">Smart spellista</Text>
   <Text Key="Create_Smart_Playlist_Where">Skapa smart spellista var</Text>
@@ -448,4 +447,5 @@
   <Text Key="Error_Editing_Playlist">Spellistan kunde inte redigeras. Läs loggfilen för mer information.</Text>
   <Text Key="Date_Added">Date added</Text>
   <Text Key="Date_Created">Date created</Text>
+  <Text Key="Manage_Collection">Manage collection</Text>
 </Language>

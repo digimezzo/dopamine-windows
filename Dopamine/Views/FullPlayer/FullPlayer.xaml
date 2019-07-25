@@ -10,6 +10,7 @@
              xmlns:commonviews="clr-namespace:Dopamine.Views.Common"
              xmlns:prismMvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Wpf"
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:utils="clr-namespace:Dopamine.Utils"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              prismMvvm:ViewModelLocator.AutoWireViewModel="True">
@@ -34,7 +35,10 @@
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <controls:DropDownButton.Menu>
                         <ContextMenu>
-                            <MenuItem Header="{DynamicResource Language_Add_Music}" Command="{Binding AddMusicCommand}"/>
+                            <ContextMenu.Resources>
+                                <utils:BindingProxy x:Key="ManageCollectionProxy" Data="{DynamicResource Language_Manage_Collection}"/>
+                            </ContextMenu.Resources>
+                            <MenuItem Header="{Binding Source={StaticResource ManageCollectionProxy}, Path=Data, Converter={StaticResource AddEllipsisConverter}}" Command="{Binding ManageCollectionCommand}"/>
                             <Separator/>
                             <MenuItem Header="{DynamicResource Language_Settings}" Command="{Binding SetSelectedFullPlayerPageCommand}" CommandParameter="1"/>
                             <MenuItem Header="{DynamicResource Language_Information}" Command="{Binding SetSelectedFullPlayerPageCommand}" CommandParameter="2"/>

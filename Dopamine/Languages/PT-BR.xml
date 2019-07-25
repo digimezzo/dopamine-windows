@@ -430,7 +430,6 @@
   <Text Key="Import_Playlists">Import playlists</Text>
   <Text Key="Error_Importing_Playlists">An error occurred while importing playlists. Please consult the log file for more information.</Text>
   <Text Key="Switch_Player">Switch player</Text>
-  <Text Key="Add_Music">Add music</Text>
   <Text Key="Music">Music</Text>
   <Text Key="Smart_Playlist">Smart playlist</Text>
   <Text Key="Create_Smart_Playlist_Where">Create smart playlist where</Text>
@@ -448,4 +447,5 @@
   <Text Key="Error_Editing_Playlist">The playlist could not be edited. Please consult the log file for more information.</Text>
   <Text Key="Date_Added">Date added</Text>
   <Text Key="Date_Created">Date created</Text>
+  <Text Key="Manage_Collection">Manage collection</Text>
 </Language>

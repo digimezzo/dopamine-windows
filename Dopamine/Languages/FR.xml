@@ -430,7 +430,6 @@
   <Text Key="Import_Playlists">Importer liste de lecture</Text>
   <Text Key="Error_Importing_Playlists">Une erreur s'est produite durant l'import des listes de lecture. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Switch_Player">Changer de lecteur</Text>
-  <Text Key="Add_Music">Ajouter de la musique</Text>
   <Text Key="Music">Musique</Text>
   <Text Key="Smart_Playlist">Liste de lecture intelligente</Text>
   <Text Key="Create_Smart_Playlist_Where">Créer une liste de lecture intelligente où</Text>
@@ -448,4 +447,5 @@
   <Text Key="Error_Editing_Playlist">La liste de lecture n'a pas pu être modifiée. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Date_Added">Date d'ajout</Text>
   <Text Key="Date_Created">Date de creation</Text>
+  <Text Key="Manage_Collection">Gérer la collection</Text>
 </Language>
