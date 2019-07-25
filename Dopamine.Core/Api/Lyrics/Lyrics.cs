@@ -46,5 +46,10 @@
             this.text = text;
             this.source = source;
         }
+
+        public Lyrics Clone()
+        {
+            return new Lyrics(this.text, this.Source);
+        }
     }
 }
