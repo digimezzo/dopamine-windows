@@ -139,7 +139,7 @@ namespace Dopamine.Services.Lyrics
             }
 
             // Order the time stamped lines
-            linesWithTimestamps = new List<LyricsLineViewModel>(linesWithTimestamps.OrderBy(p => p.Time).ThenByDescending(p => p.Text));
+            linesWithTimestamps = new List<LyricsLineViewModel>(linesWithTimestamps.OrderBy(p => p.Time));
 
             // Merge both collections, lines with timestamps first.
             linesWithTimestamps.AddRange(linesWithoutTimestamps);
