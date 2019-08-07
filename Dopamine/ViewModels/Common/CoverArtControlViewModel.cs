@@ -22,8 +22,6 @@ namespace Dopamine.ViewModels.Common
         private SlideDirection slideDirection;
         private byte[] previousArtwork;
         private byte[] artwork;
-        private Timer refreshTimer = new Timer();
-        private int refreshTimerIntervalMilliseconds = 250;
 
         public CoverArtViewModel CoverArtViewModel
         {
@@ -49,14 +47,10 @@ namespace Dopamine.ViewModels.Common
             this.cacheService = cacheService;
             this.metadataService = metadataService;
 
-            this.refreshTimer.Interval = this.refreshTimerIntervalMilliseconds;
-            this.refreshTimer.Elapsed += RefreshTimer_Elapsed;
-
             this.playbackService.PlaybackSuccess += (_, e) =>
             {
                 this.SlideDirection = e.IsPlayingPreviousTrack ? SlideDirection.UpToDown : SlideDirection.DownToUp;
-                this.refreshTimer.Stop();
-                this.refreshTimer.Start();
+                this.RefreshCoverArtAsync(this.playbackService.CurrentTrack);
             };
 
             this.playbackService.PlayingTrackChanged += (_, __) => this.RefreshCoverArtAsync(this.playbackService.CurrentTrack);
@@ -68,12 +62,13 @@ namespace Dopamine.ViewModels.Common
 
         private void RefreshTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            this.refreshTimer.Stop();
             this.RefreshCoverArtAsync(this.playbackService.CurrentTrack);
         }
 
         protected async virtual void RefreshCoverArtAsync(TrackViewModel track)
         {
+            await Task.Delay(250);
+
             await Task.Run(async () =>
             {
                 this.previousArtwork = this.artwork;
