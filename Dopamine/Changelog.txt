@@ -5,6 +5,7 @@
 - [Changed] Updated thePortuguese (Portugal)
 - [Fixed] Queued songs which are not in the collection (e.g. from playlists), are not resumed after a restart.
 - [Fixed] Playlists containing the same song multiple times, confuses play previous and play next.
+- [Fixed] Incorrect ordering of timed lyrics which contain duplicate timestamps
 
 
 2019-07-11: Dopamine 2.0 Preview 11
