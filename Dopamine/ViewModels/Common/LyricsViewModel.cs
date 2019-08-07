@@ -122,21 +122,15 @@ namespace Dopamine.ViewModels.Common
             this.IsEditing = false;
             this.ParseLyrics(this.lyrics);
 
-            if(this.track == null)
+            if (this.track == null)
             {
                 return;
             }
 
             // Save to the file
             var fmd = await this.metadataService.GetFileMetadataAsync(this.track.Path);
-            fmd.Lyrics = new MetadataValue() { Value = this.lyrics.Text };
-
-            var fmdList = new List<FileMetadata>
-            {
-                fmd
-            };
-
-            await this.metadataService.UpdateTracksAsync(fmdList, false);
+            fmd.Lyrics = new MetadataValue(this.lyrics.Text);
+            await this.metadataService.UpdateTracksAsync(new List<FileMetadata> { fmd }, false);
         }
 
         public LyricsViewModel(IContainerProvider container, TrackViewModel track) : base(container)
@@ -190,7 +184,7 @@ namespace Dopamine.ViewModels.Common
 
         protected override void SearchOnline(string id)
         {
-            if(this.track == null)
+            if (this.track == null)
             {
                 return;
             }

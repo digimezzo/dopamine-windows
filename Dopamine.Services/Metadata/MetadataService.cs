@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Threading.Tasks;
 
 namespace Dopamine.Services.Metadata
@@ -26,6 +27,8 @@ namespace Dopamine.Services.Metadata
         private ITrackRepository trackRepository;
         private IAlbumArtworkRepository albumArtworkRepository;
         private FileMetadataUpdater updater;
+        ObjectCache artworkCache = MemoryCache.Default;
+        object artworkCacheLock = new object();
 
         public event Action<MetadataChangedEventArgs> MetadataChanged = delegate { };
         public event Action<RatingChangedEventArgs> RatingChanged = delegate { };
@@ -144,19 +147,35 @@ namespace Dopamine.Services.Metadata
             {
                 await Task.Run(() =>
                 {
-                // First try to find embedded artwork.
-                artwork = this.GetEmbeddedArtwork(filename, size);
-
-                    if (artwork == null)
+                    lock (artworkCacheLock)
                     {
-                    // If no embedded artwork was found, try to find external artwork.
-                    artwork = this.GetExternalArtwork(filename, size);
-                    }
+                        // First, try to find artwork in the memory cache
+                        artwork = this.artworkCache[filename] as byte[];
 
-                    if (artwork == null)
-                    {
-                    // If no external artwork was found, try to find album artwork.
-                    artwork = this.GetAlbumArtwork(filename, size);
+                        if (artwork == null)
+                        {
+                            // If no artwork was found in the cache, try to find embedded artwork.
+                            artwork = this.GetEmbeddedArtwork(filename, size);
+
+                            if (artwork == null)
+                            {
+                                // If no embedded artwork was found, try to find external artwork.
+                                artwork = this.GetExternalArtwork(filename, size);
+                            }
+
+                            if (artwork == null)
+                            {
+                                // If no external artwork was found, try to find album artwork.
+                                artwork = this.GetAlbumArtwork(filename, size);
+                            }
+
+                            if (artwork != null)
+                            {
+                                // If artwork was found, add it to the cache.
+                                CacheItemPolicy policy = new CacheItemPolicy() { AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(5.0) };
+                                this.artworkCache.Set(filename, artwork, policy);
+                            }
+                        }
                     }
                 });
             }
