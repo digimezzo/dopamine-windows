@@ -81,6 +81,28 @@ namespace Dopamine.Tests
         }
 
         [TestMethod(), TestCategory(TestCategories.LyricsParser)]
+        public void ParseSynchronizedLyricsWithDuplicateTimestampsKeepsOriginalOrder()
+        {
+            string lyricsText = File.ReadAllText(@"Files\LyricsParser\SynchronizedLyricsWithDuplicateTimestamps.lrc");
+            var lyrics = new Lyrics(lyricsText, "Not important");
+            IList<LyricsLineViewModel> lyricsLines = this.service.ParseLyrics(lyrics);
+
+            Assert.AreEqual(lyricsLines.Count, 12);
+            Assert.AreEqual(lyricsLines[0].Text, "Synchronized line 1");
+            Assert.AreEqual(lyricsLines[1].Text, "Synchronized line 2");
+            Assert.AreEqual(lyricsLines[2].Text, "Synchronized line 3");
+            Assert.AreEqual(lyricsLines[3].Text, "Synchronized line 4");
+            Assert.AreEqual(lyricsLines[4].Text, "Synchronized line 5");
+            Assert.AreEqual(lyricsLines[5].Text, "Synchronized line 6");
+            Assert.AreEqual(lyricsLines[6].Text, "Synchronized line 7");
+            Assert.AreEqual(lyricsLines[7].Text, "Synchronized line 8");
+            Assert.AreEqual(lyricsLines[8].Text, "");
+            Assert.AreEqual(lyricsLines[9].Text, "Synchronized line 10");
+            Assert.AreEqual(lyricsLines[10].Text, "Synchronized line 11");
+            Assert.AreEqual(lyricsLines[11].Text, "Synchronized line 12");
+        }
+
+        [TestMethod(), TestCategory(TestCategories.LyricsParser)]
         public void ParseExtendedSynchronizedLyrics()
         {
             string lyricsText = File.ReadAllText(@"Files\LyricsParser\ExtendedSynchronizedLyrics.lrc");

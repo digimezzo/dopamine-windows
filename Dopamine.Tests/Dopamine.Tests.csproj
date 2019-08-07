@@ -129,6 +129,9 @@
     <Content Include="Files\LyricsParser\SynchronizedLyrics.lrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Files\LyricsParser\SynchronizedLyricsWithDuplicateTimestamps.lrc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
