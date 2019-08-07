@@ -1,7 +1,8 @@
-2019-07-25: Dopamine 2.0 Preview 12
+2019-08-07: Dopamine 2.0 Preview 12
 -----------------------------------
 
 - [Changed] Updated the German translation
+- [Changed] Updated thePortuguese (Portugal)
 - [Fixed] Queued songs which are not in the collection (e.g. from playlists), are not resumed after a restart.
 - [Fixed] Playlists containing the same song multiple times, confuses play previous and play next.
 
