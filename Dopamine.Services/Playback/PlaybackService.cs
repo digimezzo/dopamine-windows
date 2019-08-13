@@ -1069,7 +1069,7 @@ namespace Dopamine.Services.Playback
             // So if we go into the Catch when trying to play the Track,
             // at least, the next time TryPlayNext is called, it will know that 
             // we already tried to play this track and it can find the next Track.
-            this.queueManager.SetCurrentTrack(track);
+            this.queueManager.SetCurrentTrack(track.Path);
 
             // Play the Track
             await Task.Run(() => this.player.Play(track.Path, this.audioDevice));
