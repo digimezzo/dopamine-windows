@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿﻿<?xml version="1.0" encoding="utf-8"?>
 <Language Code="BG" Name="Bulgarian">
   <Text Key="ISO639-1">BG</Text>
   <Text Key="Ok">Ok</Text>
@@ -447,5 +447,5 @@
   <Text Key="Error_Editing_Playlist">Плейлистът не можа да бъде редактиран. Моля, проверете  регистрационния файл за повече информация.</Text>
   <Text Key="Date_Added">Date added</Text>
   <Text Key="Date_Created">Date created</Text>
-  <Text Key="Manage_Collection">Manage collection</Text>
+  <Text Key="Manage_Collection">Управление на колекцията</Text>
 </Language>

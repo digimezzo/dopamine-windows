@@ -1,6 +1,7 @@
 2019-08-13: Dopamine 2.0 Preview 13
 -----------------------------------
 
+- [Changed] Updated the Bulgarian translation
 - [Fixed] Loop issues which were introduced in Preview 12
 
 
