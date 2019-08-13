@@ -8,7 +8,7 @@
 -----------------------------------
 
 - [Changed] Updated the German translation
-- [Changed] Updated thePortuguese (Portugal)
+- [Changed] Updated the Portuguese (Portugal) translation
 - [Fixed] Queued songs which are not in the collection (e.g. from playlists), are not resumed after a restart.
 - [Fixed] Playlists containing the same song multiple times, confuses play previous and play next.
 - [Fixed] Incorrect ordering of timed lyrics which contain duplicate timestamps
