@@ -1,3 +1,9 @@
+2019-08-13: Dopamine 2.0 Preview 13
+-----------------------------------
+
+- [Fixed] Loop issues which were introduced in Preview 12
+
+
 2019-08-07: Dopamine 2.0 Preview 12
 -----------------------------------
 
