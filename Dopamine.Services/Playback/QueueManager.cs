@@ -211,7 +211,16 @@ namespace Dopamine.Services.Playback
                                 if (currentTrackIndex < this.playbackOrder.Count - 1)
                                 {
                                     // If we didn't reach the end of the queue, return the next track.
-                                    nextTrack = this.queue[this.playbackOrder[currentTrackIndex + 1]];
+                                    int increment = 1;
+
+                                    nextTrack = this.queue[this.playbackOrder[currentTrackIndex + increment]];
+
+                                    // HACK: voids getting stuck on the same track when the playlist contains the same track multiple times
+                                    while (this.currentTrack.Path.Equals(nextTrack.Path))
+                                    {
+                                        increment++;
+                                        nextTrack = this.queue[this.playbackOrder[currentTrackIndex + increment]];
+                                    }
                                 }
                                 else if (loopMode.Equals(LoopMode.All) | returnToStart)
                                 {
