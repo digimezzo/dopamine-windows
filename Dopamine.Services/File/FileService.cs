@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -72,7 +73,7 @@ namespace Dopamine.Services.File
                 return new List<TrackViewModel>();
             }
 
-            string[] paths = Directory.GetFiles(directoryPath);
+            string[] paths = Directory.GetFiles(directoryPath).SortNaturally().ToArray();
 
             var tracks = new List<TrackViewModel>();
 

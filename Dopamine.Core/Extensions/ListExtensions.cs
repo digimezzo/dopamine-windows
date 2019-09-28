@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Dopamine.Core.Extensions
 {
@@ -42,5 +44,9 @@ namespace Dopamine.Core.Extensions
             return randomList;
         }
 
+        public static IEnumerable<string> SortNaturally(this IEnumerable<string> strings)
+        {
+            return strings.OrderBy(x => Regex.Replace(x, @"\d+", match => match.Value.PadLeft(4, '0')));
+        }
     }
 }
