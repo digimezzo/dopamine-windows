@@ -447,5 +447,5 @@
   <Text Key="Error_Editing_Playlist">Nije moguće urediti popis za reprodukciju. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="Date_Added">Datum dodavanja</Text>
   <Text Key="Date_Created">Datum stvaranja</Text>
-  <Text Key="Manage_Collection">Manage collection</Text>
+  <Text Key="Manage_Collection">Upravljaj kolekcijom</Text>
 </Language>
