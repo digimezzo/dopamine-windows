@@ -56,6 +56,9 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NVorbis">
+      <HintPath>..\Dopamine\Libraries\NVorbis.dll</HintPath>
+    </Reference>
     <Reference Include="Prism, Version=7.0.0.396, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.7.0.0.396\lib\net45\Prism.dll</HintPath>
     </Reference>
@@ -100,6 +103,7 @@
     <Compile Include="Audio\IPlayerFactory.cs" />
     <Compile Include="Audio\ISpectrumPlayer.cs" />
     <Compile Include="Audio\AudioDevice.cs" />
+    <Compile Include="Audio\NVorbisSource.cs" />
     <Compile Include="Audio\PlaybackInterruptedEventArgs.cs" />
     <Compile Include="Audio\PlayerFactory.cs" />
     <Compile Include="Base\Constants.cs" />
@@ -122,6 +126,7 @@
     <Compile Include="Helpers\GentleFolderWatcher.cs" />
     <Compile Include="Helpers\ILocalizationInfo.cs" />
     <Compile Include="Helpers\LocalizationInfo.cs" />
+    <Compile Include="Helpers\MediaFoundationHelper.cs" />
     <Compile Include="Helpers\OrderedDictionary.cs" />
     <Compile Include="Helpers\PeekStringReader.cs" />
     <Compile Include="IO\ApplicationPaths.cs" />

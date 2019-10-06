@@ -74,10 +74,6 @@ namespace Dopamine.Services.Playback
 
         private AudioDevice audioDevice;
 
-        private bool supportsWindowsMediaFoundation;
-
-        public bool SupportsWindowsMediaFoundation => this.supportsWindowsMediaFoundation;
-
         public bool IsSavingQueuedTracks => this.isSavingQueuedTracks;
 
         public bool IsSavingPlaybackCounters => this.isSavingPLaybackCounters;
@@ -890,32 +886,8 @@ namespace Dopamine.Services.Playback
             return await this.AddToQueueAsync(orederedTracks);
         }
 
-        private void CheckWindowsMediaFoundation()
-        {
-            bool supportsWindowsMediaFoundation = true; // Assume true
-
-            try
-            {
-                if (!System.IO.File.Exists(Path.Combine(Environment.SystemDirectory, "mf.dll")))
-                {
-                    LogClient.Error("Windows Media Foundation could not be found.");
-                    supportsWindowsMediaFoundation = false;
-                }
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("An error occurred while trying to locate Windows Media Foundation. Exception: {0}", ex.Message);
-                supportsWindowsMediaFoundation = false;
-            }
-
-            this.supportsWindowsMediaFoundation = supportsWindowsMediaFoundation;
-        }
-
         private async void Initialize()
         {
-            // Check if Windows Media Foundation is available
-            this.CheckWindowsMediaFoundation();
-
             // Settings
             this.SetPlaybackSettings();
 
@@ -923,7 +895,7 @@ namespace Dopamine.Services.Playback
             this.playerFactory = new PlayerFactory();
 
             // Player (default for now, can be changed later when playing a file)
-            this.player = this.playerFactory.Create(this.supportsWindowsMediaFoundation);
+            this.player = this.playerFactory.Create();
 
             // Audio device
             await this.SetAudioDeviceAsync();
@@ -1060,7 +1032,7 @@ namespace Dopamine.Services.Playback
             this.SetPlaybackSettings();
 
             // Play the Track from its runtime path (current or temporary)
-            this.player = this.playerFactory.Create(this.supportsWindowsMediaFoundation);
+            this.player = this.playerFactory.Create();
 
             this.player.SetPlaybackSettings(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands, this.UseAllAvailableChannels);
             this.player.SetVolume(silent | this.Mute ? 0.0f : this.Volume);

@@ -27,13 +27,6 @@ namespace Dopamine.Core.Base
             },
             new ExternalComponent
             {
-                Name = "CSCore.Ffmpeg",
-                Description = "A free .NET audio library which is completely written in C#.",
-                Url = "https://github.com/filoe/cscore/tree/master/CSCore.Ffmpeg",
-                LicenseUrl = "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html"
-            },
-            new ExternalComponent
-            {
                 Name = "DotNetZip",
                 Description =
                     "A FAST, FREE class library and toolset for manipulating zip files. Use VB, C# or any .NET language to easily create, extract, or update zip files.",
@@ -46,13 +39,6 @@ namespace Dopamine.Core.Base
                 Description = "DryIoc is fast, small, full-featured IoC Container for .NET",
                 Url = "https://bitbucket.org/dadhi/dryioc",
                 LicenseUrl = "https://opensource.org/licenses/MIT"
-            },
-            new ExternalComponent
-            {
-                Name = "FFmpeg",
-                Description = "A collection of libraries and tools to process multimedia content such as audio, video, subtitles and related metadata.",
-                Url = "https://github.com/FFmpeg/FFmpeg",
-                LicenseUrl = "https://github.com/FFmpeg/FFmpeg/blob/master/LICENSE.md"
             },
             new ExternalComponent
             {
@@ -74,6 +60,12 @@ namespace Dopamine.Core.Base
                 Description = "Popular high-performance JSON framework for .NET",
                 Url = "https://github.com/JamesNK/Newtonsoft.Json",
                 LicenseUrl = "https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md"
+            },
+            new ExternalComponent {
+                Name = "NVorbis",
+                Description = "A .NET library for decoding Xiph.org Vorbis files.",
+                Url = "https://github.com/ioctlLR/NVorbis",
+                LicenseUrl = "https://github.com/ioctlLR/NVorbis/blob/master/LICENSE"
             },
             new ExternalComponent {
                 Name = "Prism",

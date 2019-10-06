@@ -13,8 +13,6 @@ namespace Dopamine.Core.Base
         public static string M4A = ".m4a";
         public static string AAC = ".aac";
         public static string WAV = ".wav";
-        public static string APE = ".ape";
-        public static string OPUS = ".opus";
         public static string AIFF = ".aiff";
 
         // Lyrics extensions
@@ -46,8 +44,6 @@ namespace Dopamine.Core.Base
             FileFormats.M4A,
             FileFormats.AAC,
             FileFormats.WAV,
-            FileFormats.APE,
-            FileFormats.OPUS,
             FileFormats.AIFF
         };
 

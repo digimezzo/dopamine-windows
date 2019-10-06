@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Dopamine.Core.Helpers;
 
 namespace Dopamine.ViewModels.FullPlayer.Settings
 {
@@ -56,7 +57,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
         public bool IsNotificationEnabled => (this.CheckBoxShowNotificationWhenPlayingChecked || this.CheckBoxShowNotificationWhenPausingChecked || this.CheckBoxShowNotificationWhenResumingChecked) && !this.CheckBoxEnableSystemNotificationChecked;
 
-        public bool SupportsWindowsMediaFoundation => this.playbackService.SupportsWindowsMediaFoundation;
+        public bool SupportsWindowsMediaFoundation => MediaFoundationHelper.HasMediaFoundationSupport();
 
         public bool IsWindows10 => Constants.IsWindows10;
 

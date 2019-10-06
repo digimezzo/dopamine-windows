@@ -1,7 +1,7 @@
 ﻿using CSCore;
+using CSCore.Codecs;
 using CSCore.CoreAudioAPI;
 using CSCore.DSP;
-using CSCore.Ffmpeg;
 using CSCore.MediaFoundation;
 using CSCore.SoundOut;
 using CSCore.Streams;
@@ -50,13 +50,15 @@ namespace Dopamine.Core.Audio
 
         // Flags
         private bool isPlaying;
-        private bool supportsWindowsMediaFoundation = false;
 
         // To detect redundant calls
         private bool disposedValue = false;
 
         public CSCorePlayer()
         {
+            // Register the NVorbis new codec
+            CodecFactory.Instance.Register("ogg-vorbis", new CodecFactoryEntry((s) => new NVorbisSource(s).ToWaveSource(), ".ogg"));
+
             this.canPlay = true;
             this.canPause = false;
             this.canStop = false;
@@ -75,12 +77,6 @@ namespace Dopamine.Core.Audio
         }
 
         public SingleBlockNotificationStream NotificationSource => this.notificationSource;
-
-        public bool SupportsWindowsMediaFoundation
-        {
-            get { return this.supportsWindowsMediaFoundation; }
-            set { this.supportsWindowsMediaFoundation = value; }
-        }
 
         public string Filename
         {
@@ -267,35 +263,19 @@ namespace Dopamine.Core.Audio
 
         private IWaveSource GetCodec(string filename)
         {
-            IWaveSource waveSource = null;
-            bool useFfmpegDecoder = true;
+            IWaveSource waveSource;
 
-            // FfmpegDecoder doesn't support WMA lossless. If Windows Media Foundation is available,
-            // we can use MediaFoundationDecoder for WMA files, which supports WMA lossless.
-            if (this.supportsWindowsMediaFoundation && Path.GetExtension(filename).ToLower().Equals(FileFormats.WMA))
+            if (Path.GetExtension(this.filename.ToLower()) == FileFormats.MP3)
             {
-                try
-                {
-                    waveSource = new MediaFoundationDecoder(filename);
-                    useFfmpegDecoder = false;
-                }
-                catch (Exception)
-                {
-                }
+                // For MP3's, we force usage of MediaFoundationDecoder. CSCore uses DmoMp3Decoder 
+                // by default. DmoMp3Decoder however is very slow at playing MP3's from a NAS. 
+                // So we're using MediaFoundationDecoder until DmoMp3Decoder has improved.
+                waveSource = new MediaFoundationDecoder(this.filename);
             }
-
-            if (useFfmpegDecoder)
+            else
             {
-                // waveSource = new FfmpegDecoder(this.filename);
-
-                // On some systems, files with special characters (e.g. "æ", "ø") can't be opened by FfmpegDecoder.
-                // This exception is thrown: avformat_open_input returned 0xfffffffe: No such file or directory. 
-                // StackTrace: at CSCore.Ffmpeg.FfmpegCalls.AvformatOpenInput(AVFormatContext** formatContext, String url)
-                // This issue can't be reproduced for now, so we're using a stream as it works in all cases.
-                // See: https://github.com/digimezzo/Dopamine/issues/746
-                // And: https://github.com/filoe/cscore/issues/344
-                this.audioStream = File.OpenRead(filename);
-                waveSource = new FfmpegDecoder(this.audioStream);
+                // Other file formats are using the default decoders
+                waveSource = CodecFactory.Instance.GetCodec(this.filename);
             }
 
             // If the SampleRate < 32000, make it 32000. The Equalizer's maximum frequency is 16000Hz.
@@ -361,48 +341,36 @@ namespace Dopamine.Core.Audio
         private void InitializeSoundOut(IWaveSource soundSource)
         {
             // Create SoundOut
-            if (this.supportsWindowsMediaFoundation)
+            this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
+
+            // Map stereo or mono file to all channels
+            ((WasapiOut)this.soundOut).UseChannelMixingMatrices = this.useAllAvailableChannels;
+
+            if (this.selectedMMDevice == null)
             {
-                this.soundOut = new WasapiOut(this.eventSync, this.audioClientShareMode, this.latency, ThreadPriority.Highest);
-
-                // Map stereo or mono file to all channels
-                ((WasapiOut)this.soundOut).UseChannelMixingMatrices = this.useAllAvailableChannels;
-
-                if (this.selectedMMDevice == null)
-                {
-                    // If no output device was provided, we're playing on the default device.
-                    // In such case, we want to detect when the default device changes.
-                    // This is done by setting stream routing options
-                    ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.All;
-                }
-                else
-                {
-                    // If an output device was provided, assign it to soundOut.Device.
-                    // Only allow stream routing when the device was disconnected.
-                    ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.OnDeviceDisconnect;
-                    ((WasapiOut)this.soundOut).Device = this.selectedMMDevice;
-                }
-
-                // Initialize SoundOut 
-                this.notificationSource = new SingleBlockNotificationStream(soundSource.ToSampleSource());
-                this.soundOut.Initialize(this.notificationSource.ToWaveSource(16));
-
-                if (inputStreamList.Count != 0)
-                {
-                    foreach (var inputStream in inputStreamList)
-                    {
-                        this.notificationSource.SingleBlockRead += inputStream;
-                    }
-                }
+                // If no output device was provided, we're playing on the default device.
+                // In such case, we want to detect when the default device changes.
+                // This is done by setting stream routing options
+                ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.All;
             }
             else
             {
-                this.soundOut = new DirectSoundOut(this.latency, ThreadPriority.Highest);
+                // If an output device was provided, assign it to soundOut.Device.
+                // Only allow stream routing when the device was disconnected.
+                ((WasapiOut)this.soundOut).StreamRoutingOptions = StreamRoutingOptions.OnDeviceDisconnect;
+                ((WasapiOut)this.soundOut).Device = this.selectedMMDevice;
+            }
 
-                // Initialize SoundOut
-                // Spectrum analyzer performance is only acceptable with WasapiOut,
-                // so we're not setting a notificationSource for DirectSoundOut
-                this.soundOut.Initialize(soundSource);
+            // Initialize SoundOut 
+            this.notificationSource = new SingleBlockNotificationStream(soundSource.ToSampleSource());
+            this.soundOut.Initialize(this.notificationSource.ToWaveSource(16));
+
+            if (inputStreamList.Count != 0)
+            {
+                foreach (var inputStream in inputStreamList)
+                {
+                    this.notificationSource.SingleBlockRead += inputStream;
+                }
             }
 
             this.soundOut.Stopped += this.SoundOutStoppedHandler;

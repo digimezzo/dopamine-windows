@@ -256,7 +256,7 @@ namespace Dopamine
                 INotificationService notificationService;
 
                 // NotificationService contains code that is only supported on Windows 10
-                if (Core.Base.Constants.IsWindows10 && Container.Resolve<IPlaybackService>().SupportsWindowsMediaFoundation)
+                if (Core.Base.Constants.IsWindows10 && MediaFoundationHelper.HasMediaFoundationSupport(true))
                 {
                     // On some editions of Windows 10, constructing NotificationService still fails
                     // (e.g. Windows 10 Enterprise N 2016 LTSB). Hence the try/catch block.

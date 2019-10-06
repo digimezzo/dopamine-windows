@@ -16,8 +16,6 @@ namespace Dopamine.Core.Audio
 
         string Filename { get; }
 
-        bool SupportsWindowsMediaFoundation { get; set; }
-
         void Stop();
 
         void Play(string filename, AudioDevice audioDevice);

@@ -1,7 +1,8 @@
-2019-09-28: Dopamine 2.0 Preview 14
+2019-10-06: Dopamine 2.0 Preview 14
 -----------------------------------
 
 - [Fixed] Folders screen doesn't respect order of songs in the folder
+- [Changed] Removed FFmpeg decoder
 
 
 2019-08-13: Dopamine 2.0 Preview 13

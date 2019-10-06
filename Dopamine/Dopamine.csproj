@@ -635,9 +635,6 @@
     <Content Include="Equalizer\Techno.deq">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="FFmpeg\src\ffmpeg-source.zip">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -665,30 +662,6 @@
     <Content Include="Dopamine.wxs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="FFmpeg\bin\windows\x64\avcodec-57.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="FFmpeg\bin\windows\x64\avformat-57.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="FFmpeg\bin\windows\x64\avutil-55.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="FFmpeg\bin\windows\x64\swresample-2.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="FFmpeg\bin\windows\x86\avcodec-57.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="FFmpeg\bin\windows\x86\avformat-57.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="FFmpeg\bin\windows\x86\avutil-55.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="FFmpeg\bin\windows\x86\swresample-2.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icons\Dopamine - White.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -818,6 +791,7 @@
     <Content Include="Libraries\Digimezzo.Foundation.WPF.dll" />
     <Content Include="Libraries\GongSolutions.WPF.DragDrop.dll" />
     <Content Include="Libraries\Ionic.Zip.dll" />
+    <Content Include="Libraries\NVorbis.dll" />
     <Content Include="Libraries\System.Windows.Interactivity.dll" />
     <Content Include="Libraries\taglib-sharp.dll" />
     <Content Include="Libraries\WPFFolderBrowser.dll" />

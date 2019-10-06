@@ -21,8 +21,6 @@ namespace Dopamine.Services.Playback
 
         TrackViewModel CurrentTrack { get; }
 
-        bool SupportsWindowsMediaFoundation { get; }
-
         bool HasQueue { get; }
 
         bool HasCurrentTrack { get; }
