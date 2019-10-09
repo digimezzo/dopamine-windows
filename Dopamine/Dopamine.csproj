@@ -700,7 +700,10 @@
     <Resource Include="Icons\TaskbarItemInfo_Pause.ico" />
     <Resource Include="Icons\TaskbarItemInfo_Play.ico" />
     <Resource Include="Icons\TaskbarItemInfo_Previous.ico" />
-    <Content Include="Icons\Tray.ico">
+    <Content Include="Icons\Tray_black.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icons\Tray_white.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Icons\Wav.ico">

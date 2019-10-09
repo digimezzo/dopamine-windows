@@ -9,6 +9,7 @@ using Dopamine.Core.IO;
 using Dopamine.Core.Prism;
 using Dopamine.Services.Appearance;
 using Dopamine.Services.I18n;
+using Dopamine.Services.Lifetime;
 using Dopamine.Services.Metadata;
 using Dopamine.Services.Notification;
 using Dopamine.Services.Playback;
@@ -19,16 +20,14 @@ using Dopamine.Views.Common;
 using Dopamine.Views.MiniPlayer;
 using Prism.Commands;
 using Prism.Events;
+using Prism.Ioc;
 using System;
 using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media.Animation;
-using Prism.Ioc;
-using Dopamine.Services.Lifetime;
 
 namespace Dopamine.Views
 {
@@ -159,18 +158,35 @@ namespace Dopamine.Views
             this.ForceActivate();
         }
 
+        private void SetTrayIcon()
+        {
+            // Reflection is needed to get the full path of the executable. Because when starting the application from the start menu
+            // without specifying the full path, the application fails to find the Tray icon and crashes here
+            string iconFile = "Legacy tray.ico";
+
+            if (EnvironmentUtils.IsWindows10())
+            {
+                if (this.windowsIntegrationService.IsSystemUsingLightTheme)
+                {
+                    iconFile = "Tray_black.ico";
+                }
+                else
+                {
+                    iconFile = "Tray_white.ico";
+                }
+            }
+
+            string iconPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), ApplicationPaths.IconsSubDirectory, iconFile);
+            this.trayIcon.Icon = new System.Drawing.Icon(iconPath, System.Windows.Forms.SystemInformation.SmallIconSize);
+        }
+
         private void InitializeTrayIcon()
         {
             this.trayIcon = new System.Windows.Forms.NotifyIcon();
             this.trayIcon.Visible = false;
             this.trayIcon.Text = ProductInformation.ApplicationName;
 
-            // Reflection is needed to get the full path of the executable. Because when starting the application from the start menu
-            // without specifying the full path, the application fails to find the Tray icon and crashes here
-            string iconFile = EnvironmentUtils.IsWindows10() ? "Tray.ico" : "Legacy tray.ico";
-
-            string iconPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location), ApplicationPaths.IconsSubDirectory, iconFile);
-            this.trayIcon.Icon = new System.Drawing.Icon(iconPath, System.Windows.Forms.SystemInformation.SmallIconSize);
+            this.SetTrayIcon();
 
             this.trayIcon.MouseClick += TrayIcon_MouseClick;
             this.trayIcon.MouseDoubleClick += (_, __) => this.ShowWindowInForeground();
@@ -182,6 +198,9 @@ namespace Dopamine.Views
         {
             // Start monitoring tablet mode
             this.windowsIntegrationService.StartMonitoringTabletMode();
+
+            // Start monitoring system uses light theme
+            this.windowsIntegrationService.StartMonitoringSystemUsesLightTheme();
 
             // Tray controls
             this.trayControls = this.container.Resolve<TrayControls>();
@@ -210,7 +229,7 @@ namespace Dopamine.Views
             this.shellService.IsMovableChangeRequested += (_, e) => this.IsMovable = e.IsMovable;
             this.shellService.ResizeModeChangeRequested += (_, e) => this.ResizeMode = e.ResizeMode;
             this.shellService.TopmostChangeRequested += (_, e) => this.Topmost = e.IsTopmost;
-         
+
             this.shellService.GeometryChangeRequested += (_, e) => this.SetGeometry(
                 e.Top, e.Left, e.Size.Width, e.Size.Height,
                 Constants.DefaultShellTop,
@@ -269,6 +288,11 @@ namespace Dopamine.Views
             {
                 Application.Current.Dispatcher.Invoke(() => this.shellService.CheckIfTabletMode(false));
             };
+
+            this.windowsIntegrationService.SystemUsesLightThemeChanged += (_, __) =>
+            {
+                Application.Current.Dispatcher.Invoke(() => this.SetTrayIcon());
+            };
         }
 
         private void TrayIcon_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -310,6 +334,9 @@ namespace Dopamine.Views
         {
             // Stop monitoring tablet mode
             this.windowsIntegrationService.StopMonitoringTabletMode();
+
+            // Stop monitoring system uses light theme
+            this.windowsIntegrationService.StopMonitoringSystemUsesLightTheme();
 
             // Make sure the Tray icon is removed from the tray
             this.trayIcon.Visible = false;
