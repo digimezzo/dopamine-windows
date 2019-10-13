@@ -104,6 +104,7 @@
               <File Source="Languages\JP.xml" />
               <File Source="Languages\KO.xml" />
               <File Source="Languages\NL.xml" />
+              <File Source="Languages\NO.xml" />
               <File Source="Languages\PL.xml" />
               <File Source="Languages\PT-BR.xml" />
               <File Source="Languages\PT-PT.xml" />
