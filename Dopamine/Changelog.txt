@@ -2,6 +2,7 @@
 -----------------------------------
 
 - [Fixed] Tray icon is not visible when using light system theme in Windows 10
+- [Added] Added Norwegian translation
 
 
 2019-10-06: Dopamine 2.0 Preview 14

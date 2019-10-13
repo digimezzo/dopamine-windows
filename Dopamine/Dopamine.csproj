@@ -757,6 +757,9 @@
     <Content Include="Languages\NL.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Languages\NO.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Languages\PL.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<?define Version="2.0.0.1014" ?>
+<?define Version="2.0.0.1015" ?>
 <?define Manufacturer="Digimezzo" ?>
 <?define Product="Dopamine" ?>
 <?define ProductCab="Dopamine.cab" ?>
@@ -80,7 +80,8 @@
               <File Source="Icons\M4a.ico" />
               <File Source="Icons\Mp3.ico" />
               <File Source="Icons\Ogg.ico" />
-              <File Source="Icons\Tray.ico" />
+              <File Source="Icons\Tray_black.ico" />
+              <File Source="Icons\Tray_white.ico" />
               <File Source="Icons\Wav.ico" />
               <File Source="Icons\Wma.ico" />
               <File Source="Icons\Zpl.ico" />
