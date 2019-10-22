@@ -447,5 +447,5 @@
   <Text Key="Error_Editing_Playlist">此播放列表无法被编辑。请至日志文件以获取更多信息。</Text>
   <Text Key="Date_Added">添加日期</Text>
   <Text Key="Date_Created">创建日期</Text>
-  <Text Key="Manage_Collection">Manage collection</Text>
+  <Text Key="Manage_Collection">管理音乐库</Text>
 </Language>
