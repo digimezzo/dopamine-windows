@@ -47,7 +47,7 @@ namespace Dopamine.ViewModels.Common
 
         protected async override Task EmptyListsAsync()
         {
-            cthis.ClearTracks();
+            this.ClearTracks();
         }
 
         protected async override Task LoadedCommandAsync()
