@@ -47,7 +47,7 @@ namespace Dopamine.ViewModels.Common
 
         protected async override Task EmptyListsAsync()
         {
-            this.ClearTracks();
+            cthis.ClearTracks();
         }
 
         protected async override Task LoadedCommandAsync()
@@ -166,6 +166,11 @@ namespace Dopamine.ViewModels.Common
                      ResourceUtils.GetString("Language_Ok"),
                      true,
                      ResourceUtils.GetString("Language_Log_File"));
+            }
+
+            if (this.Tracks == null)
+            {
+                return;
             }
 
             // Remove the ViewModels from Tracks (this updates the UI)

@@ -398,6 +398,8 @@ namespace Dopamine.Services.Playback
                         {
                             try
                             {
+                                nextAvailableTrack = null;
+
                                 try
                                 {
                                     nextAvailableTrack = this.queue[this.playbackOrder[this.FindPlaybackOrderIndex(trackToDequeue) + 1]];
