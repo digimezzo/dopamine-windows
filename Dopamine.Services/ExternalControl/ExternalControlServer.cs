@@ -6,13 +6,13 @@ using Dopamine.Services.Cache;
 using Dopamine.Services.Playback;
 using System;
 using System.Collections.Generic;
-//using System.IO;
-//using System.IO.MemoryMappedFiles;
+using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.Reflection;
 using System.ServiceModel;
-//using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
-//using System.Windows.Threading;
+using System.Windows.Threading;
 
 namespace Dopamine.Services.ExternalControl
 {
