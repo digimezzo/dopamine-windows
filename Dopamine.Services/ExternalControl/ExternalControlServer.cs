@@ -1,5 +1,5 @@
-﻿//using CSCore.DSP;
-//using CSCore.Streams;
+﻿using CSCore.DSP;
+using CSCore.Streams;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Extensions;
 using Dopamine.Services.Cache;
@@ -17,20 +17,20 @@ using System.Windows.Threading;
 namespace Dopamine.Services.ExternalControl
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Reentrant)]
-    internal class ExternalControlServer : IExternalControlServer, IDisposable // , IFftDataServer
+    internal class ExternalControlServer : IExternalControlServer, IDisposable , IFftDataServer
     {
         private const int FftDataLength = 256 * 4;
 
-        //private CSCorePlayer player;
-        //private readonly FftProvider fftProvider = new FftProvider(2, FftSize.Fft256);
-        //private readonly DispatcherTimer fftProviderDataTimer;
-        //private bool haveAddedInputStream;
-        //private readonly float[] fftDataBuffer = new float[FftDataLength / 4];
-        //private readonly byte[] fftDataBufferBytes = new byte[FftDataLength];
-        //private readonly MemoryMappedFile fftDataMemoryMappedFile;
-        //private readonly MemoryMappedViewStream fftDataMemoryMappedFileStream;
-        //private readonly BinaryWriter fftDataMemoryMappedFileStreamWriter;
-        //private readonly Mutex fftDataMemoryMappedFileMutex;
+        private CSCorePlayer player;
+        private readonly FftProvider fftProvider = new FftProvider(2, FftSize.Fft256);
+        private readonly DispatcherTimer fftProviderDataTimer;
+        private bool haveAddedInputStream;
+        private readonly float[] fftDataBuffer = new float[FftDataLength / 4];
+        private readonly byte[] fftDataBufferBytes = new byte[FftDataLength];
+        private readonly MemoryMappedFile fftDataMemoryMappedFile;
+        private readonly MemoryMappedViewStream fftDataMemoryMappedFileStream;
+        private readonly BinaryWriter fftDataMemoryMappedFileStreamWriter;
+        private readonly Mutex fftDataMemoryMappedFileMutex;
 
         private readonly Dictionary<string, IExternalControlServerCallback> clients = new Dictionary<string, IExternalControlServerCallback>();
         private readonly Stack<string> deadClients = new Stack<string>();
@@ -44,14 +44,14 @@ namespace Dopamine.Services.ExternalControl
             this.playbackService = playbackService;
             this.cacheService = cacheService;
 
-            //this.fftProviderDataTimer = new DispatcherTimer(){Interval = TimeSpan.FromSeconds(2)};
-            //this.fftProviderDataTimer.Tick += FftProviderDataTimerElapsed;
+            this.fftProviderDataTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(2) };
+            this.fftProviderDataTimer.Tick += FftProviderDataTimerElapsed;
 
-            //fftDataMemoryMappedFile = MemoryMappedFile.CreateOrOpen("DopamineFftDataMemory", FftDataLength, MemoryMappedFileAccess.ReadWrite, MemoryMappedFileOptions.DelayAllocatePages, null, HandleInheritability.None);
-            //fftDataMemoryMappedFileStream = fftDataMemoryMappedFile.CreateViewStream(0, FftDataLength, MemoryMappedFileAccess.ReadWrite);
-            //fftDataMemoryMappedFileStreamWriter = new BinaryWriter(fftDataMemoryMappedFileStream);
-            //fftDataMemoryMappedFileMutex = new Mutex(true, "DopamineFftDataMemoryMutex");
-            //fftDataMemoryMappedFileMutex.ReleaseMutex();
+            fftDataMemoryMappedFile = MemoryMappedFile.CreateOrOpen("DopamineFftDataMemory", FftDataLength, MemoryMappedFileAccess.ReadWrite, MemoryMappedFileOptions.DelayAllocatePages, null, HandleInheritability.None);
+            fftDataMemoryMappedFileStream = fftDataMemoryMappedFile.CreateViewStream(0, FftDataLength, MemoryMappedFileAccess.ReadWrite);
+            fftDataMemoryMappedFileStreamWriter = new BinaryWriter(fftDataMemoryMappedFileStream);
+            fftDataMemoryMappedFileMutex = new Mutex(true, "DopamineFftDataMemoryMutex");
+            fftDataMemoryMappedFileMutex.ReleaseMutex();
         }
     
         private bool m_disposed = false;
@@ -68,10 +68,10 @@ namespace Dopamine.Services.ExternalControl
             {
                 if (!disposing)
                 {
-                    //fftDataMemoryMappedFileMutex?.Dispose();
-                    //fftDataMemoryMappedFileStreamWriter?.Dispose();
-                    //fftDataMemoryMappedFileStream?.Dispose();
-                    //fftDataMemoryMappedFile?.Dispose();
+                    fftDataMemoryMappedFileMutex?.Dispose();
+                    fftDataMemoryMappedFileStreamWriter?.Dispose();
+                    fftDataMemoryMappedFileStream?.Dispose();
+                    fftDataMemoryMappedFile?.Dispose();
                 }
             }
         }
@@ -144,25 +144,25 @@ namespace Dopamine.Services.ExternalControl
         [OperationBehavior]
         public int GetFftDataSize() => FftDataLength;
 
-        //[OperationBehavior]
-        //public async Task GetFftData()
-        //{
-        //    this.fftProviderDataTimer.Stop();
-        //    this.fftProviderDataTimer.Start();
-        //    TryAddInputStreamHandler();
+        [OperationBehavior]
+        public async Task GetFftData()
+        {
+            this.fftProviderDataTimer.Stop();
+            this.fftProviderDataTimer.Start();
+            TryAddInputStreamHandler();
 
-        //    await Task.Run(() =>
-        //    {
-        //        this.fftProvider.GetFftData(fftDataBuffer);
+            await Task.Run(() =>
+            {
+                this.fftProvider.GetFftData(fftDataBuffer);
 
-        //        fftDataMemoryMappedFileMutex.WaitOne();
-        //        Buffer.BlockCopy(fftDataBuffer, 0, fftDataBufferBytes, 0, fftDataBufferBytes.Length);
-        //        fftDataMemoryMappedFileStreamWriter.Seek(0, SeekOrigin.Begin);
-        //        fftDataMemoryMappedFileStreamWriter.Write(fftDataBufferBytes);
-        //        fftDataMemoryMappedFileMutex.ReleaseMutex();
-        //    });
-        //}
-       
+                fftDataMemoryMappedFileMutex.WaitOne();
+                Buffer.BlockCopy(fftDataBuffer, 0, fftDataBufferBytes, 0, fftDataBufferBytes.Length);
+                fftDataMemoryMappedFileStreamWriter.Seek(0, SeekOrigin.Begin);
+                fftDataMemoryMappedFileStreamWriter.Write(fftDataBufferBytes);
+                fftDataMemoryMappedFileMutex.ReleaseMutex();
+            });
+        }
+
         internal void Open()
         {
             this.playbackService.PlaybackSuccess += PlaybackSuccessCallback;
@@ -253,44 +253,44 @@ namespace Dopamine.Services.ExternalControl
             }
         }
 
-        //private void TryAddInputStreamHandler()
-        //{
-        //    this.player = playbackService.Player as CSCorePlayer;
+        private void TryAddInputStreamHandler()
+        {
+            this.player = playbackService.Player as CSCorePlayer;
 
-        //    if (this.player != null && !this.haveAddedInputStream)
-        //    {
-        //        this.player.NotificationSource.SingleBlockRead += InputStream;
-        //        this.haveAddedInputStream = true;
-        //    }
-        //}
+            if (this.player != null && !this.haveAddedInputStream)
+            {
+                this.player.NotificationSource.SingleBlockRead += InputStream;
+                this.haveAddedInputStream = true;
+            }
+        }
 
-        //private void TryRemoveInputStreamHandler()
-        //{
-        //    this.player = playbackService.Player as CSCorePlayer;
+        private void TryRemoveInputStreamHandler()
+        {
+            this.player = playbackService.Player as CSCorePlayer;
 
-        //    if (this.player != null && this.haveAddedInputStream)
-        //    {
-        //        this.player.NotificationSource.SingleBlockRead -= InputStream;
-        //        this.haveAddedInputStream = false;
-        //    }
-        //}
+            if (this.player != null && this.haveAddedInputStream)
+            {
+                this.player.NotificationSource.SingleBlockRead -= InputStream;
+                this.haveAddedInputStream = false;
+            }
+        }
 
-        //private void InputStream(object sender, SingleBlockReadEventArgs e)
-        //{
-        //    try
-        //    {
-        //        this.fftProvider.Add(e.Left, e.Right);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        // Intended suppression 
-        //    }
-        //}
+        private void InputStream(object sender, SingleBlockReadEventArgs e)
+        {
+            try
+            {
+                this.fftProvider.Add(e.Left, e.Right);
+            }
+            catch (Exception)
+            {
+                // Intended suppression 
+            }
+        }
 
-        //private void FftProviderDataTimerElapsed(object sender, EventArgs e)
-        //{
-        //    this.fftProviderDataTimer.Stop();
-        //    this.TryRemoveInputStreamHandler();
-        //}
+        private void FftProviderDataTimerElapsed(object sender, EventArgs e)
+        {
+            this.fftProviderDataTimer.Stop();
+            this.TryRemoveInputStreamHandler();
+        }
     }
 }
