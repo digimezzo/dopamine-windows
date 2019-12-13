@@ -53,6 +53,8 @@ namespace Dopamine.Services.Entities
 
         public long SortTrackNumber => this.Track.TrackNumber.HasValue ? this.Track.TrackNumber.Value : 0;
 
+        public string SortDiscNumber => this.Track.DiscNumber.HasValueLargerThan(0) ? this.Track.DiscNumber.Value.ToString("0000") : string.Empty;
+
         public long SortDateAdded => this.Track.DateAdded;
 
         public long SortDateFileCreated => this.Track.DateFileCreated;
