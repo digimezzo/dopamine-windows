@@ -1,6 +1,7 @@
 2019-12-13: Dopamine 2.0 Preview 16
 -----------------------------------
 
+- [Added] Added an option to remove songs from disk in the Now Playing context menu (can be enabled in the settings)
 - [Fixed] Fixed a crash which occurs when removing all songs from Now Playing
 - [Fixed] Removed a dotted border that sometimes appears around buttons
 - [Fixed] Discs are ordered wrong when an album has more than 10 discs
