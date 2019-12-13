@@ -106,7 +106,7 @@
     </dc:Windows10BorderlessWindow.TaskbarItemInfo>
 
     <Border x:Name="WindowBorder" BorderBrush="{DynamicResource Brush_Accent}">
-        <Grid>
+        <Grid Focusable="true" x:Name="WindowGrid">
             <Border x:Name="ClosingBorder" Panel.ZIndex="1" Visibility="Collapsed" Opacity="0" Background="{DynamicResource Brush_WindowHeaderBackground}">
                 <Border.Resources>
                     <Storyboard x:Key="ClosingAnimation">

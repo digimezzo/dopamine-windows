@@ -471,50 +471,45 @@ namespace Dopamine.Views
                 }
                 else if (e.Key == Key.OemPlus | e.Key == Key.Add)
                 {
-                    e.Handled = true; // Prevents typing in the search box
                     this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume + 0.01);
                 }
                 else if (e.Key == Key.OemMinus | e.Key == Key.Subtract)
                 {
-                    e.Handled = true; // Prevents typing in the search box
                     this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume - 0.01);
                 }
                 else if (e.Key == Key.Left)
                 {
-                    e.Handled = true; // Prevents typing in the search box
                     this.playbackService.SkipSeconds(Convert.ToInt32(-5));
                 }
                 else if (e.Key == Key.Right)
                 {
-                    e.Handled = true; // Prevents typing in the search box
                     this.playbackService.SkipSeconds(Convert.ToInt32(5));
                 }
             }
             else
             {
                 // [Ctrl] is not pressed
+                if (e.OriginalSource is TextBox || e.OriginalSource is PasswordBox)
+                {
+                    // Don't interfere with typing in a TextBox or PasswordBox
+                    return; 
+                }
+
                 if (e.Key == Key.OemPlus | e.Key == Key.Add)
                 {
-                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
-                    e.Handled = true; // Prevents typing in the search box
+                   
                     this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume + 0.05);
                 }
                 else if (e.Key == Key.OemMinus | e.Key == Key.Subtract)
                 {
-                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
-                    e.Handled = true; // Prevents typing in the search box
                     this.playbackService.Volume = Convert.ToSingle(this.playbackService.Volume - 0.05);
                 }
                 else if (e.Key == Key.Left)
                 {
-                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
-                    e.Handled = true; // Prevents typing in the search box
                     this.playbackService.SkipSeconds(Convert.ToInt32(-15));
                 }
                 else if (e.Key == Key.Right)
                 {
-                    if (e.OriginalSource is TextBox) return; // Don't interfere with typing in a TextBox
-                    e.Handled = true; // Prevents typing in the search box
                     this.playbackService.SkipSeconds(Convert.ToInt32(15));
                 }
             }
@@ -532,6 +527,8 @@ namespace Dopamine.Views
 
         private async void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            this.WindowGrid.Focus();
+
             if (e.ChangedButton == MouseButton.XButton1)
             {
                 await playbackService.PlayPreviousAsync();
