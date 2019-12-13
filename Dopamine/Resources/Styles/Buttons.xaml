@@ -3,6 +3,7 @@
 
     <!-- RegularButton -->
     <Style x:Key="RegularButton" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -31,6 +32,7 @@
 
     <!-- RegularButtonTiny -->
     <Style x:Key="RegularButtonTiny" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -59,6 +61,7 @@
 
     <!-- RegularButtonAccent -->
     <Style x:Key="RegularButtonAccent" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -87,6 +90,7 @@
 
     <!-- TransparentButton -->
     <Style x:Key="TransparentButton" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>

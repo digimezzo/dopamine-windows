@@ -2,7 +2,7 @@
 -----------------------------------
 
 - [Fixed] Fixed a crash which occurs when removing all songs from Now Playing
-- [Fixed] Removed a dotted selection border that sometimes appears raound rating buttons
+- [Fixed] Removed a dotted border that sometimes appears around buttons
 
 
 2019-10-09: Dopamine 2.0 Preview 15
