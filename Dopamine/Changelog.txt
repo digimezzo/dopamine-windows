@@ -4,6 +4,7 @@
 - [Fixed] Fixed a crash which occurs when removing all songs from Now Playing
 - [Fixed] Removed a dotted border that sometimes appears around buttons
 - [Fixed] Discs are ordered wrong when an album has more than 10 discs
+- [Fixed] Pressing the keyboard left arrow doesn't jump a song back to the beginning when it has been playing for less than 15 seconds
 
 
 2019-10-09: Dopamine 2.0 Preview 15

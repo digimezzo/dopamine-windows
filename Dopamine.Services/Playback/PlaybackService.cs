@@ -605,7 +605,17 @@ namespace Dopamine.Services.Playback
         {
             if (this.player != null && this.player.CanStop)
             {
-                this.player.Skip(Convert.ToInt32(this.GetCurrentTime.TotalSeconds + seconds));
+                double totalSeconds = this.GetCurrentTime.TotalSeconds;
+
+                if (seconds < 0 && totalSeconds <= Math.Abs(seconds))
+                {
+                    this.player.Skip(0);
+                }
+                else
+                {
+                    this.player.Skip(Convert.ToInt32(this.GetCurrentTime.TotalSeconds + seconds));
+                }
+
                 this.PlaybackSkipped(this, new EventArgs());
                 this.PlaybackProgressChanged(this, new EventArgs());
             }
