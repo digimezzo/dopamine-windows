@@ -724,19 +724,19 @@ namespace Dopamine.Services.Playback
             // Shuffle
             if (shuffle)
             {
-                await this.EnqueueIfDifferentAsync(tracks, true);
+                await this.EnqueueAsync(tracks, true);
             }
 
             // Unshuffle
             if (unshuffle)
             {
-                await this.EnqueueIfDifferentAsync(tracks, false);
+                await this.EnqueueAsync(tracks, false);
             }
 
             // Use the current shuffle mode
             if (!shuffle && !unshuffle)
             {
-                await this.EnqueueIfDifferentAsync(tracks, this.shuffle);
+                await this.EnqueueAsync(tracks, this.shuffle);
             }
 
             // Start playing
@@ -762,7 +762,7 @@ namespace Dopamine.Services.Playback
                 return;
             }
 
-            await this.EnqueueIfDifferentAsync(tracks, this.shuffle);
+            await this.EnqueueAsync(tracks, this.shuffle);
             await this.PlaySelectedAsync(track);
         }
 
@@ -1369,38 +1369,21 @@ namespace Dopamine.Services.Playback
             }
         }
 
-        private async Task EnqueueIfDifferentAsync(IList<TrackViewModel> tracks, bool shuffle)
+        private async Task EnqueueAsync(IList<TrackViewModel> tracks, bool shuffle)
         {
-            if (await this.queueManager.IsQueueDifferentAsync(tracks) || shuffle != this.shuffle)
+            if (await this.queueManager.ClearQueueAsync())
             {
-                if (await this.queueManager.ClearQueueAsync())
+                await this.queueManager.EnqueueAsync(tracks, shuffle);
+
+                if (shuffle != this.shuffle)
                 {
-                    await this.queueManager.EnqueueAsync(tracks, shuffle);
-
-                    if (shuffle != this.shuffle)
-                    {
-                        this.shuffle = shuffle;
-                        this.PlaybackShuffleChanged(this, new EventArgs());
-                    }
+                    this.shuffle = shuffle;
+                    this.PlaybackShuffleChanged(this, new EventArgs());
                 }
-
-                this.QueueChanged(this, new EventArgs());
-                this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
             }
-        }
 
-        private async Task EnqueueIfDifferentAsync(IList<TrackViewModel> tracks)
-        {
-            if (await this.queueManager.IsQueueDifferentAsync(tracks))
-            {
-                if (await this.queueManager.ClearQueueAsync())
-                {
-                    await this.queueManager.EnqueueAsync(tracks, this.shuffle);
-                }
-
-                this.QueueChanged(this, new EventArgs());
-                this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
-            }
+            this.QueueChanged(this, new EventArgs());
+            this.ResetSaveQueuedTracksTimer(); // Save queued tracks to the database
         }
 
         private void ResetSaveQueuedTracksTimer()

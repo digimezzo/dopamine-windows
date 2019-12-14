@@ -6,6 +6,7 @@
 - [Fixed] File size information in the songs lists is rounded down
 - [Fixed] It is not possible to re-order static playlists
 - [Fixed] It is not possible to add songs to playlists from the Now Playing screen
+- [Fixed] Playback order is not reset when song order is changed on the songs list and songs are enqueued again
 
 
 2019-12-13: Dopamine 2.0 Preview 16

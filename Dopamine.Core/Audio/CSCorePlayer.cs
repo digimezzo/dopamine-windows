@@ -39,7 +39,6 @@ namespace Dopamine.Core.Audio
         private SingleBlockNotificationStream notificationSource;
         private float volume = 1.0F;
         private ISoundOut soundOut;
-        Stream audioStream;
 
         private MMDevice selectedMMDevice;
         IList<MMDevice> mmDevices = new List<MMDevice>();
@@ -408,19 +407,6 @@ namespace Dopamine.Core.Audio
 
                     this.soundOut.Dispose();
                     this.soundOut = null;
-                }
-                catch (Exception)
-                {
-                    //Swallow
-                }
-            }
-
-            // audioStream
-            if (this.audioStream != null)
-            {
-                try
-                {
-                    this.audioStream.Dispose();
                 }
                 catch (Exception)
                 {
