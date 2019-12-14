@@ -787,7 +787,7 @@ namespace Dopamine.Services.Playlist
 
         public async Task SetStaticPlaylistOrderAsync(PlaylistViewModel playlist, IList<TrackViewModel> tracks)
         {
-            if (playlist.Type.Equals(PlaylistType.Static))
+            if (!playlist.Type.Equals(PlaylistType.Static))
             {
                 LogClient.Error("Cannot set playlist order. This is not a static playlist.");
                 return;
