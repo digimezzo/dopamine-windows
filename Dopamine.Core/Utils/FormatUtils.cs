@@ -57,15 +57,15 @@ namespace Dopamine.Core.Utils
 
             if (sizeInBytes >= Constants.GigaByteInBytes)
             {
-                humanReadableSize = string.Format("{0:#.#} {1}", sizeInBytes / Constants.GigaByteInBytes, ResourceUtils.GetString("Language_Gigabytes_Short"));
+                humanReadableSize = string.Format("{0:#.#} {1}", (double)sizeInBytes / Constants.GigaByteInBytes, ResourceUtils.GetString("Language_Gigabytes_Short"));
             }
             else if (sizeInBytes >= Constants.MegaByteInBytes)
             {
-                humanReadableSize = string.Format("{0:#.#} {1}", sizeInBytes / Constants.MegaByteInBytes, ResourceUtils.GetString("Language_Megabytes_Short"));
+                humanReadableSize = string.Format("{0:#.#} {1}", (double)sizeInBytes / Constants.MegaByteInBytes, ResourceUtils.GetString("Language_Megabytes_Short"));
             }
             else if (sizeInBytes >= Constants.KiloByteInBytes)
             {
-                humanReadableSize = string.Format("{0:#.#} {1}", sizeInBytes / Constants.KiloByteInBytes, ResourceUtils.GetString("Language_Kilobytes_Short"));
+                humanReadableSize = string.Format("{0:#.#} {1}", (double)sizeInBytes / Constants.KiloByteInBytes, ResourceUtils.GetString("Language_Kilobytes_Short"));
             }
 
             NumberFormatInfo nfi = (NumberFormatInfo)CultureInfo.InvariantCulture.NumberFormat.Clone();
