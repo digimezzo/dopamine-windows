@@ -4,6 +4,7 @@
 - [Fixed] Lyrics are not saved to the audio files
 - [Fixed] Lyrics are not displayed the 1st time the lyrics page is shown 
 - [Fixed] File size information in the songs lists is rounded down
+- [Fixed] It is not possible to re-order static playlists
 
 
 2019-12-13: Dopamine 2.0 Preview 16
