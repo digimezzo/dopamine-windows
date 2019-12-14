@@ -47,9 +47,14 @@
             this.source = source;
         }
 
+        public Lyrics(string text, string source, SourceTypeEnum sourceType) : this(text, source)
+        {
+            this.SourceType = sourceType;
+        }
+
         public Lyrics Clone()
         {
-            return new Lyrics(this.text, this.Source);
+            return new Lyrics(this.text, this.Source, this.SourceType);
         }
     }
 }

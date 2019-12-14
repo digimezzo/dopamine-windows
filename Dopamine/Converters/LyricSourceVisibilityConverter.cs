@@ -10,7 +10,11 @@ namespace Dopamine.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null) return Visibility.Hidden;
+            if (value == null)
+            {
+                return Visibility.Hidden;
+            }
+
             return (SourceTypeEnum) value == (SourceTypeEnum) parameter ? Visibility.Visible : Visibility.Hidden;
         }
 

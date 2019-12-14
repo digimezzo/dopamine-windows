@@ -109,6 +109,7 @@ namespace Dopamine.ViewModels.Common
                 RaisePropertyChanged(nameof(this.IsNoLyricsTextVisible));
                 RaisePropertyChanged(nameof(this.ShowSource));
                 RaisePropertyChanged(nameof(this.HasSource));
+                RaisePropertyChanged(nameof(this.SourceType));
             }
         }
 
