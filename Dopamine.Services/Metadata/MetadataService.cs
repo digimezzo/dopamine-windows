@@ -232,7 +232,7 @@ namespace Dopamine.Services.Metadata
         public async Task UpdateTracksAsync(IList<FileMetadata> fileMetadatas, bool updateAlbumArtwork)
         {
             // Update metadata in the files
-            await this.updater.UpdateFileMetadataAsync(fileMetadatas);
+             await this.updater.UpdateFileMetadataAsync(fileMetadatas);
 
             // Update metadata in the database
             await this.UpdateDatabaseMetadataAsync(fileMetadatas, updateAlbumArtwork);
