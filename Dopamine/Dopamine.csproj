@@ -298,6 +298,7 @@
     <Compile Include="ViewModels\MiniPlayer\MicroPlayerViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\MiniPlayerPlaylistViewModel.cs" />
     <Compile Include="ViewModels\MiniPlayer\NanoPlayerViewModel.cs" />
+    <Compile Include="ViewModels\NowPlaying\NowPlayingPlaylistViewModel.cs" />
     <Compile Include="ViewModels\NowPlaying\NowPlayingShowcaseViewModel.cs" />
     <Compile Include="ViewModels\NowPlaying\NowPlayingViewModel.cs" />
     <Compile Include="ViewModels\OobeViewModel.cs" />
@@ -969,10 +970,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Styles\MetroTextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\NowPlayingContextMenu.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

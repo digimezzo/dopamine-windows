@@ -30,7 +30,6 @@
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/MetroComboBox.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/MetroListBox.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/MetroTextBox.xaml" />
-        <ResourceDictionary Source="/Dopamine;component/Resources/Styles/NowPlayingContextMenu.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/MenuPivot.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/SpectrumAnalyzer.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/Texts.xaml" />
