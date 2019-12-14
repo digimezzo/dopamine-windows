@@ -1,5 +1,5 @@
-2019-12-14: Dopamine 2.0 Preview 17
------------------------------------
+2019-12-14: Dopamine 2.0 Beta 1
+-------------------------------
 
 - [Fixed] Lyrics are not saved to the audio files
 - [Fixed] Lyrics are not displayed the 1st time the lyrics page is shown 
