@@ -133,6 +133,8 @@ namespace Dopamine.ViewModels.Common
             };
 
             this.ClearLyrics(null); // Makes sure the loading animation can be shown even at first start
+
+            this.RestartRefreshTimer();
         }
 
         private void I18NService_LanguageChanged(object sender, EventArgs e)
