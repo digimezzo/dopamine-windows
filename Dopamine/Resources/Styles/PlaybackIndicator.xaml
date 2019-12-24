@@ -6,11 +6,11 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Label}">
                     <StackPanel Orientation="Horizontal" Height="12" UseLayoutRounding="True">
-                        <Border VerticalAlignment="Bottom" BorderThickness="2,0,0,0" BorderBrush="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" Height="4" Width="3"/>
-                        <Border VerticalAlignment="Bottom" BorderThickness="2,0,0,0" BorderBrush="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" Height="8" Width="3"/>
-                        <Border VerticalAlignment="Bottom" BorderThickness="2,0,0,0" BorderBrush="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" Height="7" Width="3"/>
-                        <Border VerticalAlignment="Bottom" BorderThickness="2,0,0,0" BorderBrush="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" Height="12" Width="3"/>
-                        <Border VerticalAlignment="Bottom" BorderThickness="2,0,0,0" BorderBrush="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" Height="6" Width="3" />
+                        <Border VerticalAlignment="Bottom" BorderThickness="1,0,0,0" BorderBrush="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" Height="4" Width="3"/>
+                        <Border VerticalAlignment="Bottom" BorderThickness="1,0,0,0" BorderBrush="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" Height="8" Width="3"/>
+                        <Border VerticalAlignment="Bottom" BorderThickness="1,0,0,0" BorderBrush="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" Height="7" Width="3"/>
+                        <Border VerticalAlignment="Bottom" BorderThickness="1,0,0,0" BorderBrush="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" Height="12" Width="3"/>
+                        <Border VerticalAlignment="Bottom" BorderThickness="1,0,0,0" BorderBrush="{Binding Path=Foreground, RelativeSource={RelativeSource TemplatedParent}}" Height="6" Width="3" />
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
