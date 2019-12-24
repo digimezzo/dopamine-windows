@@ -1,6 +1,7 @@
 2019-12-24: Dopamine 2.0 Beta 2
 -------------------------------
 
+- [Changed] Updated the German translation
 - [Changed] Updated the Swedish translation
 
 
