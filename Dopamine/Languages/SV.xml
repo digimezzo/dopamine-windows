@@ -33,7 +33,7 @@
   <Text Key="Donate">Donera</Text>
   <Text Key="Donate_With_PayPal">Donera via PayPal</Text>
   <Text Key="File_Types">Filtyper</Text>
-  <Text Key="File_Types_Description">Dessa filtyper stöds: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, AIFF.</Text>
+  <Text Key="File_Types_Description">Dessa filtyper stöds: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, APE, OPUS, AIFF.</Text>
   <Text Key="Keyboard_Shortcuts">Tangentbordsgenvägar</Text>
   <Text Key="Key_Plus">+</Text>
   <Text Key="Key_Minus">-</Text>
@@ -103,7 +103,7 @@
   <Text Key="Show_Notification_When_Song_Starts">Visa avisering när en låt börjar spelas</Text>
   <Text Key="Show_Notification_Controls">Visa spelkontroller på aviseringen</Text>
   <Text Key="Notification_Position">Aviseringens position</Text>
-  <Text Key="Test">Test</Text>
+  <Text Key="Test">Testa</Text>
   <Text Key="Bottom_Left">Vänster underkant</Text>
   <Text Key="Top_Left">Vänster överkant</Text>
   <Text Key="Top_Right">Höger överkant</Text>
@@ -364,11 +364,11 @@
   <Text Key="Are_You_Sure_To_Remove_Song_From_Disk">Vill du säkert radera denna låt från disken? Du kan återställa den från Papperskorgen.</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Disk">Vill du säkert radera dessa låtar från disken? Du kan återställa dem från Papperskorgen.</Text>
   <Text Key="Error_Removing_Songs_From_Disk">Ett fel uppstod vid radering av låtar från disken. Läs loggfilen för mer information.</Text>
-  <Text Key="About_Donated_People">Till dom som donerat.</Text>
-  <Text Key="About_Translators">Till översättare.</Text>
-  <Text Key="About_Components_Developers">Till dom begåvade utvecklarna som skapat ovannämnda komponenter.</Text>
+  <Text Key="About_Donated_People">Till alla som donerat.</Text>
+  <Text Key="About_Translators">Till alla översättare.</Text>
+  <Text Key="About_Components_Developers">Till alla begåvade utvecklare som skapat ovannämnda komponenter.</Text>
   <Text Key="About_Neowin_Head">Till</Text>
-  <Text Key="About_Neowin_End">communityn för idéer, test och bug rapporter.</Text>
+  <Text Key="About_Neowin_End">community för idéer, tester och buggrapporter.</Text>
   <Text Key="Frequent">Spelas ofta</Text>
   <Text Key="Are_You_Sure_To_Remove_Song_From_Playlist">Vill du säkert radera denna låt från spellistan '{playlistname}'?</Text>
   <Text Key="Are_You_Sure_To_Remove_Songs_From_Playlist">Vill du säkert radera dessa låtar från spellistan '{playlistname}'?</Text>
@@ -445,7 +445,7 @@
   <Text Key="Edit_Playlist">Redigera spellista</Text>
   <Text Key="Enter_Name_For_Playlist">Namnge din spellista</Text>
   <Text Key="Error_Editing_Playlist">Spellistan kunde inte redigeras. Läs loggfilen för mer information.</Text>
-  <Text Key="Date_Added">Date added</Text>
-  <Text Key="Date_Created">Date created</Text>
-  <Text Key="Manage_Collection">Manage collection</Text>
+  <Text Key="Date_Added">Datum tillagd</Text>
+  <Text Key="Date_Created">Datum skapad</Text>
+  <Text Key="Manage_Collection">Hantera samling</Text>
 </Language>
