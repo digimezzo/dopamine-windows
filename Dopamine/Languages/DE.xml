@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Language Code="DE" Name="German">
   <Text Key="ISO639-1">DE</Text>
   <Text Key="Ok">Ok</Text>
@@ -33,15 +33,15 @@
   <Text Key="Donate">Spenden</Text>
   <Text Key="Donate_With_PayPal">Über Paypal spenden</Text>
   <Text Key="File_Types">Dateitypen</Text>
-  <Text Key="File_Types_Description">Die folgenden Dateitypen werden unterstützt: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, AIFF.</Text>
+  <Text Key="File_Types_Description">Folgende Dateitypen werden unterstützt: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, AIFF.</Text>
   <Text Key="Keyboard_Shortcuts">Tastenkombinationen</Text>
   <Text Key="Key_Plus">+</Text>
   <Text Key="Key_Minus">-</Text>
   <Text Key="Key_Ctrl">Strg</Text>
-  <Text Key="Increase_Volume_By_5_Percent">Lautstärke um 5 % erhöhen</Text>
-  <Text Key="Decrease_Volume_By_5_Percent">Lautstärke um 5 % reduzieren</Text>
-  <Text Key="Increase_Volume_By_1_Percent">Lautstärke um 1 % erhöhen</Text>
-  <Text Key="Decrease_Volume_By_1_Percent">Lautstärke um 1 % reduzieren</Text>
+  <Text Key="Increase_Volume_By_5_Percent">Lautstärke um 5% erhöhen</Text>
+  <Text Key="Decrease_Volume_By_5_Percent">Lautstärke um 5% reduzieren</Text>
+  <Text Key="Increase_Volume_By_1_Percent">Lautstärke um 1% erhöhen</Text>
+  <Text Key="Decrease_Volume_By_1_Percent">Lautstärke um 1% reduzieren</Text>
   <Text Key="Media_Keys">Multimediatasten</Text>
   <Text Key="Supported_Media_Keys">Diese Multimediatasten werden unterstützt: Wiedergabe, Pausieren, Zurück und Weiter</Text>
   <Text Key="Latency">Latenz</Text>
@@ -49,18 +49,18 @@
   <Text Key="Appearance">Aussehen</Text>
   <Text Key="Theme">Design</Text>
   <Text Key="Choose_Theme">Helles Design benutzen</Text>
-  <Text Key="Follow_Windows_Color">Verwende die Windows-Farben</Text>
+  <Text Key="Follow_Windows_Color">Windows-Farbschema folgen</Text>
   <Text Key="Choose_A_Color">Wähle eine Farbe</Text>
   <Text Key="Choose_Language">Wähle eine Sprache</Text>
   <Text Key="Pick_Your_Language">Wähle deine Sprache</Text>
   <Text Key="Language">Sprache</Text>
   <Text Key="Updates">Aktualisierungen</Text>
   <Text Key="New_Version_available">Eine neue Version ist verfügbar</Text>
-  <Text Key="Add_More_Colors">Füge neue Farben hinzu</Text>
+  <Text Key="Add_More_Colors">Neue Farben hinzufügen</Text>
   <Text Key="Show_Dopamine">Dopamine anzeigen</Text>
   <Text Key="Exit">Verlassen</Text>
   <Text Key="Minimize">Minimieren</Text>
-  <Text Key="Minimize_To_Tray">Minimieren und als Symbol im Infobereich der Taskleiste anzeigen</Text>
+  <Text Key="Minimize_To_Tray">Minimiere in den Benachrichtigungsbereich</Text>
   <Text Key="Add_A_Folder">Ein Verzeichnis hinzufügen</Text>
   <Text Key="Start">Start</Text>
   <Text Key="Done">Fertig!</Text>
@@ -91,7 +91,7 @@
   <Text Key="Prefer_Larger">Groß bevorzugen</Text>
   <Text Key="Prefer_Embedded">Eingebettetes Cover bevorzugen</Text>
   <Text Key="Prefer_External">Externes Cover bevorzugen</Text>
-  <Text Key="Error_Cannot_Play_This_Song">Entschuldigung, ich kann diesen Titel nicht wiedergeben. Weitere Informationen findest du in der Protokolldatei.</Text>
+  <Text Key="Error_Cannot_Play_This_Song">Entschuldigung, dieser Titel kann nicht wiedergegeben werden. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Follow_Song">Titel folgen</Text>
   <Text Key="Default">Standard</Text>
   <Text Key="View_In_Explorer">Im Windows Explorer anzeigen</Text>
@@ -144,7 +144,7 @@
   <Text Key="Delete_Playlists">Wiedergabelisten löschen</Text>
   <Text Key="Delete">Löschen</Text>
   <Text Key="Rename">Umbenennen</Text>
-  <Text Key="Are_You_Sure_To_Delete_Playlist">>Bist du dir sicher, dass du die Wiedergabeliste '{playlistname}' wirklich löschen möchtest?</Text>
+  <Text Key="Are_You_Sure_To_Delete_Playlist">Bist du dir sicher, dass du die Wiedergabeliste '{playlistname}' wirklich löschen möchtest?</Text>
   <Text Key="Error_Deleting_Playlist">Die Wiedergabeliste '{playlistname}' konnte nicht gelöscht werden. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Key_F2">F2</Text>
   <Text Key="Key_Del">Entf</Text>
@@ -267,13 +267,13 @@
   <Text Key="Refreshing_Collection">Aktualisiere die Sammlung</Text>
   <Text Key="Nothing_Is_Playing">Nichts wird abgespielt</Text>
   <Text Key="Remove_From_Now_Playing">Von der aktuellen Wiedergabe entfernen</Text>
-  <Text Key="Error_Removing_From_Now_Playing">Beim Abspielen von Musiktiteln ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei..</Text>
+  <Text Key="Error_Removing_From_Now_Playing">Beim Abspielen von Musiktiteln ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Added_Track_To_Now_Playing">{numberoftracks} Titel zur aktuellen Wiedergabe hinzugefügt</Text>
   <Text Key="Added_Tracks_To_Now_Playing">{numberoftracks} Titel zur aktuellen Wiedergabe hinzugefügt</Text>
-  <Text Key="Error_Adding_Songs_To_Now_Playing">Beim Hinzufügen von Titeln zur aktuellen Wiedergabe ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei..</Text>
-  <Text Key="Error_Adding_Albums_To_Now_Playing">Beim Hinzufügen von Alben zur aktuellen Wiedergabe ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei..</Text>
-  <Text Key="Error_Adding_Artists_To_Now_Playing">Beim Hinzufügen von Interpreten zur aktuellen Wiedergabe ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei..</Text>
-  <Text Key="Error_Adding_Genres_To_Now_Playing">Beim Hinzufügen von Genres zur aktuellen Wiedergabe ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei..</Text>
+  <Text Key="Error_Adding_Songs_To_Now_Playing">Beim Hinzufügen von Titeln zur aktuellen Wiedergabe ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
+  <Text Key="Error_Adding_Albums_To_Now_Playing">Beim Hinzufügen von Alben zur aktuellen Wiedergabe ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
+  <Text Key="Error_Adding_Artists_To_Now_Playing">Beim Hinzufügen von Interpreten zur aktuellen Wiedergabe ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
+  <Text Key="Error_Adding_Genres_To_Now_Playing">Beim Hinzufügen von Genres zur aktuellen Wiedergabe ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Error_Adding_Playlists_To_Now_Playing">Beim Hinzufügen von Wiedergabelisten zur aktuellen Wiedergabe ist ein Fehler aufgetreten. Weitere Informationen findest du in der Protokolldatei.</Text>
   <Text Key="Play_All">Alle wiedergeben</Text>
   <Text Key="Shuffle_All">Zufallswiedergabe</Text>
@@ -282,7 +282,7 @@
   <Text Key="Social_Networks">Soziale Netzwerke</Text>
   <Text Key="Contact_Us">Kontaktiere uns</Text>
   <Text Key="Email">Email</Text>
-  <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Entschuldigung, ich kann dieses Lied nicht abspielen. Die Datei konnte nicht gefunden werden.</Text>
+  <Text Key="Error_Cannot_Play_This_Song_File_Not_Found">Entschuldigung, dieser Titel konnte nicht abgespielt werden. Die Datei konnte nicht gefunden werden.</Text>
   <Text Key="Cover_Size">Cover Größe</Text>
   <Text Key="Small">Klein</Text>
   <Text Key="Medium">Mittel</Text>
