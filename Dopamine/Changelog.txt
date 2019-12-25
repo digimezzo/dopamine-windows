@@ -2,6 +2,7 @@
 -------------------------------
 
 - [Changed] Updated the German translation
+- [Changed] Updated the Greek translation
 - [Changed] Updated the Swedish translation
 
 
