@@ -6,8 +6,8 @@ Dopamine is an audio player which tries to make organizing and listening to musi
 
 More information and downloads are available at [https://www.digimezzo.com](http://www.digimezzo.com)
 
-[![Release](https://img.shields.io/github/release/digimezzo/Dopamine.svg?style=flat-square)](https://github.com/digimezzo/Dopamine/releases/latest)
-[![Issues](https://img.shields.io/github/issues/digimezzo/Dopamine.svg?style=flat-square)](https://github.com/digimezzo/Dopamine/issues)
+[![Release](https://img.shields.io/github/release/digimezzo/Dopamine-windows.svg?style=flat-square)](https://github.com/digimezzo/Dopamine-windows/releases/latest)
+[![Issues](https://img.shields.io/github/issues/digimezzo/Dopamine-windows.svg?style=flat-square)](https://github.com/digimezzo/Dopamine-windows/issues)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8)
 
 ## Compile instructions ##
