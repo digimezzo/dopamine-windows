@@ -18,13 +18,13 @@ The Dopamine source code also has a dependency to file **C:\Program Files (x86)\
 
 If both dependencies are met, Dopamine should compile without issues on Windows 7, 8, 8.1 and 10.
 
-If you are still unable to find assembly **Windows** after following these steps, please check issue <a href="https://github.com/digimezzo/Dopamine/issues/836">#836</a> for more help finding it.
+If you are still unable to find assembly **Windows** after following these steps, please check issue <a href="https://github.com/digimezzo/dopamine-windows/issues/836">#836</a> for more help finding it.
 
 ## Helping out with translations ##
 
 Currently, I'm getting language files via Facebook, Twitter, e-mail and GitHub. It's getting hard to keep track of them and translations get lost. I'd like to centralize translation contributions on GitHub. The instruction below should help you do this.
 
-The most up to date translation files can be found in this repository, <a href="https://github.com/digimezzo/Dopamine/tree/master/Dopamine/Languages">over here</a>.
+The most up to date translation files can be found in this repository, <a href="https://github.com/digimezzo/dopamine-windows/tree/master/Dopamine/Languages">over here</a>.
 
 For existing translation files, please edit them directly on GitHub and send me a pull request. <a href="https://help.github.com/articles/editing-files-in-another-user-s-repository/">Editing files in another user's repository</a> explains how to do this.
 
