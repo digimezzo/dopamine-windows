@@ -407,8 +407,8 @@
   <Text Key="Reload_Missing_Covers">重新整理欠缺的封面</Text>
   <Text Key="Reload_Missing_Covers_Description">只為沒有封面的專輯重新整理封面。</Text>
   <Text Key="Added_Songs">而新增 {number} 首音樂 ({percent}%)</Text>
-  <Text Key="Download_Missing_Album_Covers">從網絡中下載封面</Text>
-  <Text Key="Use_All_Available_Speakers">使用所有可用的喇叭</Text>
+  <Text Key="Download_Missing_Album_Covers">從網路中下載封面</Text>
+  <Text Key="Use_All_Available_Speakers">使用所有可用的揚聲器</Text>
   <Text Key="Center_Lyrics">歌詞置中</Text>
   <Text Key="Spectrum_Flames">火焰</Text>
   <Text Key="Spectrum_Lines">線形</Text>
@@ -427,13 +427,13 @@
   <Text Key="Activate_Search_Field">啟動蒐索區域</Text>
   <Text Key="Back">返回</Text>
   <Text Key="Folders">資料夾</Text>
-  <Text Key="Import_Playlists">導入播放清單</Text>
-  <Text Key="Error_Importing_Playlists">導入播放清單時出現了一個錯誤。請至日誌檔以獲取更多資訊。</Text>
+  <Text Key="Import_Playlists">匯入播放清單</Text>
+  <Text Key="Error_Importing_Playlists">匯入播放清單時出現了一個錯誤。請至日誌檔以獲取更多資訊。</Text>
   <Text Key="Switch_Player">切換播放機</Text>
   <Text Key="Music">音樂</Text>
-  <Text Key="Smart_Playlist">智慧播放清單</Text>
-  <Text Key="Create_Smart_Playlist_Where">建立智慧播放清單於</Text>
-  <Text Key="Add_If_Any_Rule_Is_Matched">在符合規則時添加</Text>
+  <Text Key="Smart_Playlist">智慧型播放清單</Text>
+  <Text Key="Create_Smart_Playlist_Where">建立智慧型播放清單於</Text>
+  <Text Key="Add_If_Any_Rule_Is_Matched">在符合規則時新增</Text>
   <Text Key="Limit_To">限制到</Text>
   <Text Key="Smart_Playlist_Songs">歌曲</Text>
   <Text Key="Smart_Playlist_Minutes">分鐘</Text>
@@ -445,7 +445,7 @@
   <Text Key="Edit_Playlist">編輯播放清單</Text>
   <Text Key="Enter_Name_For_Playlist">輸入播放清單名稱</Text>
   <Text Key="Error_Editing_Playlist">此播放清單無法被編輯。請至日誌檔以獲取更多資訊。</Text>
-  <Text Key="Date_Added">Date added</Text>
-  <Text Key="Date_Created">Date created</Text>
-  <Text Key="Manage_Collection">Manage collection</Text>
+  <Text Key="Date_Added">新增日期</Text>
+  <Text Key="Date_Created">建立日期</Text>
+  <Text Key="Manage_Collection">管理媒體庫</Text>
 </Language>
