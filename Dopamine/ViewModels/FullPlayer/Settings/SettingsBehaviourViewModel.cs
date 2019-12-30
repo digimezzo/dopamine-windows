@@ -11,6 +11,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
     public class SettingsBehaviourViewModel : BindableBase
     {
         private IEventAggregator eventAggregator;
+        private bool checkBoxUseAppCommandMediaKeysChecked;
         private bool checkBoxShowTrayIconChecked;
         private bool checkBoxMinimizeToTrayChecked;
         private bool checkBoxFollowTrackChecked;
@@ -21,6 +22,17 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private bool checkBoxShowRemoveFromDiskChecked;
         private ObservableCollection<NameValue> scrollVolumePercentages;
         private NameValue selectedScrollVolumePercentage;
+
+        public bool CheckBoxUseAppCommandMediaKeysChecked
+        {
+            get { return this.checkBoxUseAppCommandMediaKeysChecked; }
+            set
+            {
+                SettingsClient.Set<bool>("MediaKeys", "UseAppCommandMediaKeys", value, true);
+                SetProperty<bool>(ref this.checkBoxUseAppCommandMediaKeysChecked, value);
+            }
+        }
+
 
         public bool CheckBoxShowTrayIconChecked
         {
@@ -134,6 +146,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         {
             await Task.Run(() =>
             {
+                this.checkBoxUseAppCommandMediaKeysChecked = SettingsClient.Get<bool>("MediaKeys", "UseAppCommandMediaKeys");
                 this.checkBoxShowTrayIconChecked = SettingsClient.Get<bool>("Behaviour", "ShowTrayIcon");
                 this.checkBoxMinimizeToTrayChecked = SettingsClient.Get<bool>("Behaviour", "MinimizeToTray");
                 this.checkBoxCloseToTrayChecked = SettingsClient.Get<bool>("Behaviour", "CloseToTray");

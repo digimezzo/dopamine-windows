@@ -448,4 +448,5 @@
   <Text Key="Date_Added">Hinzugefügt am</Text>
   <Text Key="Date_Created">Erstellt am</Text>
   <Text Key="Manage_Collection">Sammlung verwalten</Text>
+  <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
 </Language>

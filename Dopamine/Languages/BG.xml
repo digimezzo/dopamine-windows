@@ -448,4 +448,5 @@
   <Text Key="Date_Added">Date added</Text>
   <Text Key="Date_Created">Date created</Text>
   <Text Key="Manage_Collection">Управление на колекцията</Text>
+  <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
 </Language>

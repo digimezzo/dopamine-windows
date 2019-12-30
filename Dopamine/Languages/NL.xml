@@ -448,4 +448,5 @@
   <Text Key="Date_Added">Toevoegdatum</Text>
   <Text Key="Date_Created">Aanmaakdatum</Text>
   <Text Key="Manage_Collection">Collectie beheren</Text>
+  <Text Key="Use_AppCommand_Media_Keys">Ondersteuning voor standaard multimediatoetsen inschakelen</Text>
 </Language>

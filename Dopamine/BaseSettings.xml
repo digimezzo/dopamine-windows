@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>114</Value>
+      <Value>116</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -339,6 +339,11 @@
   <Namespace Name="Selections">
     <Setting Name="SelectedFolder">
       <Value></Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="MediaKeys">
+    <Setting Name="UseAppCommandMediaKeys">
+      <Value>False</Value>
     </Setting>
   </Namespace>
 </Settings>

@@ -448,4 +448,5 @@
   <Text Key="Date_Added">Date d'ajout</Text>
   <Text Key="Date_Created">Date de creation</Text>
   <Text Key="Manage_Collection">Gérer la collection</Text>
+  <Text Key="Use_AppCommand_Media_Keys">Activer la prise en charge des touches multimédias par défaut</Text>
 </Language>

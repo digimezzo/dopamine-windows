@@ -448,4 +448,5 @@
   <Text Key="Date_Added">追加した日</Text>
   <Text Key="Date_Created">作成日</Text>
   <Text Key="Manage_Collection">コレクションの管理</Text>
+  <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
 </Language>

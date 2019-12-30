@@ -11,7 +11,12 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" Padding="15" PanningMode="Both">
         <StackPanel>
-            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_System_Tray}" />
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Media_Keys}" />
+            <StackPanel Margin="0,5,0,0">
+                <TextBlock Text="{DynamicResource Language_Use_AppCommand_Media_Keys}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxUseAppCommandMediaKeys" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxUseAppCommandMediaKeysChecked}"/>
+            </StackPanel>
+            <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_System_Tray}" />
             <StackPanel Margin="0,5,0,0">
                 <TextBlock Text="{DynamicResource Language_Show_Tray_Icon}" Foreground="{DynamicResource Brush_PrimaryText}"/>
                 <dc:Windows10ToggleSwitch x:Name="CheckBoxShowTrayIcon" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxShowTrayIconChecked}"/>

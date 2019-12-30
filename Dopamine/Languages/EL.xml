@@ -448,4 +448,5 @@
   <Text Key="Error_Editing_Playlist">Η λίστα δεν ήταν δυνατό να τροποποιηθεί. Για περισσότερες πληροφορίες δείτε το αρχείο καταγραφής.</Text>
   <Text Key="Date_Added">Ημερομηνία προσθήκης</Text>
   <Text Key="Date_Created">Ημερομηνία δημιουργίας</Text>
+  <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
 </Language>

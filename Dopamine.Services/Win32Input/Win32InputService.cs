@@ -1,24 +1,28 @@
-﻿using Digimezzo.Foundation.Core.Settings;
+﻿using Digimezzo.Foundation.Core.Logging;
+using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Win32Input;
 using System;
-using System.Timers;
 
 namespace Dopamine.Services.Win32Input
 {
     public class Win32InputService : IWin32InputService
     {
         private IPlaybackService playbackService;
-        private bool isMediaKeyJustPressed = false;
-        private Timer canRaiseMediaKeyEventTimer = new Timer();
-        private IKeyboardHookManager lowLevelManager ;
+        private IKeyboardHookManager lowLevelManager;
         private IKeyboardHookManager appCommandManager;
 
         public Win32InputService(IPlaybackService playbackService)
         {
             this.playbackService = playbackService;
-            this.canRaiseMediaKeyEventTimer.Interval = 250;
-            this.canRaiseMediaKeyEventTimer.Elapsed += CanPressMediaKeyTimer_Elapsed;
+
+            SettingsClient.SettingChanged += (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "MediaKeys", "UseAppCommandMediaKeys"))
+                {
+                    this.SetEventHandlers();
+                }
+            };
         }
 
         public void SetKeyboardHook(IntPtr hWnd)
@@ -29,55 +33,21 @@ namespace Dopamine.Services.Win32Input
 #endif
 #pragma warning disable CS0162 // Unreachable code detected
             if (this.lowLevelManager == null)
-#pragma warning restore CS0162 // Unreachable code detected
             {
                 this.lowLevelManager = new LowLevelKeyboardHookManager();
             }
+
+            this.lowLevelManager.SetHook();
 
             if (this.appCommandManager == null)
             {
                 this.appCommandManager = new AppCommandKeyboardHookManager(hWnd);
             }
 
-            this.lowLevelManager.MediaKeyPlayPressed += MediaKeyPlayPressedHandler;
-            this.lowLevelManager.MediaKeyPreviousPressed += MediaKeyPreviousPressedHandler;
-            this.lowLevelManager.MediaKeyNextPressed += MediaKeyNextPressedHandler;
-            this.appCommandManager.MediaKeyPlayPressed += MediaKeyPlayPressedHandler;
-            this.appCommandManager.MediaKeyPreviousPressed += MediaKeyPreviousPressedHandler;
-            this.appCommandManager.MediaKeyNextPressed += MediaKeyNextPressedHandler;
-
-            this.lowLevelManager.SetHook();
             this.appCommandManager.SetHook();
-        }
 
-        private async void MediaKeyNextPressedHandler(object sender, EventArgs e)
-        {
-            if (this.CanPressMediaKey())
-            {
-                await this.playbackService.PlayNextAsync();
-            }
-
-            this.StartCanPressMediaKeyTimer();
-        }
-
-        private async void MediaKeyPreviousPressedHandler(object sender, EventArgs e)
-        {
-            if (this.CanPressMediaKey())
-            {
-                await this.playbackService.PlayPreviousAsync();
-            }
-
-            this.StartCanPressMediaKeyTimer();
-        }
-
-        private async void MediaKeyPlayPressedHandler(object sender, EventArgs e)
-        {
-            if (this.CanPressMediaKey())
-            {
-                await this.playbackService.PlayOrPauseAsync();
-            }
-
-            this.StartCanPressMediaKeyTimer();
+            this.SetEventHandlers();
+#pragma warning restore CS0162 // Unreachable code detected
         }
 
         public void UnhookKeyboard()
@@ -87,33 +57,70 @@ namespace Dopamine.Services.Win32Input
             return;
 #endif
 #pragma warning disable CS0162 // Unreachable code detected
-            this.lowLevelManager.MediaKeyPlayPressed -= MediaKeyPlayPressedHandler;
+            this.RemoveEventHandlers();
+
+            if (this.lowLevelManager != null)
+            {
+                this.lowLevelManager.Unhook();
+            }
+
+            if (this.appCommandManager != null)
+            {
+                this.appCommandManager.Unhook();
+            }
 #pragma warning restore CS0162 // Unreachable code detected
-            this.lowLevelManager.MediaKeyPreviousPressed -= MediaKeyPreviousPressedHandler;
-            this.lowLevelManager.MediaKeyNextPressed -= MediaKeyNextPressedHandler;
-            this.appCommandManager.MediaKeyPlayPressed -= MediaKeyPlayPressedHandler;
-            this.appCommandManager.MediaKeyPreviousPressed -= MediaKeyPreviousPressedHandler;
-            this.appCommandManager.MediaKeyNextPressed -= MediaKeyNextPressedHandler;
-
-            this.lowLevelManager.Unhook();
-            this.appCommandManager.Unhook();
         }
 
-        private bool CanPressMediaKey()
+        private async void MediaKeyNextPressedHandler(object sender, EventArgs e)
         {
-            return !isMediaKeyJustPressed && !SettingsClient.Get<bool>("Behaviour", "EnableSystemNotification");
+            await this.playbackService.PlayNextAsync();
         }
 
-        private void CanPressMediaKeyTimer_Elapsed(object sender, ElapsedEventArgs e)
+        private async void MediaKeyPreviousPressedHandler(object sender, EventArgs e)
         {
-            canRaiseMediaKeyEventTimer.Stop();
-            isMediaKeyJustPressed = false;
+            await this.playbackService.PlayPreviousAsync();
         }
 
-        private void StartCanPressMediaKeyTimer()
+        private async void MediaKeyPlayPressedHandler(object sender, EventArgs e)
         {
-            isMediaKeyJustPressed = true;
-            canRaiseMediaKeyEventTimer.Start();
+            await this.playbackService.PlayOrPauseAsync();
+        }
+
+        private void SetEventHandlers()
+        {
+            this.RemoveEventHandlers();
+
+            if (SettingsClient.Get<bool>("MediaKeys", "UseAppCommandMediaKeys"))
+            {
+                LogClient.Info("Using AppCommand media keys");
+                this.appCommandManager.MediaKeyPlayPressed += MediaKeyPlayPressedHandler;
+                this.appCommandManager.MediaKeyPreviousPressed += MediaKeyPreviousPressedHandler;
+                this.appCommandManager.MediaKeyNextPressed += MediaKeyNextPressedHandler;
+            }
+            else
+            {
+                LogClient.Info("Using LowLevel media keys");
+                this.lowLevelManager.MediaKeyPlayPressed += MediaKeyPlayPressedHandler;
+                this.lowLevelManager.MediaKeyPreviousPressed += MediaKeyPreviousPressedHandler;
+                this.lowLevelManager.MediaKeyNextPressed += MediaKeyNextPressedHandler;
+            }
+        }
+
+        private void RemoveEventHandlers()
+        {
+            if (this.lowLevelManager != null)
+            {
+                this.lowLevelManager.MediaKeyPlayPressed -= MediaKeyPlayPressedHandler;
+                this.lowLevelManager.MediaKeyPreviousPressed -= MediaKeyPreviousPressedHandler;
+                this.lowLevelManager.MediaKeyNextPressed -= MediaKeyNextPressedHandler;
+            }
+
+            if (this.appCommandManager != null)
+            {
+                this.appCommandManager.MediaKeyPlayPressed -= MediaKeyPlayPressedHandler;
+                this.appCommandManager.MediaKeyPreviousPressed -= MediaKeyPreviousPressedHandler;
+                this.appCommandManager.MediaKeyNextPressed -= MediaKeyNextPressedHandler;
+            }
         }
     }
 }

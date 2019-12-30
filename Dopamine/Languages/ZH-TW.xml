@@ -448,4 +448,5 @@
   <Text Key="Date_Added">新增日期</Text>
   <Text Key="Date_Created">建立日期</Text>
   <Text Key="Manage_Collection">管理媒體庫</Text>
+  <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
 </Language>

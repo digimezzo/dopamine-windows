@@ -448,4 +448,5 @@
   <Text Key="Date_Added">Datum dodavanja</Text>
   <Text Key="Date_Created">Datum stvaranja</Text>
   <Text Key="Manage_Collection">Upravljaj kolekcijom</Text>
+  <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
 </Language>

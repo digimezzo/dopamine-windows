@@ -448,4 +448,5 @@
   <Text Key="Date_Added">Data de adição</Text>
   <Text Key="Date_Created">Data de criação</Text>
   <Text Key="Manage_Collection">Gerir coleção</Text>
+  <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
 </Language>
