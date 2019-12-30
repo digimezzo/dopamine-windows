@@ -1,11 +1,12 @@
-2019-12-30: Dopamine 2.0 Beta 2
--------------------------------
+2019-12-30: Dopamine 2.0
+------------------------
 
 - [Changed] Updated the Chinese (Traditional) translation
 - [Changed] Updated the German translation
 - [Changed] Updated the Greek translation
 - [Changed] Updated the Swedish translation
 - [Fixed] Multimedia play and pause keys are not always working
+- [Fixed] External control server fails to retrieve current track
 
 
 2019-12-14: Dopamine 2.0 Beta 1
