@@ -445,8 +445,8 @@
   <Text Key="Edit_Playlist">Редактиране на плейлиста</Text>
   <Text Key="Enter_Name_For_Playlist">Въведи име</Text>
   <Text Key="Error_Editing_Playlist">Плейлистът не можа да бъде редактиран. Моля, проверете  регистрационния файл за повече информация.</Text>
-  <Text Key="Date_Added">Date added</Text>
-  <Text Key="Date_Created">Date created</Text>
+  <Text Key="Date_Added">Датата е добавена</Text>
+  <Text Key="Date_Created">Дата на създаване</Text>
   <Text Key="Manage_Collection">Управление на колекцията</Text>
-  <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
+  <Text Key="Use_AppCommand_Media_Keys">Активиране поддръжката по подразбиране на мултимедийни клавиши</Text>
 </Language>
