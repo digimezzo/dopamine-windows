@@ -22,6 +22,11 @@ namespace Dopamine.Services.Win32Input
                 {
                     this.SetEventHandlers();
                 }
+
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableSystemNotification"))
+                {
+                    this.SetEventHandlers();
+                }
             };
         }
 
@@ -90,19 +95,24 @@ namespace Dopamine.Services.Win32Input
         {
             this.RemoveEventHandlers();
 
-            if (SettingsClient.Get<bool>("MediaKeys", "UseAppCommandMediaKeys"))
+            // Only enable our own media keys support when not using system notifications.
+            // System notifications have their own media key support, which interferes with ours.
+            if (!SettingsClient.Get<bool>("Behaviour", "EnableSystemNotification"))
             {
-                LogClient.Info("Using AppCommand media keys");
-                this.appCommandManager.MediaKeyPlayPressed += MediaKeyPlayPressedHandler;
-                this.appCommandManager.MediaKeyPreviousPressed += MediaKeyPreviousPressedHandler;
-                this.appCommandManager.MediaKeyNextPressed += MediaKeyNextPressedHandler;
-            }
-            else
-            {
-                LogClient.Info("Using LowLevel media keys");
-                this.lowLevelManager.MediaKeyPlayPressed += MediaKeyPlayPressedHandler;
-                this.lowLevelManager.MediaKeyPreviousPressed += MediaKeyPreviousPressedHandler;
-                this.lowLevelManager.MediaKeyNextPressed += MediaKeyNextPressedHandler;
+                if (SettingsClient.Get<bool>("MediaKeys", "UseAppCommandMediaKeys"))
+                {
+                    LogClient.Info("Using AppCommand media keys");
+                    this.appCommandManager.MediaKeyPlayPressed += MediaKeyPlayPressedHandler;
+                    this.appCommandManager.MediaKeyPreviousPressed += MediaKeyPreviousPressedHandler;
+                    this.appCommandManager.MediaKeyNextPressed += MediaKeyNextPressedHandler;
+                }
+                else
+                {
+                    LogClient.Info("Using LowLevel media keys");
+                    this.lowLevelManager.MediaKeyPlayPressed += MediaKeyPlayPressedHandler;
+                    this.lowLevelManager.MediaKeyPreviousPressed += MediaKeyPreviousPressedHandler;
+                    this.lowLevelManager.MediaKeyNextPressed += MediaKeyNextPressedHandler;
+                }
             }
         }
 

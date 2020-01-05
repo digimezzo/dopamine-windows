@@ -29,7 +29,7 @@ namespace Dopamine.Services.Notification
             set
             {
                 this.systemNotificationIsEnabled = value;
-                SettingsClient.Set("Behaviour", "EnableSystemNotification", value);
+                SettingsClient.Set("Behaviour", "EnableSystemNotification", value, true);
                 Application.Current.Dispatcher.InvokeAsync(async () => await SwitchNotificationHandlerAsync(value));
             }
         }
