@@ -1,3 +1,9 @@
+2020-01-12: Dopamine 2.0.1
+--------------------------
+
+- [Changed] Reverted some changes to audio decoding. This hopefully removes lag when decoding high bitrate files.
+
+
 2020-01-11: Dopamine 2.0
 ------------------------
 
