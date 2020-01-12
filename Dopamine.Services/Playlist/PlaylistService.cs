@@ -70,7 +70,7 @@ namespace Dopamine.Services.Playlist
 
         public string PlaylistFolder { get; }
 
-        public string DialogFileFilter => $"(*{FileFormats.M3U};*{FileFormats.WPL};*{FileFormats.ZPL};*{FileFormats.DSPL})|*{FileFormats.M3U};*{FileFormats.WPL};*{FileFormats.ZPL};*{FileFormats.DSPL};*{FileFormats.DSPL}";
+        public string DialogFileFilter => $"(*{FileFormats.M3U};*{FileFormats.M3U8};*{FileFormats.WPL};*{FileFormats.ZPL};*{FileFormats.DSPL})|*{FileFormats.M3U};*{FileFormats.M3U8};*{FileFormats.WPL};*{FileFormats.ZPL};*{FileFormats.DSPL};*{FileFormats.DSPL}";
 
         public event EventHandler PlaylistFolderChanged = delegate { };
         public event TracksAddedHandler TracksAdded = delegate { };

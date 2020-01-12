@@ -20,6 +20,7 @@ namespace Dopamine.Core.Base
 
         // Playlist extensions
         public static string M3U = ".m3u";
+        public static string M3U8 = ".m3u8";
         public static string WPL = ".wpl";
         public static string ZPL = ".zpl";
 
@@ -49,6 +50,7 @@ namespace Dopamine.Core.Base
 
         public static string[] SupportedStaticPlaylistExtensions = {
             FileFormats.M3U,
+             FileFormats.M3U8,
             FileFormats.ZPL,
             FileFormats.WPL
         };

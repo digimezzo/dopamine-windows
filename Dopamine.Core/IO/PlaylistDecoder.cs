@@ -46,7 +46,7 @@ namespace Dopamine.Core.IO
             string playlistName = string.Empty;
             IList<PlaylistEntry> playlistEntries = new List<PlaylistEntry>();
 
-            if (System.IO.Path.GetExtension(fileName.ToLower()) == FileFormats.M3U)
+            if (System.IO.Path.GetExtension(fileName.ToLower()) == FileFormats.M3U | System.IO.Path.GetExtension(fileName.ToLower()) == FileFormats.M3U8)
             {
                 decodeResult = this.DecodeM3uPlaylist(fileName, ref playlistName, ref playlistEntries);
             }

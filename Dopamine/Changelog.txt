@@ -2,6 +2,7 @@
 --------------------------
 
 - [Changed] Reverted some changes to audio decoding. This hopefully removes lag when decoding high bitrate files.
+- [Added] Added support for m3u8 playlists
 
 
 2020-01-11: Dopamine 2.0

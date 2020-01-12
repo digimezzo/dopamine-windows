@@ -132,6 +132,9 @@
     <Content Include="Files\LyricsParser\SynchronizedLyricsWithDuplicateTimestamps.lrc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Files\PlaylistDecoder\Test.m3u8">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

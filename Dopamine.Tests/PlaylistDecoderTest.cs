@@ -11,14 +11,38 @@ namespace Dopamine.Tests
         {
             // Arrange
             string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoder\Test.m3u");
-            string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
-
+           
             // Act
-            var decoder = new Core.IO.PlaylistDecoder();
+            var decoder = new PlaylistDecoder();
             DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
 
             // Assert
-            if (result.DecodeResult.Result && result.Paths.Count == 3 && !string.IsNullOrWhiteSpace(result.PlaylistName))
+            if (result.DecodeResult.Result && !string.IsNullOrWhiteSpace(result.PlaylistName))
+            {
+                Assert.IsTrue(result.Paths.Count == 3);
+                Assert.AreEqual(result.Paths[0], @"C:\Music\File1.mp3");
+                Assert.AreEqual(result.Paths[1], @"C:\Music\File2.mp3");
+                Assert.AreEqual(result.Paths[2], @"C:\Music\File3.mp3");
+                Assert.AreEqual(result.PlaylistName, "Test");
+            }
+            else
+            {
+                Assert.Fail();
+            }
+        }
+
+        [TestMethod(), TestCategory(TestCategories.PlaylistDecoder)]
+        public void DecodeM3u8Playlist()
+        {
+            // Arrange
+            string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoder\Test.m3u8");
+
+            // Act
+            var decoder = new PlaylistDecoder();
+            DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
+
+            // Assert
+            if (result.DecodeResult.Result && !string.IsNullOrWhiteSpace(result.PlaylistName))
             {
                 Assert.IsTrue(result.Paths.Count == 3);
                 Assert.AreEqual(result.Paths[0], @"C:\Music\File1.mp3");
@@ -37,14 +61,13 @@ namespace Dopamine.Tests
         {
             // Arrange
             string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoder\Test.zpl");
-            string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
-
+        
             // Act
-            var decoder = new Core.IO.PlaylistDecoder();
+            var decoder = new PlaylistDecoder();
             DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
 
             // Assert
-            if (result.DecodeResult.Result && result.Paths.Count == 3 && !string.IsNullOrWhiteSpace(result.PlaylistName))
+            if (result.DecodeResult.Result && !string.IsNullOrWhiteSpace(result.PlaylistName))
             {
                 Assert.IsTrue(result.Paths.Count == 3);
                 Assert.AreEqual(result.Paths[0], @"C:\Music\File1.mp3");
@@ -63,14 +86,13 @@ namespace Dopamine.Tests
         {
             // Arrange
             string playlistPath = System.IO.Path.GetFullPath(@"Files\PlaylistDecoder\Test.wpl");
-            string playlistDirectory = System.IO.Path.GetDirectoryName(playlistPath);
-
+          
             // Act
-            var decoder = new Core.IO.PlaylistDecoder();
+            var decoder = new PlaylistDecoder();
             DecodePlaylistResult result = decoder.DecodePlaylist(playlistPath);
 
             // Assert
-            if (result.DecodeResult.Result && result.Paths.Count == 3 && !string.IsNullOrWhiteSpace(result.PlaylistName))
+            if (result.DecodeResult.Result && !string.IsNullOrWhiteSpace(result.PlaylistName))
             {
                 Assert.IsTrue(result.Paths.Count == 3);
                 Assert.AreEqual(result.Paths[0], @"C:\Music\File1.mp3");
