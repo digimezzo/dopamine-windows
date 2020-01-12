@@ -2,9 +2,12 @@
 {
     public class PlayerFactory : IPlayerFactory
     {
-        public IPlayer Create()
+        public IPlayer Create(bool hasMediaFoundationSupport)
         {
-            return CSCorePlayer.Instance;
+            IPlayer player = CSCorePlayer.Instance;
+            player.HasMediaFoundationSupport = hasMediaFoundationSupport;
+
+            return player;
         }
     }
 }

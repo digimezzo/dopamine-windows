@@ -1,6 +1,7 @@
 ﻿using CommonServiceLocator;
 using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Core.Enums;
+using Dopamine.Core.Helpers;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Shell;
 using System.Windows;
@@ -43,6 +44,11 @@ namespace Dopamine.Views.Common
         private void TryRegisterSpectrumPlayers()
         {
             this.UnregisterSpectrumPlayers();
+
+            if (!this.playbackService.HasMediaFoundationSupport)
+            {
+                return;
+            }
 
             if (!SettingsClient.Get<bool>("Playback", "ShowSpectrumAnalyzer"))
             {

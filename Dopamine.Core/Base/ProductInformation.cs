@@ -42,6 +42,13 @@ namespace Dopamine.Core.Base
             },
             new ExternalComponent
             {
+                Name = "FFmpeg",
+                Description = "A collection of libraries and tools to process multimedia content such as audio, video, subtitles and related metadata.",
+                Url = "https://github.com/FFmpeg/FFmpeg",
+                LicenseUrl = "https://github.com/FFmpeg/FFmpeg/blob/master/LICENSE.md"
+            },
+            new ExternalComponent
+            {
                 Name = "Font Awesome",
                 Description = "Font Awesome by Dave Gandy.",
                 Url = "http://fontawesome.io",

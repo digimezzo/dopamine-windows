@@ -29,6 +29,8 @@ namespace Dopamine.Services.Playback
 
         bool IsSavingPlaybackCounters { get; }
 
+        bool HasMediaFoundationSupport { get; }
+
         IList<TrackViewModel> Queue { get; }
 
         bool Shuffle { get; }

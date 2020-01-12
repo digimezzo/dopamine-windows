@@ -16,6 +16,8 @@
         <Directory>Languages</Directory>
         <Directory>x64</Directory>
         <Directory>x86</Directory>
+        <Directory>FFmpeg\bin\windows\x64</Directory>
+        <Directory>FFmpeg\bin\windows\x86</Directory>
       </Directories>
       <Files>
         <File>Dopamine.exe</File>
@@ -34,6 +36,7 @@
         <File>Dopamine.Icons.dll</File>
         <File>Dopamine.Services.dll</File>
         <File>CSCore.dll</File>
+        <File>CSCore.Ffmpeg.dll</File>
         <File>Ionic.Zip.dll</File>
         <File>SQLite-net.dll</File>
         <File>SQLitePCLRaw.batteries_green.dll</File>

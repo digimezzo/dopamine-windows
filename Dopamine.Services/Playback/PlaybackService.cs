@@ -4,6 +4,7 @@ using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
+using Dopamine.Core.Helpers;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
@@ -37,6 +38,7 @@ namespace Dopamine.Services.Playback
         private bool mute;
         private bool isPlayingPreviousTrack;
         private IPlayer player;
+        private bool hasMediaFoundationSupport = false;
 
         private bool isLoadingSettings;
 
@@ -77,6 +79,8 @@ namespace Dopamine.Services.Playback
         public bool IsSavingQueuedTracks => this.isSavingQueuedTracks;
 
         public bool IsSavingPlaybackCounters => this.isSavingPLaybackCounters;
+
+        public bool HasMediaFoundationSupport => this.hasMediaFoundationSupport;
 
         public bool IsStopped
         {
@@ -898,6 +902,9 @@ namespace Dopamine.Services.Playback
 
         private async void Initialize()
         {
+            // Media Foundation
+            this.hasMediaFoundationSupport = MediaFoundationHelper.HasMediaFoundationSupport();
+
             // Settings
             this.SetPlaybackSettings();
 
@@ -905,7 +912,7 @@ namespace Dopamine.Services.Playback
             this.playerFactory = new PlayerFactory();
 
             // Player (default for now, can be changed later when playing a file)
-            this.player = this.playerFactory.Create();
+            this.player = this.playerFactory.Create(this.hasMediaFoundationSupport);
 
             // Audio device
             await this.SetAudioDeviceAsync();
@@ -1042,7 +1049,7 @@ namespace Dopamine.Services.Playback
             this.SetPlaybackSettings();
 
             // Play the Track from its runtime path (current or temporary)
-            this.player = this.playerFactory.Create();
+            this.player = this.playerFactory.Create(this.hasMediaFoundationSupport);
 
             this.player.SetPlaybackSettings(this.Latency, this.EventMode, this.ExclusiveMode, this.activePreset.Bands, this.UseAllAvailableChannels);
             this.player.SetVolume(silent | this.Mute ? 0.0f : this.Volume);
