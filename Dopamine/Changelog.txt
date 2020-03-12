@@ -1,3 +1,9 @@
+2020-03-12: Dopamine 2.0.2
+--------------------------
+
+- [Fixed] Startup crash which is caused by the spectrum analyzer
+
+
 2020-01-12: Dopamine 2.0.1
 --------------------------
 
