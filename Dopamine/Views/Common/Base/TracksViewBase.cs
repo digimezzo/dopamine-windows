@@ -92,6 +92,10 @@ namespace Dopamine.Views.Common.Base
                 {
                     await this.playbackService.EnqueueAlbumsAsync(new List<AlbumViewModel> { (AlbumViewModel)lb.SelectedItem }, false, false);
                 }
+                else if (lb.SelectedItem.GetType().Name == typeof(PlaylistViewModel).Name)
+                {
+                    await this.playbackService.EnqueuePlaylistsAsync(new List<PlaylistViewModel> { (PlaylistViewModel)lb.SelectedItem }, false, false);
+                }
             }
             catch (Exception ex)
             {
