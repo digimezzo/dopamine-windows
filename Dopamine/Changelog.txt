@@ -3,7 +3,7 @@
 
 - [Fixed] Startup crash which is caused by the spectrum analyzer
 - [Fixed] ".opus" files are ignored
-
+- [Fixed] ".aif" files are ignored
 
 2020-01-12: Dopamine 2.0.1
 --------------------------
