@@ -14,6 +14,7 @@ using Dopamine.Services.Equalizer;
 using Dopamine.Services.Extensions;
 using Dopamine.Services.File;
 using Dopamine.Services.I18n;
+using Dopamine.Services.Playlist;
 using Dopamine.Services.Utils;
 using Prism.Ioc;
 using System;
@@ -48,6 +49,7 @@ namespace Dopamine.Services.Playback
         private II18nService i18nService;
         private IFileService fileService;
         private IEqualizerService equalizerService;
+        private IPlaylistService playlistService;
         private IContainerProvider container;
         private EqualizerPreset desiredPreset;
         private EqualizerPreset activePreset;
@@ -272,13 +274,14 @@ namespace Dopamine.Services.Playback
         }
 
         public PlaybackService(IFileService fileService, II18nService i18nService, ITrackRepository trackRepository,
-            IEqualizerService equalizerService, IQueuedTrackRepository queuedTrackRepository, IContainerProvider container)
+            IEqualizerService equalizerService, IQueuedTrackRepository queuedTrackRepository, IContainerProvider container, IPlaylistService playlistService)
         {
             this.fileService = fileService;
             this.i18nService = i18nService;
             this.trackRepository = trackRepository;
             this.queuedTrackRepository = queuedTrackRepository;
             this.equalizerService = equalizerService;
+            this.playlistService = playlistService;
             this.container = container;
 
             this.context = SynchronizationContext.Current;
@@ -804,6 +807,17 @@ namespace Dopamine.Services.Playback
             IList<Track> tracks = await this.trackRepository.GetAlbumTracksAsync(albumViewModels.Select(x => x.AlbumKey).ToList());
             List<TrackViewModel> orderedTracks = await Utils.EntityUtils.OrderTracksAsync(await this.container.ResolveTrackViewModelsAsync(tracks), TrackOrder.ByAlbum);
             await this.EnqueueAsync(orderedTracks, shuffle, unshuffle);
+        }
+
+        public async Task EnqueuePlaylistsAsync(IList<PlaylistViewModel> playlistViewModels, bool shuffle, bool unshuffle)
+        {
+            if (playlistViewModels == null || playlistViewModels.Count == 0)
+            {
+                return;
+            }
+
+            IList<TrackViewModel> tracks = await this.playlistService.GetTracksAsync(playlistViewModels.First());
+            await this.EnqueueAsync(tracks, shuffle, unshuffle);
         }
 
         public async Task PlaySelectedAsync(TrackViewModel track)

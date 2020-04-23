@@ -12,6 +12,8 @@ This software uses code of <a href=http://ffmpeg.org>FFmpeg</a> licensed under t
 [![Issues](https://img.shields.io/github/issues/digimezzo/Dopamine-windows.svg?style=flat-square)](https://github.com/digimezzo/Dopamine-windows/issues)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MQALEWTEZ7HX8)
 
+<a href='https://ko-fi.com/S6S11K63U' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi1.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+
 
 ![Dopaminescreenshot](Dopamine.screenshot.png)
 

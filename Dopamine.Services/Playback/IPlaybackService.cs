@@ -93,6 +93,8 @@ namespace Dopamine.Services.Playback
 
         Task EnqueueAlbumsAsync(IList<AlbumViewModel> albumViewModels, bool shuffle, bool unshuffle);
 
+        Task EnqueuePlaylistsAsync(IList<PlaylistViewModel> playlistViewModels, bool shuffle, bool unshuffle);
+
         Task StopIfPlayingAsync(TrackViewModel track);
 
         Task<EnqueueResult> AddToQueueAsync(IList<TrackViewModel> tracks);

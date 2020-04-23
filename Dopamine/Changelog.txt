@@ -1,3 +1,12 @@
+2020-04-18: Dopamine 2.0.2
+--------------------------
+
+- [Fixed] Startup crash which is caused by the spectrum analyzer
+- [Fixed] ".opus" files are ignored
+- [Fixed] ".aif" files are ignored
+- [Fixed] When double-clicking a playlist, it is not enqueued.
+
+
 2020-01-12: Dopamine 2.0.1
 --------------------------
 
