@@ -1,22 +1,44 @@
 ﻿using Digimezzo.Foundation.Core.Logging;
+using Dopamine.Services.Playback;
 using Microsoft.Win32;
 using System;
 using System.Management;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 
 namespace Dopamine.Services.WindowsIntegration
 {
     public class WindowsIntegrationService : IWindowsIntegrationService
     {
+        private IPlaybackService playbackService;
         private ManagementEventWatcher tabletModeWatcher;
         private ManagementEventWatcher systemUsesLightThemeWatcher;
         private bool isStartedFromExplorer;
     
-        public WindowsIntegrationService()
+        public WindowsIntegrationService(IPlaybackService playbackService)
         {
+            this.playbackService = playbackService;
             this.isStartedFromExplorer = Environment.GetCommandLineArgs().Length > 1;
+
+            this.playbackService.PlaybackFailed += (_,__) => this.RestoreSleep();
+            this.playbackService.PlaybackPaused += (_, __) => this.RestoreSleep();
+            this.playbackService.PlaybackStopped += (_, __) => this.RestoreSleep();
+            this.playbackService.PlaybackResumed += (_, __) => this.DisableSleep();
+            this.playbackService.PlaybackSuccess += (_, __) => this.DisableSleep();
         }
-       
+
+        [FlagsAttribute]
+        public enum EXECUTION_STATE : uint
+        {
+            ES_AWAYMODE_REQUIRED = 0x00000040,
+            ES_CONTINUOUS = 0x80000000,
+            ES_DISPLAY_REQUIRED = 0x00000002,
+            ES_SYSTEM_REQUIRED = 0x00000001
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
+
         public event EventHandler TabletModeChanged = delegate { };
         public event EventHandler SystemUsesLightThemeChanged = delegate { };
 
@@ -147,6 +169,21 @@ namespace Dopamine.Services.WindowsIntegration
         private void AppsUseLightThemeWatcher_EventArrived(object sender, EventArrivedEventArgs e)
         {
             this.SystemUsesLightThemeChanged(this, new EventArgs());
+        }
+
+        private void DisableSleep()
+        {
+            // To stop screen saver and monitor power off event
+            // You can combine several flags and specify multiple behaviors with a single call
+            // See: https://stackoverflow.com/questions/38282770/stop-screensaver-programmatically
+            SetThreadExecutionState(EXECUTION_STATE.ES_DISPLAY_REQUIRED | EXECUTION_STATE.ES_SYSTEM_REQUIRED | EXECUTION_STATE.ES_CONTINUOUS);
+        }
+
+        private void RestoreSleep()
+        {
+            // To reset or allow those events again you have to call this API with only ES_CONTINUOUS
+            // See: https://stackoverflow.com/questions/38282770/stop-screensaver-programmatically
+            SetThreadExecutionState(EXECUTION_STATE.ES_CONTINUOUS);
         }
     }
 }
