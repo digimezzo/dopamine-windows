@@ -6,6 +6,7 @@
 - [Fixed] ".aif" files are ignored
 - [Fixed] When double-clicking a playlist, it is not enqueued.
 - [Fixed] PC goes to sleep while playing music
+- [Changed] Updated the Japanese translation
 
 
 2020-01-12: Dopamine 2.0.1
