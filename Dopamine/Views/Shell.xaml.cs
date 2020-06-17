@@ -479,10 +479,12 @@ namespace Dopamine.Views
                 }
                 else if (e.Key == Key.Left)
                 {
+                    e.Handled = true; // Prevents grid focus stealing
                     this.playbackService.SkipSeconds(Convert.ToInt32(-5));
                 }
                 else if (e.Key == Key.Right)
                 {
+                    e.Handled = true; // Prevents grid focus stealing
                     this.playbackService.SkipSeconds(Convert.ToInt32(5));
                 }
             }
@@ -506,10 +508,12 @@ namespace Dopamine.Views
                 }
                 else if (e.Key == Key.Left)
                 {
+                    e.Handled = true; // Prevents grid focus stealing
                     this.playbackService.SkipSeconds(Convert.ToInt32(-15));
                 }
                 else if (e.Key == Key.Right)
                 {
+                    e.Handled = true; // Prevents grid focus stealing
                     this.playbackService.SkipSeconds(Convert.ToInt32(15));
                 }
             }
