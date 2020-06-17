@@ -37,7 +37,8 @@
         ByDateAdded = 2,
         ByDateCreated = 3,
         ByAlbumArtist = 4,
-        ByYear = 5
+        ByYearDescending = 5,
+        ByYearAscending = 6
     }
 
     public enum RemoveTracksResult

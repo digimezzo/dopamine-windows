@@ -238,7 +238,6 @@
   <Text Key="Select_Image">Sélectionner une image</Text>
   <Text Key="Error_Changing_Image">L'image n'a pas pu être remplacée. Consultez le fichier log pour plus de détails.</Text>
   <Text Key="Add_To_Now_Playing">Ajouter à la lecture en cours</Text>
-  <Text Key="By_Year">Par année</Text>
   <Text Key="Removing_Songs">Suppression de morceaux</Text>
   <Text Key="Updating_Songs">Mise à jour des morceaux</Text>
   <Text Key="Hide">Masquer</Text>
@@ -450,4 +449,6 @@
   <Text Key="Manage_Collection">Gérer la collection</Text>
   <Text Key="Use_AppCommand_Media_Keys">Activer la prise en charge des touches multimédias par défaut</Text>
   <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
+  <Text Key="By_Year_Ascending">By year ascending</Text>
+  <Text Key="By_Year_Descending">By year descending</Text>
 </Language>

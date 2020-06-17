@@ -238,7 +238,6 @@
   <Text Key="Select_Image">Chọn một hình ảnh</Text>
   <Text Key="Error_Changing_Image">Không thể thay đổi ảnh bìa. Vui lòng xem tệp nhật ký để biết thêm thông tin.</Text>
   <Text Key="Add_To_Now_Playing">Thêm vào Đang phát</Text>
-  <Text Key="By_Year">Theo năm</Text>
   <Text Key="Removing_Songs">Xóa bài hát</Text>
   <Text Key="Updating_Songs">Đang cập nhật bài hát</Text>
   <Text Key="Hide">Ẩn</Text>
@@ -450,4 +449,6 @@
   <Text Key="Manage_Collection">Manage collection</Text>
   <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
   <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
+  <Text Key="By_Year_Ascending">By year ascending</Text>
+  <Text Key="By_Year_Descending">By year descending</Text>
 </Language>

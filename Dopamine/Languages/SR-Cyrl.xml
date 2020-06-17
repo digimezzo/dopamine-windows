@@ -238,7 +238,6 @@
   <Text Key="Select_Image">Изабери слику</Text>
   <Text Key="Error_Changing_Image">Слика није могла бити промењена. Провери датотеку записа за више информација.</Text>
   <Text Key="Add_To_Now_Playing">Додај у листу репродукције</Text>
-  <Text Key="By_Year">По години</Text>
   <Text Key="Removing_Songs">Уклањање нумера</Text>
   <Text Key="Updating_Songs">Освежавање нумера</Text>
   <Text Key="Hide">Сакриј</Text>
@@ -450,4 +449,6 @@
   <Text Key="Manage_Collection">Управљај колекцијом</Text>
   <Text Key="Use_AppCommand_Media_Keys">Омогући подршку за предефинисане мултимедијалне тастере</Text>
   <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
+  <Text Key="By_Year_Ascending">By year ascending</Text>
+  <Text Key="By_Year_Descending">By year descending</Text>
 </Language>

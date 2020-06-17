@@ -238,7 +238,6 @@
   <Text Key="Select_Image">Bir resim seç</Text>
   <Text Key="Error_Changing_Image">Resim değiştirilemedi. Detaylı bilgi için günlük dosyasını inceleyin.</Text>
   <Text Key="Add_To_Now_Playing">Şimdi Oynatılıyor'a ekle</Text>
-  <Text Key="By_Year">Yıla göre</Text>
   <Text Key="Removing_Songs">Şarkılar siliniyor</Text>
   <Text Key="Updating_Songs">Şarkılar güncelleniyor</Text>
   <Text Key="Hide">Gizle</Text>
@@ -450,4 +449,6 @@
   <Text Key="Manage_Collection">Manage collection</Text>
   <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
   <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
+  <Text Key="By_Year_Ascending">By year ascending</Text>
+  <Text Key="By_Year_Descending">By year descending</Text>
 </Language>

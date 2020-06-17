@@ -1,6 +1,7 @@
 2020-06-17: Dopamine 2.0.2
 --------------------------
 
+- [Added] It is now possible to sort albums by year ascending or descending
 - [Added] Added a smart playlist rule "does not contain"
 - [Added] Added a Indonesian translation
 - [Added] Added Serbian translations

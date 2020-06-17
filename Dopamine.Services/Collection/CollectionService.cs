@@ -267,7 +267,10 @@ namespace Dopamine.Services.Collection
                     case AlbumOrder.ByAlbumArtist:
                         orderedAlbums = albums.OrderBy((a) => FormatUtils.GetSortableString(a.AlbumArtist, true)).ToList();
                         break;
-                    case AlbumOrder.ByYear:
+                    case AlbumOrder.ByYearAscending:
+                        orderedAlbums = albums.OrderBy((a) => a.SortYear).ToList();
+                        break;
+                    case AlbumOrder.ByYearDescending:
                         orderedAlbums = albums.OrderByDescending((a) => a.SortYear).ToList();
                         break;
                     default:
@@ -287,7 +290,8 @@ namespace Dopamine.Services.Collection
                             mainHeader = alb.AlbumArtist;
                             subHeader = alb.AlbumTitle;
                             break;
-                        case AlbumOrder.ByYear:
+                        case AlbumOrder.ByYearAscending:
+                        case AlbumOrder.ByYearDescending:
                             mainHeader = alb.Year;
                             subHeader = alb.AlbumTitle;
                             break;

@@ -269,8 +269,11 @@ namespace Dopamine.ViewModels.Common.Base
                 case AlbumOrder.ByAlbumArtist:
                     this.albumOrderText = ResourceUtils.GetString("Language_By_Album_Artist");
                     break;
-                case AlbumOrder.ByYear:
-                    this.albumOrderText = ResourceUtils.GetString("Language_By_Year");
+                case AlbumOrder.ByYearDescending:
+                    this.albumOrderText = ResourceUtils.GetString("Language_By_Year_Descending");
+                    break;
+                case AlbumOrder.ByYearAscending:
+                    this.albumOrderText = ResourceUtils.GetString("Language_By_Year_Ascending");
                     break;
                 default:
                     // Cannot happen, but just in case.
@@ -525,9 +528,12 @@ namespace Dopamine.ViewModels.Common.Base
                     this.AlbumOrder = AlbumOrder.ByAlbumArtist;
                     break;
                 case AlbumOrder.ByAlbumArtist:
-                    this.AlbumOrder = AlbumOrder.ByYear;
+                    this.AlbumOrder = AlbumOrder.ByYearAscending;
                     break;
-                case AlbumOrder.ByYear:
+                case AlbumOrder.ByYearAscending:
+                    this.AlbumOrder = AlbumOrder.ByYearDescending;
+                    break;
+                case AlbumOrder.ByYearDescending:
                     this.AlbumOrder = AlbumOrder.Alphabetical;
                     break;
                 default:

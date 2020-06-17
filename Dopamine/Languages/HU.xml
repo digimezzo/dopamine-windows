@@ -238,7 +238,6 @@
   <Text Key="Select_Image">Kép kiválasztása</Text>
   <Text Key="Error_Changing_Image">Nem lehet a képet megváltoztatni. További információért tekintsd meg a naplófájlt.</Text>
   <Text Key="Add_To_Now_Playing">Hozzáadás a most játszotthoz</Text>
-  <Text Key="By_Year">Év szerint</Text>
   <Text Key="Removing_Songs">Zeneszámok eltávolítása</Text>
   <Text Key="Updating_Songs">Zeneszámok frissítése</Text>
   <Text Key="Hide">Elrejt</Text>
@@ -450,4 +449,6 @@
   <Text Key="Manage_Collection">Manage collection</Text>
   <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
   <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
+  <Text Key="By_Year_Ascending">By year ascending</Text>
+  <Text Key="By_Year_Descending">By year descending</Text>
 </Language>

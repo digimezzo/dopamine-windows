@@ -238,7 +238,6 @@
   <Text Key="Select_Image">画像の選択</Text>
   <Text Key="Error_Changing_Image">画像を変更できませんでした。詳細はログ ファイルを参照してください。</Text>
   <Text Key="Add_To_Now_Playing">プレイング リストに追加</Text>
-  <Text Key="By_Year">年</Text>
   <Text Key="Removing_Songs">曲を削除しています</Text>
   <Text Key="Updating_Songs">曲を更新しています</Text>
   <Text Key="Hide">隠す</Text>
@@ -450,4 +449,6 @@
   <Text Key="Manage_Collection">コレクションの管理</Text>
   <Text Key="Use_AppCommand_Media_Keys">このソフトでキーボードのマルチメディア キー機能を有効化</Text>
   <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
+  <Text Key="By_Year_Ascending">By year ascending</Text>
+  <Text Key="By_Year_Descending">By year descending</Text>
 </Language>
