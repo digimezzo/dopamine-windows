@@ -1,6 +1,7 @@
-2020-06-16: Dopamine 2.0.2
+2020-06-17: Dopamine 2.0.2
 --------------------------
 
+- [Added] Added a Indonesian translation
 - [Fixed] Startup crash which is caused by the spectrum analyzer
 - [Fixed] ".opus" files are ignored
 - [Fixed] ".aif" files are ignored
