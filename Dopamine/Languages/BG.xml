@@ -449,4 +449,5 @@
   <Text Key="Date_Created">Дата на създаване</Text>
   <Text Key="Manage_Collection">Управление на колекцията</Text>
   <Text Key="Use_AppCommand_Media_Keys">Активиране поддръжката по подразбиране на мултимедийни клавиши</Text>
+  <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
 </Language>

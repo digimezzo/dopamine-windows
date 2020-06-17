@@ -449,4 +449,5 @@
   <Text Key="Date_Created">建立日期</Text>
   <Text Key="Manage_Collection">管理媒體庫</Text>
   <Text Key="Use_AppCommand_Media_Keys">啟用預設多媒體鍵支援</Text>
+  <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
 </Language>

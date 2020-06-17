@@ -74,6 +74,10 @@ namespace Dopamine.Services.Playlist
                 {
                     whereSubClause = $"Artists LIKE '%{rule.Value}%'";
                 }
+                else if (rule.Operator.Equals(SmartPlaylistDecoder.OperatorDoesNotContain))
+                {
+                    whereSubClause = $"Artists NOT LIKE '%{rule.Value}%'";
+                }
             }
 
             // AlbumArtist
@@ -90,6 +94,10 @@ namespace Dopamine.Services.Playlist
                 else if (rule.Operator.Equals(SmartPlaylistDecoder.OperatorContains))
                 {
                     whereSubClause = $"AlbumArtists LIKE '%{rule.Value}%'";
+                }
+                else if (rule.Operator.Equals(SmartPlaylistDecoder.OperatorDoesNotContain))
+                {
+                    whereSubClause = $"AlbumArtists NOT LIKE '%{rule.Value}%'";
                 }
             }
 
@@ -108,6 +116,10 @@ namespace Dopamine.Services.Playlist
                 {
                     whereSubClause = $"Genres LIKE '%{rule.Value}%'";
                 }
+                else if (rule.Operator.Equals(SmartPlaylistDecoder.OperatorDoesNotContain))
+                {
+                    whereSubClause = $"Genres NOT LIKE '%{rule.Value}%'";
+                }
             }
 
             // Title
@@ -125,6 +137,10 @@ namespace Dopamine.Services.Playlist
                 {
                     whereSubClause = $"TrackTitle LIKE '%{rule.Value}%'";
                 }
+                else if (rule.Operator.Equals(SmartPlaylistDecoder.OperatorDoesNotContain))
+                {
+                    whereSubClause = $"TrackTitle NOT LIKE '%{rule.Value}%'";
+                }
             }
 
             // AlbumTitle
@@ -141,6 +157,10 @@ namespace Dopamine.Services.Playlist
                 else if (rule.Operator.Equals(SmartPlaylistDecoder.OperatorContains))
                 {
                     whereSubClause = $"AlbumTitle LIKE '%{rule.Value}%'";
+                }
+                else if (rule.Operator.Equals(SmartPlaylistDecoder.OperatorDoesNotContain))
+                {
+                    whereSubClause = $"AlbumTitle NOT LIKE '%{rule.Value}%'";
                 }
             }
 

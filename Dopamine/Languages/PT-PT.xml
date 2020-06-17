@@ -449,4 +449,5 @@
   <Text Key="Date_Created">Data de criação</Text>
   <Text Key="Manage_Collection">Gerir coleção</Text>
   <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
+  <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
 </Language>

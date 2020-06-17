@@ -449,4 +449,5 @@
   <Text Key="Date_Created">Datum stvaranja</Text>
   <Text Key="Manage_Collection">Upravljaj kolekcijom</Text>
   <Text Key="Use_AppCommand_Media_Keys">Omogući podršku za zadane multimedijske tipke</Text>
+  <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
 </Language>

@@ -449,4 +449,5 @@
   <Text Key="Date_Created">Tanggal dibuat</Text>
   <Text Key="Manage_Collection">Kelola koleksi</Text>
   <Text Key="Use_AppCommand_Media_Keys">Tampilkan dukungan tombol multimedia bawaan</Text>
+  <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
 </Language>

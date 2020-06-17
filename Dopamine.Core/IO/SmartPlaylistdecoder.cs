@@ -115,6 +115,7 @@ namespace Dopamine.Core.IO
         public const string OperatorIs = "is";
         public const string OperatorIsNot = "isnot";
         public const string OperatorContains = "contains";
+        public const string OperatorDoesNotContain = "doesnotcontain";
         public const string OperatorGreaterThan = "greaterthan";
         public const string OperatorLessThan = "lessthan";
 

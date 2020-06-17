@@ -449,4 +449,5 @@
   <Text Key="Date_Created">Date de creation</Text>
   <Text Key="Manage_Collection">Gérer la collection</Text>
   <Text Key="Use_AppCommand_Media_Keys">Activer la prise en charge des touches multimédias par défaut</Text>
+  <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
 </Language>

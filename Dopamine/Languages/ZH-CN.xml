@@ -449,4 +449,5 @@
   <Text Key="Date_Created">创建日期</Text>
   <Text Key="Manage_Collection">管理音乐库</Text>
   <Text Key="Use_AppCommand_Media_Keys">启用默认多媒体键支持</Text>
+  <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
 </Language>

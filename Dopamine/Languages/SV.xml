@@ -449,4 +449,5 @@
   <Text Key="Date_Created">Datum skapad</Text>
   <Text Key="Manage_Collection">Hantera samling</Text>
   <Text Key="Use_AppCommand_Media_Keys">Använd stöd för standard multimedia tangenter</Text>
+  <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
 </Language>

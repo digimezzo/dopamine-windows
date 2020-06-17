@@ -449,4 +449,5 @@
   <Text Key="Date_Created">作成日</Text>
   <Text Key="Manage_Collection">コレクションの管理</Text>
   <Text Key="Use_AppCommand_Media_Keys">このソフトでキーボードのマルチメディア キー機能を有効化</Text>
+  <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
 </Language>

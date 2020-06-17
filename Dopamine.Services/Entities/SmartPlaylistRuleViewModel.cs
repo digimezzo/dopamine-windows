@@ -153,6 +153,7 @@ namespace Dopamine.Services.Entities
                     this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is"), SmartPlaylistDecoder.OperatorIs));
                     this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Is_Not"), SmartPlaylistDecoder.OperatorIsNot));
                     this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Contains"), SmartPlaylistDecoder.OperatorContains));
+                    this.operators.Add(new SmartPlaylistRuleOperatorViewModel(ResourceUtils.GetString("Language_Smart_Playlist_Does_Not_Contain"), SmartPlaylistDecoder.OperatorDoesNotContain));
                 }
             }
 
