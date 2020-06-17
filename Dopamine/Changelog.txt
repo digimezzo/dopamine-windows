@@ -2,6 +2,7 @@
 --------------------------
 
 - [Added] Added a Indonesian translation
+- [Added] Added Serbian translations
 - [Fixed] Startup crash which is caused by the spectrum analyzer
 - [Fixed] ".opus" files are ignored
 - [Fixed] ".aif" files are ignored

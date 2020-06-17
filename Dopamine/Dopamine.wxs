@@ -123,6 +123,7 @@
               <File Source="Languages\FR.xml" />
               <File Source="Languages\HR.xml" />
               <File Source="Languages\HU.xml" />
+              <File Source="Languages\ID.xml" />
               <File Source="Languages\IT.xml" />
               <File Source="Languages\JP.xml" />
               <File Source="Languages\KO.xml" />
@@ -132,6 +133,8 @@
               <File Source="Languages\PT-BR.xml" />
               <File Source="Languages\PT-PT.xml" />
               <File Source="Languages\RU.xml" />
+              <File Source="Languages\SR-Cyrl.xml" />
+              <File Source="Languages\SR-Latn.xml" />
               <File Source="Languages\SV.xml" />
               <File Source="Languages\TR.xml" />
               <File Source="Languages\UK.xml" />
