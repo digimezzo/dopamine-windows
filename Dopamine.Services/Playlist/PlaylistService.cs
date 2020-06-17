@@ -105,6 +105,13 @@ namespace Dopamine.Services.Playlist
             {
                 await Task.Run(() =>
                 {
+                    string playlistsDirectoryPath = Path.GetDirectoryName(editablePlaylist.Path);
+
+                    if (!Directory.Exists(playlistsDirectoryPath))
+                    {
+                        Directory.CreateDirectory(playlistsDirectoryPath);
+                    }
+
                     // Close() prevents file in use issues
                     System.IO.File.Create(editablePlaylist.Path).Close();
                 });

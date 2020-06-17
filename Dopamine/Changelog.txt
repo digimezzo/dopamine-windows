@@ -8,6 +8,7 @@
 - [Fixed] ".opus" files are ignored
 - [Fixed] ".aif" files are ignored
 - [Fixed] When double-clicking a playlist, it is not enqueued.
+- [Fixed] A crash which occurs when creating a new playlist after deleting the playlists folder
 - [Fixed] PC goes to sleep while playing music
 - [Changed] Updated the Japanese translation
 - [Changed] Updated the Polish translation
