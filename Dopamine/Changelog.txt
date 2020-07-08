@@ -2,6 +2,7 @@
 --------------------------
 
 - [Fixed] Fixed a crash that occurs when using WinDock
+- [Changed] Updated the Bulgarian translation
 - [Changed] Updated the Chinese translation
 - [Changed] Updated the Indonesian translation
 - [Changed] Updated the Portuguese (Brazil) translation
