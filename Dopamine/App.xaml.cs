@@ -533,6 +533,20 @@ namespace Dopamine
                 return;
             }
 
+            // This is a workaround for an exception which occurs when using Dopamine together with WinDock (https://www.ivanyu.ca/windock)
+            // Unhandled Exception. Exception: System.OverflowException: Arithmetic operation resulted in an overflow.
+            // at System.Windows.Shell.WindowChromeWorker._HandleNCHitTest(WM uMsg, IntPtr wParam, IntPtr lParam, Boolean & handled)
+            // at System.Windows.Shell.WindowChromeWorker._WndProc(IntPtr hwnd, Int32 msg, IntPtr wParam, IntPtr lParam, Boolean & handled)
+            if (ex.GetType().ToString().Equals("System.OverflowException") & ex.Source.ToString().Equals("PresentationFramework"))
+            {
+                if (this.CanLogUnhandledException())
+                {
+                    LogClient.Warning($"Ignored Unhandled Exception: {ex.Message}");
+                }
+
+                return;
+            }
+
             // LogClient.Warning($"Ignored Unhandled Exception: Message=<<<<{ex.Message}>>>>");
             // LogClient.Warning($"Ignored Unhandled Exception: Type=<<<<{ex.GetType().ToString()}>>>>");
             // LogClient.Warning($"Ignored Unhandled Exception: Source=<<<<{ex.Source.ToString()}>>>>");

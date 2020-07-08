@@ -217,6 +217,11 @@ namespace Dopamine.Services.Folders
         {
             try
             {
+                if (subfolderViewModels == null)
+                {
+                    return;
+                }
+
                 if (!this.playbackService.HasCurrentTrack)
                 {
                     return;
