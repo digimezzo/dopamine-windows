@@ -116,7 +116,7 @@ namespace Dopamine.Data
             return result;
         }
 
-        private static string GetOrderedMultiValueTags(MetadataValue value)
+        private static string GetMultiValueTags(MetadataValue value)
         {
             if (string.IsNullOrWhiteSpace(value.Value))
             {
@@ -126,7 +126,7 @@ namespace Dopamine.Data
             IEnumerable<string> patchedEnumeration = MetadataUtils.PatchID3v23Enumeration(value.Values);
             IEnumerable<string> delimitedTags = patchedEnumeration.Select(x => FormatUtils.DelimitValue(x));
 
-            return string.Join(string.Empty, delimitedTags.OrderBy(x => x).ToArray());
+            return string.Join(string.Empty, delimitedTags.ToArray());
         }
 
         private static string GetAlbumTitle(FileMetadata fileMetadata)
@@ -143,10 +143,10 @@ namespace Dopamine.Data
             track.DiscNumber = SafeConvertToLong(fileMetadata.DiscNumber.Value);
             track.DiscCount = SafeConvertToLong(fileMetadata.DiscCount.Value);
             track.HasLyrics = string.IsNullOrWhiteSpace(fileMetadata.Lyrics.Value) ? 0 : 1;
-            track.Artists = GetOrderedMultiValueTags(fileMetadata.Artists);
-            track.Genres = GetOrderedMultiValueTags(fileMetadata.Genres);
+            track.Artists = GetMultiValueTags(fileMetadata.Artists);
+            track.Genres = GetMultiValueTags(fileMetadata.Genres);
             track.AlbumTitle = GetAlbumTitle(fileMetadata);
-            track.AlbumArtists = GetOrderedMultiValueTags(fileMetadata.AlbumArtists);
+            track.AlbumArtists = GetMultiValueTags(fileMetadata.AlbumArtists);
             track.AlbumKey = GenerateInitialAlbumKey(track.AlbumTitle, track.AlbumArtists);
         }
 

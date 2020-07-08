@@ -2,6 +2,7 @@
 --------------------------
 
 - [Fixed] Fixed a crash that occurs when using WinDock
+- [Fixed] The order of artists is not respected on now playing screens (Remove and re-add collection folders to apply this fix)
 - [Changed] Updated the Bulgarian translation
 - [Changed] Updated the Chinese translation
 - [Changed] Updated the Indonesian translation
