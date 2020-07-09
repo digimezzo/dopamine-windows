@@ -1,4 +1,4 @@
-2020-07-18: Dopamine 2.0.3
+2020-07-08: Dopamine 2.0.3
 --------------------------
 
 - [Fixed] Fixed a crash that occurs when using WinDock
@@ -10,6 +10,7 @@
 - [Changed] Updated the Serbian (Cyrillic)
 - [Changed] Updated the Serbian (Latin)
 - [Changed] Updated the Spanish translation
+- [Changed] Updated the Swedish translation
 
 
 2020-06-17: Dopamine 2.0.2
