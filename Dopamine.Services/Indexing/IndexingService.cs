@@ -3,19 +3,21 @@ using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
-using Dopamine.Core.Utils;
 using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
 using Dopamine.Services.InfoDownload;
-using Dopamine.Services.Utils;
+using Dopamine.Services.Lifetime;
 using SQLite;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Dopamine.Services.Indexing
@@ -25,6 +27,7 @@ namespace Dopamine.Services.Indexing
         // Services
         private ICacheService cacheService;
         private IInfoDownloadService infoDownloadService;
+        private ITerminationService cancellationService;
 
         // Repositories
         private ITrackRepository trackRepository;
@@ -32,7 +35,7 @@ namespace Dopamine.Services.Indexing
         private IFolderRepository folderRepository;
 
         // Factories
-        private ISQLiteConnectionFactory factory;
+        private ISQLiteConnectionFactory sqliteConnectionFactory;
 
         // Watcher
         private FolderWatcherManager watcherManager;
@@ -63,18 +66,26 @@ namespace Dopamine.Services.Indexing
             get { return this.isIndexing; }
         }
 
-        public IndexingService(ISQLiteConnectionFactory factory, ICacheService cacheService, IInfoDownloadService infoDownloadService,
-            ITrackRepository trackRepository, IFolderRepository folderRepository, IAlbumArtworkRepository albumArtworkRepository)
+        public IndexingService(
+            ISQLiteConnectionFactory factory,
+            ICacheService cacheService,
+            IInfoDownloadService infoDownloadService,
+            ITerminationService cancellationService,
+            ITrackRepository trackRepository,
+            IFolderRepository folderRepository,
+            IAlbumArtworkRepository albumArtworkRepository)
         {
             this.cacheService = cacheService;
             this.infoDownloadService = infoDownloadService;
+            this.cancellationService = cancellationService;
+
             this.trackRepository = trackRepository;
             this.folderRepository = folderRepository;
             this.albumArtworkRepository = albumArtworkRepository;
-            this.factory = factory;
+            this.sqliteConnectionFactory = factory;
 
             this.watcherManager = new FolderWatcherManager(this.folderRepository);
-            this.cache = new IndexerCache(this.factory);
+            this.cache = new IndexerCache(this.sqliteConnectionFactory);
 
             SettingsClient.SettingChanged += SettingsClient_SettingChanged;
             this.watcherManager.FoldersChanged += WatcherManager_FoldersChanged;
@@ -156,7 +167,7 @@ namespace Dopamine.Services.Indexing
             {
                 this.allDiskPaths = await this.GetFolderPaths();
 
-                using (var conn = this.factory.GetConnection())
+                using (var conn = this.sqliteConnectionFactory.GetConnection())
                 {
                     bool performIndexing = false;
 
@@ -166,19 +177,18 @@ namespace Dopamine.Services.Indexing
                     }
                     else
                     {
-                        long databaseNeedsIndexingCount = conn.Table<Track>().Select(t => t).ToList().Where(t => t.NeedsIndexing == 1).LongCount();
-                        long databaseLastDateFileModified = conn.Table<Track>().Select(t => t).ToList().OrderByDescending(t => t.DateFileModified).Select(t => t.DateFileModified).FirstOrDefault();
-                        long diskLastDateFileModified = this.allDiskPaths.Count > 0 ? this.allDiskPaths.Select((t) => t.DateModifiedTicks).OrderByDescending((t) => t).First() : 0;
-                        long databaseTrackCount = conn.Table<Track>().Select(t => t).LongCount();
+                        long databaseNeedsIndexingCount = conn.ExecuteScalar<long>("SELECT COUNT(*) FROM Track WHERE NeedsIndexing = 1");
+                        long databaseTrackCount = conn.ExecuteScalar<long>("SELECT COUNT(*) FROM Track");
+                        long databaseLastDateFileModified = conn.ExecuteScalar<long>("SELECT DateFileModified FROM Track ORDER BY DateFileModified DESC LIMIT 1");
+                        long diskLastDateFileModified = this.allDiskPaths.Count > 0 ? this.allDiskPaths.Max(t => t.DateModifiedTicks) : 0;
 
-                        performIndexing = databaseNeedsIndexingCount > 0 |
-                                          databaseTrackCount != this.allDiskPaths.Count |
+                        performIndexing = databaseNeedsIndexingCount > 0 ||
+                                          databaseTrackCount != this.allDiskPaths.Count ||
                                           databaseLastDateFileModified < diskLastDateFileModified;
                     }
 
                     if (performIndexing)
                     {
-                        await Task.Delay(1000);
                         await this.IndexCollectionAsync();
                     }
                     else
@@ -210,7 +220,8 @@ namespace Dopamine.Services.Indexing
 
             // Tracks
             // ------
-            bool isTracksChanged = await this.IndexTracksAsync(SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles")) > 0 ? true : false;
+            bool isTracksChanged = await this.IndexTracksAsync(
+                SettingsClient.Get<bool>("Indexing", "IgnoreRemovedFiles")) > 0;
 
             // Track statistics (for upgrade from 1.x to 2.x)
             // ----------------------------------------------
@@ -245,7 +256,7 @@ namespace Dopamine.Services.Indexing
         {
             await Task.Run(() =>
             {
-                using (var conn = this.factory.GetConnection())
+                using (var conn = this.sqliteConnectionFactory.GetConnection())
                 {
                     int count = conn.ExecuteScalar<int>("SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='TrackStatistic'");
 
@@ -259,7 +270,7 @@ namespace Dopamine.Services.Indexing
 
                         foreach (TrackStatistic trackStatistic in trackStatistics)
                         {
-                            conn.Execute("UPDATE Track SET Rating=?, Love=?, PlayCount=?, SkipCount=?, DateLastPlayed=? WHERE Safepath=?;", 
+                            conn.Execute("UPDATE Track SET Rating=?, Love=?, PlayCount=?, SkipCount=?, DateLastPlayed=? WHERE Safepath=?;",
                                 trackStatistic.Rating, trackStatistic.Love, trackStatistic.PlayCount, trackStatistic.SkipCount, trackStatistic.DateLastPlayed, trackStatistic.SafePath);
                         }
 
@@ -283,28 +294,30 @@ namespace Dopamine.Services.Indexing
             {
                 // Step 1: remove Tracks which are not found on disk
                 // -------------------------------------------------
-                DateTime removeTracksStartTime = DateTime.Now;
+                Stopwatch sw = Stopwatch.StartNew();
 
                 numberTracksRemoved = await this.RemoveTracksAsync();
+                LogClient.Info("Tracks removed: {0}. Time required: {1} ms +++", numberTracksRemoved, sw.ElapsedMilliseconds);
 
-                LogClient.Info("Tracks removed: {0}. Time required: {1} ms +++", numberTracksRemoved, Convert.ToInt64(DateTime.Now.Subtract(removeTracksStartTime).TotalMilliseconds));
-
+                sw = Stopwatch.StartNew();
                 await this.GetNewDiskPathsAsync(ignoreRemovedFiles); // Obsolete tracks are removed, now we can determine new files.
+                LogClient.Info("Got new disk paths: {0}. Time required: {1} ms +++", newDiskPaths.Count, sw.ElapsedMilliseconds);
+
                 this.cache.Initialize(); // After obsolete tracks are removed, we can initialize the cache.
 
                 // Step 2: update outdated Tracks
                 // ------------------------------
-                DateTime updateTracksStartTime = DateTime.Now;
+                sw = Stopwatch.StartNew();
                 numberTracksUpdated = await this.UpdateTracksAsync();
 
-                LogClient.Info("Tracks updated: {0}. Time required: {1} ms +++", numberTracksUpdated, Convert.ToInt64(DateTime.Now.Subtract(updateTracksStartTime).TotalMilliseconds));
+                LogClient.Info("Tracks updated: {0}. Time required: {1} ms +++", numberTracksUpdated, sw.ElapsedMilliseconds);
 
                 // Step 3: add new Tracks
                 // ----------------------
-                DateTime addTracksStartTime = DateTime.Now;
+                sw = Stopwatch.StartNew();
                 numberTracksAdded = await this.AddTracksAsync();
 
-                LogClient.Info("Tracks added: {0}. Time required: {1} ms +++", numberTracksAdded, Convert.ToInt64(DateTime.Now.Subtract(addTracksStartTime).TotalMilliseconds));
+                LogClient.Info("Tracks added: {0}. Time required: {1} ms +++", numberTracksAdded, sw.ElapsedMilliseconds);
             }
             catch (Exception ex)
             {
@@ -316,34 +329,42 @@ namespace Dopamine.Services.Indexing
             return numberTracksRemoved + numberTracksAdded + numberTracksUpdated;
         }
 
+        class QuerySafePath
+        {
+            public string SafePath { get; set; }
+        }
+
         private async Task GetNewDiskPathsAsync(bool ignoreRemovedFiles)
         {
             await Task.Run(() =>
             {
-                var dbPaths = new List<string>();
+                HashSet<string> dbPaths;
+                HashSet<string> removedPaths;
 
-                using (var conn = this.factory.GetConnection())
+                using (var conn = this.sqliteConnectionFactory.GetConnection())
                 {
-                    dbPaths = conn.Table<Track>().ToList().Select((trk) => trk.SafePath).ToList();
-                }
-
-                var removedPaths = new List<string>();
-
-                using (var conn = this.factory.GetConnection())
-                {
-                    removedPaths = conn.Table<RemovedTrack>().ToList().Select((t) => t.SafePath).ToList();
+                    dbPaths = conn.Query<QuerySafePath>("SELECT SafePath FROM Track").Select(s => s.SafePath).ToHashSet();
+                    removedPaths = ignoreRemovedFiles
+                        ? new HashSet<string>()
+                        : conn.Query<QuerySafePath>("SELECT SafePath FROM RemovedTrack").Select(t => t.SafePath).ToHashSet();
                 }
 
                 this.newDiskPaths = new List<FolderPathInfo>();
 
                 foreach (FolderPathInfo diskpath in this.allDiskPaths)
                 {
-                    if (!dbPaths.Contains(diskpath.Path.ToSafePath()) && (ignoreRemovedFiles ? !removedPaths.Contains(diskpath.Path.ToSafePath()) : true))
+                    if (!dbPaths.Contains(diskpath.Path.ToSafePath()) && (ignoreRemovedFiles || !removedPaths.Contains(diskpath.Path.ToSafePath())))
                     {
                         this.newDiskPaths.Add(diskpath);
                     }
                 }
             });
+        }
+
+        class QueryResultTrackIdAndPath
+        {
+            public int TrackId { get; set; }
+            public string Path { get; set; }
         }
 
         private async Task<long> RemoveTracksAsync()
@@ -360,67 +381,49 @@ namespace Dopamine.Services.Indexing
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.sqliteConnectionFactory.GetConnection())
                     {
-                        conn.BeginTransaction();
+                        LogClient.Info("Begin removing tracks");
 
-                        // Create a list of folderIDs
-                        List<long> folderTrackIDs = conn.Table<FolderTrack>().ToList().Select((t) => t.TrackID).Distinct().ToList();
-
-                        List<Track> alltracks = conn.Table<Track>().Select((t) => t).ToList();
-                        List<Track> tracksInMissingFolders = alltracks.Select((t) => t).Where(t => !folderTrackIDs.Contains(t.TrackID)).ToList();
-                        List<Track> remainingTracks = new List<Track>();
-
-                        // Processing tracks in missing folders in bulk first, then checking 
-                        // existence of the remaining tracks, improves speed of removing tracks.
-                        if (tracksInMissingFolders.Count > 0 && tracksInMissingFolders.Count < alltracks.Count)
+                        // Delete all tracks with missing folders
                         {
-                            remainingTracks = alltracks.Except(tracksInMissingFolders).ToList();
-                        }
-                        else
-                        {
-                            remainingTracks = alltracks;
-                        }
+                            int deletedTracks = conn.Execute("DELETE FROM Track WHERE TrackID NOT IN (SELECT TrackID FROM FolderTrack)");
 
-                        // 1. Process tracks in missing folders
-                        // ------------------------------------
-                        if (tracksInMissingFolders.Count > 0)
-                        {
-                            // Report progress immediately, as there are tracks in missing folders.                           
-                            this.IndexingStatusChanged(args);
-
-                            // Delete
-                            foreach (Track trk in tracksInMissingFolders)
+                            if (deletedTracks > 0)
                             {
-                                conn.Delete(trk);
+                                this.IndexingStatusChanged(args);
+                                numberRemovedTracks += deletedTracks;
                             }
-
-                            numberRemovedTracks += tracksInMissingFolders.Count;
                         }
 
-                        // 2. Process remaining tracks
-                        // ---------------------------
-                        if (remainingTracks.Count > 0)
-                        {
-                            foreach (Track trk in remainingTracks)
-                            {
-                                // If a remaining track doesn't exist on disk, delete it from the collection.
-                                if (!System.IO.File.Exists(trk.Path))
-                                {
-                                    conn.Delete(trk);
-                                    numberRemovedTracks += 1;
+                        var existingTracks = conn.Query<QueryResultTrackIdAndPath>("SELECT TrackID, Path FROM Track").ToList();
 
-                                    // Report progress as soon as the first track was removed.
-                                    // This is indeterminate progress. No need to sent it multiple times.
-                                    if (numberRemovedTracks == 1)
+                        Parallel.ForEach(
+                            Partitioner.Create(0, existingTracks.Count, IndexerUtils.GetParallelBatchSize(existingTracks.Count)),
+                            new ParallelOptions
+                            {
+                                CancellationToken = cancellationService.CancellationToken,
+                                MaxDegreeOfParallelism = Environment.ProcessorCount,
+                            },
+                            range =>
+                            {
+                                LogClient.Info("Checking range {0}-{1}", range.Item1, range.Item2);
+
+                                for (int i = range.Item1; i < range.Item2 && cancellationService.KeepRunning; ++i)
+                                {
+                                    var trackIdAndPath = existingTracks[i];
+
+                                    if (!System.IO.File.Exists(trackIdAndPath.Path))
                                     {
-                                        this.IndexingStatusChanged(args);
+                                        lock (conn)
+                                        {
+                                            conn.Delete<Track>(trackIdAndPath.TrackId);
+                                        }
                                     }
                                 }
-                            }
-                        }
+                            });
 
-                        conn.Commit();
+                        LogClient.Info("Finished removing tracks");
                     }
                 }
                 catch (Exception ex)
@@ -446,9 +449,9 @@ namespace Dopamine.Services.Indexing
             {
                 try
                 {
-                    using (var conn = this.factory.GetConnection())
+                    using (var conn = this.sqliteConnectionFactory.GetConnection())
                     {
-                        conn.BeginTransaction();
+                        LogClient.Info("Starting updating tracks");
 
                         List<Track> alltracks = conn.Table<Track>().Select((t) => t).ToList();
 
@@ -456,39 +459,57 @@ namespace Dopamine.Services.Indexing
                         long totalValue = alltracks.Count;
                         int lastPercent = 0;
 
-                        foreach (Track dbTrack in alltracks)
-                        {
-                            try
+                        int batchSize = IndexerUtils.GetParallelBatchSize(alltracks.Count);
+
+                        Parallel.ForEach(
+                            Partitioner.Create(0, alltracks.Count, batchSize),
+                            new ParallelOptions
                             {
-                                if (IndexerUtils.IsTrackOutdated(dbTrack) | dbTrack.NeedsIndexing == 1)
+                                CancellationToken = cancellationService.CancellationToken,
+                                MaxDegreeOfParallelism = Environment.ProcessorCount
+                            },
+                            range =>
+                            {
+                                for (int i = range.Item1; i < range.Item2 && cancellationService.KeepRunning; ++i)
                                 {
-                                    this.ProcessTrack(dbTrack, conn);
-                                    conn.Update(dbTrack);
-                                    numberUpdatedTracks += 1;
+                                    var dbTrack = alltracks[i];
+                                    var tracksToUpdate = new List<Track>();
+
+                                    try
+                                    {
+                                        if (IndexerUtils.IsTrackOutdated(dbTrack) || dbTrack.NeedsIndexing == 1)
+                                        {
+                                            this.ProcessTrack(dbTrack);
+                                            tracksToUpdate.Add(dbTrack);
+                                            conn.Update(dbTrack);
+                                            numberUpdatedTracks += 1;
+                                        }
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        LogClient.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", dbTrack.Path, ex.Message);
+                                    }
+
+                                    lock (conn)
+                                    {
+                                        if (tracksToUpdate.Count > 0)
+                                        {
+                                            conn.BeginTransaction();
+                                            conn.UpdateAll(tracksToUpdate);
+                                            conn.Commit();
+                                        }
+
+                                        currentValue += (range.Item2 - range.Item1);
+
+                                        int percent = IndexerUtils.CalculatePercent(currentValue, totalValue);
+
+                                        lastPercent = percent;
+                                        args.ProgressPercent = percent;
+                                    }
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                LogClient.Error("There was a problem while updating Track with path='{0}'. Exception: {1}", dbTrack.Path, ex.Message);
-                            }
+                            });
 
-                            currentValue += 1;
-
-                            int percent = IndexerUtils.CalculatePercent(currentValue, totalValue);
-
-                            // Report progress if at least 1 track is updated OR when the progress
-                            // interval has been exceeded OR the maximum has been reached.
-                            bool mustReportProgress = numberUpdatedTracks == 1 || percent >= lastPercent + 5 || percent == 100;
-
-                            if (mustReportProgress)
-                            {
-                                lastPercent = percent;
-                                args.ProgressPercent = percent;
-                                this.IndexingStatusChanged(args);
-                            }
-                        }
-
-                        conn.Commit();
+                        LogClient.Info("Finished updating tracks");
                     }
                 }
                 catch (Exception ex)
@@ -502,13 +523,20 @@ namespace Dopamine.Services.Indexing
 
         private async Task<long> AddTracksAsync()
         {
+            if(newDiskPaths.Count == 0)
+            {
+                return 0;
+            }
+
             long numberAddedTracks = 0;
 
             var args = new IndexingStatusEventArgs()
             {
                 IndexingAction = IndexingAction.AddTracks,
-                ProgressPercent = 0
+                ProgressPercent = 0,
+                ProgressCurrent = 0
             };
+            this.IndexingStatusChanged(args);
 
             await Task.Run(() =>
             {
@@ -517,63 +545,70 @@ namespace Dopamine.Services.Indexing
                     long currentValue = 0;
                     long totalValue = this.newDiskPaths.Count;
 
-                    long saveItemCount = IndexerUtils.CalculateSaveItemCount(totalValue);
-                    long unsavedItemCount = 0;
-                    int lastPercent = 0;
+                    int batchSize = IndexerUtils.GetParallelBatchSize(newDiskPaths.Count);
 
-                    using (var conn = this.factory.GetConnection())
+                    LogClient.Info("Processing {0} paths in batches of {1}", newDiskPaths.Count, batchSize);
+
+                    using (var conn = this.sqliteConnectionFactory.GetConnection())
                     {
-                        conn.BeginTransaction();
-
-                        foreach (FolderPathInfo newDiskPath in this.newDiskPaths)
+                        Parallel.ForEach(
+                            Partitioner.Create(0, newDiskPaths.Count, batchSize),
+                            new ParallelOptions
+                            { 
+                                CancellationToken = cancellationService.CancellationToken,
+                                MaxDegreeOfParallelism = Environment.ProcessorCount
+                            },
+                            range =>
                         {
-                            Track diskTrack = Track.CreateDefault(newDiskPath.Path);
+                            LogClient.Info("Processing range {0}-{1}", range.Item1, range.Item2);
 
-                            try
+                            var newDiskTracks = new List<Track>(range.Item2 - range.Item1);
+                            var newFolderTracks = new List<Tuple<FolderPathInfo, Track>>(range.Item2 - range.Item1);
+
+                            for (int i = range.Item1; i < range.Item2 && cancellationService.KeepRunning; ++i)
                             {
-                                this.ProcessTrack(diskTrack, conn);
+                                var diskPath = newDiskPaths[i];
+                                var safePath = diskPath.Path.ToSafePath();
 
-                                if (!this.cache.HasCachedTrack(ref diskTrack))
+                                try
                                 {
-                                    conn.Insert(diskTrack);
-                                    this.cache.AddTrack(diskTrack);
-                                    numberAddedTracks += 1;
-                                    unsavedItemCount += 1;
+                                    var diskTrack = cache.GetTrack(safePath);
+
+                                    if (diskTrack == null)
+                                    {
+                                        diskTrack = Track.CreateDefault(diskPath.Path);
+                                        ProcessTrack(diskTrack);
+                                        newDiskTracks.Add(diskTrack);
+                                        Interlocked.Increment(ref numberAddedTracks);
+                                    }
+
+                                    newFolderTracks.Add(Tuple.Create(diskPath, diskTrack));
                                 }
-
-                                conn.Insert(new FolderTrack(newDiskPath.FolderId, diskTrack.TrackID));
-
-                                // Intermediate save to the database if 20% is reached
-                                if (unsavedItemCount == saveItemCount)
+                                catch (Exception ex)
                                 {
-                                    unsavedItemCount = 0;
-                                    conn.Commit(); // Intermediate save
-                                    conn.BeginTransaction();
+                                    LogClient.Error("There was a problem while adding Track with path='{0}'. Exception: {1}", diskPath, ex.Message);
                                 }
                             }
-                            catch (Exception ex)
+
+                            LogClient.Info("Finished range {0}-{1}", range.Item1, range.Item2);
+
+                            lock (conn)
                             {
-                                LogClient.Error("There was a problem while adding Track with path='{0}'. Exception: {1}", diskTrack.Path, ex.Message);
-                            }
+                                conn.BeginTransaction();
+                                conn.InsertAll(newDiskTracks);
+                                conn.InsertAll(newFolderTracks.Select(nft => new FolderTrack(nft.Item1.FolderId, nft.Item2.TrackID)));
+                                conn.Commit();
 
-                            currentValue += 1;
+                                bool firstInsert = currentValue == 0;
+                                currentValue += newFolderTracks.Count;
 
-                            int percent = IndexerUtils.CalculatePercent(currentValue, totalValue);
+                                int percent = IndexerUtils.CalculatePercent(currentValue, totalValue);
 
-                            // Report progress if at least 1 track is added OR when the progress
-                            // interval has been exceeded OR the maximum has been reached.
-                            bool mustReportProgress = numberAddedTracks == 1 || percent >= lastPercent + 5 || percent == 100;
-
-                            if (mustReportProgress)
-                            {
-                                lastPercent = percent;
-                                args.ProgressCurrent = numberAddedTracks;
+                                args.ProgressCurrent = Interlocked.Read(ref numberAddedTracks);
                                 args.ProgressPercent = percent;
                                 this.IndexingStatusChanged(args);
                             }
-                        }
-
-                        conn.Commit(); // Final save
+                        });
                     }
                 }
                 catch (Exception ex)
@@ -585,11 +620,11 @@ namespace Dopamine.Services.Indexing
             return numberAddedTracks;
         }
 
-        private void ProcessTrack(Track track, SQLiteConnection conn)
+        private void ProcessTrack(Track track)
         {
             try
             {
-                MetadataUtils.FillTrack(new FileMetadata(track.Path), ref track);
+                MetadataUtils.FillTrack(new FileMetadata(track.Path), track);
 
                 track.IndexingSuccess = 1;
 
@@ -604,8 +639,6 @@ namespace Dopamine.Services.Indexing
 
                 LogClient.Error("Error while retrieving tag information for file {0}. Exception: {1}", track.Path, ex.Message);
             }
-
-            return;
         }
 
         private async void WatcherManager_FoldersChanged(object sender, EventArgs e)
@@ -621,7 +654,7 @@ namespace Dopamine.Services.Indexing
             {
                 string[] artworkFiles = Directory.GetFiles(this.cacheService.CoverArtCacheFolderPath, "album-*.jpg");
 
-                using (SQLiteConnection conn = this.factory.GetConnection())
+                using (SQLiteConnection conn = this.sqliteConnectionFactory.GetConnection())
                 {
                     IList<string> artworkIds = await this.albumArtworkRepository.GetArtworkIdsAsync();
 
@@ -712,7 +745,7 @@ namespace Dopamine.Services.Indexing
 
             await Task.Run(async () =>
             {
-                using (SQLiteConnection conn = this.factory.GetConnection())
+                using (SQLiteConnection conn = this.sqliteConnectionFactory.GetConnection())
                 {
                     try
                     {
@@ -835,26 +868,27 @@ namespace Dopamine.Services.Indexing
             var allFolderPaths = new List<FolderPathInfo>();
             List<Folder> folders = await this.folderRepository.GetFoldersAsync();
 
-            await Task.Run(() =>
+            // Recursively get all the files in the collection folders
+            foreach (Folder fol in folders)
             {
-                // Recursively get all the files in the collection folders
-                foreach (Folder fol in folders)
+                if (Directory.Exists(fol.Path))
                 {
-                    if (Directory.Exists(fol.Path))
+                    try
                     {
-                        try
-                        {
-                            // Get all audio files recursively
-                            List<FolderPathInfo> folderPaths = FileOperations.GetValidFolderPaths(fol.FolderID, fol.Path, FileFormats.SupportedMediaExtensions);
-                            allFolderPaths.AddRange(folderPaths);
-                        }
-                        catch (Exception ex)
-                        {
-                            LogClient.Error("Error while recursively getting files/folders for directory={0}. Exception: {1}", fol.Path, ex.Message);
-                        }
+                        // Get all audio files recursively
+                        List<FolderPathInfo> folderPaths = await FileOperations.GetValidFolderPathsAsync(
+                            fol.FolderID,
+                            fol.Path,
+                            FileFormats.SupportedMediaExtensions,
+                            cancellationService.CancellationToken);
+                        allFolderPaths.AddRange(folderPaths);
+                    }
+                    catch (Exception ex)
+                    {
+                        LogClient.Error("Error while recursively getting files/folders for directory={0}. Exception: {1}", fol.Path, ex.Message);
                     }
                 }
-            });
+            }
 
             return allFolderPaths;
         }

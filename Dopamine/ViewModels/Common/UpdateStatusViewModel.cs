@@ -61,7 +61,7 @@ namespace Dopamine.ViewModels.Common
             this.updateService.NewVersionAvailable += NewVersionAvailableHandler;
             this.updateService.NoNewVersionAvailable += NoNewVersionAvailableHandler;
 
-            this.LoadedCommand = new DelegateCommand(() => updateService.Reset());
+            this.LoadedCommand = new DelegateCommand(async () => await updateService.Reset());
         }
 
         private void NewVersionAvailableHandler(object sender, UpdateAvailableEventArgs e)

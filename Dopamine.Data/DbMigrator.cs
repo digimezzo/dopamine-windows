@@ -25,7 +25,7 @@ namespace Dopamine.Data
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 26;
+        protected const int CURRENT_VERSION = 27;
         private ISQLiteConnectionFactory factory;
         private int userDatabaseVersion;
 
@@ -116,14 +116,15 @@ namespace Dopamine.Data
                              "DateRemoved           INTEGER," +
                              "PRIMARY KEY(TrackID));");
 
-                conn.Execute("CREATE TABLE QueuedTrack (" +
-                             "QueuedTrackID         INTEGER," +
-                             "Path	                TEXT," +
-                             "SafePath	            TEXT," +
-                             "IsPlaying             INTEGER," +
-                             "ProgressSeconds       INTEGER," +
-                             "OrderID               INTEGER," +
-                             "PRIMARY KEY(QueuedTrackID));");
+                conn.Execute(@"
+				    CREATE TABLE QueuedTrack
+                    (
+                        TrackID INTEGER NOT NULL,
+                        IsPlaying INTEGER,
+                        ProgressSeconds INTEGER,
+                        OrderID INTEGER,
+                        FOREIGN KEY(TrackID) REFERENCES Track(TrackID) ON DELETE CASCADE
+                    );");
 
                 conn.Execute("CREATE TABLE TrackStatistic (" +
                              "TrackStatisticID	    INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -1073,6 +1074,32 @@ namespace Dopamine.Data
 
                 conn.Execute("UPDATE Track SET PlayCount=0 WHERE PlayCount IS NULL;");
                 conn.Execute("UPDATE Track SET SkipCount=0 WHERE SkipCount IS NULL;");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+
+        [DatabaseVersion(27)]
+        private void Migrate27()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("PRAGMA foreign_keys = ON;");
+
+                conn.Execute("BEGIN TRANSACTION;");
+                conn.Execute("DROP TABLE IF EXISTS QueuedTrack;");
+
+                conn.Execute(@"                    
+                    CREATE TABLE QueuedTrack
+                    (
+                        TrackID INTEGER NOT NULL,
+                        IsPlaying INTEGER,
+                        ProgressSeconds INTEGER,
+                        OrderID INTEGER,
+                        FOREIGN KEY(TrackID) REFERENCES Track(TrackID) ON DELETE CASCADE
+                    );
+                ");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");

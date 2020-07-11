@@ -50,10 +50,10 @@ namespace Dopamine.Services.Update
             this.checkTimer.Elapsed += new ElapsedEventHandler(this.CheckTimerElapsedHandler);
         }
 
-        private void CheckTimerElapsedHandler(object sender, ElapsedEventArgs e)
+        private async void CheckTimerElapsedHandler(object sender, ElapsedEventArgs e)
         {
             this.checkTimer.Stop();
-            this.CheckNow();
+            await this.CheckNow();
         }
 
         private Package CreateDummyPackage()
@@ -249,7 +249,7 @@ namespace Dopamine.Services.Update
             return operationResult;
         }
 
-        private async void CheckNow()
+        private async Task CheckNow()
         {
             if (this.isDismissed)
             {
@@ -417,7 +417,7 @@ namespace Dopamine.Services.Update
             this.checkTimer.Stop();
         }
 
-        public void Reset()
+        public async Task Reset()
         {
             LogClient.Info("Resetting update check");
 
@@ -427,7 +427,7 @@ namespace Dopamine.Services.Update
 
             if (SettingsClient.Get<bool>("Updates", "CheckAtStartup"))
             {
-                this.CheckNow();
+                await this.CheckNow();
             }
             else if (SettingsClient.Get<bool>("Updates", "CheckPeriodically"))
             {

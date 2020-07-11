@@ -171,6 +171,8 @@
     <Compile Include="InfoDownload\InfoDownloadService.cs" />
     <Compile Include="JumpList\IJumpListService.cs" />
     <Compile Include="JumpList\JumpListService.cs" />
+    <Compile Include="Lifetime\TerminationService.cs" />
+    <Compile Include="Lifetime\ITerminationService.cs" />
     <Compile Include="Lifetime\ILifetimeService.cs" />
     <Compile Include="Lifetime\LifetimeService.cs" />
     <Compile Include="Lyrics\ILyricsService.cs" />

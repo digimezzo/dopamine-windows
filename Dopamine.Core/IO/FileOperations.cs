@@ -1,113 +1,139 @@
-﻿using Digimezzo.Foundation.Core.Utils;
-using Digimezzo.Foundation.Core.Logging;
+﻿using Digimezzo.Foundation.Core.Logging;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Threading;
 
 namespace Dopamine.Core.IO
 {
     public sealed class FileOperations
     {
-        public static List<FolderPathInfo> GetValidFolderPaths(long folderId, string directory, string[] validExtensions)
+        public static Task<List<FolderPathInfo>> GetValidFolderPathsAsync(
+            long folderId,
+            string directory,
+            string[] validExtensions,
+            CancellationToken cancellationToken)
         {
+            return Task.Run(() =>
+            {
+                return GetValidFolderPaths(folderId, directory, validExtensions, cancellationToken);
+            });
+        }
+
+        private static List<FolderPathInfo> GetValidFolderPaths(
+            long folderId,
+            string directory,
+            string[] validExtensions,
+            CancellationToken cancellationToken)
+        {
+            LogClient.Info("Get paths of directory {0}", directory);
+
             var folderPaths = new List<FolderPathInfo>();
+            var validExtensionSet = new HashSet<string>(validExtensions);
+
+            var sw = Stopwatch.StartNew();
 
             try
             {
-                var files = new List<string>();
+                var files = new List<FileInfo>();
                 var exceptions = new ConcurrentQueue<Exception>();
 
-                TryDirectoryRecursiveGetFiles(directory, files, exceptions);
+                var sw2 = Stopwatch.StartNew();
+
+                TryDirectoryRecursiveGetFiles(directory, files, exceptions, cancellationToken);
+
+                sw2.Stop();
+
+                LogClient.Info("Retrieved {0} files from {1} ({2} ms)", files.Count, directory, sw2.ElapsedMilliseconds);
 
                 foreach (Exception ex in exceptions)
                 {
                     LogClient.Error("Error occurred while getting files recursively. Exception: {0}", ex.Message);
                 }
 
-                foreach (string file in files)
+                folderPaths.Capacity = files.Count;
+
+                Parallel.ForEach(
+                    files,
+                    new ParallelOptions { CancellationToken = cancellationToken },
+                    file =>
                 {
                     try
                     {
+                        var extension = file.Extension.ToLower();
+
                         // Only add the file if they have a valid extension
-                        if (validExtensions.Contains(Path.GetExtension(file.ToLower())))
+                        if (validExtensionSet.Contains(extension))
                         {
-                            folderPaths.Add(new FolderPathInfo(folderId, file, FileUtils.DateModifiedTicks(file)));
+                            var dateModifiedTicks = file.LastWriteTime.Ticks;
+
+                            lock (folderPaths)
+                            {
+                                folderPaths.Add(new FolderPathInfo(folderId, file.FullName, dateModifiedTicks));
+                            }
                         }
                     }
                     catch (Exception ex)
                     {
                         LogClient.Error("Error occurred while getting folder path for file '{0}'. Exception: {1}", file, ex.Message);
                     }
-                }
+                });
             }
             catch (Exception ex)
             {
                 LogClient.Error("Unexpected error occurred while getting folder paths. Exception: {0}", ex.Message);
             }
 
+            sw.Stop();
+
+            LogClient.Info("Get paths of directory {0} finished ({1} ms)", directory, sw.ElapsedMilliseconds);
+
             return folderPaths;
         }
 
-        private static void TryDirectoryRecursiveGetFiles(string path, List<String> files, ConcurrentQueue<Exception> exceptions)
+        private static void TryDirectoryRecursiveGetFiles(            
+            string path,
+            List<FileInfo> files,
+            ConcurrentQueue<Exception> exceptions,
+            CancellationToken cancellationToken)
         {
+            // Process the list of files found in the directory.
             try
             {
-                // Process the list of files found in the directory.
-                string[] fileEntries = null;
+                var fileEntries = new DirectoryInfo(path).GetFiles();
 
-                try
+                lock (files)
                 {
-                    fileEntries = Directory.GetFiles(path);
+                    files.AddRange(fileEntries);
                 }
-                catch (Exception ex)
-                {
-                    exceptions.Enqueue(ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                exceptions.Enqueue(ex);
+            }
 
-                if (fileEntries != null && fileEntries.Count() > 0)
+            // Recurse into subdirectories of this directory. 
+            try
+            {
+                var subdirectoryEntries = Directory.GetDirectories(path);
+
+                Parallel.ForEach(
+                    subdirectoryEntries,
+                    new ParallelOptions { CancellationToken = cancellationToken },
+                    subdirectory =>
                 {
-                    foreach (string fileName in fileEntries)
+                    try
                     {
-                        try
-                        {
-                            files.Add(fileName);
-                        }
-                        catch (Exception ex)
-                        {
-                            exceptions.Enqueue(ex);
-                        }
+                        TryDirectoryRecursiveGetFiles(subdirectory, files, exceptions, cancellationToken);
                     }
-                }
-
-                // Recurse into subdirectories of this directory. 
-                string[] subdirectoryEntries = null;
-
-                try
-                {
-                    subdirectoryEntries = Directory.GetDirectories(path);
-                }
-                catch (Exception ex)
-                {
-                    exceptions.Enqueue(ex);
-                }
-
-                if (subdirectoryEntries != null && subdirectoryEntries.Count() > 0)
-                {
-
-                    foreach (string subdirectory in subdirectoryEntries)
+                    catch (Exception ex)
                     {
-                        try
-                        {
-                            TryDirectoryRecursiveGetFiles(subdirectory, files, exceptions);
-                        }
-                        catch (Exception ex)
-                        {
-                            exceptions.Enqueue(ex);
-                        }
+                        exceptions.Enqueue(ex);
                     }
-                }
+                });
             }
             catch (Exception ex)
             {

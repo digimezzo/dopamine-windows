@@ -134,7 +134,7 @@ namespace Dopamine.Data
             return string.IsNullOrWhiteSpace(fileMetadata.Album.Value) ? string.Empty : FormatUtils.TrimValue(fileMetadata.Album.Value);
         }
 
-        public static void FillTrackBase(FileMetadata fileMetadata, ref Track track)
+        public static void FillTrackBase(FileMetadata fileMetadata, Track track)
         {
             track.TrackTitle = FormatUtils.TrimValue(fileMetadata.Title.Value);
             track.Year = SafeConvertToLong(fileMetadata.Year.Value);
@@ -150,7 +150,7 @@ namespace Dopamine.Data
             track.AlbumKey = GenerateInitialAlbumKey(track.AlbumTitle, track.AlbumArtists);
         }
 
-        public static void FillTrack(FileMetadata fileMetadata, ref Track track)
+        public static void FillTrack(FileMetadata fileMetadata, Track track)
         {
             string path = fileMetadata.Path;
             long nowTicks = DateTime.Now.Ticks;
@@ -171,7 +171,7 @@ namespace Dopamine.Data
             track.DateLastSynced = nowTicks;
             track.Rating = fileMetadata.Rating.Value;
 
-            FillTrackBase(fileMetadata, ref track);
+            FillTrackBase(fileMetadata, track);
         }
 
         private static string GenerateInitialAlbumKey(string albumTitle, string albumArtists)
@@ -199,7 +199,7 @@ namespace Dopamine.Data
 
                 await Task.Run(() =>
                 {
-                    MetadataUtils.FillTrack(fileMetadata, ref track);
+                    MetadataUtils.FillTrack(fileMetadata, track);
                 });
             }
 

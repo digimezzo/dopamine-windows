@@ -12,14 +12,23 @@ namespace Dopamine.Services.Indexing
     {
         public static bool IsTrackOutdated(Track track)
         {
-            if (track.FileSize == null || track.FileSize != FileUtils.SizeInBytes(track.Path) || track.DateFileModified < FileUtils.DateModifiedTicks(track.Path))
+            if (track.FileSize == null)
             {
                 return true;
             }
-            else
+
+            try
             {
-                return false;
+                var fileInfo = new FileInfo(track.Path);
+
+                return track.FileSize != fileInfo.Length || track.DateFileModified < fileInfo.LastWriteTime.Ticks;
             }
+            catch(Exception ex)
+            {
+                LogClient.Error("There was a problem while checking if track with path='{0}' is outdated. Exception: {1}", track.Path, ex.Message);
+            }
+
+            return false;
         }
 
         public static string GetExternalArtworkPath(string path)
@@ -116,6 +125,25 @@ namespace Dopamine.Services.Indexing
                 return Convert.ToInt64((10 / 100) * numberItemsToAdd);
                 // Save every 10 %
             }
+        }
+
+        /// <summary>
+        /// Get the size of batches used in Parallel.For
+        /// </summary>
+        /// <param name="numberOfItems"></param>
+        /// <returns></returns>
+        public static int GetParallelBatchSize(int numberOfItems)
+        {
+            // As we roughly want to display the progress in 5% steps we just use
+            // numberOfItems / 20.
+            int batchSize = Math.Max(50, numberOfItems / 100);
+
+            if (batchSize > 1000)
+            {
+                batchSize = 1000;
+            }
+
+            return batchSize;
         }
 
         public static int CalculatePercent(long currentValue, long totalValue)

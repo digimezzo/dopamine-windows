@@ -471,36 +471,16 @@ namespace Dopamine.Services.Playback
 
             try
             {
-                var queuedTracks = new List<QueuedTrack>();
-                IList<string> tracksPaths = this.Queue.Select(x => x.Path).ToList();
-                string currentTrackPath = this.CurrentTrack?.Path;
+                var tracks = Queue.Select(t => t.Track).ToList();
+                long? currentTrackId = this.CurrentTrack?.Track.TrackID;
                 long progressSeconds = Convert.ToInt64(this.GetCurrentTime.TotalSeconds);
 
-                int orderID = 0;
+                await this.queuedTrackRepository.SaveQueuedTracksAsync(
+                    tracks,
+                    currentTrackId,
+                    progressSeconds);
 
-                foreach (string trackPath in tracksPaths)
-                {
-                    var queuedTrack = new QueuedTrack();
-                    queuedTrack.Path = trackPath;
-                    queuedTrack.SafePath = trackPath.ToSafePath();
-                    queuedTrack.OrderID = orderID;
-                    queuedTrack.IsPlaying = 0;
-                    queuedTrack.ProgressSeconds = 0;
-
-                    if (!string.IsNullOrEmpty(currentTrackPath) && trackPath.Equals(currentTrackPath))
-                    {
-                        queuedTrack.IsPlaying = 1;
-                        queuedTrack.ProgressSeconds = progressSeconds;
-                    }
-
-                    queuedTracks.Add(queuedTrack);
-
-                    orderID++;
-                }
-
-                await this.queuedTrackRepository.SaveQueuedTracksAsync(queuedTracks);
-
-                LogClient.Info("Saved {0} queued tracks", queuedTracks.Count.ToString());
+                LogClient.Info("Saved {0} queued tracks", tracks.Count);
             }
             catch (Exception ex)
             {
@@ -1248,43 +1228,6 @@ namespace Dopamine.Services.Playback
             await this.SaveQueuedTracksAsync();
         }
 
-        private async Task<IList<Track>> ConvertQueuedTracksToTracks(IList<QueuedTrack> queuedTracks)
-        {
-            IList<Track> databaseTracks = await this.trackRepository.GetTracksAsync(queuedTracks.Where(x => System.IO.File.Exists(x.Path)).Select(x => x.Path).ToList());
-
-            // All queued tracks were found as tracks in the database: there is no need to get metadata from the files
-            // (Getting metadata from files is an expensive operation, so we want to do this as little as possible.)
-            if (queuedTracks.Count.Equals(databaseTracks.Count))
-            {
-                return databaseTracks;
-            }
-
-            // Not all queued tracks exist as tracks in the database. We process them 1 by 1 and get metadata from files, if necessary.
-            IList<Track> oneByOneTracks = new List<Track>();
-
-            await Task.Run(async () =>
-            {
-                foreach (QueuedTrack queuedTrack in queuedTracks)
-                {
-                    Track foundDatabaseTrack = databaseTracks.Where(x => x.SafePath.Equals(queuedTrack.SafePath)).FirstOrDefault();
-
-                    if (foundDatabaseTrack != null)
-                    {
-                        // Queued track was found as track in database
-                        oneByOneTracks.Add(foundDatabaseTrack);
-
-                    }
-                    else if (System.IO.File.Exists(queuedTrack.Path))
-                    {
-                        // Queued track was not found as track in database: get metadata from file.
-                        oneByOneTracks.Add(await MetadataUtils.Path2TrackAsync(queuedTrack.Path));
-                    }
-                }
-            });
-
-            return oneByOneTracks;
-        }
-
         private async void GetSavedQueuedTracks()
         {
             if (!this.canGetSavedQueuedTracks)
@@ -1296,10 +1239,10 @@ namespace Dopamine.Services.Playback
             try
             {
                 LogClient.Info("Getting saved queued tracks");
-                IList<QueuedTrack> savedQueuedTracks = await this.queuedTrackRepository.GetSavedQueuedTracksAsync();
-                QueuedTrack playingSavedQueuedTrack = savedQueuedTracks.Where(x => x.IsPlaying == 1).FirstOrDefault();
-                IList<Track> existingTracks = await this.ConvertQueuedTracksToTracks(savedQueuedTracks);
-                IList<TrackViewModel> existingTrackViewModels = await this.container.ResolveTrackViewModelsAsync(existingTracks);
+
+                IList<Track> queuedTracks = await this.queuedTrackRepository.GetSavedQueuedTracksAsync();
+                Tuple<Track, long> playingSavedQueuedTrack = await this.queuedTrackRepository.GetPlayingTrackAsync();
+                IList<TrackViewModel> existingTrackViewModels = await this.container.ResolveTrackViewModelsAsync(queuedTracks);
 
                 await this.EnqueueAlwaysAsync(existingTrackViewModels);
 
@@ -1319,14 +1262,15 @@ namespace Dopamine.Services.Playback
                     return;
                 }
 
-                TrackViewModel playingTrackViewModel = existingTrackViewModels.Where(x => x.SafePath.Equals(playingSavedQueuedTrack.SafePath)).FirstOrDefault();
+                TrackViewModel playingTrackViewModel = existingTrackViewModels.Where(
+                    x => x.SafePath.Equals(playingSavedQueuedTrack.Item1.SafePath)).FirstOrDefault();
 
                 if (playingTrackViewModel == null)
                 {
                     return;
                 }
 
-                int progressSeconds = Convert.ToInt32(playingSavedQueuedTrack.ProgressSeconds);
+                int progressSeconds = Convert.ToInt32(playingSavedQueuedTrack.Item2);
 
                 try
                 {

@@ -4,12 +4,8 @@ namespace Dopamine.Data.Entities
 {
     public class QueuedTrack
     {
-        [PrimaryKey(), AutoIncrement()]
-        public long QueuedTrackID { get; set; }
-
-        public string Path { get; set; }
-
-        public string SafePath { get; set; }
+        [PrimaryKey()]
+        public long TrackID { get; set; }
 
         public long IsPlaying { get; set; }
 
@@ -24,12 +20,12 @@ namespace Dopamine.Data.Entities
                 return false;
             }
 
-            return this.QueuedTrackID.Equals(((QueuedTrack)obj).QueuedTrackID);
+            return TrackID == ((QueuedTrack)obj).TrackID;
         }
 
         public override int GetHashCode()
         {
-            return new { this.QueuedTrackID }.GetHashCode();
+            return TrackID.GetHashCode();
         }
     }
 }
