@@ -8,11 +8,12 @@
 - [Changed] Updated the Chinese translation
 - [Changed] Updated the Indonesian translation
 - [Changed] Updated the Portuguese (Brazil) translation
+- [Changed] Updated the Russian translation
 - [Changed] Updated the Serbian (Cyrillic)
 - [Changed] Updated the Serbian (Latin)
 - [Changed] Updated the Spanish translation
 - [Changed] Updated the Swedish translation
-
+- [Changed] Updated the Ukranian translation
 
 2020-06-17: Dopamine 2.0.2
 --------------------------
