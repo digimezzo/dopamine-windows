@@ -1,6 +1,7 @@
-2020-07-08: Dopamine 2.0.3
+2020-07-11: Dopamine 2.0.3
 --------------------------
 
+- [Added] The "Songs" screen now remembers your sorting preferences!
 - [Fixed] Fixed a crash that occurs when using WinDock
 - [Fixed] The order of artists is not respected on now playing screens (Remove and re-add collection folders to apply this fix)
 - [Changed] Updated the Bulgarian translation
