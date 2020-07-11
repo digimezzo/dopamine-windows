@@ -277,7 +277,7 @@
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksColumnsViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionTracksViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Collection\CollectionViewModel.cs" />
-    <Compile Include="ViewModels\FullPlayer\Collection\Utils.cs" />
+    <Compile Include="ViewModels\FullPlayer\Collection\CollectionUtils.cs" />
     <Compile Include="ViewModels\FullPlayer\FullPlayerAddMusicViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\FullPlayerViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Information\InformationAboutLicenseViewModel.cs" />

@@ -37,10 +37,10 @@ namespace Dopamine.Services.Entities
         public long SortDuration => this.Track.Duration.HasValue ? this.Track.Duration.Value : 0;
 
         // SortAlbumTitle is used to sort by AlbumTitle, then by TrackNumber.
-        public string SortAlbumTitle => this.Track.AlbumTitle + this.Track.TrackNumber.Value.ToString("0000");
+        public string SortAlbumTitle => this.AlbumTitle + this.Track.TrackNumber.Value.ToString("0000");
 
         // SortAlbumArtist is used to sort by AlbumArtists, then by AlbumTitle, then by TrackNumber.
-        public string SortAlbumArtist => this.Track.AlbumArtists + this.AlbumTitle + this.Track.TrackNumber.Value.ToString("0000");
+        public string SortAlbumArtist => this.AlbumArtist + this.AlbumTitle + this.Track.TrackNumber.Value.ToString("0000");
 
         // SortArtistName is used to sort by ArtistName, then by AlbumTitle, then by TrackNumber.
         public string SortArtistName => this.ArtistName + this.AlbumTitle + this.Track.TrackNumber.Value.ToString("0000");
@@ -75,7 +75,7 @@ namespace Dopamine.Services.Entities
 
         public string DateLastPlayed => this.Track.DateLastPlayed.HasValueLargerThan(0) ? new DateTime(this.Track.DateLastPlayed.Value).ToString("g") : string.Empty;
 
-        public long SortDateLastPlayed => this.Track.DateLastPlayed.Value;
+        public long SortDateLastPlayed => this.Track.DateLastPlayed.HasValue ? this.Track.DateLastPlayed.Value : 0;
 
         public string TrackTitle => string.IsNullOrEmpty(this.Track.TrackTitle) ? this.Track.FileName : this.Track.TrackTitle;
 

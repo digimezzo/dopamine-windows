@@ -15,6 +15,9 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Dopamine.Services.Entities;
 using Dopamine.Services.Utils;
+using System.Reflection;
+using System.ComponentModel;
+using Dopamine.ViewModels.FullPlayer.Collection;
 
 namespace Dopamine.Views.FullPlayer.Collection
 {
@@ -113,6 +116,33 @@ namespace Dopamine.Views.FullPlayer.Collection
             }
         }
 
+        public void SortDataGrid(DataGrid dataGrid, string sortMemberPath, ListSortDirection sortDirection = ListSortDirection.Ascending)
+        {
+            DataGridColumn column = dataGrid.Columns.Where(x => x.SortMemberPath.Equals(sortMemberPath)).FirstOrDefault();
+
+            if(column == null)
+            {
+                return;
+            }
+
+            // Clear current sort descriptions
+            dataGrid.Items.SortDescriptions.Clear();
+
+            // Add the new sort description
+            dataGrid.Items.SortDescriptions.Add(new SortDescription(column.SortMemberPath, sortDirection));
+
+            // Apply sort
+            foreach (var col in dataGrid.Columns)
+            {
+                col.SortDirection = null;
+            }
+
+            column.SortDirection = sortDirection;
+
+            // Refresh items to display sort
+            dataGrid.Items.Refresh();
+        }
+
         protected override void ViewInExplorer(object sender)
         {
             try
@@ -128,6 +158,33 @@ namespace Dopamine.Views.FullPlayer.Collection
             catch (Exception ex)
             {
                 LogClient.Error("Could not view track in Windows Explorer. Exception: {0}", ex.Message);
+            }
+        }
+
+        private void DataGridTracks_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            // See: https://stackoverflow.com/questions/9571178/datagrid-is-there-no-sorted-event
+            this.Dispatcher.BeginInvoke((Action)delegate ()
+            {
+                // Runs after sorting is done
+                CollectionUtils.SetColumnSorting(e.Column.SortMemberPath, e.Column.SortDirection);
+            }, null);
+        }
+
+        private void DataGridTracks_TargetUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
+        {
+            if (e.Property == DataGrid.ItemsSourceProperty)
+            {
+                CollectionUtils.GetColumnSorting(out string sortMemberPath, out ListSortDirection sortDirection);
+
+                if (!string.IsNullOrEmpty(sortMemberPath))
+                {
+                    this.Dispatcher.BeginInvoke((Action)delegate ()
+                    {
+                        // Sorting is incorrect when not done via dispatcher. Probably it happens too soon.
+                        this.SortDataGrid(this.DataGridTracks, sortMemberPath, sortDirection);
+                    }, null);
+                }
             }
         }
     }

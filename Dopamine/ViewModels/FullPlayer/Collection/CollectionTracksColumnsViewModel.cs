@@ -147,7 +147,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
         private void GetVisibleColumns()
         {
-            Utils.GetVisibleSongsColumns(
+            CollectionUtils.GetVisibleSongsColumns(
                 ref this.checkBoxRatingChecked,
                 ref this.checkBoxLoveChecked,
                 ref this.checkBoxLyricsChecked,
@@ -187,7 +187,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         {
             await Task.Run(() =>
             {
-                Utils.SetVisibleSongsColumns(
+                CollectionUtils.SetVisibleSongsColumns(
                     this.CheckBoxRatingChecked,
                     this.CheckBoxLoveChecked,
                     this.CheckBoxLyricsChecked,

@@ -191,7 +191,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             bool columnRatingVisible = false;
             bool columnLoveVisible = false;
 
-            Utils.GetVisibleSongsColumns(
+            CollectionUtils.GetVisibleSongsColumns(
                 ref columnRatingVisible,
                 ref columnLoveVisible,
                 ref this.lyricsVisible,

@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>116</Value>
+      <Value>117</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -273,6 +273,12 @@
   <Namespace Name="TracksGrid">
     <Setting Name="VisibleColumns">
       <Value>rating;artist;album;genre;length;albumartist;tracknumber;year</Value>
+    </Setting>
+    <Setting Name="SortColumn">
+      <Value></Value>
+    </Setting>
+    <Setting Name="SortDirection">
+      <Value></Value>
     </Setting>
   </Namespace>
   <Namespace Name="Indexing">
