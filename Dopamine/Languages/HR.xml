@@ -28,7 +28,7 @@
   <Text Key="Playback">Reprodukcija</Text>
   <Text Key="Help">Pomoć</Text>
   <Text Key="About">O programu</Text>
-  <Text Key="Version">Inačica</Text>
+  <Text Key="Version">Verzija</Text>
   <Text Key="Do_You_Like_Dopamine">Sviđa Vam se Dopamine? Molimo kliknite ovdje da biste donirali. Hvala!</Text>
   <Text Key="Donate">Doniraj</Text>
   <Text Key="Donate_With_PayPal">Donirajte pomoću PayPala</Text>
@@ -55,7 +55,7 @@
   <Text Key="Pick_Your_Language">Odaberite Vaš jezik</Text>
   <Text Key="Language">Jezik</Text>
   <Text Key="Updates">Ažuriranja</Text>
-  <Text Key="New_Version_available">Dostupna je nova inačica</Text>
+  <Text Key="New_Version_available">Dostupna je nova verzija</Text>
   <Text Key="Add_More_Colors">Dodaj više boja</Text>
   <Text Key="Show_Dopamine">Prikaži Dopamine</Text>
   <Text Key="Exit">Izlaz</Text>
@@ -131,7 +131,7 @@
   <Text Key="Volume">Glasnoća</Text>
   <Text Key="Playlist">Popis za izvođenje</Text>
   <Text Key="Automatically_Download_Updates">Automatski preuzmi ažuriranja</Text>
-  <Text Key="Not_Available_In_Portable_Version">Nije dostupno u prijenosnoj inačici</Text>
+  <Text Key="Not_Available_In_Portable_Version">Nije dostupno u prijenosnoj verziji</Text>
   <Text Key="Refresh_Now">Osvježi sada</Text>
   <Text Key="New_Playlist">Novi popis za izvođenje</Text>
   <Text Key="All_Playlists">Svi popisi za izvođenje</Text>
@@ -183,7 +183,7 @@
   <Text Key="Save">Spremi</Text>
   <Text Key="Error_Saving_Playlists">Dogodila se greška tijekom spremanja popisa. Molimo pogledajte datoteku izvješća za više informacija.</Text>
   <Text Key="Error_Saving_Playlist">Dogodila se greška tijekom spremanja popisa. Molimo pogledajte datoteku izvješća za više informacija.</Text>
-  <Text Key="Download_Latest_Version">Preuzmi najnoviju inačicu</Text>
+  <Text Key="Download_Latest_Version">Preuzmi najnoviju verziju</Text>
   <Text Key="By_Album_Artist">Po izvođaču albuma</Text>
   <Text Key="File">Datoteka</Text>
   <Text Key="Name">Naziv</Text>
@@ -448,7 +448,7 @@
   <Text Key="Date_Created">Datum stvaranja</Text>
   <Text Key="Manage_Collection">Upravljaj kolekcijom</Text>
   <Text Key="Use_AppCommand_Media_Keys">Omogući podršku za zadane multimedijske tipke</Text>
-  <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
-  <Text Key="By_Year_Ascending">By year ascending</Text>
-  <Text Key="By_Year_Descending">By year descending</Text>
+  <Text Key="Smart_Playlist_Does_Not_Contain">ne sadrži</Text>
+  <Text Key="By_Year_Ascending">Po godini rastući</Text>
+  <Text Key="By_Year_Descending">Po godini padajući</Text>
 </Language>
