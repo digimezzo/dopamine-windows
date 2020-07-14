@@ -511,7 +511,7 @@ namespace Dopamine.Data.Repositories
             return artistNames;
         }
 
-        public async Task<IList<AlbumData>> GetAlbumDataAsync(IList<string> artists, IList<string> genres)
+        public async Task<IList<AlbumData>> GetArtistAlbumDataAsync(IList<string> artists, ArtistType artistType)
         {
             var albumData = new List<AlbumData>();
 
@@ -526,16 +526,91 @@ namespace Dopamine.Data.Repositories
                             string filterQuery = string.Empty;
 
                             if (artists != null)
-                            {  
-                                filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists, Constants.ColumnValueDelimiter)} OR {DataUtils.CreateOrLikeClause("AlbumArtists", artists, Constants.ColumnValueDelimiter)})";
-
+                            {
+                                if (artistType.Equals(ArtistType.All))
+                                {
+                                    filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists, Constants.ColumnValueDelimiter)} OR {DataUtils.CreateOrLikeClause("AlbumArtists", artists, Constants.ColumnValueDelimiter)})";
+                                }
+                                else if (artistType.Equals(ArtistType.Track))
+                                {
+                                    filterQuery = $" AND ({DataUtils.CreateOrLikeClause("Artists", artists, Constants.ColumnValueDelimiter)})";
+                                }
+                                else if (artistType.Equals(ArtistType.Album))
+                                {
+                                    filterQuery = $" AND ({DataUtils.CreateOrLikeClause("AlbumArtists", artists, Constants.ColumnValueDelimiter)})";
+                                }
                             }
-                            else if (genres != null)
+
+                            string query = this.SelectVisibleAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey";
+
+                            albumData = conn.Query<AlbumData>(query);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the album values. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return albumData;
+        }
+
+        public async Task<IList<AlbumData>> GetGenreAlbumDataAsync(IList<string> genres)
+        {
+            var albumData = new List<AlbumData>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            string filterQuery = string.Empty;
+
+                            if (genres != null)
                             {
                                 filterQuery = $" AND {DataUtils.CreateOrLikeClause("Genres", genres, Constants.ColumnValueDelimiter)}";
                             }
 
                             string query = this.SelectVisibleAlbumDataQuery() + filterQuery + " GROUP BY AlbumKey";
+
+                            albumData = conn.Query<AlbumData>(query);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the album values. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+            });
+
+            return albumData;
+        }
+
+        public async Task<IList<AlbumData>> GetAllAlbumDataAsync()
+        {
+            var albumData = new List<AlbumData>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            string query = this.SelectVisibleAlbumDataQuery() + " GROUP BY AlbumKey";
 
                             albumData = conn.Query<AlbumData>(query);
                         }

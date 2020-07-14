@@ -314,7 +314,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
 
             this.RaisePropertyChanged(nameof(this.HasSelectedArtists));
 
-            await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
+            await this.GetArtistAlbumsAsync(this.SelectedArtists, this.ArtistType, this.AlbumOrder);
             this.SetTrackOrder("ArtistsTrackOrder");
             await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
         }
@@ -474,7 +474,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         protected async override Task FillListsAsync()
         {
             await this.GetArtistsAsync(this.ArtistType);
-            await this.GetAlbumsAsync(this.SelectedArtists, null, this.AlbumOrder);
+            await this.GetArtistAlbumsAsync(this.SelectedArtists, this.ArtistType, this.AlbumOrder);
             await this.GetTracksAsync(this.SelectedArtists, null, this.SelectedAlbums, this.TrackOrder);
         }
 

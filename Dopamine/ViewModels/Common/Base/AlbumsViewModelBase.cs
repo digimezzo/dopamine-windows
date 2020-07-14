@@ -284,15 +284,20 @@ namespace Dopamine.ViewModels.Common.Base
             RaisePropertyChanged(nameof(this.AlbumOrderText));
         }
 
-        protected async Task GetAlbumsAsync(IList<string> selectedArtists, IList<string> selectedGenres, AlbumOrder albumOrder)
+        protected async Task GetArtistAlbumsAsync(IList<string> selectedArtists, ArtistType artistType, AlbumOrder albumOrder)
         {
             if (!selectedArtists.IsNullOrEmpty())
             {
-                await this.GetAlbumsCommonAsync(await this.collectionService.GetArtistAlbumsAsync(selectedArtists), albumOrder);
+                await this.GetAlbumsCommonAsync(await this.collectionService.GetArtistAlbumsAsync(selectedArtists, artistType), albumOrder);
 
                 return;
             }
 
+            await this.GetAlbumsCommonAsync(await this.collectionService.GetAllAlbumsAsync(), albumOrder);
+        }
+
+        protected async Task GetGenreAlbumsAsync(IList<string> selectedGenres, AlbumOrder albumOrder)
+        {
             if (!selectedGenres.IsNullOrEmpty())
             {
                 await this.GetAlbumsCommonAsync(await this.collectionService.GetGenreAlbumsAsync(selectedGenres), albumOrder);
@@ -300,6 +305,11 @@ namespace Dopamine.ViewModels.Common.Base
                 return;
             }
 
+            await this.GetAlbumsCommonAsync(await this.collectionService.GetAllAlbumsAsync(), albumOrder);
+        }
+
+        protected async Task GetAllAlbumsAsync(AlbumOrder albumOrder)
+        {
             await this.GetAlbumsCommonAsync(await this.collectionService.GetAllAlbumsAsync(), albumOrder);
         }
 

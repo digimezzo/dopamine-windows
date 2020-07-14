@@ -277,7 +277,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
                 }
             }
 
-            await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
+            await this.GetGenreAlbumsAsync(this.SelectedGenres, this.AlbumOrder);
             this.SetTrackOrder("GenresTrackOrder");
             await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbums, this.TrackOrder);
         }
@@ -392,7 +392,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
         protected async override Task FillListsAsync()
         {
             await this.GetGenresAsync();
-            await this.GetAlbumsAsync(null, this.SelectedGenres, this.AlbumOrder);
+            await this.GetGenreAlbumsAsync(this.SelectedGenres, this.AlbumOrder);
             await this.GetTracksAsync(null, this.SelectedGenres, this.SelectedAlbums, this.TrackOrder);
         }
 
