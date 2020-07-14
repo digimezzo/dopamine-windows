@@ -1,3 +1,9 @@
+2020-07-14: Dopamine 2.0.4
+--------------------------
+
+- [Fixed] Album list does not always reflect the choice of artist type (Song artists, Album artists or All artists)
+- [Changed] Updated the Hungarian translation
+
 2020-07-11: Dopamine 2.0.3
 --------------------------
 
