@@ -1,4 +1,4 @@
-﻿using Digimezzo.Foundation.Core.Settings;
+﻿using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;

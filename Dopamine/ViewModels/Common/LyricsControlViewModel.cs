@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Foundation.Core.Logging;
-using Digimezzo.Foundation.Core.Settings;
+using Dopamine.Core.Alex; //Digimezzo.Foundation.Core.Settings
 using Dopamine.Core.Api.Lyrics;
 using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
@@ -95,9 +95,9 @@ namespace Dopamine.ViewModels.Common
             this.metadataService.MetadataChanged += (_) => this.RestartRefreshTimer();
 
             I18NService_LanguageChanged(null, null);
-            this.i18NService.LanguageChanged += I18NService_LanguageChanged;                  
+            this.i18NService.LanguageChanged += I18NService_LanguageChanged;
 
-            SettingsClient.SettingChanged += (_, e) =>
+            Digimezzo.Foundation.Core.Settings.SettingsClient.SettingChanged += (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "Lyrics", "DownloadLyrics"))
                 {

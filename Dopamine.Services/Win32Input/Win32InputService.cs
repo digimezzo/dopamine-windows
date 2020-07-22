@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Foundation.Core.Logging;
-using Digimezzo.Foundation.Core.Settings;
+using Dopamine.Core.Alex; //Digimezzo.Foundation.Core.Settings
 using Dopamine.Services.Playback;
 using Dopamine.Services.Win32Input;
 using System;
@@ -16,7 +16,7 @@ namespace Dopamine.Services.Win32Input
         {
             this.playbackService = playbackService;
 
-            SettingsClient.SettingChanged += (_, e) =>
+            Digimezzo.Foundation.Core.Settings.SettingsClient.SettingChanged += (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "MediaKeys", "UseAppCommandMediaKeys"))
                 {

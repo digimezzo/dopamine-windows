@@ -1,7 +1,7 @@
 ﻿using CommonServiceLocator;
 using Digimezzo.Foundation.Core.IO;
 using Digimezzo.Foundation.Core.Logging;
-using Digimezzo.Foundation.Core.Settings;
+//using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using Digimezzo.Foundation.Core.Utils;
 using Digimezzo.Foundation.WPF.Controls;
 using Dopamine.Core.Base;
@@ -38,6 +38,7 @@ using Dopamine.Services.Update;
 using Dopamine.Services.Win32Input;
 using Dopamine.Services.WindowsIntegration;
 using Dopamine.Utils;
+using Dopamine.Core.Alex;
 using Dopamine.Views;
 using Dopamine.Views.Common;
 using Dopamine.Views.FullPlayer;
@@ -66,6 +67,7 @@ namespace Dopamine
 
         protected override void OnStartup(StartupEventArgs e)
         {
+
             // Create a jump-list and assign it to the current application
             JumpList.SetJumpList(Current, new JumpList());
 

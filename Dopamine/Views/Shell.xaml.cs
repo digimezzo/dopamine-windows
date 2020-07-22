@@ -1,6 +1,6 @@
 ﻿using Digimezzo.Foundation.Core.IO;
 using Digimezzo.Foundation.Core.Logging;
-using Digimezzo.Foundation.Core.Settings;
+using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using Digimezzo.Foundation.Core.Utils;
 using Digimezzo.Foundation.WPF.Controls;
 using Dopamine.Core.Base;
@@ -212,7 +212,7 @@ namespace Dopamine.Views
             this.notificationService.SetApplicationWindows(this, this.miniPlayerPlaylist, this.trayControls);
 
             // Settings changed
-            SettingsClient.SettingChanged += (_, e) =>
+            Digimezzo.Foundation.Core.Settings.SettingsClient.SettingChanged += (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowWindowBorder"))
                 {

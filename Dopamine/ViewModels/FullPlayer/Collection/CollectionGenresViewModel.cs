@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Foundation.Core.Logging;
-using Digimezzo.Foundation.Core.Settings;
+using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Core.Base;
 using Dopamine.Core.Prism;
@@ -151,7 +151,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             });
 
             // Settings
-            SettingsClient.SettingChanged += async (_, e) =>
+            Digimezzo.Foundation.Core.Settings.SettingsClient.SettingChanged += async (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
                 {

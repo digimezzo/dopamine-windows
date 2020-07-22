@@ -1,4 +1,4 @@
-﻿using Digimezzo.Foundation.Core.Settings;
+﻿using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using Dopamine.Core.Prism;
 using Dopamine.Data;
 using Dopamine.Services.Entities;

@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Foundation.Core.Logging;
-using Digimezzo.Foundation.Core.Settings;
+using Dopamine.Core.Alex; //Digimezzo.Foundation.Core.Settings
 using Dopamine.Core.Base;
 using Dopamine.Core.Extensions;
 using Dopamine.Core.IO;
@@ -76,13 +76,13 @@ namespace Dopamine.Services.Indexing
             this.watcherManager = new FolderWatcherManager(this.folderRepository);
             this.cache = new IndexerCache(this.factory);
 
-            SettingsClient.SettingChanged += SettingsClient_SettingChanged;
+            Digimezzo.Foundation.Core.Settings.SettingsClient.SettingChanged += SettingsClient_SettingChanged;
             this.watcherManager.FoldersChanged += WatcherManager_FoldersChanged;
 
             this.isIndexing = false;
         }
 
-        private async void SettingsClient_SettingChanged(object sender, SettingChangedEventArgs e)
+        private async void SettingsClient_SettingChanged(object sender, Digimezzo.Foundation.Core.Settings.SettingChangedEventArgs e)
         {
             if (SettingsClient.IsSettingChanged(e, "Indexing", "RefreshCollectionAutomatically"))
             {

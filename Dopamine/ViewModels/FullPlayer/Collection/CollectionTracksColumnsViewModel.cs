@@ -1,4 +1,4 @@
-﻿using Digimezzo.Foundation.Core.Settings;
+﻿using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Threading.Tasks;

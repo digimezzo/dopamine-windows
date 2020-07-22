@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Foundation.Core.Logging;
-using Digimezzo.Foundation.Core.Settings;
+using Dopamine.Core.Alex; //Digimezzo.Foundation.Core.Settings
 using Dopamine.Core.Base;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Taskbar;

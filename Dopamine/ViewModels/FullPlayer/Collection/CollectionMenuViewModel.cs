@@ -1,4 +1,4 @@
-﻿using Digimezzo.Foundation.Core.Settings;
+﻿using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using Digimezzo.Foundation.WPF.Controls;
 using Dopamine.Core.Enums;
 using Dopamine.Core.Prism;

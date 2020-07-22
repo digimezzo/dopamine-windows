@@ -1,6 +1,7 @@
 ﻿using Digimezzo.Foundation.Core.Logging;
-using Digimezzo.Foundation.Core.Settings;
+//using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using Dopamine.Data;
+using Dopamine.Core.Alex;
 using System;
 using System.Threading.Tasks;
 

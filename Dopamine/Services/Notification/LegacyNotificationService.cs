@@ -1,5 +1,6 @@
 ﻿using Digimezzo.Foundation.Core.Logging;
-using Digimezzo.Foundation.Core.Settings;
+//using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
+using Dopamine.Core.Alex; 
 using Digimezzo.Foundation.WPF.Controls;
 using Dopamine.Core.Base;
 using Dopamine.Services.Cache;

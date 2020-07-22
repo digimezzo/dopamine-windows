@@ -1,4 +1,4 @@
-﻿using Digimezzo.Foundation.Core.Settings;
+﻿using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using Dopamine.Controls;
 using Dopamine.Core.Audio;
 using Dopamine.Core.Enums;
@@ -137,7 +137,7 @@ namespace Dopamine.ViewModels.Common
             this.playbackService.PlaybackResumed += (_, __) => this.IsPlaying = true;
             this.playbackService.PlaybackSuccess += (_, __) => this.IsPlaying = true;
 
-            SettingsClient.SettingChanged += (_, e) =>
+            Digimezzo.Foundation.Core.Settings.SettingsClient.SettingChanged += (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "Playback", "SpectrumStyle"))
                 {

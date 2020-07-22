@@ -1,4 +1,4 @@
-﻿using Digimezzo.Foundation.Core.Settings;
+﻿using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using Digimezzo.Foundation.Core.Utils;
 using Digimezzo.Foundation.WPF.Controls;
 using Dopamine.Core.Base;
@@ -35,7 +35,7 @@ namespace Dopamine.Views.MiniPlayer
             this.regionManager = regionManager;
             this.eventAggregator = eventAggregator;
 
-            SettingsClient.SettingChanged += (_, e) =>
+            Digimezzo.Foundation.Core.Settings.SettingsClient.SettingChanged += (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "Appearance", "ShowWindowBorder"))
                 {

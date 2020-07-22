@@ -1,5 +1,5 @@
 ﻿using CommonServiceLocator;
-using Digimezzo.Foundation.Core.Settings;
+using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using Dopamine.Core.Enums;
 using Dopamine.Core.Helpers;
 using Dopamine.Services.Playback;
@@ -30,7 +30,7 @@ namespace Dopamine.Views.Common
             this.playbackService.PlaybackSuccess += (_, __) => this.TryRegisterSpectrumPlayers();
             this.shellService.WindowStateChanged += (_, __) => this.TryRegisterSpectrumPlayers();
 
-            SettingsClient.SettingChanged += (_, e) =>
+            Digimezzo.Foundation.Core.Settings.SettingsClient.SettingChanged += (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "Playback", "ShowSpectrumAnalyzer"))
                 {

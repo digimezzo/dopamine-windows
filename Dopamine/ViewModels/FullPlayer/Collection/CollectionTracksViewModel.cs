@@ -1,4 +1,4 @@
-﻿using Digimezzo.Foundation.Core.Settings;
+﻿using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using Digimezzo.Foundation.Core.Utils;
 using Dopamine.Data;
 using Dopamine.Services.Dialog;
@@ -139,7 +139,7 @@ namespace Dopamine.ViewModels.FullPlayer.Collection
             this.eventAggregator = container.Resolve<IEventAggregator>();
 
             // Settings
-            SettingsClient.SettingChanged += (_, e) =>
+            Digimezzo.Foundation.Core.Settings.SettingsClient.SettingChanged += (_, e) =>
             {
                 if (SettingsClient.IsSettingChanged(e, "Behaviour", "EnableRating"))
                 {

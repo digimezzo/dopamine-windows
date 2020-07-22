@@ -1,5 +1,5 @@
 ﻿using Digimezzo.Foundation.Core.Helpers;
-using Digimezzo.Foundation.Core.Settings;
+using Dopamine.Core.Alex;  //Digimezzo.Foundation.Core.Settings
 using Prism.Events;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
