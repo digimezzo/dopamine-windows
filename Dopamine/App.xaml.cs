@@ -70,8 +70,11 @@ namespace Dopamine
             JumpList.SetJumpList(Current, new JumpList());
 
             // Check that there is only one instance of the application running
+#if DEBUG //=== ALEX: Add this code in order to debug the program while using tha app
+            this.instanceMutex = new Mutex(true, $"DEBUG:{ProductInformation.ApplicationGuid}-{ProcessExecutable.AssemblyVersion()}", out bool isNewInstance);
+#else
             this.instanceMutex = new Mutex(true, $"{ProductInformation.ApplicationGuid}-{ProcessExecutable.AssemblyVersion()}", out bool isNewInstance);
-
+#endif
             // Process the command-line arguments
             this.ProcessCommandLineArguments(isNewInstance);
 

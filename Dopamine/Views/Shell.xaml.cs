@@ -78,7 +78,7 @@ namespace Dopamine.Views
                 typeof(MicroPlayer).FullName, typeof(NanoPlayer).FullName);
 
             this.InitializeServices();
-            this.InitializeWindows();
+            InitializeWindows();//=== ALEX: (No need for this anywhere. This was a test)
             this.InitializeTrayIcon();
             this.InitializeCommands();
         }
