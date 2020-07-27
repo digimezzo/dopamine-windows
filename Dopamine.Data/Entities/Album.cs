@@ -11,7 +11,7 @@ namespace Dopamine.Data.Entities
         public long Id { get; set; }
 
         [Column("artist_id")]
-        public long ArtistID { get; set; }
+        public long? ArtistID { get; set; }
 
         [Column("name"), Collation("NOCASE"), NotNull()]
         public string Name { get; set; }

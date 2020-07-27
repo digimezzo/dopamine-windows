@@ -362,16 +362,6 @@ namespace Dopamine.Data
                 conn.Execute("CREATE INDEX HistoryTrackIDIndex ON History(track_id);");
                 conn.Execute("CREATE INDEX HistoryHistoryActionIDIndex ON History(history_action_id);");
 
-
-
-
-                Console.WriteLine("GetArtistID Alex {0}", GetArtistID(conn, "Alex"));
-                Console.WriteLine("GetArtistID Bill {0}", GetArtistID(conn, "Bill"));
-                Console.WriteLine("GetArtistID Chris {0}", GetArtistID(conn, "Chris"));
-                Console.WriteLine("GetArtistID Bill {0}", GetArtistID(conn, "Bill"));
-
-
-
                 List<Folder> folders = conn.Table<Folder>().ToList();
                 foreach (Folder folder in folders)
                 {
@@ -399,7 +389,7 @@ namespace Dopamine.Data
                 {
                     Console.WriteLine("Migrating File {0}", track.Path);
                     List<FolderTrack> folderTrackIDs = conn.Query<FolderTrack>(@"SELECT * FROM FolderTrack WHERE TrackID=?", track.TrackID);
-                    long track_id = conn.Insert(new Track2()
+                    conn.Insert(new Track2()
                     {
                         Name = track.TrackTitle,
                         Path = track.Path,
@@ -414,36 +404,31 @@ namespace Dopamine.Data
                         Rating = track.Rating,
                         Love = track.Love
                     });
+                    long track_id = GetLastInsertRowID(conn);
                     Console.WriteLine("--> Created Tracks.ID: {0}", track_id);
 
                     //Add the artists
                     long artistID = 0;
                     if (track.Artists.Length > 0)
                     {
-                        string[] artists = track.Artists.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                        string[] artists = track.Artists.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
                         for (int i = 0; i < artists.Length; i++)
                         {
                             long curID = GetArtistID(conn, artists[i]);
                             Console.WriteLine("Artist: {0}->{1}", curID, artists[i]);
-                            try { 
-                                conn.Insert(new TrackArtist()
-                                {
-                                    TrackId = track_id,
-                                    ArtistId = curID,
-                                    ArtistRoleId = 1
-                                });
-                            }
-                            catch (SQLite.SQLiteException ex)
+                            conn.Insert(new TrackArtist()
                             {
-                                Console.WriteLine("SQLiteException (Artists) {0}", ex.Message);
-                            }
+                                TrackId = track_id,
+                                ArtistId = curID,
+                                ArtistRoleId = 1
+                            });
                         if (artists.Length == 1)
                                 artistID = curID;
                         }
                     }
-                    long albumID = GetAlbumID(conn, track.AlbumTitle, artistID);
-                    try
+                    if (track.AlbumTitle.Length > 0)
                     {
+                        long albumID = GetAlbumID(conn, track.AlbumTitle, artistID);
                         conn.Insert(new TrackAlbum()
                         {
                             TrackId = track_id,
@@ -452,15 +437,12 @@ namespace Dopamine.Data
                             DiscNumber = track.DiscNumber
                         });
                     }
-                    catch (SQLite.SQLiteException ex)
-                    {
-                        Console.WriteLine("SQLiteException (Albums) {0}", ex.Message);
-                    }
+
 
 
                 if (track.Genres.Length > 0)
                     {
-                        string[] genres = track.Genres.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                        string[] genres = track.Genres.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries).Distinct().ToArray();
                         for (int i = 0; i < genres.Length; i++)
                         {
                             long curID = GetGenreID(conn, genres[i]);
@@ -486,10 +468,27 @@ namespace Dopamine.Data
 
 
                 //=== TODO
-                // Create the new Entities 
                 // Create the repositories
                 // Replace the old db handling
                 // Create a proper migration
+
+                /* SAMPLE QUERIES
+----- GET ALL TRACKS
+SELECT t.name as title, GROUP_CONCAT(Artists.name,"|") as artist, GROUP_CONCAT(Albums.name,"|") as album, GROUP_CONCAT(Genres.name,"|") as genre,t."path" 
+from Tracks t 
+LEFT JOIN TrackArtists ON TrackArtists.track_id =t.id 
+LEFT JOIN Artists ON Artists.id =TrackArtists.artist_id  
+LEFT JOIN TrackAlbums ON TrackAlbums.track_id =t.id 
+LEFT JOIN Albums ON Albums.id =TrackAlbums.album_id  
+LEFT JOIN TrackGenres ON TrackGenres.track_id =t.id 
+LEFT JOIN Genres ON Genres.id =TrackGenres.genre_id  
+GROUP BY t.id 
+having count(Artists.id) > 1
+*** PROBLEM: if there are two of a kind it duplicates everything eg: Stay Around	Wipers|Wipers	The Power In One|The Power In One	Punk|Alternative
+
+
+
+                */
 
 
 
@@ -503,8 +502,10 @@ namespace Dopamine.Data
         {
             List<long> ids = conn.QueryScalars<long>("SELECT * FROM Artists WHERE name=?", entry);
             if (ids.Count == 0)
-                return conn.Insert(new Artist() { Name = entry });
-            Console.WriteLine("GetArtistID. GETTING OLD VALUE");
+            {
+                conn.Insert(new Artist() { Name = entry });
+                return GetLastInsertRowID(conn);
+            }
             return ids[0];
         }
         private long GetAlbumID(SQLiteConnection conn, String entry, long artistID)
@@ -514,24 +515,37 @@ namespace Dopamine.Data
             {
                 ids = conn.QueryScalars<long>("SELECT * FROM Albums WHERE name=? AND artist_id is NULL", entry);
                 if (ids.Count == 0)
-                    return conn.Insert(new Album() { Name = entry });
+                {
+                    conn.Insert(new Album() { Name = entry });
+                    return GetLastInsertRowID(conn);
+                }
             }
             else
             {
                 ids = conn.QueryScalars<long>("SELECT * FROM Albums WHERE name=? AND artist_id=?", entry, artistID);
                 if (ids.Count == 0)
-                    return conn.Insert(new Album() { Name = entry, ArtistID = artistID});
+                {
+                    conn.Insert(new Album() { Name = entry, ArtistID = artistID });
+                    return GetLastInsertRowID(conn);
+                }
             }
-            Console.WriteLine("GetAlbumID. GETTING OLD VALUE");
             return ids[0];
         }
         private long GetGenreID(SQLiteConnection conn, String entry)
         {
             List<long> ids = conn.QueryScalars<long>("SELECT * FROM Genres WHERE name=?", entry);
             if (ids.Count == 0)
-                return conn.Insert(new Genre() { Name = entry });
-            Console.WriteLine("GetGenreID. GETTING OLD VALUE");
+            {
+                conn.Insert(new Genre() { Name = entry });
+                return GetLastInsertRowID(conn);
+            }
             return ids[0];
+        }
+
+        private long GetLastInsertRowID(SQLiteConnection conn)
+        {
+            SQLiteCommand cmdLastRow = conn.CreateCommand(@"select last_insert_rowid()");
+            return cmdLastRow.ExecuteScalar<long>();
         }
 
         [DatabaseVersion(1)]
@@ -1490,9 +1504,9 @@ namespace Dopamine.Data
                 conn.Execute("VACUUM;");
             }
             */
-        }
+            }
 
-        public void Migrate()
+            public void Migrate()
         {
             try
             {
