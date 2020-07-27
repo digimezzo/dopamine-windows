@@ -382,22 +382,32 @@ namespace Dopamine.Data
                         //Insert if not in 
 
                         // Get ID
-                        SQLiteCommand cmd = conn.CreateCommand("INSERT INTO Artists (name) VALUES (?)");
-                        cmd.Bind(artists[0]);
-                        try
+
+                        SQLiteCommand cmdSelect = conn.CreateCommand("SELECT id FROM Artists WHERE name=? COLLATE NOCASE");
+                        cmdSelect.Bind(artists[0]);
+                        List<int> ids = cmdSelect.ExecuteQuery<int>();
+                        if (ids.Count == 0)
                         {
-                            cmd.ExecuteNonQuery();
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine("Error: {0}", e.Message);
-                            if (e.Message.Equals("Contraint"))
+                            SQLiteCommand cmdInsert = conn.CreateCommand("INSERT INTO Artists (name) VALUES (?)");
+                            cmdInsert.Bind(artists[0]);
+                            try
                             {
-                                //conn.q
-                                //=== Item already exists
+                                cmdInsert.ExecuteNonQuery();
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine("Error: {0}", e.Message);
+                                if (e.Message.Equals("Contraint"))
+                                {
+                                    //conn.q
+                                    //=== Item already exists
+                                }
+
                             }
 
                         }
+
+
                         //int ID = conn.last;
                         //artistsID[i] = ID;
                     }
