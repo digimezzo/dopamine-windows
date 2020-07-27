@@ -4,6 +4,7 @@ using System;
 
 namespace Dopamine.Data.Entities
 {
+    [Table("Tracks")]
     public class Track2
     {
         [Column("id"), PrimaryKey(), AutoIncrement()]
@@ -14,9 +15,6 @@ namespace Dopamine.Data.Entities
 
         [Column("path"), Indexed()]
         public string Path { get; set; }
-
-        [Column("genre_id"), Indexed()]
-        public long? GenreId { get; set; }
 
         [Column("folder_id"), Indexed(), NotNull()]
         public long FolderId { get; set; }
@@ -47,6 +45,9 @@ namespace Dopamine.Data.Entities
 
         [Column("rating")]
         public long? Rating { get; set; }
+
+        [Column("love")]
+        public long? Love { get; set; }
 
         public static Track2 CreateDefault(string path)
         {
