@@ -459,6 +459,16 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
+                            List<Track> tracks = conn.Query<Track>(this.SelectVisibleTracksQuery());
+                            List<Track> tracks2 = tracks.ToList();
+                            IEnumerable<string> tracks3 = tracks2.Select((t) => t.Artists);
+                            IEnumerable<string> tracks4 = tracks3.SelectMany(a => DataUtils.SplitColumnMultiValue(a));
+                            IEnumerable<string> tracks5 = tracks4.Distinct();
+                            List<string> tracks6 = tracks5.ToList();
+
+
+
+
                             artistNames = conn.Query<Track>(this.SelectVisibleTracksQuery()).ToList()
                                                             .Select((t) => t.Artists)
                                                             .SelectMany(a => DataUtils.SplitColumnMultiValue(a))

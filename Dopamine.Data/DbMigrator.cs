@@ -25,7 +25,7 @@ namespace Dopamine.Data
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 26;
+        protected const int CURRENT_VERSION = 27;
         private ISQLiteConnectionFactory factory;
         private int userDatabaseVersion;
 
@@ -136,6 +136,216 @@ namespace Dopamine.Data
                              "DateLastPlayed        INTEGER);");
 
                 conn.Execute("CREATE INDEX TrackStatisticSafePathIndex ON Track(SafePath);");
+            }
+            CreateTablesAndIndexes_v2();
+        }
+
+        private void CreateTablesAndIndexes_v2()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+
+                conn.Execute("DROP TABLE IF EXISTS History;");
+                conn.Execute("DROP TABLE IF EXISTS HistoryActions;");
+
+                conn.Execute("DROP TABLE IF EXISTS TrackArtists;");
+                conn.Execute("DROP TABLE IF EXISTS TrackAlbum;");
+                conn.Execute("DROP TABLE IF EXISTS TrackLyrics;");
+                conn.Execute("DROP TABLE IF EXISTS Tracks;");
+
+                conn.Execute("DROP TABLE IF EXISTS GenreImages;");
+                conn.Execute("DROP TABLE IF EXISTS Genres;");
+
+                conn.Execute("DROP TABLE IF EXISTS AlbumReviews;");
+                conn.Execute("DROP TABLE IF EXISTS AlbumImages;");
+                conn.Execute("DROP TABLE IF EXISTS Albums;");
+
+                conn.Execute("DROP TABLE IF EXISTS ArtistBiographies;");
+                conn.Execute("DROP TABLE IF EXISTS ArtistImages;");
+                conn.Execute("DROP TABLE IF EXISTS Artists;");
+                conn.Execute("DROP TABLE IF EXISTS ArtistRoles;");
+
+
+                //=== Artists:
+                conn.Execute("CREATE TABLE Artists (" +
+                            "id                 INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "name               TEXT NOT NULL);");
+
+                conn.Execute("CREATE INDEX ArtistsNameIndex ON Artists(name);");
+
+                //=== ArtistBiographies: (Many 2 many) Each Artist may have multiple biographies
+                conn.Execute("CREATE TABLE ArtistBiographies (" +
+                            "artist_id          INTEGER," +
+                            "biography          TEXT NOT NULL," +
+                            "source             TEXT," +
+                            "language           TEXT," +
+                            "priority           INTEGER NOT NULL DEFAULT 0," +
+                            "date_added         INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                            "FOREIGN KEY (artist_id) REFERENCES Artists(id));");
+
+                conn.Execute("CREATE INDEX ArtistBiographiesArtistIDIndex ON ArtistBiographies(artist_id);");
+
+                //=== ArtistImages: (Many 2 many) Each Artist may have multiple images
+                conn.Execute("CREATE TABLE ArtistImages (" +
+                            "artist_id          INTEGER," +
+                            "key                TEXT NOT NULL," + 
+                            "source             TEXT," +
+                            "priority           INTEGER NOT NULL DEFAULT 0," +
+                            "date_added         INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                            "FOREIGN KEY (artist_id) REFERENCES Artists(id));");
+
+                conn.Execute("CREATE INDEX ArtistImagesArtistIDIndex ON ArtistImages(artist_id);");
+
+                //=== Albums:
+                conn.Execute("CREATE TABLE Albums (" +
+                            "id                 INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "artist_id          INTEGER," + // If artist_id is null then this album is a collection
+                            "name               TEXT NOT NULL," +
+                            "FOREIGN KEY (artist_id) REFERENCES Artists(id)); ");
+
+                conn.Execute("CREATE INDEX AlbumsArtistIDIndex ON Albums(artist_id);");
+                conn.Execute("CREATE INDEX AlbumsNameIndex ON Albums(name);");
+                conn.Execute("CREATE UNIQUE INDEX AlbumsArtistIDNameIndex ON Albums(artist_id, name);");
+
+                //=== AlbumReviews: (Many 2 many) Each album may have multiple reviews
+                conn.Execute("CREATE TABLE AlbumReviews (" +
+                            "album_id           INTEGER," +
+                            "review             TEXT NOT NULL," +
+                            "source             TEXT," +
+                            "language           TEXT," +
+                            "priority           INTEGER NOT NULL DEFAULT 0," +
+                            "date_added         INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                            "FOREIGN KEY (album_id) REFERENCES Albums(id));");
+
+                conn.Execute("CREATE INDEX AlbumReviewsArtistIDIndex ON AlbumReviews(album_id);");
+
+                //=== AlbumImages: (Many 2 many) Each album may have multiple images
+                conn.Execute("CREATE TABLE AlbumImages (" +
+                            "album_id           INTEGER," +
+                            "key                TEXT NOT NULL," +
+                            "source             TEXT," +
+                            "priority           INTEGER NOT NULL DEFAULT 0," +
+                            "date_added         INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                            "FOREIGN KEY (album_id) REFERENCES Albums(id));");
+
+                conn.Execute("CREATE INDEX AlbumImagesArtistIDIndex ON AlbumImages(album_id);");
+
+                //=== Genres:
+                conn.Execute("CREATE TABLE Genres (" +
+                            "id                 INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "name               TEXT NOT NULL);");
+
+                conn.Execute("CREATE UNIQUE INDEX GenresNameIndex ON Genres(name);");
+
+                //=== GenreImages: (Many 2 many) Each genre may have multiple images
+                conn.Execute("CREATE TABLE GenreImages (" +
+                            "genre_id           INTEGER," +
+                            "key                TEXT NOT NULL," +
+                            "source             TEXT," +
+                            "priority           INTEGER NOT NULL DEFAULT 0," +
+                            "date_added         INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                            "FOREIGN KEY (genre_id) REFERENCES Genres(id));");
+
+                conn.Execute("CREATE INDEX GenreImagesArtistIDIndex ON GenreImages(genre_id);");
+
+                //=== Tracks:
+                conn.Execute("CREATE TABLE Tracks (" +
+                            "id	                INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "name	            TEXT NOT NULL," +
+                            "path               TEXT NOT NULL," +
+                            "genre_id           INTEGER," +
+                            "filesize           INTEGER," +
+                            "bitrate            INTEGER," +
+                            "samplerate	        INTEGER," +
+                            "duration           INTEGER," +
+                            "year	            INTEGER," +
+                            "language           TEXT," +
+                            "date_added	        INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                            "rating	            INTEGER," +
+                            "FOREIGN KEY (genre_id) REFERENCES Genres(id));");
+
+                conn.Execute("CREATE INDEX TracksNameIndex ON Tracks(name);");
+                conn.Execute("CREATE UNIQUE INDEX TracksPathIndex ON Tracks(path);");
+                conn.Execute("CREATE INDEX TracksGenreIDIndex ON Tracks(genre_id);");
+
+                //=== ArtistRoles:
+                conn.Execute("CREATE TABLE ArtistRoles (" +
+                            "id                 INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "name               TEXT NOT NULL);");
+
+                conn.Execute("INSERT INTO ArtistRoles (name) VALUES ('Composer'), ('Producer'), ('Mixing');");
+
+                //=== TrackArtists: (Many 2 Many) Many Tracks may belong to the same Artist. Many Artists may have collaborate to the same track
+                conn.Execute("CREATE TABLE TrackArtists (" +
+                            "track_id           INTEGER NOT NULL," +
+                            "artist_id          INTEGER NOT NULL," +
+                            "artist_role_id     INTEGER DEFAULT 1," +
+                            "FOREIGN KEY (track_id) REFERENCES Tracks(id)," +
+                            "FOREIGN KEY (artist_id) REFERENCES Artists(id)," +
+                            "FOREIGN KEY (artist_role_id) REFERENCES ArtistRoles(id)); ");
+
+                conn.Execute("CREATE INDEX TrackArtistsTrackIDIndex ON TrackArtists(track_id);");
+                conn.Execute("CREATE INDEX TrackArtistsArtistIDIndex ON TrackArtists(artist_id);");
+                conn.Execute("CREATE INDEX TrackArtistsArtistRoleIDIndex ON TrackArtists(artist_role_id);");
+                conn.Execute("CREATE UNIQUE INDEX TrackArtistsCombinedIndex ON TrackArtists(track_id, artist_id, artist_role_id);");
+
+                //=== TrackAlbum: (One 2 One) Each Track may have zero or one TrackAlbum record 
+                conn.Execute("CREATE TABLE TrackAlbum (" +
+                            "track_id           INTEGER NOT NULL," +
+                            "album_id           INTEGER NOT NULL," +
+                            "track_number       INTEGER," +
+                            "disc_number        INTEGER," +
+                            "FOREIGN KEY (track_id) REFERENCES Tracks(id)," +
+                            "FOREIGN KEY (album_id) REFERENCES Albums(id)); ");
+
+                conn.Execute("CREATE INDEX TrackAlbumTrackIDIndex ON TrackAlbum(track_id);");
+                conn.Execute("CREATE INDEX TrackAlbumAlbumIDIndex ON TrackAlbum(album_id);");
+
+                //=== TrackLyrics: (One 2 One) Each Track may have zero or one Lyrics record 
+                conn.Execute("CREATE TABLE TrackLyrics (" +
+                            "track_id           INTEGER," +
+                            "lyrics             TEXT NOT NULL," +
+                            "source             TEXT," +
+                            "language           TEXT," +
+                            "date_added         INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                            "FOREIGN KEY (track_id) REFERENCES Tracks(id));");
+
+                conn.Execute("CREATE INDEX TrackLyricsLyricsIndex ON TrackLyrics(lyrics);");
+
+                //=== HistoryActions: Should include Added, Deleted, Modified, Played, AutoPlayed, Skipped, Rated, Loved
+                conn.Execute("CREATE TABLE HistoryActions (" +
+                            "id                 INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "name               TEXT NOT NULL);");
+
+                conn.Execute("INSERT INTO HistoryActions (name) VALUES ('Added'), ('Removed'), ('Modified'), ('Played'), ('Skipped'), ('Rated'), ('Loved');");
+
+
+                //=== History:
+                conn.Execute("CREATE TABLE History (" +
+                            "id                     INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "track_id               INTEGER NOT NULL," +
+                            "history_action_id      INTEGER NOT NULL," +
+                            "history_action_extra   TEXT," +
+                            "date_happened          INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                            "FOREIGN KEY (track_id) REFERENCES Tracks(id)," +
+                            "FOREIGN KEY (history_action_id) REFERENCES HistoryActions(id));");
+
+                conn.Execute("CREATE INDEX HistoryTrackIDIndex ON History(track_id);");
+                conn.Execute("CREATE INDEX HistoryHistoryActionIDIndex ON History(history_action_id);");
+
+
+                //=== TODO
+                // Get all the items from "track" table. Add them to the new structure
+                // Create the new Entities 
+                // Create the repositories
+                // Replace the old db handling
+                // Create a proper migration
+
+
+
+
+
+
             }
         }
 
@@ -1079,6 +1289,24 @@ namespace Dopamine.Data
             }
         }
 
+
+        //=== My Update ====
+        [DatabaseVersion(27)]
+        private void Migrate27()
+        {
+            CreateTablesAndIndexes_v2();
+            /*
+            using (var conn = this.factory.GetConnection())
+            {
+                conn.Execute("BEGIN TRANSACTION;");
+
+                
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+            */
+        }
+
         public void Migrate()
         {
             try
@@ -1138,7 +1366,9 @@ namespace Dopamine.Data
             {
                 try
                 {
-                    this.userDatabaseVersion = Convert.ToInt32(conn.ExecuteScalar<string>("SELECT Value FROM Configuration WHERE Key = 'DatabaseVersion'"));
+                    //=== ALEX DEBUG:
+                    userDatabaseVersion = 26;
+                    //this.userDatabaseVersion = Convert.ToInt32(conn.ExecuteScalar<string>("SELECT Value FROM Configuration WHERE Key = 'DatabaseVersion'"));
                 }
                 catch (Exception)
                 {
