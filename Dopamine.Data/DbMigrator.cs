@@ -468,6 +468,8 @@ namespace Dopamine.Data
 
 
                 //=== TODO
+                // Check if we can have all the queries that we need
+                // Check the album art etc.
                 // Create the repositories
                 // Replace the old db handling
                 // Create a proper migration
@@ -485,6 +487,38 @@ LEFT JOIN Genres ON Genres.id =TrackGenres.genre_id
 GROUP BY t.id 
 having count(Artists.id) > 1
 *** PROBLEM: if there are two of a kind it duplicates everything eg: Stay Around	Wipers|Wipers	The Power In One|The Power In One	Punk|Alternative
+
+----- GET ALL ARTISTS
+SELECT Artists.name, COUNT(t.id) 
+from Tracks t
+LEFT JOIN TrackArtists  ON TrackArtists.track_id =t.id 
+LEFT JOIN Artists ON Artists.id =TrackArtists.artist_id  
+GROUP BY Artists.id
+ORDER BY Artists.name
+
+----- GET THE ALBUMS OF AN ARTIST
+SELECT Albums.name, COUNT(t.id) 
+from Tracks t
+LEFT JOIN TrackAlbums  ON TrackAlbums.track_id =t.id 
+LEFT JOIN Albums  ON TrackAlbums.album_id =Albums.id 
+LEFT JOIN TrackArtists  ON TrackArtists.track_id =t.id 
+LEFT JOIN Artists ON Artists.id =TrackArtists.artist_id  
+WHERE Artists.name="Black Angels"
+GROUP BY Albums.id
+ORDER BY Albums.name
+
+----- GET ALL GENRES OF AN ARTIST
+SELECT Genres.name, COUNT(t.id) 
+from Tracks t
+LEFT JOIN TrackGenres  ON TrackGenres.track_id =t.id 
+LEFT JOIN Genres  ON TrackGenres.genre_id=Genres.id 
+LEFT JOIN TrackArtists  ON TrackArtists.track_id =t.id 
+LEFT JOIN Artists ON Artists.id =TrackArtists.artist_id  
+WHERE Artists.name="Black Angels"
+GROUP BY Genres.id
+ORDER BY Genres.name
+
+***** PROBLEM: "Judgment Night" is a collection but it appears as many different albums. Do we need the "Artist ID" in "Albums"?
 
 
 
