@@ -1,5 +1,8 @@
 ﻿using Digimezzo.Foundation.Core.Logging;
+using Dopamine.Data.Entities;
+using SQLite;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -165,13 +168,15 @@ namespace Dopamine.Data
                 conn.Execute("DROP TABLE IF EXISTS Artists;");
                 conn.Execute("DROP TABLE IF EXISTS ArtistRoles;");
 
+                conn.Execute("DROP TABLE IF EXISTS Folders;");
+
 
                 //=== Artists:
                 conn.Execute("CREATE TABLE Artists (" +
                             "id                 INTEGER PRIMARY KEY AUTOINCREMENT," +
                             "name               TEXT NOT NULL);");
 
-                conn.Execute("CREATE INDEX ArtistsNameIndex ON Artists(name);");
+                conn.Execute("CREATE UNIQUE INDEX ArtistsNameIndex ON Artists(name);");
 
                 //=== ArtistBiographies: (Many 2 many) Each Artist may have multiple biographies
                 conn.Execute("CREATE TABLE ArtistBiographies (" +
@@ -248,12 +253,21 @@ namespace Dopamine.Data
 
                 conn.Execute("CREATE INDEX GenreImagesArtistIDIndex ON GenreImages(genre_id);");
 
+                //=== Folders:
+                conn.Execute("CREATE TABLE Folders (" +
+                            "id                     INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "path                   TEXT," +
+                            "show                   INTEGER DEFAULT 1);");
+
+                conn.Execute("CREATE UNIQUE INDEX FoldersPath ON Folders(path);");
+
                 //=== Tracks:
                 conn.Execute("CREATE TABLE Tracks (" +
                             "id	                INTEGER PRIMARY KEY AUTOINCREMENT," +
                             "name	            TEXT NOT NULL," +
                             "path               TEXT NOT NULL," +
                             "genre_id           INTEGER," +
+                            "folder_id          INTEGER NOT NULL," +
                             "filesize           INTEGER," +
                             "bitrate            INTEGER," +
                             "samplerate	        INTEGER," +
@@ -262,11 +276,13 @@ namespace Dopamine.Data
                             "language           TEXT," +
                             "date_added	        INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                             "rating	            INTEGER," +
+                            "FOREIGN KEY (folder_id) REFERENCES Folders(id)," + 
                             "FOREIGN KEY (genre_id) REFERENCES Genres(id));");
 
                 conn.Execute("CREATE INDEX TracksNameIndex ON Tracks(name);");
                 conn.Execute("CREATE UNIQUE INDEX TracksPathIndex ON Tracks(path);");
                 conn.Execute("CREATE INDEX TracksGenreIDIndex ON Tracks(genre_id);");
+                conn.Execute("CREATE INDEX TracksFolderIDIndex ON Tracks(folder_id);");
 
                 //=== ArtistRoles:
                 conn.Execute("CREATE TABLE ArtistRoles (" +
@@ -334,8 +350,68 @@ namespace Dopamine.Data
                 conn.Execute("CREATE INDEX HistoryHistoryActionIDIndex ON History(history_action_id);");
 
 
-                //=== TODO
+
+
+
+
+
                 // Get all the items from "track" table. Add them to the new structure
+
+                string query = @"SELECT DISTINCT t.TrackID, t.Artists, t.Genres, t.AlbumTitle, t.AlbumArtists, t.AlbumKey,
+                     t.Path, t.SafePath, t.FileName, t.MimeType, t.FileSize, t.BitRate, 
+                     t.SampleRate, t.TrackTitle, t.TrackNumber, t.TrackCount, t.DiscNumber,
+                     t.DiscCount, t.Duration, t.Year, t.HasLyrics, t.DateAdded, t.DateFileCreated,
+                     t.DateLastSynced, t.DateFileModified, t.NeedsIndexing, t.NeedsAlbumArtworkIndexing, t.IndexingSuccess,
+                     t.IndexingFailureReason, t.Rating, t.Love, t.PlayCount, t.SkipCount, t.DateLastPlayed
+                     FROM Track t
+                     INNER JOIN FolderTrack ft ON ft.TrackID = t.TrackID
+                     INNER JOIN Folder f ON ft.FolderID = f.FolderID
+                     WHERE f.ShowInCollection = 1 AND t.IndexingSuccess = 1 AND t.NeedsIndexing = 0";
+
+                //var tracks = new List<Track>();
+                List<Track> tracks = conn.Query<Track>(query);
+                
+                foreach (Track track in tracks)
+                {
+                    Console.WriteLine("Migrating File {0} ({1})", track.FileName, track.Artists);
+                    //Add the artists
+                    string[] artists = track.Artists.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+                    int[] artistsID = new int[artists.Length];
+                    for (int i = 0; i < artists.Length; i++)
+                    {
+                        //Insert if not in 
+
+                        // Get ID
+                        SQLiteCommand cmd = conn.CreateCommand("INSERT INTO Artists (name) VALUES (?)");
+                        cmd.Bind(artists[0]);
+                        try
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("Error: {0}", e.Message);
+                            if (e.Message.Equals("Contraint"))
+                            {
+                                //conn.q
+                                //=== Item already exists
+                            }
+
+                        }
+                        //int ID = conn.last;
+                        //artistsID[i] = ID;
+                    }
+
+                    //Add the album
+                    //Add the genre
+                    //Add the folder
+                    //Add the track
+                }
+
+
+
+
+                //=== TODO
                 // Create the new Entities 
                 // Create the repositories
                 // Replace the old db handling
