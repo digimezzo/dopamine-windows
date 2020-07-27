@@ -174,7 +174,7 @@ namespace Dopamine.Data
                 //=== Artists:
                 conn.Execute("CREATE TABLE Artists (" +
                             "id                 INTEGER PRIMARY KEY AUTOINCREMENT," +
-                            "name               TEXT NOT NULL);");
+                            "name               TEXT NOT NULL COLLATE NOCASE);");
 
                 conn.Execute("CREATE UNIQUE INDEX ArtistsNameIndex ON Artists(name);");
 
@@ -205,7 +205,7 @@ namespace Dopamine.Data
                 conn.Execute("CREATE TABLE Albums (" +
                             "id                 INTEGER PRIMARY KEY AUTOINCREMENT," +
                             "artist_id          INTEGER," + // If artist_id is null then this album is a collection
-                            "name               TEXT NOT NULL," +
+                            "name               TEXT NOT NULL COLLATE NOCASE," +
                             "FOREIGN KEY (artist_id) REFERENCES Artists(id)); ");
 
                 conn.Execute("CREATE INDEX AlbumsArtistIDIndex ON Albums(artist_id);");
@@ -238,7 +238,7 @@ namespace Dopamine.Data
                 //=== Genres:
                 conn.Execute("CREATE TABLE Genres (" +
                             "id                 INTEGER PRIMARY KEY AUTOINCREMENT," +
-                            "name               TEXT NOT NULL);");
+                            "name               TEXT NOT NULL COLLATE NOCASE);");
 
                 conn.Execute("CREATE UNIQUE INDEX GenresNameIndex ON Genres(name);");
 
@@ -264,7 +264,7 @@ namespace Dopamine.Data
                 //=== Tracks:
                 conn.Execute("CREATE TABLE Tracks (" +
                             "id	                INTEGER PRIMARY KEY AUTOINCREMENT," +
-                            "name	            TEXT NOT NULL," +
+                            "name	            TEXT NOT NULL COLLATE NOCASE," +
                             "path               TEXT NOT NULL," +
                             "genre_id           INTEGER," +
                             "folder_id          INTEGER NOT NULL," +
@@ -275,6 +275,7 @@ namespace Dopamine.Data
                             "year	            INTEGER," +
                             "language           TEXT," +
                             "date_added	        INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+                            "date_deleted	    INTEGER," +
                             "rating	            INTEGER," +
                             "FOREIGN KEY (folder_id) REFERENCES Folders(id)," + 
                             "FOREIGN KEY (genre_id) REFERENCES Genres(id));");
@@ -320,7 +321,7 @@ namespace Dopamine.Data
                 //=== TrackLyrics: (One 2 One) Each Track may have zero or one Lyrics record 
                 conn.Execute("CREATE TABLE TrackLyrics (" +
                             "track_id           INTEGER," +
-                            "lyrics             TEXT NOT NULL," +
+                            "lyrics             TEXT NOT NULL COLLATE NOCASE," +
                             "source             TEXT," +
                             "language           TEXT," +
                             "date_added         INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP," +
@@ -375,24 +376,26 @@ namespace Dopamine.Data
                 {
                     Console.WriteLine("Migrating File {0} ({1})", track.FileName, track.Artists);
                     //Add the artists
+                    track.Artists = "Test;test;Δοκιμή;δοκιμή";
                     string[] artists = track.Artists.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
                     int[] artistsID = new int[artists.Length];
                     for (int i = 0; i < artists.Length; i++)
                     {
-                        //Insert if not in 
-
-                        // Get ID
-
+                        long artistID = 0;
+                        //=== Version 1
+                        /*
                         SQLiteCommand cmdSelect = conn.CreateCommand("SELECT id FROM Artists WHERE name=? COLLATE NOCASE");
-                        cmdSelect.Bind(artists[0]);
-                        List<int> ids = cmdSelect.ExecuteQuery<int>();
+                        cmdSelect.Bind(artists[i]);
+                        List<long> ids = cmdSelect.ExecuteQuery<long>();
                         if (ids.Count == 0)
                         {
                             SQLiteCommand cmdInsert = conn.CreateCommand("INSERT INTO Artists (name) VALUES (?)");
-                            cmdInsert.Bind(artists[0]);
+                            cmdInsert.Bind(artists[i]);
                             try
                             {
-                                cmdInsert.ExecuteNonQuery();
+                                artistID = cmdInsert.ExecuteNonQuery();
+                                SQLiteCommand cmdLastRow = conn.CreateCommand(@"select last_insert_rowid()");
+                                artistID = cmdLastRow.ExecuteScalar<int>();
                             }
                             catch (Exception e)
                             {
@@ -404,12 +407,29 @@ namespace Dopamine.Data
                                 }
 
                             }
-
                         }
+                        */
+                        //=== Version 2 (Entities)
+                        /*
+                        List<Artist> ids = conn.Query<Artist>("SELECT * FROM Artists WHERE name=?", artists[i]);
+                        if (ids.Count == 0)
+                            artistID = conn.Insert(new Artist() {Name = artists[i] });
+                        else
+                            artistID = ids[0].Id;
+                        Console.WriteLine("Artist: {0}, ArtistID: {1}", artists[i], artistID);
+                        */
+                        //=== version 3 (Optimization)
+                        List<long> ids = conn.QueryScalars<long>("SELECT * FROM Artists WHERE name=?", artists[i]);
+                        if (ids.Count == 0)
+                            artistID = conn.Insert(new Artist() { Name = artists[i] });
+                        else
+                            artistID = ids[0];
+                        Console.WriteLine("Artist: {0}, ArtistID: {1}", artists[i], artistID);
+
+                        //=== v4 (Generalize)
+                        artistID = GetArtistID(conn, artists[i]);
 
 
-                        //int ID = conn.last;
-                        //artistsID[i] = ID;
                     }
 
                     //Add the album
@@ -433,6 +453,28 @@ namespace Dopamine.Data
 
 
             }
+        }
+
+        private long GetArtistID(SQLiteConnection conn, String entry)
+        {
+            List<long> ids = conn.QueryScalars<long>("SELECT * FROM Artists WHERE name=?", entry);
+            if (ids.Count == 0)
+                return conn.Insert(new Artist() { Name = entry });
+            return ids[0];
+        }
+        private long GetAlbumID(SQLiteConnection conn, String entry)
+        {
+            List<long> ids = conn.QueryScalars<long>("SELECT * FROM Albums WHERE name=?", entry);
+            if (ids.Count == 0)
+                return conn.Insert(new Album() { Name = entry });
+            return ids[0];
+        }
+        private long GetGenreID(SQLiteConnection conn, String entry)
+        {
+            List<long> ids = conn.QueryScalars<long>("SELECT * FROM Genres WHERE name=?", entry);
+            if (ids.Count == 0)
+                return conn.Insert(new Genre() { Name = entry });
+            return ids[0];
         }
 
         [DatabaseVersion(1)]
