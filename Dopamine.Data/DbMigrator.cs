@@ -559,10 +559,31 @@ WHERE Albums.name = "Reflections"
 GROUP BY Genres.name 
 ORDER BY COUNT(t.id) DESC
 
-
-
 ***** PROBLEM For some reason the GROUP_CONCAT(DISTINCT Artists.name, "|") is not working. There is no option but to use the default "," separator
 ***** PROBLEM 2. Different albums with the same name
+
+----- FULL SEARCH
+SELECT t.name as title, GROUP_CONCAT(DISTINCT Artists.name) as artist, GROUP_CONCAT(DISTINCT Albums.name) as album, GROUP_CONCAT(DISTINCT Genres.name) as genre,t."path" 
+from Tracks t 
+LEFT JOIN TrackArtists ON TrackArtists.track_id =t.id 
+LEFT JOIN Artists ON Artists.id =TrackArtists.artist_id  
+LEFT JOIN TrackAlbums ON TrackAlbums.track_id =t.id 
+LEFT JOIN Albums ON Albums.id =TrackAlbums.album_id  
+LEFT JOIN TrackGenres ON TrackGenres.track_id =t.id 
+LEFT JOIN Genres ON Genres.id =TrackGenres.genre_id  
+WHERE 
+(t.name like "%gimm%" 
+OR Albums.name like "%gimm%" 
+OR Artists.name like "%gimm%")
+AND 
+(t.name like "%st%" 
+OR Albums.name like "%st%" 
+OR Artists.name like "%st%")
+GROUP BY t.id 
+
+
+
+
 
 
 
