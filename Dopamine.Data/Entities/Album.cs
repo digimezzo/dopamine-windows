@@ -10,10 +10,7 @@ namespace Dopamine.Data.Entities
         [Column("id"), PrimaryKey(), AutoIncrement()]
         public long Id { get; set; }
 
-        [Column("artist_id")]
-        public long? ArtistID { get; set; }
-
-        [Column("name"), Collation("NOCASE"), NotNull()]
+        [Column("name"), Unique(), Collation("NOCASE"), NotNull()]
         public string Name { get; set; }
 
     }
