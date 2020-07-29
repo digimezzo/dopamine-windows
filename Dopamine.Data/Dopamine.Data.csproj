@@ -146,6 +146,7 @@
     <Compile Include="Repositories\IQueuedTrackRepository.cs" />
     <Compile Include="Repositories\ITrackRepository.cs" />
     <Compile Include="Repositories\QueuedTrackRepository.cs" />
+    <Compile Include="Repositories\TrackRepositoryComp.cs" />
     <Compile Include="Repositories\TrackRepository.cs" />
     <Compile Include="SQLiteConnectionFactory.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

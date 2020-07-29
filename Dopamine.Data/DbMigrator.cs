@@ -156,6 +156,7 @@ namespace Dopamine.Data
                 conn.Execute("DROP TABLE IF EXISTS TrackAlbums;");
                 conn.Execute("DROP TABLE IF EXISTS TrackLyrics;");
                 conn.Execute("DROP TABLE IF EXISTS TrackGenres;");
+                conn.Execute("DROP TABLE IF EXISTS TrackIndexing;");
                 conn.Execute("DROP TABLE IF EXISTS Tracks;");
 
                 conn.Execute("DROP TABLE IF EXISTS GenreImages;");
@@ -341,7 +342,19 @@ namespace Dopamine.Data
                             "date_added         INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP," +
                             "FOREIGN KEY (track_id) REFERENCES Tracks(id));");
 
+                conn.Execute("CREATE UNIQUE INDEX TrackLyricsTrackIDIndex ON TrackLyrics(track_id);");
                 conn.Execute("CREATE INDEX TrackLyricsLyricsIndex ON TrackLyrics(lyrics);");
+
+                //=== TrackIndexing: (One 2 One) Each Track may have zero or one Indexing record 
+                conn.Execute("CREATE TABLE TrackIndexing (" +
+                            "track_id           INTEGER," +
+                            "NeedsAlbumArtworkIndexing             TEXT NOT NULL COLLATE NOCASE," +
+                            "IndexingFailureReason             TEXT," +
+                            "IndexingSuccess           TEXT," +
+                            "NeedsIndexing         INTEGER ," +
+                            "FOREIGN KEY (track_id) REFERENCES Tracks(id));");
+
+                conn.Execute("CREATE UNIQUE INDEX TrackIndexingTrackIDIndex ON TrackIndexing(track_id);");
 
                 //=== HistoryActions: Should include Added, Deleted, Modified, Played, AutoPlayed, Skipped, Rated, Loved
                 conn.Execute("CREATE TABLE HistoryActions (" +
