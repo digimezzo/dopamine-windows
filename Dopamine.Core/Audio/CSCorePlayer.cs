@@ -385,7 +385,7 @@ namespace Dopamine.Core.Audio
 
                 // Initialize SoundOut 
                 this.notificationSource = new SingleBlockNotificationStream(soundSource.ToSampleSource());
-                this.soundOut.Initialize(this.notificationSource.ToWaveSource(16));
+                this.soundOut.Initialize(this.notificationSource.ToWaveSource());
 
                 if (inputStreamList.Count != 0)
                 {
