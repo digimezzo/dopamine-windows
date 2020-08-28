@@ -135,7 +135,7 @@ namespace Dopamine.Data
                              "SkipCount	            INTEGER," +
                              "DateLastPlayed        INTEGER);");
 
-                conn.Execute("CREATE INDEX TrackStatisticSafePathIndex ON Track(SafePath);");
+                conn.Execute("CREATE INDEX TrackStatisticSafePathIndex ON TrackStatistic(SafePath);");
             }
         }
 
