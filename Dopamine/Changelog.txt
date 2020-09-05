@@ -1,4 +1,4 @@
-2020-08-02: Dopamine 2.0.4
+2020-09-05: Dopamine 2.0.4
 --------------------------
 
 - [Fixed] Playlists now load slightly faster
