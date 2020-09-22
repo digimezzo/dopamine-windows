@@ -33,7 +33,7 @@
   <Text Key="Donate">Donate</Text>
   <Text Key="Donate_With_PayPal">Donate with PayPal</Text>
   <Text Key="File_Types">File types</Text>
-  <Text Key="File_Types_Description">These file types are supported: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, OPUS, AIFF.</Text>
+  <Text Key="File_Types_Description">These file types are supported: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, OPUS, AIFF, APE.</Text>
   <Text Key="Keyboard_Shortcuts">Keyboard shortcuts</Text>
   <Text Key="Key_Plus">+</Text>
   <Text Key="Key_Minus">-</Text>

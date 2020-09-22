@@ -33,7 +33,7 @@
   <Text Key="Donate">Δωρείστε</Text>
   <Text Key="Donate_With_PayPal">Δωρείστε μέσω PayPal</Text>
   <Text Key="File_Types">Τύποι αρχείων</Text>
-  <Text Key="File_Types_Description">Υποστηρίζονται οι ακόλουθοι τύποι αρχείων: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, OPUS, AIFF.</Text>
+  <Text Key="File_Types_Description">Υποστηρίζονται οι ακόλουθοι τύποι αρχείων: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, OPUS, AIFF, APE.</Text>
   <Text Key="Keyboard_Shortcuts">Συντομεύσεις πληκτρολογίου</Text>
   <Text Key="Key_Plus">+</Text>
   <Text Key="Key_Minus">-</Text>

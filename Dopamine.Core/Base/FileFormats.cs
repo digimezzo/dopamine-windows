@@ -16,6 +16,7 @@ namespace Dopamine.Core.Base
         public static string OPUS = ".opus";
         public static string AIF = ".aif";
         public static string AIFF = ".aiff";
+        public static string APE = ".ape";
 
         // Lyrics extensions
         public static string LRC = ".lrc";
@@ -49,7 +50,8 @@ namespace Dopamine.Core.Base
             FileFormats.WAV,
             FileFormats.OPUS,
             FileFormats.AIF,
-            FileFormats.AIFF
+            FileFormats.AIFF,
+            FileFormats.APE
         };
 
         public static string[] SupportedStaticPlaylistExtensions = {

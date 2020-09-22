@@ -33,7 +33,7 @@
   <Text Key="Donate">Đóng góp</Text>
   <Text Key="Donate_With_PayPal">Đóng góp bằng PayPal</Text>
   <Text Key="File_Types">Loại tệp</Text>
-  <Text Key="File_Types_Description">Các loại tệp tin được hỗ trợ: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, OPUS, AIFF.</Text>
+  <Text Key="File_Types_Description">Các loại tệp tin được hỗ trợ: MP3, WMA, OGG, FLAC, M4A (AAC), AAC, WAV, OPUS, AIFF, APE.</Text>
   <Text Key="Keyboard_Shortcuts">Các phím tắt</Text>
   <Text Key="Key_Plus">+</Text>
   <Text Key="Key_Minus">-</Text>

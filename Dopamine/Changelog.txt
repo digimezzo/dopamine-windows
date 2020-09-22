@@ -1,3 +1,11 @@
+2020-09-22: Dopamine 2.0.5
+--------------------------
+
+- [Added] Added support for the APE file format
+- [Added] Added support for ModernFlyouts (https://github.com/ShankarBUS/ModernFlyouts/)
+- [Changed] Updated the Portuguese (Portugal) translation
+- [Changed] Updated the Chinese (Simplified) translation
+
 2020-09-05: Dopamine 2.0.4
 --------------------------
 

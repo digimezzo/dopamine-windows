@@ -33,7 +33,7 @@
   <Text Key="Donate">捐贈</Text>
   <Text Key="Donate_With_PayPal">使用PayPal捐贈</Text>
   <Text Key="File_Types">檔案類型</Text>
-  <Text Key="File_Types_Description">支援以下檔案類型：MP3，WMA，OGG，FLAC，M4A（AAC），AAC，WAV, OPUS, AIFF。</Text>
+  <Text Key="File_Types_Description">支援以下檔案類型：MP3，WMA，OGG，FLAC，M4A（AAC），AAC，WAV, OPUS, AIFF, APE。</Text>
   <Text Key="Keyboard_Shortcuts">鍵盤快捷鍵</Text>
   <Text Key="Key_Plus">+</Text>
   <Text Key="Key_Minus">-</Text>
