@@ -444,11 +444,11 @@
   <Text Key="Edit_Playlist">재생 목록 수정</Text>
   <Text Key="Enter_Name_For_Playlist">재생 목록 이름 입력</Text>
   <Text Key="Error_Editing_Playlist">해당 재생 목록을 수정할 수 없습니다. 자세한 내용은 로그 파일을 참조하세요.</Text>
-  <Text Key="Date_Added">Date added</Text>
-  <Text Key="Date_Created">Date created</Text>
-  <Text Key="Manage_Collection">Manage collection</Text>
-  <Text Key="Use_AppCommand_Media_Keys">Enable default multimedia key support</Text>
-  <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
-  <Text Key="By_Year_Ascending">By year ascending</Text>
-  <Text Key="By_Year_Descending">By year descending</Text>
+  <Text Key="Date_Added">추가된 날짜</Text>
+  <Text Key="Date_Created">생성된 날짜</Text>
+  <Text Key="Manage_Collection">컬렉션 관리</Text>
+  <Text Key="Use_AppCommand_Media_Keys">기본 멀티미디어 키 활성화</Text>
+  <Text Key="Smart_Playlist_Does_Not_Contain">미포함</Text>
+  <Text Key="By_Year_Ascending">연도 오름차순</Text>
+  <Text Key="By_Year_Descending">연도 내림차순</Text>
 </Language>
