@@ -94,6 +94,19 @@ namespace Dopamine.Services.Notification
             await this.PlaybackService.SetShuffleAsync(args.RequestedShuffleEnabled);
         }
 
+        private void SMCPlaybackPositionChanged(SystemMediaTransportControls sender, PlaybackPositionChangeRequestedEventArgs args)
+        {
+            if (args.RequestedPlaybackPosition.Duration() <= this.PlaybackService.GetTotalTime &&
+                args.RequestedPlaybackPosition.Duration().TotalSeconds >= 0)
+            {
+                if (!this.PlaybackService.IsStopped)
+                {
+                    this.PlaybackService.Progress = args.RequestedPlaybackPosition.Duration().TotalSeconds / this.PlaybackService.GetTotalTime.TotalSeconds;
+                    UpdateSMCPosition();
+                }
+            }
+        }
+
         protected override bool CanShowNotification()
         {
             if (this.systemNotificationIsEnabled) return false;
@@ -103,6 +116,7 @@ namespace Dopamine.Services.Notification
         private void PlaybackStoppedHandler(object sender, EventArgs e)
         {
             systemMediaControls.PlaybackStatus = MediaPlaybackStatus.Stopped;
+            UpdateSMCPosition();
             displayUpdater.Update();
         }
 
@@ -141,6 +155,11 @@ namespace Dopamine.Services.Notification
             systemMediaControls.ShuffleEnabled = this.PlaybackService.Shuffle;
         }
 
+        private void PlaybackProgressChangedHandler(object sender, EventArgs e)
+        {
+            UpdateSMCPosition();
+        }
+
         private async Task SwitchNotificationHandlerAsync(bool systemNotificationIsEnabled)
         {
             await Task.Run(() =>
@@ -155,6 +174,7 @@ namespace Dopamine.Services.Notification
                 this.PlaybackService.PlaybackStopped -= this.PlaybackStoppedHandler;
                 this.PlaybackService.PlaybackLoopChanged -= this.PlaybackLoopChangedHandler;
                 this.PlaybackService.PlaybackShuffleChanged -= this.PlaybackShuffleChangedHandler;
+                this.PlaybackService.PlaybackProgressChanged -= this.PlaybackProgressChangedHandler;
 
                 // Do not add event handler to ButtonPressed, it has been dealt with Shell.xaml.cs
                 if (systemNotificationIsEnabled)
@@ -173,10 +193,12 @@ namespace Dopamine.Services.Notification
                         systemMediaControls.IsStopEnabled = true;
 
                         UpdateSMCRepeatMode();
+                        UpdateSMCPosition();
 
                         systemMediaControls.ButtonPressed += SMCButtonPressed;
                         systemMediaControls.AutoRepeatModeChangeRequested += SMCAutoRepeatModeChanged;
                         systemMediaControls.ShuffleEnabledChangeRequested += SMCShuffleEnabledChanged;
+                        systemMediaControls.PlaybackPositionChangeRequested += SMCPlaybackPositionChanged;
 
                         this.PlaybackService.PlaybackSuccess += this.PlaybackSuccessSystemNotificationHandler;
                         this.PlaybackService.PlaybackPaused += this.PlaybackPausedSystemNotificationHandler;
@@ -184,6 +206,7 @@ namespace Dopamine.Services.Notification
                         this.PlaybackService.PlaybackStopped += this.PlaybackStoppedHandler;
                         this.PlaybackService.PlaybackLoopChanged += this.PlaybackLoopChangedHandler;
                         this.PlaybackService.PlaybackShuffleChanged += this.PlaybackShuffleChangedHandler;
+                        this.PlaybackService.PlaybackProgressChanged += this.PlaybackProgressChangedHandler;
                     }
                 }
                 else
@@ -194,6 +217,7 @@ namespace Dopamine.Services.Notification
                     this.PlaybackService.PlaybackStopped += this.PlaybackStoppedHandler;
                     this.PlaybackService.PlaybackLoopChanged += this.PlaybackLoopChangedHandler;
                     this.PlaybackService.PlaybackShuffleChanged += this.PlaybackShuffleChangedHandler;
+                    this.PlaybackService.PlaybackProgressChanged += this.PlaybackProgressChangedHandler;
 
                     if (Constants.IsWindows10)
                     {
@@ -201,6 +225,7 @@ namespace Dopamine.Services.Notification
                         systemMediaControls.ButtonPressed -= SMCButtonPressed;
                         systemMediaControls.AutoRepeatModeChangeRequested -= SMCAutoRepeatModeChanged;
                         systemMediaControls.ShuffleEnabledChangeRequested -= SMCShuffleEnabledChanged;
+                        systemMediaControls.PlaybackPositionChangeRequested -= SMCPlaybackPositionChanged;
 
                         this.PlaybackService.PlaybackSuccess -= this.PlaybackSuccessSystemNotificationHandler;
                         this.PlaybackService.PlaybackPaused -= this.PlaybackPausedSystemNotificationHandler;
@@ -208,6 +233,7 @@ namespace Dopamine.Services.Notification
                         this.PlaybackService.PlaybackStopped -= this.PlaybackStoppedHandler;
                         this.PlaybackService.PlaybackLoopChanged -= this.PlaybackLoopChangedHandler;
                         this.PlaybackService.PlaybackShuffleChanged -= this.PlaybackShuffleChangedHandler;
+                        this.PlaybackService.PlaybackProgressChanged -= this.PlaybackProgressChangedHandler;
                     }
                 }
             });
@@ -245,6 +271,19 @@ namespace Dopamine.Services.Notification
             }
 
             displayUpdater.Update();
+        }
+
+        private void UpdateSMCPosition()
+        {
+            var timelineProperties = new SystemMediaTransportControlsTimelineProperties();
+
+            timelineProperties.StartTime = TimeSpan.FromSeconds(0);
+            timelineProperties.MinSeekTime = TimeSpan.FromSeconds(0);
+            timelineProperties.Position = this.PlaybackService.GetCurrentTime;
+            timelineProperties.MaxSeekTime = this.PlaybackService.GetTotalTime;
+            timelineProperties.EndTime = this.PlaybackService.GetTotalTime;
+
+            systemMediaControls.UpdateTimelineProperties(timelineProperties);
         }
     }
 }
