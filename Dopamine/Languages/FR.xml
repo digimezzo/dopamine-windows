@@ -48,7 +48,7 @@
   <Text Key="Dopamine_Uses_WASAPI">Le son est diffusé par la Windows Audio Session API (WASAPI).</Text>
   <Text Key="Appearance">Apparence</Text>
   <Text Key="Theme">Thème</Text>
-  <Text Key="Choose_Theme">Utiliser le thème clair</Text>
+  <Text Key="Choose_Theme">Choisisez un thème</Text>
   <Text Key="Follow_Windows_Color">Utiliser la couleur d'accentuation de Windows</Text>
   <Text Key="Choose_A_Color">Choisissez une couleur</Text>
   <Text Key="Choose_Language">Choisissez une langue</Text>
@@ -100,7 +100,7 @@
   <Text Key="Ctrl_J">Ctrl+J</Text>
   <Text Key="Ctrl_T">Ctrl+T</Text>
   <Text Key="Notification">Notification</Text>
-  <Text Key="Show_Notification_When_Song_Starts">Afficher une notification lors de la lecture d'un morceau</Text>
+  <Text Key="Show_Notification_When_Song_Starts">Afficher une notification lorsque la lecture d'un morceau commence</Text>
   <Text Key="Show_Notification_Controls">Afficher les commandes de lecture sur la notification</Text>
   <Text Key="Notification_Position">Emplacement de la notification</Text>
   <Text Key="Test">Test</Text>
@@ -447,8 +447,8 @@
   <Text Key="Date_Added">Date d'ajout</Text>
   <Text Key="Date_Created">Date de creation</Text>
   <Text Key="Manage_Collection">Gérer la collection</Text>
-  <Text Key="Use_AppCommand_Media_Keys">Activer la prise en charge des touches multimédias par défaut</Text>
-  <Text Key="Smart_Playlist_Does_Not_Contain">does not contain</Text>
-  <Text Key="By_Year_Ascending">By year ascending</Text>
-  <Text Key="By_Year_Descending">By year descending</Text>
+  <Text Key="Use_AppCommand_Media_Keys">Activer la prise en charge des touches multimédia par défaut</Text>
+  <Text Key="Smart_Playlist_Does_Not_Contain">Ne contient rien</Text>
+  <Text Key="By_Year_Ascending">Par année ascendante</Text>
+  <Text Key="By_Year_Descending">Par année décroissante</Text>
 </Language>
