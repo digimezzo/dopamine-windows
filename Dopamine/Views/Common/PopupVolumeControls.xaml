@@ -14,7 +14,6 @@
     <Grid PreviewMouseWheel="Grid_PreviewMouseWheel">
         <Button x:Name="VolumeButton" 
                 Style="{StaticResource TransparentButton}" 
-                ToolTip="{DynamicResource Language_Volume}" 
                 Click="VolumeButton_Click"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"

@@ -2,7 +2,7 @@
 --------------------------
 
 - [Fixed] Fixed Folder screen compatibility issue with the Dopamine 3 database
-
+- [Fixed] Volume tooltip overlaps volume control numbers
 
 2020-09-22: Dopamine 2.0.5
 --------------------------
