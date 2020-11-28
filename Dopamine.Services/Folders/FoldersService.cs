@@ -186,7 +186,7 @@ namespace Dopamine.Services.Folders
                             }
 
                             // If we're not browing the root folder, show a folder to go up 1 level.
-                            if (!subfolderPathToBrowse.ToSafePath().Equals(selectedRootFolder.SafePath))
+                            if (!subfolderPathToBrowse.Equals(selectedRootFolder.Path))
                             {
                                 subFolders.Add(new SubfolderViewModel(subfolderPathToBrowse, true));
                             }
@@ -265,7 +265,7 @@ namespace Dopamine.Services.Folders
             IList<SubfolderBreadCrumbViewModel> subfolderBreadCrumbs = new List<SubfolderBreadCrumbViewModel>();
 
             // Add sub folders, if applicable.
-            while (!parentDirectoryPath.ToSafePath().Equals(selectedRootFolder.SafePath))
+            while (!parentDirectoryPath.Equals(selectedRootFolder.Path))
             {
                 subfolderBreadCrumbs.Add(new SubfolderBreadCrumbViewModel(parentDirectoryPath));
                 parentDirectoryPath = Directory.GetParent(parentDirectoryPath)?.FullName;
