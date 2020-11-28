@@ -93,7 +93,6 @@
     <Compile Include="Api\Lyrics\LololyricsApi.cs" />
     <Compile Include="Api\Lyrics\Lyrics.cs" />
     <Compile Include="Api\Lyrics\LyricsFactory.cs" />
-    <Compile Include="Api\Lyrics\LyricWikiaApi.cs" />
     <Compile Include="Api\Lyrics\MetroLyricsApi.cs" />
     <Compile Include="Api\Lyrics\NeteaseLyricsApi.cs" />
     <Compile Include="Api\Lyrics\XiamiLyricsApi.cs" />

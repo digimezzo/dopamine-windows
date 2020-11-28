@@ -91,7 +91,6 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="LastfmApiTest.cs" />
-    <Compile Include="LyricsApiTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PlaylistDecoderTest.cs" />
     <Compile Include="TestCategories.cs" />

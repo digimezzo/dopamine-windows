@@ -34,7 +34,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private bool checkBoxDownloadLyricsChecked;
         private bool checkBoxChartLyricsChecked;
         private bool checkBoxLoloLyricsChecked;
-        private bool checkBoxLyricWikiaChecked;
         private bool checkBoxMetroLyricsChecked;
         private bool checkBoxXiamiLyricsChecked;
         private bool checkBoxNeteaseLyricsChecked;
@@ -85,16 +84,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             {
                 this.AddRemoveLyricsDownloadProvider("lololyrics", value);
                 SetProperty<bool>(ref this.checkBoxLoloLyricsChecked, value);
-            }
-        }
-
-        public bool CheckBoxLyricWikiaChecked
-        {
-            get { return this.checkBoxLyricWikiaChecked; }
-            set
-            {
-                this.AddRemoveLyricsDownloadProvider("lyricwikia", value);
-                SetProperty<bool>(ref this.checkBoxLyricWikiaChecked, value);
             }
         }
 
@@ -333,7 +322,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
 
                 this.checkBoxChartLyricsChecked = lyricsProviders.ToLower().Contains("chartlyrics");
                 this.checkBoxLoloLyricsChecked = lyricsProviders.ToLower().Contains("lololyrics");
-                this.checkBoxLyricWikiaChecked = lyricsProviders.ToLower().Contains("lyricwikia");
                 this.checkBoxMetroLyricsChecked = lyricsProviders.ToLower().Contains("metrolyrics");
                 this.checkBoxXiamiLyricsChecked = lyricsProviders.ToLower().Contains("xiamilyrics");
                 this.checkBoxNeteaseLyricsChecked = lyricsProviders.ToLower().Contains("neteaselyrics");

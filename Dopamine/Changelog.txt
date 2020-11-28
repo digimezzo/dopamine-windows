@@ -2,7 +2,8 @@
 --------------------------
 
 - [Fixed] Fixed Folder screen compatibility issue with the Dopamine 3 database
-- [Fixed] Volume tooltip overlaps volume control numbers
+- [Fixed] Fixed volume tooltip overlaps volume control numbers
+- [Changed] Removed support for LyricsWiki. The site was shut down.
 
 2020-09-22: Dopamine 2.0.5
 --------------------------
