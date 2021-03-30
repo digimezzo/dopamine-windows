@@ -688,6 +688,7 @@
     <Content Include="FFmpeg\bin\windows\x86\swresample-2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Icons\Aiff.ico" />
     <Content Include="Icons\Dopamine - White.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -725,6 +726,7 @@
     <Resource Include="Icons\TaskbarItemInfo_Pause.ico" />
     <Resource Include="Icons\TaskbarItemInfo_Play.ico" />
     <Resource Include="Icons\TaskbarItemInfo_Previous.ico" />
+    <Resource Include="Icons\Opus.ico" />
     <Content Include="Icons\Tray_black.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

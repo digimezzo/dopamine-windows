@@ -92,6 +92,7 @@
           <!-- Icons -->
           <Directory Id="ICONSFOLDER" Name="Icons">
             <Component Id="ICONSCMP" DiskId="1" Guid="69CA5CE5-F8DF-45E3-A6A1-837785389740">
+              <File Source="Icons\Aiff.ico" />
               <File Source="Icons\Dopamine.ico" />
               <File Source="Icons\Dopamine - White.ico" />
               <File Source="Icons\Dopamine.png" />
@@ -103,6 +104,7 @@
               <File Source="Icons\M4a.ico" />
               <File Source="Icons\Mp3.ico" />
               <File Source="Icons\Ogg.ico" />
+              <File Source="Icons\Opus.ico" />
               <File Source="Icons\Tray_black.ico" />
               <File Source="Icons\Tray_white.ico" />
               <File Source="Icons\Wav.ico" />
@@ -210,6 +212,7 @@
             </RegistryKey>
             <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities" Name="ApplicationName" Value="Dopamine" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities" Name="ApplicationDescription" Value="Dopamine audio player" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".aiff" Value="Dopamine.aiff" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".m3u" Value="Dopamine.m3u" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".zpl" Value="Dopamine.zpl" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".mp3" Value="Dopamine.mp3" Type="string" />
@@ -217,8 +220,12 @@
             <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".wma" Value="Dopamine.wma" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".flac" Value="Dopamine.flac" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".m4a" Value="Dopamine.m4a" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Dopamine\Capabilities\FileAssociations" Name=".opus" Value="Dopamine.opus" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\RegisteredApplications" Name="Dopamine" Value="SOFTWARE\Dopamine\Capabilities" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Applications\Dopamine.exe" Name="FriendlyAppName" Value="Dopamine" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.aiff" Value="Dopamine aiff file" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.aiff\DefaultIcon" Value="[ICONSFOLDER]Aiff.ico,0" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.aiff\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.m3u" Value="Dopamine m3u file" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.m3u\DefaultIcon" Value="[ICONSFOLDER]M3u.ico,0" Type="string" />
             <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.m3u\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
@@ -261,6 +268,9 @@
             <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.m4a" Value="Dopamine m4a file" Type="string" />
             <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.m4a\DefaultIcon" Value="[ICONSFOLDER]M4a.ico,0" Type="string" />
             <RegistryValue Root="HKCR" Key="SOFTWARE\Classes\Dopamine.m4a\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.opus" Value="Dopamine opus file" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.opus\DefaultIcon" Value="[ICONSFOLDER]Opus.ico,0" Type="string" />
+            <RegistryValue Root="HKLM" Key="SOFTWARE\Classes\Dopamine.opus\shell\open\command" Value="&quot;[INSTALLFOLDER]Dopamine.exe&quot; &quot;%1&quot;" Type="string" />
           </Component>
         </Directory>
       </Directory>
