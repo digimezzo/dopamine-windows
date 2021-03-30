@@ -80,12 +80,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Digimezzo.Foundation.WPF.dll</HintPath>
     </Reference>
+    <Reference Include="DiscordRPC, Version=1.0.175.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\DiscordRichPresence.1.0.175\lib\net35\DiscordRPC.dll</HintPath>
+    </Reference>
     <Reference Include="DryIoc, Version=2.12.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\DryIoc.dll.2.12.8\lib\net45\DryIoc.dll</HintPath>
     </Reference>
     <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\gong-wpf-dragdrop.1.1.0\lib\net46\GongSolutions.Wpf.DragDrop.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Prism, Version=7.0.0.396, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.7.0.0.396\lib\net45\Prism.dll</HintPath>
@@ -140,7 +146,7 @@
       <HintPath>Libraries\taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Windows">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Windows Kits\10\UnionMetadata\Windows.winmd</HintPath>
+      <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\Windows.winmd</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
