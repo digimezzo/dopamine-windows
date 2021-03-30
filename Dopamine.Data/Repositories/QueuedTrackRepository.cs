@@ -16,9 +16,9 @@ namespace Dopamine.Data.Repositories
             this.factory = factory;
         }
 
-        public async Task<List<QueuedTrack>> GetSavedQueuedTracksAsync()
+        public async Task<List<Track>> GetSavedQueuedTracksAsync()
         {
-            var tracks = new List<QueuedTrack>();
+            var tracks = new List<Track>();
 
             await Task.Run(() =>
             {
@@ -28,7 +28,10 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            tracks = conn.Query<QueuedTrack>("SELECT * FROM QueuedTrack ORDER BY OrderID;");
+                            tracks = conn.Query<Track>(@"
+                                SELECT * FROM Track t
+                                JOIN QueuedTrack qt ON t.TrackID = qt.TrackID
+                                ORDER BY qt.OrderID");
                         }
                         catch (Exception ex)
                         {
@@ -45,20 +48,35 @@ namespace Dopamine.Data.Repositories
             return tracks;
         }
 
-        public async Task SaveQueuedTracksAsync(IList<QueuedTrack> tracks)
-        {
+        public async Task SaveQueuedTracksAsync(IList<Track> tracks, long? currentTrackId, long progressSeconds)
+        {                                                            
             await Task.Run(() =>
             {
                 try
                 {
+                    var queuedTracks = new List<QueuedTrack>();
+
+                    for (int i = 0; i < tracks.Count; ++i)
+                    {
+                        var track = tracks[i];
+
+                        queuedTracks.Add(new QueuedTrack
+                        {
+                            TrackID = track.TrackID,
+                            IsPlaying = track.TrackID == currentTrackId ? 1 : 0,
+                            ProgressSeconds = track.TrackID == currentTrackId ? progressSeconds : 0,
+                            OrderID = i
+                        });
+                    }
+
                     using (var conn = this.factory.GetConnection())
                     {
                         try
                         {
-                            conn.Execute("BEGIN TRANSACTION;");
+                            conn.BeginTransaction();
                             conn.Execute("DELETE FROM QueuedTrack;"); // First, clear old queued tracks.
-                            conn.InsertAll(tracks); // Then, insert new queued tracks.
-                            conn.Execute("COMMIT;");
+                            conn.InsertAll(queuedTracks); // Then, insert new queued tracks.
+                            conn.Commit();
                         }
                         catch (Exception ex)
                         {
@@ -73,9 +91,9 @@ namespace Dopamine.Data.Repositories
             });
         }
 
-        public async Task<QueuedTrack> GetPlayingTrackAsync()
+        public async Task<Tuple<Track, long>> GetPlayingTrackAsync()
         {
-            QueuedTrack track = null;
+            Tuple<Track, long> result = null;
 
             await Task.Run(() =>
             {
@@ -85,7 +103,16 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            track = conn.Query<QueuedTrack>("SELECT * FROM QueuedTrack WHERE IsPlaying=1;").FirstOrDefault();
+                            var track = conn.Query<Track>(@"
+                                SELECT * FROM Track t
+                                JOIN QueuedTrack qt
+                                WHERE qt.IsPlaying = 1").FirstOrDefault();
+
+                            if(track != null)
+                            {
+                                var progressSeconds = conn.ExecuteScalar<long>("SELECT ProgressSeconds FROM QueuedTrack WHERE TrackID = ?", track.TrackID);
+                                result = Tuple.Create(track, progressSeconds);
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -99,7 +126,7 @@ namespace Dopamine.Data.Repositories
                 }
             });
 
-            return track;
+            return result;
         }
     }
 }

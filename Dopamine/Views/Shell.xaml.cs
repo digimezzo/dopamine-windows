@@ -122,7 +122,7 @@ namespace Dopamine.Views
             {
                 LogClient.Info("### STOPPING {0}, version {1} ###", ProductInformation.ApplicationName, ProcessExecutable.AssemblyVersion().ToString());
 
-                if (this.lifetimeService.MustPerformClosingTasks)
+                if(this.lifetimeService.MustPerformClosingTasks)
                 {
                     e.Cancel = true;
                     await this.lifetimeService.PerformClosingTasksAsync();

@@ -7,7 +7,7 @@ namespace Dopamine.Services.Update
 
     public interface IUpdateService
     {
-        void Reset();
+        Task Reset();
         void Dismiss();
         event UpdateAvailableEventHandler NewVersionAvailable;
         event EventHandler NoNewVersionAvailable;

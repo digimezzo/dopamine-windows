@@ -45,6 +45,8 @@ namespace Dopamine.ViewModels.Common.Base
         private IProviderService providerService;
         private IPlaylistService playlistService;
         private IMetadataService metadataService;
+        private IQueuedTrackRepository queuedTrackRepository;
+
         private ObservableCollection<TrackViewModel> tracks;
         private CollectionViewSource tracksCvs;
         private IList<TrackViewModel> selectedTracks;
@@ -85,6 +87,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.providerService = container.Resolve<IProviderService>();
             this.playlistService = container.Resolve<IPlaylistService>();
             this.metadataService = container.Resolve<IMetadataService>();
+            this.queuedTrackRepository = container.Resolve<IQueuedTrackRepository>();
 
             // Events
             this.metadataService.MetadataChanged += MetadataChangedHandlerAsync;
@@ -195,8 +198,13 @@ namespace Dopamine.ViewModels.Common.Base
             }
             else
             {
-                // Tracks have lowest priority
-                tracks = await this.trackRepository.GetTracksAsync();
+                tracks = await queuedTrackRepository.GetSavedQueuedTracksAsync();
+
+                if(tracks.Count == 0)
+                {
+                    // Tracks have lowest priority
+                    tracks = await this.trackRepository.GetTracksAsync();
+                }
             }
 
             await this.GetTracksCommonAsync(await this.container.ResolveTrackViewModelsAsync(tracks), trackOrder);

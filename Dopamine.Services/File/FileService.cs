@@ -9,13 +9,13 @@ using Dopamine.Data.Repositories;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Entities;
 using Dopamine.Services.Extensions;
+using Dopamine.Services.Lifetime;
 using Prism.Ioc;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -26,17 +26,22 @@ namespace Dopamine.Services.File
     public class FileService : IFileService
     {
         private ICacheService cacheService;
+        private ITerminationService cancellationService;
         private ITrackRepository trackRepository;
         private IContainerProvider container;
-        private IList<string> files;
-        private object lockObject = new object();
+        private IList<string> files = new List<string>();
         private Timer addFilesTimer;
         private int addFilesMilliseconds = 250;
         private string instanceGuid;
 
-        public FileService(ICacheService cacheService, ITrackRepository trackRepository, IContainerProvider container)
+        public FileService(
+            ICacheService cacheService,
+            ITerminationService cancellationService,
+            ITrackRepository trackRepository,
+            IContainerProvider container)
         {
             this.cacheService = cacheService;
+            this.cancellationService = cancellationService;
             this.trackRepository = trackRepository;
             this.container = container;
 
@@ -44,7 +49,6 @@ namespace Dopamine.Services.File
             // This prevents the cleanup function to delete artwork which is in use by this instance.
             this.instanceGuid = Guid.NewGuid().ToString();
 
-            this.files = new List<string>();
             this.addFilesTimer = new Timer();
             this.addFilesTimer.Interval = this.addFilesMilliseconds;
             this.addFilesTimer.Elapsed += AddFilesTimerElapsedHandler;
@@ -95,43 +99,40 @@ namespace Dopamine.Services.File
         {
             var tracks = new List<TrackViewModel>();
 
-            await Task.Run(async () =>
+            if (paths == null)
             {
-                if (paths == null)
-                {
-                    return;
-                }
+                return tracks;
+            }
 
-                // Convert the files to tracks
-                foreach (string path in paths)
+            // Convert the files to tracks
+            foreach (string path in paths)
+            {
+                if (FileFormats.IsSupportedAudioFile(path))
                 {
-                    if (FileFormats.IsSupportedAudioFile(path))
+                    // The file is a supported audio format: add it directly.
+                    tracks.Add(await this.CreateTrackAsync(path));
+                }
+                else if (processPlaylistFiles && FileFormats.IsSupportedStaticPlaylistFile(path))
+                {
+                    // The file is a supported playlist format: process the contents of the playlist file.
+                    foreach (string audioFilePath in this.ProcessPlaylistFile(path))
                     {
-                        // The file is a supported audio format: add it directly.
-                        tracks.Add(await this.CreateTrackAsync(path));
-                    }
-                    else if (processPlaylistFiles && FileFormats.IsSupportedStaticPlaylistFile(path))
-                    {
-                        // The file is a supported playlist format: process the contents of the playlist file.
-                        foreach (string audioFilePath in this.ProcessPlaylistFile(path))
-                        {
-                            tracks.Add(await this.CreateTrackAsync(audioFilePath));
-                        }
-                    }
-                    else if (Directory.Exists(path))
-                    {
-                        // The file is a directory: get the audio files in that directory and all its sub directories.
-                        foreach (string audioFilePath in this.ProcessDirectory(path))
-                        {
-                            tracks.Add(await this.CreateTrackAsync(audioFilePath));
-                        }
-                    }
-                    else
-                    {
-                        // The file is unknown: do not process it.
+                        tracks.Add(await this.CreateTrackAsync(audioFilePath));
                     }
                 }
-            });
+                else if (Directory.Exists(path))
+                {
+                    // The file is a directory: get the audio files in that directory and all its sub directories.
+                    foreach (string audioFilePath in await this.ProcessDirectoryAsync(path))
+                    {
+                        tracks.Add(await this.CreateTrackAsync(audioFilePath));
+                    }
+                }
+                else
+                {
+                    // The file is unknown: do not process it.
+                }
+            }
 
             return tracks;
         }
@@ -177,7 +178,7 @@ namespace Dopamine.Services.File
                     // Don't process index=0, as this contains the name of the executable.
                     for (int index = 1; index <= args.Length - 1; index++)
                     {
-                        lock (this.lockObject)
+                        lock (this.files)
                         {
                             this.files.Add(args[index]);
                             LogClient.Info("Added file '{0}'", args[index]);
@@ -203,7 +204,7 @@ namespace Dopamine.Services.File
             // that could mean there are other instances trying to send files to this instance.
             if (EnvironmentUtils.IsSingleInstance(ProductInformation.ApplicationName))
             {
-                lock (this.lockObject)
+                lock (this.files)
                 {
                     LogClient.Info("Finished adding files. Number of files added = {0}", this.files.Count.ToString());
                 }
@@ -225,7 +226,7 @@ namespace Dopamine.Services.File
 
                 await Task.Run(() =>
                 {
-                    lock (this.lockObject)
+                    lock (this.files)
                     {
                         // Sort the files in a natural way and clone the list
                         tempFiles = this.files.OrderByAlphaNumeric(item => item).Select(item => (string)item.Clone()).ToList();
@@ -263,13 +264,17 @@ namespace Dopamine.Services.File
             return decodeResult.Paths;
         }
 
-        private List<string> ProcessDirectory(string directoryPath)
+        private async Task<List<string>> ProcessDirectoryAsync(string directoryPath)
         {
             var folderPaths = new List<FolderPathInfo>();
 
             try
             {
-                folderPaths = FileOperations.GetValidFolderPaths(0, directoryPath, FileFormats.SupportedMediaExtensions);
+                folderPaths = await FileOperations.GetValidFolderPathsAsync(
+                    0,
+                    directoryPath,
+                    FileFormats.SupportedMediaExtensions,
+                    cancellationService.CancellationToken);
             }
             catch (Exception ex)
             {
