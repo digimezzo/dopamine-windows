@@ -68,7 +68,7 @@
   <Text Key="What_Will_Your_Dopamine_Look_Like">Како би твој Dopamine требало да изгледа?</Text>
   <Text Key="Lets_Set_Up_Your_Collection">Подесимо сада твоју колекцију. Где смешташ своју музику?</Text>
   <Text Key="Folders">Фолдери</Text>
-  <Text Key="Add_Folders_With_Your_Music">Додај фолдере који садрже твоју музику твојој колекцији.</Text>
+  <Text Key="Add_Folders_With_Your_Music">Додај колекцији фолдере који садрже твоју музику.</Text>
   <Text Key="Remove_This_Folder">Уклони овај фолдер</Text>
   <Text Key="Remove_Folder">Уклони фолдер</Text>
   <Text Key="Confirm_Remove_Folder">Да ли заиста желиш да уклониш овај фолдер из твоје колекције?</Text>
@@ -397,8 +397,8 @@
   <Text Key="Loop_When_Shuffle">Током мешане репродукције, врати се на почетак плејлисте након последње нумере.</Text>
   <Text Key="Show_Song_Covers">Прикажи слике нумере</Text>
   <Text Key="Hide_Song_Covers">Сакриј слике нумере</Text>
-  <Text Key="Check_For_Updates_At_Startup">Провери за надоградњама при покретању</Text>
-  <Text Key="Check_For_Updates_Periodically">Повремено провери за надоградњама</Text>
+  <Text Key="Check_For_Updates_At_Startup">Провери постојање надоградњи при покретању</Text>
+  <Text Key="Check_For_Updates_Periodically">Повремено провери постојање надоградњи</Text>
   <Text Key="Refresh_Collection_Now">Освежи колекцију сада</Text>
   <Text Key="Album_Covers">Слике албума</Text>
   <Text Key="Reload_All_Covers">Очитај све слике</Text>
