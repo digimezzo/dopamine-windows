@@ -120,6 +120,7 @@
               <File Source="Languages\EL.xml" />
               <File Source="Languages\EN.xml" />
               <File Source="Languages\ES.xml" />
+              <File Source="Languages\FI.xml" />
               <File Source="Languages\FR.xml" />
               <File Source="Languages\HR.xml" />
               <File Source="Languages\HU.xml" />
