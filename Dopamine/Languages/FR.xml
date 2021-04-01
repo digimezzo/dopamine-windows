@@ -451,4 +451,9 @@
   <Text Key="Smart_Playlist_Does_Not_Contain">Ne contient rien</Text>
   <Text Key="By_Year_Ascending">Par année ascendante</Text>
   <Text Key="By_Year_Descending">Par année décroissante</Text>
+  <Text Key="Enable_Discord_Rich_Presence">Enable Discord Rich Presence</Text>
+  <Text Key="Discord_By">par</Text>
+  <Text Key="Discord_Playing_With_Dopamine">Lecture avec Dopamine</Text>
+  <Text Key="Discord_Playing">En lecture</Text>
+  <Text Key="Discord_Paused">En pause</Text>
 </Language>

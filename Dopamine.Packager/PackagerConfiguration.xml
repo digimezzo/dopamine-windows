@@ -50,6 +50,7 @@
         <File>DryIoc.dll</File>
         <File>Newtonsoft.Json.dll</File>
         <File>NVorbis.dll</File>
+        <File>DiscordRPC.dll</File>
       </Files>
     </Portable>
   </Packaging>

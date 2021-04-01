@@ -451,4 +451,9 @@
   <Text Key="Smart_Playlist_Does_Not_Contain">не садржи</Text>
   <Text Key="By_Year_Ascending">По години растуће</Text>
   <Text Key="By_Year_Descending">По години опадајуће</Text>
+  <Text Key="Enable_Discord_Rich_Presence">Enable Discord Rich Presence</Text>
+  <Text Key="Discord_By">by</Text>
+  <Text Key="Discord_Playing_With_Dopamine">Playing with Dopamine</Text>
+  <Text Key="Discord_Playing">Playing</Text>
+  <Text Key="Discord_Paused">Paused</Text>
 </Language>

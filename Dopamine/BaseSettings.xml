@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>117</Value>
+      <Value>118</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -314,6 +314,11 @@
       <Value></Value>
     </Setting>
     <Setting Name="DownloadArtistInformation">
+      <Value>True</Value>
+    </Setting>
+  </Namespace>
+  <Namespace Name="Discord">
+    <Setting Name="EnableDiscordRichPresence">
       <Value>True</Value>
     </Setting>
   </Namespace>

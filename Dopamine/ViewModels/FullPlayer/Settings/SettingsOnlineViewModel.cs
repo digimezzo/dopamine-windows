@@ -37,6 +37,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private bool checkBoxMetroLyricsChecked;
         private bool checkBoxXiamiLyricsChecked;
         private bool checkBoxNeteaseLyricsChecked;
+        private bool checkBoxEnableDiscordRichPresence;
         private ObservableCollection<NameValue> timeouts;
         private NameValue selectedTimeout;
 
@@ -145,6 +146,16 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             {
                 SettingsClient.Set<bool>("Lastfm", "DownloadArtistInformation", value);
                 SetProperty<bool>(ref this.checkBoxDownloadArtistInformationChecked, value);
+            }
+        }
+
+        public bool CheckBoxEnableDiscordRichPresence
+        {
+            get { return this.checkBoxEnableDiscordRichPresence; }
+            set
+            {
+                SettingsClient.Set<bool>("Discord", "EnableDiscordRichPresence", value, true);
+                SetProperty<bool>(ref this.checkBoxEnableDiscordRichPresence, value);
             }
         }
 
@@ -316,6 +327,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             await Task.Run(() =>
             {
                 this.checkBoxDownloadArtistInformationChecked = SettingsClient.Get<bool>("Lastfm", "DownloadArtistInformation");
+                this.checkBoxEnableDiscordRichPresence = SettingsClient.Get<bool>("Discord", "EnableDiscordRichPresence");
                 this.checkBoxDownloadLyricsChecked = SettingsClient.Get<bool>("Lyrics", "DownloadLyrics");
 
                 string lyricsProviders = SettingsClient.Get<string>("Lyrics", "Providers");
