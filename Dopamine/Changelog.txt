@@ -1,4 +1,4 @@
-2020-04-01: Dopamine 2.0.6
+2020-04-02: Dopamine 2.0.6
 --------------------------
 
 - [Added] Added Discord Rich Presence
