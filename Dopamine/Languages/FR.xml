@@ -456,4 +456,6 @@
   <Text Key="Discord_Playing_With_Dopamine">Lecture avec Dopamine</Text>
   <Text Key="Discord_Playing">En lecture</Text>
   <Text Key="Discord_Paused">En pause</Text>
+  <Text Key="Sleep">Veille</Text>
+  <Text Key="Prevent_Sleep_While_Playing">Empêcher l'ordinateur de se mettre en veille pendant la lecture audio</Text>
 </Language>

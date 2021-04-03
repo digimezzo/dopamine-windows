@@ -456,4 +456,6 @@
   <Text Key="Discord_Playing_With_Dopamine">Afspelen met Dopamine</Text>
   <Text Key="Discord_Playing">Wordt afgespeeld</Text>
   <Text Key="Discord_Paused">Gepauzeerd</Text>
+  <Text Key="Sleep">Sluimerstand</Text>
+  <Text Key="Prevent_Sleep_While_Playing">Voorkom dat de computer in de sluimerstand gaat terwijl audio wordt afgespeeld</Text>
 </Language>

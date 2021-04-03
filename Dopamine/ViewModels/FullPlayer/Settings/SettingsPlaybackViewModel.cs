@@ -42,6 +42,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private bool checkBoxEnableSystemNotificationChecked;
         private bool checkBoxLoopWhenShuffleChecked;
         private bool checkBoxShowSpectrumAnalyzerChecked;
+        private bool checkBoxPreventSleepWhilePlaying;
         private ObservableCollection<NameValue> spectrumStyles;
         private NameValue selectedSpectrumStyle;
         private ObservableCollection<NameValue> notificationPositions;
@@ -304,6 +305,16 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             }
         }
 
+        public bool CheckBoxPreventSleepWhilePlaying
+        {
+            get => this.checkBoxPreventSleepWhilePlaying;
+            set
+            {
+                SettingsClient.Set<bool>("Playback", "PreventSleepWhilePlaying", value, true);
+                SetProperty<bool>(ref this.checkBoxPreventSleepWhilePlaying, value);
+            }
+        }
+
         public SettingsPlaybackViewModel(IPlaybackService playbackService, ITaskbarService taskbarService, INotificationService notificationService, IDialogService dialogService, IExternalControlService externalControlService, II18nService i18nService)
         {
             this.playbackService = playbackService;
@@ -446,6 +457,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 this.checkBoxShowNotificationOnlyWhenPlayerNotVisibleChecked = SettingsClient.Get<bool>("Behaviour", "ShowNotificationOnlyWhenPlayerNotVisible");
                 this.checkBoxEnableExternalControlChecked = SettingsClient.Get<bool>("Playback", "EnableExternalControl");
                 this.checkBoxLoopWhenShuffleChecked = SettingsClient.Get<bool>("Playback", "LoopWhenShuffle");
+                this.checkBoxPreventSleepWhilePlaying = SettingsClient.Get<bool>("Playback", "PreventSleepWhilePlaying");
                 this.checkBoxEnableSystemNotificationChecked = this.notificationService.SystemNotificationIsEnabled;
             });
         }

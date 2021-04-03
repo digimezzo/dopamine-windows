@@ -2,7 +2,7 @@
 <Settings>
   <Namespace Name="Configuration">
     <Setting Name="Version">
-      <Value>118</Value>
+      <Value>119</Value>
     </Setting>
     <Setting Name="IsPortable">
       <Value>False</Value>
@@ -181,6 +181,9 @@
     </Setting>
   </Namespace>
   <Namespace Name="Playback">
+    <Setting Name="PreventSleepWhilePlaying">
+      <Value>False</Value>
+    </Setting>
     <Setting Name="AudioDevice">
       <Value></Value>
     </Setting>

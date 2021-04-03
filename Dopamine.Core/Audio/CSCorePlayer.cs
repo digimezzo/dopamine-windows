@@ -55,6 +55,9 @@ namespace Dopamine.Core.Audio
         // To detect redundant calls
         private bool disposedValue = false;
 
+        private TimeSpan pausedPosition;
+        private bool isStoppedBecausePaused = false;
+
         public CSCorePlayer()
         {
             this.canPlay = true;
@@ -194,7 +197,9 @@ namespace Dopamine.Core.Audio
             {
                 try
                 {
-                    this.soundOut.Pause();
+                    this.pausedPosition = this.soundOut.WaveSource.GetPosition();
+                    this.isStoppedBecausePaused = true;
+                    this.soundOut.Stop();
 
                     this.IsPlaying = false;
 
@@ -217,6 +222,7 @@ namespace Dopamine.Core.Audio
                 try
                 {
                     this.soundOut.Play();
+                    this.soundOut.WaveSource.SetPosition(this.pausedPosition);
 
                     this.IsPlaying = true;
 
@@ -611,6 +617,12 @@ namespace Dopamine.Core.Audio
 
         public void SoundOutStoppedHandler(object sender, PlaybackStoppedEventArgs e)
         {
+            if (this.isStoppedBecausePaused)
+            {
+                this.isStoppedBecausePaused = false;
+                return;
+            }
+
             try
             {
                 if (e.Exception != null)

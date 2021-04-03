@@ -456,4 +456,6 @@
   <Text Key="Discord_Playing_With_Dopamine">Playing with Dopamine</Text>
   <Text Key="Discord_Playing">Playing</Text>
   <Text Key="Discord_Paused">Paused</Text>
+  <Text Key="Sleep">Sleep</Text>
+  <Text Key="Prevent_Sleep_While_Playing">Prevent the computer from going to sleep while audio is playing</Text>
 </Language>

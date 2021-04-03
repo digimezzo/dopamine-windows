@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Foundation.Core.Logging;
+using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Services.Playback;
 using Microsoft.Win32;
 using System;
@@ -20,11 +21,52 @@ namespace Dopamine.Services.WindowsIntegration
             this.playbackService = playbackService;
             this.isStartedFromExplorer = Environment.GetCommandLineArgs().Length > 1;
 
-            this.playbackService.PlaybackFailed += (_,__) => this.RestoreSleep();
+            if(SettingsClient.Get<bool>("Playback", "PreventSleepWhilePlaying"))
+            {
+                this.EnableSleepPrevention();
+            }
+
+            SettingsClient.SettingChanged += (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Playback", "PreventSleepWhilePlaying"))
+                {
+                    bool preventSleepWhilePlaying = (bool)e.Entry.Value;
+
+                    if (preventSleepWhilePlaying)
+                    {
+                        this.EnableSleepPrevention();
+                    }
+                    else
+                    {
+                        this.DisableSleepPrevention();
+                    }
+                }
+            };
+        }
+
+        private void EnableSleepPrevention()
+        {
+            this.playbackService.PlaybackFailed += (_, __) => this.RestoreSleep();
             this.playbackService.PlaybackPaused += (_, __) => this.RestoreSleep();
             this.playbackService.PlaybackStopped += (_, __) => this.RestoreSleep();
             this.playbackService.PlaybackResumed += (_, __) => this.DisableSleep();
             this.playbackService.PlaybackSuccess += (_, __) => this.DisableSleep();
+
+            if (this.playbackService.IsPlaying)
+            {
+                this.DisableSleep();
+            }
+        }
+
+        private void DisableSleepPrevention()
+        {
+            this.playbackService.PlaybackFailed -= (_, __) => this.RestoreSleep();
+            this.playbackService.PlaybackPaused -= (_, __) => this.RestoreSleep();
+            this.playbackService.PlaybackStopped -= (_, __) => this.RestoreSleep();
+            this.playbackService.PlaybackResumed -= (_, __) => this.DisableSleep();
+            this.playbackService.PlaybackSuccess -= (_, __) => this.DisableSleep();
+
+            this.RestoreSleep();
         }
 
         [FlagsAttribute]
