@@ -3,6 +3,7 @@
 
 - [Fixed] Dopamine prevents Windows from sleeping when a song is paused
 - [Fixed] Overriding screensaver should be optional
+- [Changed] Updated the Danish translation
 
 2020-04-02: Dopamine 2.0.6
 --------------------------
