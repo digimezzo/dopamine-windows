@@ -55,7 +55,8 @@ namespace Dopamine.Core.Audio
         // To detect redundant calls
         private bool disposedValue = false;
 
-        private TimeSpan pausedPosition;
+        private TimeSpan currentTimeBeforePause;
+        private TimeSpan totalTimeBeforePause;
         private bool isStoppedBecausePaused = false;
 
         public CSCorePlayer()
@@ -166,6 +167,11 @@ namespace Dopamine.Core.Audio
 
         public TimeSpan GetCurrentTime()
         {
+            if (this.isStoppedBecausePaused)
+            {
+                return this.currentTimeBeforePause;
+            }
+
             // Make sure soundOut is not stopped, otherwise we get a NullReferenceException in CSCore.
             if (this.soundOut != null && this.soundOut.PlaybackState != PlaybackState.Stopped && this.soundOut.WaveSource != null)
             {
@@ -177,6 +183,11 @@ namespace Dopamine.Core.Audio
 
         public TimeSpan GetTotalTime()
         {
+            if (this.isStoppedBecausePaused)
+            {
+                return this.totalTimeBeforePause;
+            }
+
             // Make sure soundOut is not stopped, otherwise we get a NullReferenceException in CSCore.
             if (this.soundOut != null && this.soundOut.PlaybackState != PlaybackState.Stopped && this.soundOut.WaveSource != null)
             {
@@ -197,8 +208,10 @@ namespace Dopamine.Core.Audio
             {
                 try
                 {
-                    this.pausedPosition = this.soundOut.WaveSource.GetPosition();
+                    this.currentTimeBeforePause = this.soundOut.WaveSource.GetPosition();
+                    this.totalTimeBeforePause = this.soundOut.WaveSource.GetLength();
                     this.isStoppedBecausePaused = true;
+
                     this.soundOut.Stop();
 
                     this.IsPlaying = false;
@@ -221,8 +234,9 @@ namespace Dopamine.Core.Audio
             {
                 try
                 {
+                    this.isStoppedBecausePaused = false;
                     this.soundOut.Play();
-                    this.soundOut.WaveSource.SetPosition(this.pausedPosition);
+                    this.soundOut.WaveSource.SetPosition(this.currentTimeBeforePause);
 
                     this.IsPlaying = true;
 
@@ -256,6 +270,7 @@ namespace Dopamine.Core.Audio
 
         public void Play(string filename, AudioDevice audioDevice)
         {
+            this.isStoppedBecausePaused = false;
             this.SetSelectedAudioDevice(audioDevice);
 
             this.filename = filename;
@@ -343,6 +358,13 @@ namespace Dopamine.Core.Audio
             try
             {
                 this.soundOut.WaveSource.SetPosition(new TimeSpan(0, 0, gotoSeconds));
+
+                if (this.isStoppedBecausePaused)
+                {
+                    this.currentTimeBeforePause = this.soundOut.WaveSource.GetPosition();
+                    this.totalTimeBeforePause = this.soundOut.WaveSource.GetLength();
+
+                }
             }
             catch (Exception)
             {
@@ -619,7 +641,6 @@ namespace Dopamine.Core.Audio
         {
             if (this.isStoppedBecausePaused)
             {
-                this.isStoppedBecausePaused = false;
                 return;
             }
 
