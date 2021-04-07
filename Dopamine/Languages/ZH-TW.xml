@@ -458,4 +458,5 @@
   <Text Key="Discord_Paused">Paused</Text>
  <Text Key="Sleep">Sleep</Text>
   <Text Key="Prevent_Sleep_While_Playing">Prevent the computer from going to sleep while audio is playing</Text>
+  <Text Key="Use_Logarithmic_Volume_Scale">Use logarithmic volume scale</Text>
 </Language>

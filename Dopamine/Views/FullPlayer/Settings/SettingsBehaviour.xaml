@@ -51,6 +51,10 @@
                 <TextBlock Text="{DynamicResource Language_Mouse_Scroll_Changes_Volume_By}" Foreground="{DynamicResource Brush_PrimaryText}"/>
                 <ComboBox x:Name="ComboBoxVolumePercentage" Margin="0,15,0,0" Style="{StaticResource MetroComboBox}" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="100" ItemsSource="{Binding ScrollVolumePercentages}" SelectedItem="{Binding SelectedScrollVolumePercentage}"/>
             </StackPanel>
+            <StackPanel Margin="0,20,0,0">
+                <TextBlock Text="{DynamicResource Language_Use_Logarithmic_Volume_Scale}" Foreground="{DynamicResource Brush_PrimaryText}"/>
+                <dc:Windows10ToggleSwitch x:Name="CheckBoxUseLogarithmicVolumeScale" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxUseLogarithmicVolumeScaleChecked}"/>
+            </StackPanel>
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Remove}"/>
             <StackPanel Margin="0,5,0,0">
                 <TextBlock Text="{DynamicResource Language_Show_Remove_From_Disk}" Foreground="{DynamicResource Brush_PrimaryText}"/>

@@ -458,4 +458,5 @@
   <Text Key="Discord_Paused">Gepauzeerd</Text>
   <Text Key="Sleep">Sluimerstand</Text>
   <Text Key="Prevent_Sleep_While_Playing">Voorkom dat de computer in de sluimerstand gaat terwijl audio wordt afgespeeld</Text>
+  <Text Key="Use_Logarithmic_Volume_Scale">Use logarithmic volume scale</Text>
 </Language>

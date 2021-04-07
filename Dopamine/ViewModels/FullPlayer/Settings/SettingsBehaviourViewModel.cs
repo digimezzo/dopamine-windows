@@ -20,6 +20,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private bool checkBoxEnableLoveChecked;
         private bool checkBoxSaveRatingInAudioFilesChecked;
         private bool checkBoxShowRemoveFromDiskChecked;
+        private bool checkBoxUseLogarithmicVolumeScaleChecked;
         private ObservableCollection<NameValue> scrollVolumePercentages;
         private NameValue selectedScrollVolumePercentage;
 
@@ -114,6 +115,16 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             }
         }
 
+        public bool CheckBoxUseLogarithmicVolumeScaleChecked
+        {
+            get { return this.checkBoxUseLogarithmicVolumeScaleChecked; }
+            set
+            {
+                SettingsClient.Set<bool>("Behaviour", "UseLogarithmicVolumeScale", value, true);
+                SetProperty<bool>(ref this.checkBoxUseLogarithmicVolumeScaleChecked, value);
+            }
+        }
+
         public ObservableCollection<NameValue> ScrollVolumePercentages
         {
             get { return this.scrollVolumePercentages; }
@@ -129,7 +140,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 {
                     SettingsClient.Set<int>("Behaviour", "ScrollVolumePercentage", value.Value);
                 }
-                
+
                 SetProperty<NameValue>(ref this.selectedScrollVolumePercentage, value);
             }
         }
@@ -155,6 +166,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 this.checkBoxEnableLoveChecked = SettingsClient.Get<bool>("Behaviour", "EnableLove");
                 this.checkBoxShowRemoveFromDiskChecked = SettingsClient.Get<bool>("Behaviour", "ShowRemoveFromDisk");
                 this.checkBoxSaveRatingInAudioFilesChecked = SettingsClient.Get<bool>("Behaviour", "SaveRatingToAudioFiles");
+                this.checkBoxUseLogarithmicVolumeScaleChecked = SettingsClient.Get<bool>("Behaviour", "UseLogarithmicVolumeScale");
             });
         }
 

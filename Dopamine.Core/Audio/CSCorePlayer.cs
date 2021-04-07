@@ -6,6 +6,7 @@ using CSCore.MediaFoundation;
 using CSCore.SoundOut;
 using CSCore.Streams;
 using CSCore.Streams.Effects;
+using Digimezzo.Foundation.Core.Settings;
 using Dopamine.Core.Base;
 using Dopamine.Core.Enums;
 using System;
@@ -38,6 +39,7 @@ namespace Dopamine.Core.Audio
         private AudioClientShareMode audioClientShareMode = AudioClientShareMode.Shared; // Default is Shared
         private SingleBlockNotificationStream notificationSource;
         private float volume = 1.0F;
+        private bool useLogarithmicVolumeScale;
         private ISoundOut soundOut;
         Stream audioStream;
 
@@ -64,6 +66,25 @@ namespace Dopamine.Core.Audio
             this.canPlay = true;
             this.canPause = false;
             this.canStop = false;
+
+            useLogarithmicVolumeScale = SettingsClient.Get<bool>("Behaviour", "UseLogarithmicVolumeScale");
+
+            SettingsClient.SettingChanged += (_, e) =>
+            {
+                if (SettingsClient.IsSettingChanged(e, "Behaviour", "UseLogarithmicVolumeScale"))
+                {
+                    bool useLogarithmicVolumeScale = (bool)e.Entry.Value;
+
+                    this.UpdateVolumeScale(useLogarithmicVolumeScale);
+                }
+            };
+        }
+
+        private void UpdateVolumeScale(bool useLogarithmicVolume)
+        {
+            float volume = this.GetVolume();
+            this.useLogarithmicVolumeScale = useLogarithmicVolume;
+            this.SetVolume(volume);
         }
 
         public static CSCorePlayer Instance
@@ -199,7 +220,8 @@ namespace Dopamine.Core.Audio
 
         public float GetVolume()
         {
-            return this.soundOut.Volume;
+            if (useLogarithmicVolumeScale) return (float)Math.Pow((double)this.soundOut.Volume, 0.5);
+            else return this.soundOut.Volume;
         }
 
         public void Pause()
@@ -335,7 +357,8 @@ namespace Dopamine.Core.Audio
             {
                 if (volume >= 0)
                 {
-                    this.volume = volume;
+                    if (useLogarithmicVolumeScale) this.volume = (float)Math.Pow((double)volume, 2);
+                    else this.volume = volume;
                 }
                 else
                 {
@@ -344,7 +367,8 @@ namespace Dopamine.Core.Audio
 
                 if (this.soundOut != null)
                 {
-                    this.soundOut.Volume = volume;
+                    if (useLogarithmicVolumeScale) this.soundOut.Volume = (float)Math.Pow((double)volume, 2);
+                    else this.soundOut.Volume = volume;
                 }
             }
             catch (Exception)
