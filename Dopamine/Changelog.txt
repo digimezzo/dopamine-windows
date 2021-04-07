@@ -1,3 +1,8 @@
+2020-04-07: Dopamine 2.0.8
+--------------------------
+
+- [Fixed] Scroll bar goes to zero when a song is paused
+
 2020-04-03: Dopamine 2.0.7
 --------------------------
 
