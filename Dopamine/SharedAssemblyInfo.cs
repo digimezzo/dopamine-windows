@@ -8,4 +8,4 @@
 [assembly: AssemblyCopyright("Copyright Digimezzo © 2014 - 2021")]
 [assembly: AssemblyVersion("2.0.8.4000")]
 [assembly: AssemblyFileVersion("2.0.8.4000")]
-[assembly: AssemblyInformationalVersion("2.0.5.4000")]
+[assembly: AssemblyInformationalVersion("2.0.8.4000")]

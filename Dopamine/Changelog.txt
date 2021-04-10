@@ -1,8 +1,9 @@
-2020-04-07: Dopamine 2.0.8
+2020-04-10: Dopamine 2.0.8
 --------------------------
 
-- [Fixed] Scroll bar goes to zero when a song is paused
+- [Fixed] Progress bar goes to zero when a song is paused
 - [Changed] Updated the Bulgarian translation
+- [Changed] Updated the Chinese Traditional translation
 - [Changed] Updated the Spanish translation
 
 2020-04-03: Dopamine 2.0.7
