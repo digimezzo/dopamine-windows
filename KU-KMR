@@ -58,7 +58,7 @@
   <Text Key="New_Version_available">Gohertoyeke nû heye</Text>
   <Text Key="Add_More_Colors">Bêtir reng tevlî bike</Text>
   <Text Key="Show_Dopamine">Dopamine nîşan bide</Text>
-  <Text Key="Exit">derkeve</Text>
+  <Text Key="Exit">Derkeve</Text>
   <Text Key="Minimize">Biçûk bike</Text>
   <Text Key="Minimize_To_Tray">Bo devera agahiyan biçûk bike</Text>
   <Text Key="Add_A_Folder">Peldankekê tevlî bike</Text>
@@ -72,7 +72,7 @@
   <Text Key="Remove_This_Folder">Vê peldankê jê bibe</Text>
   <Text Key="Remove_Folder">Peldankê jê bibe</Text>
   <Text Key="Confirm_Remove_Folder">Ma tu dixwazî ​​vê peldankê ji berhevoka xwe jê bibî?</Text>
-  <Text Key="Error">Çewt</Text>
+  <Text Key="Error">Çewtî</Text>
   <Text Key="Error_Adding_Folder">Peldank li berhevoka te nehate tevliîkirin. Ji bo bêtir zanyarî li pelê têketinê binêre.</Text>
   <Text Key="Error_Removing_Folder">Peldank ji berhevoka te nehate jêbirin. Ji bo bêtir zanyarî li pelê têketinê binêre.</Text>
   <Text Key="Already_Exists">Jixwe heye</Text>
