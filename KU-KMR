@@ -86,8 +86,8 @@
   <Text Key="Shuffle">Tevlihev bike</Text>
   <Text Key="Mute">Bê deng bike</Text>
   <Text Key="Unmute">Bê deng neke</Text>
-  <Text Key="Artwork">Bergên albûmê</Text>
-  <Text Key="Preferred_Artwork">Bergên albûmê yên hilbijartî</Text>
+  <Text Key="Artwork">Bergên albumê</Text>
+  <Text Key="Preferred_Artwork">Bergên albumê yên hilbijartî</Text>
   <Text Key="Prefer_Larger">Mezintir hilbijêre</Text>
   <Text Key="Prefer_Embedded">Pêvekirî hilbijêre</Text>
   <Text Key="Prefer_External">Derveyî hilbijêre</Text>
