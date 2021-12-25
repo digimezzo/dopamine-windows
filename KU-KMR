@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Language Code="KU" Name="Kurdish">
+<Language Code="KU-KMR" Name="Kurdish">
   <Text Key="ISO639-1">KU</Text>
   <Text Key="Ok">Baş e</Text>
   <Text Key="Cancel">Têk bibe</Text>
