@@ -29,7 +29,7 @@
   <Text Key="Help">Ohjeita</Text>
   <Text Key="About">Tietoja</Text>
   <Text Key="Version">Versio</Text>
-  <Text Key="Do_You_Like_Dopamine">Rakastatko Dopaminea? Tue ohjelman kehitystyötä lahjoituksella. Kiitos!</Text>
+  <Text Key="Do_You_Like_Dopamine">Pidätkö Dopaminesta? Tue ohjelman kehitystyötä lahjoituksella. Kiitos!</Text>
   <Text Key="Donate">Lahjoita</Text>
   <Text Key="Donate_With_PayPal">Lahjoita PayPalilla</Text>
   <Text Key="File_Types">Tiedostotyypit</Text>
@@ -354,7 +354,7 @@
   <Text Key="Search_Again">Etsi uudelleen</Text>
   <Text Key="Audio_File">Äänitiedosto</Text>
   <Text Key="Play_Next">Toista seuraava</Text>
-  <Text Key="Last_Played">Viimeksi toistettu kappale</Text>
+  <Text Key="Last_Played">Toistettu viimeksi</Text>
   <Text Key="Remember_Last_played_Song">Muista viimeksi toistettu kappale ja toiston keskeytyskohta</Text>
   <Text Key="Download_Lyrics_From">Lataa sanoituksia seuraavista palveluista</Text>
   <Text Key="Lyrics_Download_Timeout">Lataamisen aikakatkaisu</Text>
@@ -426,7 +426,7 @@
   <Text Key="Activate_Search_Field">Hae</Text>
   <Text Key="Back">Takaisin</Text>
   <Text Key="Folders">Kansiot</Text>
-  <Text Key="Import_Playlists">Tuo soittolistoja</Text>
+  <Text Key="Import_Playlists">Tuo soittolista</Text>
   <Text Key="Error_Importing_Playlists">Soittolistojen tuonnisssa tapahtui virhe. Lokitiedostossa voi olla lisää tietoa virheestä.</Text>
   <Text Key="Switch_Player">Vaihda tilaa</Text>
   <Text Key="Music">Kansiot</Text>
@@ -451,11 +451,11 @@
   <Text Key="Smart_Playlist_Does_Not_Contain">ei sisällä</Text>
   <Text Key="By_Year_Ascending">Vuosi (nouseva)</Text>
   <Text Key="By_Year_Descending">Vuosi (laskeva)</Text>
-  <Text Key="Enable_Discord_Rich_Presence">Enable Discord Rich Presence</Text>
+  <Text Key="Enable_Discord_Rich_Presence">Discord Rich Presence käytössä</Text>
   <Text Key="Discord_By">by</Text>
   <Text Key="Discord_Playing_With_Dopamine">Playing with Dopamine</Text>
   <Text Key="Discord_Playing">Playing</Text>
   <Text Key="Discord_Paused">Paused</Text>
-  <Text Key="Sleep">Sleep</Text>
-  <Text Key="Prevent_Sleep_While_Playing">Prevent the computer from going to sleep while audio is playing</Text>
+  <Text Key="Sleep">Lepotila</Text>
+  <Text Key="Prevent_Sleep_While_Playing">Estä tietokonetta siirtymästä lepotilaan toiston aikana</Text>
 </Language>
