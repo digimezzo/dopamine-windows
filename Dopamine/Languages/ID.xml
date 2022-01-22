@@ -451,11 +451,11 @@
   <Text Key="Smart_Playlist_Does_Not_Contain">tidak mengandung</Text>
   <Text Key="By_Year_Ascending">Tahun (terbaru)</Text>
   <Text Key="By_Year_Descending">Tahun (terlama)</Text>
-  <Text Key="Enable_Discord_Rich_Presence">Enable Discord Rich Presence</Text>
+  <Text Key="Enable_Discord_Rich_Presence">Aktifkan Discord Rich Presence</Text>
   <Text Key="Discord_By">by</Text>
   <Text Key="Discord_Playing_With_Dopamine">Playing with Dopamine</Text>
-  <Text Key="Discord_Playing">Playing</Text>
-  <Text Key="Discord_Paused">Paused</Text>
-  <Text Key="Sleep">Sleep</Text>
+  <Text Key="Discord_Playing">Memutar</Text>
+  <Text Key="Discord_Paused">Jeda</Text>
+  <Text Key="Sleep">Tidur</Text>
   <Text Key="Prevent_Sleep_While_Playing">Prevent the computer from going to sleep while audio is playing</Text>
 </Language>
