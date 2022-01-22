@@ -794,6 +794,9 @@
     <Content Include="Languages\JP.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Languages\KMR.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Languages\KO.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

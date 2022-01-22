@@ -1,7 +1,12 @@
-2020-06-02: Dopamine 2.0.9
+2020-01-22: Dopamine 2.0.9
 --------------------------
 
+- [Added] Added a Kurdish translation
+- [Changed] Updated the Chinese (Simplified) translation
+- [Changed] Updated the Finnish translation
+- [Changed] Updated the Indonesian translation
 - [Changed] Updated the Portuguese (Brazil) translation
+- [Changed] Updated the Portuguese (Portugal) translation
 
 2020-04-10: Dopamine 2.0.8
 --------------------------
@@ -72,7 +77,7 @@
 
 - [Added] It is now possible to sort albums by year ascending or descending
 - [Added] Added a smart playlist rule "does not contain"
-- [Added] Added a Indonesian translation
+- [Added] Added an Indonesian translation
 - [Added] Added Serbian translations
 - [Fixed] Startup crash which is caused by the spectrum analyzer
 - [Fixed] ".opus" files are ignored

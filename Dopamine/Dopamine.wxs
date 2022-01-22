@@ -129,6 +129,7 @@
               <File Source="Languages\ID.xml" />
               <File Source="Languages\IT.xml" />
               <File Source="Languages\JP.xml" />
+              <File Source="Languages\KMR.xml" />
               <File Source="Languages\KO.xml" />
               <File Source="Languages\NL.xml" />
               <File Source="Languages\NO.xml" />
