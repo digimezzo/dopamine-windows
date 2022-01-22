@@ -319,8 +319,8 @@
   <Text Key="Error_Updating_Online_Search_Provider">无法更新在线搜索引擎。 请查看日志文件获得更多信息。</Text>
   <Text Key="Error_Updating_Online_Search_Provider_Missing_Fields">无法更新在线搜索引擎。 '名称'和'网站'字段必填，'分隔符'字段可选。</Text>
   <Text Key="Sign_In">芝麻开门！</Text>
-  <Text Key="Sign_Out">登出</Text>
-  <Text Key="Signed_In">已登陆</Text>
+  <Text Key="Sign_Out">退出登录</Text>
+  <Text Key="Signed_In">已登录</Text>
   <Text Key="Sign_In_Failed">登录失败</Text>
   <Text Key="Artist_Information">艺术家信息</Text>
   <Text Key="Biography">艺术家简介</Text>
@@ -338,7 +338,7 @@
   <Text Key="Font_Size">字体大小</Text>
   <Text Key="Cancel_Edit">取消编辑</Text>
   <Text Key="Play_Song_And_Insert_Timestamp">当播放音乐的同时按下 Ctrl+T 以在所在行的开头插入时间戳</Text>
-  <Text Key="Sign_In_To_Enable_Lastfm">登陆以启用 Last.fm 的 '记录' 与 '最爱' 功能</Text>
+  <Text Key="Sign_In_To_Enable_Lastfm">登录以启用 Last.fm 的 '记录' 与 '最爱' 功能</Text>
   <Text Key="Create_A_Lastfm_Account">创建一个 Last.fm 账户</Text>
   <Text Key="Love">最爱</Text>
   <Text Key="Show_Love_Button">显示 '最爱' 按钮</Text>
@@ -451,11 +451,11 @@
   <Text Key="Smart_Playlist_Does_Not_Contain">不包含</Text>
   <Text Key="By_Year_Ascending">按年份升序</Text>
   <Text Key="By_Year_Descending">按年份降序</Text>
-  <Text Key="Enable_Discord_Rich_Presence">Enable Discord Rich Presence</Text>
+  <Text Key="Enable_Discord_Rich_Presence">启用 Discord Rich Presence 正在听音乐的状态显示</Text>
   <Text Key="Discord_By">by</Text>
-  <Text Key="Discord_Playing_With_Dopamine">Playing with Dopamine</Text>
-  <Text Key="Discord_Playing">Playing</Text>
-  <Text Key="Discord_Paused">Paused</Text>
-  <Text Key="Sleep">Sleep</Text>
-  <Text Key="Prevent_Sleep_While_Playing">Prevent the computer from going to sleep while audio is playing</Text>
+  <Text Key="Discord_Playing_With_Dopamine">正使用 Dopamine 播放音乐中</Text>
+  <Text Key="Discord_Playing">播放中</Text>
+  <Text Key="Discord_Paused">暂停播放</Text>
+  <Text Key="Sleep">睡眠</Text>
+  <Text Key="Prevent_Sleep_While_Playing">防止计算机在播放音频时进入睡眠状态</Text>
 </Language>
