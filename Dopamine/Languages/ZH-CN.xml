@@ -458,4 +458,5 @@
   <Text Key="Discord_Paused">暂停播放</Text>
   <Text Key="Sleep">睡眠</Text>
   <Text Key="Prevent_Sleep_While_Playing">防止计算机在播放音频时进入睡眠状态</Text>
+  <Text Key="Add_To_Blacklist">Add to blacklist</Text>
 </Language>

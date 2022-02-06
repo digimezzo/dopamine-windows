@@ -509,6 +509,14 @@ namespace Dopamine.ViewModels.Common.Base
             });
         }
 
+        protected async override Task AddToBlacklistAsync()
+        {
+            // Don't try to add to the blacklist when nothing is selected
+            if (this.SelectedTracks == null || this.SelectedTracks.Count == 0) return;
+
+            await this.collectionService.AddToBlacklistAsync(this.SelectedTracks);
+        }
+
         protected override void ShowSelectedTrackInformation()
         {
             // Don't try to show the file information when nothing is selected

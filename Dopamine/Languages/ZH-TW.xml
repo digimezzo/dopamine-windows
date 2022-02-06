@@ -456,6 +456,7 @@
   <Text Key="Discord_Playing_With_Dopamine">使用 Dopamine 播放</Text>
   <Text Key="Discord_Playing">播放中</Text>
   <Text Key="Discord_Paused">已暫停</Text>
- <Text Key="Sleep">睡眠</Text>
+  <Text Key="Sleep">睡眠</Text>
   <Text Key="Prevent_Sleep_While_Playing">播放音訊時防止電腦進入睡眠狀態</Text>
+  <Text Key="Add_To_Blacklist">Add to blacklist</Text>
 </Language>

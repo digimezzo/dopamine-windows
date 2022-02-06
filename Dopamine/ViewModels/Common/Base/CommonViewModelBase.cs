@@ -49,6 +49,8 @@ namespace Dopamine.ViewModels.Common.Base
         public DelegateCommand RemoveSelectedTracksCommand { get; set; }
         public DelegateCommand RemoveSelectedTracksFromDiskCommand { get; set; }
         public DelegateCommand<string> AddTracksToPlaylistCommand { get; set; }
+
+        public DelegateCommand AddToBlacklistCommand { get; set; }
         public DelegateCommand ShowSelectedTrackInformationCommand { get; set; }
         public DelegateCommand<object> SelectedTracksCommand { get; set; }
         public DelegateCommand EditTracksCommand { get; set; }
@@ -113,6 +115,7 @@ namespace Dopamine.ViewModels.Common.Base
             this.foldersService = container.Resolve<IFoldersService>();
 
             // Commands
+            this.AddToBlacklistCommand = new DelegateCommand(() => this.AddToBlacklistAsync());
             this.ShowSelectedTrackInformationCommand = new DelegateCommand(() => this.ShowSelectedTrackInformation());
             this.SelectedTracksCommand = new DelegateCommand<object>((parameter) => this.SelectedTracksHandler(parameter));
             this.EditTracksCommand = new DelegateCommand(() => this.EditSelectedTracks(), () => !this.IsIndexing);
@@ -272,6 +275,7 @@ namespace Dopamine.ViewModels.Common.Base
         protected abstract void ConditionalScrollToPlayingTrack();
         protected abstract void MetadataService_RatingChangedAsync(RatingChangedEventArgs e);
         protected abstract void MetadataService_LoveChangedAsync(LoveChangedEventArgs e);
+        protected abstract Task AddToBlacklistAsync();
         protected abstract void ShowSelectedTrackInformation();
         protected abstract Task LoadedCommandAsync();
         protected abstract Task UnloadedCommandAsync();

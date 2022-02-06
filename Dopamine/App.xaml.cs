@@ -222,6 +222,7 @@ namespace Dopamine
                 containerRegistry.RegisterSingleton<ITrackRepository, TrackRepository>();
                 containerRegistry.RegisterSingleton<IAlbumArtworkRepository, AlbumArtworkRepository>();
                 containerRegistry.RegisterSingleton<IQueuedTrackRepository, QueuedTrackRepository>();
+                containerRegistry.RegisterSingleton<IBlacklistRepository, BlacklistRepository>();
             }
 
             void RegisterServices()

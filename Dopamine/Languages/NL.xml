@@ -306,7 +306,7 @@
   <Text Key="Error_While_Deleting_Preset">De voorkeur kon niet worden verwijderd. Raadpleeg het log bestand voor meer informatie.</Text>
   <Text Key="Exclusive_Mode">Exclusieve modus</Text>
   <Text Key="Exclusive_Mode_Confirmation">Weet je zeker dat je Exclusieve modus wilt inschakelen? Andere applicaties zullen niet meer in staat zijn om geluid af te spelen.</Text>
-  <Text Key="Search_Online">Online zoeken</Text>
+  <Text Key="Voeg toe aan de zwarte lijst">Online zoeken</Text>
   <Text Key="Online">Online</Text>
   <Text Key="Add_Remove_Online_Search_Providers">Online search providers toevoegen of verwijderen</Text>
   <Text Key="Add">Toevoegen</Text>
@@ -458,4 +458,5 @@
   <Text Key="Discord_Paused">Gepauzeerd</Text>
   <Text Key="Sleep">Sluimerstand</Text>
   <Text Key="Prevent_Sleep_While_Playing">Voorkom dat de computer in de sluimerstand gaat terwijl audio wordt afgespeeld</Text>
+  <Text Key="Add_To_Blacklist">Voeg toe aan de zwarte lijst</Text>
 </Language>

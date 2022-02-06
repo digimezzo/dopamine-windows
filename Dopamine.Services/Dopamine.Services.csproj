@@ -110,6 +110,7 @@
     <Compile Include="Appearance\IAppearanceService.cs" />
     <Compile Include="Cache\CacheService.cs" />
     <Compile Include="Cache\ICacheService.cs" />
+    <Compile Include="Entities\BlacklistTrackViewModel.cs" />
     <Compile Include="Collection\CollectionService.cs" />
     <Compile Include="Collection\ICollectionService.cs" />
     <Compile Include="Command\CommandService.cs" />

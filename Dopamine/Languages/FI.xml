@@ -458,4 +458,5 @@
   <Text Key="Discord_Paused">Paused</Text>
   <Text Key="Sleep">Lepotila</Text>
   <Text Key="Prevent_Sleep_While_Playing">Estä tietokonetta siirtymästä lepotilaan toiston aikana</Text>
+  <Text Key="Add_To_Blacklist">Add to blacklist</Text>
 </Language>

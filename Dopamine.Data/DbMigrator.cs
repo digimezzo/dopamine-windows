@@ -136,6 +136,15 @@ namespace Dopamine.Data
                              "DateLastPlayed        INTEGER);");
 
                 conn.Execute("CREATE INDEX TrackStatisticSafePathIndex ON TrackStatistic(SafePath);");
+
+                conn.Execute("CREATE TABLE Blacklist (" +
+                             "BlacklistID	        INTEGER PRIMARY KEY AUTOINCREMENT," +
+                             "Artist	            TEXT," +
+                             "Title	                TEXT," +
+                             "Path	                TEXT," +
+                             "SafePath	            TEXT);");
+
+                conn.Execute("CREATE INDEX BlacklistSafePathIndex ON TrackStatistic(SafePath);");
             }
         }
 
@@ -1073,6 +1082,28 @@ namespace Dopamine.Data
 
                 conn.Execute("UPDATE Track SET PlayCount=0 WHERE PlayCount IS NULL;");
                 conn.Execute("UPDATE Track SET SkipCount=0 WHERE SkipCount IS NULL;");
+
+                conn.Execute("COMMIT;");
+                conn.Execute("VACUUM;");
+            }
+        }
+
+        [DatabaseVersion(27)]
+        private void Migrate27()
+        {
+            using (var conn = this.factory.GetConnection())
+            {
+
+                conn.Execute("BEGIN TRANSACTION;");
+
+                conn.Execute("CREATE TABLE Blacklist (" +
+                             "BlacklistID	        INTEGER PRIMARY KEY AUTOINCREMENT," +
+                             "Artist	            TEXT," +
+                             "Title	                TEXT," +
+                             "Path	                TEXT," +
+                             "SafePath	            TEXT);");
+
+                conn.Execute("CREATE INDEX BlacklistSafePathIndex ON TrackStatistic(SafePath);");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");

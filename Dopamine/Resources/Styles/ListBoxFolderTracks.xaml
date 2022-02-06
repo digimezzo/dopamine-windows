@@ -53,6 +53,8 @@
             </MenuItem.Header>
         </MenuItem>
         <Separator/>
+        <MenuItem Header="{DynamicResource Language_Add_To_Blacklist}" InputGestureText="" Command="{Binding DataContext.AddToBlacklistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
+        <Separator/>
         <MenuItem Header="{DynamicResource Language_Information}" InputGestureText="" Command="{Binding DataContext.ShowSelectedTrackInformationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"/>
     </ContextMenu>
 

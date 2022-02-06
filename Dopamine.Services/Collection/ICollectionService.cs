@@ -1,5 +1,4 @@
 ﻿using Dopamine.Data;
-using Dopamine.Data.Entities;
 using Dopamine.Services.Entities;
 using System;
 using System.Collections.Generic;
@@ -24,6 +23,14 @@ namespace Dopamine.Services.Collection
         Task<IList<AlbumViewModel>> GetGenreAlbumsAsync(IList<string> selectedGenres);
 
         Task<IList<AlbumViewModel>> OrderAlbumsAsync(IList<AlbumViewModel> albums, AlbumOrder albumOrder);
+
+        Task AddToBlacklistAsync(IList<TrackViewModel> selectedTracks);
+
+        Task RemoveFromBlacklistAsync(BlacklistTrackViewModel blacklistTrack);
+
+        Task RemoveAllFromBlacklistAsync();
+
+        Task<bool> IsInBlacklistAsync(TrackViewModel track);
 
         event EventHandler CollectionChanged;
     }

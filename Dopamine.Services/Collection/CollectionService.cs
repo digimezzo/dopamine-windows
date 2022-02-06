@@ -310,5 +310,25 @@ namespace Dopamine.Services.Collection
 
             return orderedAlbums;
         }
+
+        public Task AddToBlacklistAsync(IList<TrackViewModel> selectedTracks)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveFromBlacklistAsync(BlacklistTrackViewModel blacklistTrack)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveAllFromBlacklistAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> IsInBlacklistAsync(TrackViewModel track)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

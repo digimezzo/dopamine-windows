@@ -92,6 +92,7 @@
     <Compile Include="AlbumData.cs" />
     <Compile Include="DataUtils.cs" />
     <Compile Include="DbMigrator.cs" />
+    <Compile Include="Entities\Blacklist.cs" />
     <Compile Include="Entities\Configuration.cs" />
     <Compile Include="Entities\Folder.cs" />
     <Compile Include="Entities\FolderTrack.cs" />
@@ -122,8 +123,10 @@
     </Compile>
     <Compile Include="Entities\AlbumArtwork.cs" />
     <Compile Include="Repositories\AlbumArtworkRepository.cs" />
+    <Compile Include="Repositories\BlacklistRepository.cs" />
     <Compile Include="Repositories\FolderRepository.cs" />
     <Compile Include="Repositories\IAlbumArtworkRepository.cs" />
+    <Compile Include="Repositories\IBlacklistRepository.cs" />
     <Compile Include="Repositories\IFolderRepository.cs" />
     <Compile Include="Repositories\IQueuedTrackRepository.cs" />
     <Compile Include="Repositories\ITrackRepository.cs" />
