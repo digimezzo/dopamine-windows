@@ -137,14 +137,14 @@ namespace Dopamine.Data
 
                 conn.Execute("CREATE INDEX TrackStatisticSafePathIndex ON TrackStatistic(SafePath);");
 
-                conn.Execute("CREATE TABLE Blacklist (" +
-                             "BlacklistID	        INTEGER PRIMARY KEY AUTOINCREMENT," +
-                             "Artist	            TEXT," +
-                             "Title	                TEXT," +
-                             "Path	                TEXT," +
-                             "SafePath	            TEXT);");
+                conn.Execute("CREATE TABLE BlacklistTrack (" +
+                            "BlacklistTrackID	    INTEGER PRIMARY KEY AUTOINCREMENT," +
+                            "Artist	                TEXT," +
+                            "Title	                TEXT," +
+                            "Path	                TEXT," +
+                            "SafePath	            TEXT);");
 
-                conn.Execute("CREATE INDEX BlacklistSafePathIndex ON TrackStatistic(SafePath);");
+                conn.Execute("CREATE INDEX BlacklistTrackSafePathIndex ON BlacklistTrack(SafePath);");
             }
         }
 
@@ -1096,14 +1096,14 @@ namespace Dopamine.Data
 
                 conn.Execute("BEGIN TRANSACTION;");
 
-                conn.Execute("CREATE TABLE Blacklist (" +
-                             "BlacklistID	        INTEGER PRIMARY KEY AUTOINCREMENT," +
+                conn.Execute("CREATE TABLE BlacklistTrack (" +
+                             "BlacklistTrackID	    INTEGER PRIMARY KEY AUTOINCREMENT," +
                              "Artist	            TEXT," +
                              "Title	                TEXT," +
                              "Path	                TEXT," +
                              "SafePath	            TEXT);");
 
-                conn.Execute("CREATE INDEX BlacklistSafePathIndex ON TrackStatistic(SafePath);");
+                conn.Execute("CREATE INDEX BlacklistTrackSafePathIndex ON BlacklistTrack(SafePath);");
 
                 conn.Execute("COMMIT;");
                 conn.Execute("VACUUM;");

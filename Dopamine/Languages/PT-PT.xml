@@ -459,4 +459,7 @@
   <Text Key="Sleep">Suspender</Text>
   <Text Key="Prevent_Sleep_While_Playing">Impedir que o computador entre em suspensão enquanto reproduz áudio</Text>
   <Text Key="Add_To_Blacklist">Add to blacklist</Text>
+  <Text Key="Error_Adding_To_Blacklist">Could not add to blacklist. Please consult the log file for more information.</Text>
+  <Text Key="Added_Track_To_Blacklist">Added {numberoftracks} song to the blacklist</Text>
+  <Text Key="Added_Tracks_To_Blacklist">Added {numberoftracks} songs the blacklist</Text>
 </Language>

@@ -33,5 +33,6 @@ namespace Dopamine.Services.Collection
         Task<bool> IsInBlacklistAsync(TrackViewModel track);
 
         event EventHandler CollectionChanged;
+        event Action<int> AddedTracksToBacklist;
     }
 }

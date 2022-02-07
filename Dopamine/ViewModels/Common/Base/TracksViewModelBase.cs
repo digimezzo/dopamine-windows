@@ -514,7 +514,15 @@ namespace Dopamine.ViewModels.Common.Base
             // Don't try to add to the blacklist when nothing is selected
             if (this.SelectedTracks == null || this.SelectedTracks.Count == 0) return;
 
-            await this.collectionService.AddToBlacklistAsync(this.SelectedTracks);
+            try
+            {
+                await this.collectionService.AddToBlacklistAsync(this.SelectedTracks);
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("An error occurred while adding tracks to blacklist. Exception: {0}", ex.Message);
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Adding_To_Blacklist"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
+            }
         }
 
         protected override void ShowSelectedTrackInformation()

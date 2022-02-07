@@ -78,6 +78,20 @@ namespace Dopamine.ViewModels.Common
                 this.ShowAddedTracksToPlaylistText = true;
             };
 
+            this.collectionService.AddedTracksToBacklist += iNumberOfTracks =>
+            {
+                string text = ResourceUtils.GetString("Language_Added_Track_To_Blacklist");
+
+                if (iNumberOfTracks > 1)
+                {
+                    text = ResourceUtils.GetString("Language_Added_Tracks_To_Blacklist");
+                }
+
+                this.AddedTracksToPlaylistText = text.Replace("{numberoftracks}", iNumberOfTracks.ToString());
+
+                this.ShowAddedTracksToPlaylistText = true;
+            };
+
             this.showAddedTracksToPlaylistTextTimer = new Timer();
             this.showAddedTracksToPlaylistTextTimer.Interval = TimeSpan.FromSeconds(this.showAddedTracksToPlaylistTextSeconds).TotalMilliseconds;
             this.showAddedTracksToPlaylistTextTimer.Elapsed += ShowAddedTracksToPlaylistTextTimerElapsedHandler;

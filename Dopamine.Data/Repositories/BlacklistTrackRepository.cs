@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Dopamine.Data.Repositories
 {
-    public class BlacklistRepository : IBlacklistRepository
+    public class BlacklistTrackRepository : IBlacklistTrackRepository
     {
         private ISQLiteConnectionFactory factory;
 
-        public BlacklistRepository(ISQLiteConnectionFactory factory)
+        public BlacklistTrackRepository(ISQLiteConnectionFactory factory)
         {
             this.factory = factory;
         }
 
-        public async Task AddToBlacklistAsync(IList<Blacklist> tracks)
+        public async Task AddToBlacklistAsync(IList<BlacklistTrack> tracks)
         {
             await Task.Run(() =>
             {
@@ -42,10 +42,8 @@ namespace Dopamine.Data.Repositories
             });
         }
 
-        public async Task<bool> RemoveFromBlacklist(long blacklistId)
+        public async Task RemoveFromBlacklistAsync(long blacklistTrackId)
         {
-            bool result = true;
-
             await Task.Run(() =>
             {
                 try
@@ -54,28 +52,24 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            conn.Execute($"DELETE FROM Blacklist WHERE BlacklistID={blacklistId};");
+                            conn.Execute($"DELETE FROM Blacklist WHERE BlacklistTrackID={blacklistTrackId};");
 
-                            LogClient.Info("Removed the track with BlacklistID={0}", blacklistId);
+                            LogClient.Info("Removed the track with BlacklistTrackID={0}", blacklistTrackId);
                         }
                         catch (Exception ex)
                         {
-                            LogClient.Error("Could not remove the track from blacklist with BlacklistID={0}. Exception: {1}", blacklistId, ex.Message);
-                            result = false;
+                            LogClient.Error("Could not remove the track from blacklist with BlacklistTrackID={0}. Exception: {1}", blacklistTrackId, ex.Message);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
-                    result = false;
                 }
             });
-
-            return result;
         }
 
-        public async Task RemoveAllFromBlacklist()
+        public async Task RemoveAllFromBlacklistAsync()
         {
             await Task.Run(() =>
             {
@@ -100,7 +94,7 @@ namespace Dopamine.Data.Repositories
             });
         }
 
-        public async Task<bool> IsInBlacklist(string safePath) {
+        public async Task<bool> IsInBlacklistAsync(string safePath) {
             long numberInBlacklist = 0;
 
             await Task.Run(() =>
@@ -111,7 +105,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            numberInBlacklist = conn.ExecuteScalar<long>($"SELECT COUNT(BlacklistID) FROM Blacklist WHERE SafePath='{safePath}';");
+                            numberInBlacklist = conn.ExecuteScalar<long>($"SELECT COUNT(BlacklistTrackID) FROM Blacklist WHERE SafePath='{safePath}';");
                         }
                         catch (Exception ex)
                         {

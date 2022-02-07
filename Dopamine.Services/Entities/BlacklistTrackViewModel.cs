@@ -5,20 +5,20 @@ namespace Dopamine.Services.Entities
 {
     public class BlacklistTrackViewModel : BindableBase
     {
-        private Blacklist blacklist;
+        private BlacklistTrack blacklist;
 
-        public BlacklistTrackViewModel(Blacklist blacklist)
+        public BlacklistTrackViewModel(BlacklistTrack blacklist)
         {
             this.blacklist = blacklist;
         }
 
-        public Blacklist Blacklist => this.blacklist;
+        public BlacklistTrack Blacklist => this.blacklist;
 
         public string Path => this.blacklist.Path;
 
         public string SafePath => this.blacklist.SafePath;
 
-        public long BlacklistId => this.blacklist.BlacklistID;
+        public long BlacklistTrackId => this.blacklist.BlacklistTrackID;
 
         public override bool Equals(object obj)
         {

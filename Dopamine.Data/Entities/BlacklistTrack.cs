@@ -2,10 +2,10 @@
 
 namespace Dopamine.Data.Entities
 {
-    public class Blacklist
+    public class BlacklistTrack
     {
         [PrimaryKey(), AutoIncrement()]
-        public long BlacklistID { get; set; }
+        public long BlacklistTrackID { get; set; }
 
         public string Artist { get; set; }
 
@@ -15,13 +15,13 @@ namespace Dopamine.Data.Entities
 
         public string SafePath { get; set; }
 
-        public Blacklist()
+        public BlacklistTrack()
         {
         }
 
-        public Blacklist(long blacklistId, string artist, string title, string path, string safePath)
+        public BlacklistTrack(long blacklistTrackId, string artist, string title, string path, string safePath)
         {
-            this.BlacklistID = blacklistId;
+            this.BlacklistTrackID = blacklistTrackId;
             this.Artist = Artist;
             this.Title = Title;
             this.Path = path;
