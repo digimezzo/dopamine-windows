@@ -127,6 +127,14 @@ namespace Dopamine.Services.Playback
 
         Task<AudioDevice> GetSavedAudioDeviceAsync();
 
+        Task AddToBlacklistAsync(IList<TrackViewModel> selectedTracks);
+
+        Task RemoveFromBlacklistAsync(BlacklistTrackViewModel blacklistTrack);
+
+        Task RemoveAllFromBlacklistAsync();
+
+        Task<bool> IsInBlacklistAsync(TrackViewModel track);
+
         event PlaybackSuccessEventHandler PlaybackSuccess;
         event PlaybackFailedEventHandler PlaybackFailed;
         event PlaybackPausedEventHandler PlaybackPaused;
@@ -143,5 +151,7 @@ namespace Dopamine.Services.Playback
         event Action<bool> LoadingTrack;
         event EventHandler PlayingTrackChanged;
         event EventHandler QueueChanged;
+        event Action<int> AddedTracksToBacklist;
+       
     }
 }

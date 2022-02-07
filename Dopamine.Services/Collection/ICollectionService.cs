@@ -24,15 +24,7 @@ namespace Dopamine.Services.Collection
 
         Task<IList<AlbumViewModel>> OrderAlbumsAsync(IList<AlbumViewModel> albums, AlbumOrder albumOrder);
 
-        Task AddToBlacklistAsync(IList<TrackViewModel> selectedTracks);
-
-        Task RemoveFromBlacklistAsync(BlacklistTrackViewModel blacklistTrack);
-
-        Task RemoveAllFromBlacklistAsync();
-
-        Task<bool> IsInBlacklistAsync(TrackViewModel track);
-
         event EventHandler CollectionChanged;
-        event Action<int> AddedTracksToBacklist;
+       
     }
 }

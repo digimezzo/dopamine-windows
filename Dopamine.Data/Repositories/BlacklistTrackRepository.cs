@@ -52,7 +52,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            conn.Execute($"DELETE FROM Blacklist WHERE BlacklistTrackID={blacklistTrackId};");
+                            conn.Execute($"DELETE FROM BlacklistTrack WHERE BlacklistTrackID={blacklistTrackId};");
 
                             LogClient.Info("Removed the track with BlacklistTrackID={0}", blacklistTrackId);
                         }
@@ -79,7 +79,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            conn.Execute($"DELETE FROM Blacklist;");
+                            conn.Execute($"DELETE FROM BlacklistTrack;");
                         }
                         catch (Exception ex)
                         {
@@ -105,7 +105,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            numberInBlacklist = conn.ExecuteScalar<long>($"SELECT COUNT(BlacklistTrackID) FROM Blacklist WHERE SafePath='{safePath}';");
+                            numberInBlacklist = conn.ExecuteScalar<long>($"SELECT COUNT(BlacklistTrackID) FROM BlacklistTrack WHERE SafePath='{safePath}';");
                         }
                         catch (Exception ex)
                         {

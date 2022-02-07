@@ -11,7 +11,6 @@ namespace Dopamine.ViewModels.Common
 {
     public class PlaybackControlsWithPlaylistNotificationViewModel : BindableBase
     {
-        private ICollectionService collectionService;
         private IPlaybackService playbackService;
         private IPlaylistService playlistService;
         private string addedTracksToPlaylistText;
@@ -42,9 +41,8 @@ namespace Dopamine.ViewModels.Common
             }
         }
       
-        public PlaybackControlsWithPlaylistNotificationViewModel(ICollectionService collectionService, IPlaybackService playbackService,IPlaylistService playlistService)
+        public PlaybackControlsWithPlaylistNotificationViewModel(IPlaybackService playbackService,IPlaylistService playlistService)
         {
-            this.collectionService = collectionService;
             this.playbackService = playbackService;
             this.playlistService = playlistService;
 
@@ -78,7 +76,7 @@ namespace Dopamine.ViewModels.Common
                 this.ShowAddedTracksToPlaylistText = true;
             };
 
-            this.collectionService.AddedTracksToBacklist += iNumberOfTracks =>
+            this.playbackService.AddedTracksToBacklist += iNumberOfTracks =>
             {
                 string text = ResourceUtils.GetString("Language_Added_Track_To_Blacklist");
 

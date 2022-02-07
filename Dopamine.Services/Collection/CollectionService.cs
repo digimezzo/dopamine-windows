@@ -19,23 +19,20 @@ namespace Dopamine.Services.Collection
     {
         private ITrackRepository trackRepository;
         private IFolderRepository folderRepository;
-        private IBlacklistTrackRepository blacklistRepository;
         private ICacheService cacheService;
         private IPlaybackService playbackService;
         private IContainerProvider container;
 
-        public CollectionService(ITrackRepository trackRepository, IFolderRepository folderRepository, IBlacklistTrackRepository blacklistRepository, ICacheService cacheService, IPlaybackService playbackService, IContainerProvider container)
+        public CollectionService(ITrackRepository trackRepository, IFolderRepository folderRepository, ICacheService cacheService, IPlaybackService playbackService, IContainerProvider container)
         {
             this.trackRepository = trackRepository;
             this.folderRepository = folderRepository;
-            this.blacklistRepository = blacklistRepository;
             this.cacheService = cacheService;
             this.playbackService = playbackService;
             this.container = container;
         }
 
         public event EventHandler CollectionChanged = delegate { };
-        public event Action<int> AddedTracksToBacklist = delegate { };
 
         public async Task<RemoveTracksResult> RemoveTracksFromCollectionAsync(IList<TrackViewModel> selectedTracks)
         {
@@ -313,39 +310,6 @@ namespace Dopamine.Services.Collection
             });
 
             return orderedAlbums;
-        }
-
-        public async Task AddToBlacklistAsync(IList<TrackViewModel> selectedTracks)
-        {
-            IList<BlacklistTrack> blacklistTracks = new List<BlacklistTrack>();
-
-            foreach (var selectedTrack in selectedTracks)
-            {
-                var blacklistTrack = new BlacklistTrack();
-                blacklistTrack.Path = selectedTrack.Path;
-                blacklistTrack.SafePath = selectedTrack.SafePath;
-                blacklistTrack.Artist = selectedTrack.ArtistName;
-                blacklistTrack.Title = selectedTrack.TrackTitle;
-                blacklistTracks.Add(blacklistTrack);
-            }
-
-            await this.blacklistRepository.AddToBlacklistAsync(blacklistTracks);
-            this.AddedTracksToBacklist(blacklistTracks.Count);
-        }
-
-        public async Task RemoveFromBlacklistAsync(BlacklistTrackViewModel blacklistTrack)
-        {
-            await this.blacklistRepository.RemoveFromBlacklistAsync(blacklistTrack.BlacklistTrackId);
-        }
-
-        public async Task RemoveAllFromBlacklistAsync()
-        {
-            await this.blacklistRepository.RemoveAllFromBlacklistAsync();
-        }
-
-        public async Task<bool> IsInBlacklistAsync(TrackViewModel track)
-        {
-            return await this.blacklistRepository.IsInBlacklistAsync(track.SafePath);
         }
     }
 }

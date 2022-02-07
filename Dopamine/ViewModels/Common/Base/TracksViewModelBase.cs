@@ -516,7 +516,7 @@ namespace Dopamine.ViewModels.Common.Base
 
             try
             {
-                await this.collectionService.AddToBlacklistAsync(this.SelectedTracks);
+                await this.playbackService.AddToBlacklistAsync(this.SelectedTracks);
             }
             catch (Exception ex)
             {
