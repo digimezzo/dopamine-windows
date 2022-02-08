@@ -25,6 +25,7 @@
             <dc:PivotItem Header="{DynamicResource Language_Playback}" Style="{StaticResource MenuPivotItem}"/>
             <dc:PivotItem Header="{DynamicResource Language_Startup}" Style="{StaticResource MenuPivotItem}"/>
             <dc:PivotItem Header="{DynamicResource Language_Online}" Style="{StaticResource MenuPivotItem}"/>
+            <dc:PivotItem Header="{DynamicResource Language_Blacklist}" Style="{StaticResource MenuPivotItem}"/>
         </dc:Pivot>
     </Grid>
 </UserControl>

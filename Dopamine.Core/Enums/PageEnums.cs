@@ -40,7 +40,8 @@
         Behaviour = 1,
         Playback = 2,
         Startup = 3,
-        Online = 4
+        Online = 4,
+        Blacklist = 5
     }
 
     public enum InformationPage

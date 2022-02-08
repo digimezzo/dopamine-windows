@@ -293,6 +293,7 @@
     <Compile Include="ViewModels\FullPlayer\Information\InformationViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsAppearanceViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsBehaviourViewModel.cs" />
+    <Compile Include="ViewModels\FullPlayer\Settings\SettingsBlacklistViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsMenuViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsOnlineAddEditSearchProviderViewModel.cs" />
     <Compile Include="ViewModels\FullPlayer\Settings\SettingsOnlineViewModel.cs" />
@@ -503,6 +504,9 @@
     </Compile>
     <Compile Include="Views\FullPlayer\Settings\SettingsBehaviour.xaml.cs">
       <DependentUpon>SettingsBehaviour.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FullPlayer\Settings\SettingsBlacklist.xaml.cs">
+      <DependentUpon>SettingsBlacklist.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\FullPlayer\Settings\SettingsMenu.xaml.cs">
       <DependentUpon>SettingsMenu.xaml</DependentUpon>
@@ -1377,6 +1381,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\FullPlayer\Settings\SettingsBehaviour.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\FullPlayer\Settings\SettingsBlacklist.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
