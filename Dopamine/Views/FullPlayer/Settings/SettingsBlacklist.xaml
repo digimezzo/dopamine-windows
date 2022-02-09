@@ -12,7 +12,8 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="5" Padding="15" PanningMode="Both">
         <StackPanel>
-           
+            <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Blacklist}" />
+            <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Songs_In_Blacklist_Will_Be_Skipped}" Foreground="{DynamicResource Brush_PrimaryText}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
