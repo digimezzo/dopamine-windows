@@ -9,6 +9,7 @@ using Dopamine.Data;
 using Dopamine.Data.Entities;
 using Dopamine.Data.Metadata;
 using Dopamine.Data.Repositories;
+using Dopamine.Services.Blacklist;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Entities;
 using Dopamine.Services.Equalizer;
@@ -57,7 +58,7 @@ namespace Dopamine.Services.Playback
         private bool isEqualizerEnabled;
 
         private IQueuedTrackRepository queuedTrackRepository;
-        private IBlacklistTrackRepository blacklistRepository;
+        private IBlacklistService blacklistService;
         private System.Timers.Timer saveQueuedTracksTimer = new System.Timers.Timer();
         private int saveQueuedTracksTimeoutSeconds = 5;
 
@@ -79,8 +80,6 @@ namespace Dopamine.Services.Playback
         private bool isLoadingTrack;
 
         private AudioDevice audioDevice;
-
-        public event Action<int> AddedTracksToBacklist = delegate { };
 
         public bool IsSavingQueuedTracks => this.isSavingQueuedTracks;
 
@@ -277,14 +276,14 @@ namespace Dopamine.Services.Playback
             get { return this.player; }
         }
 
-        public PlaybackService(IFileService fileService, II18nService i18nService, ITrackRepository trackRepository, IBlacklistTrackRepository blacklistRepository,
+        public PlaybackService(IFileService fileService, II18nService i18nService, ITrackRepository trackRepository, IBlacklistService blacklistService,
             IEqualizerService equalizerService, IQueuedTrackRepository queuedTrackRepository, IContainerProvider container, IPlaylistService playlistService)
         {
             this.fileService = fileService;
             this.i18nService = i18nService;
             this.trackRepository = trackRepository;
             this.queuedTrackRepository = queuedTrackRepository;
-            this.blacklistRepository = blacklistRepository;
+            this.blacklistService = blacklistService;
             this.equalizerService = equalizerService;
             this.playlistService = playlistService;
             this.container = container;
@@ -1235,7 +1234,7 @@ namespace Dopamine.Services.Playback
                         return true;
                     }
 
-                    shouldGetNextTrack = await this.IsInBlacklistAsync(nextTrack);
+                    shouldGetNextTrack = await this.blacklistService.IsInBlacklistAsync(nextTrack);
 
                     if (shouldGetNextTrack)
                     {
@@ -1471,39 +1470,6 @@ namespace Dopamine.Services.Playback
         private async Task SetAudioDeviceAsync()
         {
             this.audioDevice = await this.GetSavedAudioDeviceAsync();
-        }
-
-        public async Task AddToBlacklistAsync(IList<TrackViewModel> selectedTracks)
-        {
-            IList<BlacklistTrack> blacklistTracks = new List<BlacklistTrack>();
-
-            foreach (var selectedTrack in selectedTracks)
-            {
-                var blacklistTrack = new BlacklistTrack();
-                blacklistTrack.Path = selectedTrack.Path;
-                blacklistTrack.SafePath = selectedTrack.SafePath;
-                blacklistTrack.Artist = selectedTrack.ArtistName;
-                blacklistTrack.Title = selectedTrack.TrackTitle;
-                blacklistTracks.Add(blacklistTrack);
-            }
-
-            await this.blacklistRepository.AddToBlacklistAsync(blacklistTracks);
-            this.AddedTracksToBacklist(blacklistTracks.Count);
-        }
-
-        public async Task RemoveFromBlacklistAsync(BlacklistTrackViewModel blacklistTrack)
-        {
-            await this.blacklistRepository.RemoveFromBlacklistAsync(blacklistTrack.BlacklistTrackId);
-        }
-
-        public async Task RemoveAllFromBlacklistAsync()
-        {
-            await this.blacklistRepository.RemoveAllFromBlacklistAsync();
-        }
-
-        public async Task<bool> IsInBlacklistAsync(TrackViewModel track)
-        {
-            return await this.blacklistRepository.IsInBlacklistAsync(track.SafePath);
         }
     }
 }

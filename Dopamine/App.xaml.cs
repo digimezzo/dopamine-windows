@@ -10,6 +10,7 @@ using Dopamine.Core.IO;
 using Dopamine.Data;
 using Dopamine.Data.Repositories;
 using Dopamine.Services.Appearance;
+using Dopamine.Services.Blacklist;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Command;
@@ -255,6 +256,7 @@ namespace Dopamine
                 containerRegistry.RegisterSingleton<ILifetimeService, LifetimeService>();
                 containerRegistry.RegisterSingleton<IInfoDownloadService, InfoDownloadService>();
                 containerRegistry.RegisterSingleton<IRichPresenceService, RichPresenceService>();
+                containerRegistry.RegisterSingleton<IBlacklistService, BlacklistService>();
 
                 INotificationService notificationService;
 

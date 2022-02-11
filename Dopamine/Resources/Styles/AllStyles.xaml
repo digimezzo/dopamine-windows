@@ -13,6 +13,7 @@
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/LinkButton.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/ListBoxAlbums.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/ListBoxArtists.xaml" />
+        <ResourceDictionary Source="/Dopamine;component/Resources/Styles/ListBoxBlacklistTracks.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/ListBoxFolders.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/ListBoxFolderTracks.xaml" />
         <ResourceDictionary Source="/Dopamine;component/Resources/Styles/ListBoxGenres.xaml" />

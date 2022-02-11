@@ -108,6 +108,8 @@
     <Compile Include="Appearance\AppearanceService.cs" />
     <Compile Include="Appearance\ColorScheme.cs" />
     <Compile Include="Appearance\IAppearanceService.cs" />
+    <Compile Include="Blacklist\BlacklistService.cs" />
+    <Compile Include="Blacklist\IBlacklistService.cs" />
     <Compile Include="Cache\CacheService.cs" />
     <Compile Include="Cache\ICacheService.cs" />
     <Compile Include="Entities\BlacklistTrackViewModel.cs" />

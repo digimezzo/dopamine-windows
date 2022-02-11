@@ -1,4 +1,5 @@
 ﻿using Digimezzo.Foundation.Core.Utils;
+using Dopamine.Services.Blacklist;
 using Dopamine.Services.Collection;
 using Dopamine.Services.Playback;
 using Dopamine.Services.Playlist;
@@ -13,6 +14,7 @@ namespace Dopamine.ViewModels.Common
     {
         private IPlaybackService playbackService;
         private IPlaylistService playlistService;
+        private IBlacklistService blacklistService;
         private string addedTracksToPlaylistText;
         private bool showAddedTracksToPlaylistText;
         private Timer showAddedTracksToPlaylistTextTimer;
@@ -41,10 +43,11 @@ namespace Dopamine.ViewModels.Common
             }
         }
       
-        public PlaybackControlsWithPlaylistNotificationViewModel(IPlaybackService playbackService,IPlaylistService playlistService)
+        public PlaybackControlsWithPlaylistNotificationViewModel(IPlaybackService playbackService, IPlaylistService playlistService, IBlacklistService blacklistService)
         {
             this.playbackService = playbackService;
             this.playlistService = playlistService;
+            this.blacklistService = blacklistService;
 
             this.PlaylistNotificationMouseEnterCommand = new DelegateCommand(() => this.HideText());
 
@@ -76,7 +79,7 @@ namespace Dopamine.ViewModels.Common
                 this.ShowAddedTracksToPlaylistText = true;
             };
 
-            this.playbackService.AddedTracksToBacklist += iNumberOfTracks =>
+            this.blacklistService.AddedTracksToBacklist += iNumberOfTracks =>
             {
                 string text = ResourceUtils.GetString("Language_Added_Track_To_Blacklist");
 
