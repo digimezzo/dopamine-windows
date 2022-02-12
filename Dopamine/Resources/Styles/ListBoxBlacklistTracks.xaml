@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="clr-namespace:Dopamine.Controls"
                     xmlns:converters="clr-namespace:Dopamine.Converters"
                     xmlns:base="clr-namespace:Dopamine.Core.Base;assembly=Dopamine.Core">
 
@@ -23,14 +22,14 @@
                         <DockPanel Background="{TemplateBinding Background}"
                             Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
                             <Button 
-                                x:Name="DeleteFolderButton"
+                                x:Name="DeleteBlacklistTrackButton"
                                 Style="{DynamicResource TransparentButton}"
                                     DockPanel.Dock="Right" 
                                     Margin="0,0,10,0" 
                                     VerticalAlignment="Center" 
-                                    ToolTip="{DynamicResource Language_Remove_This_Folder}" 
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.RemoveFolderCommand}" 
-                                    CommandParameter="{Binding FolderId}" 
+                                    ToolTip="{DynamicResource Language_Remove_This_Track_From_Blacklist}" 
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=UserControl},Path=DataContext.RemoveBlacklistTrackCommand}" 
+                                    CommandParameter="{Binding BlacklistTrackId}" 
                                     Visibility="Collapsed">
                                 <TextBlock 
                                     Text="&#xE711;"
@@ -50,7 +49,7 @@
                             <EventTrigger RoutedEvent="MouseEnter">
                                 <BeginStoryboard>
                                     <Storyboard TargetProperty="Background.Opacity">
-                                        <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                        <DoubleAnimation To="0.05" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </EventTrigger>
@@ -65,7 +64,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="DeleteFolderButton" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="DeleteBlacklistTrackButton" Property="Visibility" Value="Visible"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Background" Value="{DynamicResource Brush_ItemSelected}"/>

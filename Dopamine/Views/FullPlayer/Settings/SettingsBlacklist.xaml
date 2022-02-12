@@ -14,7 +14,7 @@
         <StackPanel>
             <Label Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Blacklist}" />
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Songs_In_Blacklist_Will_Be_Skipped}" Foreground="{DynamicResource Brush_PrimaryText}"/>
-            <ListBox x:Name="ListBoxBlackList" Style="{StaticResource ListBoxBlackListTrack}" ItemsSource="{Binding BlacklistTracks}"/>
+            <ListBox x:Name="ListBoxBlackList" Margin="0,10,0,0" Style="{StaticResource ListBoxBlacklistTracks}" ItemsSource="{Binding BlacklistTracks}"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

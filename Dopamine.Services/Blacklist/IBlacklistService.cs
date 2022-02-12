@@ -9,12 +9,14 @@ namespace Dopamine.Services.Blacklist
     {
         Task AddToBlacklistAsync(IList<TrackViewModel> selectedTracks);
 
-        Task RemoveFromBlacklistAsync(BlacklistTrackViewModel blacklistTrack);
+        Task RemoveFromBlacklistAsync(long blacklistTrackId);
 
         Task RemoveAllFromBlacklistAsync();
 
         Task<bool> IsInBlacklistAsync(TrackViewModel track);
 
         event Action<int> AddedTracksToBacklist;
+
+        Task<IList<BlacklistTrackViewModel>> GetBlacklistTracksAsync();
     }
 }

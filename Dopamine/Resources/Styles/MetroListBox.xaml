@@ -28,7 +28,7 @@
                                 <EventTrigger RoutedEvent="MouseEnter">
                                     <BeginStoryboard>
                                         <Storyboard TargetProperty="Background.Opacity">
-                                            <DoubleAnimation To="1" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
+                                            <DoubleAnimation To="0.05" Duration="{x:Static base:Constants.MouseEnterDuration}"/>
                                         </Storyboard>
                                     </BeginStoryboard>
                                 </EventTrigger>

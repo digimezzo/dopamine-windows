@@ -79,16 +79,16 @@ namespace Dopamine.ViewModels.Common
                 this.ShowAddedTracksToPlaylistText = true;
             };
 
-            this.blacklistService.AddedTracksToBacklist += iNumberOfTracks =>
+            this.blacklistService.AddedTracksToBacklist += numberOfTracks =>
             {
                 string text = ResourceUtils.GetString("Language_Added_Track_To_Blacklist");
 
-                if (iNumberOfTracks > 1)
+                if (numberOfTracks > 1)
                 {
                     text = ResourceUtils.GetString("Language_Added_Tracks_To_Blacklist");
                 }
 
-                this.AddedTracksToPlaylistText = text.Replace("{numberoftracks}", iNumberOfTracks.ToString());
+                this.AddedTracksToPlaylistText = text.Replace("{numberoftracks}", numberOfTracks.ToString());
 
                 this.ShowAddedTracksToPlaylistText = true;
             };

@@ -13,5 +13,7 @@ namespace Dopamine.Data.Repositories
         Task RemoveAllFromBlacklistAsync();
 
         Task<bool> IsInBlacklistAsync(string safePath);
+
+        Task<IList<BlacklistTrack>> GetBlacklistTracksAsync();
     }
 }

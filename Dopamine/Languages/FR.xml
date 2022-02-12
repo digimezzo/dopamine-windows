@@ -464,4 +464,5 @@
   <Text Key="Added_Tracks_To_Blacklist">{numberoftracks} morceaux ajoutés à la liste noire</Text>
   <Text Key="Blacklist">Liste noire</Text>
   <Text Key="Songs_In_Blacklist_Will_Be_Skipped">Les morceaux qui sont dans la liste noire seront ignorées pendant la lecture.</Text>
+  <Text Key="Remove_This_Track_From_Blacklist">Supprimer ce morceau de la liste noire</Text>
 </Language>

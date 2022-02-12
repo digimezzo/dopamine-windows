@@ -55,7 +55,10 @@
     <SolidColorBrush x:Key="Brush_RegularButtonText" Color="{DynamicResource Color_Black}"/>
     <SolidColorBrush x:Key="Brush_ComboBoxText" Color="{DynamicResource Color_Black}"/>
     <SolidColorBrush x:Key="Brush_MiniPlayerPlaylistBackground" Color="{DynamicResource Color_LightGrey2}"/>
-    
+
+    <!-- Colors -->
+    <Color x:Key="Color_ItemHovered">#666666</Color>
+
     <!-- Gradient Brushes -->
     <RadialGradientBrush x:Key="Brush_SpectrumEllipse" GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.8" RadiusY="0.8" Opacity="1.0">
         <RadialGradientBrush.GradientStops>

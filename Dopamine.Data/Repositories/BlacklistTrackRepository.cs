@@ -2,6 +2,7 @@
 using Dopamine.Data.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dopamine.Data.Repositories
@@ -120,6 +121,36 @@ namespace Dopamine.Data.Repositories
             });
 
             return numberInBlacklist > 0;
+        }
+
+        public async Task<IList<BlacklistTrack>> GetBlacklistTracksAsync()
+        {
+            var allBacklistTracks = new List<BlacklistTrack>();
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    using (var conn = this.factory.GetConnection())
+                    {
+                        try
+                        {
+                            allBacklistTracks = conn.Table<BlacklistTrack>().Select((s) => s).ToList();
+                        }
+                        catch (Exception ex)
+                        {
+                            LogClient.Error("Could not get all the blacklist tracks. Exception: {0}", ex.Message);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogClient.Error("Could not connect to the database. Exception: {0}", ex.Message);
+                }
+
+            });
+
+            return allBacklistTracks;
         }
     }
 }
