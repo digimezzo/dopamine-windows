@@ -465,4 +465,5 @@
   <Text Key="Blacklist">Zwarte lijst</Text>
   <Text Key="Songs_In_Blacklist_Will_Be_Skipped">Nummers die op de zwarte lijst staan, worden tijdens het afspelen overgeslagen.</Text>
   <Text Key="Remove_This_Track_From_Blacklist">Verwijder dit nummer van de zwarte lijst</Text>
+  <Text Key="Confirm_Remove_Track_From_Blacklist">Weet je zeker dat je dit nummer van de zwarte lijst wilt verwijderen?</Text>
 </Language>
