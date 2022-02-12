@@ -466,4 +466,5 @@
   <Text Key="Songs_In_Blacklist_Will_Be_Skipped">Songs that are in the blacklist will be skipped during playback.</Text>
   <Text Key="Remove_This_Track_From_Blacklist">Remove this song from the blacklist</Text>
   <Text Key="Confirm_Remove_Track_From_Blacklist">Are you sure you want to remove this song from the blacklist?</Text>
+  <Text Key="Error_Removing_Track_From_Blacklist">The song could not be removed from the blacklist. Please consult the log file for more information.</Text>
 </Language>
