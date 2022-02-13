@@ -466,5 +466,9 @@
   <Text Key="Songs_In_Blacklist_Will_Be_Skipped">Les morceaux qui sont dans la liste noire seront ignorées pendant la lecture.</Text>
   <Text Key="Remove_This_Track_From_Blacklist">Supprimer ce morceau de la liste noire</Text>
   <Text Key="Confirm_Remove_Track_From_Blacklist">Voulez-vous vraiment supprimer cette chanson de la liste noire?</Text>
-  <Text Key="Error_Removing_Track_From_Blacklist">Le numéro n'a pas pu être supprimée de la liste noire. Veuillez consulter le fichier journal pour plus d'informations.</Text>
+  <Text Key="Error_Removing_Track_From_Blacklist">Le numéro n'a pas pu être supprimée de la liste noire. Veuillez consulter le fichier log pour plus d'informations.</Text>
+  <Text Key="Clear_Blacklist">Effacer la liste noire...</Text>
+  <Text Key="Clear">Effacer</Text>
+  <Text Key="Confirm_Clear_Blacklist">Voulez-vous vraiment effacer la liste noire?</Text>
+  <Text Key="Error_Clearing_Blacklist">La liste noire n'a pas pu être effacée. Veuillez consulter le fichier log pour plus d'informations.</Text>
 </Language>

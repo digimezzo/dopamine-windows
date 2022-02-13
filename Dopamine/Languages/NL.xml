@@ -467,4 +467,8 @@
   <Text Key="Remove_This_Track_From_Blacklist">Verwijder dit nummer van de zwarte lijst</Text>
   <Text Key="Confirm_Remove_Track_From_Blacklist">Weet je zeker dat je dit nummer van de zwarte lijst wilt verwijderen?</Text>
   <Text Key="Error_Removing_Track_From_Blacklist">Het nummer kon niet van de zwarte lijst worden verwijderd. Raadpleeg het logbestand voor meer informatie.</Text>
+  <Text Key="Clear_Blacklist">Zwarte lijst wissen...</Text>
+  <Text Key="Clear">Wissen</Text>
+  <Text Key="Confirm_Clear_Blacklist">Weet je zeker dat u de zwarte lijst wilt wissen?</Text>
+  <Text Key="Error_Clearing_Blacklist">De zwarte lijst kon niet worden gewist. Raadpleeg het logbestand voor meer informatie.</Text>
 </Language>

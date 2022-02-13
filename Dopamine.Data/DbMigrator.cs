@@ -25,7 +25,7 @@ namespace Dopamine.Data
         // NOTE: whenever there is a change in the database schema,
         // this version MUST be incremented and a migration method
         // MUST be supplied to match the new version number
-        protected const int CURRENT_VERSION = 26;
+        protected const int CURRENT_VERSION = 27;
         private ISQLiteConnectionFactory factory;
         private int userDatabaseVersion;
 

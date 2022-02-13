@@ -42,10 +42,19 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 }
             });
 
+            this.ClearBlacklistCommand = new DelegateCommand(() =>
+            {
+                if (this.dialogService.ShowConfirmation(0xe11b, 16, ResourceUtils.GetString("Language_Clear"), ResourceUtils.GetString("Language_Confirm_Clear_Blacklist"), ResourceUtils.GetString("Language_Yes"), ResourceUtils.GetString("Language_No")))
+                {
+                    this.RemoveAllFromBlacklistAsync();
+                }
+            });
+
             this.GetBlacklistTracksAsync();
         }
 
         public DelegateCommand<long?> RemoveBlacklistTrackCommand { get; set; }
+        public DelegateCommand ClearBlacklistCommand { get; set; }
 
         public ObservableCollection<BlacklistTrackViewModel> BlacklistTracks
         {
@@ -78,6 +87,28 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 LogClient.Error("Exception: {0}", ex.Message);
 
                 this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Removing_Track_From_Blacklist"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
+            }
+            finally
+            {
+                this.IsBusy = false;
+            }
+        }
+
+        private async void RemoveAllFromBlacklistAsync()
+        {
+            try
+            {
+                this.IsBusy = true;
+                await this.blacklistService.RemoveAllFromBlacklistAsync();
+                this.IsBusy = false;
+
+                this.GetBlacklistTracksAsync();
+            }
+            catch (Exception ex)
+            {
+                LogClient.Error("Exception: {0}", ex.Message);
+
+                this.dialogService.ShowNotification(0xe711, 16, ResourceUtils.GetString("Language_Error"), ResourceUtils.GetString("Language_Error_Clearing_Blacklist"), ResourceUtils.GetString("Language_Ok"), true, ResourceUtils.GetString("Language_Log_File"));
             }
             finally
             {

@@ -467,4 +467,8 @@
   <Text Key="Remove_This_Track_From_Blacklist">Remove this song from the blacklist</Text>
   <Text Key="Confirm_Remove_Track_From_Blacklist">Are you sure you want to remove this song from the blacklist?</Text>
   <Text Key="Error_Removing_Track_From_Blacklist">The song could not be removed from the blacklist. Please consult the log file for more information.</Text>
+  <Text Key="Clear_Blacklist">Clear blacklist...</Text>
+  <Text Key="Clear">Clear</Text>
+  <Text Key="Confirm_Clear_Blacklist">Are you sure you want to clear the blacklist?</Text>
+  <Text Key="Error_Clearing_Blacklist">The blacklist could not be cleared. Please consult the log file for more information.</Text>
 </Language>
