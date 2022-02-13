@@ -18,8 +18,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border Height="24">
-                        <DockPanel Background="{TemplateBinding Background}"
+                    <Border Height="48">
+                        <DockPanel Background="{TemplateBinding Background}" ToolTip="{Binding Path}"
                             Width="{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ScrollContentPresenter}}}">
                             <Button 
                                 x:Name="DeleteBlacklistTrackButton"
@@ -39,8 +39,12 @@
                                     Foreground="{DynamicResource Brush_PrimaryText}" 
                                     FontSize="16"/>
                             </Button>
-                            <TextBlock Margin="5,0,0,0" Height="18" TextTrimming="CharacterEllipsis" 
-                                       Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding Path}"/>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Margin="5,0,0,0" Height="18" TextTrimming="CharacterEllipsis" 
+                                       Foreground="{DynamicResource Brush_PrimaryText}" Text="{Binding Title}"/>
+                                <TextBlock Margin="5,0,0,0" Height="18" TextTrimming="CharacterEllipsis" 
+                                       Foreground="{DynamicResource Brush_SecondaryText}" Text="{Binding Artist}"/>
+                            </StackPanel>
                         </DockPanel>
                         <Border.Background>
                             <SolidColorBrush Color="{DynamicResource Color_ItemHovered}" Opacity="0"/>

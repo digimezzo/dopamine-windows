@@ -28,6 +28,8 @@ namespace Dopamine.Services.Blacklist
                 if (!await this.IsInBlacklistAsync(selectedTrack))
                 {
                     var blacklistTrack = new BlacklistTrack();
+                    blacklistTrack.Artist = selectedTrack.ArtistName;
+                    blacklistTrack.Title = selectedTrack.TrackTitle;
                     blacklistTrack.Path = selectedTrack.Path;
                     blacklistTrack.SafePath = selectedTrack.SafePath;
                     blacklistTracks.Add(blacklistTrack);
@@ -59,7 +61,7 @@ namespace Dopamine.Services.Blacklist
         public async Task<IList<BlacklistTrackViewModel>> GetBlacklistTracksAsync()
         {
             IList<BlacklistTrack> blacklistTracks = await this.blacklistTrackRepository.GetBlacklistTracksAsync();
-            IList<BlacklistTrackViewModel> blacklistTrackViewModels = new List<BlacklistTrackViewModel>(blacklistTracks.OrderBy(x => x.Path).Select(x => new BlacklistTrackViewModel(x)));
+            IList<BlacklistTrackViewModel> blacklistTrackViewModels = new List<BlacklistTrackViewModel>(blacklistTracks.OrderBy(x => x.Artist).ThenBy(x => x.Title).ThenBy(x => x.Path).Select(x => new BlacklistTrackViewModel(x)));
 
             return blacklistTrackViewModels;
         }

@@ -106,7 +106,7 @@ namespace Dopamine.Data.Repositories
                     {
                         try
                         {
-                            numberInBlacklist = conn.ExecuteScalar<long>($"SELECT COUNT(BlacklistTrackID) FROM BlacklistTrack WHERE SafePath='{safePath}';");
+                            numberInBlacklist = conn.ExecuteScalar<long>($"SELECT COUNT(BlacklistTrackID) FROM BlacklistTrack WHERE SafePath='{DataUtils.EscapeQuotes(safePath)}';");
                         }
                         catch (Exception ex)
                         {

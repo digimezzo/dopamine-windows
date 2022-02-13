@@ -22,8 +22,8 @@ namespace Dopamine.Data.Entities
         public BlacklistTrack(long blacklistTrackId, string artist, string title, string path, string safePath)
         {
             this.BlacklistTrackID = blacklistTrackId;
-            this.Artist = Artist;
-            this.Title = Title;
+            this.Artist = artist;
+            this.Title = title;
             this.Path = path;
             this.SafePath = safePath;
         }

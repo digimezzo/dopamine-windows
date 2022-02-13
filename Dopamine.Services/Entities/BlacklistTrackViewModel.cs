@@ -21,16 +21,9 @@ namespace Dopamine.Services.Entities
 
         public long BlacklistTrackId => this.blacklistTrack.BlacklistTrackID;
 
-        public string ArtistAndTitle
-        {
-            get
-            {
-                string artist = string.IsNullOrWhiteSpace(this.blacklistTrack.Artist) ? ResourceUtils.GetString("Language_Unknown_Artist") : this.blacklistTrack.Artist;
-                string title = string.IsNullOrWhiteSpace(this.blacklistTrack.Title) ? ResourceUtils.GetString("Language_Unknown_Title") : this.blacklistTrack.Title;
+        public string Artist => this.blacklistTrack.Artist;
 
-                return $"{artist} - {title}";
-            }
-        }
+        public string Title => this.blacklistTrack.Title;
 
         public override bool Equals(object obj)
         {
