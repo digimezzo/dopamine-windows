@@ -1039,7 +1039,15 @@ namespace Dopamine.Services.Playback
         {
             if (this.Queue.Count > 0)
             {
-                await this.TryPlayAsync(this.queueManager.FirstTrack());
+                TrackViewModel firstTrack = this.queueManager.FirstTrack();
+
+                if (await this.blacklistService.IsInBlacklistAsync(firstTrack))
+                {
+                    await this.TryPlayNextAsync(false);
+                }
+                else { 
+                    await this.TryPlayAsync(firstTrack);
+                }
             }
         }
 
@@ -1221,11 +1229,20 @@ namespace Dopamine.Services.Playback
                     return true;
                 }
             }
-            else {
+            else
+            {
                 bool shouldGetNextTrack = true;
+                int numberOfSkips = 0;
 
                 while (shouldGetNextTrack)
                 {
+                    if (numberOfSkips > this.queueManager.Queue.Count)
+                    {
+                        this.Stop();
+                        return true;
+                    }
+
+                    numberOfSkips++;
                     nextTrack = await this.queueManager.NextTrackAsync(loopMode, returnToStart);
 
                     if (nextTrack == null)
@@ -1242,9 +1259,10 @@ namespace Dopamine.Services.Playback
                     }
                 }
             }
-           
+
             return await this.TryPlayAsync(nextTrack);
         }
+
 
         private void ProgressTimeoutHandler(object sender, ElapsedEventArgs e)
         {
