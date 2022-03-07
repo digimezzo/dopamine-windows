@@ -405,7 +405,7 @@
   <Text Key="Reload_All_Covers_Description">為所有的專輯重新整理封面，包括已經存在封面的專輯。</Text>
   <Text Key="Reload_Missing_Covers">重新整理欠缺的封面</Text>
   <Text Key="Reload_Missing_Covers_Description">只為沒有封面的專輯重新整理封面。</Text>
-  <Text Key="Added_Songs"已新增 {number} 音樂 ({percent}%)</Text>
+  <Text Key="Added_Songs">已新增 {number} 音樂 ({percent}%)</Text>
   <Text Key="Download_Missing_Album_Covers">從網路下載封面</Text>
   <Text Key="Use_All_Available_Speakers">使用所有可用的揚聲器</Text>
   <Text Key="Center_Lyrics">歌詞置中</Text>
