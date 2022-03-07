@@ -1,6 +1,7 @@
 2022-03-07: Dopamine 2.0.10
 ---------------------------
 
+- [Changed] Updated the Russian translation
 - [Changed] Updated the Swedish translation
 
 
