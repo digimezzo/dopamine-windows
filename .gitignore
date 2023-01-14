@@ -250,11 +250,3 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
-
-# Extra
-.Dopamine/Dopamine.csproj
-.Dopamine.Tests/Dopamine.Tests.csproj
-.Dopamine.Core/Dopamine.Core.csproj
-.Dopamine.Data/Dopamine.Data.csproj
-.Dopamine.Packager/Dopamine.Packager.csproj
-.Dopamine.Services/Dopamine.Services.csproj
