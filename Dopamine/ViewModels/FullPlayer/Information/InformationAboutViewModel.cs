@@ -32,7 +32,7 @@ namespace Dopamine.ViewModels.FullPlayer.Information
 
         public string Copyright => ProductInformation.Copyright;
 
-        public string DonateUrl => ContactInformation.PayPalLink;
+        public string DonateUrl => ContactInformation.DonateLink;
 
         public string WebsiteLink => ContactInformation.WebsiteLink;
 
