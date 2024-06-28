@@ -7,6 +7,7 @@
 - [Changed] Updated the Portuguese translation
 - [Changed] Updated the Russian translation
 - [Changed] Updated the Serbian (Cyrillic) translation
+- [Changed] Updated the Serbian (Latin) translation
 - [Changed] Updated the Swedish translation
 - [Changed] Updated the Spanish translation
 
