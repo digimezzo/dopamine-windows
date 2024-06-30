@@ -777,6 +777,9 @@
     <Content Include="Languages\ES.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Languages\FA.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Languages\FI.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
