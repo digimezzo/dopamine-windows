@@ -87,6 +87,7 @@
       <Link>SharedAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Api\Fanart\FanartApi.cs" />
+    <Compile Include="Api\GitHub\GitHubApi.cs" />
     <Compile Include="Api\Lastfm\LastFmAlbum.cs" />
     <Compile Include="Api\Lastfm\LastFmArtist.cs" />
     <Compile Include="Api\Lastfm\LastFmBiography.cs" />
