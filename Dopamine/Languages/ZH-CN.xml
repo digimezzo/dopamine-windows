@@ -241,7 +241,6 @@
   <Text Key="Removing_Songs">正在移除歌曲</Text>
   <Text Key="Updating_Songs">正在更新歌曲</Text>
   <Text Key="Hide">隐藏</Text>
-  <Text Key="Click_Here_To_Install">点此进行安装</Text>
   <Text Key="Click_Here_To_Download">点此进行下载</Text>
   <Text Key="Update_Album_Cover">更新专辑封面</Text>
   <Text Key="Check_Box_To_Update_Album_Cover_In_Collection">勾选此以更新音乐库中的专辑封面</Text>

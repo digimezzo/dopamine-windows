@@ -82,13 +82,6 @@ namespace Dopamine.Services.Update
             return newVersion;
         }
 
-        private bool IsDownloadedPackageAvailable(string package)
-        {
-            FileInfo fi = new FileInfo(package);
-
-            return fi.Exists && fi.Length > 0;
-        }
-
         private async void CheckNow()
         {
             if (this.isDismissed)

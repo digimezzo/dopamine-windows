@@ -241,7 +241,6 @@
   <Text Key="Removing_Songs">Poistetaan kappaleita</Text>
   <Text Key="Updating_Songs">Päivitetään kappaleita</Text>
   <Text Key="Hide">Piilota</Text>
-  <Text Key="Click_Here_To_Install">Paina tästä asentaaksesi</Text>
   <Text Key="Click_Here_To_Download">Paina tästä lataaksesi</Text>
   <Text Key="Update_Album_Cover">Päivitä myös albumin kansikuva</Text>
   <Text Key="Check_Box_To_Update_Album_Cover_In_Collection">Päivitä myös koko albumin kansikuva täksi kuvaksi</Text>

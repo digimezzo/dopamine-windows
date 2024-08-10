@@ -10,6 +10,7 @@ using Prism.Mvvm;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using Windows.Foundation;
 
 namespace Dopamine.ViewModels.Common
 {
@@ -69,17 +70,9 @@ namespace Dopamine.ViewModels.Common
             this.Package = e.UpdatePackage;
             this.IsUpdateAvailable = true;
 
-            this.destinationPath = e.UpdatePackageLocation;
+            this.destinationPath = "www.strava.com"; //e.UpdatePackageLocation;
             RaisePropertyChanged(nameof(this.ShowInstallUpdateButton));
-
-            if (!string.IsNullOrEmpty(destinationPath))
-            {
-                this.UpdateToolTip = ResourceUtils.GetString("Language_Click_Here_To_Install");
-            }
-            else
-            {
-                this.UpdateToolTip = ResourceUtils.GetString("Language_Click_Here_To_Download");
-            }
+            this.UpdateToolTip = ResourceUtils.GetString("Language_Click_Here_To_Download");
         }
 
         private void NoNewVersionAvailableHandler(object sender, EventArgs e)
@@ -114,7 +107,7 @@ namespace Dopamine.ViewModels.Common
         {
             try
             {
-                Actions.TryOpenLink(UpdateInformation.DownloadLink);
+                Actions.TryOpenLink($"{UpdateInformation.DownloadLinkTemplate}{this.package.Version}");
             }
             catch (Exception ex)
             {

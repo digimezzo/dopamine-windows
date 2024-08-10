@@ -241,7 +241,6 @@
   <Text Key="Removing_Songs">曲を削除しています</Text>
   <Text Key="Updating_Songs">曲を更新しています</Text>
   <Text Key="Hide">隠す</Text>
-  <Text Key="Click_Here_To_Install">クリックしてインストール</Text>
   <Text Key="Click_Here_To_Download">クリックしてダウンロード</Text>
   <Text Key="Update_Album_Cover">アルバムアートの更新</Text>
   <Text Key="Check_Box_To_Update_Album_Cover_In_Collection">アルバムアートを自動で更新</Text>

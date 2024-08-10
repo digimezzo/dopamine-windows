@@ -2,7 +2,6 @@
 {
     public static class UpdateInformation
     {
-        public static string AutomaticDownloadLink = "http://www.digimezzo.com/content/software/dopamine/.update";
-        public static string DownloadLink = "http://www.digimezzo.com/content/software/dopamine";
+        public static string DownloadLinkTemplate = "https://github.com/digimezzo/dopamine-windows/releases/tag/v";
     }
 }
