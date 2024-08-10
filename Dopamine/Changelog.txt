@@ -1,8 +1,10 @@
-2024-06-30: Dopamine 2.0.10
+2024-08-10: Dopamine 2.0.10
 ---------------------------
 
 - [Added] Added a Catalan translation
 - [Added] Added a Farsi translation
+- [Changed] Links to website and social networks have been updated
+- [Changed] Update checker now points to GitHub
 - [Changed] Updated the Chinese (Traditional) translation
 - [Changed] Updated the Indonesian translation
 - [Changed] Updated the Italian translation
