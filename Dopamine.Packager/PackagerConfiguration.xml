@@ -7,7 +7,7 @@
   <Packaging>
     <PackageDirectory>C:\Temp\Dopamine</PackageDirectory>
     <Installable>
-      <WixBinDirectory>C:\Program Files (x86)\WiX Toolset v3.11\bin</WixBinDirectory>
+      <WixBinDirectory>C:\Program Files (x86)\WiX Toolset v3.14\bin</WixBinDirectory>
     </Installable>
     <Portable>
       <Directories>
