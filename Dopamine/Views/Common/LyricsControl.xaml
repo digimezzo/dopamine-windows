@@ -217,6 +217,34 @@
                                 <CollectionContainer Collection="{Binding Source={StaticResource PlaylistsDataSource}}" />
                             </CompositeCollection>
                         </MenuItem.ItemsSource>
+                        <MenuItem.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel />
+                            </ItemsPanelTemplate>
+                        </MenuItem.ItemsPanel>
+                        <MenuItem.Template>
+                            <ControlTemplate TargetType="MenuItem">
+                                <Grid>
+                                    <MenuItem Header="{Binding Header, RelativeSource={RelativeSource TemplatedParent}}" DisplayMemberPath="Name">
+                                        <MenuItem.ItemsSource>
+                                            <CompositeCollection>
+                                                <Separator/>
+                                            </CompositeCollection>
+                                        </MenuItem.ItemsSource>
+                                    </MenuItem>
+                                    <Popup IsOpen="{TemplateBinding IsSubmenuOpen}" Placement="Right" AllowsTransparency="True" PopupAnimation="Fade" HorizontalOffset="-23">
+                                        <Border BorderBrush="Transparent" BorderThickness="8,10,5,10" Background="White">
+                                            <Border.Effect>
+                                                <DropShadowEffect BlurRadius="8" Opacity="0.6" ShadowDepth="0" />
+                                            </Border.Effect>
+                                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                                <ItemsPresenter />
+                                            </ScrollViewer>
+                                        </Border>
+                                    </Popup>
+                                </Grid>
+                            </ControlTemplate>
+                        </MenuItem.Template>
                     </MenuItem>
                 </ContextMenu>
             </StackPanel.ContextMenu>
