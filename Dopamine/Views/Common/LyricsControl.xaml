@@ -232,7 +232,7 @@
                                             </CompositeCollection>
                                         </MenuItem.ItemsSource>
                                     </MenuItem>
-                                    <Popup IsOpen="{TemplateBinding IsSubmenuOpen}" Placement="Right" AllowsTransparency="True" PopupAnimation="Fade" HorizontalOffset="-23">
+                                    <Popup IsOpen="{TemplateBinding IsSubmenuOpen}" Placement="Right" AllowsTransparency="True" PopupAnimation="Fade">
                                         <Border BorderBrush="Transparent" BorderThickness="8,10,5,10" Background="White">
                                             <Border.Effect>
                                                 <DropShadowEffect BlurRadius="8" Opacity="0.6" ShadowDepth="0" />
