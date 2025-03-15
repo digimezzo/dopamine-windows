@@ -1,3 +1,8 @@
+2025-03-15: Dopamine 2.0.11
+---------------------------
+
+- [Fixed] When there are a lot of playlists, the list of playlists is not scrollable, making some playlists inaccessible.
+
 2024-08-10: Dopamine 2.0.10
 ---------------------------
 
