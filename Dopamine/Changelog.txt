@@ -2,6 +2,7 @@
 ---------------------------
 
 - [Fixed] When there are a lot of playlists, the list of playlists is not scrollable, making some playlists inaccessible.
+- [Changed] Updated the Kurdish translation
 
 2024-08-10: Dopamine 2.0.10
 ---------------------------
