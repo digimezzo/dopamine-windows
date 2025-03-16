@@ -107,30 +107,6 @@
             <Label Margin="0,20,0,0" Style="{StaticResource TitleLabel}" Content="{DynamicResource Language_Lyrics}" />
             <TextBlock Margin="0,5,0,0" Text="{DynamicResource Language_Download_Lyrics_Automatically}" Foreground="{DynamicResource Brush_PrimaryText}"/>
             <dc:Windows10ToggleSwitch x:Name="CheckBoxDownloadLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_Yes}" OffLabel="{DynamicResource Language_No}" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxDownloadLyricsChecked}"/>
-            <StackPanel Margin="0,20,0,0" IsHitTestVisible="{Binding CheckBoxDownloadLyricsChecked}">
-                <TextBlock Text="{DynamicResource Language_Lyrics_Download_Timeout}" Foreground="{DynamicResource Brush_PrimaryText}"/>
-                <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
-                    <ComboBox x:Name="ComboBoxTimeout" Style="{StaticResource MetroComboBox}" Padding="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" Width="100" ItemsSource="{Binding Timeouts}" SelectedItem="{Binding SelectedTimeout}"/>
-                    <TextBlock Margin="10,0,0,0" Text="{DynamicResource Language_Seconds}" VerticalAlignment="Center" Foreground="{DynamicResource Brush_PrimaryText}"/>
-                </StackPanel>
-                <TextBlock Margin="0,20,0,0" Text="{DynamicResource Language_Download_Lyrics_From}" Foreground="{DynamicResource Brush_PrimaryText}"/>
-                <UniformGrid Columns="3" Width="450" HorizontalAlignment="Left">
-                    <dc:Windows10ToggleSwitch x:Name="CheckBoxChartLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="ChartLyrics" OffLabel="ChartLyrics" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxChartLyricsChecked}"/>
-                    <dc:Windows10ToggleSwitch x:Name="CheckBoxLoloLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="LoloLyrics" OffLabel="LoloLyrics" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxLoloLyricsChecked}"/>
-                    <dc:Windows10ToggleSwitch x:Name="CheckBoxMetroLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="MetroLyrics" OffLabel="MetroLyrics" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxMetroLyricsChecked}"/>
-                    <dc:Windows10ToggleSwitch x:Name="CheckBoxXiamiLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_XiamiLyrics}" OffLabel="{DynamicResource Language_XiamiLyrics}" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxXiamiLyricsChecked}"/>
-                    <dc:Windows10ToggleSwitch x:Name="CheckBoxNeteaseLyrics" Margin="0,10,0,0" HorizontalAlignment="Left" FontSize="12" OnLabel="{DynamicResource Language_NeteaseLyrics}" OffLabel="{DynamicResource Language_NeteaseLyrics}" Foreground="{DynamicResource Brush_PrimaryText}" Accent="{DynamicResource Brush_Accent}" IsChecked="{Binding CheckBoxNeteaseLyricsChecked}"/>
-                </UniformGrid>
-                <StackPanel.Style>
-                    <Style>
-                        <Style.Triggers>
-                            <Trigger Property="StackPanel.IsHitTestVisible" Value="False">
-                                <Setter Property="StackPanel.Opacity" Value="0.5" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Style>
-            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

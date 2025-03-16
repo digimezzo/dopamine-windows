@@ -1,4 +1,4 @@
-﻿using Digimezzo.Foundation.Core.Helpers;
+﻿
 using Digimezzo.Foundation.Core.IO;
 using Digimezzo.Foundation.Core.Logging;
 using Digimezzo.Foundation.Core.Settings;
@@ -9,12 +9,12 @@ using Dopamine.Services.Provider;
 using Dopamine.Services.Scrobbling;
 using Dopamine.Views.FullPlayer.Settings;
 using Prism.Commands;
-using Prism.Events;
+
 using Prism.Mvvm;
 using System;
-using System.Collections.Generic;
+
 using System.Collections.ObjectModel;
-using System.Linq;
+
 using System.Threading.Tasks;
 using Prism.Ioc;
 
@@ -25,98 +25,20 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
         private IContainerProvider container;
         private IProviderService providerService;
         private IDialogService dialogService;
-        private IEventAggregator eventAggregator;
         private ObservableCollection<SearchProvider> searchProviders;
         private SearchProvider selectedSearchProvider;
         private IScrobblingService scrobblingService;
         private bool isLastFmSignInInProgress;
         private bool checkBoxDownloadArtistInformationChecked;
         private bool checkBoxDownloadLyricsChecked;
-        private bool checkBoxChartLyricsChecked;
-        private bool checkBoxLoloLyricsChecked;
-        private bool checkBoxMetroLyricsChecked;
-        private bool checkBoxXiamiLyricsChecked;
-        private bool checkBoxNeteaseLyricsChecked;
         private bool checkBoxEnableDiscordRichPresence;
-        private ObservableCollection<NameValue> timeouts;
-        private NameValue selectedTimeout;
-
+       
         public DelegateCommand AddCommand { get; set; }
         public DelegateCommand EditCommand { get; set; }
         public DelegateCommand RemoveCommand { get; set; }
         public DelegateCommand LastfmSignInCommand { get; set; }
         public DelegateCommand LastfmSignOutCommand { get; set; }
         public DelegateCommand CreateLastFmAccountCommand { get; set; }
-
-        public ObservableCollection<NameValue> Timeouts
-        {
-            get { return this.timeouts; }
-            set { SetProperty<ObservableCollection<NameValue>>(ref this.timeouts, value); }
-        }
-
-        public NameValue SelectedTimeout
-        {
-            get { return this.selectedTimeout; }
-            set
-            {
-                if (value.Value != null)
-                {
-                    SettingsClient.Set<int>("Lyrics", "TimeoutSeconds", value.Value);
-                }
-                
-                SetProperty<NameValue>(ref this.selectedTimeout, value);
-            }
-        }
-
-        public bool CheckBoxChartLyricsChecked
-        {
-            get { return this.checkBoxChartLyricsChecked; }
-            set
-            {
-                this.AddRemoveLyricsDownloadProvider("chartlyrics", value);
-                SetProperty<bool>(ref this.checkBoxChartLyricsChecked, value);
-            }
-        }
-
-        public bool CheckBoxLoloLyricsChecked
-        {
-            get { return this.checkBoxLoloLyricsChecked; }
-            set
-            {
-                this.AddRemoveLyricsDownloadProvider("lololyrics", value);
-                SetProperty<bool>(ref this.checkBoxLoloLyricsChecked, value);
-            }
-        }
-
-        public bool CheckBoxMetroLyricsChecked
-        {
-            get { return this.checkBoxMetroLyricsChecked; }
-            set
-            {
-                this.AddRemoveLyricsDownloadProvider("metrolyrics", value);
-                SetProperty<bool>(ref this.checkBoxMetroLyricsChecked, value);
-            }
-        }
-
-        public bool CheckBoxXiamiLyricsChecked
-        {
-            get { return this.checkBoxXiamiLyricsChecked; }
-            set
-            {
-                this.AddRemoveLyricsDownloadProvider("xiamilyrics", value);
-                SetProperty<bool>(ref this.checkBoxXiamiLyricsChecked, value);
-            }
-        }
-
-        public bool CheckBoxNeteaseLyricsChecked
-        {
-            get { return this.checkBoxNeteaseLyricsChecked; }
-            set
-            {
-                this.AddRemoveLyricsDownloadProvider("neteaselyrics", value);
-                SetProperty<bool>(ref this.checkBoxNeteaseLyricsChecked, value);
-            }
-        }
 
         public ObservableCollection<SearchProvider> SearchProviders
         {
@@ -197,13 +119,12 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             get { return this.scrobblingService.SignInState == SignInState.Error; }
         }
 
-        public SettingsOnlineViewModel(IContainerProvider container, IProviderService providerService, IDialogService dialogService, IScrobblingService scrobblingService, IEventAggregator eventAggregator)
+        public SettingsOnlineViewModel(IContainerProvider container, IProviderService providerService, IDialogService dialogService, IScrobblingService scrobblingService)
         {
             this.container = container;
             this.providerService = providerService;
             this.dialogService = dialogService;
             this.scrobblingService = scrobblingService;
-            this.eventAggregator = eventAggregator;
 
             this.scrobblingService.SignInStateChanged += (_) =>
             {
@@ -240,7 +161,6 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
             this.providerService.SearchProvidersChanged += (_, __) => this.GetSearchProvidersAsync();
 
             this.GetCheckBoxesAsync();
-            this.GetTimeoutsAsync();
         }
 
         private async void GetSearchProvidersAsync()
@@ -331,67 +251,7 @@ namespace Dopamine.ViewModels.FullPlayer.Settings
                 this.checkBoxDownloadLyricsChecked = SettingsClient.Get<bool>("Lyrics", "DownloadLyrics");
 
                 string lyricsProviders = SettingsClient.Get<string>("Lyrics", "Providers");
-
-                this.checkBoxChartLyricsChecked = lyricsProviders.ToLower().Contains("chartlyrics");
-                this.checkBoxLoloLyricsChecked = lyricsProviders.ToLower().Contains("lololyrics");
-                this.checkBoxMetroLyricsChecked = lyricsProviders.ToLower().Contains("metrolyrics");
-                this.checkBoxXiamiLyricsChecked = lyricsProviders.ToLower().Contains("xiamilyrics");
-                this.checkBoxNeteaseLyricsChecked = lyricsProviders.ToLower().Contains("neteaselyrics");
             });
-        }
-
-        private void AddRemoveLyricsDownloadProvider(string provider, bool add)
-        {
-            try
-            {
-                string lyricsProviders = SettingsClient.Get<string>("Lyrics", "Providers");
-                var lyricsProvidersList = new List<string>(lyricsProviders.ToLower().Split(';'));
-
-                if (add)
-                {
-                    if (!lyricsProvidersList.Contains(provider)) lyricsProvidersList.Add(provider);
-                }
-                else
-                {
-                    if (lyricsProvidersList.Contains(provider)) lyricsProvidersList.Remove(provider);
-                }
-
-                string[] arr = lyricsProvidersList.ToArray();
-                SettingsClient.Set<string>("Lyrics", "Providers", string.Join(";", arr));
-            }
-            catch (Exception ex)
-            {
-                LogClient.Error("Could not add/remove lyrics download providers. Add = '{0}'. Exception: {1}", add.ToString(), ex.Message);
-            }
-        }
-
-        private async void GetTimeoutsAsync()
-        {
-            var localTimeouts = new ObservableCollection<NameValue>();
-
-            await Task.Run(() =>
-            {
-                localTimeouts.Add(new NameValue { Name = ResourceUtils.GetString("0"), Value = 0 });
-                localTimeouts.Add(new NameValue { Name = "1", Value = 1 });
-                localTimeouts.Add(new NameValue { Name = "2", Value = 2 });
-                localTimeouts.Add(new NameValue { Name = "5", Value = 5 });
-                localTimeouts.Add(new NameValue { Name = "10", Value = 10 });
-                localTimeouts.Add(new NameValue { Name = "20", Value = 20 });
-                localTimeouts.Add(new NameValue { Name = "30", Value = 30 });
-                localTimeouts.Add(new NameValue { Name = "40", Value = 40 });
-                localTimeouts.Add(new NameValue { Name = "50", Value = 50 });
-                localTimeouts.Add(new NameValue { Name = "60", Value = 60 });
-            });
-
-            this.Timeouts = localTimeouts;
-
-            NameValue localSelectedTimeout = null;
-            await Task.Run(() => localSelectedTimeout = this.Timeouts.Where((svp) => svp.Value == SettingsClient.Get<int>("Lyrics", "TimeoutSeconds")).Select((svp) => svp).First());
-
-            this.selectedTimeout = null;
-            RaisePropertyChanged(nameof(this.SelectedTimeout));
-            this.selectedTimeout = localSelectedTimeout;
-            RaisePropertyChanged(nameof(this.SelectedTimeout));
         }
     }
 }
