@@ -17,6 +17,11 @@ This software uses code of <a href=http://ffmpeg.org>FFmpeg</a> licensed under t
 
 ![Dopaminescreenshot](Dopamine.screenshot.png)
 
+## Documentation ##
+
+Dopamine 2's documentation can be found here: ![Dopamine](Dopamine 2 Documentation.pdf)
+A huge thanks to [@username](https://github.com/GeorgeTheocharis4) for writing the documentation from scratch!
+
 ## Compile instructions ##
 
 The Dopamine source code has a dependency to file **Windows.winmd**, which is provided by the Windows 10 SDK (for the system notifications). Install the Windows 10 SDK for your version of Windows 10. For Windows 10 10.0.17134.0, Windows.winmd can be found in the folder **C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17134.0**. You'll have to copy this file to its parent folder. So it is available in this path: **C:\Program Files (x86)\Windows Kits\10\UnionMetadata\Windows.winmd**.
