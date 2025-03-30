@@ -19,7 +19,7 @@ This software uses code of <a href=http://ffmpeg.org>FFmpeg</a> licensed under t
 
 ## Documentation ##
 
-Dopamine 2's documentation can be found [http://www.digimezzo.com]([https://digimezzo.github.io/site/](https://github.com/digimezzo/dopamine-windows/blob/master/Dopamine%202%20Documentation.pdf)).
+Dopamine 2's documentation can be found [here](https://github.com/digimezzo/dopamine-windows/blob/master/Dopamine%202%20Documentation.pdf).
 A huge thanks to [Theocharis Georgios](https://github.com/GeorgeTheocharis4) for writing the documentation from scratch!
 
 ## Compile instructions ##
