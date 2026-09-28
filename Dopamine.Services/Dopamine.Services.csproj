@@ -43,9 +43,6 @@
     <Reference Include="CommonServiceLocator, Version=2.0.7.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.7\lib\net48\CommonServiceLocator.dll</HintPath>
     </Reference>
-    <Reference Include="CSCore">
-      <HintPath>..\Dopamine\Libraries\CSCore.dll</HintPath>
-    </Reference>
     <Reference Include="Digimezzo.Foundation.Core">
       <HintPath>..\Dopamine\Libraries\Digimezzo.Foundation.Core.dll</HintPath>
     </Reference>

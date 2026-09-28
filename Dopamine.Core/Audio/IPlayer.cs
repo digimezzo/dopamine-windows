@@ -14,6 +14,8 @@ namespace Dopamine.Core.Audio
 
         bool CanStop { get; }
 
+        bool IsPlaying { get; }
+
         string Filename { get; }
 
         bool HasMediaFoundationSupport { get; set; }
@@ -52,5 +54,11 @@ namespace Dopamine.Core.Audio
 
         event EventHandler PlaybackFinished;
         event PlaybackInterruptedEventHandler PlaybackInterrupted;
+
+        /// <summary>
+        /// Raised for every block of samples read by the output. Shared by the spectrum analyzer
+        /// and the external control FFT export.
+        /// </summary>
+        event EventHandler<AudioBlockReadEventArgs> AudioBlockRead;
     }
 }

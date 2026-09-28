@@ -1,6 +1,4 @@
-﻿using CSCore.DSP;
-using CSCore.Streams;
-using Dopamine.Core.Audio;
+﻿using Dopamine.Core.Audio;
 using Dopamine.Core.Extensions;
 using Dopamine.Services.Cache;
 using Dopamine.Services.Playback;
@@ -21,10 +19,9 @@ namespace Dopamine.Services.ExternalControl
     {
         private const int FftDataLength = 256 * 4;
 
-        private CSCorePlayer player;
-        private readonly FftProvider fftProvider = new FftProvider(2, FftSize.Fft256);
+        private readonly FftAggregator fftAggregator = new FftAggregator(512);
         private readonly DispatcherTimer fftProviderDataTimer;
-        private bool haveAddedInputStream;
+        private IPlayer subscribedPlayer;
         private readonly float[] fftDataBuffer = new float[FftDataLength / 4];
         private readonly byte[] fftDataBufferBytes = new byte[FftDataLength];
         private readonly MemoryMappedFile fftDataMemoryMappedFile;
@@ -153,7 +150,7 @@ namespace Dopamine.Services.ExternalControl
 
             await Task.Run(() =>
             {
-                this.fftProvider.GetFftData(fftDataBuffer);
+                this.fftAggregator.GetMagnitudes(fftDataBuffer);
 
                 fftDataMemoryMappedFileMutex.WaitOne();
                 Buffer.BlockCopy(fftDataBuffer, 0, fftDataBufferBytes, 0, fftDataBufferBytes.Length);
@@ -255,31 +252,46 @@ namespace Dopamine.Services.ExternalControl
 
         private void TryAddInputStreamHandler()
         {
-            this.player = playbackService.Player as CSCorePlayer;
+            IPlayer player = this.playbackService.Player;
 
-            if (this.player != null && !this.haveAddedInputStream)
+            if (player == null || ReferenceEquals(player, this.subscribedPlayer))
             {
-                this.player.NotificationSource.SingleBlockRead += InputStream;
-                this.haveAddedInputStream = true;
+                return;
             }
+
+            // The player instance is replaced for every track: move the subscription along.
+            if (this.subscribedPlayer != null)
+            {
+                this.subscribedPlayer.AudioBlockRead -= this.InputBlockRead;
+            }
+
+            player.AudioBlockRead += this.InputBlockRead;
+            this.subscribedPlayer = player;
         }
 
         private void TryRemoveInputStreamHandler()
         {
-            this.player = playbackService.Player as CSCorePlayer;
-
-            if (this.player != null && this.haveAddedInputStream)
+            if (this.subscribedPlayer == null)
             {
-                this.player.NotificationSource.SingleBlockRead -= InputStream;
-                this.haveAddedInputStream = false;
+                return;
             }
+
+            this.subscribedPlayer.AudioBlockRead -= this.InputBlockRead;
+            this.subscribedPlayer = null;
         }
 
-        private void InputStream(object sender, SingleBlockReadEventArgs e)
+        private void InputBlockRead(object sender, AudioBlockReadEventArgs e)
         {
             try
             {
-                this.fftProvider.Add(e.Left, e.Right);
+                for (int i = 0; i + e.Channels - 1 < e.Count; i += e.Channels)
+                {
+                    int index = e.Offset + i;
+                    float left = e.Buffer[index];
+                    float right = e.Channels >= 2 ? e.Buffer[index + 1] : e.Buffer[index];
+
+                    this.fftAggregator.Add(0.5f * (left + right));
+                }
             }
             catch (Exception)
             {

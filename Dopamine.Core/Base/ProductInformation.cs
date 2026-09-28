@@ -20,13 +20,6 @@ namespace Dopamine.Core.Base
             },
             new ExternalComponent
             {
-                Name = "CSCore – .NET Sound Library",
-                Description = "A free .NET audio library which is completely written in C#.",
-                Url = "https://github.com/filoe/cscore",
-                LicenseUrl = "https://github.com/filoe/cscore/blob/master/license.md"
-            },
-            new ExternalComponent
-            {
                 Name = "DotNetZip",
                 Description =
                     "A FAST, FREE class library and toolset for manipulating zip files. Use VB, C# or any .NET language to easily create, extract, or update zip files.",
@@ -39,13 +32,6 @@ namespace Dopamine.Core.Base
                 Description = "DryIoc is fast, small, full-featured IoC Container for .NET",
                 Url = "https://bitbucket.org/dadhi/dryioc",
                 LicenseUrl = "https://opensource.org/licenses/MIT"
-            },
-            new ExternalComponent
-            {
-                Name = "FFmpeg",
-                Description = "A collection of libraries and tools to process multimedia content such as audio, video, subtitles and related metadata.",
-                Url = "https://github.com/FFmpeg/FFmpeg",
-                LicenseUrl = "https://github.com/FFmpeg/FFmpeg/blob/master/LICENSE.md"
             },
             new ExternalComponent
             {
@@ -67,6 +53,34 @@ namespace Dopamine.Core.Base
                 Description = "Popular high-performance JSON framework for .NET",
                 Url = "https://github.com/JamesNK/Newtonsoft.Json",
                 LicenseUrl = "https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md"
+            },
+            new ExternalComponent
+            {
+                Name = "NAudio",
+                Description = "An open source .NET audio and MIDI library.",
+                Url = "https://github.com/naudio/NAudio",
+                LicenseUrl = "https://github.com/naudio/NAudio/blob/master/license.txt"
+            },
+            new ExternalComponent
+            {
+                Name = "NAudio.Flac",
+                Description = "A FLAC library for NAudio, based on the FLAC codec from the CSCore audio library.",
+                Url = "https://github.com/BunLabs/NAudio.Flac",
+                LicenseUrl = "https://github.com/BunLabs/NAudio.Flac/blob/main/license.md"
+            },
+            new ExternalComponent
+            {
+                Name = "NAudio.Vorbis",
+                Description = "A convenience wrapper that lets you read Ogg Vorbis files with NAudio, using NVorbis to do the decoding.",
+                Url = "https://github.com/naudio/Vorbis",
+                LicenseUrl = "https://licenses.nuget.org/MIT"
+            },
+            new ExternalComponent
+            {
+                Name = "NLayer",
+                Description = "A fully managed MP3 to WAV decoder implemented in C#.",
+                Url = "https://github.com/naudio/NLayer",
+                LicenseUrl = "https://github.com/naudio/NLayer/blob/master/LICENSE"
             },
             new ExternalComponent {
                 Name = "NVorbis",

@@ -16,8 +16,6 @@
         <Directory>Languages</Directory>
         <Directory>x64</Directory>
         <Directory>x86</Directory>
-        <Directory>FFmpeg\bin\windows\x64</Directory>
-        <Directory>FFmpeg\bin\windows\x86</Directory>
       </Directories>
       <Files>
         <File>Dopamine.exe</File>
@@ -35,9 +33,19 @@
         <File>Dopamine.Data.dll</File>
         <File>Dopamine.Icons.dll</File>
         <File>Dopamine.Services.dll</File>
-        <File>CSCore.dll</File>
-        <File>CSCore.Ffmpeg.dll</File>
         <File>Ionic.Zip.dll</File>
+        <File>Microsoft.Win32.Registry.dll</File>
+        <File>NAudio.Core.dll</File>
+        <File>NAudio.Flac.dll</File>
+        <File>NAudio.Vorbis.dll</File>
+        <File>NAudio.Wasapi.dll</File>
+        <File>NAudio.WinMM.dll</File>
+        <File>NLayer.dll</File>
+        <File>NLayer.NAudioSupport.dll</File>
+        <File>System.Buffers.dll</File>
+        <File>System.Memory.dll</File>
+        <File>System.Numerics.Vectors.dll</File>
+        <File>System.Runtime.CompilerServices.Unsafe.dll</File>
         <File>SQLite-net.dll</File>
         <File>SQLitePCLRaw.batteries_green.dll</File>
         <File>SQLitePCLRaw.batteries_v2.dll</File>

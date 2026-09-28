@@ -99,7 +99,7 @@ namespace Dopamine.Services.Notification
         {
             if (this.showNotificationWhenResuming)
             {
-                await this.ShowNotificationIfAllowedAsync();
+                await this.RunOnUIThreadAsync(this.ShowNotificationIfAllowedAsync);
             }
         }
 
@@ -107,7 +107,7 @@ namespace Dopamine.Services.Notification
         {
             if (this.showNotificationWhenPausing && !e.IsSilent)
             {
-                await this.ShowNotificationIfAllowedAsync();
+                await this.RunOnUIThreadAsync(this.ShowNotificationIfAllowedAsync);
             }
         }
 
@@ -115,8 +115,24 @@ namespace Dopamine.Services.Notification
         {
             if (this.showNotificationWhenPlaying && !e.IsSilent)
             {
-                await this.ShowNotificationIfAllowedAsync();
+                await this.RunOnUIThreadAsync(this.ShowNotificationIfAllowedAsync);
             }
+        }
+
+        // The playback events can be raised from a background thread, while the notification
+        // windows require the UI thread.
+        private async Task RunOnUIThreadAsync(Func<Task> action)
+        {
+            var dispatcher = Application.Current?.Dispatcher;
+
+            if (dispatcher == null || dispatcher.CheckAccess())
+            {
+                await action();
+                return;
+            }
+
+            Task task = await dispatcher.InvokeAsync(action);
+            await task;
         }
 
         protected virtual bool CanShowNotification()

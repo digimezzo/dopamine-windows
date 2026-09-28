@@ -13,6 +13,7 @@ namespace Dopamine.Views.Common
     {
         private IPlaybackService playbackService;
         private IShellService shellService;
+        private bool isSubscribed;
 
         public new object DataContext
         {
@@ -27,23 +28,70 @@ namespace Dopamine.Views.Common
             this.playbackService = ServiceLocator.Current.GetInstance<IPlaybackService>();
             this.shellService = ServiceLocator.Current.GetInstance<IShellService>();
 
-            this.playbackService.PlaybackSuccess += (_, __) => this.TryRegisterSpectrumPlayers();
-            this.shellService.WindowStateChanged += (_, __) => this.TryRegisterSpectrumPlayers();
+            // Subscribe when loaded and release the subscriptions when unloaded, so repeated
+            // navigations (full player / mini players) don't leak this control.
+            this.Loaded += this.LoadedHandler;
+            this.Unloaded += this.UnloadedHandler;
+        }
 
-            SettingsClient.SettingChanged += (_, e) =>
+        private void LoadedHandler(object sender, RoutedEventArgs e)
+        {
+            if (this.isSubscribed)
             {
-                if (SettingsClient.IsSettingChanged(e, "Playback", "ShowSpectrumAnalyzer"))
-                {
-                    this.TryRegisterSpectrumPlayers();
-                }
-            };
+                return;
+            }
+
+            this.isSubscribed = true;
+
+            this.playbackService.PlaybackSuccess += this.PlaybackSuccessHandler;
+            this.shellService.WindowStateChanged += this.WindowStateChangedHandler;
+            SettingsClient.SettingChanged += this.SettingChangedHandler;
 
             this.TryRegisterSpectrumPlayers();
+        }
+
+        private void UnloadedHandler(object sender, RoutedEventArgs e)
+        {
+            if (!this.isSubscribed)
+            {
+                return;
+            }
+
+            this.isSubscribed = false;
+
+            this.playbackService.PlaybackSuccess -= this.PlaybackSuccessHandler;
+            this.shellService.WindowStateChanged -= this.WindowStateChangedHandler;
+            SettingsClient.SettingChanged -= this.SettingChangedHandler;
+
+            this.UnregisterSpectrumPlayers();
+        }
+
+        private void PlaybackSuccessHandler(object sender, PlaybackSuccessEventArgs e)
+        {
+            this.TryRegisterSpectrumPlayers();
+        }
+
+        private void WindowStateChangedHandler(object sender, WindowStateChangedEventArgs e)
+        {
+            this.TryRegisterSpectrumPlayers();
+        }
+
+        private void SettingChangedHandler(object sender, SettingChangedEventArgs e)
+        {
+            if (SettingsClient.IsSettingChanged(e, "Playback", "ShowSpectrumAnalyzer"))
+            {
+                this.TryRegisterSpectrumPlayers();
+            }
         }
 
         private void TryRegisterSpectrumPlayers()
         {
             this.UnregisterSpectrumPlayers();
+
+            if (Application.Current == null)
+            {
+                return;
+            }
 
             if (!this.playbackService.HasMediaFoundationSupport)
             {
@@ -73,6 +121,11 @@ namespace Dopamine.Views.Common
 
         private void UnregisterSpectrumPlayers()
         {
+            if (Application.Current == null)
+            {
+                return;
+            }
+
             Application.Current.Dispatcher.Invoke(() => this.SpectrumContainer.Visibility = Visibility.Collapsed);
 
             if (this.playbackService.Player != null)

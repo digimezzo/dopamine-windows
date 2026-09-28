@@ -4,10 +4,7 @@
     {
         public IPlayer Create(bool hasMediaFoundationSupport)
         {
-            IPlayer player = CSCorePlayer.Instance;
-            player.HasMediaFoundationSupport = hasMediaFoundationSupport;
-
-            return player;
+            return new NAudioPlayer(hasMediaFoundationSupport);
         }
     }
 }
